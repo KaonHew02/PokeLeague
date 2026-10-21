@@ -1,0 +1,99 @@
+<!doctype html>
+<!-- GENERATED from dev.html by tools/build.js: do not edit by hand (edit dev.html). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Only the game's own scripts may run: nothing injected into the page
+     (onerror=, a script tag inside a text...) can execute. -->
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' file:; object-src 'none'; base-uri 'self'">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PokeLeague</title>
+<meta name="description" content="A free fan-made Pokémon adventure for the browser and phones: pick a starter, catch and train Pokémon, beat the gyms and the League, region by region.">
+<meta name="theme-color" content="#0a1430">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PokeLeague">
+<link rel="preload" href="assets/fonts/PixelifyPS-400.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/fonts/PixelifyPS-700.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="css/app.css?v=a72fcb141d">
+<script src="js/core/locales.js?v=ae98737d24"></script>
+</head>
+<body>
+
+<!-- The game: a 3:2 frame (canvas + every screen). Modules add their own
+     overlays (dialog box, battle HUD) inside #frame. -->
+<div id="frame">
+  <canvas id="game"></canvas>
+
+  <!-- ====== Title ====== -->
+  <section id="scr-title" class="scr title hidden">
+    <div class="title-logo">
+      <div class="t1" translate="no">PokeLeague</div>
+      <div class="t2">Region by region, all the way to the League</div>
+    </div>
+    <div class="box title-menu">
+      <div class="menu-list">
+        <button class="menu-item" id="t-continue">Continue</button>
+        <button class="menu-item" id="t-new" data-first>New game</button>
+        <button class="menu-item" id="t-lang">Language</button>
+        <button class="menu-item" id="t-credits">Credits</button>
+      </div>
+    </div>
+    <p class="title-foot">Free fan game, not for sale · Based on PokéSurvivor by JPTER78</p>
+  </section>
+
+  <!-- ====== Language ====== -->
+  <section id="scr-lang" class="scr dim hidden">
+    <div class="box">
+      <h3>Language</h3>
+      <div class="menu-list" id="lang-list"></div>
+      <div class="row end"><button class="btn small ghost" id="lang-back" data-back>Back</button></div>
+    </div>
+  </section>
+
+  <!-- ====== Credits ====== -->
+  <section id="scr-credits" class="scr dim hidden">
+    <div class="box credits">
+      <h3>Credits</h3>
+      <p>PokeLeague is a free fan game. It is not for sale and has no ads or paid items.</p>
+      <p>Based on PokéSurvivor by JPTER78. Code under the PolyForm Noncommercial License 1.0.0.</p>
+      <p class="mono" translate="no">Required Notice: Copyright 2026 JPTER78 (https://github.com/JPTER78/pokesurvivor)</p>
+      <p>Pokémon sprites: the artists of SpriteCollab (CC BY-NC 4.0). The full list is in CREDITS.md.</p>
+      <p>Pokémon data and names: PokeAPI. Font: Pixelify Sans (SIL Open Font License).</p>
+      <p>Pokémon and all related names are trademarks of Nintendo, Creatures Inc. and GAME FREAK. This project is not affiliated with or endorsed by them.</p>
+      <div class="row end"><button class="btn small ghost" id="credits-back" data-back>Back</button></div>
+    </div>
+  </section>
+</div>
+
+<!-- On-screen controls for phones (touchpad.js, css/touch.css) -->
+<div id="touchpad" data-mode="game">
+  <div class="tp-dpad" data-dpad><i class="up"></i><i class="right"></i><i class="down"></i><i class="left"></i></div>
+  <div class="tp-ab">
+    <button class="tp-btn tp-b" data-btn="b" translate="no">B</button>
+    <button class="tp-btn tp-a" data-btn="a" translate="no">A</button>
+  </div>
+  <button class="tp-start" data-btn="start" translate="no">START</button>
+</div>
+
+<div id="boot" class="boot">
+  <div class="boot-in">
+    <h1 translate="no">PokeLeague</h1>
+    <p class="boot-ld">Loading…</p>
+  </div>
+</div>
+<div id="tap-start" class="tapstart hidden">
+  <div class="boot-in">
+    <h1 translate="no">PokeLeague</h1>
+    <p class="tap-blink">Tap or press any key</p>
+  </div>
+</div>
+<noscript>
+  <div class="boot noscript"><div class="boot-in"><h1>PokeLeague</h1><p>JavaScript is needed to play.</p></div></div>
+</noscript>
+
+<script defer src="js/app.min.js?v=1659a401d6"></script>
+</body>
+</html>

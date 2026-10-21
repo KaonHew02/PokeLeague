@@ -1,0 +1,187 @@
+<!doctype html>
+<!-- dev.html: the source page. Edit this one; tools/build.js generates index.html. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Only the game's own scripts may run: nothing injected into the page
+     (onerror=, a script tag inside a text...) can execute. -->
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' file:; object-src 'none'; base-uri 'self'">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PokeLeague</title>
+<meta name="description" content="A free fan-made Pokémon adventure for the browser and phones: pick a starter, catch and train Pokémon, beat the gyms and the League, region by region.">
+<meta name="theme-color" content="#0a1430">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PokeLeague">
+<link rel="preload" href="assets/fonts/PixelifyPS-400.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/fonts/PixelifyPS-700.ttf" as="font" type="font/ttf" crossorigin>
+<!-- css:begin -->
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/world.css">
+<link rel="stylesheet" href="css/battle.css">
+<link rel="stylesheet" href="css/menus.css">
+<link rel="stylesheet" href="css/touch.css">
+<!-- css:end -->
+<script src="js/core/locales.js"></script>
+</head>
+<body>
+
+<!-- The game: a 3:2 frame (canvas + every screen). Modules add their own
+     overlays (dialog box, battle HUD) inside #frame. -->
+<div id="frame">
+  <canvas id="game"></canvas>
+
+  <!-- ====== Title ====== -->
+  <section id="scr-title" class="scr title hidden">
+    <div class="title-logo">
+      <div class="t1" translate="no">PokeLeague</div>
+      <div class="t2">Region by region, all the way to the League</div>
+    </div>
+    <div class="box title-menu">
+      <div class="menu-list">
+        <button class="menu-item" id="t-continue">Continue</button>
+        <button class="menu-item" id="t-new" data-first>New game</button>
+        <button class="menu-item" id="t-lang">Language</button>
+        <button class="menu-item" id="t-credits">Credits</button>
+      </div>
+    </div>
+    <p class="title-foot">Free fan game, not for sale · Based on PokéSurvivor by JPTER78</p>
+  </section>
+
+  <!-- ====== Language ====== -->
+  <section id="scr-lang" class="scr dim hidden">
+    <div class="box">
+      <h3>Language</h3>
+      <div class="menu-list" id="lang-list"></div>
+      <div class="row end"><button class="btn small ghost" id="lang-back" data-back>Back</button></div>
+    </div>
+  </section>
+
+  <!-- ====== Credits ====== -->
+  <section id="scr-credits" class="scr dim hidden">
+    <div class="box credits">
+      <h3>Credits</h3>
+      <p>PokeLeague is a free fan game. It is not for sale and has no ads or paid items.</p>
+      <p>Based on PokéSurvivor by JPTER78. Code under the PolyForm Noncommercial License 1.0.0.</p>
+      <p class="mono" translate="no">Required Notice: Copyright 2026 JPTER78 (https://github.com/JPTER78/pokesurvivor)</p>
+      <p>Pokémon sprites: the artists of SpriteCollab (CC BY-NC 4.0). The full list is in CREDITS.md.</p>
+      <p>Pokémon data and names: PokeAPI. Font: Pixelify Sans (SIL Open Font License).</p>
+      <p>Pokémon and all related names are trademarks of Nintendo, Creatures Inc. and GAME FREAK. This project is not affiliated with or endorsed by them.</p>
+      <div class="row end"><button class="btn small ghost" id="credits-back" data-back>Back</button></div>
+    </div>
+  </section>
+</div>
+
+<!-- On-screen controls for phones (touchpad.js, css/touch.css) -->
+<div id="touchpad" data-mode="game">
+  <div class="tp-dpad" data-dpad><i class="up"></i><i class="right"></i><i class="down"></i><i class="left"></i></div>
+  <div class="tp-ab">
+    <button class="tp-btn tp-b" data-btn="b" translate="no">B</button>
+    <button class="tp-btn tp-a" data-btn="a" translate="no">A</button>
+  </div>
+  <button class="tp-start" data-btn="start" translate="no">START</button>
+</div>
+
+<div id="boot" class="boot">
+  <div class="boot-in">
+    <h1 translate="no">PokeLeague</h1>
+    <p class="boot-ld">Loading…</p>
+  </div>
+</div>
+<div id="tap-start" class="tapstart hidden">
+  <div class="boot-in">
+    <h1 translate="no">PokeLeague</h1>
+    <p class="tap-blink">Tap or press any key</p>
+  </div>
+</div>
+<noscript>
+  <div class="boot noscript"><div class="boot-in"><h1>PokeLeague</h1><p>JavaScript is needed to play.</p></div></div>
+</noscript>
+
+<!-- scripts:begin -->
+<script defer src="js/core/util.js"></script>
+<script defer src="js/core/rng.js"></script>
+<script defer src="js/core/i18n.js"></script>
+<script defer src="js/core/names.js"></script>
+<script defer src="js/core/settings.js"></script>
+<script defer src="js/core/store.js"></script>
+<script defer src="js/core/audio.js"></script>
+<script defer src="js/core/input.js"></script>
+<script defer src="js/core/buttons.js"></script>
+<script defer src="js/core/nav.js"></script>
+<script defer src="js/core/gamepad.js"></script>
+<script defer src="js/core/touchpad.js"></script>
+<script defer src="js/core/sprites.js"></script>
+<script defer src="js/core/camera.js"></script>
+
+<script defer src="js/data/music.js"></script>
+<script defer src="js/data/music-map.js"></script>
+<script defer src="js/data/sprites-meta.js"></script>
+<script defer src="js/data/types.js"></script>
+<script defer src="js/data/species.js"></script>
+<script defer src="js/data/moves.js"></script>
+<script defer src="js/data/items.js"></script>
+<script defer src="js/data/growth.js"></script>
+<script defer src="js/data/names.js"></script>
+<script defer src="js/data/encounters.js"></script>
+<script defer src="js/data/dex-text.js"></script>
+<script defer src="js/data/natures.js"></script>
+<script defer src="js/data/item-effects.js"></script>
+<script defer src="js/data/trainer-classes.js"></script>
+
+<script defer src="js/battle/stats.js"></script>
+<script defer src="js/battle/mon.js"></script>
+<script defer src="js/battle/damage.js"></script>
+<script defer src="js/battle/effects.js"></script>
+<script defer src="js/battle/moves-special.js"></script>
+<script defer src="js/battle/ai.js"></script>
+<script defer src="js/battle/capture.js"></script>
+<script defer src="js/battle/exp.js"></script>
+<script defer src="js/battle/evolution.js"></script>
+<script defer src="js/battle/battle.js"></script>
+
+<script defer src="js/world/tiles.js"></script>
+<script defer src="js/world/stamps.js"></script>
+<script defer src="js/world/people.js"></script>
+<script defer src="js/world/maps.js"></script>
+<script defer src="js/world/field.js"></script>
+<script defer src="js/world/player.js"></script>
+<script defer src="js/world/path4.js"></script>
+<script defer src="js/world/render.js"></script>
+<script defer src="js/script/script.js"></script>
+
+<script defer src="js/content/kanto/interiors.js"></script>
+<script defer src="js/content/kanto/pallet.js"></script>
+<script defer src="js/content/kanto/route1.js"></script>
+<script defer src="js/content/kanto/viridian.js"></script>
+<script defer src="js/content/kanto/route2.js"></script>
+<script defer src="js/content/kanto/forest.js"></script>
+<script defer src="js/content/kanto/pewter.js"></script>
+
+<script defer src="js/ui/ui.js"></script>
+<script defer src="js/ui/dialog.js"></script>
+<script defer src="js/ui/title-ui.js"></script>
+<script defer src="js/ui/name-ui.js"></script>
+<script defer src="js/ui/start-menu.js"></script>
+<script defer src="js/ui/party-ui.js"></script>
+<script defer src="js/ui/summary-ui.js"></script>
+<script defer src="js/ui/bag-ui.js"></script>
+<script defer src="js/ui/dex-ui.js"></script>
+<script defer src="js/ui/pc-ui.js"></script>
+<script defer src="js/ui/shop-ui.js"></script>
+<script defer src="js/ui/options-ui.js"></script>
+<script defer src="js/ui/evolve-ui.js"></script>
+<script defer src="js/ui/learn-ui.js"></script>
+<script defer src="js/ui/battle-ui.js"></script>
+<script defer src="js/ui/battle-fx.js"></script>
+<script defer src="js/ui/credits-ui.js"></script>
+
+<script defer src="js/game.js"></script>
+<script defer data-dev src="js/debug.js"></script>
+<script defer src="js/main.js"></script>
+<!-- scripts:end -->
+</body>
+</html>

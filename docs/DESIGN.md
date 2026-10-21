@@ -1,0 +1,434 @@
+# PokeLeague — design and implementation spec
+
+The first playable slice goes from Pallet Town to Brock's Boulder Badge:
+
+- title, new game and continue
+- Oak's lab and the starter choice (Bulbasaur, Charmander or Squirtle), then the rival battle
+- Route 1, then Viridian City (Pokémon Center, Mart, Oak's Parcel)
+- Route 2 and Viridian Forest (Caterpie and Weedle, bug catchers)
+- Pewter City, then Brock and the Boulder Badge
+
+It must include catching, healing, EXP and levels, learning moves, cancellable evolution,
+a party of 6 plus a PC box, the bag, the Pokédex (seen and caught), and saving.
+
+This file is the contract between milestones. A session working on one milestone may rely
+on everything listed for the milestones before it. If an API here changes, update this file
+in the same change.
+
+## 0. Decisions
+
+- **Source language is English.** Pokémon, move, item, type and place names come from
+  generated PokeAPI data in en, es, fr, it, zh-Hans and zh-Hant. pt-BR shows English names.
+- **Mechanics:**
+  - Damage: the Gen 5+ formula, with each move's own physical or special category and the
+    Gen 6+ type chart (`G.Types.eff`).
+  - Critical hits: ×1.5, chance by stage 1/24, 1/8, 1/2, 1.
+  - Capture and running away: the Gen 3/4 formulas.
+  - EXP: the Gen 3/4 flat formula, split between the Pokémon that took part.
+  - Stats: Gen 3 IVs, EVs and natures.
+  - Types and stats are PokeAPI's current ones (Clefairy is Fairy).
+  - Abilities and held items are not in the slice; the save schema keeps their fields.
+- **localStorage prefix `pl.`.** Local server on port 8130.
+- **No `Math.random` in `js/battle/`.** Everything that changes the game state uses `G.RNG`.
+- Dialogue is paraphrased. Music is original.
+
+## 1. What M0 built (available to every milestone)
+
+| Module | API |
+|---|---|
+| `G.U` (util.js) | `clamp, int, str, list, lerp, rand, randInt, pick, dist, norm, damp, hash, hms, esc, TYPE_COLOR` |
+| `G.RNG(seed)` | `next, int(a,b), chance(p), pct(n), pick(list), u16(), state`; `G.RNG.seed()` makes a fresh seed |
+| `G.I18n` | `lang, locale, choices, add(dict, lang, ctx), t(s, ctx), fmt(key, vars, ctx), has, num(n), font(size, weight), set(lang), walk(el)`; `G.T` is `t` |
+| `G.Names` | `mon(id), move(id), item(id), type(id), loc(id), nature(id), genus(id), stat(id), pretty(id)`. Reads `G.NAMES` (M1); falls back to English, then to a readable id |
+| `G.Settings` | `get, set, on(fn), all, touch`. Keys: textSpeed, battleAnim, battleStyle, follower, gamepad, padRumble, touchSize, calm |
+| `G.Audio` | `music(name), sfx(name), setVolume, toggleMute, unlock, canPlay`, plus `_internals` for jingles (M7). Unknown SFX names are ignored |
+| `G.Input` | raw keys: `held(code), tap(code), virtual(code), endFrame()` |
+| `G.Btn` | logical buttons up/down/left/right/a/b/start/select: `held(b)` (`'run'` = B or Shift), `pressed(b)`, `repeat(b)`, `dir4()`, `any()`, `swallow()`, `set(source, b, on)` |
+| `G.Nav` | spatial DOM menu navigation: `step(dir), press(), back(), focusFirst(el), hide(), topScreen()` |
+| `G.Pad`, `G.TouchPad` | the controller and on-screen controls; both feed `G.Btn` |
+| `G.Sprites` | `PX=2, Animator(dex, scale, shiny)` with `.dir .loop(anim) .play(anim, {hold}) .update(dt) .draw(ctx, x, y, {flash, softFlash, alpha})`; also `preload(dexes)`, `drawShadow`, `bodyHeight`, `DIR4`, `hasShiny`. Rows: 0 Down … 3 UpRight … 7 DownLeft |
+| `G.Camera` | `VIEW_W=480, VIEW_H=320` (15×10 tiles of 32), `resize, snap(x,y), follow, kick, apply(ctx), left(), top(), sees()` |
+| `G.Types` | `LIST, CHART, eff(atkType, defTypes), label(m)` |
+| `G.UI` | `open(id, {onBack, focus}), close(id), closeAll(), isOpen, anyOpen, top, toast(msg), typeChips(types), sprite(cv, dex, opts), spriteCanvas(...)` |
+| `G.Game` | `define(name, {enter, exit, update(dt, {ui}), render(ctx, view, dt)}), setMode(name, arg), mode, view {w, h, dpr}, canvas` |
+| `G.TitleUI` | `open()`. It calls `G.NewGame.start()` and `G.NewGame.continue()` once something defines them (M5) |
+
+- **Frame:** `#frame` is a 3:2 box holding `<canvas id="game">` and every `.scr` screen.
+  Inside it, CSS `em` follows the frame width (container units).
+- **Input:** while a DOM screen is open, `game.js` sends the buttons to `G.Nav`, and the
+  mode's `update` gets `{ ui: true }`. A screen with `data-noinput` (for example a dialog
+  box that reads `G.Btn` itself) is skipped by Nav.
+
+## 2. Data: `tools/fetch_data.py` (M1)
+
+```
+python tools/fetch_data.py --region kanto            # dex 1-151
+python tools/fetch_data.py --region kanto --offline  # cache only; fail on a miss
+python tools/fetch_data.py --region kanto --refresh  # download again
+```
+
+**Region config** (a dict in the tool). For Johto, set `dex: (1, 251)` and put HGSS first:
+`kanto: { dex: (1,151), learnset_vg: ['firered-leafgreen','emerald','heartgold-soulsilver'],
+tm_vg: 'firered-leafgreen', enc_versions: ['firered','leafgreen','red','blue'] }`.
+
+**Cache**
+- Each raw response goes to `tools/cache/pokeapi/<endpoint>/<key>.json`.
+- Write to a temp file, then rename.
+- Use 8 threads and the user agent `pokeleague/1.0`.
+
+**Endpoints**
+- `/pokemon/{id}`: stats and EV yield, types, base_experience, height, weight. Level-up
+  learnsets come from the first version group in the priority list that has the species;
+  TM moves come from `tm_vg`.
+- `/pokemon-species/{id}`: capture_rate, base_happiness, growth_rate, gender_rate,
+  evolution_chain, names, genera, flavor text (FRLG first).
+- `/evolution-chain/{id}`: walk `evolves_to`, keeping only targets inside the region's dex.
+  - `level-up` with `min_level` becomes `{how:'level', level}`.
+  - `use-item` becomes `{how:'item', item}`.
+  - `trade` becomes `{how:'level', level:37, via:'trade'}`; Kadabra uses 36 instead.
+  - Friendship, time-of-day and known-move conditions are kept for Johto.
+- `/move/{name}`: power, accuracy, pp, priority, type, damage_class, target, effect_chance,
+  meta, stat_changes, names. Fetched for every move in a learnset or TM list, plus `struggle`.
+- `/machine/{id}` maps TM numbers to moves in `tm_vg`.
+- `/item/{name}`: cost, category (which picks the bag pocket), names. Needed items:
+  - Poké, Great, Ultra and Master Ball
+  - Potion, Super, Hyper and Max Potion, Full Restore, Revive, Max Revive
+  - Antidote, Paralyze Heal, Awakening, Burn Heal, Ice Heal, Full Heal
+  - Escape Rope, the Repels, the five evolution stones, Rare Candy
+  - Oak's Parcel and TM39
+- `/growth-rate/1..6`, `/nature/*`, `/type/*`.
+- `/region/kanto`, then `/location`, then `/location-area`: official place names, plus
+  encounter tables (first version in `enc_versions` with data; min/max level, chance,
+  method) and the grass encounter rate.
+- Names: en, es, fr, it, zh-Hans, zh-Hant. A missing name falls back to English, and the
+  tool prints the gap counts. Chinese species names are cross-checked against PokéGo's
+  `lang-zh-*-names.js`.
+
+**Output** (`.js` files, because `fetch()` is blocked on file://):
+```js
+G.SPECIES = { 1: { slug:'bulbasaur', types:['grass','poison'], base:[45,49,49,65,65,45] /* hp atk def spa spd spe */,
+  ev:[0,0,0,1,0,0], cr:45, bx:64, gr:'medium-slow', gf:1 /* females in eighths, -1 genderless */, fr:70, h:7, w:69,
+  evo:[{ to:2, how:'level', level:16 }], learn:[[1,'tackle'],[3,'growl'], …], tm:['tm06', …] } }
+G.MOVES = { ember: { id:52, type:'fire', cat:'special' /* physical|special|status */, pow:40, acc:100 /* null = never misses */,
+  pp:25, pri:0, tgt:'selected-pokemon', eff:10,
+  meta:{ k:'damage+ailment', ail:'burn', ailP:10, crit:0, drain:0, heal:0, flinch:0, statP:0, hits:null, turns:null },
+  stats:[] /* [['atk',-1]] */ } }
+G.ITEMS = { potion: { id:17, cost:300, pocket:'items' /* items|balls|key|tms|medicine */ } }
+G.GROWTH = { 'medium-slow': [0, 0, 9, 57, 96, 135, …] }          // index = level, value = total EXP
+G.NAMES = { langs:['en','es','fr','it','zh-Hans','zh-Hant'], mon:{1:[…]}, move:{…}, item:{…}, type:{…},
+            loc:{'viridian-city':[…]}, nature:{…}, genus:{…}, stat:{…} }
+G.ENCOUNTERS = { 'kanto-route-1-area': { grass: { rate:21, mons:[['pidgey',2,5,50],['rattata',2,4,50]] } } }
+G.DEX_TEXT = { 1: ['…en', '…es', …] }
+G.NATURES = { adamant: { up:'atk', down:'spa' }, hardy: { up:null, down:null }, … }
+G.ITEM_FX = { potion:{heal:20,field:1,battle:1}, 'great-ball':{ball:1.5}, 'fire-stone':{evo:1}, 'full-heal':{cure:'all'} }
+```
+`item-effects.js` and `natures.js` are written by hand; a test checks their keys exist.
+
+## 3. Battle engine: `js/battle/` (M2)
+
+It is pure and deterministic, runs in node, and never touches the DOM.
+
+**Mon instance** (a plain object, saved as it is):
+```js
+{ uid:'k3f9a', sp:4, nick:null, lvl:5, exp:135, hp:20, status:null /* psn|tox|brn|par|slp|frz */, slp:0, tox:0,
+  moves:[{ id:'scratch', pp:35, ppUp:0 }], ivs:[6], evs:[6], nature:'adamant', gender:'m'|'f'|null, shiny:false,
+  friendship:70, ball:'poke-ball', ot:{ name, id }, met:{ map, lvl }, item:null, ability:null }
+```
+
+**Modules**
+- **stats.js**
+  - Gen 3 formulas: HP = `floor((2B+I+floor(E/4))·L/100)+L+10`; other stats =
+    `floor((floor((2B+I+floor(E/4))·L/100)+5)·nature)`.
+  - `expAt(gr, lvl)`, `levelFor(gr, exp)`.
+- **mon.js**
+  - `create(sp, lvl, {rng, wild})`: rolls IVs, nature and gender. Shiny is 1/4096. Moves are
+    the last 4 level-up moves at or below its level.
+  - `learnable(mon, from, to)`, `learnMove(mon, move, slot)`, `heal(mon)`.
+  - `recalc(mon)`: HP rises by as much as max HP rises.
+- **damage.js**
+  - `calc({atk, def, move, crit, roll, stages, burn})` returns `{dmg, eff, crit}`.
+  - Base: `floor(floor(floor(2L/5+2)·P·A/D)/50)+2`. Then, rounding down at each step:
+    crit ×1.5, random 85–100%, STAB ×1.5, type multiplier, burn ×0.5 (physical moves only).
+  - At least 1 unless the target is immune. A crit ignores the attacker's negative stages
+    and the defender's positive ones.
+- **Stages, accuracy and order**
+  - Stat stages run ±6, multiplier `max(2,2+s)/max(2,2-s)`.
+  - Accuracy and evasion stages use 3/(3−s) and (3+s)/3.
+  - Turn order: switch, item and run first; then priority; then speed (halved by
+    paralysis); ties go to the RNG.
+- **Statuses**
+  - Paralysis: fully paralysed 25% of the time.
+  - Sleep: 1–3 turns.
+  - Freeze: thaws 20% of the time each turn; a damaging Fire move also thaws the target.
+  - Poison: 1/8 per turn. Bad poison: n/16, reset by switching. Burn: 1/16.
+  - Confusion: 2–5 turns, hits itself 33% of the time (typeless, 40 power, physical).
+  - Flinch only works if the user moved first.
+  - Type immunities: Fire can't be burned, Electric can't be paralysed, Poison and Steel
+    can't be poisoned, Ice can't be frozen, and Grass is immune to powder moves.
+  - End-of-turn order: Leech Seed, then poison and burn, then trapping damage.
+- **effects.js**: a generic interpreter keyed by `meta.k`.
+  - `damage`: `drain` above 0 heals the user, below 0 is recoil.
+  - `ailment`, `damage+ailment`: a chance of 0 means 100%.
+  - `net-good-stats` (target taken from `tgt`), `damage+lower`, `damage+raise`.
+  - `heal`, `swagger`, `ohko`, `force-switch`.
+  - Multi-hit: 2–5 hits weighted 35/35/15/15.
+- **moves-special.js**: hand-coded families.
+  - Two-turn moves (Solar Beam, Dig, Fly, Skull Bash, Sky Attack, Razor Wind) and recharge
+    (Hyper Beam).
+  - Rampage (Thrash, Petal Dance).
+  - Fixed damage (Sonic Boom, Dragon Rage, Seismic Toss, Night Shade, Super Fang, Psywave).
+  - Self-KO (Self-Destruct, Explosion).
+  - Rage, Rapid Spin, Mirror Move, Focus Energy, Light Screen, Reflect, Mist, Haze, Toxic,
+    Rest, Substitute.
+  - Struggle: 50 power, recoil 1/4 of max HP, never misses.
+- **Fallback** for a move nobody implemented: with power it does plain damage; without
+  power it says "But nothing happened!". A test lists every move that falls back.
+- **capture.js**
+  - `a = floor((3M−2H)·rate·ball/(3M))·status`; status is ×2 for sleep or freeze and ×1.5
+    for the others. `a ≥ 255` always catches.
+  - Otherwise `b = floor(1048560/floor(√floor(√floor(16711680/a))))`, then 4 checks of
+    `u16 < b`. Shakes shown = min(3, checks passed).
+- **Running away**: always works if your Pokémon is faster; otherwise
+  `F = floor(Sp·128/Sf)+30·attempts`.
+- **exp.js**
+  - EXP: `floor(floor(b·L/7)·(trainer?1.5:1))`, split evenly between the Pokémon that took
+    part and are still standing. EVs are gained with it.
+  - Prize money: class base × level of the trainer's last Pokémon. Blacking out costs half
+    your money.
+- **evolution.js**: `candidates(mon, {trigger:'level'|'item', item})`, `evolve(mon, to)`.
+  Stats are recalculated, and the new form's moves at the current level are queued.
+- **ai.js**: `random` for wild Pokémon; `basic` (expected damage × effectiveness, skips
+  pointless status moves); `leader` (basic, plus a potion below 25% HP).
+
+**API** (an internal task queue: a prompt pauses it and an answer resumes it):
+```js
+const b = G.Battle.create({ kind:'wild'|'trainer', seed, player:{ name, party, bag },
+  foe:{ party:[mon], trainer:{ id, cls, name, ai:'basic', items:{} } | null }, rules:{ canLose:false } });
+b.start()      // → events[]
+b.prompt       // {kind:'action'} | {kind:'switch',forced} | {kind:'learn',uid,move} | {kind:'nickname',uid} | null
+b.options()    // {moves:[{id,pp,max,disabled}], switchable:[i], canRun, canBag}
+b.act({type:'move',slot} | {type:'switch',to} | {type:'item',item,target} | {type:'ball',item} | {type:'run'})   // → events[]
+b.answer({learnSlot:0..3|-1} | {switchTo:i} | {nick:'…'|null})                                                   // → events[]
+b.result       // {outcome:'win'|'lose'|'run'|'caught', caught, money, leveled:[uid], evo:[uid]}
+```
+
+**Events** (the UI plays them one by one):
+- Flow: `intro`, `send{side,slot}`, `switch{side,to}`, `run{ok}`, `end{outcome}`.
+- Moves and damage: `move{side,move}`, `miss`, `fail`,
+  `damage{side,amt,hp,max,eff,crit,hit,hits}`, `faint{side}`, `recoil`, `heal{side,amt}`.
+- Statuses and stats: `status{side,s}`, `cure`, `statusTick{side,s,amt}`,
+  `stage{side,stat,delta,capped}`, `volatile{side,v}`.
+- Catching and rewards: `ball{item,shakes,caught}`, `exp{uid,amt}`,
+  `levelup{uid,lvl,before,after}`, `learned{uid,move}`, `learnPrompt{uid,move}`, `money{amt}`.
+- Text: `msg{key,vars}`, where the key is an English i18n key.
+
+Battle-only state lives in a `BattleMon` wrapper (stages, volatiles, types, last move,
+participants). The real mon objects only change HP, PP, status, EXP, EVs, level and moves.
+
+## 4. Overworld: `js/world/`, `js/script/`, `js/ui/dialog.js` (M3)
+
+**Map files** (`js/content/kanto/<area>.js`, M6) hold the maps, scripts and trainers of one area:
+```js
+G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto', music:'town', battleBg:'grass', border:'T',
+  rows:[ 'TTTTTTTTT..TTTTTTTTT', 'T........,,........T', 'T.HHHH...,,...HHHH.T', … ],
+  connect:{ north:{ map:'route1', offset:0 } },
+  warps:[ { x:3, y:4, to:'player-1f', spot:'door' } ],
+  spots:{ 'player-door':[3,5,'down'] },
+  signs:{ '6,4':"{player}'s house" },
+  npcs:[ { id:'girl', who:'lass', x:4, y:7, move:'wander', r:2, say:'Even small Pokémon get strong if you train them.' } ],
+  trainers:[ { id:'rick', who:'bugcatcher', cls:'bug-catcher', x:6, y:20, dir:'right', sight:4,
+               team:[['weedle',6],['caterpie',6]], before:'…', defeat:'…', after:'…' } ],
+  items:[ { x:2, y:9, item:'potion', flag:'forest-potion-1' } ],
+  triggers:[ { x:9, y:1, w:2, h:1, if:['!got-starter'], script:'pallet.oak-stops-you' } ],
+  encounters:{ grass:'@kanto-route-1-area' } });
+```
+
+**Legend: outdoor**
+- Ground you can walk on:
+  - `.` grass
+  - `,` path
+  - `:` sand
+  - `"` tall grass (encounters)
+  - `f` flowers
+- Blockers:
+  - `T` tree
+  - `#` cliff
+  - `~` water
+  - `F` fence
+  - `S` sign
+- Ledges `v` `<` `>`: you can only jump them one way.
+- Buildings, drawn as stamps:
+  - `H` house 4×3
+  - `C` Pokémon Center 5×4
+  - `M` Mart 4×3
+  - `G` Gym 6×5
+  - `L` lab 6×4
+  - `D` is the door inside a stamp; every `D` needs a warp
+
+**Legend: indoor**
+- Walls and floors:
+  - `W` wall
+  - `_` wood floor
+  - `+` tile floor
+  - `r` rug
+- Furniture:
+  - `=` counter (you talk across it)
+  - `b` shelf
+  - `t` table
+  - `p` plant
+  - `P` PC
+  - `h` healing machine
+- Exits: `X` exit mat and `^` stairs, both warps.
+- `G.Maps.center(id, {exit})` and `G.Maps.mart(id, {exit, stock})` build the standard interiors.
+
+**Modules**
+- `maps.js`: `def`, `get`, `parse` (a kind grid plus a solid mask, and stamp footprint
+  checks), `validate`. `tools/map_check.js <id>` prints a map with its objects and errors.
+- `tiles.js` (from PokéGo): `PALETTES` instead of biomes, and `bakeMap(map)` paints the
+  whole map once at 16 px per tile. Wall and water autotiling are reused. New painters:
+  path, sand, tall grass (base plus a front tuft), ledge, fence, flowers, and the indoor
+  floor, wall, counter and rug.
+- `stamps.js`: `G.Stamps.get(type, variant)` returns `{canvas, w, h, door:[dx,dy], solid}`.
+  Stamps are drawn as Y-sorted props, so you can walk behind a roof. Center and Mart signs
+  use icons, not letters.
+- `people.js`: 16×24 trainer and NPC sprites from ASCII templates and palettes.
+  - Directions down, up and left; right is left mirrored. 3 frames each.
+  - Archetypes: player-boy, player-girl, rival, oak, mom, nurse, clerk, youngster, lass,
+    bugcatcher, camper, brock, guide, oldman.
+  - The front frame is drawn at 4× for trainer battle intros.
+- `render.js`: the baked map, connected neighbour maps, the `border` fill, Y-sorted
+  props and actors, and the tall-grass front tuft.
+- `player.js`
+  - 4-direction grid steps at 4 tiles/s, 8 when running. A short tap turns on the spot.
+  - Bump sound, 2-tile ledge hop with a shadow, fade for warps, seamless map connections.
+  - Tall grass rolls for an encounter on each step (about `rate/180`); trainers check
+    their line of sight after each step.
+  - The camera snaps to the player.
+- **Follower:** the lead Pokémon walks one tile behind you with its PMD Walk animation.
+  The `follower` setting turns it off.
+- `script.js`: `await G.Script.run(cmds, host)`. Commands:
+  - Text and logic: `say`, `choice`, `if(flag|var,[then],[else])`, `call`, `end`.
+  - State: `setFlag`, `clearFlag`, `setVar`, `badge(n)`, `dex('give')`.
+  - Party and bag: `giveMon`, `giveItem`, `takeItem`, `money`.
+  - Battles and services: `battle(trainerRef,{canLose})`, `wild(sp,lvl)`, `heal`,
+    `healAnim`, `shop([items])`, `pc`.
+  - Actors and the map: `move(actor,'UULL')`, `walkTo`, `face`, `emote(actor,'!')`,
+    `show`, `hide`, `warp(map,spot)`.
+  - Presentation: `fade`, `wait`, `music`, `sfx`, `jingle`.
+  - Flags are kebab-case strings. Defeated trainers and collected items are stored as `map:id`.
+- `dialog.js`: a DOM box (`translate="no"`) that types text one code point at a time (CJK
+  safe), shows a blinking ▼, splits long text into pages, and has Yes/No choices with an
+  optional speaker name. A finishes the line, then advances.
+- `debug.js` (dev only):
+  - URL: `?debug&map=…&spot=…&party=charmander:9,pidgey:7&items=poke-ball:10&flags=a,b&badges=1&seed=42&fast&noenc&wild=caterpie:6&trainer=pewter-gym:brock`.
+  - Keys: F2 heal, F4 encounters on/off, F6 win, F7 next ball catches, F8 walk through
+    walls, F9 print the save.
+
+## 5. UI (M4, M5)
+
+- **Canvas:** the overworld, the battle scene (foe at dir 7 on the top-right platform,
+  yours at dir 3 bottom-left), the evolution scene.
+- **DOM, inside `#frame`:**
+  - Battle HUD: the foe's box at the top left and yours at the bottom right, CSS HP bars
+    (green above 50%, yellow above 20%, red below), an EXP bar, the text box, a 2×2 action
+    menu, and a 2×2 move menu with PP and type.
+  - Screens: title, slots, name entry, start menu (Pokédex, Pokémon, Bag, Player, Save,
+    Options), party, summary, bag (pockets, use, give, toss, TM teaching), Pokédex, PC
+    boxes, shop, options, learn move, nickname, credits.
+- **Battle animation**, by move category:
+  - Physical: the attacker's Attack plus the target's Hurt and a flash.
+  - Special: Shoot plus a projectile in the type colour.
+  - Status: Charge plus sparkles.
+  - Cries are synthesised from the dex number.
+
+## 6. Save: `js/core/store.js` (M5)
+
+- **Keys:** `pl.save.1` to `pl.save.3`. Before each write the old save moves to
+  `pl.save.N.bak`. `pl.slot` holds the last slot used.
+```js
+{ v:1, app:'PokeLeague', created, savedAt, playTime,
+  player:{ name, gender, id, money, badges:[], map, x, y, dir, lastHeal:{ map, spot } },
+  rival:{ name, starter }, party:[mon], boxes:[[mon|null ×30] ×8], box:0, bag:{ potion:2 },
+  dex:{ seen:{16:1}, caught:{4:1} }, flags:{}, vars:{}, done:{ 'route2:rick':1 } }
+```
+- `migrate(s)` runs `while (s.v < V) MIG[s.v++](s)`, then sanitises the shapes.
+- Export writes `{ app:'PokeLeague', kind:'save', v, at, save }` to a JSON file. Import
+  rejects other apps, newer versions and bad shapes, then asks before overwriting.
+- Saving only happens in the overworld, never during a battle.
+
+## 7. Audio (M7)
+
+- `G.Audio.jingle(name)` plays a `once:true` song over the music bus, then resumes the
+  loop. It returns a Promise.
+- Jingles: heal, levelup, caught, item, badge, evolved.
+- New loops: evolution, victory-wild, victory-trainer, center, title.
+- `music-map.js` maps contexts to songs: town → village, route → forest,
+  forest → cave, wild → volcano, trainer → boss, gym → rift.
+- Extra SFX: bump, door, ledge, cry, expTick, lowHp.
+
+## 8. Tests (`node --test tests/*.test.cjs`, vm sandbox via `tests/helpers.cjs`)
+
+- **data:** 151 species, their stats and types, evolution targets, learnset moves,
+  item effects. Known growth values: medium-slow L5 = 135; at L100 medium-fast = 1,000,000,
+  fast = 800,000, slow = 1,250,000, erratic = 600,000, fluctuating = 1,640,000.
+- **stats:** Bulbapedia's Garchomp example (289/278/193/135/171/171).
+- **damage:** type chart, STAB, crit and stage rules, burn, minimum 1.
+- **effects:** Growl ±6 cap; Thunder Wave on Ground and Electric; powder moves on Grass;
+  Leech Seed; Quick Attack priority; flinch only when moving first; multi-hit distribution;
+  drain and recoil; Struggle; every move is handled or on the fallback list.
+- **capture:** statistics, Master Ball.
+- **exp:** formula, participants, learn prompt.
+- **evolution:** Caterpie at 7, Metapod at 10, Thunder Stone, trade conversion, cancel.
+- **battle:** the same seed and choices give the same event log; forced switch; no
+  running from trainers; blackout.
+- **maps:** warps, spots and connections resolve; the legend; footprints; scripts;
+  encounters.
+- **i18n:** placeholders and languages (exists).
+- **save:** `pl.` keys, `.bak`, migrate, import checks.
+- **story:** a headless run of the slice reaches the Boulder Badge.
+- **lint** (exists): dev.html and files match; no `Math.random` in battle; `pl.` keys;
+  licence present.
+
+## 9. Milestones and file ownership
+
+Sessions in parallel each own their files, so nobody edits the same file. Shared files
+(`dev.html`, `CLAUDE.md`, this document) change only to register something new, in a
+small separate edit.
+
+| # | Owns | Done when |
+|---|---|---|
+| M0 ✅ | core/, ui/ui.js, ui/title-ui.js, game.js, main.js, tools/build*, tests/helpers + core/i18n/lint, css/base.css, css/touch.css | title in 7 languages, tests pass, build works |
+| M1 | tools/fetch_data.py, js/data/{species,moves,items,growth,names,encounters,dex-text,natures,item-effects}.js, tests/data.test.cjs | `G.SPECIES[1]` etc. in the console; data tests pass |
+| M2 | js/battle/*, tools/sim_battle.js, tests/{stats,damage,effects,capture,exp,evolution,battle}.test.cjs (tests/fixtures/ for mini data until M1 lands) | `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1` prints a battle |
+| M3 | js/world/*, js/script/*, js/ui/dialog.js, js/debug.js, css/world.css, tools/map_check.js, tests/maps.test.cjs, a sandbox map | walk, doors, ledges, signs, connections, talk to NPCs |
+| M4 | js/ui/{battle-ui,battle-fx,learn-ui,evolve-ui}.js, css/battle.css | `dev.html?debug&wild=pidgey:3` is playable |
+| M5 | js/core/store.js, js/ui/{name-ui,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui,options-ui}.js, css/menus.css, tests/save.test.cjs | the full menu flow, slots, export and import |
+| M6a–d | js/content/kanto/<area>.js, js/data/trainer-classes.js, js/i18n/<lang>/kanto-<area>.js | each area plays via `?debug&map=…` |
+| M7 | js/core/audio.js (jingles, cries), js/data/music.js, js/data/music-map.js | jingles on heal and level up |
+| M8 | integration, js/ui/credits-ui.js, tests/story.test.cjs | Pallet Town to the Boulder Badge |
+
+- **Can run in parallel:**
+  - After M0: M1, M2, M3 and M7.
+  - After M2 and M3: M4 and M5.
+  - After M3 (map format fixed): M6a–d.
+- **Each module's translations** go in `js/i18n/<lang>/<module>.js`: battle, world, menus,
+  kanto-pallet…
+
+## 10. After Brock
+
+1. **Rest of Kanto:**
+   - Route 3, Mt. Moon, Cerulean and Misty, Nugget Bridge, Bill.
+   - Vermilion, the S.S. Anne and Lt. Surge.
+   - Rock Tunnel, Lavender and the Pokémon Tower.
+   - Celadon, Erika and the Rocket Hideout.
+   - Saffron, Silph Co. and Sabrina.
+   - Fuchsia, the Safari Zone and Koga.
+   - Cinnabar, Blaine, then Giovanni.
+   - Victory Road, the Elite Four, the Champion and the Hall of Fame.
+   - Engine features along the way: field moves (Cut, Surf, Strength, Flash, Fly), the
+     bike, fishing, more TMs, abilities, held items, weather, Exp. Share, Repel steps,
+     legendaries.
+2. **Johto:** `fetch_data.py --region johto` (dex 1–251), plus day and night, friendship
+   evolutions, berries, new palettes and buildings. Kanto teams carry over, but high levels
+   disobey until you earn badges.
+3. **Hoenn:** abilities, double battles, weather.

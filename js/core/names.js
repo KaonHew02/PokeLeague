@@ -1,0 +1,41 @@
+/* ============ names.js — official names in the player's language ============
+ * Pokémon, moves, items, types, places, natures and Pokédex categories are
+ * not translated with dictionaries: tools/fetch_data.py downloads their
+ * official names from PokeAPI into G.NAMES (js/data/names.js):
+ *
+ *   G.NAMES = { langs: ['en','es','fr','it','zh-Hans','zh-Hant'],
+ *               mon: { 1: ['Bulbasaur', 'Bulbasaur', 'Bulbizarre', ...] }, move: {...}, ... }
+ *
+ * Brazilian Portuguese uses the English names (as the games do). A missing
+ * name falls back to English, then to a readable version of the id.
+ *
+ *   G.Names.mon(25) · G.Names.move('thunder-shock') · G.Names.item('potion')
+ *   G.Names.type('fire') · G.Names.loc('viridian-city') · G.Names.nature('adamant')
+ */
+G.Names = (() => {
+  let col = -1;
+  function column() {
+    if (col >= 0) return col;
+    const N = G.NAMES;
+    if (!N) return 0;
+    const l = G.I18n.lang === 'pt-BR' ? 'en' : G.I18n.lang;
+    col = Math.max(0, N.langs.indexOf(l));
+    return col;
+  }
+  /** 'viridian-city' -> 'Viridian City' (only used when the data has no name). */
+  const pretty = id => String(id).split('-').map(w => w ? w[0].toUpperCase() + w.slice(1) : w).join(' ');
+
+  function get(kind, id) {
+    const row = G.NAMES && G.NAMES[kind] && G.NAMES[kind][id];
+    if (row) return row[column()] || row[0];
+    if (kind === 'mon') {
+      const sp = G.SPECIES && G.SPECIES[id];
+      return sp ? pretty(sp.slug) : '#' + id;
+    }
+    return pretty(id);
+  }
+
+  const api = { get, pretty };
+  for (const k of ['mon', 'move', 'item', 'type', 'loc', 'nature', 'genus', 'stat']) api[k] = id => get(k, id);
+  return api;
+})();

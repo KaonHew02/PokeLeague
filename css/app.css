@@ -1,0 +1,267 @@
+/* css/base.css */
+/* ============ base.css — Mystery Dungeon style interface ============
+ * Blue boxes with a double white border, like PMD's menus (from PokéGo), and
+ * a local pixel font (Pixelify Sans, OFL).
+ *
+ * Everything lives in #frame, a 3:2 box that scales with the window. Inside
+ * it 1em follows the frame's width (container units), so menus grow with
+ * the game like the pixel art does.
+ */
+/* Pixelify Sans with redrawn digits (from PokéGo's tools/make_font.py). */
+@font-face {
+  font-family: 'Pixelify';
+  src: url('../assets/fonts/PixelifyPS-400.ttf') format('truetype');
+  font-weight: 400 550;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Pixelify';
+  src: url('../assets/fonts/PixelifyPS-700.ttf') format('truetype');
+  font-weight: 551 900;
+  font-display: block;
+}
+
+:root {
+  --ink: #ffffff;
+  --muted: #b9cbf0;
+  --box1: #2c519f;
+  --box2: #1a3170;
+  --edge: #f4f8ff;
+  --edge-in: #5b83d6;
+  --edge-out: #0b1838;
+  --gold: #ffd23f;
+  --red: #ff5f6d;
+  --green: #5fe08a;
+  --shadow: #0a1430;
+  --font: 'Pixelify', 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+  /* Width of the side columns that hold the touch controls (phone held sideways). */
+  --side: 0px;
+}
+:root:lang(zh-Hant) { --font: 'Pixelify', 'Segoe UI', system-ui, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans CJK TC', sans-serif; }
+
+* { box-sizing: border-box; }
+.hidden { display: none !important; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: #050914;
+  color: var(--ink);
+  font: 16px/1.35 var(--font);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: none;
+}
+canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
+button { font: inherit; color: inherit; }
+input { font: inherit; }
+
+/* ---------- the game frame ---------- */
+#frame {
+  position: fixed;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(calc(100vw - 2 * var(--side)), 150vh);
+  width: min(calc(100vw - 2 * var(--side)), 150dvh);
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #000;
+  container-type: size;
+}
+/* On the children: container units on #frame itself would measure the window. */
+#frame > * { font-size: clamp(10px, 3.4cqw, 30px); }
+#game { display: block; position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+
+/* ---------- screens ---------- */
+.scr {
+  position: absolute; inset: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  padding: 4%;
+  animation: fade .18s ease-out;
+}
+.scr.dim { background: radial-gradient(circle at 50% 40%, rgba(10,20,50,.55), rgba(3,6,16,.88)); }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { from { transform: scale(.94); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ---------- PMD box ---------- */
+.box {
+  position: relative;
+  background: linear-gradient(180deg, var(--box1), var(--box2));
+  border: .19em solid var(--edge);
+  border-radius: .7em;
+  box-shadow: 0 0 0 .19em var(--edge-out), inset 0 0 0 .12em var(--edge-in), 0 1em 3em rgba(0,0,0,.55);
+  padding: .9em 1.1em;
+  text-shadow: .12em .12em 0 var(--shadow);
+  animation: pop .2s ease-out;
+  max-height: 100%;
+  overflow: auto;
+}
+.box h1, .box h2, .box h3 { margin: 0 0 .4em; font-weight: 700; letter-spacing: .03em; }
+.box h3 { font-size: 1.1em; }
+.box p { margin: .35em 0; }
+.sub { color: var(--muted); }
+.gold { color: var(--gold); }
+.center { text-align: center; }
+.mono { font-family: ui-monospace, Consolas, monospace; font-size: .7em; color: var(--muted); word-break: break-all; }
+
+/* ---------- buttons ---------- */
+.btn {
+  appearance: none; cursor: pointer;
+  padding: .45em 1em;
+  border: .17em solid var(--edge);
+  border-radius: .5em;
+  background: linear-gradient(180deg, #3d67c0, #26468f);
+  box-shadow: 0 0 0 .12em var(--edge-out), 0 .22em 0 var(--edge-out);
+  font-size: 1em; font-weight: 700;
+  text-shadow: .12em .12em 0 var(--shadow);
+  transition: transform .06s, filter .12s;
+}
+.btn:hover { filter: brightness(1.15); }
+.btn:active { transform: translateY(.1em); }
+.btn:disabled { filter: grayscale(.8) brightness(.7); cursor: not-allowed; transform: none; }
+.btn.gold { background: linear-gradient(180deg, #ffe37a, #f0a31e); color: #3a2300; text-shadow: 1px 1px 0 rgba(255,255,255,.4); border-color: #fff7d6; }
+.btn.ghost { background: transparent; box-shadow: none; border-color: rgba(244,248,255,.35); }
+.btn.small { padding: .3em .7em; font-size: .85em; }
+.row { display: flex; gap: .6em; align-items: center; flex-wrap: wrap; margin-top: .6em; }
+.row.end { justify-content: flex-end; }
+
+/* Menu list with a cursor arrow, like the games */
+.menu-list { display: flex; flex-direction: column; gap: .1em; }
+.menu-item {
+  appearance: none; background: none; border: 0; cursor: pointer;
+  text-align: left; padding: .25em .5em .25em 1.4em; border-radius: .35em;
+  font-size: 1.05em; font-weight: 700; letter-spacing: .02em;
+  text-shadow: .12em .12em 0 var(--shadow);
+  position: relative;
+}
+.menu-item::before {
+  /* A pixel arrow ▶ drawn with a clip-path, so it needs no image. */
+  content: ''; position: absolute; left: .35em; top: 50%;
+  width: .55em; height: .7em; margin-top: -.35em;
+  background: var(--ink); box-shadow: .1em .1em 0 var(--shadow);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  opacity: 0; transform: translateX(-.2em); transition: opacity .1s, transform .1s;
+}
+.menu-item:hover, .menu-item.pad-focus { background: rgba(255,255,255,.08); outline: none; }
+.menu-item:hover::before, .menu-item.pad-focus::before { opacity: 1; transform: none; }
+.menu-item.on { color: var(--gold); }
+.menu-item:disabled { opacity: .45; cursor: default; }
+
+/* Focus ring for keyboard / controller navigation (nav.js) */
+.pad-focus { outline: .15em solid var(--gold) !important; outline-offset: .12em; }
+.menu-item.pad-focus { outline: none !important; }
+
+/* ---------- forms ---------- */
+.field {
+  width: 100%; padding: .4em .6em;
+  background: #0f1f4a; color: #fff;
+  border: .12em solid var(--edge-in); border-radius: .4em;
+  font-size: 1em; outline: none;
+}
+.field:focus { border-color: var(--edge); }
+
+/* ---------- type chips ---------- */
+.type { display: inline-block; padding: .05em .45em; border-radius: .3em; font-size: .75em; font-weight: 700; color: #fff; text-shadow: .08em .08em 0 rgba(0,0,0,.5); margin-right: .25em; }
+
+/* ---------- toast ---------- */
+.toast {
+  position: absolute; left: 50%; top: 6%; transform: translateX(-50%); z-index: 90;
+  display: none; max-width: 90%;
+  padding: .4em .9em; border-radius: .5em;
+  background: rgba(10,20,50,.92); border: .12em solid var(--edge);
+  font-size: .9em; text-align: center; pointer-events: none;
+}
+
+/* ---------- title ---------- */
+.scr.title { flex-direction: column; gap: 4%; justify-content: center; }
+.title-logo { text-align: center; }
+.title-logo .t1 {
+  font-size: 3.2em; font-weight: 700; color: var(--gold); line-height: 1;
+  text-shadow: .06em .06em 0 #a55f00, .12em .12em 0 var(--shadow);
+}
+.title-logo .t2 { margin-top: .35em; color: #fff; text-shadow: .1em .1em 0 var(--shadow); font-size: .9em; }
+.title-menu { min-width: 40%; padding: .5em .7em; }
+.title-foot { position: absolute; bottom: 1.5%; left: 0; right: 0; margin: 0; text-align: center; font-size: .6em; color: #eaf2ff; text-shadow: .12em .12em 0 #000; }
+.credits { max-width: 92%; font-size: .8em; }
+
+/* ---------- loading and "tap to start" (full window, over everything) ---------- */
+.boot, .tapstart { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 40%, #1b2f66, #050914 70%); }
+.tapstart { cursor: pointer; }
+.boot-in { text-align: center; padding: 20px; max-width: 640px; }
+.boot-in h1 { margin: 0 0 8px; font-size: clamp(38px, 8vw, 64px); color: var(--gold); text-shadow: 3px 3px 0 #a55f00, 6px 6px 0 var(--shadow); font-weight: 700; }
+.boot-in p { margin: 6px 0; color: var(--muted); }
+.boot-ld { color: #fff; margin-top: 18px !important; }
+.tap-blink { color: #fff !important; animation: blink 1.2s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
+.boot.noscript { z-index: 110; }
+
+/* css/world.css */
+/* ============ world.css ============ */
+
+/* css/battle.css */
+/* ============ battle.css ============ */
+
+/* css/menus.css */
+/* ============ menus.css ============ */
+
+/* css/touch.css */
+/* ============ touch.css — on-screen controls (touchpad.js) ============
+ * Only on touch devices (body.touch).
+ *   Held upright: the game at the top, D-pad and A/B below it, like a Game Boy.
+ *   Sideways:     the game in the middle, D-pad on the left, A/B on the right.
+ * --tp scales every control (Options > touch size).
+ */
+#touchpad { display: none; --tp: 1; }
+body.touch #touchpad { display: block; position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+#touchpad > * { pointer-events: auto; touch-action: none; position: fixed; }
+
+.tp-dpad {
+  --s: calc(min(38vw, 26vh) * var(--tp));
+  width: var(--s); height: var(--s);
+  /* A plus shape */
+  background:
+    linear-gradient(#2a3550, #2a3550) center / 34% 100% no-repeat,
+    linear-gradient(#2a3550, #2a3550) center / 100% 34% no-repeat;
+  filter: drop-shadow(0 .3vh 0 #0b1020);
+  border-radius: 8%;
+}
+.tp-dpad i { position: absolute; width: 0; height: 0; border: calc(var(--s) * .07) solid transparent; opacity: .55; }
+.tp-dpad .up    { left: 50%; top: 8%;    transform: translateX(-50%); border-bottom-color: #cfd8f0; border-top: 0; }
+.tp-dpad .down  { left: 50%; bottom: 8%; transform: translateX(-50%); border-top-color: #cfd8f0; border-bottom: 0; }
+.tp-dpad .left  { top: 50%; left: 8%;    transform: translateY(-50%); border-right-color: #cfd8f0; border-left: 0; }
+.tp-dpad .right { top: 50%; right: 8%;   transform: translateY(-50%); border-left-color: #cfd8f0; border-right: 0; }
+.tp-dpad[data-dir="up"] .up, .tp-dpad[data-dir="down"] .down,
+.tp-dpad[data-dir="left"] .left, .tp-dpad[data-dir="right"] .right { opacity: 1; }
+
+.tp-ab { --b: calc(min(17vw, 12vh) * var(--tp)); width: calc(var(--b) * 2.3); height: calc(var(--b) * 1.7); }
+.tp-btn {
+  position: absolute; width: var(--b); height: var(--b); border-radius: 50%;
+  border: 0; font-weight: 700; font-size: calc(var(--b) * .38); color: #fff;
+  background: radial-gradient(circle at 35% 30%, #e0526a, #9a1f38);
+  box-shadow: 0 .4vh 0 #4a0d1b; text-shadow: 0 1px 0 #000;
+}
+.tp-a { right: 0; top: 0; }
+.tp-b { left: 0; bottom: 0; }
+.tp-btn.on, .tp-start.on { transform: translateY(.3vh); filter: brightness(1.2); box-shadow: none; }
+.tp-start {
+  border: 0; border-radius: 1em; padding: .35em 1em;
+  font-size: calc(min(3.6vw, 2.6vh) * var(--tp)); font-weight: 700; color: #dfe6ff; letter-spacing: .1em;
+  background: #39445f; box-shadow: 0 .3vh 0 #161c2c;
+}
+#touchpad[data-mode="none"] > * { display: none; }
+
+/* Held upright: game on top, controls below */
+@media (orientation: portrait) {
+  body.touch #frame { top: 0; transform: translateX(-50%); width: 100vw; }
+  body.touch .tp-dpad { left: 6vw; bottom: calc(10vh + env(safe-area-inset-bottom)); }
+  body.touch .tp-ab { right: 6vw; bottom: calc(12vh + env(safe-area-inset-bottom)); }
+  body.touch .tp-start { left: 50%; transform: translateX(-50%); bottom: calc(4vh + env(safe-area-inset-bottom)); }
+}
+/* Sideways: controls at both sides of the game */
+@media (orientation: landscape) {
+  body.touch { --side: min(24vw, 34vh); }
+  body.touch .tp-dpad { --s: calc(min(22vw, 40vh) * var(--tp)); left: calc(env(safe-area-inset-left) + 2vw); bottom: 12vh; }
+  body.touch .tp-ab { --b: calc(min(10vw, 18vh) * var(--tp)); right: calc(env(safe-area-inset-right) + 2vw); bottom: 14vh; }
+  body.touch .tp-start { right: calc(env(safe-area-inset-right) + 3vw); top: 6vh; }
+}

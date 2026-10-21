@@ -1,0 +1,14 @@
+# Caches of the download and build tools (PokeAPI responses, sprites, temp bundle)
+tools/cache/
+__pycache__/
+
+node_modules/
+*.log
+
+# System
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Claude Code temporary worktrees
+.claude/worktrees/

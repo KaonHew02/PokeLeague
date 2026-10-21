@@ -44,7 +44,6 @@ G.Game = (() => {
     addEventListener('orientationchange', resizeSoon);
     if (window.visualViewport) visualViewport.addEventListener('resize', resizeSoon);
     if (window.ResizeObserver) new ResizeObserver(() => resize()).observe(cv);
-    G.TouchPad.init();
     G.UI.init();
     last = performance.now();
     requestAnimationFrame(loop);

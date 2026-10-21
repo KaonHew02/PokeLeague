@@ -33,8 +33,6 @@
   --green: #5fe08a;
   --shadow: #0a1430;
   --font: 'Pixelify', 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
-  /* Width of the side columns that hold the touch controls (phone held sideways). */
-  --side: 0px;
 }
 :root:lang(zh-Hant) { --font: 'Pixelify', 'Segoe UI', system-ui, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans CJK TC', sans-serif; }
 
@@ -60,8 +58,8 @@ input { font: inherit; }
   position: fixed;
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  width: min(calc(100vw - 2 * var(--side)), 150vh);
-  width: min(calc(100vw - 2 * var(--side)), 150dvh);
+  width: min(100vw, 150vh);
+  width: min(100vw, 150dvh);
   aspect-ratio: 3 / 2;
   overflow: hidden;
   background: #000;

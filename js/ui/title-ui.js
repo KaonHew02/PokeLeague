@@ -1,8 +1,9 @@
-/* ============ title-ui.js — title screen, language picker, credits ============
+/* ============ title-ui.js — title screen and credits ============
  *   Continue   (only when a save exists)
  *   New game
- *   Language   the 7 languages, each in its own name; changing reloads the page
+ *   Settings   language, sound, controls, display (options-ui.js)
  *   Credits    licences and authors (the full artist list is CREDITS.md)
+ * The speaker button in the corner mutes everything with one click.
  */
 G.TitleUI = (() => {
   const $ = id => document.getElementById(id);
@@ -31,26 +32,10 @@ G.TitleUI = (() => {
       if (G.NewGame && G.NewGame.continue) G.NewGame.continue();
       else G.UI.toast(G.T('Coming soon'));
     };
-    $('t-lang').onclick = openLang;
+    $('t-options').onclick = () => G.OptionsUI.open();
     $('t-credits').onclick = () => G.UI.open('scr-credits');
     $('credits-back').onclick = () => G.UI.close('scr-credits');
-    $('lang-back').onclick = () => G.UI.close('scr-lang');
-  }
-
-  function openLang() {
-    const list = $('lang-list');
-    list.innerHTML = '';
-    for (const [id, name] of G.I18n.choices) {
-      const b = document.createElement('button');
-      b.className = 'menu-item' + (id === G.I18n.lang ? ' on' : '');
-      b.setAttribute('translate', 'no');
-      b.lang = id;
-      b.textContent = name;
-      if (id === G.I18n.lang) b.dataset.first = '';
-      b.onclick = () => { if (id === G.I18n.lang) G.UI.close('scr-lang'); else G.I18n.set(id); };
-      list.appendChild(b);
-    }
-    G.UI.open('scr-lang');
+    G.OptionsUI.muteButton($('t-mute'));
   }
 
   return { open, wire, hasSave };

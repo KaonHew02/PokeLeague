@@ -23,7 +23,6 @@
 <link rel="stylesheet" href="css/world.css">
 <link rel="stylesheet" href="css/battle.css">
 <link rel="stylesheet" href="css/menus.css">
-<link rel="stylesheet" href="css/touch.css">
 <!-- css:end -->
 <script src="js/core/locales.js"></script>
 </head>
@@ -44,19 +43,25 @@
       <div class="menu-list">
         <button class="menu-item" id="t-continue">Continue</button>
         <button class="menu-item" id="t-new" data-first>New game</button>
-        <button class="menu-item" id="t-lang">Language</button>
+        <button class="menu-item" id="t-options">Settings</button>
         <button class="menu-item" id="t-credits">Credits</button>
       </div>
     </div>
+    <button class="icon-btn title-mute" id="t-mute" title="Sound" data-nonav></button>
     <p class="title-foot">Free fan game, not for sale · Based on PokéSurvivor by JPTER78</p>
   </section>
 
-  <!-- ====== Language ====== -->
-  <section id="scr-lang" class="scr dim hidden">
-    <div class="box">
-      <h3>Language</h3>
-      <div class="menu-list" id="lang-list"></div>
-      <div class="row end"><button class="btn small ghost" id="lang-back" data-back>Back</button></div>
+  <!-- ====== Settings (options-ui.js); opens over the title or the start menu ====== -->
+  <section id="scr-options" class="scr dim hidden">
+    <div class="box options">
+      <div class="opt-head"><h3>Settings</h3><button class="btn small ghost" id="opt-back" data-back>Back</button></div>
+      <div class="opt-tabs" id="opt-tabs">
+        <button class="opt-tab" data-t="game">Game</button>
+        <button class="opt-tab" data-t="sound">Sound</button>
+        <button class="opt-tab" data-t="controls">Controls</button>
+        <button class="opt-tab" data-t="display">Display</button>
+      </div>
+      <div class="opt-body" id="opt-body" translate="no"></div>
     </div>
   </section>
 
@@ -73,16 +78,6 @@
       <div class="row end"><button class="btn small ghost" id="credits-back" data-back>Back</button></div>
     </div>
   </section>
-</div>
-
-<!-- On-screen controls for phones (touchpad.js, css/touch.css) -->
-<div id="touchpad" data-mode="game">
-  <div class="tp-dpad" data-dpad><i class="up"></i><i class="right"></i><i class="down"></i><i class="left"></i></div>
-  <div class="tp-ab">
-    <button class="tp-btn tp-b" data-btn="b" translate="no">B</button>
-    <button class="tp-btn tp-a" data-btn="a" translate="no">A</button>
-  </div>
-  <button class="tp-start" data-btn="start" translate="no">START</button>
 </div>
 
 <div id="boot" class="boot">
@@ -113,7 +108,6 @@
 <script defer src="js/core/buttons.js"></script>
 <script defer src="js/core/nav.js"></script>
 <script defer src="js/core/gamepad.js"></script>
-<script defer src="js/core/touchpad.js"></script>
 <script defer src="js/core/sprites.js"></script>
 <script defer src="js/core/camera.js"></script>
 

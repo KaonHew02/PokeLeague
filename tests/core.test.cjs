@@ -88,17 +88,17 @@ test('buttons: a press counts once, repeats while held, and swallow() needs a re
   assert.equal(B.held('a'), true);
   B.set('pad', 'a', false); f();
   // Repeat: on the press, then after 0.38 s, then every 0.12 s.
-  B.set('touch', 'down', true); f(0.01);
+  B.set('pad', 'down', true); f(0.01);
   assert.equal(B.repeat('down'), true);
   let hits = 0;
   for (let i = 0; i < 100; i++) { f(0.01); if (B.repeat('down')) hits++; }   // 1 s held
   assert.equal(hits, 6);
   // The most recent direction wins.
-  B.set('touch', 'left', true); f();
+  B.set('pad', 'left', true); f();
   assert.equal(B.dir4(), 'left');
-  B.set('touch', 'left', false); f();
+  B.set('pad', 'left', false); f();
   assert.equal(B.dir4(), 'down');
-  B.set('touch', 'down', false); f();
+  B.set('pad', 'down', false); f();
   assert.equal(B.dir4(), null);
   // swallow(): A held across a screen change does not press again until released.
   B.set('pad', 'a', true); f();

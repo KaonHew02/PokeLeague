@@ -2,8 +2,8 @@
 (() => {
   // If a file failed to load (a phone connection dropping), say so instead
   // of starting half a game. Each milestone adds the modules it delivers.
-  const NEED = ['U', 'RNG', 'I18n', 'Names', 'Settings', 'Audio', 'Input', 'Btn', 'Nav', 'Pad', 'TouchPad',
-                'Sprites', 'Camera', 'Types', 'MUSIC', 'SPRITE_META', 'UI', 'TitleUI', 'Game',
+  const NEED = ['U', 'RNG', 'I18n', 'Names', 'Settings', 'Audio', 'Input', 'Btn', 'Nav', 'Pad',
+                'Sprites', 'Camera', 'Types', 'MUSIC', 'SPRITE_META', 'UI', 'TitleUI', 'OptionsUI', 'Game',
                 // M1: game data
                 'SPECIES', 'MOVES', 'TMS', 'ITEMS', 'ITEM_FX', 'GROWTH', 'NATURES', 'NAMES', 'ENCOUNTERS', 'DEX_TEXT'];
   function broken() {
@@ -46,6 +46,7 @@
     if (broken()) return;
     G.I18n.startDom();
     G.Game.init();
+    G.OptionsUI.init();
     G.TitleUI.wire();
     // Wait for the pixel font so the interface does not jump when it arrives.
     const ready = document.fonts && document.fonts.load ? document.fonts.load('16px Pixelify') : Promise.resolve();

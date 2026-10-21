@@ -9,7 +9,7 @@ region — Kanto first, then Johto, Hoenn…
   status conditions, catch rate, experience).
 - Hand-made towns and routes, Pokémon Centers, Poké Marts, trainers and gyms.
 - Seven languages: English, Español, Français, Italiano, Português (Brasil), 简体中文, 繁體中文.
-- Keyboard, controller and touch controls. Saves stay in your browser.
+- Keyboard and mouse (WASD, click to walk), controllers, and tapping on phones. Saves stay in your browser.
 
 **Status:** early development. The first playable goal is the start of Kanto,
 from Pallet Town to Brock's Boulder Badge.

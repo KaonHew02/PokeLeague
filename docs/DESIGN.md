@@ -40,18 +40,19 @@ in the same change.
 | `G.RNG(seed)` | `next, int(a,b), chance(p), pct(n), pick(list), u16(), state`; `G.RNG.seed()` makes a fresh seed |
 | `G.I18n` | `lang, locale, choices, add(dict, lang, ctx), t(s, ctx), fmt(key, vars, ctx), has, num(n), font(size, weight), set(lang), walk(el)`; `G.T` is `t` |
 | `G.Names` | `mon(id), move(id), item(id), type(id), loc(id), nature(id), genus(id), stat(id), pretty(id)`. Reads `G.NAMES` (M1); falls back to English, then to a readable id |
-| `G.Settings` | `get, set, on(fn), all, touch`. Keys: textSpeed, battleAnim, battleStyle, follower, gamepad, padRumble, touchSize, calm |
+| `G.Settings` | `get, set, on(fn), all, touch` (touch = phone or tablet). Keys: textSpeed (slow/mid/fast), battleAnim, battleStyle (shift/set), follower, gamepad, padRumble, calm |
 | `G.Audio` | `music(name), sfx(name), setVolume, toggleMute, unlock, canPlay`, plus `_internals` for jingles (M7). Unknown SFX names are ignored |
-| `G.Input` | raw keys: `held(code), tap(code), virtual(code), endFrame()` |
-| `G.Btn` | logical buttons up/down/left/right/a/b/start/select: `held(b)` (`'run'` = B or Shift), `pressed(b)`, `repeat(b)`, `dir4()`, `any()`, `swallow()`, `set(source, b, on)` |
+| `G.Input` | raw keys and pointer: `held(code), tap(code), virtual(code), mouse(), clicks(), endFrame()`. Pointer buttons are codes `mouseleft` / `mouseright`; `clicks()` = this frame's left clicks or taps on the canvas, `[{x, y, touch}]` in canvas CSS px |
+| `G.Btn` | logical buttons up/down/left/right/a/b/start/select: `held(b)` (`'run'` = B or Shift), `pressed(b)`, `repeat(b)`, `dir4()`, `any()`, `swallow()`, `set(source, b, on)`. Keys: WASD/arrows; A = Space, Enter, E, Z; B = X, Backspace, right click; Start = Esc, C |
 | `G.Nav` | spatial DOM menu navigation: `step(dir), press(), back(), focusFirst(el), hide(), topScreen()` |
-| `G.Pad`, `G.TouchPad` | the controller and on-screen controls; both feed `G.Btn` |
+| `G.Pad` | the controller; feeds `G.Btn`. There are **no on-screen buttons**: phones play by tapping (see section 4) |
 | `G.Sprites` | `PX=2, Animator(dex, scale, shiny)` with `.dir .loop(anim) .play(anim, {hold}) .update(dt) .draw(ctx, x, y, {flash, softFlash, alpha})`; also `preload(dexes)`, `drawShadow`, `bodyHeight`, `DIR4`, `hasShiny`. Rows: 0 Down … 3 UpRight … 7 DownLeft |
 | `G.Camera` | `VIEW_W=480, VIEW_H=320` (15×10 tiles of 32), `resize, snap(x,y), follow, kick, apply(ctx), left(), top(), sees()` |
 | `G.Types` | `LIST, CHART, eff(atkType, defTypes), label(m)` |
 | `G.UI` | `open(id, {onBack, focus}), close(id), closeAll(), isOpen, anyOpen, top, toast(msg), typeChips(types), sprite(cv, dex, opts), spriteCanvas(...)` |
 | `G.Game` | `define(name, {enter, exit, update(dt, {ui}), render(ctx, view, dt)}), setMode(name, arg), mode, view {w, h, dpr}, canvas` |
 | `G.TitleUI` | `open()`. It calls `G.NewGame.start()` and `G.NewGame.continue()` once something defines them (M5) |
+| `G.OptionsUI` | Settings like PokéGo's: `open(tab)` with tabs game (language, text speed, battle animations, battle style, follower), sound (music, effects, mute), controls (keyboard, mouse, phone, controller), display (full screen, less shaking); `close()`; `muteButton(el)` makes a quick mute toggle. The start menu (M5) opens it too |
 
 - **Frame:** `#frame` is a 3:2 box holding `<canvas id="game">` and every `.scr` screen.
   Inside it, CSS `em` follows the frame width (container units).
@@ -315,7 +316,14 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
 - `render.js`: the baked map, connected neighbour maps, the `border` fill, Y-sorted
   props and actors, and the tall-grass front tuft.
 - `player.js`
-  - 4-direction grid steps at 4 tiles/s, 8 when running. A short tap turns on the spot.
+  - 4-direction grid steps at 4 tiles/s, 8 when running. A short key press turns on the spot.
+  - **Click / tap to walk:** a left click or a tap on the map (`G.Input.clicks()`, canvas px
+    → world via `G.Camera`) walks there along a 4-neighbour path (`path4.js`), step by step
+    with the same rules (encounters, trainers, ledges only downhill). Clicking a person,
+    sign or item walks next to it, faces it and presses A. Any key or a new click cancels the
+    walk. This is how phones play: there are no on-screen buttons.
+  - A small menu button in a corner of the overworld (also clickable with the mouse) opens
+    the start menu, so phones can reach it.
   - Bump sound, 2-tile ledge hop with a shadow, fade for warps, seamless map connections.
   - Tall grass rolls for an encounter on each step (about `rate/180`); trainers check
     their line of sight after each step.
@@ -334,7 +342,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - Flags are kebab-case strings. Defeated trainers and collected items are stored as `map:id`.
 - `dialog.js`: a DOM box (`translate="no"`) that types text one code point at a time (CJK
   safe), shows a blinking ▼, splits long text into pages, and has Yes/No choices with an
-  optional speaker name. A finishes the line, then advances.
+  optional speaker name. A finishes the line, then advances; so does a click or tap on the box.
 - `debug.js` (dev only):
   - URL: `?debug&map=…&spot=…&party=charmander:9,pidgey:7&items=poke-ball:10&flags=a,b&badges=1&seed=42&fast&noenc&wild=caterpie:6&trainer=pewter-gym:brock`.
   - Keys: F2 heal, F4 encounters on/off, F6 win, F7 next ball catches, F8 walk through
@@ -412,12 +420,12 @@ small separate edit.
 
 | # | Owns | Done when |
 |---|---|---|
-| M0 ✅ | core/, ui/ui.js, ui/title-ui.js, game.js, main.js, tools/build*, tests/helpers + core/i18n/lint, css/base.css, css/touch.css | title in 7 languages, tests pass, build works |
+| M0 ✅ | core/, ui/ui.js, ui/title-ui.js, ui/options-ui.js (settings), game.js, main.js, tools/build*, tests/helpers + core/i18n/lint, css/base.css, the settings part of css/menus.css | title in 7 languages, settings, tests pass, build works |
 | M1 ✅ | tools/fetch_data.py, js/data/{species,moves,items,growth,names,encounters,dex-text,natures,item-effects}.js, tests/data.test.cjs | `G.SPECIES[1]` etc. in the console; data tests pass |
 | M2 | js/battle/*, tools/sim_battle.js, tests/{stats,damage,effects,capture,exp,evolution,battle}.test.cjs (tests/fixtures/ for mini data until M1 lands) | `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1` prints a battle |
 | M3 | js/world/*, js/script/*, js/ui/dialog.js, js/debug.js, css/world.css, tools/map_check.js, tests/maps.test.cjs, a sandbox map | walk, doors, ledges, signs, connections, talk to NPCs |
 | M4 | js/ui/{battle-ui,battle-fx,learn-ui,evolve-ui}.js, css/battle.css | `dev.html?debug&wild=pidgey:3` is playable |
-| M5 | js/core/store.js, js/ui/{name-ui,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui,options-ui}.js, css/menus.css, tests/save.test.cjs | the full menu flow, slots, export and import |
+| M5 | js/core/store.js, js/ui/{name-ui,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui}.js, css/menus.css (append; settings styles exist), tests/save.test.cjs | the full menu flow, slots, export and import; the start menu has Settings (G.OptionsUI.open) |
 | M6a–d | js/content/kanto/<area>.js, js/data/trainer-classes.js, js/i18n/<lang>/kanto-<area>.js | each area plays via `?debug&map=…` |
 | M7 | js/core/audio.js (jingles, cries), js/data/music.js, js/data/music-map.js | jingles on heal and level up |
 | M8 | integration, js/ui/credits-ui.js, tests/story.test.cjs | Pallet Town to the Boulder Badge |

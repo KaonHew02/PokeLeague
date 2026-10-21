@@ -1,31 +1,35 @@
-/* ============ buttons.js — logical buttons (keyboard + controller + touch) ============
+/* ============ buttons.js — logical buttons (keyboard + mouse + controller) ============
  * The game never reads keys directly: it asks for Game Boy style buttons.
  *
- *   button   keyboard                 controller        touch
- *   up...    arrows / WASD            D-pad / stick     D-pad
- *   a        Z · Space · Enter        A                 A
- *   b        X · Backspace            B                 B
- *   start    Esc · C                  Start · X         START
- *   select   V                        Back · Y          –
+ *   button   keyboard / mouse                 controller
+ *   up...    WASD / arrows                    D-pad / stick
+ *   a        Space · Enter · E · Z            A
+ *   b        X · Backspace · right click      B
+ *   start    Esc · C                          Start · X
+ *   select   V                                Back · Y
  *   run      (held B or Shift)
+ *
+ * Walking by clicking the map and clicking menus are pointer things, read
+ * elsewhere (G.Input.clicks(), ordinary DOM clicks). There are no on-screen
+ * buttons: on a phone you tap where you want to go.
  *
  *   G.Btn.held('a') · G.Btn.pressed('start') (this frame only)
  *   G.Btn.repeat('down')   true on press, then every REPEAT s while held (menus)
  *   G.Btn.dir4()           the most recently pressed direction still held, or null
- *   G.Btn.set(source, button, on)   used by gamepad.js and touchpad.js
+ *   G.Btn.set(source, button, on)   used by gamepad.js
  *
  * update() runs at the start of every frame (game.js), endFrame() at the end.
  */
 G.Btn = (() => {
   const KEYS = {
     up: ['arrowup', 'keyw'], down: ['arrowdown', 'keys'], left: ['arrowleft', 'keya'], right: ['arrowright', 'keyd'],
-    a: ['keyz', 'space', 'enter', 'numpadenter'], b: ['keyx', 'backspace'],
+    a: ['space', 'enter', 'numpadenter', 'keye', 'keyz'], b: ['keyx', 'backspace', 'mouseright'],
     start: ['escape', 'keyc'], select: ['keyv'], shift: ['shiftleft', 'shiftright']
   };
   const NAMES = ['up', 'down', 'left', 'right', 'a', 'b', 'start', 'select'];
   const DIRS = ['up', 'down', 'left', 'right'];
   const DELAY = 0.38, REPEAT = 0.12;
-  const sources = { pad: new Set(), touch: new Set() };
+  const sources = { pad: new Set() };
   let held = new Set(), prev = new Set(), pressed = new Set();
   const order = [];                         // held directions, oldest first
   const rep = {};                           // button -> seconds until it repeats
@@ -34,7 +38,7 @@ G.Btn = (() => {
 
   function set(source, b, on) { if (sources[source]) sources[source][on ? 'add' : 'delete'](b); }
   function clearSource(source) { if (sources[source]) sources[source].clear(); }
-  const isDown = b => KEYS[b].some(k => G.Input.held(k)) || sources.pad.has(b) || sources.touch.has(b);
+  const isDown = b => KEYS[b].some(k => G.Input.held(k)) || sources.pad.has(b);
 
   function update(dt) {
     prev = held;

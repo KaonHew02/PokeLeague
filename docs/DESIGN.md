@@ -59,70 +59,86 @@ in the same change.
   mode's `update` gets `{ ui: true }`. A screen with `data-noinput` (for example a dialog
   box that reads `G.Btn` itself) is skipped by Nav.
 
-## 2. Data: `tools/fetch_data.py` (M1)
+## 2. Data: `tools/fetch_data.py` (M1 ✅)
 
 ```
-python tools/fetch_data.py --region kanto            # dex 1-151
-python tools/fetch_data.py --region kanto --offline  # cache only; fail on a miss
+python tools/fetch_data.py --region kanto            # dex 1-151 (about 1,200 requests the first time)
+python tools/fetch_data.py --region kanto --offline  # cache only; fails on a miss
 python tools/fetch_data.py --region kanto --refresh  # download again
 ```
 
-**Region config** (a dict in the tool). For Johto, set `dex: (1, 251)` and put HGSS first:
-`kanto: { dex: (1,151), learnset_vg: ['firered-leafgreen','emerald','heartgold-soulsilver'],
-tm_vg: 'firered-leafgreen', enc_versions: ['firered','leafgreen','red','blue'] }`.
+- **Cache:** raw responses go to `tools/cache/pokeapi/<endpoint>/<key>.json` (gitignored),
+  written to a temp file and renamed. 8 threads.
+- **Region config** (`REGIONS` in the tool):
+  - Kanto: `dex (1,151)`; learnsets from `firered-leafgreen` (then emerald, HGSS); TMs from
+    `firered-leafgreen`; encounters from the first of firered, leafgreen, red, blue, yellow
+    that has data.
+  - Flavor text: FRLG first (English only), then Let's Go (the other languages), else the
+    newest entry. For Johto, add a `johto` entry with `dex (1,251)` and HGSS first.
+- **Evolutions:**
+  - Level-up becomes `{how:'level', level}`; a stone becomes `{how:'item', item}`.
+  - Trades become `{how:'level', level:37, via:'trade'}`; Kadabra uses 36.
+  - Friendship becomes `{how:'friendship', min}`, with `time` and `move` kept for later regions.
+- **Gaps PokeAPI has:**
+  - No es, it or Chinese **place names**: the tool's `LOC_NAMES` table adds the official
+    ones for Kanto's towns, routes ("Ruta N", "Percorso N", "N号道路") and main dungeons.
+    The Sevii Islands etc. still fall back to English.
+  - Almost no **prices**: they are hand-written in `item-effects.js`.
+  - The English FRLG texts write names in capitals; the tool turns "POKéMON" and
+    "THUNDER WAVE" into "Pokémon" and "Thunder Wave" (HP, PP, TM, HM stay).
+  - Line breaks are removed from Chinese text, where they must not become spaces.
 
-**Cache**
-- Each raw response goes to `tools/cache/pokeapi/<endpoint>/<key>.json`.
-- Write to a temp file, then rename.
-- Use 8 threads and the user agent `pokeleague/1.0`.
-
-**Endpoints**
-- `/pokemon/{id}`: stats and EV yield, types, base_experience, height, weight. Level-up
-  learnsets come from the first version group in the priority list that has the species;
-  TM moves come from `tm_vg`.
-- `/pokemon-species/{id}`: capture_rate, base_happiness, growth_rate, gender_rate,
-  evolution_chain, names, genera, flavor text (FRLG first).
-- `/evolution-chain/{id}`: walk `evolves_to`, keeping only targets inside the region's dex.
-  - `level-up` with `min_level` becomes `{how:'level', level}`.
-  - `use-item` becomes `{how:'item', item}`.
-  - `trade` becomes `{how:'level', level:37, via:'trade'}`; Kadabra uses 36 instead.
-  - Friendship, time-of-day and known-move conditions are kept for Johto.
-- `/move/{name}`: power, accuracy, pp, priority, type, damage_class, target, effect_chance,
-  meta, stat_changes, names. Fetched for every move in a learnset or TM list, plus `struggle`.
-- `/machine/{id}` maps TM numbers to moves in `tm_vg`.
-- `/item/{name}`: cost, category (which picks the bag pocket), names. Needed items:
-  - Poké, Great, Ultra and Master Ball
-  - Potion, Super, Hyper and Max Potion, Full Restore, Revive, Max Revive
-  - Antidote, Paralyze Heal, Awakening, Burn Heal, Ice Heal, Full Heal
-  - Escape Rope, the Repels, the five evolution stones, Rare Candy
-  - Oak's Parcel and TM39
-- `/growth-rate/1..6`, `/nature/*`, `/type/*`.
-- `/region/kanto`, then `/location`, then `/location-area`: official place names, plus
-  encounter tables (first version in `enc_versions` with data; min/max level, chance,
-  method) and the grass encounter rate.
-- Names: en, es, fr, it, zh-Hans, zh-Hant. A missing name falls back to English, and the
-  tool prints the gap counts. Chinese species names are cross-checked against PokéGo's
-  `lang-zh-*-names.js`.
-
-**Output** (`.js` files, because `fetch()` is blocked on file://):
+**Output** (`.js` files, because `fetch()` is blocked on file://; one entry per line):
 ```js
 G.SPECIES = { 1: { slug:'bulbasaur', types:['grass','poison'], base:[45,49,49,65,65,45] /* hp atk def spa spd spe */,
-  ev:[0,0,0,1,0,0], cr:45, bx:64, gr:'medium-slow', gf:1 /* females in eighths, -1 genderless */, fr:70, h:7, w:69,
-  evo:[{ to:2, how:'level', level:16 }], learn:[[1,'tackle'],[3,'growl'], …], tm:['tm06', …] } }
-G.MOVES = { ember: { id:52, type:'fire', cat:'special' /* physical|special|status */, pow:40, acc:100 /* null = never misses */,
-  pp:25, pri:0, tgt:'selected-pokemon', eff:10,
-  meta:{ k:'damage+ailment', ail:'burn', ailP:10, crit:0, drain:0, heal:0, flinch:0, statP:0, hits:null, turns:null },
-  stats:[] /* [['atk',-1]] */ } }
-G.ITEMS = { potion: { id:17, cost:300, pocket:'items' /* items|balls|key|tms|medicine */ } }
-G.GROWTH = { 'medium-slow': [0, 0, 9, 57, 96, 135, …] }          // index = level, value = total EXP
+  ev:[0,0,0,1,0,0], cr:45 /* catch rate */, bx:64 /* base EXP */, gr:'medium-slow', gf:1 /* females in eighths, -1 genderless */,
+  fr:70 /* base friendship */, h:7, w:69, leg:1 /* only legendaries and Mew */,
+  evo:[{ to:2, how:'level', level:16 }], learn:[[1,'tackle'],[4,'growl'],[7,'leech-seed'], …] /* sorted; can repeat a move */,
+  tm:['hm01','tm06', …] } }
+G.MOVES = { ember: { id:52, type:'fire', cat:'special' /* physical|special|status */, pow:40 /* null for status */,
+  acc:100 /* null = never misses */, pp:25, pri:0, tgt:'selected-pokemon', eff:10 /* effect chance */,
+  meta:{ k:'damage-ailment', ail:'burn', ailP:10, crit:0, drain:0, heal:0, flinch:0, statP:0, hits:null, turns:null },
+  stats:[] /* e.g. growl [['atk',-1]]; stats are hp atk def spa spd spe acc eva */ } }
+G.TMS = { tm39:'rock-tomb', hm01:'cut', … }                      // this region's machines
+G.ITEMS = { potion: { id:17, pocket:'items' /* items|balls|tms|key */, cat:'healing' }, tm39: { …, move:'rock-tomb' } }
+G.GROWTH = { 'medium-slow': [0, 0, 9, 57, 96, 135, …] }          // index = level (1-100), value = total EXP
+G.NATURES = { adamant: { up:'atk', down:'spa' }, hardy: { up:null, down:null }, … }   // 25
 G.NAMES = { langs:['en','es','fr','it','zh-Hans','zh-Hant'], mon:{1:[…]}, move:{…}, item:{…}, type:{…},
-            loc:{'viridian-city':[…]}, nature:{…}, genus:{…}, stat:{…} }
-G.ENCOUNTERS = { 'kanto-route-1-area': { grass: { rate:21, mons:[['pidgey',2,5,50],['rattata',2,4,50]] } } }
-G.DEX_TEXT = { 1: ['…en', '…es', …] }
-G.NATURES = { adamant: { up:'atk', down:'spa' }, hardy: { up:null, down:null }, … }
-G.ITEM_FX = { potion:{heal:20,field:1,battle:1}, 'great-ball':{ball:1.5}, 'fire-stone':{evo:1}, 'full-heal':{cure:'all'} }
+            loc:{'viridian-city':[…]}, nature:{…}, genus:{…}, stat:{hp:[…], atk:[…], …, acc:[…], eva:[…]} }
+G.ENCOUNTERS = { 'kanto-route-1-area': { loc:'kanto-route-1', ver:'firered',
+                 walk: { rate:21, mons:[[16,3,3,35],[19,3,3,35], …] /* [dex, min level, max level, chance %], sums to 100 */ } } }
+G.DEX_TEXT = { mon:{1:[6 texts]}, move:{tackle:[…]}, item:{potion:[…]} }
 ```
-`item-effects.js` and `natures.js` are written by hand; a test checks their keys exist.
+- **Encounter methods** use PokeAPI names: `walk` (tall grass and caves), `surf`,
+  `old-rod`, `good-rod`, `super-rod`, `rock-smash`.
+- **Area keys** for the slice:
+  - `kanto-route-1-area`
+  - `kanto-route-22-area`
+  - `kanto-route-2-south-towards-viridian-city`
+  - `kanto-route-2-north-towards-pewter-city`
+  - `viridian-forest-area`
+- **Growth rate names** are PokeAPI's: `slow`, `medium` (medium-fast), `fast`,
+  `medium-slow`, `slow-then-very-fast` (erratic), `fast-then-very-slow` (fluctuating).
+- **`meta.k`** (PokeAPI move category) is one of:
+  - `damage`, `ailment`, `net-good-stats`, `heal`
+  - `damage-ailment`, `swagger`, `damage-lower`, `damage-raise`, `damage-heal`
+  - `ohko`, `whole-field-effect`, `field-effect`, `force-switch`, `unique`
+- **`meta.ail`** includes the volatile ailments:
+  - paralysis, sleep, poison, burn, freeze, confusion, infatuation, trap, leech-seed,
+    disable, yawn, nightmare
+  - plus some unusual ones (`unknown`, `no-type-immunity`, `perish-song`, `ingrain`,
+    `torment`, `protect`) that the engine may treat as unique.
+- **Recoil** is a negative `meta.drain`. Struggle instead has `meta.heal: -25` (it loses
+  1/4 of max HP).
+
+**`js/data/item-effects.js`** is hand-written: `G.ITEM_FX[item]` describes what an item
+does and its shop price (sell = half). The full key list is in the file's header. Examples:
+`potion:{heal:20,field:1,battle:1,price:300}`, `'great-ball':{ball:1.5,battle:1,price:600}`,
+`'full-heal':{cure:'all',…}`, `'thunder-stone':{evo:1,field:1,price:2100}`,
+`'x-attack':{stage:['atk',1],battle:1}`, `repel:{repel:100,…}`, `'oaks-parcel':{key:1}`.
+
+`tests/data.test.cjs` checks all of this, including the growth tables and the slice's
+encounter areas.
 
 ## 3. Battle engine: `js/battle/` (M2)
 
@@ -240,7 +256,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
                team:[['weedle',6],['caterpie',6]], before:'…', defeat:'…', after:'…' } ],
   items:[ { x:2, y:9, item:'potion', flag:'forest-potion-1' } ],
   triggers:[ { x:9, y:1, w:2, h:1, if:['!got-starter'], script:'pallet.oak-stops-you' } ],
-  encounters:{ grass:'@kanto-route-1-area' } });
+  encounters:{ walk:'@kanto-route-1-area' } });
 ```
 
 **Legend: outdoor**
@@ -368,9 +384,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
 
 ## 8. Tests (`node --test tests/*.test.cjs`, vm sandbox via `tests/helpers.cjs`)
 
-- **data:** 151 species, their stats and types, evolution targets, learnset moves,
-  item effects. Known growth values: medium-slow L5 = 135; at L100 medium-fast = 1,000,000,
-  fast = 800,000, slow = 1,250,000, erratic = 600,000, fluctuating = 1,640,000.
+- **data** (exists): 151 species, stats, types, evolutions, learnsets, TMs, moves, growth
+  tables, item effects and prices, natures, names, texts and the slice's encounter areas.
 - **stats:** Bulbapedia's Garchomp example (289/278/193/135/171/171).
 - **damage:** type chart, STAB, crit and stage rules, burn, minimum 1.
 - **effects:** Growl ±6 cap; Thunder Wave on Ground and Electric; powder moves on Grass;
@@ -398,7 +413,7 @@ small separate edit.
 | # | Owns | Done when |
 |---|---|---|
 | M0 ✅ | core/, ui/ui.js, ui/title-ui.js, game.js, main.js, tools/build*, tests/helpers + core/i18n/lint, css/base.css, css/touch.css | title in 7 languages, tests pass, build works |
-| M1 | tools/fetch_data.py, js/data/{species,moves,items,growth,names,encounters,dex-text,natures,item-effects}.js, tests/data.test.cjs | `G.SPECIES[1]` etc. in the console; data tests pass |
+| M1 ✅ | tools/fetch_data.py, js/data/{species,moves,items,growth,names,encounters,dex-text,natures,item-effects}.js, tests/data.test.cjs | `G.SPECIES[1]` etc. in the console; data tests pass |
 | M2 | js/battle/*, tools/sim_battle.js, tests/{stats,damage,effects,capture,exp,evolution,battle}.test.cjs (tests/fixtures/ for mini data until M1 lands) | `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1` prints a battle |
 | M3 | js/world/*, js/script/*, js/ui/dialog.js, js/debug.js, css/world.css, tools/map_check.js, tests/maps.test.cjs, a sandbox map | walk, doors, ledges, signs, connections, talk to NPCs |
 | M4 | js/ui/{battle-ui,battle-fx,learn-ui,evolve-ui}.js, css/battle.css | `dev.html?debug&wild=pidgey:3` is playable |

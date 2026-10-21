@@ -3,7 +3,9 @@
   // If a file failed to load (a phone connection dropping), say so instead
   // of starting half a game. Each milestone adds the modules it delivers.
   const NEED = ['U', 'RNG', 'I18n', 'Names', 'Settings', 'Audio', 'Input', 'Btn', 'Nav', 'Pad', 'TouchPad',
-                'Sprites', 'Camera', 'Types', 'MUSIC', 'SPRITE_META', 'UI', 'TitleUI', 'Game'];
+                'Sprites', 'Camera', 'Types', 'MUSIC', 'SPRITE_META', 'UI', 'TitleUI', 'Game',
+                // M1: game data
+                'SPECIES', 'MOVES', 'TMS', 'ITEMS', 'ITEM_FX', 'GROWTH', 'NATURES', 'NAMES', 'ENCOUNTERS', 'DEX_TEXT'];
   function broken() {
     // (In the published build G is not on window: see tools/build.js.)
     const miss = NEED.filter(k => typeof G !== 'object' || !G[k]);

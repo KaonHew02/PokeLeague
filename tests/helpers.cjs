@@ -29,6 +29,34 @@ function fakeStorage(init = {}) {
 
 /** The core files every test needs, in dev.html order. */
 const CORE = ['js/core/locales.js', 'js/core/util.js', 'js/core/rng.js', 'js/core/i18n.js', 'js/core/names.js'];
+/** Game data and the battle engine (also what tools/sim_battle.js loads). */
+const DATA = ['js/data/types.js', 'js/data/species.js', 'js/data/moves.js', 'js/data/items.js', 'js/data/growth.js',
+              'js/data/names.js', 'js/data/natures.js', 'js/data/item-effects.js'];
+const BATTLE = ['js/battle/stats.js', 'js/battle/mon.js', 'js/battle/damage.js', 'js/battle/effects.js', 'js/battle/moves-special.js',
+                'js/battle/ai.js', 'js/battle/capture.js', 'js/battle/exp.js', 'js/battle/evolution.js', 'js/battle/items.js',
+                'js/battle/battle.js', 'js/battle/text.js'];
+
+/** The whole battle engine with real data: G. opts as boot() (lang, dictionaries). */
+const battleBoot = (opts = {}) => boot(CORE.concat(DATA, BATTLE), opts).G;
+
+/**
+ * A one-on-one battle with chosen moves: duel(G, { me: ['charmander', 5, ['ember']], foe: ['bulbasaur', 5, ['splash']] })
+ * Species by slug or dex number; extra: { seed, kind, trainer, bag, mine: [...more], foes: [...more] }.
+ */
+function duel(G, o) {
+  const rng = G.RNG(o.monSeed || 99);
+  const mk = ([sp, lvl, moves, extra]) => {
+    const id = typeof sp === 'number' ? sp : +Object.keys(G.SPECIES).find(d => G.SPECIES[d].slug === sp);
+    return Object.assign(G.Mon.create(id, lvl, { rng, moves, nature: 'hardy', ivs: [15, 15, 15, 15, 15, 15] }), extra);
+  };
+  const party = [o.me].concat(o.mine || []).map(mk);
+  const foes = [o.foe].concat(o.foes || []).map(mk);
+  const trainer = o.trainer || (o.kind === 'trainer' ? { id: 't', name: 'T', ai: 'basic', prize: 20 } : null);
+  const b = G.Battle.create({ kind: trainer ? 'trainer' : 'wild', seed: o.seed == null ? 1 : o.seed,
+                              player: { name: 'Red', party, bag: o.bag || {} }, foe: { party: foes, trainer }, rules: o.rules });
+  const events = b.start();
+  return { b, party, foes, events };
+}
 
 function boot(files, opts = {}) {
   const lang = opts.lang || 'en';
@@ -52,4 +80,4 @@ function boot(files, opts = {}) {
   return ctx;
 }
 
-module.exports = { ROOT, source, plain, fakeStorage, boot, CORE };
+module.exports = { ROOT, source, plain, fakeStorage, boot, CORE, DATA, BATTLE, battleBoot, duel };

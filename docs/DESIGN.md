@@ -141,9 +141,33 @@ does and its shop price (sell = half). The full key list is in the file's header
 `tests/data.test.cjs` checks all of this, including the growth tables and the slice's
 encounter areas.
 
-## 3. Battle engine: `js/battle/` (M2)
+## 3. Battle engine: `js/battle/` (M2 ✅)
 
-It is pure and deterministic, runs in node, and never touches the DOM.
+It is pure and deterministic, runs in node, and never touches the DOM. **Built** — what exists:
+
+| File | Module | What it does |
+|---|---|---|
+| stats.js | `G.Stats` | `calc(base, lvl, ivs, evs, nature)`, `expAt`, `levelFor`, `stage(s)`, `accStage(s)` |
+| mon.js | `G.Mon` | `create(sp, lvl, {rng, moves, nature, ivs, shinyOdds, ot, ball, met})`, `stats`, `maxHp`, `types`, `name`, `heal`, `recalc`, `learn(mon, id, slot)`, `knows`, `ppMax`, `defaultMoves`, `movesAt` |
+| damage.js | `G.Damage` | `calc({lvl, pow, atk, def, stab, eff, crit, roll, burn, screen, weather})` |
+| effects.js | `G.BattleFx` | `useMove(b, user, target, id, {locked, called})`: the generic interpreter |
+| moves-special.js | `G.SpecialMoves` | per-move hooks (see the top of effects.js); `FALLBACK` = deliberately simplified moves |
+| items.js | `G.BattleItems` | `canUse`, `use`: potions, status heals, revives, Ethers, X items, Dire Hit, Guard Spec. |
+| ai.js | `G.BattleAI` | `choose(b, side)`: `random` (wild), `basic` (trainers), `leader` (heals when low) |
+| capture.js | `G.Capture` | `roll({max, hp, rate, ball, status, rng})`, `chance(...)` |
+| exp.js | `G.Exp` | `gain`, `addEvs`, `prize(base, lastLevel)`, `blackoutLoss(money)` |
+| evolution.js | `G.Evolution` | `candidates(mon, {trigger, item})`, `evolve(mon, to)` → moves to learn now |
+| battle.js | `G.Battle` | the turn engine below |
+| text.js | `G.BattleText` | `line(event, battle)` → translated text or null; `who`, `trainerName` |
+
+`tools/sim_battle.js` plays a battle in the terminal. Two-turn moves, recharging and
+rampage turns need no input: one `act()` plays them through. When a trainer's Pokémon faints
+and `rules.shift` is on, the player gets a `shift` prompt (switch or `-1`). A caught Pokémon
+is pushed to the party (or `result.toBox` when it is full, with `result.mon`). Nicknames
+and the PC are the UI's job after the battle. Exact event fields are in battle.js / effects.js;
+every event type has a line (or a deliberate null) in text.js, checked in all languages.
+
+What follows is the original spec, still accurate in its rules.
 
 **Mon instance** (a plain object, saved as it is):
 ```js
@@ -422,7 +446,7 @@ small separate edit.
 |---|---|---|
 | M0 ✅ | core/, ui/ui.js, ui/title-ui.js, ui/options-ui.js (settings), game.js, main.js, tools/build*, tests/helpers + core/i18n/lint, css/base.css, the settings part of css/menus.css | title in 7 languages, settings, tests pass, build works |
 | M1 ✅ | tools/fetch_data.py, js/data/{species,moves,items,growth,names,encounters,dex-text,natures,item-effects}.js, tests/data.test.cjs | `G.SPECIES[1]` etc. in the console; data tests pass |
-| M2 | js/battle/*, tools/sim_battle.js, tests/{stats,damage,effects,capture,exp,evolution,battle}.test.cjs (tests/fixtures/ for mini data until M1 lands) | `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1` prints a battle |
+| M2 ✅ | js/battle/* (incl. items.js, text.js), tools/sim_battle.js, js/i18n/<lang>/battle.js, tests/{stats,damage,effects,capture,exp,evolution,battle}.test.cjs | `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1` prints a battle |
 | M3 | js/world/*, js/script/*, js/ui/dialog.js, js/debug.js, css/world.css, tools/map_check.js, tests/maps.test.cjs, a sandbox map | walk, doors, ledges, signs, connections, talk to NPCs |
 | M4 | js/ui/{battle-ui,battle-fx,learn-ui,evolve-ui}.js, css/battle.css | `dev.html?debug&wild=pidgey:3` is playable |
 | M5 | js/core/store.js, js/ui/{name-ui,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui}.js, css/menus.css (append; settings styles exist), tests/save.test.cjs | the full menu flow, slots, export and import; the start menu has Settings (G.OptionsUI.open) |

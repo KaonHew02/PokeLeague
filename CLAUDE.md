@@ -13,6 +13,8 @@ the map format and which files each milestone owns.
 - `node tools/build_langs.js` after changing any translation (dev.html loads the generated `js/lang/*.js`).
 - `node --test tests/*.test.cjs` — everything must pass.
 - `node tools/build.js` — writes `index.html`, `js/app.min.js`, `css/app.css`, `js/lang/*.js`, `version.json`.
+- `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1 [--trainer] [--lang zh-Hans]` — a battle in the terminal.
+- `python tools/fetch_data.py --region kanto [--offline]` — regenerates js/data/ from PokeAPI (cached).
 - Run: `python -m http.server 8130` → http://localhost:8130/dev.html (PokéGo uses 8123).
   `.claude/launch.json` has it as the `pokeleague` preview server.
 

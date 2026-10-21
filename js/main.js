@@ -5,7 +5,10 @@
   const NEED = ['U', 'RNG', 'I18n', 'Names', 'Settings', 'Audio', 'Input', 'Btn', 'Nav', 'Pad',
                 'Sprites', 'Camera', 'Types', 'MUSIC', 'SPRITE_META', 'UI', 'TitleUI', 'OptionsUI', 'Game',
                 // M1: game data
-                'SPECIES', 'MOVES', 'TMS', 'ITEMS', 'ITEM_FX', 'GROWTH', 'NATURES', 'NAMES', 'ENCOUNTERS', 'DEX_TEXT'];
+                'SPECIES', 'MOVES', 'TMS', 'ITEMS', 'ITEM_FX', 'GROWTH', 'NATURES', 'NAMES', 'ENCOUNTERS', 'DEX_TEXT',
+                // M2: battle engine
+                'Stats', 'Mon', 'Damage', 'BattleFx', 'SpecialMoves', 'BattleAI', 'Capture', 'Exp', 'Evolution', 'BattleItems',
+                'Battle', 'BattleText'];
   function broken() {
     // (In the published build G is not on window: see tools/build.js.)
     const miss = NEED.filter(k => typeof G !== 'object' || !G[k]);

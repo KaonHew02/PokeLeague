@@ -1,0 +1,28 @@
+/* Spanish — kanto-forest: Viridian Forest and the north half of Route 2 (js/content/kanto/forest.js). */
+G.I18n.add({
+  "I'm hoping to catch a Pikachu. They're really rare in here!": "Quiero atrapar un Pikachu. ¡Aquí son muy raros!",
+  "Doug": "Doug",
+  "Hey, wait up! I just caught some great bugs. Let me show you!": "¡Eh, espera! Acabo de atrapar unos bichos geniales. ¡Mira!",
+  "Huh? I ran out of Pokémon!": "¿Eh? ¡Me he quedado sin Pokémon!",
+  "Kakuna can't do much yet, but one day it'll be a Beedrill!": "Kakuna aún no hace gran cosa, ¡pero un día será un Beedrill!",
+  "Rick": "Rick",
+  "Whoa, a Trainer! Let's see what your Pokémon can do!": "¡Anda, un Entrenador! ¡A ver qué saben hacer tus Pokémon!",
+  "No way! My bugs got beaten!": "¡No puede ser! ¡Han vencido a mis bichos!",
+  "Bug Pokémon grow up fast. Mine will be stronger next time!": "Los Pokémon bicho crecen rápido. ¡La próxima vez los míos serán más fuertes!",
+  "Anthony": "Anthony",
+  "I've been raising my Caterpie for ages. Battle me!": "Llevo siglos criando a mis Caterpie. ¡Lucha conmigo!",
+  "My Caterpie! Noooo...": "¡Mis Caterpie! Nooo...",
+  "Caterpie becomes Metapod, then Butterfree. I can't wait!": "Caterpie evoluciona a Metapod y luego a Butterfree. ¡Qué ganas!",
+  "Charlie": "Charlie",
+  "Metapod only knows Harden... but it's really tough! Let's battle!": "Metapod solo sabe Fortaleza... ¡pero es durísimo! ¡A luchar!",
+  "Even Harden wasn't enough...": "Ni siquiera Fortaleza ha bastado...",
+  "Metapod is like a shell. It's quietly waiting to evolve.": "Metapod es como un caparazón. Espera en silencio para evolucionar.",
+  "Sammy": "Sammy",
+  "This forest is my training ground! You won't get past me!": "¡Este bosque es mi campo de entrenamiento! ¡No pasarás!",
+  "I lost to a beginner?!": "¿¡He perdido contra un principiante!?",
+  "Pewter City is just past the forest. Its Gym uses Rock-type Pokémon.": "Ciudad Plateada está pasado el bosque. Su Gimnasio usa Pokémon de tipo Roca.",
+  "Made it through the forest? Nice! Pewter City's Gym Leader is said to be as hard as a rock.": "¿Has cruzado el bosque? ¡Bien! Dicen que el Líder de Ciudad Plateada es duro como una roca.",
+  "Viridian Forest. Wild Bug Pokémon everywhere, and Bug Catchers too!": "Bosque Verde. ¡Pokémon bicho salvajes por todas partes, y Cazabichos también!",
+  "Leaving Viridian Forest. Pewter City lies to the north.": "Salida del Bosque Verde. Ciudad Plateada está al norte.",
+  "Route 2. North: Pewter City. South: Viridian Forest.": "Ruta 2. Norte: Ciudad Plateada. Sur: Bosque Verde."
+}, "es");

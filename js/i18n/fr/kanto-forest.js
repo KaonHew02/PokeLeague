@@ -1,0 +1,28 @@
+/* French — kanto-forest: Viridian Forest and the north half of Route 2 (js/content/kanto/forest.js). */
+G.I18n.add({
+  "I'm hoping to catch a Pikachu. They're really rare in here!": "J'espère attraper un Pikachu. Ils sont très rares ici !",
+  "Doug": "Doug",
+  "Hey, wait up! I just caught some great bugs. Let me show you!": "Hé, attends ! Je viens d'attraper des insectes géniaux. Regarde !",
+  "Huh? I ran out of Pokémon!": "Hein ? Je n'ai plus de Pokémon !",
+  "Kakuna can't do much yet, but one day it'll be a Beedrill!": "Coconfort ne fait pas grand-chose pour l'instant, mais un jour ce sera un Dardargnan !",
+  "Rick": "Rick",
+  "Whoa, a Trainer! Let's see what your Pokémon can do!": "Oh, un Dresseur ! Voyons ce que valent tes Pokémon !",
+  "No way! My bugs got beaten!": "C'est pas vrai ! Mes insectes ont perdu !",
+  "Bug Pokémon grow up fast. Mine will be stronger next time!": "Les Pokémon insectes grandissent vite. Les miens seront plus forts la prochaine fois !",
+  "Anthony": "Anthony",
+  "I've been raising my Caterpie for ages. Battle me!": "Ça fait une éternité que j'élève mes Chenipan. Affronte-moi !",
+  "My Caterpie! Noooo...": "Mes Chenipan ! Noooon...",
+  "Caterpie becomes Metapod, then Butterfree. I can't wait!": "Chenipan devient Chrysacier, puis Papilusion. J'ai hâte !",
+  "Charlie": "Charlie",
+  "Metapod only knows Harden... but it's really tough! Let's battle!": "Chrysacier ne connaît qu'Armure... mais il est super solide ! Combattons !",
+  "Even Harden wasn't enough...": "Même Armure n'a pas suffi...",
+  "Metapod is like a shell. It's quietly waiting to evolve.": "Chrysacier est comme une coquille. Il attend tranquillement d'évoluer.",
+  "Sammy": "Sammy",
+  "This forest is my training ground! You won't get past me!": "Cette forêt, c'est mon terrain d'entraînement ! Tu ne passeras pas !",
+  "I lost to a beginner?!": "J'ai perdu contre un débutant ?!",
+  "Pewter City is just past the forest. Its Gym uses Rock-type Pokémon.": "Argenta est juste après la forêt. Son Arène utilise des Pokémon de type Roche.",
+  "Made it through the forest? Nice! Pewter City's Gym Leader is said to be as hard as a rock.": "Tu as traversé la forêt ? Bravo ! On dit que le Champion d'Argenta est dur comme la pierre.",
+  "Viridian Forest. Wild Bug Pokémon everywhere, and Bug Catchers too!": "Forêt de Jade. Des Pokémon insectes partout, et des Scouts aussi !",
+  "Leaving Viridian Forest. Pewter City lies to the north.": "Sortie de la Forêt de Jade. Argenta se trouve au nord.",
+  "Route 2. North: Pewter City. South: Viridian Forest.": "Route 2. Nord : Argenta. Sud : Forêt de Jade."
+}, "fr");

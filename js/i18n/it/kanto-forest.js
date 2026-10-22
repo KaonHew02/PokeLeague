@@ -1,0 +1,28 @@
+/* Italian — kanto-forest: Viridian Forest and the north half of Route 2 (js/content/kanto/forest.js). */
+G.I18n.add({
+  "I'm hoping to catch a Pikachu. They're really rare in here!": "Spero di catturare un Pikachu. Qui sono rarissimi!",
+  "Doug": "Doug",
+  "Hey, wait up! I just caught some great bugs. Let me show you!": "Ehi, aspetta! Ho appena catturato degli insetti fantastici. Guarda!",
+  "Huh? I ran out of Pokémon!": "Eh? Ho finito i Pokémon!",
+  "Kakuna can't do much yet, but one day it'll be a Beedrill!": "Kakuna per ora non fa molto, ma un giorno diventerà un Beedrill!",
+  "Rick": "Rick",
+  "Whoa, a Trainer! Let's see what your Pokémon can do!": "Ehi, un Allenatore! Vediamo cosa sanno fare i tuoi Pokémon!",
+  "No way! My bugs got beaten!": "Non ci credo! I miei insetti sono stati battuti!",
+  "Bug Pokémon grow up fast. Mine will be stronger next time!": "I Pokémon coleottero crescono in fretta. La prossima volta i miei saranno più forti!",
+  "Anthony": "Anthony",
+  "I've been raising my Caterpie for ages. Battle me!": "È un'eternità che allevo i miei Caterpie. Sfidami!",
+  "My Caterpie! Noooo...": "I miei Caterpie! Nooo...",
+  "Caterpie becomes Metapod, then Butterfree. I can't wait!": "Caterpie diventa Metapod, poi Butterfree. Non vedo l'ora!",
+  "Charlie": "Charlie",
+  "Metapod only knows Harden... but it's really tough! Let's battle!": "Metapod conosce solo Rafforzatore... ma è durissimo! Lottiamo!",
+  "Even Harden wasn't enough...": "Nemmeno Rafforzatore è bastato...",
+  "Metapod is like a shell. It's quietly waiting to evolve.": "Metapod è come un guscio. Aspetta in silenzio di evolversi.",
+  "Sammy": "Sammy",
+  "This forest is my training ground! You won't get past me!": "Questo bosco è il mio campo d'allenamento! Non passerai!",
+  "I lost to a beginner?!": "Ho perso contro un principiante?!",
+  "Pewter City is just past the forest. Its Gym uses Rock-type Pokémon.": "Plumbeopoli è appena oltre il bosco. La sua Palestra usa Pokémon di tipo Roccia.",
+  "Made it through the forest? Nice! Pewter City's Gym Leader is said to be as hard as a rock.": "Hai attraversato il bosco? Bravo! Dicono che il Capopalestra di Plumbeopoli sia duro come la roccia.",
+  "Viridian Forest. Wild Bug Pokémon everywhere, and Bug Catchers too!": "Bosco Smeraldo. Pokémon coleottero selvatici ovunque, e anche Pigliamosche!",
+  "Leaving Viridian Forest. Pewter City lies to the north.": "Uscita del Bosco Smeraldo. Plumbeopoli si trova a nord.",
+  "Route 2. North: Pewter City. South: Viridian Forest.": "Percorso 2. Nord: Plumbeopoli. Sud: Bosco Smeraldo."
+}, "it");

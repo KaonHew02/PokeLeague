@@ -1,6 +1,6 @@
 /* ============ battle-ui.js — the battle screen ============
  *   G.BattleUI.start({ kind: 'wild' | 'trainer', player: { name, id, party, bag }, foe: { party, trainer },
- *                      seed, bg: 'grass' | 'cave' | 'indoor', rules, music, returnMode, returnArg })
+ *                      seed, bg: 'grass' | 'forest' | 'cave' | 'indoor', rules, music, returnMode, returnArg })
  *     -> Promise<result>   (the engine's result; evolutions are already done)
  *
  * Canvas (mode 'battle'): background, two platforms, the foe facing you (row 7,
@@ -676,6 +676,7 @@ G.BattleUI = (() => {
   const BG = {
     grass:  { sky: ['#8ccbf3', '#d9f0ff'], ground: ['#98d080', '#6aa858'], pad: '#b8e098', rim: '#78a858' },
     cave:   { sky: ['#2c2638', '#4a4058'], ground: ['#6a5a48', '#4e4234'], pad: '#8a7860', rim: '#5a4a38' },
+    forest: { sky: ['#1e4428', '#3e7a40'], ground: ['#5a9a48', '#3e7a36'], pad: '#7ab860', rim: '#4a8a3c' },
     indoor: { sky: ['#e8e0d0', '#f4ecdc'], ground: ['#c8b8a0', '#b0a088'], pad: '#ddd0b8', rim: '#a09078' }
   };
 

@@ -35,7 +35,7 @@ G.Maps.def({
     'T........,,........T',
     'TTTTTTTTT,,TTTTTTTTT'
   ],
-  connect: { south: { map: 'viridian', offset: -8 } },
+  connect: { south: { map: 'viridian', offset: -8 }, north: { map: 'viridian-forest', offset: -8 } },
   spots: { south: [9, 26, 'up'], north: [4, 1, 'down'] },
   signs: { '17,10': 'Route 2. North: Viridian Forest and Pewter City. South: Viridian City.' },
   npcs: [

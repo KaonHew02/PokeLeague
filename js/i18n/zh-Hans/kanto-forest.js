@@ -1,0 +1,28 @@
+/* Simplified Chinese — kanto-forest: Viridian Forest and the north half of Route 2 (js/content/kanto/forest.js). */
+G.I18n.add({
+  "I'm hoping to catch a Pikachu. They're really rare in here!": "我想抓一只皮卡丘。这里的皮卡丘可少见了！",
+  "Doug": "阿道",
+  "Hey, wait up! I just caught some great bugs. Let me show you!": "喂，等一下！我刚抓到了很棒的虫子。让你见识见识！",
+  "Huh? I ran out of Pokémon!": "咦？我的宝可梦都倒下了！",
+  "Kakuna can't do much yet, but one day it'll be a Beedrill!": "铁壳蛹现在还没什么本事，不过总有一天会变成大针蜂！",
+  "Rick": "阿力",
+  "Whoa, a Trainer! Let's see what your Pokémon can do!": "哇，是训练家！让我看看你的宝可梦有多厉害！",
+  "No way! My bugs got beaten!": "不会吧！我的虫子被打败了！",
+  "Bug Pokémon grow up fast. Mine will be stronger next time!": "虫系宝可梦长得很快。下次我的会更强！",
+  "Anthony": "安东尼",
+  "I've been raising my Caterpie for ages. Battle me!": "我养绿毛虫好久了。跟我对战吧！",
+  "My Caterpie! Noooo...": "我的绿毛虫！不——……",
+  "Caterpie becomes Metapod, then Butterfree. I can't wait!": "绿毛虫会进化成铁甲蛹，再变成巴大蝶。真期待！",
+  "Charlie": "查理",
+  "Metapod only knows Harden... but it's really tough! Let's battle!": "铁甲蛹只会变硬……但是它超级硬的！来对战吧！",
+  "Even Harden wasn't enough...": "连变硬都挡不住……",
+  "Metapod is like a shell. It's quietly waiting to evolve.": "铁甲蛹就像一层壳。它正静静地等待进化。",
+  "Sammy": "小萨",
+  "This forest is my training ground! You won't get past me!": "这片森林是我的修行场！你别想过去！",
+  "I lost to a beginner?!": "我居然输给了新手？！",
+  "Pewter City is just past the forest. Its Gym uses Rock-type Pokémon.": "穿过森林就是深灰市。那里的道馆用的是岩石属性的宝可梦。",
+  "Made it through the forest? Nice! Pewter City's Gym Leader is said to be as hard as a rock.": "你穿过森林了？厉害！听说深灰市的道馆馆主像岩石一样硬。",
+  "Viridian Forest. Wild Bug Pokémon everywhere, and Bug Catchers too!": "常青森林。到处都是野生的虫系宝可梦，还有捕虫少年！",
+  "Leaving Viridian Forest. Pewter City lies to the north.": "常青森林出口。往北是深灰市。",
+  "Route 2. North: Pewter City. South: Viridian Forest.": "2号道路。北：深灰市。南：常青森林。"
+}, "zh-Hans");

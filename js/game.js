@@ -92,9 +92,12 @@ G.Game = (() => {
 
   function frame(ts) {
     const real = (ts - last) / 1000 || 0;
-    const dt = Math.min(1 / 30, real);
     last = ts;
+    tick(Math.min(1 / 30, real));
+  }
 
+  /** One frame of the game with this time step. */
+  function tick(dt) {
     G.Pad.poll();
     G.Btn.update(dt);
     const ui = menuInput();
@@ -152,6 +155,9 @@ G.Game = (() => {
   })();
   define('title', Title);
 
-  return { init, define, setMode, view,
+  /** For tests and tools: run n frames of dt seconds right now (a hidden browser tab barely animates). */
+  function step(dt = 1 / 30, n = 1) { for (let i = 0; i < n; i++) tick(dt); }
+
+  return { init, define, setMode, view, step,
            get mode() { return modeName; }, get canvas() { return cv; }, get ctx() { return ctx; } };
 })();

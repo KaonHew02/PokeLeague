@@ -372,7 +372,24 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - Keys: F2 heal, F4 encounters on/off, F6 win, F7 next ball catches, F8 walk through
     walls, F9 print the save.
 
-## 5. UI (M4, M5)
+## 5. UI (M4 ✅ battle, M5 menus)
+
+**Battle screen (built):**
+- `G.BattleUI.start({ kind, player: { name, id, party, bag }, foe: { party, trainer }, seed, bg, rules, music,
+  returnMode, returnArg })` returns a Promise of the engine's result. Evolutions (with cancel)
+  and the moves the new forms learn are already done by then.
+- Shortcuts for the overworld: `G.BattleUI.wild(player, sp, lvl, opts)` and
+  `G.BattleUI.trainer(player, { id, name, title, ai, prize, items, leader, team: [[sp, lvl, moves?]] }, opts)`.
+- Music: `opts.music`, else `G.Audio.context('wild' | 'trainer' | 'gym')` when M7 provides it,
+  else volcano / boss / rift. `trainer.leader` marks gym leaders.
+- `G.EvolveUI.run(mon, to)` returns `Promise<boolean>` and sets mode 'evolve'; the caller restores
+  its own mode. `G.LearnUI.teach(mon, move, say)` and `chooseForget(mon, move)` work outside battle.
+  `G.BattleUI.TextBox(el)` is a reusable typewriter box.
+- Not done yet: nicknaming a caught Pokémon, sending it to the PC when the party is full
+  (`result.toBox`, `result.mon`: M5), and trainer sprites in the intro (`people.js` from M3).
+- Debug: `dev.html?debug&wild=sp:lvl[,sp:lvl]` or `&vs=...` (trainer), plus `&party=`,
+  `&items=`, `&seed=`, `&leader`, `&bg=cave`.
+
 
 - **Canvas:** the overworld, the battle scene (foe at dir 7 on the top-right platform,
   yours at dir 3 bottom-left), the evolution scene.
@@ -448,7 +465,7 @@ small separate edit.
 | M1 ✅ | tools/fetch_data.py, js/data/{species,moves,items,growth,names,encounters,dex-text,natures,item-effects}.js, tests/data.test.cjs | `G.SPECIES[1]` etc. in the console; data tests pass |
 | M2 ✅ | js/battle/* (incl. items.js, text.js), tools/sim_battle.js, js/i18n/<lang>/battle.js, tests/{stats,damage,effects,capture,exp,evolution,battle}.test.cjs | `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1` prints a battle |
 | M3 | js/world/*, js/script/*, js/ui/dialog.js, js/debug.js, css/world.css, tools/map_check.js, tests/maps.test.cjs, a sandbox map | walk, doors, ledges, signs, connections, talk to NPCs |
-| M4 | js/ui/{battle-ui,battle-fx,learn-ui,evolve-ui}.js, css/battle.css | `dev.html?debug&wild=pidgey:3` is playable |
+| M4 ✅ | js/ui/{battle-ui,battle-fx,learn-ui,evolve-ui}.js, css/battle.css, js/i18n/<lang>/battle-ui.js, tools/serve.py | `dev.html?debug&wild=pidgey:3` is playable |
 | M5 | js/core/store.js, js/ui/{name-ui,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui}.js, css/menus.css (append; settings styles exist), tests/save.test.cjs | the full menu flow, slots, export and import; the start menu has Settings (G.OptionsUI.open) |
 | M6a–d | js/content/kanto/<area>.js, js/data/trainer-classes.js, js/i18n/<lang>/kanto-<area>.js | each area plays via `?debug&map=…` |
 | M7 | js/core/audio.js (jingles, cries), js/data/music.js, js/data/music-map.js | jingles on heal and level up |

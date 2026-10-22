@@ -198,7 +198,95 @@ input { font: inherit; }
 /* ============ world.css ============ */
 
 /* css/battle.css */
-/* ============ battle.css ============ */
+/* ============ battle.css — battle HUD, text box and menus (battle-ui.js) ============
+ * Everything sits in #frame over the battle canvas; 1em follows the frame width.
+ * Layout (fractions of the frame): foe box top-left, your box right above the
+ * text box, the text box along the bottom, menus on the right of the text box.
+ */
+.scr.battle-scr { padding: 0; display: block; pointer-events: none; animation: none; }
+.battle-scr > * { pointer-events: auto; }
+
+/* ---------- Pokémon boxes ---------- */
+.bt-box {
+  position: absolute; width: 44%;
+  padding: .35em .6em .4em; border-radius: .5em;
+  background: linear-gradient(180deg, #f8f6e8, #e2dcc4);
+  border: .14em solid #3a3428; box-shadow: .18em .18em 0 rgba(0,0,0,.35);
+  color: #2a2620; text-shadow: none; font-size: .78em;
+  transition: opacity .25s, transform .25s;
+}
+.bt-box.out { opacity: 0; transform: translateX(-.8em); }
+.bt-foe { left: 3%; top: 5%; }
+.bt-me { right: 3%; top: 49%; }
+.bt-me.out { transform: translateX(.8em); }
+.bt-name { display: flex; align-items: baseline; gap: .35em; font-weight: 700; }
+.bt-name .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bt-name .g-m { color: #3a6ee8; } .bt-name .g-f { color: #e0507a; }
+.bt-name .lv { font-size: .9em; }
+.bt-name .caught { width: .8em; height: .8em; border-radius: 50%; background: linear-gradient(#e33 50%, #fff 50%); border: .08em solid #333; align-self: center; }
+.bt-row { display: flex; align-items: center; gap: .35em; margin-top: .2em; }
+.bt-row .lbl { font-size: .7em; font-weight: 700; color: #e8a000; background: #3a3428; padding: 0 .3em; border-radius: .2em; }
+.bt-bar { flex: 1; height: .5em; background: #3a3428; border-radius: .3em; padding: .08em; }
+.bt-bar i { display: block; height: 100%; border-radius: .25em; background: #3ec85a; width: 100%; }
+.bt-bar i.mid { background: #f0c020; } .bt-bar i.low { background: #f04030; }
+.bt-hpnum { text-align: right; font-size: .85em; font-weight: 700; margin-top: .05em; }
+.bt-exp { height: .28em; background: #3a3428; border-radius: .2em; margin-top: .2em; overflow: hidden; }
+.bt-exp i { display: block; height: 100%; width: 0; background: #48a8f0; }
+.bt-status { font-size: .65em; font-weight: 700; color: #fff; padding: 0 .3em; border-radius: .2em; }
+.st-par { background: #c8a000; } .st-slp { background: #8c8c8c; } .st-psn, .st-tox { background: #9a40b8; }
+.st-brn { background: #e05828; } .st-frz { background: #48a8d8; }
+
+/* ---------- text box and menus ---------- */
+.bt-text {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 27%;
+  padding: .5em .8em; box-sizing: border-box;
+  background: linear-gradient(180deg, #2c519f, #1a3170); border-top: .19em solid var(--edge);
+  box-shadow: inset 0 0 0 .12em var(--edge-in);
+  font-size: .95em; line-height: 1.3; text-shadow: .1em .1em 0 var(--shadow);
+  cursor: pointer;
+}
+.bt-text .more { position: absolute; right: .8em; bottom: .4em; width: 0; height: 0;
+  border: .35em solid transparent; border-top-color: #fff; border-bottom: 0; animation: bt-blink .6s steps(2) infinite; }
+@keyframes bt-blink { 50% { opacity: 0; } }
+.bt-menu {
+  position: absolute; right: 0; bottom: 0; height: 27%; width: 46%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: .2em; padding: .35em;
+  background: #f8f6e8; border: .19em solid #3a3428; border-bottom: 0; border-right: 0; border-radius: .5em 0 0 0;
+}
+.bt-menu .menu-item, .bt-moves .menu-item { color: #2a2620; text-shadow: none; font-size: .9em; padding: .1em .3em .1em 1.2em; }
+.bt-menu .menu-item::before, .bt-moves .menu-item::before { background: #2a2620; box-shadow: none; }
+.bt-menu .menu-item.pad-focus, .bt-menu .menu-item:hover,
+.bt-moves .menu-item.pad-focus, .bt-moves .menu-item:hover { background: rgba(0,0,0,.08); }
+.bt-moves {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 27%;
+  display: grid; grid-template-columns: 1fr 1fr 34%; grid-template-rows: 1fr 1fr; gap: .15em .3em; padding: .3em .5em;
+  background: #f8f6e8; border-top: .19em solid #3a3428; color: #2a2620;
+}
+.bt-moves .menu-item { border-left: .3em solid var(--t, #999); border-radius: .2em; }
+.bt-moves .menu-item:disabled { opacity: .4; }
+.bt-moves .info { grid-column: 3; grid-row: 1 / span 2; display: flex; flex-direction: column; justify-content: center;
+  border-left: .12em solid #c8c0a4; padding-left: .5em; font-size: .8em; font-weight: 700; gap: .2em; }
+.bt-moves .info .tp { color: #fff; padding: 0 .4em; border-radius: .25em; align-self: flex-start; }
+.bt-back { position: absolute; right: .4em; top: .4em; }
+
+/* lists over the scene: bag, party, forget-a-move */
+.bt-list { position: absolute; right: 3%; top: 5%; bottom: 30%; width: 56%; display: flex; flex-direction: column;
+  padding: .45em .55em; font-size: .85em; }
+.bt-list h4 { margin: 0 0 .3em; font-size: .95em; }
+.bt-list .menu-list { overflow: auto; flex: 1; }
+.bt-list .menu-item { font-size: .95em; display: flex; gap: .5em; align-items: center; }
+.bt-list .menu-item .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bt-list .menu-item .meta { font-size: .8em; color: var(--muted); font-weight: 400; }
+.bt-list .menu-item .mini { width: 3.2em; height: .35em; background: #0b1838; border-radius: .2em; overflow: hidden; }
+.bt-list .menu-item .mini i { display: block; height: 100%; background: #3ec85a; }
+.bt-list .menu-item .mini i.mid { background: #f0c020; } .bt-list .menu-item .mini i.low { background: #f04030; }
+.bt-list .menu-item.fainted { opacity: .55; }
+.bt-yesno { position: absolute; right: 3%; bottom: 30%; width: 22%; padding: .4em .5em; }
+
+/* ---------- evolution text box ---------- */
+.evo-text { position: absolute; left: 0; right: 0; bottom: 0; height: 22%; padding: .5em .8em;
+  background: linear-gradient(180deg, #2c519f, #1a3170); border-top: .19em solid var(--edge);
+  font-size: .95em; text-shadow: .1em .1em 0 var(--shadow); z-index: 60; }
 
 /* css/menus.css */
 /* ============ menus.css — menu screens ============ */

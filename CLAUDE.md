@@ -15,8 +15,12 @@ the map format and which files each milestone owns.
 - `node tools/build.js` — writes `index.html`, `js/app.min.js`, `css/app.css`, `js/lang/*.js`, `version.json`.
 - `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1 [--trainer] [--lang zh-Hans]` — a battle in the terminal.
 - `python tools/fetch_data.py --region kanto [--offline]` — regenerates js/data/ from PokeAPI (cached).
-- Run: `python -m http.server 8130` → http://localhost:8130/dev.html (PokéGo uses 8123).
-  `.claude/launch.json` has it as the `pokeleague` preview server.
+- Run: `python tools/serve.py` → http://localhost:8130/dev.html (PokéGo uses 8123). It is
+  `http.server` with no-cache headers, so edited scripts are never stale. `.claude/launch.json`
+  has it as the `pokeleague` preview server.
+- A battle in the browser: http://localhost:8130/dev.html?debug&wild=pidgey:3&party=charmander:8
+  (or `&vs=geodude:12,onix:14` for a trainer). In a hidden browser pane animation barely runs:
+  drive it with `G.Game.step(1/30, n)` from the console or a test script.
 
 ## Conventions
 - English is the source language: comments, identifiers and dictionary keys.

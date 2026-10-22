@@ -38,7 +38,8 @@ fs.mkdirSync(path.dirname(tmp), { recursive: true });
 fs.writeFileSync(tmp, joined);
 const outJs = path.join(ROOT, 'js', 'app.min.js');
 const npx = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-execFileSync(npx, ['--yes', 'terser@5', tmp, '--compress', 'passes=1', '--mangle', '--comments', 'false', '--ecma', '2020', '-o', outJs],
+// --prefer-offline: use terser from the npm cache when it is there (a slow network made npx hang).
+execFileSync(npx, ['--yes', '--prefer-offline', 'terser@5', tmp, '--compress', 'passes=1', '--mangle', '--comments', 'false', '--ecma', '2020', '-o', outJs],
   { stdio: 'inherit', shell: process.platform === 'win32' });
 const min = fs.readFileSync(outJs);
 

@@ -539,6 +539,8 @@ G.World = (() => {
         G.Field.markDone(t.key);
         // The battle screen does not show the trainer's last words: they come after it.
         if (!api.onTrainer && t.def.defeat) await say(t.def.defeat, { name: trainerName(t.def) });
+        // A gym leader's badge and TM: the trainer's `win` script.
+        if (t.def.win) await runScript(t.def.win, { self: t });
       }
     } finally { locks--; }
   }

@@ -352,7 +352,13 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
 - **M6c** `forest.js`: `viridian-forest` (a maze: in at the bottom from Route 2, out at the top;
   battle background `forest`), five Bug Catchers (Doug, Rick, Anthony, Charlie, Sammy), item balls
   and a hidden Potion; `route2-north` (no wild Pokémon, as in the games) leads to Pewter City.
-- **Engine additions:** a locked door is a warp `{ x, y, locked: script }` (no `to`), or with
+- **M6d** `pewter.js`: `pewter` (south from Route 2; the road east to Route 3 is closed by a
+  worker for now), `pewter-gym` (Camper Liam; Leader Brock: Geodude 12, Onix 14 with Rock Tomb,
+  one Potion; prize ₽1400), `pewter-museum`, two houses, `pewter-center`, `pewter-mart`.
+  Brock's `win` script gives badge 1 and TM39. `tests/kanto.test.cjs` checks that every map is
+  reachable from `player-2f`, the order of the way north, Brock, and that waited-for flags are set.
+- **Engine additions:** a trainer's `win` script runs after a won battle (after the `defeat`
+  line), for badges and gifts. A locked door is a warp `{ x, y, locked: script }` (no `to`), or with
   `to` and `if: cond`: walking into it runs `locked` instead of entering. `G.Maps.center(id,
   { npcs })` and `G.Maps.mart(id, { npcs, clerk })` take extra people and the clerk's own
   script. An item with a `script` runs it instead of being picked up and may lie
@@ -612,7 +618,7 @@ small separate edit.
 | M3 ✅ | js/world/*, js/script/*, js/ui/dialog.js, js/debug.js, css/world.css, tools/map_check.js, tests/maps.test.cjs, js/content/sandbox.js, js/i18n/<lang>/world.js | walk, doors, ledges, signs, connections, talk to NPCs |
 | M4 ✅ | js/ui/{battle-ui,battle-fx,learn-ui,evolve-ui}.js, css/battle.css, js/i18n/<lang>/battle-ui.js, tools/serve.py | `dev.html?debug&wild=pidgey:3` is playable |
 | M5 ✅ | js/core/store.js, js/world/field-items.js, js/ui/{popup,name-ui,slots-ui,new-game,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui}.js, css/menus.css (append), js/i18n/<lang>/menus.js, tests/save.test.cjs | the full menu flow, slots, export and import; the start menu has Settings (G.OptionsUI.open) |
-| M6a ✅ M6b ✅ M6c ✅ M6d | js/content/kanto/<area>.js, js/data/trainer-classes.js, js/i18n/<lang>/kanto-<area>.js | each area plays via `?debug&map=…` |
+| M6 ✅ (a–d) | js/content/kanto/<area>.js, js/data/trainer-classes.js, js/i18n/<lang>/kanto-<area>.js | each area plays via `?debug&map=…` |
 | M7 | js/core/audio.js (jingles, cries), js/data/music.js, js/data/music-map.js | jingles on heal and level up |
 | M8 | integration, js/ui/credits-ui.js, tests/story.test.cjs | Pallet Town to the Boulder Badge |
 

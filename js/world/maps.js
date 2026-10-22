@@ -324,6 +324,8 @@ G.Maps = (() => {
       person(t, 'trainer');
       if (!(t.sight >= 0 && t.sight <= 8)) E.push(`trainer "${t.id}": sight must be 0..8`);
       if (!t.dir) E.push(`trainer "${t.id}" needs a dir to look along`);
+      if (t.win) scriptRef(t.win, `trainer "${t.id}" win`);
+      if (t.afterScript) scriptRef(t.afterScript, `trainer "${t.id}" afterScript`);
       if (!Array.isArray(t.team) || !t.team.length) E.push(`trainer "${t.id}" has no team`);
       else for (const mon of t.team) {
         if (!Array.isArray(mon) || species(mon[0]) == null) E.push(`trainer "${t.id}": unknown Pokémon ${JSON.stringify(mon)}`);

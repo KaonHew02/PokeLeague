@@ -84,6 +84,9 @@ G.Nav = (() => {
   function step(dir) {
     const [dx, dy] = { right: [1, 0], left: [-1, 0], down: [0, 1], up: [0, -1] }[dir];
     if (slide(dir)) return;
+    // A screen may take a direction itself (an amount, a page): screen.onNavStep(dir, focused) -> true.
+    const top = topScreen();
+    if (top && typeof top.onNavStep === 'function' && top.onNavStep(dir, focus)) return;
     const list = candidates();
     if (!list.length) { hide(); return; }
     if (!valid()) { setFocus(firstOf(list, topScreen())); G.Audio.sfx('select'); return; }

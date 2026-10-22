@@ -39,19 +39,19 @@ in the same change.
 | `G.U` (util.js) | `clamp, int, str, list, lerp, rand, randInt, pick, dist, norm, damp, hash, hms, esc, TYPE_COLOR` |
 | `G.RNG(seed)` | `next, int(a,b), chance(p), pct(n), pick(list), u16(), state`; `G.RNG.seed()` makes a fresh seed |
 | `G.I18n` | `lang, locale, choices, add(dict, lang, ctx), t(s, ctx), fmt(key, vars, ctx), has, num(n), font(size, weight), set(lang), walk(el)`; `G.T` is `t` |
-| `G.Names` | `mon(id), move(id), item(id), type(id), loc(id), nature(id), genus(id), stat(id), pretty(id)`. Reads `G.NAMES` (M1); falls back to English, then to a readable id |
+| `G.Names` | `mon(id), move(id), item(id), type(id), loc(id), nature(id), genus(id), stat(id), pretty(id)`. Reads `G.NAMES` (M1); falls back to English, then to a readable id. `desc('mon' \| 'move' \| 'item', id)` = the Pokédex entry or description (`G.DEX_TEXT`) |
 | `G.Settings` | `get, set, on(fn), all, touch` (touch = phone or tablet). Keys: textSpeed (slow/mid/fast), battleAnim, battleStyle (shift/set), follower, gamepad, padRumble, calm |
 | `G.Audio` | `music(name), sfx(name), setVolume, toggleMute, unlock, canPlay`, plus `_internals` for jingles (M7). Unknown SFX names are ignored |
 | `G.Input` | raw keys and pointer: `held(code), tap(code), virtual(code), mouse(), clicks(), endFrame()`. Pointer buttons are codes `mouseleft` / `mouseright`; `clicks()` = this frame's left clicks or taps on the canvas, `[{x, y, touch}]` in canvas CSS px |
 | `G.Btn` | logical buttons up/down/left/right/a/b/start/select: `held(b)` (`'run'` = B or Shift), `pressed(b)`, `repeat(b)`, `dir4()`, `any()`, `swallow()`, `set(source, b, on)`. Keys: WASD/arrows; A = Space, Enter, E, Z; B = X, Backspace, right click; Start = Esc, C |
-| `G.Nav` | spatial DOM menu navigation: `step(dir), press(), back(), focusFirst(el), hide(), topScreen()` |
+| `G.Nav` | spatial DOM menu navigation: `step(dir), press(), back(), focusFirst(el), hide(), topScreen(), focused`. A screen may take a direction itself: `screen.onNavStep(dir, focused)` returning true (amounts, pages, pockets) |
 | `G.Pad` | the controller; feeds `G.Btn`. There are **no on-screen buttons**: phones play by tapping (see section 4) |
 | `G.Sprites` | `PX=2, Animator(dex, scale, shiny)` with `.dir .loop(anim) .play(anim, {hold}) .update(dt) .draw(ctx, x, y, {flash, softFlash, alpha})`; also `preload(dexes)`, `drawShadow`, `bodyHeight`, `DIR4`, `hasShiny`. Rows: 0 Down … 3 UpRight … 7 DownLeft |
 | `G.Camera` | `VIEW_W=480, VIEW_H=320` (15×10 tiles of 32), `resize, snap(x,y), follow, kick, apply(ctx), left(), top(), sees()` |
 | `G.Types` | `LIST, CHART, eff(atkType, defTypes), label(m)` |
 | `G.UI` | `open(id, {onBack, focus}), close(id), closeAll(), isOpen, anyOpen, top, toast(msg), typeChips(types), sprite(cv, dex, opts), spriteCanvas(...)` |
 | `G.Game` | `define(name, {enter, exit, update(dt, {ui}), render(ctx, view, dt)}), setMode(name, arg), mode, view {w, h, dpr}, canvas` |
-| `G.TitleUI` | `open()`. It calls `G.NewGame.start()` and `G.NewGame.continue()` once something defines them (M5) |
+| `G.TitleUI` | `open()`. Continue and New game call `G.NewGame.continue()` / `.start()` (M5) |
 | `G.OptionsUI` | Settings like PokéGo's: `open(tab)` with tabs game (language, text speed, battle animations, battle style, follower), sound (music, effects, mute), controls (keyboard, mouse, phone, controller), display (full screen, less shaking); `close()`; `muteButton(el)` makes a quick mute toggle. The start menu (M5) opens it too |
 
 - **Frame:** `#frame` is a 3:2 box holding `<canvas id="game">` and every `.scr` screen.
@@ -294,8 +294,9 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
 
 - **Starting:** `G.World.start({ map, spot })` (or `{ map, x, y, dir }`) switches to the overworld.
   Returning from a battle: `G.Game.setMode('overworld')` with no argument resumes as it was.
-- **State until M5:** `G.Field` holds a save-shaped object (section 6): `save`, `bind(save)` (M5
-  calls it with the real save; until then a fake party with a Pikachu Lv. 5), `flag/setFlag/clearFlag`,
+- **State:** `G.Field.save` is the save itself (section 6). `G.Session.begin(slot, save)` binds the
+  real one with `bind(save)`; before that (debug URLs) a throwaway one is used, `fake` is true and
+  the world gives it a Pikachu Lv. 5. Also `flag/setFlag/clearFlag`,
   `getVar/setVar`, `isDone/markDone('map:id')`, `party`, `lead` (first Pokémon able to fight: the
   follower), `giveMon(sp, lvl)` (uses `G.Mon.create`; PC box when the party is full), `count`,
   `giveItem`, `takeItem`, `money(delta)`, `healAll`, `badge(n)`, `test(cond)`, `vars()`. The player's
@@ -323,8 +324,12 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
   `choice` is `['choice', text, [yes], [no], { options, name }]`. `dex('give')` sets the flag
   `has-pokedex`. The full list is at the top of script.js; `G.Script.check` validates arguments.
 - **Shop and PC:** the scripts call `G.ShopUI.open(stock)` and `G.PCUI.open()` (M5) and await
-  them; until they exist a "Coming soon" toast. The menu button and Start call `G.StartMenu.open()`
-  (M5), else the Settings.
+  them. The menu button and Start call `G.StartMenu.open()` (M5).
+- **Repel:** `save.repel` counts steps; while it is on, wild Pokémon below the lead's level stay
+  away; when it runs out the next quiet step says so. `G.Field.toBox(mon)` puts a Pokémon in the
+  first free slot from the current box on (healed, like the PC does) and returns the box or -1.
+- **Nicknames from scripts:** `['giveMon', sp, lvl, { nickname: true }]` asks "Give a nickname
+  to {mon}?" afterwards (the starter, gifts).
 - **Music:** a map's `music` is a context; the world plays `G.MUSIC_MAP[ctx]` (or `.get(ctx)`, M7),
   else a song of that name, else a built-in guess (town → village, route → forest...).
 - **Sounds used** (silent until M7 adds them): `bump`, `door`, `ledge`, `grass`, `exclaim`, `cry`, `pc`.
@@ -434,7 +439,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - Keys: F2 heal, F4 encounters on/off, F6 win, F7 next ball catches, F8 walk through
     walls, F9 print the save.
 
-## 5. UI (M4 ✅ battle, M5 menus)
+## 5. UI (M4 ✅ battle, M5 ✅ menus)
 
 **Battle screen (built):**
 - `G.BattleUI.start({ kind, player: { name, id, party, bag }, foe: { party, trainer }, seed, bg, rules, music,
@@ -447,8 +452,10 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
 - `G.EvolveUI.run(mon, to)` returns `Promise<boolean>` and sets mode 'evolve'; the caller restores
   its own mode. `G.LearnUI.teach(mon, move, say)` and `chooseForget(mon, move)` work outside battle.
   `G.BattleUI.TextBox(el)` is a reusable typewriter box.
-- Not done yet: nicknaming a caught Pokémon, sending it to the PC when the party is full
-  (`result.toBox`, `result.mon`: M5), and trainer sprites in the intro (`people.js` from M3).
+- After a catch the battle screen adds it to the Pokédex ("{mon}'s data was added…" once the
+  player has one), offers a nickname, and says when it went to the PC (`result.toBox`; the
+  overworld stores it). An evolution registers the new species in the Pokédex.
+- Not done yet: trainer sprites in the intro (`people.js` from M3).
 - Debug: `dev.html?debug&wild=sp:lvl[,sp:lvl]` or `&vs=...` (trainer), plus `&party=`,
   `&items=`, `&seed=`, `&leader`, `&bg=cave`.
 
@@ -468,20 +475,53 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - Status: Charge plus sparkles.
   - Cries are synthesised from the dex number.
 
-## 6. Save: `js/core/store.js` (M5)
+**Menus (M5, built).** Each screen builds its own `<section class="scr">` (translate="no") in
+`#frame`; G.Nav drives them, B goes back.
+
+| Module | API |
+|---|---|
+| `G.Popup` (popup.js) | `choose(title, [{ label, value, disabled, back }])` → value \| null · `confirm(text)` → bool · `say(text)` · `count({ title, max, price, money })` → n \| null |
+| `G.Menus` (popup.js) | `money(n)` (₽, grouped in the player's language) · `time(secs)` (h:mm) · `badges(list)` (8 gems) · `badgeName(n)` |
+| `G.NameUI` | `ask({ kind: 'player' \| 'rival' \| 'mon', gender, mon, cancel })` → name \| null. A text field plus suggestion chips (for controllers); 10 characters |
+| `G.SlotsUI` | `pick('load' \| 'new' \| 'save')` → 1..3 \| null; each slot also has Export and Delete, and Import reads a file |
+| `G.NewGame` | `start()` (slot, then the professor's welcome in mode 'intro': boy or girl, name, rival's name; saves at once), `continue()`, `resume(save)`, `START` (first existing of player-2f, player-1f, pallet, then the dev sandbox) |
+| `G.StartMenu` | `open()`: Pokédex (flag `has-pokedex`, or debug) · Pokémon · Bag · {player} (trainer card) · Save · Settings · Close; `card()`, `save()` |
+| `G.PartyUI` | `open()` (Summary, Switch), `pick({ title, note(mon, i), disabled(mon, i) })` → index \| null, `refresh()` |
+| `G.SummaryUI` | `open(list, index, onClose)`: Info · Stats · Moves; left / right change the page |
+| `G.BagUI` | `open()` (Use / Teach, Toss), `pick({ title, filter, price })` → item (the shop's Sell), `itemLabel(id)` |
+| `G.FieldItems` | pure logic: `kind(item)`, `needsMove`, `canUse(item, mon, { move })`, `use(...)` → `{ ok, lines, level, learn, evolve }`, `tm(item)`, `tmFor(mon, item)` → able / unable / learned, `repel(save, item)` |
+| `G.Dex`, `G.DexUI` | `seen(sp)`, `caught(sp)`, `counts()`; `open()` |
+| `G.PCUI` | `open()` → Promise when logged off: party and the current box (6 × 5), Withdraw / Deposit / Summary / Release |
+| `G.ShopUI` | `open(stock)` → Promise: Buy (G.ITEM_FX prices), Sell (half price, not key items or HMs) |
+
+- **Rules chosen:** TMs and HMs are not used up (as in the newer games), so a shop sells each
+  once. A stone is only used up when the evolution is not cancelled. Vitamins raise a stat's EVs
+  up to 100. Rare Candy: a level, its moves, then the evolution if due. The PC heals what it
+  stores. The party always keeps one Pokémon that can battle.
+
+## 6. Save: `js/core/store.js` (M5 ✅)
 
 - **Keys:** `pl.save.1` to `pl.save.3`. Before each write the old save moves to
   `pl.save.N.bak`. `pl.slot` holds the last slot used.
 ```js
 { v:1, app:'PokeLeague', created, savedAt, playTime,
   player:{ name, gender, id, money, badges:[], map, x, y, dir, lastHeal:{ map, spot } },
-  rival:{ name, starter }, party:[mon], boxes:[[mon|null ×30] ×8], box:0, bag:{ potion:2 },
+  rival:{ name, starter }, party:[mon], boxes:[[mon|null ×30] ×8], box:0, bag:{ potion:2 }, repel:0,
   dex:{ seen:{16:1}, caught:{4:1} }, flags:{}, vars:{}, done:{ 'route2:rick':1 } }
 ```
 - `migrate(s)` runs `while (s.v < V) MIG[s.v++](s)`, then sanitises the shapes.
 - Export writes `{ app:'PokeLeague', kind:'save', v, at, save }` to a JSON file. Import
   rejects other apps, newer versions and bad shapes, then asks before overwriting.
 - Saving only happens in the overworld, never during a battle.
+- **API:** `G.Store.newSave({ name, gender, rival, id })`, `slots()` → summaries (or
+  `{ broken: true }`), `load(n)` (falls back to the `.bak`; `usedBackup`), `write(n, save)`,
+  `remove(n)`, `lastSlot()`, `exportText(save)`, `importText(text)` → `{ save }` or
+  `{ error: 'not-json' | 'other-app' | 'newer' | 'bad' }`, `migrate(s, to, steps)`, `sanitize(s)`
+  (every field checked against `newSave()`: unknown species or moves dropped, HP and PP within
+  their maximum, a party over six spills into the PC, unknown items dropped), `cleanName(s)`.
+- **G.Session** (store.js): `begin(slot, save)`, `slot`, `save(slot?)`. Play time counts the
+  seconds the page is visible in the overworld, a battle or an evolution. A new game is written
+  at once; after that only the menu's Save writes (no autosave, as in the games).
 
 ## 7. Audio (M7 ✅)
 
@@ -540,7 +580,7 @@ small separate edit.
 | M2 ✅ | js/battle/* (incl. items.js, text.js), tools/sim_battle.js, js/i18n/<lang>/battle.js, tests/{stats,damage,effects,capture,exp,evolution,battle}.test.cjs | `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1` prints a battle |
 | M3 ✅ | js/world/*, js/script/*, js/ui/dialog.js, js/debug.js, css/world.css, tools/map_check.js, tests/maps.test.cjs, js/content/sandbox.js, js/i18n/<lang>/world.js | walk, doors, ledges, signs, connections, talk to NPCs |
 | M4 ✅ | js/ui/{battle-ui,battle-fx,learn-ui,evolve-ui}.js, css/battle.css, js/i18n/<lang>/battle-ui.js, tools/serve.py | `dev.html?debug&wild=pidgey:3` is playable |
-| M5 | js/core/store.js, js/ui/{name-ui,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui}.js, css/menus.css (append; settings styles exist), tests/save.test.cjs | the full menu flow, slots, export and import; the start menu has Settings (G.OptionsUI.open) |
+| M5 ✅ | js/core/store.js, js/world/field-items.js, js/ui/{popup,name-ui,slots-ui,new-game,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui}.js, css/menus.css (append), js/i18n/<lang>/menus.js, tests/save.test.cjs | the full menu flow, slots, export and import; the start menu has Settings (G.OptionsUI.open) |
 | M6a–d | js/content/kanto/<area>.js, js/data/trainer-classes.js, js/i18n/<lang>/kanto-<area>.js | each area plays via `?debug&map=…` |
 | M7 | js/core/audio.js (jingles, cries), js/data/music.js, js/data/music-map.js | jingles on heal and level up |
 | M8 | integration, js/ui/credits-ui.js, tests/story.test.cjs | Pallet Town to the Boulder Badge |

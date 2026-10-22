@@ -89,6 +89,8 @@ G.EvolveUI = (() => {
     if (G.Audio.cry) G.Audio.cry(to);
     const oldName = name;
     const newMoves = G.Evolution.evolve(mon, to);
+    // The new form goes in the Pokédex (only for the player's own game; test battles have a throwaway one).
+    if (G.Field && G.Field.save && G.Field.party().includes(mon)) { G.Field.save.dex.seen[to] = 1; G.Field.save.dex.caught[to] = 1; }
     if (G.Audio.jingle) G.Audio.jingle('evolved'); else G.Audio.sfx('levelup');
     await say(fmt('Congratulations! Your {mon} evolved into {to}!', { mon: oldName, to: G.Names.mon(to) }), { wait: true });
     for (const id of newMoves) await G.LearnUI.teach(mon, id, say);

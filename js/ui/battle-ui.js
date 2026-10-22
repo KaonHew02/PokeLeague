@@ -583,7 +583,19 @@ G.BattleUI = (() => {
     return b.result;
   }
 
+  /** A caught Pokémon: the Pokédex, a nickname, and the PC when the party is full. */
+  async function afterCatch(r) {
+    const mon = r.mon, name = G.Names.mon(mon.sp);
+    if (G.Dex && !G.Dex.caught(mon.sp) && G.Field.flag('has-pokedex')) await say(fmt("{mon}'s data was added to the Pokédex.", { mon: name }));
+    if (G.NameUI && await yesNo(fmt('Give a nickname to the caught {mon}?', { mon: name }))) {
+      const nick = await G.NameUI.ask({ kind: 'mon', mon });
+      if (nick) mon.nick = nick;
+    }
+    if (r.toBox) await say(fmt('{mon} was sent to the PC.', { mon: G.Mon.name(mon) }));
+  }
+
   async function afterBattle(result) {
+    if (result.outcome === 'caught' && result.mon) await afterCatch(result);
     if (result.outcome === 'win') {
       if (G.Audio.jingle) G.Audio.jingle(b.kind === 'trainer' ? 'victory-trainer' : 'victory-wild');
       await wait(0.4);

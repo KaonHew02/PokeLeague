@@ -1,8 +1,8 @@
 /* ============ field.js — the overworld: state, rules, people, the 'overworld' mode ============
  *
- * G.Field: the game state the overworld reads and writes, shaped like the save
- * (docs/DESIGN.md section 6). Until store.js (M5) exists it is an in-memory
- * object with a fake party; M5 calls G.Field.bind(save) with the real one.
+ * G.Field: the game state the overworld reads and writes: the save itself
+ * (docs/DESIGN.md section 6). Until a game is started or loaded (G.Session.begin
+ * binds it with G.Field.bind(save)) it is a throwaway one: `fake` (debug URLs).
  *   flag(f) setFlag(f) clearFlag(f) · getVar(k) setVar(k, v) · isDone('map:id') markDone(key)
  *   party() lead() giveMon(sp, lvl) · count(item) giveItem(item, n) takeItem(item, n) · money(delta)
  *   healAll() · test(cond) (script conditions) · vars() ({player}, {rival} for texts)
@@ -28,6 +28,7 @@
  */
 G.Field = (() => {
   function fresh() {
+    if (G.Store) return G.Store.newSave({ id: 12345 });
     return {
       v: 1, app: 'PokeLeague', created: Date.now(), playTime: 0,
       player: { name: 'Red', gender: 'm', id: 12345, money: 3000, badges: [], map: null, x: 0, y: 0, dir: 'down', lastHeal: null },
@@ -62,11 +63,19 @@ G.Field = (() => {
     }
     return { uid: rng.int(0, 1e9).toString(36), sp: id, nick: null, lvl, exp: 0, hp: 20, status: null, moves: [], shiny: false };
   }
-  /** Puts a Pokémon in the first free PC slot. */
+  /** Puts a Pokémon in the first free PC slot, from the current box on. -> the box index, or -1 when all are full */
   function toBox(mon) {
     if (!S.boxes.length) for (let i = 0; i < 8; i++) S.boxes.push(new Array(30).fill(null));
-    for (const box of S.boxes) { const i = box.indexOf(null); if (i >= 0) { box[i] = mon; return true; } }
-    return false;
+    const n = S.boxes.length, from = (S.box | 0) % n;
+    for (let k = 0; k < n; k++) {
+      const b = (from + k) % n, i = S.boxes[b].indexOf(null);
+      if (i >= 0) {
+        if (G.Mon && G.Mon.heal) G.Mon.heal(mon);         // the PC restores the Pokémon it stores
+        S.boxes[b][i] = mon;
+        return b;
+      }
+    }
+    return -1;
   }
   /** Adds a Pokémon to the party (or the PC when the party is full). -> the mon */
   function giveMon(sp, lvl, o = {}) {
@@ -394,6 +403,7 @@ G.World = (() => {
       return;
     }
     savePos();
+    countRepel();
     const k = M().kindAt(map, me.x, me.y);
     const w = map.warpAt.get(M().key(me.x, me.y));
     if (w && (k !== 'mat' || me.dir === 'down')) { warp(w.to, w.spot); return; }
@@ -407,11 +417,19 @@ G.World = (() => {
     if (spotted()) return;
     if (k === 'tall') {
       sfx('grass');
-      maybeEncounter('walk');
+      if (maybeEncounter('walk')) return;
     }
+    if (repelOut) { repelOut = false; runScript([['say', "The Repel's effect wore off..."]], {}); }
   }
 
   // ---------------- encounters ----------------
+
+  /** Repel: one step less. When it runs out, the next quiet step says so (repelOut). */
+  let repelOut = false;
+  function countRepel() {
+    const S = G.Field.save;
+    if (S.repel > 0 && --S.repel === 0) repelOut = true;
+  }
 
   function rollWild(method) {
     const table = M().encounters(map, method);
@@ -428,6 +446,8 @@ G.World = (() => {
     if (debug.noEnc || !G.Field.party().length) return false;
     const wild = rollWild(method);
     if (!wild) return false;
+    const lead = G.Field.lead();
+    if (G.Field.save.repel > 0 && lead && wild.lvl < lead.lvl) return false;
     G.Player.walk(null);
     wildBattle(wild);
     return true;
@@ -719,6 +739,14 @@ G.World = (() => {
       battle: (ref, o) => battle(ref, o),
       wild: (sp, lvl) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null }),
       heal: () => G.Field.healAll(),
+      /** Offers a nickname for a Pokémon just received (starter, gifts). */
+      async nickname(mon) {
+        if (!mon || !G.NameUI) return;
+        const i = await G.Dialog.ask(G.I18n.fmt('Give a nickname to {mon}?', { mon: G.Names.mon(mon.sp) }), {});
+        if (i !== 0) return;
+        const nick = await G.NameUI.ask({ kind: 'mon', mon });
+        if (nick) mon.nick = nick;
+      },
       healAnim: () => healAnim(ctx),
       lastHeal(spot) { G.Field.save.player.lastHeal = { map: map.id, spot }; },
       async shop(stock) {

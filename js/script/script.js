@@ -16,7 +16,8 @@
  * State:
  *   ['setFlag', f]  ['clearFlag', f]  ['setVar', k, v]  ['addVar', k, n]  ['badge', n]  ['dex', 'give']
  * Party and bag:
- *   ['giveMon', sp, lvl, opts]  ['giveItem', item, n, { quiet }]  ['takeItem', item, n]  ['money', delta]
+ *   ['giveMon', sp, lvl, opts]  opts.nickname: ask for a nickname afterwards (opts also go to G.Mon.create)
+ *   ['giveItem', item, n, { quiet }]  ['takeItem', item, n]  ['money', delta]
  *   ['found', item, n, doneKey]    an item ball: "found", jingle, into the bag, marked as collected
  * Battles and services:
  *   ['battle', 'trainer-id' | 'map:trainer-id', { canLose }]  ['wild', sp, lvl]
@@ -64,7 +65,11 @@ G.Script = (() => {
     badge: (h, n) => G.Field.badge(n),
     dex: (h, what) => { if (what === 'give') G.Field.setFlag('has-pokedex'); },
 
-    giveMon: (h, sp, lvl, o) => { G.Field.giveMon(sp, lvl, o || {}); },
+    async giveMon(h, sp, lvl, o = {}) {
+      const { nickname, ...opts } = o;
+      const mon = G.Field.giveMon(sp, lvl, opts);
+      if (nickname && h.nickname) await h.nickname(mon);
+    },
     async giveItem(h, item, n = 1, o = {}) {
       G.Field.giveItem(item, n);
       if (o.quiet) return;

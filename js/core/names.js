@@ -11,6 +11,7 @@
  *
  *   G.Names.mon(25) · G.Names.move('thunder-shock') · G.Names.item('potion')
  *   G.Names.type('fire') · G.Names.loc('viridian-city') · G.Names.nature('adamant')
+ *   G.Names.desc('mon' | 'move' | 'item', id)   the Pokédex entry / description (G.DEX_TEXT)
  */
 G.Names = (() => {
   let col = -1;
@@ -35,7 +36,13 @@ G.Names = (() => {
     return pretty(id);
   }
 
-  const api = { get, pretty };
+  /** Pokédex entry, move or item description (G.DEX_TEXT) in the player's language, else English, else ''. */
+  function desc(kind, id) {
+    const row = G.DEX_TEXT && G.DEX_TEXT[kind] && G.DEX_TEXT[kind][id];
+    return row ? row[column()] || row[0] || '' : '';
+  }
+
+  const api = { get, pretty, desc };
   for (const k of ['mon', 'move', 'item', 'type', 'loc', 'nature', 'genus', 'stat']) api[k] = id => get(k, id);
   return api;
 })();

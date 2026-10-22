@@ -10,7 +10,12 @@
                 'Stats', 'Mon', 'Damage', 'BattleFx', 'SpecialMoves', 'BattleAI', 'Capture', 'Exp', 'Evolution', 'BattleItems',
                 'Battle', 'BattleText',
                 // M4: battle screen
-                'BattleUI', 'BattleAnim', 'EvolveUI', 'LearnUI'];
+                'BattleUI', 'BattleAnim', 'EvolveUI', 'LearnUI',
+                // M3: overworld
+                'Maps', 'Field', 'World', 'Player', 'People', 'Script', 'Dialog',
+                // M5: saves and menus
+                'Store', 'Session', 'FieldItems', 'Popup', 'Menus', 'NameUI', 'SlotsUI', 'NewGame', 'StartMenu',
+                'PartyUI', 'SummaryUI', 'BagUI', 'Dex', 'DexUI', 'PCUI', 'ShopUI'];
   function broken() {
     // (In the published build G is not on window: see tools/build.js.)
     const miss = NEED.filter(k => typeof G !== 'object' || !G[k]);

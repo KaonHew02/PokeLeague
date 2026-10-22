@@ -266,7 +266,55 @@ b.result       // {outcome:'win'|'lose'|'run'|'caught', caught, money, leveled:[
 Battle-only state lives in a `BattleMon` wrapper (stages, volatiles, types, last move,
 participants). The real mon objects only change HP, PP, status, EXP, EVs, level and moves.
 
-## 4. Overworld: `js/world/`, `js/script/`, `js/ui/dialog.js` (M3)
+## 4. Overworld: `js/world/`, `js/script/`, `js/ui/dialog.js` (M3 ✅)
+
+**Built** — what exists (the original spec follows and is still accurate):
+
+| File | Module | What it does |
+|---|---|---|
+| maps.js | `G.Maps` | `def`, `get(id)` (parsed, cached), `parse`, `validate(id)`, `all`, `has`; tile queries `kindAt`, `kindNear` (looks into connected maps), `open`, `ledge`, `info(kind)`, `spot(map, name \| 'x,y,dir' \| [x,y,dir])`, `neighbour(map, side)` / `neighbours` / `across(map, x, y)`, `species(slug \| dex)`, `encounters(map, method)`; `center(id, {exit, loc})`, `mart(id, {exit, loc, stock})`; `TS = 32` world units per tile |
+| tiles.js | `G.Tiles` | `PALETTES` (kanto, forest; house, center, mart, lab, gym), `bakeMap(map)` → `{ground:[2 frames], strips, below}`, `border(map)`, `sprite('tree' \| 'tuft' \| 'ball')`, pixel helpers `Pix, pack, shade, disc, outline, ascii` |
+| stamps.js | `G.Stamps` | `get(type, doorColumn, {x, y})` → `{canvas, w, h, door, solid, up}`; house roofs take one of 4 colours by position |
+| people.js | `G.People` | `TYPES` (the 14 archetypes), `draw(ctx, who, dir, frame, x, y, k)`, `sheet(who)`, `portrait(who, k=4)`, `check()` |
+| player.js | `G.Actor`, `G.Player` | an actor on the grid (`step`, `place`, `face`, `emote`, `draw`); the player's controls (keys, run, turn, bump, click / tap walk) |
+| path4.js | `G.Path4` | `find(from, goals, {open, ledge, near})` → `{dirs, goal, reached}`; `parse('UULR')` |
+| field.js | `G.Field`, `G.World` | the state (below) and the `'overworld'` mode |
+| render.js | `G.WorldRender` | `prepare(map)`, `draw(ctx, view, scene)`, `extra` (debug overlays) |
+| script.js | `G.Script` | `def(name, cmds)` / `def({…})`, `get`, `all`, `run(cmds, host)`, `check(cmds)` |
+| ui/dialog.js | `G.Dialog` | `say(text, {name})`, `ask(text, {options, name})` → index, `open`, `instant` |
+| debug.js | `G.Debug` | URL flags and keys below; `win` and `catchNext` for the battle UI |
+| content/sandbox.js | — | `?debug&map=sandbox`: a test town (dev only, `data-dev`): every tile, a house with an upstairs, a Center, a Mart, ledges, grass, a pond, NPCs, a trainer, items, a trigger, a connection north |
+
+- **Starting:** `G.World.start({ map, spot })` (or `{ map, x, y, dir }`) switches to the overworld.
+  Returning from a battle: `G.Game.setMode('overworld')` with no argument resumes as it was.
+- **State until M5:** `G.Field` holds a save-shaped object (section 6): `save`, `bind(save)` (M5
+  calls it with the real save; until then a fake party with a Pikachu Lv. 5), `flag/setFlag/clearFlag`,
+  `getVar/setVar`, `isDone/markDone('map:id')`, `party`, `lead` (first Pokémon able to fight: the
+  follower), `giveMon(sp, lvl)` (uses `G.Mon.create`; PC box when the party is full), `count`,
+  `giveItem`, `takeItem`, `money(delta)`, `healAll`, `badge(n)`, `test(cond)`, `vars()`. The player's
+  map, x, y, dir are written to `save.player` after every step; `player.lastHeal` by the nurse.
+- **Battle hooks (M4):** `G.World.onEncounter = async ({sp, lvl, method, map, area}) => outcome` and
+  `G.World.onTrainer = async (trainerDef, {map, key, canLose}) => outcome`, outcome `'win' | 'lose' |
+  'run' | 'caught'`. The world stays locked until the promise settles; `'lose'` without `canLose`
+  blacks out (heal, warp to `lastHeal`). Without a hook a toast stands in and counts as a win. The
+  trainer's `defeat` line is the battle UI's to show (the world shows it only without a hook).
+- **Extra map fields:** `enter` (script run after arriving by warp), `items[].hidden` (found by facing
+  it and pressing A) and `items[].n`, npc/trainer `if` (conditions: shown only while true), `fixed`
+  (does not turn to face you), `move: 'still' | 'look' | 'wander' | 'spin'` with `r` (wander radius,
+  default 2), trainer `name` (shown as "Class Name" over the box; the class label comes from
+  `G.TRAINER_CLASSES[cls].name` or the prettified cls), trainer `afterScript`. Items are stored as
+  done `map:flag`, trainers as `map:id`.
+- **Script commands added:** `['found', item, n, doneKey]` (item ball), `['lastHeal', spot]`,
+  `['addVar', k, n]`, `['place', who, x, y, dir]`, `['js', fn]`. `say` takes `{ name, vars }`;
+  `choice` is `['choice', text, [yes], [no], { options, name }]`. `dex('give')` sets the flag
+  `has-pokedex`. The full list is at the top of script.js; `G.Script.check` validates arguments.
+- **Shop and PC:** the scripts call `G.ShopUI.open(stock)` and `G.PCUI.open()` (M5) and await
+  them; until they exist a "Coming soon" toast. The menu button and Start call `G.StartMenu.open()`
+  (M5), else the Settings.
+- **Music:** a map's `music` is a context; the world plays `G.MUSIC_MAP[ctx]` (or `.get(ctx)`, M7),
+  else a song of that name, else a built-in guess (town → village, route → forest...).
+- **Sounds used** (silent until M7 adds them): `bump`, `door`, `ledge`, `grass`, `exclaim`, `cry`, `pc`.
+- **Debug keys** also include **F3**: the map id, the player's tile and a grid.
 
 **Map files** (`js/content/kanto/<area>.js`, M6) hold the maps, scripts and trainers of one area:
 ```js
@@ -447,7 +495,7 @@ small separate edit.
 | M0 ✅ | core/, ui/ui.js, ui/title-ui.js, ui/options-ui.js (settings), game.js, main.js, tools/build*, tests/helpers + core/i18n/lint, css/base.css, the settings part of css/menus.css | title in 7 languages, settings, tests pass, build works |
 | M1 ✅ | tools/fetch_data.py, js/data/{species,moves,items,growth,names,encounters,dex-text,natures,item-effects}.js, tests/data.test.cjs | `G.SPECIES[1]` etc. in the console; data tests pass |
 | M2 ✅ | js/battle/* (incl. items.js, text.js), tools/sim_battle.js, js/i18n/<lang>/battle.js, tests/{stats,damage,effects,capture,exp,evolution,battle}.test.cjs | `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1` prints a battle |
-| M3 | js/world/*, js/script/*, js/ui/dialog.js, js/debug.js, css/world.css, tools/map_check.js, tests/maps.test.cjs, a sandbox map | walk, doors, ledges, signs, connections, talk to NPCs |
+| M3 ✅ | js/world/*, js/script/*, js/ui/dialog.js, js/debug.js, css/world.css, tools/map_check.js, tests/maps.test.cjs, js/content/sandbox.js, js/i18n/<lang>/world.js | walk, doors, ledges, signs, connections, talk to NPCs |
 | M4 | js/ui/{battle-ui,battle-fx,learn-ui,evolve-ui}.js, css/battle.css | `dev.html?debug&wild=pidgey:3` is playable |
 | M5 | js/core/store.js, js/ui/{name-ui,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui}.js, css/menus.css (append; settings styles exist), tests/save.test.cjs | the full menu flow, slots, export and import; the start menu has Settings (G.OptionsUI.open) |
 | M6a–d | js/content/kanto/<area>.js, js/data/trainer-classes.js, js/i18n/<lang>/kanto-<area>.js | each area plays via `?debug&map=…` |

@@ -3,8 +3,9 @@
  *   map=sandbox&spot=start      start in the overworld instead of the title (spot: a name or x,y)
  *   party=charmander:9,pidgey:7 items=poke-ball:10,potion:3 flags=a,b badges=3 seed=42
  *   fast (no typewriter) · noenc (no wild Pokémon)
- *   wild=caterpie:6             a wild battle at once (map defaults to sandbox)
- *   trainer=pewter-gym:brock    a trainer battle at once
+ *   wild=caterpie:6             with map: a wild battle at once, from the overworld
+ *                               (without map the battle screen runs its own test battle)
+ *   trainer=pewter-gym:brock    a trainer battle at once (map defaults to sandbox)
  * Keys:
  *   F2 heal the party · F3 tile / map info · F4 wild encounters on/off · F6 win the battle
  *   F7 the next ball catches · F8 walk through walls · F9 print the save to the console
@@ -37,8 +38,11 @@ G.Debug = (() => {
     for (let i = 1; i <= b; i++) G.Field.badge(i);
   }
 
+  // Without a map, ?debug&wild=... / &vs=... is the battle screen's own test battle (G.BattleUI.debugFromUrl).
+  // With a map, the battle starts from the overworld instead, through the normal encounter / trainer path.
   const wild = P('wild'), trainer = P('trainer');
-  const map = P('map') || (wild || trainer ? 'sandbox' : null);
+  const map = P('map') || (trainer ? 'sandbox' : null);
+  if (map && G.BattleUI && G.BattleUI.debugFromUrl) G.BattleUI.debugFromUrl = () => false;
   if (map) {
     // Skip the title: the first time the game would show it, go to the map instead.
     const title = G.TitleUI.open;

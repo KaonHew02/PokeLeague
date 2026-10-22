@@ -246,7 +246,7 @@ input { font: inherit; }
 /* ---------- menu button (phones; also clickable with the mouse) ---------- */
 .ow-menu {
   position: absolute; top: 2.6%; right: 1.8%; z-index: 12;
-  width: 1.75em; height: 1.75em; padding: .38em .34em;
+  width: max(1.75em, 32px); height: max(1.75em, 32px); padding: max(.38em, 7px) max(.34em, 6px);
   display: flex; flex-direction: column; justify-content: space-between;
   appearance: none; cursor: pointer;
   border: .14em solid var(--edge); border-radius: .45em;

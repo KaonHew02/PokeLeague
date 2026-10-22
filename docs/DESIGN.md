@@ -281,7 +281,7 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
 | field.js | `G.Field`, `G.World` | the state (below) and the `'overworld'` mode |
 | render.js | `G.WorldRender` | `prepare(map)`, `draw(ctx, view, scene)`, `extra` (debug overlays) |
 | script.js | `G.Script` | `def(name, cmds)` / `def({…})`, `get`, `all`, `run(cmds, host)`, `check(cmds)` |
-| ui/dialog.js | `G.Dialog` | `say(text, {name})`, `ask(text, {options, name})` → index, `open`, `instant` |
+| ui/dialog.js | `G.Dialog` | `say(text, {name})`, `ask(text, {options, name})` → index, `open`, `tick(dt)` (called by the overworld each frame), `instant` |
 | debug.js | `G.Debug` | URL flags and keys below; `win` and `catchNext` for the battle UI |
 | content/sandbox.js | — | `?debug&map=sandbox`: a test town (dev only, `data-dev`): every tile, a house with an upstairs, a Center, a Mart, ledges, grass, a pond, NPCs, a trainer, items, a trigger, a connection north |
 
@@ -293,11 +293,18 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
   follower), `giveMon(sp, lvl)` (uses `G.Mon.create`; PC box when the party is full), `count`,
   `giveItem`, `takeItem`, `money(delta)`, `healAll`, `badge(n)`, `test(cond)`, `vars()`. The player's
   map, x, y, dir are written to `save.player` after every step; `player.lastHeal` by the nurse.
-- **Battle hooks (M4):** `G.World.onEncounter = async ({sp, lvl, method, map, area}) => outcome` and
-  `G.World.onTrainer = async (trainerDef, {map, key, canLose}) => outcome`, outcome `'win' | 'lose' |
-  'run' | 'caught'`. The world stays locked until the promise settles; `'lose'` without `canLose`
-  blacks out (heal, warp to `lastHeal`). Without a hook a toast stands in and counts as a win. The
-  trainer's `defeat` line is the battle UI's to show (the world shows it only without a hook).
+- **Battles:** the world calls `G.BattleUI.wild(player, sp, lvl, opts)` and `G.BattleUI.trainer(player,
+  trainer, opts)` itself, with `player = { name, id, party, bag }` from `G.Field.save`, `opts = { bg:
+  map.battleBg, returnMode: 'overworld', rules: { canLose, where: map.loc } }` and the trainer as
+  `{ id: 'map:id', name, title (class label), who, cls, ai, prize, items, leader, team }`. It applies
+  the result: prize money, `seen` and caught to the Pokédex, a caught Pokémon with `toBox` to the PC.
+  `'lose'` without `canLose` blacks out (half the money, heal, warp to `lastHeal`). After a won
+  trainer battle the world says the trainer's `defeat` line (the battle screen does not).
+  A game can replace the calls with `G.World.onEncounter = async (sp, lvl, area, info) => result`
+  and `G.World.onTrainer = async (trainerDef, { map, key, canLose }) => result` (a result object or
+  just its outcome). With neither, a toast stands in and counts as a win.
+  Debug: `?debug&wild=…` without `map` is the battle screen's own test battle; with `map=…` the wild
+  battle starts from the overworld.
 - **Extra map fields:** `enter` (script run after arriving by warp), `items[].hidden` (found by facing
   it and pressing A) and `items[].n`, npc/trainer `if` (conditions: shown only while true), `fixed`
   (does not turn to face you), `move: 'still' | 'look' | 'wander' | 'spin'` with `r` (wander radius,

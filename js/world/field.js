@@ -10,11 +10,13 @@
  * G.World: the overworld.
  *   G.World.start({ map, spot } | { map, x, y, dir })    enters the overworld
  *   G.World.warp(map, spot)                               fade, load, fade (Promise)
- *   G.World.onEncounter = async ({ sp, lvl, method, map, area }) => 'win'|'lose'|'run'|'caught'
- *   G.World.onTrainer   = async (trainer, { map, key, canLose }) => 'win'|'lose'
- *       hooks for the battle UI (M4). It switches to its own mode and back with
- *       G.Game.setMode('overworld') (no argument: the world resumes as it was),
- *       then resolves. 'lose' without canLose blacks out (back to the last heal).
+ *   Battles: G.BattleUI.wild / .trainer (M4) with returnMode 'overworld' (enter()
+ *       without an argument resumes the world as it was). A game can replace them:
+ *       G.World.onEncounter = async (sp, lvl, area, info) => result
+ *       G.World.onTrainer   = async (trainerDef, { map, key, canLose }) => result
+ *       result: the battle's result ({ outcome, money, seen, caught, toBox, mon }) or just
+ *       the outcome 'win' | 'lose' | 'run' | 'caught' | 'fled'. Prize money, the Pokédex and
+ *       a caught Pokémon sent to the PC are applied here; 'lose' without canLose blacks out.
  *   G.World.map / player / follower / actor(id) / locked
  *   G.World.debug = { noEnc, noclip }                     (debug.js)
  *
@@ -60,14 +62,17 @@ G.Field = (() => {
     }
     return { uid: rng.int(0, 1e9).toString(36), sp: id, nick: null, lvl, exp: 0, hp: 20, status: null, moves: [], shiny: false };
   }
+  /** Puts a Pokémon in the first free PC slot. */
+  function toBox(mon) {
+    if (!S.boxes.length) for (let i = 0; i < 8; i++) S.boxes.push(new Array(30).fill(null));
+    for (const box of S.boxes) { const i = box.indexOf(null); if (i >= 0) { box[i] = mon; return true; } }
+    return false;
+  }
   /** Adds a Pokémon to the party (or the PC when the party is full). -> the mon */
   function giveMon(sp, lvl, o = {}) {
     const mon = makeMon(sp, lvl, o);
     if (S.party.length < 6) S.party.push(mon);
-    else {
-      if (!S.boxes.length) for (let i = 0; i < 8; i++) S.boxes.push(new Array(30).fill(null));
-      for (const box of S.boxes) { const i = box.indexOf(null); if (i >= 0) { box[i] = mon; break; } }
-    }
+    else toBox(mon);
     S.dex.seen[mon.sp] = 1; S.dex.caught[mon.sp] = 1;
     return mon;
   }
@@ -125,7 +130,7 @@ G.Field = (() => {
 
   return { get save() { return S; }, get fake() { return fake; }, bind, reset,
            flag, setFlag, clearFlag, getVar, setVar, isDone, markDone,
-           party, lead, makeMon, giveMon, count, giveItem, takeItem, money, healAll, badge, test, vars };
+           party, lead, makeMon, giveMon, toBox, count, giveItem, takeItem, money, healAll, badge, test, vars };
 })();
 
 G.World = (() => {
@@ -433,10 +438,36 @@ G.World = (() => {
     let out;
     try {
       G.Field.save.dex.seen[wild.sp] = 1;
-      out = await (api.onEncounter ? api.onEncounter(wild) : fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) })));
+      let r;
+      if (api.onEncounter) r = await api.onEncounter(wild.sp, wild.lvl, wild.area, wild);
+      else if (G.BattleUI && G.BattleUI.wild) r = await G.BattleUI.wild(battler(), wild.sp, wild.lvl, battleOpts(false));
+      else r = await fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) }));
+      out = settle(r);
     } finally { locks--; }
     if (out === 'lose') await blackout();
     return out;
+  }
+
+  /** The player as the battle screen wants it: the live party and bag. */
+  function battler() {
+    const S = G.Field.save;
+    return { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag };
+  }
+  function battleOpts(canLose) {
+    return { bg: map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld',
+             rules: { canLose: !!canLose, where: map.loc || map.id } };
+  }
+  /** After a battle: Pokédex, prize money, a caught Pokémon that goes to the PC. -> the outcome */
+  function settle(r) {
+    if (!r || typeof r !== 'object') return r || 'win';
+    const S = G.Field.save;
+    for (const sp of r.seen || []) S.dex.seen[sp] = 1;
+    if (r.outcome === 'win' && r.money > 0) G.Field.money(r.money);
+    if (r.outcome === 'caught' && r.mon) {
+      S.dex.seen[r.mon.sp] = 1; S.dex.caught[r.mon.sp] = 1;
+      if (r.toBox) G.Field.toBox(r.mon);
+    }
+    return r.outcome || 'win';
   }
 
   /** No battle screen yet (before M4): say what would happen and count it as won. */
@@ -483,16 +514,29 @@ G.World = (() => {
       const out = await battle(t.def, { key: t.key });
       if (out !== 'lose') {
         G.Field.markDone(t.key);
+        // The battle screen does not show the trainer's last words: they come after it.
         if (!api.onTrainer && t.def.defeat) await say(t.def.defeat, { name: trainerName(t.def) });
       }
     } finally { locks--; }
   }
 
+  /** The class label ('Bug Catcher'): G.TRAINER_CLASSES (M6), else the class id made readable. */
+  function classTitle(d) {
+    const cls = G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls];
+    return (cls && (cls.title || cls.name)) || (d.cls ? G.Names.pretty(d.cls) : '');
+  }
   function trainerName(d) {
     if (!d.name) return null;
-    const cls = G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls];
-    const label = cls && cls.name ? G.T(cls.name) : d.cls ? G.Names.pretty(d.cls) : '';
-    return label ? label + ' ' + G.T(d.name) : G.T(d.name);
+    const label = classTitle(d);
+    return label ? G.T(label, 'trainer') + ' ' + G.T(d.name) : G.T(d.name);
+  }
+
+  /** A map trainer as G.BattleUI.trainer wants it. */
+  function battleTrainer(d, key) {
+    const cls = (G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls]) || {};
+    return { id: key, name: d.name ? G.T(d.name) : '', title: classTitle(d), who: d.who, cls: d.cls,
+             ai: d.ai || (d.leader ? 'leader' : 'basic'), prize: d.prize != null ? d.prize : cls.prize,
+             items: d.items || {}, leader: !!d.leader, team: d.team };
   }
 
   /** A trainer battle through the M4 hook. ref: a trainer def, 'id' on this map or 'map:id'. */
@@ -509,8 +553,11 @@ G.World = (() => {
     locks++;
     let out;
     try {
-      out = await (api.onTrainer ? api.onTrainer(d, { map: map.id, key, canLose: !!o.canLose })
-        : fallbackBattle(trainerName(d) || G.Names.pretty(d.id)));
+      let r;
+      if (api.onTrainer) r = await api.onTrainer(d, { map: map.id, key, canLose: !!o.canLose });
+      else if (G.BattleUI && G.BattleUI.trainer) r = await G.BattleUI.trainer(battler(), battleTrainer(d, key), battleOpts(o.canLose));
+      else r = await fallbackBattle(trainerName(d) || G.Names.pretty(d.id));
+      out = settle(r);
     } finally { locks--; }
     if (out !== 'lose') G.Field.markDone(key);
     else if (!o.canLose) await blackout();
@@ -521,6 +568,7 @@ G.World = (() => {
   async function blackout() {
     const p = G.Field.save.player;
     const to = p.lastHeal || (map && { map: map.id, spot: Object.keys(map.spots)[0] });
+    if (G.Exp && G.Exp.blackoutLoss) G.Field.money(-G.Exp.blackoutLoss(p.money | 0));
     G.Field.healAll();
     if (to && M().has(to.map)) await warp(to.map, to.spot, { sfx: false, noEnter: true });
   }
@@ -691,10 +739,13 @@ G.World = (() => {
 
   // ---------------- clicks and taps on the map ----------------
 
-  function onClick(c) {
+  /** The map tile under a click (canvas CSS px), with the camera of that moment. */
+  function clickTile(c) {
     const k = G.Camera.scale;
-    const wx = c.x / k + G.Camera.left(), wy = c.y / k + G.Camera.top();
-    const tx = Math.floor(wx / TS), ty = Math.floor(wy / TS);
+    return { tx: Math.floor((c.x / k + G.Camera.left()) / TS), ty: Math.floor((c.y / k + G.Camera.top()) / TS) };
+  }
+
+  function onClick({ tx, ty }) {
     if (tx === me.x && ty === me.y) {
       if (M().kindAt(map, tx, ty) === 'mat') tryStep(me, 'down', 4);
       return;
@@ -809,11 +860,12 @@ G.World = (() => {
 
   function update(dt, o = {}) {
     if (!map || !me) return;
+    G.Dialog.tick(dt);
     const ui = !!o.ui || G.UI.anyOpen();
     const control = !ui && !locks && !G.Dialog.open;
     // A click during a step waits for the step to end (the newest click wins).
     if (control) {
-      for (const c of G.Input.clicks()) pendingClick = c;
+      for (const c of G.Input.clicks()) pendingClick = clickTile(c);
       if (pendingClick && !me.moving) { onClick(pendingClick); pendingClick = null; }
     } else pendingClick = null;
     if (control || (me.moving && !me.scripted && !me.queue.length)) G.Player.update(dt, me, api);

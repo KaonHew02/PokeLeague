@@ -2,6 +2,8 @@
  *   await G.Dialog.say(text, { name })                  one text (already translated)
  *   const i = await G.Dialog.ask(text, { options, name })  options default [Yes, No]; B picks the last
  *   G.Dialog.open      is a box on screen (or about to be)
+ *   G.Dialog.tick(dt)  one frame: the overworld calls it from its update, so it runs in step
+ *                      with the game loop (and G.Game.step); without that it ticks itself
  *   G.Dialog.instant   debug: no typewriter
  *
  * A DOM box (translate="no": the text arrives translated) at the bottom of
@@ -15,8 +17,8 @@ G.Dialog = (() => {
   const SPEED = { slow: 24, mid: 48, fast: 110 };     // code points per second
   let el = null, box, nameEl, textEl, onEl, offEl, more, choiceEl, measure;
   let st = null;              // the text being shown
-  let hideTimer = 0;
-  let raf = 0, last = 0;
+  let closing = 0;            // frames until the box hides (unless another text follows)
+  let raf = 0, last = 0, lastExt = -1e9;
   let instant = false;
 
   function build() {
@@ -84,7 +86,7 @@ G.Dialog = (() => {
 
   function begin(s) {
     build();
-    clearTimeout(hideTimer);
+    closing = 0;
     if (el.classList.contains('hidden')) G.UI.open(el, { onBack: () => {} });
     G.Btn.swallow();
     st = s;
@@ -96,6 +98,7 @@ G.Dialog = (() => {
     startPage();
     if (!raf) { last = performance.now(); raf = requestAnimationFrame(loop); }
   }
+
 
   function startPage() {
     st.cps = Array.from(st.pages[st.page]);
@@ -155,8 +158,8 @@ G.Dialog = (() => {
     const s = st;
     st = null;
     more.classList.remove('on');
-    // Hide on the next frame unless another text follows at once (no flicker between boxes).
-    hideTimer = setTimeout(close, 40);
+    // Hide a couple of frames later unless another text follows at once (no flicker between boxes).
+    closing = 2;
     G.Btn.swallow();
     s.res(v);
   }
@@ -167,11 +170,26 @@ G.Dialog = (() => {
     choiceEl.classList.add('hidden');
   }
 
+  /** One frame from the game loop (the overworld's update). */
+  function tick(dt) {
+    lastExt = performance.now();
+    step(dt);
+  }
+
+  // Fallback when nothing calls tick() (no overworld): its own frames.
   function loop(ts) {
     raf = 0;
     const dt = Math.min(0.1, (ts - last) / 1000);
     last = ts;
-    if (!st) return;
+    if (performance.now() - lastExt > 250) step(dt);
+    if (st || closing) raf = requestAnimationFrame(loop);
+  }
+
+  function step(dt) {
+    if (!st) {
+      if (closing && --closing <= 0) { closing = 0; close(); }
+      return;
+    }
     if (st.typing) {
       st.acc += dt * (SPEED[G.Settings.get('textSpeed')] || SPEED.mid);
       const n = Math.min(st.cps.length, Math.floor(st.acc));
@@ -186,7 +204,6 @@ G.Dialog = (() => {
       else if (G.Btn.pressed('a')) pick();
       else if (G.Btn.pressed('b')) { a.sel = a.options.length - 1; markSel(); pick(); }
     } else if (G.Btn.pressed('a') || G.Btn.pressed('b')) advance();
-    if (st) raf = requestAnimationFrame(loop);
   }
 
   function say(text, o = {}) {
@@ -198,7 +215,7 @@ G.Dialog = (() => {
     return new Promise(res => begin({ text, name: o.name, res, ask: { options, sel: o.sel | 0 } }));
   }
 
-  return { say, ask, close,
+  return { say, ask, close, tick,
            get open() { return !!st || (!!el && !el.classList.contains('hidden')); },
            get instant() { return instant; }, set instant(v) { instant = !!v; } };
 })();

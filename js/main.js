@@ -8,7 +8,9 @@
                 'SPECIES', 'MOVES', 'TMS', 'ITEMS', 'ITEM_FX', 'GROWTH', 'NATURES', 'NAMES', 'ENCOUNTERS', 'DEX_TEXT',
                 // M2: battle engine
                 'Stats', 'Mon', 'Damage', 'BattleFx', 'SpecialMoves', 'BattleAI', 'Capture', 'Exp', 'Evolution', 'BattleItems',
-                'Battle', 'BattleText'];
+                'Battle', 'BattleText',
+                // M4: battle screen
+                'BattleUI', 'BattleAnim', 'EvolveUI', 'LearnUI'];
   function broken() {
     // (In the published build G is not on window: see tools/build.js.)
     const miss = NEED.filter(k => typeof G !== 'object' || !G[k]);
@@ -50,13 +52,15 @@
     G.I18n.startDom();
     G.Game.init();
     G.OptionsUI.init();
+    G.BattleUI.init();
     G.TitleUI.wire();
     // Wait for the pixel font so the interface does not jump when it arrives.
     const ready = document.fonts && document.fonts.load ? document.fonts.load('16px Pixelify') : Promise.resolve();
     ready.catch(() => {}).then(() => {
       document.getElementById('boot').classList.add('hidden');
       G.Game.setMode('title');
-      tapToStart(() => G.TitleUI.open());
+      // dev.html?debug&wild=... starts a test battle instead (battle-ui.js).
+      tapToStart(() => { if (!G.BattleUI.debugFromUrl()) G.TitleUI.open(); });
     });
   }
   if (document.readyState === 'loading') addEventListener('DOMContentLoaded', boot);

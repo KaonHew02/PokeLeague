@@ -17,8 +17,12 @@ the map format and which files each milestone owns.
 - `python tools/fetch_data.py --region kanto [--offline]` — regenerates js/data/ from PokeAPI (cached).
 - `node tools/map_check.js <map-id> | --all` — prints a map with its objects and checks it.
   Try a map in the browser with `dev.html?debug&map=<id>` (`map=sandbox` is the M3 test town).
-- Run: `python -m http.server 8130` → http://localhost:8130/dev.html (PokéGo uses 8123).
-  `.claude/launch.json` has it as the `pokeleague` preview server.
+- Run: `python tools/serve.py` → http://localhost:8130/dev.html (PokéGo uses 8123). It is
+  `http.server` with no-cache headers, so edited scripts are never stale. `.claude/launch.json`
+  has it as the `pokeleague` preview server.
+- A battle in the browser: http://localhost:8130/dev.html?debug&wild=pidgey:3&party=charmander:8
+  (or `&vs=geodude:12,onix:14` for a trainer). In a hidden browser pane animation barely runs:
+  drive it with `G.Game.step(1/30, n)` from the console or a test script.
 
 ## Conventions
 - English is the source language: comments, identifiers and dictionary keys.

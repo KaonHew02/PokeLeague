@@ -17,7 +17,7 @@ from Pallet Town to Brock's Boulder Badge.
 ## Running it
 
 ```
-python -m http.server 8130
+python tools/serve.py
 ```
 
 Then open <http://localhost:8130/dev.html> (source files) or

@@ -6,7 +6,7 @@
  *   const b = G.Battle.create({ kind: 'wild' | 'trainer', seed,
  *     player: { name, id, party, bag },            // live references: the battle changes them
  *     foe:    { party, trainer: { id, name, title, ai: 'basic' | 'leader', items: {potion: 1}, prize: 20 } | null },
- *     rules:  { canLose: false, shift: true, where: 'kanto-route-1' } })
+ *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', forceCatch: false (debug) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
  *                           | { kind: 'learn', uid, move } | null (battle over)
@@ -540,7 +540,10 @@ G.Battle = (() => {
       bag[item]--;
       if (!bag[item]) delete bag[item];
       const fo = this.foe.bm, mon = fo.mon;
-      const r = G.Capture.roll({ max: G.Mon.maxHp(mon), hp: mon.hp, rate: G.SPECIES[mon.sp].cr, ball: G.ITEM_FX[item].ball,
+      // rules.forceCatch: debug only (F7), the next ball catches.
+      const ball = this.rules.forceCatch ? 255 : G.ITEM_FX[item].ball;
+      this.rules.forceCatch = false;
+      const r = G.Capture.roll({ max: G.Mon.maxHp(mon), hp: mon.hp, rate: G.SPECIES[mon.sp].cr, ball,
                                  status: mon.status, rng: this.rng });
       this.emit('ball', { item, shakes: r.shakes, caught: r.caught, uid: mon.uid });
       if (!r.caught) return;

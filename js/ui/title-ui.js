@@ -17,7 +17,7 @@ G.TitleUI = (() => {
 
   function open() {
     G.Game.setMode('title');
-    G.Audio.music('village');
+    if (G.Audio.context) G.Audio.context('title'); else G.Audio.music('village');
     $('t-continue').classList.toggle('hidden', !hasSave());
     G.UI.closeAll();
     G.UI.open('scr-title', { onBack: () => {} });

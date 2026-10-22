@@ -395,8 +395,24 @@ G.BattleUI = (() => {
     });
   }
 
+  /** Debug keys from js/debug.js: F6 wins the battle, F7 makes the next ball catch. */
+  async function debugHooks() {
+    const D = G.Debug;
+    if (!D || !D.on) return false;
+    if (D.catchNext) { D.catchNext = false; b.rules.forceCatch = true; G.UI.toast('[debug] next ball catches'); }
+    if (!D.win) return false;
+    D.win = false;
+    for (const m of b.foe.party) m.hp = 0;
+    b.events = [];
+    b.afterAction();
+    b.process();
+    await play(b.events);
+    return true;
+  }
+
   async function chooseAction() {
     for (;;) {
+      if (await debugHooks() && b.result) return null;
       const me = findMon(b.player.bm.mon.uid);
       box.set(fmt('What will {mon} do?', { mon: G.Mon.name(me) }));
       root.onBack = () => {};
@@ -546,6 +562,9 @@ G.BattleUI = (() => {
       let ev;
       if (p.kind === 'action') {
         const a = await chooseAction();
+        // F6 / F7 pressed while the menu was open count before the action.
+        if (await debugHooks() && b.result) break;
+        if (!a) continue;                   // the battle ended meanwhile (debug win)
         ev = b.act(a);
         if (ev.length && ev[0].type === 'error') { await say(T("It won't have any effect.")); continue; }
       } else if (p.kind === 'switch') {

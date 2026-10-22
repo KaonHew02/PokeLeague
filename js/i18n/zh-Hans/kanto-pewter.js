@@ -25,8 +25,6 @@ G.I18n.add({
   "A Pokémon's type matters a lot! Water beats Rock, Rock beats Flying, and Flying beats Bug.": "宝可梦的属性很重要！水克岩石，岩石克飞行，飞行克虫。",
   "My son wants to challenge the Gym one day. I hope he studies as hard as he plays!": "我儿子说总有一天要挑战道馆。希望他读书也像玩一样用心！",
   "If a Pokémon faints in battle, the others can keep going. Lose them all, though, and you black out!": "宝可梦在对战中倒下了，其他宝可梦还能继续。可要是全都倒下，你就会眼前一黑！",
-  "Pewter City Pokémon Gym. Leader: Brock, the rock-solid Pokémon Trainer!": "深灰市宝可梦道馆。馆主：坚如磐石的宝可梦训练家小刚！",
-  "Pewter City. A stone-grey city between the mountains.": "深灰市。群山之间一座石灰色的城市。",
   "Pewter City Pokémon Gym. Leader: Brock. Winning Trainers: {rival}": "深灰市宝可梦道馆。馆主：小刚。获胜的训练家：{rival}",
   "A fossil of Kabutops, an ancient Pokémon that hunted in the seas long ago.": "镰刀盔的化石。镰刀盔是很久以前在海里捕猎的古代宝可梦。",
   "A fossil of Aerodactyl, a Pokémon that once ruled the ancient skies.": "化石翼龙的化石。化石翼龙曾经称霸远古的天空。",
@@ -34,5 +32,11 @@ G.I18n.add({
   "Books about fossils and the history of Pokémon.": "关于化石和宝可梦历史的书。",
   "Rock collections, neatly labelled.": "整整齐齐贴着标签的岩石收藏。",
   "If your starter isn't a good match, catch a few more Pokémon to help out. A Mankey from Route 22 knows Low Kick, and big, heavy Onix really feels it!": "如果你的初始宝可梦不太对付，就多抓几只宝可梦来帮忙吧。22号道路的猴怪会踢倒，又大又重的大岩蛇可吃不消！",
-  "Good luck!": "祝你好运！"
+  "Good luck!": "祝你好运！",
+  "Hey, wait! You're a Trainer, right? You can't leave Pewter City without trying the Gym!": "喂，等等！你是训练家吧？不挑战一下道馆就别离开深灰市！",
+  "Brock is always looking for strong challengers. Come on, the Gym is just over there!": "小刚一直在等强大的挑战者。快去吧，道馆就在那边！",
+  "You beat Brock? Amazing! The road east goes to Route 3 and Mt. Moon.": "你打赢小刚了？太厉害了！往东走是3号道路和月见山。",
+  "You can't leave Pewter City without trying the Gym! Brock is waiting.": "不挑战道馆就别离开深灰市！小刚在等你。",
+  "Pewter City Pokémon Gym. Leader: Brock, a Trainer as tough as stone!": "深灰市宝可梦道馆。馆主：像石头一样坚强的训练家小刚！",
+  "Pewter City. Mountains all around, and rocks everywhere you look.": "深灰市。四面环山，放眼望去到处都是岩石。"
 }, "zh-Hans");

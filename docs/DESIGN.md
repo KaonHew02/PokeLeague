@@ -647,7 +647,32 @@ small separate edit.
 - **Each module's translations** go in `js/i18n/<lang>/<module>.js`: battle, world, menus,
   kanto-pallet…
 
-## 10. After Brock
+## 10. Chapters
+
+The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n)`.
+
+- **Chapter 1** (M0–M8): Pallet Town to Brock and the Boulder Badge.
+- **Chapter 2** ✅: Pewter's east road (a boy sends you back to the Gym until badge 1), Route 3
+  (seven Trainers), Route 4 split by the mountain (the Mt. Moon Pokémon Center with the Magikarp
+  salesman: ₽500, once), Mt. Moon 1F / B1F / B2F (`cave: true`; five Trainers on 1F, four Team
+  Rocket Grunts and Super Nerd Miguel on B2F; the fossils: Miguel battles first, you keep one,
+  he takes the other, flag `got-fossil`), Cerulean City (Center, Mart, Bike Shop, two houses; the
+  roads north, south and east are closed until chapter 3) and Misty's pool Gym (Swimmer Luis,
+  Picnicker Diana, Misty: Staryu 18, Starmie 21; prize ₽2100, badge 2, TM03 Water Pulse).
+  Files: `route3.js`, `mtmoon.js`, `cerulean.js` (translations `kanto-route3`, `kanto-mtmoon`,
+  `kanto-cerulean`).
+- **Engine for chapter 2:** caves are outdoor-style maps with `palette: 'cave'`, `border: '#'`
+  and `cave: true` (wild Pokémon on any step; `#` rock walls are cliffs, the floor is "grass").
+  New outdoor tiles `%` ladder and `O` cave mouth (both warps; a cave mouth sits in a rock wall
+  with open ground below). Indoor maps may have `~` water (the `pool` palette paints the corners
+  in floor colours). People: `rocket`, `supernerd`, `hiker`, `misty`, `swimmer`; classes
+  `super-nerd`, `team-rocket`, `swimmer`.
+- **Balance** (`tests/story.test.cjs` prints both): Misty beats a lone Charmeleon (0% at Lv. 24)
+  and a lone Wartortle below Lv. 24, Ivysaur Lv. 22 wins ~80%; Charmeleon with a Paras from
+  Mt. Moon (Bug hits Starmie's Psychic type) wins every time. The Gym guide says so. The story
+  test plays chapter 2 too (Squirtle with a Paras caught in the cave).
+
+### After chapter 2
 
 1. **Rest of Kanto:**
    - Route 3, Mt. Moon, Cerulean and Misty, Nugget Bridge, Bill.

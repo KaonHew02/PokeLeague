@@ -32,19 +32,20 @@ G.Maps = (() => {
     door: { warp: 1 }, stamp: { solid: 1 },
     wall: { solid: 1 }, wood: {}, tile: {}, rug: {}, counter: { solid: 1, counter: 1 }, shelf: { solid: 1 },
     table: { solid: 1 }, plant: { solid: 1 }, pc: { solid: 1 }, healer: { solid: 1 },
-    mat: { warp: 1 }, stairs: { warp: 1 }, void: { solid: 1 }
+    mat: { warp: 1 }, stairs: { warp: 1 }, ladder: { warp: 1 }, hole: { warp: 1 }, void: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
       '.': 'grass', ',': 'path', ':': 'sand', '"': 'tall', f: 'flowers',
       T: 'tree', '#': 'cliff', '~': 'water', F: 'fence', S: 'sign',
       v: 'ledge-down', '<': 'ledge-left', '>': 'ledge-right',
-      H: 'stamp', C: 'stamp', M: 'stamp', G: 'stamp', L: 'stamp', D: 'door'
+      H: 'stamp', C: 'stamp', M: 'stamp', G: 'stamp', L: 'stamp', D: 'door',
+      '%': 'ladder', O: 'hole'                       // caves: a ladder, a cave mouth (both warps)
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',
       '=': 'counter', b: 'shelf', t: 'table', p: 'plant', P: 'pc', h: 'healer',
-      X: 'mat', '^': 'stairs'
+      X: 'mat', '^': 'stairs', '~': 'water'
     }
   };
   /** Buildings drawn as stamps: footprint in tiles (stamps.js paints them). */

@@ -167,8 +167,9 @@ async function run(st, mapId, script, answers = []) {
 }
 const npc = (st, mapId, id) => st.G.Maps.get(mapId).npcs.find(p => p.id === id).script;
 
-test('the slice: bedroom, starter, parcel, Pokédex, forest, Brock and the Boulder Badge', async () => {
-  const st = world(3);
+/** Chapter 1 as a player would play it (Squirtle), with checks along the way. */
+async function chapter1(st) {
+  // (st = world(seed))
   const { G, S } = st;
   const F = G.Field;
   await run(st, 'player-1f', 'pallet.mom');
@@ -231,6 +232,10 @@ test('the slice: bedroom, starter, parcel, Pokédex, forest, Brock and the Bould
   const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
   assert.deepEqual([...back.player.badges], [1]);
   assert.equal(back.party[0].sp, S.party[0].sp);
+}
+
+test('the slice: bedroom, starter, parcel, Pokédex, forest, Brock and the Boulder Badge', async () => {
+  await chapter1(world(3));
 });
 
 test('every trainer on the Kanto maps can be battled to the end by the engine', () => {
@@ -287,4 +292,104 @@ test('balance: Brock can be beaten with every starter (Charmander with a Route 2
   assert.ok(table.bulbasaur[14] >= 0.5, 'Bulbasaur Lv 14');
   assert.ok(table['charmander+mankey'][12] >= 0.6, 'Charmander Lv 12 with a Mankey Lv 10');
   assert.ok(table.charmander[14] < 0.5, 'Brock is a real test for a lone Charmander');
+});
+
+test('balance: Misty (chapter 2), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const misty = G.Maps.get('cerulean-gym').trainers.find(t => t.id === 'misty');
+  /** team: [[species, level], ...] -> share of 40 battles won */
+  const rate = team => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 17);
+      const me = team.map(([sp, lvl]) => G.Mon.create(sp, lvl, { rng }));
+      const foes = misty.team.map(([x, l, moves]) => G.Mon.create(G.Maps.species(x), l, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 'misty', name: 'Misty', ai: 'leader', items: misty.items || {}, prize: 100 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 40;
+  };
+  const table = {
+    'ivysaur 22': rate([[2, 22]]),
+    'wartortle 22': rate([[8, 22]]),
+    'wartortle 24': rate([[8, 24]]),
+    'charmeleon 22': rate([[5, 22]]),
+    'charmeleon 24': rate([[5, 24]]),
+    'charmeleon 22 + pikachu 18': rate([[5, 22], [25, 18]]),
+    'wartortle 22 + pikachu 18': rate([[8, 22], [25, 18]]),
+    'charmeleon 22 + butterfree 20': rate([[5, 22], [12, 20]]),
+    'charmeleon 22 + paras 20': rate([[5, 22], [46, 20]])
+  };
+  console.log('[balance] vs Misty:', JSON.stringify(table));
+  assert.ok(table['ivysaur 22'] >= 0.8, 'Ivysaur Lv 22');
+  assert.ok(table['wartortle 24'] >= 0.5, 'Wartortle Lv 24');
+  // Charmander's answer, as in the games: a Paras from Mt. Moon (Bug hits Starmie's Psychic type).
+  assert.ok(table['charmeleon 22 + paras 20'] >= 0.8, 'Charmeleon with a Paras');
+  assert.ok(table['charmeleon 24'] < 0.5, 'Misty is a real wall for a lone Charmeleon');
+});
+
+/** Puts party member i first (the one wild battles raise). */
+function lead(st, sp) {
+  const p = st.S.party, i = p.findIndex(m => m.sp === sp);
+  if (i > 0) p.unshift(p.splice(i, 1)[0]);
+}
+
+test('chapter 2: Route 3, Mt. Moon and its fossils, Cerulean City and the Cascade Badge', async () => {
+  const st = world(3);
+  await chapter1(st);
+  const { G, S } = st;
+  const F = G.Field;
+  await run(st, 'pewter', 'pewter.east-kid');
+  assert.match(st.log[st.log.length - 1], /Route 3/);
+  for (const t of G.Maps.get('route3').trainers) {
+    F.healAll();
+    await run(st, 'route3', [['battle', 'route3:' + t.id]]);
+  }
+  grind(st, 'route3', 18);
+  // The Magikarp salesman at the Mt. Moon Pokémon Center.
+  const money = S.player.money;
+  await run(st, 'mtmoon-center', 'route4.magikarp', [0]);
+  assert.equal(S.player.money, money - 500);
+  assert.ok(S.party.some(m => m.sp === 129) && F.flag('bought-magikarp'));
+  for (const id of ['mtmoon-1f', 'mtmoon-b2f']) {
+    for (const t of G.Maps.get(id).trainers.filter(t => t.id !== 'miguel')) {
+      F.healAll();
+      await run(st, id, [['battle', id + ':' + t.id]]);
+    }
+  }
+  // The fossils: Miguel battles first, then you keep one and he takes the other.
+  F.healAll();
+  await run(st, 'mtmoon-b2f', 'mtmoon.fossil-helix', [0]);
+  assert.ok(F.isDone('mtmoon-b2f:miguel'), 'Miguel was beaten');
+  assert.equal(F.count('helix-fossil'), 1);
+  assert.equal(F.count('dome-fossil'), 0);
+  assert.ok(F.isDone('mtmoon-b2f:fossil-dome') && F.flag('got-fossil'), 'Miguel took the Dome Fossil');
+  await run(st, 'mtmoon-b2f', 'mtmoon.fossil-dome');
+  assert.equal(F.count('dome-fossil'), 0, 'no second fossil');
+  // A Paras caught in the cave, raised along with the starter.
+  F.giveMon('paras', 10);
+  lead(st, 46);
+  grind(st, 'mtmoon-b1f', 14);
+  grind(st, 'route4', 20, 120);
+  lead(st, 8);
+  grind(st, 'route4', 23);
+  const rocket = st.battles.filter(b => /grunt/.test(b.key));
+  assert.equal(rocket.length, 4);
+
+  await run(st, 'cerulean-center', npc(st, 'cerulean-center', 'nurse'), [0]);
+  for (const id of ['luis', 'diana']) { F.healAll(); await run(st, 'cerulean-gym', [['battle', 'cerulean-gym:' + id]]); }
+  F.healAll();
+  lead(st, 46);                                  // Paras first: Bug hits Starmie hard
+  const before = S.player.money;
+  await run(st, 'cerulean-gym', [['battle', 'cerulean-gym:misty']]);
+  const last = st.battles[st.battles.length - 1];
+  assert.equal(last.key, 'cerulean-gym:misty');
+  assert.equal(last.outcome, 'win', 'Misty beaten at levels ' + last.levels);
+  assert.deepEqual([...S.player.badges], [1, 2]);
+  assert.equal(F.count('tm03'), 1);
+  assert.equal(S.player.money - before, 2100);
+  assert.ok(F.flag('chapter-2-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
 });

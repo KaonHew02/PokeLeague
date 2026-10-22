@@ -25,8 +25,6 @@ G.I18n.add({
   "A Pokémon's type matters a lot! Water beats Rock, Rock beats Flying, and Flying beats Bug.": "O tipo de um Pokémon importa muito! Água vence Pedra, Pedra vence Voador e Voador vence Inseto.",
   "My son wants to challenge the Gym one day. I hope he studies as hard as he plays!": "Meu filho quer desafiar o Ginásio um dia. Espero que ele estude tanto quanto brinca!",
   "If a Pokémon faints in battle, the others can keep going. Lose them all, though, and you black out!": "Se um Pokémon desmaiar na batalha, os outros continuam. Mas se todos caírem, você desmaia!",
-  "Pewter City Pokémon Gym. Leader: Brock, the rock-solid Pokémon Trainer!": "Ginásio Pokémon de Pewter City. Líder: Brock, o Treinador sólido como rocha!",
-  "Pewter City. A stone-grey city between the mountains.": "Pewter City. Uma cidade cinza como pedra entre as montanhas.",
   "Pewter City Pokémon Gym. Leader: Brock. Winning Trainers: {rival}": "Ginásio Pokémon de Pewter City. Líder: Brock. Treinadores vencedores: {rival}",
   "A fossil of Kabutops, an ancient Pokémon that hunted in the seas long ago.": "Um fóssil de Kabutops, um Pokémon antigo que caçava nos mares há muito tempo.",
   "A fossil of Aerodactyl, a Pokémon that once ruled the ancient skies.": "Um fóssil de Aerodactyl, um Pokémon que já dominou os céus antigos.",
@@ -34,5 +32,11 @@ G.I18n.add({
   "Books about fossils and the history of Pokémon.": "Livros sobre fósseis e a história dos Pokémon.",
   "Rock collections, neatly labelled.": "Coleções de pedras, bem etiquetadas.",
   "If your starter isn't a good match, catch a few more Pokémon to help out. A Mankey from Route 22 knows Low Kick, and big, heavy Onix really feels it!": "Se o seu inicial não for uma boa escolha, capture mais alguns Pokémon para ajudar. Um Mankey da Rota 22 sabe Low Kick, e o grande e pesado Onix sente muito!",
-  "Good luck!": "Boa sorte!"
+  "Good luck!": "Boa sorte!",
+  "Hey, wait! You're a Trainer, right? You can't leave Pewter City without trying the Gym!": "Ei, espere! Você é Treinador, né? Não pode sair de Pewter City sem tentar o Ginásio!",
+  "Brock is always looking for strong challengers. Come on, the Gym is just over there!": "Brock está sempre procurando desafiantes fortes. Vamos, o Ginásio é logo ali!",
+  "You beat Brock? Amazing! The road east goes to Route 3 and Mt. Moon.": "Você venceu o Brock? Incrível! O caminho para o leste vai à Rota 3 e ao Mt. Moon.",
+  "You can't leave Pewter City without trying the Gym! Brock is waiting.": "Você não pode sair de Pewter City sem tentar o Ginásio! Brock está esperando.",
+  "Pewter City Pokémon Gym. Leader: Brock, a Trainer as tough as stone!": "Ginásio Pokémon de Pewter City. Líder: Brock, um Treinador duro como pedra!",
+  "Pewter City. Mountains all around, and rocks everywhere you look.": "Pewter City. Montanhas por todo lado e pedras para onde quer que se olhe."
 }, "pt-BR");

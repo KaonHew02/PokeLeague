@@ -25,8 +25,6 @@ G.I18n.add({
   "A Pokémon's type matters a lot! Water beats Rock, Rock beats Flying, and Flying beats Bug.": "Le type d'un Pokémon compte beaucoup ! L'Eau bat la Roche, la Roche bat le Vol, et le Vol bat l'Insecte.",
   "My son wants to challenge the Gym one day. I hope he studies as hard as he plays!": "Mon fils veut défier l'Arène un jour. J'espère qu'il étudie autant qu'il joue !",
   "If a Pokémon faints in battle, the others can keep going. Lose them all, though, and you black out!": "Si un Pokémon est K.O. en combat, les autres peuvent continuer. Mais s'ils tombent tous, tu t'évanouis !",
-  "Pewter City Pokémon Gym. Leader: Brock, the rock-solid Pokémon Trainer!": "Arène Pokémon d'Argenta. Champion : Pierre, le Dresseur solide comme le roc !",
-  "Pewter City. A stone-grey city between the mountains.": "Argenta. Une ville grise comme la pierre, entre les montagnes.",
   "Pewter City Pokémon Gym. Leader: Brock. Winning Trainers: {rival}": "Arène Pokémon d'Argenta. Champion : Pierre. Dresseurs victorieux : {rival}",
   "A fossil of Kabutops, an ancient Pokémon that hunted in the seas long ago.": "Un fossile de Kabutops, un Pokémon ancien qui chassait dans les mers jadis.",
   "A fossil of Aerodactyl, a Pokémon that once ruled the ancient skies.": "Un fossile de Ptéra, un Pokémon qui régnait autrefois sur les cieux.",
@@ -34,5 +32,11 @@ G.I18n.add({
   "Books about fossils and the history of Pokémon.": "Des livres sur les fossiles et l'histoire des Pokémon.",
   "Rock collections, neatly labelled.": "Des collections de roches, soigneusement étiquetées.",
   "If your starter isn't a good match, catch a few more Pokémon to help out. A Mankey from Route 22 knows Low Kick, and big, heavy Onix really feels it!": "Si ton Pokémon de départ n'est pas le bon choix, attrape d'autres Pokémon pour t'aider. Un Férosinge de la Route 22 connaît Balayage, et le gros et lourd Onix le sent passer !",
-  "Good luck!": "Bonne chance !"
+  "Good luck!": "Bonne chance !",
+  "Hey, wait! You're a Trainer, right? You can't leave Pewter City without trying the Gym!": "Hé, attends ! Tu es Dresseur, pas vrai ? Tu ne peux pas quitter Argenta sans tenter l'Arène !",
+  "Brock is always looking for strong challengers. Come on, the Gym is just over there!": "Pierre cherche toujours des adversaires forts. Allez, l'Arène est juste là !",
+  "You beat Brock? Amazing! The road east goes to Route 3 and Mt. Moon.": "Tu as battu Pierre ? Génial ! La route de l'est mène à la Route 3 et au Mont Sélénite.",
+  "You can't leave Pewter City without trying the Gym! Brock is waiting.": "Tu ne peux pas quitter Argenta sans tenter l'Arène ! Pierre t'attend.",
+  "Pewter City Pokémon Gym. Leader: Brock, a Trainer as tough as stone!": "Arène Pokémon d'Argenta. Champion : Pierre, un Dresseur dur comme la pierre !",
+  "Pewter City. Mountains all around, and rocks everywhere you look.": "Argenta. Des montagnes tout autour, et des rochers partout."
 }, "fr");

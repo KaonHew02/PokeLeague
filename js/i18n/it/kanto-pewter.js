@@ -25,8 +25,6 @@ G.I18n.add({
   "A Pokémon's type matters a lot! Water beats Rock, Rock beats Flying, and Flying beats Bug.": "Il tipo di un Pokémon conta tantissimo! L'Acqua batte la Roccia, la Roccia batte il Volante e il Volante batte il Coleottero.",
   "My son wants to challenge the Gym one day. I hope he studies as hard as he plays!": "Mio figlio vuole sfidare la Palestra un giorno. Spero che studi quanto gioca!",
   "If a Pokémon faints in battle, the others can keep going. Lose them all, though, and you black out!": "Se un Pokémon va KO in lotta, gli altri possono continuare. Ma se cadono tutti, perdi i sensi!",
-  "Pewter City Pokémon Gym. Leader: Brock, the rock-solid Pokémon Trainer!": "Palestra Pokémon di Plumbeopoli. Capopalestra: Brock, l'Allenatore solido come la roccia!",
-  "Pewter City. A stone-grey city between the mountains.": "Plumbeopoli. Una città grigia come la pietra tra le montagne.",
   "Pewter City Pokémon Gym. Leader: Brock. Winning Trainers: {rival}": "Palestra Pokémon di Plumbeopoli. Capopalestra: Brock. Allenatori vincitori: {rival}",
   "A fossil of Kabutops, an ancient Pokémon that hunted in the seas long ago.": "Un fossile di Kabutops, un antico Pokémon che cacciava nei mari tanto tempo fa.",
   "A fossil of Aerodactyl, a Pokémon that once ruled the ancient skies.": "Un fossile di Aerodactyl, un Pokémon che un tempo dominava i cieli.",
@@ -34,5 +32,11 @@ G.I18n.add({
   "Books about fossils and the history of Pokémon.": "Libri sui fossili e sulla storia dei Pokémon.",
   "Rock collections, neatly labelled.": "Collezioni di rocce, ordinatamente etichettate.",
   "If your starter isn't a good match, catch a few more Pokémon to help out. A Mankey from Route 22 knows Low Kick, and big, heavy Onix really feels it!": "Se il tuo Pokémon iniziale non è adatto, cattura qualche altro Pokémon che ti aiuti. Un Mankey del Percorso 22 conosce Colpo Basso, e il grosso e pesante Onix lo sente eccome!",
-  "Good luck!": "Buona fortuna!"
+  "Good luck!": "Buona fortuna!",
+  "Hey, wait! You're a Trainer, right? You can't leave Pewter City without trying the Gym!": "Ehi, aspetta! Sei un Allenatore, vero? Non puoi lasciare Plumbeopoli senza sfidare la Palestra!",
+  "Brock is always looking for strong challengers. Come on, the Gym is just over there!": "Brock cerca sempre sfidanti forti. Dai, la Palestra è proprio lì!",
+  "You beat Brock? Amazing! The road east goes to Route 3 and Mt. Moon.": "Hai battuto Brock? Fantastico! La strada a est porta al Percorso 3 e al Monte Luna.",
+  "You can't leave Pewter City without trying the Gym! Brock is waiting.": "Non puoi lasciare Plumbeopoli senza sfidare la Palestra! Brock ti aspetta.",
+  "Pewter City Pokémon Gym. Leader: Brock, a Trainer as tough as stone!": "Palestra Pokémon di Plumbeopoli. Capopalestra: Brock, un Allenatore duro come la pietra!",
+  "Pewter City. Mountains all around, and rocks everywhere you look.": "Plumbeopoli. Montagne tutt'intorno e rocce ovunque guardi."
 }, "it");

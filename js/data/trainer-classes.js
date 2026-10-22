@@ -12,6 +12,9 @@ G.TRAINER_CLASSES = {
   'bug-catcher': { title: 'Bug Catcher', who: 'bugcatcher', prize: 12 },
   camper:        { title: 'Camper', who: 'camper', prize: 20 },
   picnicker:     { title: 'Picnicker', who: 'lass', prize: 20 },
-  hiker:         { title: 'Hiker', who: 'camper', prize: 36 },
+  hiker:         { title: 'Hiker', who: 'hiker', prize: 36 },
+  'super-nerd':  { title: 'Super Nerd', who: 'supernerd', prize: 24 },
+  'team-rocket': { title: 'Team Rocket Grunt', who: 'rocket', prize: 30 },
+  swimmer:       { title: 'Swimmer', who: 'swimmer', prize: 4 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

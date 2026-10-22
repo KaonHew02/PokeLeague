@@ -7,5 +7,8 @@ G.I18n.add({
   "Camper": "Camper",
   "Picnicker": "Gitante",
   "Hiker": "Montanaro",
-  "Leader": "Capopalestra"
+  "Leader": "Capopalestra",
+  "Super Nerd": "Secchione",
+  "Team Rocket Grunt": "Recluta Team Rocket",
+  "Swimmer": "Nuotatore"
 }, "it");

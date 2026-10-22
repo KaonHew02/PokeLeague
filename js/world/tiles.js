@@ -46,6 +46,20 @@ G.Tiles = (() => {
       wood: ['#a8784c', '#c89a68', '#6e4828'], woodEdge: '#3a2616',
       ledge: ['#46903c', '#33782e', '#225a20']
     },
+    // Caves (Mt. Moon): an outdoor-style map whose "grass" is the cave floor and cliffs are rock walls.
+    cave: {
+      grass: ['#b49670', '#ac8e68', '#bc9e78'], speck: '#927454', light: '#c8ac86',
+      path: ['#c4a87e', '#bca076', '#ccb088'], pathEdge: '#987a54', pathSpeck: '#a88a62',
+      sand: ['#c8b494', '#c0ac8c', '#d0bc9c'], sandEdge: '#a08a68', sandSpeck: '#ac9878',
+      tall: ['#7a6448', '#8a7254', '#9c8460'], tallEdge: '#4e3c28',
+      petals: ['#e8d8a0', '#f8f0d0'], petalCenter: '#f8d040',
+      leaf: ['#3a2c20', '#4e3c2c', '#66503a', '#80684c'], trunk: ['#3e2c1e', '#54402c'], treeEdge: '#1e140c',
+      cliffTop: ['#5e4a38', '#664f3c', '#584434'], cliffLight: '#7a644c', cliffEdge: '#241810',
+      cliffFace: ['#5e4836', '#56402e'], cliffFaceDark: '#34261a',
+      liq: '#3a6ab0', liqDeep: '#2a5296', foam: '#a8c8f0', shore: '#866a4c',
+      wood: ['#8a6a48', '#a88660', '#5e4630'], woodEdge: '#2e2016',
+      ledge: ['#8a7052', '#6e563e', '#52402c']
+    },
     // Interiors: walls, floors and furniture. `floor` is what lies under furniture.
     house: { floor: 'wood', wallTop: ['#5c5450', '#6a625c'], paper: ['#f2e6c8', '#e8dab8'], trim: '#b08a60', base: '#7a5a3c',
       wood: ['#d8a868', '#cc9a5c', '#e2b478'], woodLine: '#a07040', tile: ['#eeeee6', '#d8d8d0'], grout: '#c2c2ba',
@@ -66,7 +80,14 @@ G.Tiles = (() => {
     gym: { floor: 'tile', wallTop: ['#4a4440', '#56504a'], paper: ['#cac2b2', '#bab2a2'], trim: '#8c8270', base: '#6a6050',
       wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#c8b898', '#b8a888'], grout: '#a09070',
       rug: ['#b84040', '#d86060', '#882828'], counter: ['#d8d0c0', '#b0a690', '#807660'],
-      mat: ['#b84040', '#d86060'], screen: '#68d0f8' }
+      mat: ['#b84040', '#d86060'], screen: '#68d0f8' },
+    // A Gym with a swimming pool (Cerulean): the water's corners take the floor colours.
+    pool: { floor: 'tile', wallTop: ['#3a5a7a', '#466888'], paper: ['#d8e8f4', '#c8dcec'], trim: '#7aa0c0', base: '#4a7090',
+      wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#e8eef4', '#d8e2ea'], grout: '#b8c8d4',
+      rug: ['#3a8ad0', '#5aa8e8', '#2a6aa8'], counter: ['#e8eef4', '#c4d0dc', '#8a9cae'],
+      mat: ['#3a8ad0', '#5aa8e8'], screen: '#68d0f8',
+      grass: ['#e8eef4', '#e4eaf0', '#e8eef4'], speck: '#d8e2ea', light: '#eef2f6', shore: '#c8d6e2',
+      liq: '#5ab4f4', liqDeep: '#3a94e4', foam: '#e6f6ff' }
   };
   const OUT = 'kanto';
 
@@ -553,6 +574,52 @@ G.Tiles = (() => {
     'oooooooooooooooo',
     '................'
   ];
+  // Caves: a wooden ladder, and a cave mouth (a dark opening in the rock).
+  const LADDER = [
+    '................',
+    '...o........o...',
+    '...ol......ol...',
+    '...oooooooooo...',
+    '...oddddddddo...',
+    '...ol......ol...',
+    '...oooooooooo...',
+    '...oddddddddo...',
+    '...ol......ol...',
+    '...oooooooooo...',
+    '...oddddddddo...',
+    '...ol......ol...',
+    '...oooooooooo...',
+    '...oddddddddo...',
+    '...ol......ol...',
+    '...o........o...'
+  ];
+  const HOLE = [
+    '................',
+    '.....rrrrrr.....',
+    '...rrkkkkkkrr...',
+    '..rkkkkkkkkkkr..',
+    '.rkkkkkkkkkkkkr.',
+    '.rkkkkkkkkkkkkr.',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    'rrkkkkkkkkkkkkrr'
+  ];
+  function ladder(P, C, ox, oy, tx, ty) {
+    grass(P, C, ox, oy, tx, ty);
+    ascii(P, ox, oy, LADDER, { o: C.woodEdge, l: C.wood[1], d: C.wood[2] });
+  }
+  function hole(P, C, ox, oy, tx, ty, at) {
+    cliff(P, C, ox, oy, tx, ty, (x, y) => (x === tx && y === ty ? 'cliff' : at(x, y)));
+    ascii(P, ox, oy, HOLE, { r: C.cliffEdge, k: C.black });
+  }
+
   const STAIRS = [
     'oooooooooooooooo',
     'ollllllllllllllo',
@@ -668,6 +735,8 @@ G.Tiles = (() => {
       case 'shelf': case 'table': case 'plant': case 'pc': case 'healer': furniture(P, C, ox, oy, tx, ty, kind, at); break;
       case 'mat': mat(P, C, ox, oy, tx, ty); break;
       case 'stairs': stairs(P, C, ox, oy); break;
+      case 'ladder': ladder(P, C, ox, oy, tx, ty); break;
+      case 'hole': hole(P, C, ox, oy, tx, ty, at); break;
       default: P.rect(ox, oy, T, T, C.black);
     }
     // Under a building: whatever is around it (path in front of the door).

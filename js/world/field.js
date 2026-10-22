@@ -421,6 +421,9 @@ G.World = (() => {
     if (k === 'tall') {
       sfx('grass');
       if (maybeEncounter('walk')) return;
+    } else if (map.def.cave && !M().info(k).warp) {
+      // Caves (map `cave: true`): wild Pokémon on any step, as in Mt. Moon.
+      if (maybeEncounter('walk')) return;
     }
     if (repelOut) { repelOut = false; runScript([['say', "The Repel's effect wore off..."]], {}); }
   }

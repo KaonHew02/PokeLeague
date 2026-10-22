@@ -16,8 +16,9 @@ the map format and which files each milestone owns.
 - `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1 [--trainer] [--lang zh-Hans]` — a battle in the terminal.
 - `python tools/fetch_data.py --region kanto [--offline]` — regenerates js/data/ from PokeAPI (cached).
 - `node tools/map_check.js <map-id> | --all` — prints a map with its objects and checks it.
-- `tests/story.test.cjs` plays the whole slice headless (real scripts and battle engine with an
-  auto-player) and prints `[balance]` win rates of each starter against Brock.
+- `tests/story.test.cjs` plays chapters 1 and 2 headless (real scripts and battle engine with an
+  auto-player) and prints `[balance]` win rates against Brock and Misty. The game grows chapter by
+  chapter (docs/DESIGN.md section 10); a chapter ends with `G.CreditsUI.ending(n)`.
   Try a map in the browser with `dev.html?debug&map=<id>` (`map=sandbox` is the M3 test town).
 - Run: `python tools/serve.py` → http://localhost:8130/dev.html (PokéGo uses 8123). It is
   `http.server` with no-cache headers, so edited scripts are never stale. `.claude/launch.json`
@@ -50,4 +51,5 @@ the map format and which files each milestone owns.
 - Sprites are CC BY-NC 4.0: after adding sprites run `python tools/fetch_credits.py`, then
   `node tools/credits_js.js` (or the build) so the credits screen lists the new artists.
 - No commercial use: no ads, sales or paid items.
-- Not on GitHub yet. Create the repo (KaonHew02/PokeLeague) and push only when the user asks.
+- On GitHub: https://github.com/KaonHew02/PokeLeague (`origin`), published by GitHub Pages from
+  `main` (root, `.nojekyll`) at https://kaonhew02.github.io/PokeLeague/. Push only when the user asks.

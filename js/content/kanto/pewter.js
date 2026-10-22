@@ -1,8 +1,8 @@
 /* ============ pewter.js — Pewter City and Brock's Gym ============
  * The end of the first slice: Pewter City (Center, Mart, the museum, two houses) and
  * its Gym: Camper Liam, then Leader Brock (Geodude Lv. 12, Onix Lv. 14). Beating him
- * gives the Boulder Badge (badge 1) and TM39 Rock Tomb. The road east to Route 3 and
- * Mt. Moon is closed for now. (The texts are our own; the events follow the games.)
+ * gives the Boulder Badge (badge 1) and TM39 Rock Tomb. The road east to Route 3 opens
+ * once you have the badge. (The texts are our own; the events follow the games.)
  */
 G.Maps.def({
   id: 'pewter', loc: 'pewter-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -16,7 +16,7 @@ G.Maps.def({
     'T.....,......S....GGGDGG.....T',
     'T.....,..............,.......T',
     'T.....,,,,,,,,,,,,,,,,.......T',
-    'T.............,,,,,,,,,,,,,,,T',
+    'T.............,,,,,,,,,,,,,,,,',
     'T..HHHH.......,,.....CCCCC...T',
     'T..HHHH.......,,.....CCCCC...T',
     'T..HDHH.......,,.....CCCCC...T',
@@ -32,7 +32,7 @@ G.Maps.def({
     'T.ff..........,,..........ff.T',
     'TTTTTTTTTTTTTT,,TTTTTTTTTTTTTT'
   ],
-  connect: { south: { map: 'route2-north', offset: 5 } },
+  connect: { south: { map: 'route2-north', offset: 5 }, east: { map: 'route3', offset: 4 } },
   warps: [
     { x: 6, y: 5, to: 'pewter-museum', spot: 'door' },
     { x: 21, y: 6, to: 'pewter-gym', spot: 'door' },
@@ -42,23 +42,25 @@ G.Maps.def({
     { x: 23, y: 18, to: 'pewter-house2', spot: 'door' }
   ],
   spots: {
-    south: [14, 22, 'up'],
+    south: [14, 22, 'up'], east: [28, 9, 'left'],
     'museum-door': [6, 6, 'down'], 'gym-door': [21, 7, 'down'], 'house-door': [4, 13, 'down'],
     'center-door': [23, 14, 'down'], 'mart-door': [5, 19, 'down'], 'house2-door': [23, 19, 'down']
   },
   signs: {
-    '13,6': 'Pewter City Pokémon Gym. Leader: Brock, the rock-solid Pokémon Trainer!',
-    '10,21': 'Pewter City. A stone-grey city between the mountains.'
+    '13,6': 'Pewter City Pokémon Gym. Leader: Brock, a Trainer as tough as stone!',
+    '10,21': 'Pewter City. Mountains all around, and rocks everywhere you look.'
   },
   npcs: [
-    { id: 'worker', who: 'guide', x: 28, y: 9, dir: 'left',
-      say: 'Sorry, the road east to Route 3 is closed. A rockslide near Mt. Moon blocked it.' },
+    { id: 'gatekid', who: 'youngster', x: 27, y: 8, dir: 'down', script: 'pewter.east-kid' },
     { id: 'kid', who: 'youngster', x: 16, y: 7, move: 'wander', r: 1,
       say: "Brock is the Gym Leader here. He's super tough: Rock-type Pokémon shrug off Normal-type moves!" },
     { id: 'girl', who: 'lass', x: 9, y: 16, move: 'look',
       say: 'Have you been to the museum? The fossils of ancient Pokémon are amazing!' },
     { id: 'oldman', who: 'oldman', x: 18, y: 15, move: 'look',
       say: 'Water and Grass moves wear down rocks. Remember that when you face Brock!' }
+  ],
+  triggers: [
+    { x: 27, y: 9, w: 1, h: 1, if: '!badge:1', script: 'pewter.not-yet' }
   ]
 });
 
@@ -201,7 +203,21 @@ G.Script.def({
     ['giveItem', 'tm39', 1],
     ['say', 'Keep training, {player}. There are many strong Trainers out there!', { name: 'Brock' }],
     // The end of the first chapter (credits-ui.js): the player's numbers, the credits, a save.
-    ['js', () => (G.CreditsUI ? G.CreditsUI.ending() : G.Field.setFlag('chapter-1-done'))]
+    ['js', () => (G.CreditsUI ? G.CreditsUI.ending(1) : G.Field.setFlag('chapter-1-done'))]
+  ],
+  'pewter.not-yet': [
+    ['face', 'gatekid', 'player'],
+    ['emote', 'gatekid', '!'],
+    ['say', "Hey, wait! You're a Trainer, right? You can't leave Pewter City without trying the Gym!"],
+    ['say', "Brock is always looking for strong challengers. Come on, the Gym is just over there!"],
+    ['move', 'player', 'L']
+  ],
+  'pewter.east-kid': [
+    ['if', 'badge:1', [
+      ['say', 'You beat Brock? Amazing! The road east goes to Route 3 and Mt. Moon.']
+    ], [
+      ['say', "You can't leave Pewter City without trying the Gym! Brock is waiting."]
+    ]]
   ],
   'pewter.gym-guide': [
     ['if', 'badge:1', [

@@ -1,7 +1,8 @@
 /* ============ credits-ui.js — the credits, and the end of the first chapter ============
  *   G.CreditsUI.open()      from the title screen: who made what (licences, sprite artists)
- *   await G.CreditsUI.ending()   after Brock: "Chapter 1 complete!", the player's numbers and
- *                           party, then the credits; Save and continue / Continue
+ *   await G.CreditsUI.ending(n)  after a chapter's last Gym (1: Brock, 2: Misty): "Chapter n
+ *                           complete!", the player's numbers and party, then the credits;
+ *                           Save and continue / Continue. Sets the flag chapter-n-done.
  * The text scrolls slowly by itself; the wheel, a finger or the arrows take over.
  * Artist names come from CREDITS.md (js/data/credits.js, made by tools/credits_js.js).
  */
@@ -29,17 +30,25 @@ G.CreditsUI = (() => {
     };
   }
 
-  function endingHtml() {
-    const S = G.Field.save, p = S.player;
+  /** What each chapter's ending says (literal keys for the translations). */
+  function chapterText(n, player) {
+    if (n === 2) return { title: T('Chapter 2 complete!'), done: fmt('{player} beat Misty and earned the Cascade Badge.', { player }),
+                          next: T('Thank you for playing! The road beyond Cerulean City opens in a future update.') };
+    return { title: T('Chapter 1 complete!'), done: fmt('{player} beat Brock and earned the Boulder Badge.', { player }),
+             next: T('The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!') };
+  }
+
+  function endingHtml(n) {
+    const S = G.Field.save, p = S.player, txt = chapterText(n, p.name);
     const party = S.party.map(m => `<div class="cr-mon"><canvas width="64" height="64" data-sp="${m.sp}" data-shiny="${m.shiny ? 1 : 0}"></canvas>`
       + `<span>${esc(G.Mon.name(m))}</span><small>${esc(fmt('Lv. {n}', { n: m.lvl }))}</small></div>`).join('');
-    return `<h2 class="cr-big">${esc(T('Chapter 1 complete!'))}</h2>`
-      + `<p>${esc(fmt('{player} beat Brock and earned the Boulder Badge.', { player: p.name }))}</p>`
+    return `<h2 class="cr-big">${esc(txt.title)}</h2>`
+      + `<p>${esc(txt.done)}</p>`
       + `<div class="cr-stats"><span>${esc(fmt('Time {t}', { t: G.Menus.time(S.playTime) }))}</span>`
       + `<span>${esc(fmt('Pokédex {n}', { n: Object.keys(S.dex.caught).length }))}</span>`
       + `<span>${esc(fmt('Badges {n}', { n: p.badges.length }))}</span></div>`
       + `<div class="cr-party">${party}</div>`
-      + `<p>${esc(T('Thank you for playing! The road to Mt. Moon and Cerulean City opens in a future update.'))}</p><hr>`;
+      + `<p>${esc(txt.next)}</p><hr>`;
   }
 
   function creditsHtml() {
@@ -78,7 +87,7 @@ G.CreditsUI = (() => {
 
   function show(ending, buttons) {
     if (!el) build();
-    el.querySelector('.cr-roll').innerHTML = (ending ? endingHtml() : '') + creditsHtml();
+    el.querySelector('.cr-roll').innerHTML = (ending ? endingHtml(ending) : '') + creditsHtml();
     el.querySelectorAll('canvas[data-sp]').forEach(cv => G.UI.sprite(cv, +cv.dataset.sp, { shiny: cv.dataset.shiny === '1', hero: true, scale: 2 }));
     const row = el.querySelector('.cr-buttons');
     row.innerHTML = '';
@@ -103,9 +112,9 @@ G.CreditsUI = (() => {
 
   function open() { show(false, [[T('Back'), close, 'ghost', true]]); }
 
-  /** After the Boulder Badge. Resolves when the player goes back to the game. */
-  function ending() {
-    G.Field.setFlag('chapter-1-done');
+  /** After a chapter's last badge. Resolves when the player goes back to the game. */
+  function ending(n = 1) {
+    G.Field.setFlag('chapter-' + n + '-done');
     if (G.Audio.context) G.Audio.context('title');
     return new Promise(res => {
       done = () => {
@@ -120,7 +129,7 @@ G.CreditsUI = (() => {
         else if (slot) G.UI.toast(T('Could not save: the browser storage is full or blocked.'), 4000);
         close();
       };
-      show(true, [[T('Continue'), close, 'ghost', true], [T('Save and continue'), saveAndGo, 'gold']]);
+      show(n, [[T('Continue'), close, 'ghost', true], [T('Save and continue'), saveAndGo, 'gold']]);
     });
   }
 

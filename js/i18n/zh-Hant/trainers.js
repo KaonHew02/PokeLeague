@@ -7,5 +7,8 @@ G.I18n.add({
   "Camper": "露營男",
   "Picnicker": "野餐女",
   "Hiker": "登山男",
-  "Leader": "道館館主"
+  "Leader": "道館館主",
+  "Super Nerd": "書呆子",
+  "Team Rocket Grunt": "火箭隊手下",
+  "Swimmer": "泳褲小伙"
 }, "zh-Hant");

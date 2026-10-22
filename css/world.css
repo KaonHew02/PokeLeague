@@ -1,1 +1,76 @@
-/* ============ world.css ============ */
+/* ============ world.css — overworld overlays: dialog box, menu button, place name ============ */
+
+/* ---------- dialog (dialog.js) ---------- */
+.scr.dlg {
+  align-items: flex-end; justify-content: center;
+  padding: 0 2.2% 2.2%;
+  background: none; animation: none;
+  cursor: pointer;
+}
+.dlg-wrap { position: relative; width: 100%; }
+.dlg-box {
+  width: 100%;
+  padding: .5em .95em .55em;
+  font-size: 1.08em;
+  animation: dlgup .12s ease-out;
+  overflow: visible;
+}
+@keyframes dlgup { from { transform: translateY(.4em); opacity: 0; } to { transform: none; opacity: 1; } }
+.dlg-text {
+  white-space: pre-wrap; word-break: normal; overflow-wrap: break-word;
+  line-height: 1.42; min-height: 2.84em;
+  padding-right: .9em;
+}
+.dlg-off { visibility: hidden; }
+.dlg-measure { position: absolute; left: 0; top: 0; visibility: hidden; pointer-events: none; min-height: 0; }
+.dlg-more {
+  position: absolute; right: .75em; bottom: .4em;
+  font-size: .62em; line-height: 1; color: var(--gold);
+  opacity: 0;
+}
+.dlg-more.on { opacity: 1; animation: dlgblink .9s steps(2, start) infinite; }
+@keyframes dlgblink { to { visibility: hidden; } }
+.dlg-name {
+  position: absolute; left: .7em; bottom: 100%; margin-bottom: -.12em;
+  padding: .08em .6em .02em;
+  font-size: .78em; font-weight: 700; color: var(--gold);
+  background: linear-gradient(180deg, var(--box1), var(--box2));
+  border: .17em solid var(--edge); border-bottom: 0; border-radius: .45em .45em 0 0;
+}
+.dlg-choices {
+  position: absolute; right: 0; bottom: calc(100% + .45em);
+  min-width: 5.5em; padding: .3em .45em;
+  font-size: .95em;
+}
+.dlg-choices .menu-item { display: block; width: 100%; }
+.dlg-choices .menu-item.sel { background: rgba(255,255,255,.1); }
+.dlg-choices .menu-item.sel::before { opacity: 1; transform: none; }
+
+/* ---------- menu button (phones; also clickable with the mouse) ---------- */
+.ow-menu {
+  position: absolute; top: 2.6%; right: 1.8%; z-index: 12;
+  width: max(1.75em, 32px); height: max(1.75em, 32px); padding: max(.38em, 7px) max(.34em, 6px);
+  display: flex; flex-direction: column; justify-content: space-between;
+  appearance: none; cursor: pointer;
+  border: .14em solid var(--edge); border-radius: .45em;
+  background: linear-gradient(180deg, rgba(61,103,192,.92), rgba(38,70,143,.92));
+  box-shadow: 0 0 0 .1em var(--edge-out);
+  opacity: .82;
+}
+.ow-menu span { display: block; height: .14em; border-radius: .1em; background: #fff; box-shadow: .06em .06em 0 var(--shadow); }
+.ow-menu:hover { opacity: 1; filter: brightness(1.12); }
+
+/* ---------- place name (entering a town or a route) ---------- */
+.ow-banner {
+  position: absolute; top: 2.6%; left: 2%; z-index: 12;
+  padding: .28em .9em;
+  font-size: .9em; font-weight: 700;
+  background: linear-gradient(180deg, var(--box1), var(--box2));
+  border: .17em solid var(--edge); border-radius: .5em;
+  box-shadow: 0 0 0 .12em var(--edge-out);
+  text-shadow: .1em .1em 0 var(--shadow);
+  transform: translateY(-60%); opacity: 0;
+  transition: transform .28s ease-in, opacity .28s ease-in;
+  pointer-events: none;
+}
+.ow-banner.show { transform: none; opacity: 1; transition: transform .25s ease-out, opacity .2s ease-out; }

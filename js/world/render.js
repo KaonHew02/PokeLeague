@@ -1,3 +1,159 @@
-/* ============ render.js — drawing the map, props and actors ============
- * Stub: implemented in milestone M3 (see CLAUDE.md).
+/* ============ render.js — drawing the overworld ============
+ * Per frame, in world units (a tile is 32; G.Camera scales to the screen):
+ *   1. the border kind outside every map (a repeating canvas from G.Tiles.border)
+ *   2. the baked ground of the connected maps, then of this map (2 frames: water, flowers)
+ *   3. Y-sorted: the strips of tall things (trees, buildings) row by row, items,
+ *      people and the follower; tall grass draws its front tuft over feet
+ *   4. emotes, the healing machine, then the warp fade over everything
+ *
+ *   G.WorldRender.prepare(map)   bakes the map and its neighbours (cached)
+ *   G.WorldRender.draw(ctx, view, scene)
+ *   G.WorldRender.extra          functions (ctx, scene) drawn in world units at the end (debug.js)
  */
+G.WorldRender = (() => {
+  const TS = 32, T = 16;
+  const cache = new Map();            // map id -> baked graphics (most recent last)
+  const MAX = 10;
+  const extra = [];
+
+  function gfx(m) {
+    let g = cache.get(m.id);
+    if (g && g.src === m) { cache.delete(m.id); cache.set(m.id, g); return g; }
+    g = G.Tiles.bakeMap(m);
+    g.src = m;
+    cache.set(m.id, g);
+    while (cache.size > MAX) cache.delete(cache.keys().next().value);
+    return g;
+  }
+
+  function prepare(m) {
+    gfx(m);
+    for (const nb of G.Maps.neighbours(m)) gfx(nb.map);
+  }
+
+  let patternFor = null, pattern = null;
+  function drawBorder(ctx, m, L, Tp, W, H) {
+    const cv = G.Tiles.border(m);
+    if (!cv) return;
+    if (patternFor !== cv) { pattern = ctx.createPattern(cv, 'repeat'); patternFor = cv; }
+    const PX = G.Sprites.PX;
+    ctx.save();
+    ctx.scale(PX, PX);
+    ctx.fillStyle = pattern;
+    const x0 = Math.floor(L / TS) * T - T, y0 = Math.floor(Tp / TS) * T - T;
+    ctx.fillRect(x0, y0, W / PX + 3 * T, H / PX + 3 * T);
+    ctx.restore();
+  }
+
+  // Emote bubbles and the items' ball, painted once.
+  const bubbles = {};
+  function bubble(ch) {
+    if (bubbles[ch]) return bubbles[ch];
+    const { Pix, pack, ascii } = G.Tiles;
+    const P = Pix(12, 13);
+    const ART = {
+      '!': ['.oooooooooo.', 'owwwwwwwwwwo', 'owwwwrrwwwwo', 'owwwwrrwwwwo', 'owwwwrrwwwwo', 'owwwwrrwwwwo', 'owwwwwwwwwwo', 'owwwwrrwwwwo', 'owwwwwwwwwwo', '.oooowwoooo.', '....owo.....', '....oo......'],
+      '?': ['.oooooooooo.', 'owwwwwwwwwwo', 'owwwbbbbwwwo', 'owwbbwwbbwwo', 'owwwwwbbwwwo', 'owwwwbbwwwwo', 'owwwwwwwwwwo', 'owwwwbbwwwwo', 'owwwwwwwwwwo', '.oooowwoooo.', '....owo.....', '....oo......'],
+      '…': ['.oooooooooo.', 'owwwwwwwwwwo', 'owwwwwwwwwwo', 'owwwwwwwwwwo', 'owwwwwwwwwwo', 'owbbwbbwbbwo', 'owwwwwwwwwwo', 'owwwwwwwwwwo', 'owwwwwwwwwwo', '.oooowwoooo.', '....owo.....', '....oo......']
+    };
+    ascii(P, 0, 0, ART[ch] || ART['!'], { o: pack('#202028'), w: pack('#ffffff'), r: pack('#e83838'), b: pack('#3048a8') });
+    return (bubbles[ch] = P.canvas());
+  }
+
+  /** A tiny Poké Ball for the healing machine (lit: flashing white). */
+  const healBalls = {};
+  function healBall(lit) {
+    if (healBalls[lit]) return healBalls[lit];
+    const { Pix, pack, ascii } = G.Tiles;
+    const P = Pix(4, 4);
+    ascii(P, 0, 0, ['.rr.', 'rrrr', 'owwo', '.ww.'], lit ? { r: pack('#ffffff'), w: pack('#ffffff'), o: pack('#fff4a0') } : { r: pack('#f04848'), w: pack('#f8f8f8'), o: pack('#202028') });
+    return (healBalls[lit] = P.canvas());
+  }
+
+  function tuftAt(list, m, x, y, after) {
+    if (G.Maps.kindAt(m, x, y) !== 'tall') return;
+    const tuft = G.Tiles.sprite('tuft', m.palette in G.Tiles.PALETTES && !G.Tiles.PALETTES[m.palette].floor ? m.palette : 'kanto');
+    list.push({ y: after + 0.02, draw: c => c.drawImage(tuft, x * TS, (y + 1) * TS - tuft.height * G.Sprites.PX, TS, tuft.height * G.Sprites.PX) });
+  }
+
+  function draw(ctx, view, S) {
+    const m = S.map, PX = G.Sprites.PX;
+    const g = gfx(m);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, view.w, view.h);
+    ctx.save();
+    ctx.scale(G.Camera.scale, G.Camera.scale);
+    G.Camera.apply(ctx);
+    const L = G.Camera.left(), Tp = G.Camera.top(), W = G.Camera.w, H = G.Camera.h;
+    drawBorder(ctx, m, L, Tp, W, H);
+    const frame = Math.floor(performance.now() / 650) % 2;
+    const maps = [{ m, ox: 0, oy: 0, g }];
+    for (const nb of G.Maps.neighbours(m)) maps.push({ m: nb.map, ox: nb.ox, oy: nb.oy, g: gfx(nb.map) });
+    for (const it of maps) {
+      const x = it.ox * TS, y = it.oy * TS, w = it.m.w * TS, h = it.m.h * TS;
+      if (x > L + W || y > Tp + H || x + w < L || y + h < Tp) continue;
+      ctx.drawImage(it.g.ground[frame], x, y, w, h);
+    }
+
+    // Y-sorted things.
+    const list = [];
+    const r0 = Math.floor(Tp / TS) - 1, r1 = Math.ceil((Tp + H) / TS) + 4;
+    for (const it of maps) {
+      for (const [row, s] of Object.entries(it.g.strips)) {
+        const wr = +row + it.oy;
+        if (wr < r0 || wr > r1) continue;
+        const cv = s.canvas;
+        list.push({ y: (wr + 0.5) * TS - 0.5, draw: c => c.drawImage(cv, it.ox * TS, (wr + 1) * TS - cv.height * PX, cv.width * PX, cv.height * PX) });
+      }
+    }
+    if (g.below && !m.connect.south) {
+      const cv = g.below.canvas;
+      list.push({ y: (m.h + 0.5) * TS - 0.5, draw: c => c.drawImage(cv, -TS, (m.h + 1) * TS - cv.height * PX, cv.width * PX, cv.height * PX) });
+    }
+    const ball = G.Tiles.sprite('ball');
+    for (const it of S.items) {
+      if (it.got || it.def.hidden) continue;
+      const x = it.def.x, y = it.def.y;
+      list.push({ y: (y + 0.5) * TS, draw: c => c.drawImage(ball, x * TS + (TS - ball.width * PX) / 2, (y + 1) * TS - (ball.height + 2) * PX, ball.width * PX, ball.height * PX) });
+    }
+    const people = S.actors.filter(a => a.visible);
+    if (S.follower && S.follower.visible) people.push(S.follower);
+    if (S.me) people.push(S.me);
+    for (const a of people) {
+      const key = a.wy + (a === S.me ? 0.01 : 0);
+      list.push({ y: key, draw: c => a.draw(c) });
+      if (a.lift()) continue;
+      tuftAt(list, m, a.x, a.y, key);
+      if (a.moving && (a.fx !== a.x || a.fy !== a.y)) tuftAt(list, m, a.fx, a.fy, key);
+    }
+    list.sort((a, b) => a.y - b.y);
+    for (const it of list) it.draw(ctx);
+
+    // The healing machine: one ball per Pokémon, flashing at the end.
+    if (S.healFx) {
+      const h = S.healFx, SOCK = [[2, 1], [6, 1], [10, 1], [2, 4], [6, 4], [10, 4]];
+      const lit = h.flash && Math.floor(performance.now() / 140) % 2;
+      const img = healBall(lit);
+      for (let i = 0; i < h.n; i++) {
+        const [sx, sy] = SOCK[i];
+        ctx.drawImage(img, h.x * TS + sx * PX, h.y * TS + sy * PX, img.width * PX, img.height * PX);
+      }
+    }
+
+    for (const a of S.emotes) {
+      const b = bubble(a.emote.ch);
+      const k = Math.min(1, (0.7 - a.emote.t) / 0.12 + 0.3);
+      const w = b.width * PX * k, hh = b.height * PX * k;
+      ctx.drawImage(b, Math.round(a.wx - w / 2), Math.round(a.headY - hh - 2), w, hh);
+    }
+    for (const fn of extra) fn(ctx, S);
+    ctx.restore();
+
+    if (S.fade > 0) {
+      ctx.fillStyle = `rgba(0,0,0,${Math.min(1, S.fade)})`;
+      ctx.fillRect(0, 0, view.w, view.h);
+    }
+  }
+
+  return { prepare, draw, gfx, extra, clear: () => cache.clear() };
+})();

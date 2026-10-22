@@ -9,7 +9,6 @@ G.I18n.add({
   "Back": "Indietro",
   "PokeLeague is a free fan game. It is not for sale and has no ads or paid items.": "PokeLeague è un fan game gratuito. Non è in vendita e non ha pubblicità né acquisti.",
   "Based on PokéSurvivor by JPTER78. Code under the PolyForm Noncommercial License 1.0.0.": "Basato su PokéSurvivor di JPTER78. Codice con licenza PolyForm Noncommercial 1.0.0.",
-  "Pokémon sprites: the artists of SpriteCollab (CC BY-NC 4.0). The full list is in CREDITS.md.": "Sprite dei Pokémon: gli artisti di SpriteCollab (CC BY-NC 4.0). L'elenco completo è in CREDITS.md.",
   "Pokémon data and names: PokeAPI. Font: Pixelify Sans (SIL Open Font License).": "Dati e nomi dei Pokémon: PokeAPI. Carattere: Pixelify Sans (SIL Open Font License).",
   "Pokémon and all related names are trademarks of Nintendo, Creatures Inc. and GAME FREAK. This project is not affiliated with or endorsed by them.": "Pokémon e tutti i nomi correlati sono marchi di Nintendo, Creatures Inc. e GAME FREAK. Questo progetto non è affiliato né approvato da loro.",
   "Loading…": "Caricamento…",
@@ -18,5 +17,6 @@ G.I18n.add({
   "Controller connected": "Controller collegato",
   "Coming soon": "Presto disponibile",
   "Could not load the whole game (did the connection drop?)": "Impossibile caricare tutto il gioco (la connessione si è interrotta?)",
-  "Reload": "Ricarica"
+  "Reload": "Ricarica",
+  "Turn your phone sideways for a bigger screen.": "Gira il telefono per uno schermo più grande."
 }, "it");

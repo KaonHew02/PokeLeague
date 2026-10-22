@@ -15,6 +15,8 @@ const ROOT = path.join(__dirname, '..');
 const DEV = path.join(ROOT, 'dev.html'), OUT = path.join(ROOT, 'index.html');
 
 const dev = fs.readFileSync(DEV, 'utf8');
+// The sprite artists for the credits screen, from CREDITS.md.
+require('./credits_js').write();
 function block(begin, end) {
   const i = dev.indexOf(begin), j = dev.indexOf(end);
   if (i < 0 || j < 0) throw new Error('dev.html lacks the markers ' + begin + ' / ' + end);

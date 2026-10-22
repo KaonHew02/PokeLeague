@@ -199,7 +199,9 @@ G.Script.def({
     ['say', '{player} received the Boulder Badge from Brock!'],
     ['say', 'Take this as well. It is TM39: it teaches Rock Tomb, which hurts the foe and lowers its Speed.', { name: 'Brock' }],
     ['giveItem', 'tm39', 1],
-    ['say', 'Keep training, {player}. There are many strong Trainers out there!', { name: 'Brock' }]
+    ['say', 'Keep training, {player}. There are many strong Trainers out there!', { name: 'Brock' }],
+    // The end of the first chapter (credits-ui.js): the player's numbers, the credits, a save.
+    ['js', () => (G.CreditsUI ? G.CreditsUI.ending() : G.Field.setFlag('chapter-1-done'))]
   ],
   'pewter.gym-guide': [
     ['if', 'badge:1', [

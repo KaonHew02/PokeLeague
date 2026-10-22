@@ -53,3 +53,11 @@ test('the licence notice is kept', () => {
   assert.ok(fs.existsSync(path.join(ROOT, 'assets/fonts/OFL.txt')));
   assert.ok(source('CREDITS.md').includes('SpriteCollab'));
 });
+
+test('js/data/credits.js lists the sprite artists of CREDITS.md (run node tools/credits_js.js)', () => {
+  const { artists } = require('../tools/credits_js.js');
+  const G = {};
+  new Function('G', source('js/data/credits.js'))(G);
+  assert.deepEqual(G.SPRITE_ARTISTS, artists());
+  assert.ok(G.SPRITE_ARTISTS.length > 10);
+});

@@ -17,8 +17,8 @@
 <meta name="apple-mobile-web-app-title" content="PokeLeague">
 <link rel="preload" href="assets/fonts/PixelifyPS-400.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="assets/fonts/PixelifyPS-700.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="css/app.css?v=dfd58e115f">
-<script src="js/core/locales.js?v=cd4a3dfef8"></script>
+<link rel="stylesheet" href="css/app.css?v=da99241558">
+<script src="js/core/locales.js?v=96b7cb8139"></script>
 </head>
 <body>
 
@@ -59,19 +59,13 @@
     </div>
   </section>
 
-  <!-- ====== Credits ====== -->
-  <section id="scr-credits" class="scr dim hidden">
-    <div class="box credits">
-      <h3>Credits</h3>
-      <p>PokeLeague is a free fan game. It is not for sale and has no ads or paid items.</p>
-      <p>Based on PokéSurvivor by JPTER78. Code under the PolyForm Noncommercial License 1.0.0.</p>
-      <p class="mono" translate="no">Required Notice: Copyright 2026 JPTER78 (https://github.com/JPTER78/pokesurvivor)</p>
-      <p>Pokémon sprites: the artists of SpriteCollab (CC BY-NC 4.0). The full list is in CREDITS.md.</p>
-      <p>Pokémon data and names: PokeAPI. Font: Pixelify Sans (SIL Open Font License).</p>
-      <p>Pokémon and all related names are trademarks of Nintendo, Creatures Inc. and GAME FREAK. This project is not affiliated with or endorsed by them.</p>
-      <div class="row end"><button class="btn small ghost" id="credits-back" data-back>Back</button></div>
-    </div>
-  </section>
+  <!-- Credits: js/ui/credits-ui.js builds its own screen. -->
+</div>
+
+<!-- Phones held upright: a hint below the game (base.css shows it only in portrait on touch screens). -->
+<div class="rotate-hint" aria-hidden="true">
+  <svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="18.5" r="1" fill="currentColor"/></svg>
+  <span>Turn your phone sideways for a bigger screen.</span>
 </div>
 
 <div id="boot" class="boot">
@@ -90,6 +84,6 @@
   <div class="boot noscript"><div class="boot-in"><h1>PokeLeague</h1><p>JavaScript is needed to play.</p></div></div>
 </noscript>
 
-<script defer src="js/app.min.js?v=dc906fc1aa"></script>
+<script defer src="js/app.min.js?v=457fda260f"></script>
 </body>
 </html>

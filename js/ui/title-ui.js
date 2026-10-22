@@ -2,7 +2,7 @@
  *   Continue   (only when a save exists)
  *   New game
  *   Settings   language, sound, controls, display (options-ui.js)
- *   Credits    licences and authors (the full artist list is CREDITS.md)
+ *   Credits    licences and authors (credits-ui.js; the artists come from CREDITS.md)
  * The speaker button in the corner mutes everything with one click.
  */
 G.TitleUI = (() => {
@@ -33,8 +33,7 @@ G.TitleUI = (() => {
       else G.UI.toast(G.T('Coming soon'));
     };
     $('t-options').onclick = () => G.OptionsUI.open();
-    $('t-credits').onclick = () => G.UI.open('scr-credits');
-    $('credits-back').onclick = () => G.UI.close('scr-credits');
+    $('t-credits').onclick = () => G.CreditsUI.open();
     G.OptionsUI.muteButton($('t-mute'));
   }
 

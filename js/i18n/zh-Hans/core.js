@@ -9,7 +9,6 @@ G.I18n.add({
   "Back": "返回",
   "PokeLeague is a free fan game. It is not for sale and has no ads or paid items.": "PokeLeague 是免费的同人游戏，不出售，没有广告，也没有付费内容。",
   "Based on PokéSurvivor by JPTER78. Code under the PolyForm Noncommercial License 1.0.0.": "基于 JPTER78 的 PokéSurvivor。代码采用 PolyForm Noncommercial 1.0.0 许可证。",
-  "Pokémon sprites: the artists of SpriteCollab (CC BY-NC 4.0). The full list is in CREDITS.md.": "宝可梦像素图：SpriteCollab 的画师们（CC BY-NC 4.0）。完整名单见 CREDITS.md。",
   "Pokémon data and names: PokeAPI. Font: Pixelify Sans (SIL Open Font License).": "宝可梦数据和名称：PokeAPI。字体：Pixelify Sans（SIL Open Font License）。",
   "Pokémon and all related names are trademarks of Nintendo, Creatures Inc. and GAME FREAK. This project is not affiliated with or endorsed by them.": "“宝可梦”及所有相关名称是任天堂、Creatures Inc. 和 GAME FREAK 的商标。本项目与他们无关，也未获得他们的认可。",
   "Loading…": "加载中…",
@@ -18,5 +17,6 @@ G.I18n.add({
   "Controller connected": "已连接手柄",
   "Coming soon": "敬请期待",
   "Could not load the whole game (did the connection drop?)": "游戏没能完整加载（是不是网络断了？）",
-  "Reload": "重新加载"
+  "Reload": "重新加载",
+  "Turn your phone sideways for a bigger screen.": "把手机横过来，画面会更大。"
 }, "zh-Hans");

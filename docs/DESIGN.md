@@ -357,6 +357,17 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
   one Potion; prize ₽1400), `pewter-museum`, two houses, `pewter-center`, `pewter-mart`.
   Brock's `win` script gives badge 1 and TM39. `tests/kanto.test.cjs` checks that every map is
   reachable from `player-2f`, the order of the way north, Brock, and that waited-for flags are set.
+- **M8** `route22.js`: `route22` west of Viridian (Rattata, Mankey, Spearow), the optional rival
+  battle once you have the Pokédex (Pidgey 9 and his starter 8; flag `route22-rival`), and the
+  League gate, locked without eight badges. `if: 'scripted'` marks people that only scripts show.
+  Brock's Geodude knows Tackle and Defense Curl and he carries no items, as in FireRed.
+  After his `win` script, `G.CreditsUI.ending()` shows "Chapter 1 complete!" with the player's
+  numbers and party, then the credits, with Save and continue (flag `chapter-1-done`).
+  `G.CreditsUI.open()` is the title's Credits; the artists come from CREDITS.md through
+  `tools/credits_js.js` (`js/data/credits.js`, made by the build; a lint test checks they agree).
+  Render: a map's neighbours are baked a moment after arriving and only drawn (baked) when they
+  reach into the view, so crossing onto a long route no longer stalls a frame (about 90 ms → 4 ms).
+  Phones: in portrait a hint asks to turn the phone; on touch screens the menu button is 42 px.
 - **Engine additions:** a trainer's `win` script runs after a won battle (after the `defeat`
   line), for badges and gifts. A locked door is a warp `{ x, y, locked: script }` (no `to`), or with
   `to` and `if: cond`: walking into it runs `locked` instead of entering. `G.Maps.center(id,
@@ -600,7 +611,14 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   encounters.
 - **i18n:** placeholders and languages (exists).
 - **save:** `pl.` keys, `.bak`, migrate, import checks.
-- **story:** a headless run of the slice reaches the Boulder Badge.
+- **story:** a headless run of the slice reaches the Boulder Badge (`tests/story.test.cjs`): the
+  real scripts, save and battle engine in the node sandbox; a stand-in host answers the dialog and
+  an auto-player fights with its strongest move (Low Kick and other variable-power moves through
+  `G.SpecialMoves[id].power`); wild battles raise the party; a lost battle blacks out. It also
+  fights every Kanto trainer to the end and prints `[balance]` win rates of each starter alone
+  against Brock (Squirtle easy; Bulbasaur from about Lv. 14, since Vine Whip is physical now and
+  Onix's Defense is huge; Charmander needs help: with a Route 22 Mankey's Low Kick it wins about
+  90% at Lv. 12, as in the games).
 - **lint** (exists): dev.html and files match; no `Math.random` in battle; `pl.` keys;
   licence present.
 
@@ -620,7 +638,7 @@ small separate edit.
 | M5 ✅ | js/core/store.js, js/world/field-items.js, js/ui/{popup,name-ui,slots-ui,new-game,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui}.js, css/menus.css (append), js/i18n/<lang>/menus.js, tests/save.test.cjs | the full menu flow, slots, export and import; the start menu has Settings (G.OptionsUI.open) |
 | M6 ✅ (a–d) | js/content/kanto/<area>.js, js/data/trainer-classes.js, js/i18n/<lang>/kanto-<area>.js | each area plays via `?debug&map=…` |
 | M7 | js/core/audio.js (jingles, cries), js/data/music.js, js/data/music-map.js | jingles on heal and level up |
-| M8 | integration, js/ui/credits-ui.js, tests/story.test.cjs | Pallet Town to the Boulder Badge |
+| M8 ✅ | integration, js/ui/credits-ui.js, tests/story.test.cjs | Pallet Town to the Boulder Badge |
 
 - **Can run in parallel:**
   - After M0: M1, M2, M3 and M7.

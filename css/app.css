@@ -194,6 +194,18 @@ input { font: inherit; }
 @keyframes blink { to { visibility: hidden; } }
 .boot.noscript { z-index: 110; }
 
+/* ---------- phones held upright: the 3:2 game fits better sideways ---------- */
+.rotate-hint { display: none; }
+@media (orientation: portrait) and (pointer: coarse) {
+  .rotate-hint {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    position: fixed; left: 0; right: 0; bottom: max(6vh, 24px); z-index: 1;
+    color: var(--muted); font-size: 15px; text-align: center; padding: 0 24px; pointer-events: none;
+  }
+  .rotate-hint svg { width: 44px; height: 44px; animation: tilt 2.4s ease-in-out infinite; }
+  @keyframes tilt { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
+}
+
 /* css/world.css */
 /* ============ world.css — overworld overlays: dialog box, menu button, place name ============ */
 
@@ -271,6 +283,11 @@ input { font: inherit; }
   pointer-events: none;
 }
 .ow-banner.show { transform: none; opacity: 1; transition: transform .25s ease-out, opacity .2s ease-out; }
+
+/* Touch screens: a finger-sized menu button. */
+@media (pointer: coarse) {
+  .ow-menu { width: max(1.75em, 42px); height: max(1.75em, 42px); padding: max(.38em, 10px) max(.34em, 9px); }
+}
 
 /* css/battle.css */
 /* ============ battle.css — battle HUD, text box and menus (battle-ui.js) ============
@@ -572,3 +589,18 @@ kbd {
 .pc-cell canvas { width: 2.4em; height: 2.4em; }
 .pc-lv { position: absolute; right: .15em; bottom: 0; font-size: .5em; color: var(--muted); }
 .pc-hint { margin: .25em 0 0 !important; font-size: .7em; }
+
+/* ---------- credits and the end of a chapter (credits-ui.js) ---------- */
+.box.cr-box { width: min(30em, 96%); height: 96%; display: flex; flex-direction: column; padding: .6em .8em; }
+.cr-roll { flex: 1; overflow: auto; min-height: 0; text-align: center; font-size: .85em; padding: 0 .4em; scrollbar-width: thin; }
+.cr-roll h4 { margin: 1em 0 .2em; color: var(--gold); }
+.cr-roll hr { border: 0; border-top: .08em solid rgba(255,255,255,.2); margin: 1em 0; }
+.cr-big { font-size: 1.6em; color: var(--gold); margin: .4em 0 .3em !important; }
+.cr-title { font-size: 1.3em; color: var(--gold); margin: .2em 0 !important; }
+.cr-stats { display: flex; justify-content: center; flex-wrap: wrap; gap: .4em 1.2em; margin: .4em 0; }
+.cr-party { display: flex; justify-content: center; flex-wrap: wrap; gap: .3em; margin: .3em 0 .6em; }
+.cr-mon { display: flex; flex-direction: column; align-items: center; width: 4.2em; font-size: .85em; }
+.cr-mon canvas { width: 3em; height: 3em; }
+.cr-mon small { color: var(--muted); }
+.cr-names { display: flex; flex-wrap: wrap; justify-content: center; gap: .15em .9em; font-size: .9em; }
+.cr-buttons { margin-top: .4em; }

@@ -26,9 +26,18 @@ G.WorldRender = (() => {
     return g;
   }
 
+  /** Bakes a map now and its neighbours a little later, one at a time (no hitch on slow phones). */
+  let pending = [];
   function prepare(m) {
     gfx(m);
-    for (const nb of G.Maps.neighbours(m)) gfx(nb.map);
+    pending = G.Maps.neighbours(m).map(nb => nb.map);
+    const next = () => {
+      const nm = pending.shift();
+      if (!nm) return;
+      gfx(nm);
+      setTimeout(next, 30);
+    };
+    setTimeout(next, 120);
   }
 
   let patternFor = null, pattern = null;
@@ -88,7 +97,13 @@ G.WorldRender = (() => {
     drawBorder(ctx, m, L, Tp, W, H);
     const frame = Math.floor(performance.now() / 650) % 2;
     const maps = [{ m, ox: 0, oy: 0, g }];
-    for (const nb of G.Maps.neighbours(m)) maps.push({ m: nb.map, ox: nb.ox, oy: nb.oy, g: gfx(nb.map) });
+    // Neighbours only when they reach into the view (with room for tall strips): far ones are not baked yet.
+    const near = 4 * TS;
+    for (const nb of G.Maps.neighbours(m)) {
+      const x = nb.ox * TS, y = nb.oy * TS, w = nb.map.w * TS, h = nb.map.h * TS;
+      if (x > L + W + near || y > Tp + H + near || x + w < L - near || y + h < Tp - near) continue;
+      maps.push({ m: nb.map, ox: nb.ox, oy: nb.oy, g: gfx(nb.map) });
+    }
     for (const it of maps) {
       const x = it.ox * TS, y = it.oy * TS, w = it.m.w * TS, h = it.m.h * TS;
       if (x > L + W || y > Tp + H || x + w < L || y + h < Tp) continue;

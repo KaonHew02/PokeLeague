@@ -74,3 +74,8 @@
   pointer-events: none;
 }
 .ow-banner.show { transform: none; opacity: 1; transition: transform .25s ease-out, opacity .2s ease-out; }
+
+/* Touch screens: a finger-sized menu button. */
+@media (pointer: coarse) {
+  .ow-menu { width: max(1.75em, 42px); height: max(1.75em, 42px); padding: max(.38em, 10px) max(.34em, 9px); }
+}

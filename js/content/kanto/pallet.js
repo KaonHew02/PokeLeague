@@ -53,7 +53,7 @@ G.Maps.def({
     '5,14': 'Pallet Town. A quiet little town where great journeys begin.'
   },
   npcs: [
-    { id: 'oak', who: 'oak', x: 9, y: 8, dir: 'up', if: 'oak-in-town' },
+    { id: 'oak', who: 'oak', x: 9, y: 8, dir: 'up', if: 'scripted' },
     { id: 'girl', who: 'lass', x: 6, y: 8, move: 'wander', r: 2,
       say: "I'm training Pokémon too! Once they're strong, they'll keep me safe." },
     { id: 'techie', who: 'oldman', x: 16, y: 7, move: 'look',

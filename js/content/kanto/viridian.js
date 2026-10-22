@@ -20,7 +20,7 @@ G.Maps.def({
     'T..GGGDGG..S.....,,....,.....T',
     'T.....,..........,,....,.....T',
     'T.....,,,,,,,,,,,,,,,,,,.....T',
-    'T................,,..........T',
+    ',,,,,,,,,,,,,,,,,,,..........T',
     'T..~~~~~.........,,..CCCCC...T',
     'T.~~~~~~~........,,..CCCCC...T',
     'T.~~~~~~~........,,..CCCCC...T',
@@ -36,7 +36,7 @@ G.Maps.def({
     'TT..ff...........,,.......ffTT',
     'TTTTTTTTTTTTTTTTT,,TTTTTTTTTTT'
   ],
-  connect: { south: { map: 'route1', offset: 8 }, north: { map: 'route2', offset: 8 } },
+  connect: { south: { map: 'route1', offset: 8 }, north: { map: 'route2', offset: 8 }, west: { map: 'route22', offset: 4 } },
   warps: [
     { x: 6, y: 6, locked: 'viridian.gym-locked' },
     { x: 23, y: 5, to: 'viridian-mart', spot: 'door' },
@@ -61,6 +61,8 @@ G.Maps.def({
       say: "Grandpa's in a much better mood now. He finally had his morning coffee!" },
     { id: 'kid', who: 'youngster', x: 13, y: 6, move: 'wander', r: 1,
       say: "The Gym here is always shut. I wonder who the leader even is..." },
+    { id: 'fan', who: 'camper', x: 3, y: 8, move: 'look',
+      say: 'West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!' },
     { id: 'lady', who: 'lass', x: 10, y: 12, move: 'look',
       say: 'When your Pokémon get hurt, take them to the Pokémon Center. It costs nothing!' }
   ]

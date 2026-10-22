@@ -8,7 +8,6 @@ G.I18n.add({
   "You beat Brock! That was incredible. The Pokémon League is waiting for you!": "Tu as battu Pierre ! C'était incroyable. La Ligue Pokémon t'attend !",
   "Hey there, future Champion! Let me give you some advice.": "Salut, futur Maître ! Laisse-moi te donner un conseil.",
   "Brock uses Rock-type Pokémon. Water and Grass moves hit them hard, but Normal moves barely do a thing.": "Pierre utilise des Pokémon de type Roche. Les capacités Eau et Plante leur font très mal, mais les capacités Normal ne font presque rien.",
-  "If your starter isn't a good match, catch a few more Pokémon to help out. Good luck!": "Si ton Pokémon de départ n'est pas le bon choix, attrape d'autres Pokémon pour t'aider. Bonne chance !",
   "Sorry, the road east to Route 3 is closed. A rockslide near Mt. Moon blocked it.": "Désolé, la route vers la Route 3 est fermée. Un éboulement près du Mont Sélénite l'a bloquée.",
   "Brock is the Gym Leader here. He's super tough: Rock-type Pokémon shrug off Normal-type moves!": "Pierre est le Champion d'ici. Il est super coriace : les Pokémon Roche encaissent les capacités Normal sans broncher !",
   "Have you been to the museum? The fossils of ancient Pokémon are amazing!": "Tu es allé au musée ? Les fossiles de Pokémon anciens sont incroyables !",
@@ -33,5 +32,7 @@ G.I18n.add({
   "A fossil of Aerodactyl, a Pokémon that once ruled the ancient skies.": "Un fossile de Ptéra, un Pokémon qui régnait autrefois sur les cieux.",
   "A strange glowing stone that fell from the sky. Some say it came from the moon.": "Une étrange pierre lumineuse tombée du ciel. Certains disent qu'elle vient de la lune.",
   "Books about fossils and the history of Pokémon.": "Des livres sur les fossiles et l'histoire des Pokémon.",
-  "Rock collections, neatly labelled.": "Des collections de roches, soigneusement étiquetées."
+  "Rock collections, neatly labelled.": "Des collections de roches, soigneusement étiquetées.",
+  "If your starter isn't a good match, catch a few more Pokémon to help out. A Mankey from Route 22 knows Low Kick, and big, heavy Onix really feels it!": "Si ton Pokémon de départ n'est pas le bon choix, attrape d'autres Pokémon pour t'aider. Un Férosinge de la Route 22 connaît Balayage, et le gros et lourd Onix le sent passer !",
+  "Good luck!": "Bonne chance !"
 }, "fr");

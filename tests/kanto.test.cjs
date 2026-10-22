@@ -56,6 +56,6 @@ test('every trainer class used on a map exists, and story flags that maps wait f
       for (const c of [].concat(p.if || [])) { const f = String(c).replace(/^!/, ''); if (/^[a-z][\w-]*$/.test(f)) flags.add(f); }
     }
   }
-  flags.delete('oak-in-town');                       // never set: Oak only appears in town by script
+  flags.delete('scripted');                          // never set: people only scripts show (Oak in town, the rival on Route 22)
   for (const f of flags) assert.ok(src.includes(`'${f}'`) && (src.includes(`setFlag', '${f}'`) || src.includes(`setFlag('${f}'`)), 'flag never set: ' + f);
 });

@@ -96,8 +96,7 @@ G.Maps.def({
       defeat: "Argh! You're better than I thought!",
       after: "Brock is on another level. Normal-type moves barely scratch his Rock-type Pokémon!" },
     { id: 'brock', who: 'brock', cls: 'leader', name: 'Brock', x: 5, y: 3, dir: 'down', sight: 0, leader: true, ai: 'leader',
-      items: { potion: 1 },
-      team: [['geodude', 12, ['tackle', 'defense-curl', 'rock-throw']], ['onix', 14, ['tackle', 'bind', 'rock-tomb', 'harden']]],
+      team: [['geodude', 12, ['tackle', 'defense-curl']], ['onix', 14, ['tackle', 'bind', 'rock-tomb', 'harden']]],
       before: "So you've come. I'm Brock, Leader of the Pewter Gym. My Pokémon are Rock types: hard as stone and just as stubborn. You still want to challenge me? Then show me what you've got!",
       defeat: 'Well done. I underestimated you, and it cost me.',
       win: 'pewter.brock-win',
@@ -208,7 +207,8 @@ G.Script.def({
     ], [
       ['say', "Hey there, future Champion! Let me give you some advice."],
       ['say', 'Brock uses Rock-type Pokémon. Water and Grass moves hit them hard, but Normal moves barely do a thing.'],
-      ['say', "If your starter isn't a good match, catch a few more Pokémon to help out. Good luck!"]
+      ['say', "If your starter isn't a good match, catch a few more Pokémon to help out. A Mankey from Route 22 knows Low Kick, and big, heavy Onix really feels it!"],
+      ['say', 'Good luck!']
     ]]
   ]
 });

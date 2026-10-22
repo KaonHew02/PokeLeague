@@ -37,7 +37,7 @@ function show(G, id) {
   const at = (x, y) => `${x},${y}`;
   const text = t => JSON.stringify(Array.isArray(t) ? t.join(' / ') : t);
   list('connect', Object.entries(m.connect).map(([s, c]) => `${s} -> ${c.map} (offset ${c.offset | 0})`));
-  list('warps', m.warps.map(w => `${at(w.x, w.y)} -> ${w.to}:${w.spot}`));
+  list('warps', m.warps.map(w => `${at(w.x, w.y)} -> ${w.to ? w.to + ':' + w.spot : '(locked)'}${w.locked && w.to ? ' (locked unless ' + JSON.stringify(w.if) + ')' : ''}`));
   list('spots', Object.entries(m.spots).map(([k, v]) => `${k} ${at(v[0], v[1])} ${v[2] || ''}`));
   list('signs', Object.entries(m.signs).map(([k, v]) => `${k} ${text(v)}`));
   list('npcs', m.npcs.map(p => `${p.id} (${p.who}) ${at(p.x, p.y)} ${p.move || 'still'}${p.move === 'wander' ? ' r' + (p.r == null ? 2 : p.r) : ''} ${p.dir || ''}${p.if ? ' if ' + [].concat(p.if).join(' ') : ''} ${p.script ? '-> ' + (typeof p.script === 'string' ? p.script : '[script]') : text(p.say)}`));

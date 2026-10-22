@@ -24,5 +24,6 @@ G.I18n.add({
   "Viridian City Pokémon Gym": "常青市寶可夢道館",
   "Viridian City. A city where the trees stay green all year round.": "常青市。一座四季常青的城市。",
   "The blackboard reads: a Pokémon's status problems stay after battle. Heal them with items or at a Pokémon Center!": "黑板上寫著：寶可夢的異常狀態在對戰後也不會消失。用道具或到寶可夢中心治療吧！",
-  "A shelf of books about raising Pokémon.": "一架關於培養寶可夢的書。"
+  "A shelf of books about raising Pokémon.": "一架關於培養寶可夢的書。",
+  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "西邊是22號道路。那裡的草叢裡住著猴怪，牠們的踢倒可厲害了！"
 }, "zh-Hant");

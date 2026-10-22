@@ -24,5 +24,6 @@ G.I18n.add({
   "Viridian City Pokémon Gym": "Gimnasio Pokémon de Ciudad Verde",
   "Viridian City. A city where the trees stay green all year round.": "Ciudad Verde. Una ciudad donde los árboles están verdes todo el año.",
   "The blackboard reads: a Pokémon's status problems stay after battle. Heal them with items or at a Pokémon Center!": "En la pizarra pone: los problemas de estado de un Pokémon siguen tras el combate. ¡Cúralos con objetos o en un Centro Pokémon!",
-  "A shelf of books about raising Pokémon.": "Una estantería con libros sobre la crianza de Pokémon."
+  "A shelf of books about raising Pokémon.": "Una estantería con libros sobre la crianza de Pokémon.",
+  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "Al oeste está la Ruta 22. En su hierba viven Mankey, ¡y su Patada Baja pega fuerte!"
 }, "es");

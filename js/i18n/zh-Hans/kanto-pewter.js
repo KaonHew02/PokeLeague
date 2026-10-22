@@ -8,7 +8,6 @@ G.I18n.add({
   "You beat Brock! That was incredible. The Pokémon League is waiting for you!": "你打败小刚了！太厉害了。宝可梦联盟在等着你！",
   "Hey there, future Champion! Let me give you some advice.": "嘿，未来的冠军！给你一点建议吧。",
   "Brock uses Rock-type Pokémon. Water and Grass moves hit them hard, but Normal moves barely do a thing.": "小刚用的是岩石属性的宝可梦。水和草属性的招式效果拔群，一般属性的招式几乎不起作用。",
-  "If your starter isn't a good match, catch a few more Pokémon to help out. Good luck!": "如果你的初始宝可梦不太对付，就多抓几只宝可梦来帮忙吧。祝你好运！",
   "Sorry, the road east to Route 3 is closed. A rockslide near Mt. Moon blocked it.": "抱歉，往东去3号道路的路封闭了。月见山附近发生了落石，把路堵住了。",
   "Brock is the Gym Leader here. He's super tough: Rock-type Pokémon shrug off Normal-type moves!": "小刚是这里的道馆馆主。他超强的：岩石属性的宝可梦根本不怕一般属性的招式！",
   "Have you been to the museum? The fossils of ancient Pokémon are amazing!": "你去过博物馆了吗？古代宝可梦的化石超棒的！",
@@ -33,5 +32,7 @@ G.I18n.add({
   "A fossil of Aerodactyl, a Pokémon that once ruled the ancient skies.": "化石翼龙的化石。化石翼龙曾经称霸远古的天空。",
   "A strange glowing stone that fell from the sky. Some say it came from the moon.": "一块从天而降、闪闪发光的奇怪石头。有人说它来自月亮。",
   "Books about fossils and the history of Pokémon.": "关于化石和宝可梦历史的书。",
-  "Rock collections, neatly labelled.": "整整齐齐贴着标签的岩石收藏。"
+  "Rock collections, neatly labelled.": "整整齐齐贴着标签的岩石收藏。",
+  "If your starter isn't a good match, catch a few more Pokémon to help out. A Mankey from Route 22 knows Low Kick, and big, heavy Onix really feels it!": "如果你的初始宝可梦不太对付，就多抓几只宝可梦来帮忙吧。22号道路的猴怪会踢倒，又大又重的大岩蛇可吃不消！",
+  "Good luck!": "祝你好运！"
 }, "zh-Hans");

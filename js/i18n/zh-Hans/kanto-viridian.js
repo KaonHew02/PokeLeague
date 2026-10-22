@@ -24,5 +24,6 @@ G.I18n.add({
   "Viridian City Pokémon Gym": "常青市宝可梦道馆",
   "Viridian City. A city where the trees stay green all year round.": "常青市。一座四季常青的城市。",
   "The blackboard reads: a Pokémon's status problems stay after battle. Heal them with items or at a Pokémon Center!": "黑板上写着：宝可梦的异常状态在对战后也不会消失。用道具或到宝可梦中心治疗吧！",
-  "A shelf of books about raising Pokémon.": "一架关于培养宝可梦的书。"
+  "A shelf of books about raising Pokémon.": "一架关于培养宝可梦的书。",
+  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "西边是22号道路。那里的草丛里住着猴怪，它们的踢倒可厉害了！"
 }, "zh-Hans");

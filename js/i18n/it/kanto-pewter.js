@@ -8,7 +8,6 @@ G.I18n.add({
   "You beat Brock! That was incredible. The Pokémon League is waiting for you!": "Hai battuto Brock! Incredibile. La Lega Pokémon ti aspetta!",
   "Hey there, future Champion! Let me give you some advice.": "Ciao, futuro Campione! Lascia che ti dia un consiglio.",
   "Brock uses Rock-type Pokémon. Water and Grass moves hit them hard, but Normal moves barely do a thing.": "Brock usa Pokémon di tipo Roccia. Le mosse Acqua ed Erba li colpiscono duramente, ma quelle di tipo Normale fanno pochissimo.",
-  "If your starter isn't a good match, catch a few more Pokémon to help out. Good luck!": "Se il tuo Pokémon iniziale non è adatto, cattura qualche altro Pokémon che ti aiuti. Buona fortuna!",
   "Sorry, the road east to Route 3 is closed. A rockslide near Mt. Moon blocked it.": "Mi spiace, la strada per il Percorso 3 è chiusa. Una frana vicino al Monte Luna l'ha bloccata.",
   "Brock is the Gym Leader here. He's super tough: Rock-type Pokémon shrug off Normal-type moves!": "Brock è il Capopalestra di qui. È fortissimo: i Pokémon di tipo Roccia se ne infischiano delle mosse di tipo Normale!",
   "Have you been to the museum? The fossils of ancient Pokémon are amazing!": "Sei stato al museo? I fossili dei Pokémon antichi sono incredibili!",
@@ -33,5 +32,7 @@ G.I18n.add({
   "A fossil of Aerodactyl, a Pokémon that once ruled the ancient skies.": "Un fossile di Aerodactyl, un Pokémon che un tempo dominava i cieli.",
   "A strange glowing stone that fell from the sky. Some say it came from the moon.": "Una strana pietra luminosa caduta dal cielo. C'è chi dice che venga dalla luna.",
   "Books about fossils and the history of Pokémon.": "Libri sui fossili e sulla storia dei Pokémon.",
-  "Rock collections, neatly labelled.": "Collezioni di rocce, ordinatamente etichettate."
+  "Rock collections, neatly labelled.": "Collezioni di rocce, ordinatamente etichettate.",
+  "If your starter isn't a good match, catch a few more Pokémon to help out. A Mankey from Route 22 knows Low Kick, and big, heavy Onix really feels it!": "Se il tuo Pokémon iniziale non è adatto, cattura qualche altro Pokémon che ti aiuti. Un Mankey del Percorso 22 conosce Colpo Basso, e il grosso e pesante Onix lo sente eccome!",
+  "Good luck!": "Buona fortuna!"
 }, "it");

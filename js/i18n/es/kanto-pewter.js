@@ -8,7 +8,6 @@ G.I18n.add({
   "You beat Brock! That was incredible. The Pokémon League is waiting for you!": "¡Has vencido a Brock! Ha sido increíble. ¡La Liga Pokémon te espera!",
   "Hey there, future Champion! Let me give you some advice.": "¡Hola, futuro Campeón! Deja que te dé un consejo.",
   "Brock uses Rock-type Pokémon. Water and Grass moves hit them hard, but Normal moves barely do a thing.": "Brock usa Pokémon de tipo Roca. Los movimientos de Agua y Planta les hacen mucho daño, pero los de tipo Normal apenas les afectan.",
-  "If your starter isn't a good match, catch a few more Pokémon to help out. Good luck!": "Si tu Pokémon inicial no es buena opción, atrapa algunos Pokémon más que te ayuden. ¡Suerte!",
   "Sorry, the road east to Route 3 is closed. A rockslide near Mt. Moon blocked it.": "Lo siento, el camino hacia la Ruta 3 está cerrado. Un desprendimiento cerca del Mt. Moon lo ha bloqueado.",
   "Brock is the Gym Leader here. He's super tough: Rock-type Pokémon shrug off Normal-type moves!": "Brock es el Líder del Gimnasio. Es durísimo: ¡a los Pokémon de tipo Roca no les hacen nada los movimientos de tipo Normal!",
   "Have you been to the museum? The fossils of ancient Pokémon are amazing!": "¿Has ido al museo? ¡Los fósiles de Pokémon antiguos son increíbles!",
@@ -33,5 +32,7 @@ G.I18n.add({
   "A fossil of Aerodactyl, a Pokémon that once ruled the ancient skies.": "Un fósil de Aerodactyl, un Pokémon que dominaba los cielos antiguos.",
   "A strange glowing stone that fell from the sky. Some say it came from the moon.": "Una extraña piedra brillante que cayó del cielo. Hay quien dice que vino de la luna.",
   "Books about fossils and the history of Pokémon.": "Libros sobre fósiles y la historia de los Pokémon.",
-  "Rock collections, neatly labelled.": "Colecciones de rocas, bien etiquetadas."
+  "Rock collections, neatly labelled.": "Colecciones de rocas, bien etiquetadas.",
+  "If your starter isn't a good match, catch a few more Pokémon to help out. A Mankey from Route 22 knows Low Kick, and big, heavy Onix really feels it!": "Si tu Pokémon inicial no es buena opción, atrapa algunos más que te ayuden. Un Mankey de la Ruta 22 sabe Patada Baja, ¡y al enorme y pesado Onix le duele muchísimo!",
+  "Good luck!": "¡Suerte!"
 }, "es");

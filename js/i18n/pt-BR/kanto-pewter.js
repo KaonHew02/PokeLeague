@@ -8,7 +8,6 @@ G.I18n.add({
   "You beat Brock! That was incredible. The Pokémon League is waiting for you!": "Você venceu o Brock! Foi incrível. A Liga Pokémon espera por você!",
   "Hey there, future Champion! Let me give you some advice.": "Olá, futuro Campeão! Deixe-me dar um conselho.",
   "Brock uses Rock-type Pokémon. Water and Grass moves hit them hard, but Normal moves barely do a thing.": "Brock usa Pokémon do tipo Pedra. Golpes de Água e Planta acertam forte, mas golpes Normais quase não fazem nada.",
-  "If your starter isn't a good match, catch a few more Pokémon to help out. Good luck!": "Se o seu inicial não for uma boa escolha, capture mais alguns Pokémon para ajudar. Boa sorte!",
   "Sorry, the road east to Route 3 is closed. A rockslide near Mt. Moon blocked it.": "Desculpe, a estrada para a Rota 3 está fechada. Um deslizamento perto do Mt. Moon bloqueou a passagem.",
   "Brock is the Gym Leader here. He's super tough: Rock-type Pokémon shrug off Normal-type moves!": "Brock é o Líder do Ginásio. Ele é muito duro: Pokémon do tipo Pedra nem sentem golpes Normais!",
   "Have you been to the museum? The fossils of ancient Pokémon are amazing!": "Já foi ao museu? Os fósseis de Pokémon antigos são incríveis!",
@@ -33,5 +32,7 @@ G.I18n.add({
   "A fossil of Aerodactyl, a Pokémon that once ruled the ancient skies.": "Um fóssil de Aerodactyl, um Pokémon que já dominou os céus antigos.",
   "A strange glowing stone that fell from the sky. Some say it came from the moon.": "Uma estranha pedra brilhante que caiu do céu. Dizem que veio da lua.",
   "Books about fossils and the history of Pokémon.": "Livros sobre fósseis e a história dos Pokémon.",
-  "Rock collections, neatly labelled.": "Coleções de pedras, bem etiquetadas."
+  "Rock collections, neatly labelled.": "Coleções de pedras, bem etiquetadas.",
+  "If your starter isn't a good match, catch a few more Pokémon to help out. A Mankey from Route 22 knows Low Kick, and big, heavy Onix really feels it!": "Se o seu inicial não for uma boa escolha, capture mais alguns Pokémon para ajudar. Um Mankey da Rota 22 sabe Low Kick, e o grande e pesado Onix sente muito!",
+  "Good luck!": "Boa sorte!"
 }, "pt-BR");

@@ -16,7 +16,7 @@
 G.People = (() => {
   const W = 16, HT = 24;
   const TYPES = ['player-boy', 'player-girl', 'rival', 'oak', 'mom', 'nurse', 'clerk', 'youngster',
-                 'lass', 'bugcatcher', 'camper', 'brock', 'guide', 'oldman'];
+                 'lass', 'bugcatcher', 'camper', 'brock', 'guide', 'oldman', 'daisy', 'aide'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -139,6 +139,8 @@ G.People = (() => {
     camper: { head: 'cap', body: 'tee', legs: 'bare', a: '#4c9c4c', A: '#347434', b: '#2e5e2e', h: '#3c2c24', H: '#24180f', c: '#ecc070', C: '#c49a48', p: '#7c6040', P: '#5a4428', k: '#5a4434' },
     brock: { head: 'brock', body: 'jacket', legs: 'pants', h: '#3a2c24', H: '#20160e', j: '#5a7c40', J: '#3e5a2a', c: '#d4843c', C: '#a8622a', p: '#5a4c3c', P: '#3e3428', k: '#3a3030', s: '#d8a070', S: '#b07c50' },
     guide: { head: 'short', body: 'jacket', legs: 'pants', h: '#5c4c44', H: '#3c302a', j: '#5c8c5c', J: '#3e6a3e', c: '#f4f4f4', C: '#c8c8d0', p: '#5a5a6a', P: '#40404c', k: '#3a3030' },
+    daisy: { head: 'long', body: 'dress', legs: 'bare', h: '#8a5430', H: '#5e361a', c: '#f4f4f4', C: '#c8c8d0', j: '#5c9c5c', J: '#3e763e', k: '#7a5236' },
+    aide: { head: 'short', body: 'coat', legs: 'pants', h: '#3c3434', H: '#241e1e', j: '#f4f4f4', J: '#c4c8d0', c: '#5a8ac8', C: '#3e66a0', p: '#4c4c5c', P: '#34343e', k: '#3a3030' },
     oldman: { head: 'bald', body: 'coat', legs: 'pants', h: '#ececec', H: '#b8b8c0', j: '#9c7a54', J: '#74583a', c: '#c8a878', C: '#a08458', p: '#6c5c4a', P: '#4e4234', k: '#4c3c2c' }
   };
 

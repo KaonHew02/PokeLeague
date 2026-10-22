@@ -328,8 +328,10 @@ G.Maps = (() => {
     for (const it of m.items) {
       const at = where(it.x, it.y);
       if (!tileOk(it.x, it.y)) E.push(`item at ${at} is outside the map`);
-      else if (!it.hidden && !open(m, it.x, it.y)) E.push(`item at ${at} is on a ${kindAt(m, it.x, it.y)} tile`);
+      // (An item with a script may lie on a table: the starter balls in Oak's lab.)
+      else if (!it.hidden && !it.script && !open(m, it.x, it.y)) E.push(`item at ${at} is on a ${kindAt(m, it.x, it.y)} tile`);
       if (!it.flag) E.push(`item at ${at} needs a flag (its id once collected)`);
+      if (it.script && typeof it.script === 'string' && !G.Script.get(it.script)) E.push(`item at ${at}: unknown script "${it.script}"`);
       if (G.ITEMS && !G.ITEMS[it.item]) E.push(`item at ${at}: unknown item "${it.item}"`);
     }
     // Two things on one tile

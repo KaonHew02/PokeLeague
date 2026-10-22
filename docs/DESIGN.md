@@ -335,6 +335,25 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
 - **Sounds used** (silent until M7 adds them): `bump`, `door`, `ledge`, `grass`, `exclaim`, `cry`, `pc`.
 - **Debug keys** also include **F3**: the map id, the player's tile and a grid.
 
+**Kanto content (M6), built so far:**
+- **M6a** `pallet.js`: `pallet`, `player-1f`, `player-2f` (a new game starts here, spot `start`),
+  `rival-house` (Daisy), `oak-lab`; `route1.js`: `route1` (Pallet south, Viridian north once M6b
+  connects it). Story flags: `oak-escort` (Oak stops you at the grass and takes you to the lab),
+  `lab-intro`, `got-starter`, `lab-rival-battle`, `rival-left-lab`, `got-route1-potion`.
+  `save.rival.starter` is the starter strong against yours (Bulbasaur → Charmander → Squirtle →
+  Bulbasaur). The first rival battle (`oak-lab:rival-lab`) may be lost. Mom heals the party and
+  is the first `lastHeal` (`player-1f:mom`) until a Pokémon Center.
+- **Engine additions:** an item with a `script` runs it instead of being picked up and may lie
+  on a table (the starter balls; `G.World.refresh()` after marking it done). `say` / `choice`
+  speaker names are keys and may use `{player}` / `{rival}` (`{ name: 'Prof. Oak' }`,
+  `{ name: '{rival}' }`). People: `daisy`, `aide`. `G.TRAINER_CLASSES` (title, who, prize base:
+  youngster, lass, bug-catcher, camper, picnicker, hiker, leader). The rival and other named
+  characters have no class: their def has `name` and `prize`.
+- **Texts in content files:** `tools/i18n_keys.js` finds `['say' | 'choice', '…']`, the fields
+  `say before defeat after text sign name title`, sign texts (`'x,y': '…'`) and `G.T('…')` in
+  helper code (`h.say(G.T('…'), { vars })`). Translations go in `js/i18n/<lang>/kanto-<area>.js`;
+  trainer classes in `trainers.js`.
+
 **Map files** (`js/content/kanto/<area>.js`, M6) hold the maps, scripts and trainers of one area:
 ```js
 G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto', music:'town', battleBg:'grass', border:'T',
@@ -581,7 +600,7 @@ small separate edit.
 | M3 ✅ | js/world/*, js/script/*, js/ui/dialog.js, js/debug.js, css/world.css, tools/map_check.js, tests/maps.test.cjs, js/content/sandbox.js, js/i18n/<lang>/world.js | walk, doors, ledges, signs, connections, talk to NPCs |
 | M4 ✅ | js/ui/{battle-ui,battle-fx,learn-ui,evolve-ui}.js, css/battle.css, js/i18n/<lang>/battle-ui.js, tools/serve.py | `dev.html?debug&wild=pidgey:3` is playable |
 | M5 ✅ | js/core/store.js, js/world/field-items.js, js/ui/{popup,name-ui,slots-ui,new-game,start-menu,party-ui,summary-ui,bag-ui,dex-ui,pc-ui,shop-ui}.js, css/menus.css (append), js/i18n/<lang>/menus.js, tests/save.test.cjs | the full menu flow, slots, export and import; the start menu has Settings (G.OptionsUI.open) |
-| M6a–d | js/content/kanto/<area>.js, js/data/trainer-classes.js, js/i18n/<lang>/kanto-<area>.js | each area plays via `?debug&map=…` |
+| M6a ✅ M6b–d | js/content/kanto/<area>.js, js/data/trainer-classes.js, js/i18n/<lang>/kanto-<area>.js | each area plays via `?debug&map=…` |
 | M7 | js/core/audio.js (jingles, cries), js/data/music.js, js/data/music-map.js | jingles on heal and level up |
 | M8 | integration, js/ui/credits-ui.js, tests/story.test.cjs | Pallet Town to the Boulder Badge |
 

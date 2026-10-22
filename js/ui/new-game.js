@@ -13,6 +13,8 @@ G.NewGame = (() => {
   const START = [{ map: 'player-2f', spot: 'start' }, { map: 'player-1f', spot: 'start' }, { map: 'pallet', spot: 'player-door' },
                  { map: 'sandbox', spot: 'start' }];
   const INTRO_MON = 25;
+  /** Until the first Pokémon Center, losing a battle takes you home to Mom. */
+  const HOME = { map: 'player-1f', spot: 'mom' };
 
   function startPlace() { return START.find(p => G.Maps.has(p.map)) || null; }
 
@@ -106,6 +108,7 @@ G.NewGame = (() => {
       if (!slot) return;
       const who = await intro();
       const save = G.Store.newSave({ name: who.name, gender: who.gender, rival: who.rival, id: G.RNG.seed() % 65536 });
+      if (G.Maps.has(HOME.map)) save.player.lastHeal = Object.assign({}, HOME);
       G.Session.begin(slot, save);
       const at = startPlace();
       if (!at) { G.UI.toast(T('No map to start on yet.')); G.TitleUI.open(); return; }

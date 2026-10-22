@@ -49,10 +49,20 @@ function fromJs(file, keys) {
     const r = readString(src, re2.lastIndex);
     if (r && r[0].trim()) keys.has(r[0]) || keys.set(r[0], rel);
   }
-  const re3 = /\b(?:say|before|defeat|after|text|sign):\s*/g;
+  // Words to translate: letters outside the {placeholders} ('{rival}' alone is not one).
+  const wordy = s => /\p{L}/u.test(s.replace(/\{\w+\}/g, ''));
+  // Content files and trainer classes also name speakers, trainers and classes (name:, title:).
+  const content = rel.startsWith('js/content/') || rel === 'js/data/trainer-classes.js';
+  const re3 = content ? /\b(?:say|before|defeat|after|text|sign|name|title):\s*/g : /\b(?:say|before|defeat|after|text|sign):\s*/g;
   while ((m = re3.exec(src))) {
     const r = readString(src, re3.lastIndex);
-    if (r && r[0].trim() && /\p{L}/u.test(r[0])) keys.has(r[0]) || keys.set(r[0], rel);
+    if (r && wordy(r[0])) keys.has(r[0]) || keys.set(r[0], rel);
+  }
+  // Sign texts: signs: { 'x,y': '…' }.
+  const re4 = /'\d+,\d+'\s*:\s*/g;
+  while ((m = re4.exec(src))) {
+    const r = readString(src, re4.lastIndex);
+    if (r && wordy(r[0])) keys.has(r[0]) || keys.set(r[0], rel);
   }
 }
 

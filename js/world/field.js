@@ -645,8 +645,10 @@ G.World = (() => {
     return runScript([['say', line[1], { vars: { mon: lead.nick || G.Names.mon(lead.sp) } }]], {});
   }
 
+  /** An item ball: into the bag. One with a `script` runs that instead (the starter balls in Oak's lab). */
   function pickUp(it) {
     const d = it.def;
+    if (d.script) return runScript(d.script, { item: it });
     return runScript([['found', d.item, d.n || 1, it.key]], {});
   }
 
@@ -660,10 +662,12 @@ G.World = (() => {
 
   function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+  /** Says texts (English keys, translated and filled in); o.name is the speaker ('Prof. Oak', '{rival}'). */
   function say(text, o = {}) {
     const lines = Array.isArray(text) ? text : [text];
     const v = Object.assign(G.Field.vars(), o.vars || {});
-    return lines.reduce((p, t) => p.then(() => G.Dialog.say(G.I18n.fmt(t, v), { name: o.name })), Promise.resolve());
+    const name = o.name ? G.I18n.fmt(o.name, v) : undefined;
+    return lines.reduce((p, t) => p.then(() => G.Dialog.say(G.I18n.fmt(t, v), { name })), Promise.resolve());
   }
 
   /** Looks up an actor for scripts: 'player', 'follower', 'self', or an npc / trainer id. */
@@ -713,7 +717,7 @@ G.World = (() => {
       vars: () => G.Field.vars(),
       say: (text, o) => say(text, o),
       choice: (text, o = {}) => G.Dialog.ask(G.I18n.fmt(text, Object.assign(G.Field.vars(), o.vars || {})),
-        { options: o.options && o.options.map(s => G.T(s)), name: o.name }),
+        { options: o.options && o.options.map(s => G.T(s)), name: o.name ? G.I18n.fmt(o.name, G.Field.vars()) : undefined }),
       actor: id => actor(id, ctx),
       move: (id, dirs, speed) => moveActor(actor(id, ctx), dirs, speed),
       walkTo(id, x, y) {

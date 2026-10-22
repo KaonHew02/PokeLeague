@@ -16,6 +16,8 @@ G.SpecialMoves = (() => {
                      power: (b, u, t, M) => (['rain', 'sand', 'hail'].includes(W(b)) ? M.pow / 2 : M.pow) },
     'dig':         { charge: (b, u) => { u.vol.invuln = 'dig'; } },
     'fly':         { charge: (b, u) => { u.vol.invuln = 'fly'; } },
+    'bounce':      { charge: (b, u) => { u.vol.invuln = 'fly'; } },
+    'dive':        { charge: (b, u) => { u.vol.invuln = 'dive'; } },
     'skull-bash':  { charge: (b, u) => { b.stage(u, 'def', 1, { source: u }); } },
     'sky-attack':  { charge: true },
     'razor-wind':  { charge: true },
@@ -38,20 +40,28 @@ G.SpecialMoves = (() => {
     'mirror-coat':  { fixed: (b, u) => (u.lastHit && u.lastHit.cat === 'special' && u.lastHit.from !== u.side ? 2 * u.lastHit.amt : null) },
 
     // ---------- the user faints ----------
-    'self-destruct': { after: selfKO, onMiss: selfKO },
-    'explosion':     { after: selfKO, onMiss: selfKO },
+    'self-destruct': { after: selfKO, onMiss: selfKO, onBlocked: selfKO },
+    'explosion':     { after: selfKO, onMiss: selfKO, onBlocked: selfKO },
 
     // ---------- variable power ----------
     'flail':        { power: (b, u) => reversalPower(u) },
     'reversal':     { power: (b, u) => reversalPower(u) },
-    'magnitude':    { hitsInvuln: ['dig'], power: (b) => {
+    'magnitude':    { hitsInvuln: ['dig'], doubleVsInvuln: true, power: (b) => {
                         const r = b.rng.int(1, 100), i = r <= 5 ? 0 : r <= 15 ? 1 : r <= 35 ? 2 : r <= 65 ? 3 : r <= 85 ? 4 : r <= 95 ? 5 : 6;
                         b.emit('magnitude', { n: i + 4 });
                         return [10, 30, 50, 70, 90, 110, 150][i]; } },
-    'earthquake':   { hitsInvuln: ['dig'] },
-    'gust':         { hitsInvuln: ['fly'] },
-    'twister':      { hitsInvuln: ['fly'] },
+    'earthquake':   { hitsInvuln: ['dig'], doubleVsInvuln: true },
+    'gust':         { hitsInvuln: ['fly'], doubleVsInvuln: true },
+    'twister':      { hitsInvuln: ['fly'], doubleVsInvuln: true },
+    'surf':         { hitsInvuln: ['dive'], doubleVsInvuln: true },
+    'whirlpool':    { hitsInvuln: ['dive'], doubleVsInvuln: true },
     'thunder':      { hitsInvuln: ['fly'], acc: (b, u, t, M) => (W(b) === 'rain' ? null : W(b) === 'sun' ? 50 : M.acc) },
+    'sky-uppercut': { hitsInvuln: ['fly'] },
+    'brick-break':  { beforeHit: (b, u, t) => {
+                        const f = b.sideOf(t).field;
+                        if (f.reflect || f.lightScreen) { delete f.reflect; delete f.lightScreen; b.emit('screensBroken', { side: t.side }); } } },
+    'tri-attack':   { after: (b, u, t, M, res) => {
+                        if (res.total > 0 && b.alive(t) && !t.vol.substitute && b.rng.pct(20)) b.inflict(t, ['brn', 'par', 'frz'][b.rng.int(0, 2)], { source: u, silent: true }); } },
     'low-kick':     { power: (b, u, t) => { const kg = G.SPECIES[t.mon.sp].w / 10;
                         return kg < 10 ? 20 : kg < 25 ? 40 : kg < 50 ? 60 : kg < 100 ? 80 : kg < 200 ? 100 : 120; } },
     'return':       { power: (b, u) => Math.max(1, Math.floor((u.mon.friendship || 0) * 10 / 25)) },
@@ -69,8 +79,8 @@ G.SpecialMoves = (() => {
     'false-swipe':  { leaveOne: true },
     'dream-eater':  { check: (b, u, t) => t.mon.status === 'slp' },
     'snore':        { whileAsleep: true, check: (b, u) => u.mon.status === 'slp' },
-    'high-jump-kick': { onMiss: crash },
-    'jump-kick':    { onMiss: crash },
+    'high-jump-kick': { onMiss: crash, onBlocked: crash },
+    'jump-kick':    { onMiss: crash, onBlocked: crash },
     'pay-day':      { after: (b, u) => { b.payDay += u.mon.lvl * 5; b.emit('coins', {}); } },
     'rage':         { after: (b, u) => { u.vol.rage = true; } },
     'rapid-spin':   { after: (b, u) => { if (u.vol.trap || u.vol.seeded) { u.vol.trap = null; u.vol.seeded = false; b.emit('spunFree', me(u)); } } },
@@ -205,8 +215,8 @@ G.SpecialMoves = (() => {
     };
   }
   function trapUse(b, u, t) {
-    if (t.vol.cantEscape) return fail(b);
-    t.vol.cantEscape = true;
+    if (b.trapped(t)) return fail(b);
+    t.vol.cantEscape = u.mon.uid;
     b.emit('cantEscapeNow', me(t)); return {};
   }
   function field(k) {

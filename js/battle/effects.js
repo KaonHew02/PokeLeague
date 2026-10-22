@@ -11,7 +11,10 @@
  *   power(b, user, target, M, hit)     variable base power      fixed(b, user, target, M) -> HP lost (or null = fail)
  *   acc(b, user, target, M)            variable accuracy        hits(b, user) -> number of hits
  *   moveType(b, user)                  variable type             typeless: true (Struggle)
- *   hitsInvuln: ['fly' | 'dig']        hits a target that is up in the sky / underground (double power)
+ *   hitsInvuln: ['fly' | 'dig' | 'dive']  hits a target in the sky / underground / underwater
+ *   doubleVsInvuln                     ... and does double damage to it (Gust, Earthquake, Surf...)
+ *   beforeHit(b, user, target, M)      just before the damage (Brick Break breaks screens)
+ *   onBlocked(b, user, target, M)      the target protected itself or is immune (Explosion still faints)
  *   after(b, user, target, M, res)     after the move hits      onMiss(b, user, target, M)
  *   recharge · rampage · leaveOne · whileAsleep · thawsUser   flags
  * A move with no handler and no generic meaning fails ("But it failed!"): those are
@@ -48,7 +51,11 @@ G.BattleFx = (() => {
 
     if (!self) {
       if (!b.alive(target)) { b.emit('noTarget', {}); return endRampage(b, user, S); }
-      if (target.vol.protect && !S.ignoresProtect) { b.emit('protected', { side: target.side, uid: target.mon.uid }); return endRampage(b, user, S); }
+      if (target.vol.protect && !S.ignoresProtect) {
+        b.emit('protected', { side: target.side, uid: target.mon.uid });
+        if (S.onBlocked) S.onBlocked(b, user, target, M);
+        return endRampage(b, user, S);
+      }
       if (S.check && S.check(b, user, target, M) === false) { b.emit('fail', {}); return endRampage(b, user, S); }
       if (!accuracy(b, user, target, M, S)) {
         b.emit('miss', who);
@@ -117,7 +124,12 @@ G.BattleFx = (() => {
   function damaging(b, user, target, M, S) {
     const type = S.moveType ? S.moveType(b, user) : M.type;
     const eff = S.typeless ? 1 : b.eff(type, target);
-    if (eff === 0) { b.emit('noEffect', { side: target.side, uid: target.mon.uid }); return { total: 0 }; }
+    if (eff === 0) {
+      b.emit('noEffect', { side: target.side, uid: target.mon.uid });
+      if (S.onBlocked) S.onBlocked(b, user, target, M);
+      return { total: 0 };
+    }
+    if (S.beforeHit) S.beforeHit(b, user, target, M);
     if (M.meta.k === 'ohko') {
       const d = b.hurt(target, target.mon.hp, { user, move: M, eff: 1 });
       if (target.mon.hp <= 0) b.emit('ohko', {});
@@ -135,7 +147,7 @@ G.BattleFx = (() => {
       } else {
         let pow = S.power ? S.power(b, user, target, M, i) : M.pow;
         if (!pow) { b.emit('fail', {}); return false; }
-        if (S.hitsInvuln && target.vol.invuln && S.hitsInvuln.includes(target.vol.invuln)) pow *= 2;
+        if (S.doubleVsInvuln && target.vol.invuln && S.hitsInvuln.includes(target.vol.invuln)) pow *= 2;
         ({ dmg, crit } = hitDamage(b, user, target, M, S, pow, eff, type));
       }
       total += b.hurt(target, dmg, { user, move: M, crit, eff: S.fixed ? 1 : eff, leaveOne: S.leaveOne });
@@ -166,7 +178,7 @@ G.BattleFx = (() => {
     if (AIL[ail]) return b.inflict(target, AIL[ail], { source: user, silent: true });
     if (ail === 'confusion') return b.confuse(target, { source: user, silent: true });
     if (ail === 'trap' && !target.vol.trap) {
-      target.vol.trap = { turns: b.rng.int(4, 5), move: idOf(M) };
+      target.vol.trap = { turns: b.rng.int(4, 5), move: idOf(M), src: user.mon.uid };
       b.emit('trap', { side: target.side, uid: target.mon.uid, move: target.vol.trap.move });
     }
     return false;

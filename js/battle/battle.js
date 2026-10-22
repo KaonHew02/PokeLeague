@@ -140,7 +140,9 @@ G.Battle = (() => {
     firstHealthy(side) { return side.party.findIndex(m => m.hp > 0); }
     healthyLeft(side) { return side.party.filter(m => m.hp > 0).length; }
     maxHp(bm) { return G.Mon.maxHp(bm.mon); }
-    trapped(bm) { return !!(bm.vol.trap || bm.vol.cantEscape || bm.vol.ingrain); }
+    trapped(bm) { return !!(bm.vol.trap || this.byFoe(bm, bm.vol.cantEscape) || bm.vol.ingrain); }
+    /** Is the foe that set this effect (by uid) still the one in battle? */
+    byFoe(bm, uid) { const f = this.other(bm); return !!uid && !!f && this.alive(f) && f.mon.uid === uid; }
 
     /** Effective stat with stages (and paralysis for speed). opts.crit: attacker ignores
      *  its negative stage, defender its positive one. */
@@ -162,8 +164,9 @@ G.Battle = (() => {
     }
 
     weatherMult(type) {
-      if (this.weather === 'sun') return type === 'fire' ? 1.5 : type === 'water' ? 0.5 : 1;
-      if (this.weather === 'rain') return type === 'water' ? 1.5 : type === 'fire' ? 0.5 : 1;
+      const w = this.weather && this.weather.w;
+      if (w === 'sun') return type === 'fire' ? 1.5 : type === 'water' ? 0.5 : 1;
+      if (w === 'rain') return type === 'water' ? 1.5 : type === 'fire' ? 0.5 : 1;
       return 1;
     }
 
@@ -214,7 +217,7 @@ G.Battle = (() => {
       const t = target.types;
       if ((s === 'brn' && t.includes('fire')) || (s === 'par' && t.includes('electric')) || (s === 'frz' && t.includes('ice'))
           || ((s === 'psn' || s === 'tox') && (t.includes('poison') || t.includes('steel')))) return fail('immune');
-      if (s === 'frz' && this.weather === 'sun') return fail('already');
+      if (s === 'frz' && this.weather && this.weather.w === 'sun') return fail('already');
       const foeSource = o.source && o.source.side !== target.side;
       if (foeSource && this.sideOf(target).field.safeguard) return fail('safeguard');
       if (foeSource && o.statusMove && target.vol.substitute) return fail('sub');
@@ -321,6 +324,8 @@ G.Battle = (() => {
     doMove(bm, a) {
       const target = this.other(bm);
       const say = why => this.emit('cantMove', { side: bm.side, uid: bm.mon.uid, why });
+      // An interrupted move ends its charge, its time in the sky / underground and its rampage.
+      const stop = () => { bm.vol.charging = null; bm.vol.invuln = null; bm.vol.rampage = null; };
       if (bm.vol.recharge) { bm.vol.recharge = false; return say('recharge'); }
       const id = a.id || bm.mon.moves[a.slot].id;
       const sp = G.SpecialMoves[id] || {};
@@ -328,15 +333,15 @@ G.Battle = (() => {
       if (mon.status === 'slp') {
         if (mon.slp > 0) {
           mon.slp--;
-          if (!sp.whileAsleep) { say('slp'); bm.vol.charging = null; bm.vol.rampage = null; return; }
+          if (!sp.whileAsleep) { say('slp'); stop(); return; }
         } else { mon.status = null; this.emit('wake', { side: bm.side, uid: mon.uid }); }
       }
       if (mon.status === 'frz') {
         if (this.rng.pct(20) || sp.thawsUser) { mon.status = null; this.emit('thaw', { side: bm.side, uid: mon.uid }); }
-        else return say('frz');
+        else { stop(); return say('frz'); }
       }
-      if (bm.vol.disable && bm.vol.disable.move === id && !a.locked) return say('disabled');
-      if (bm.vol.flinch) { bm.vol.charging = null; return say('flinch'); }
+      if (bm.vol.disable && bm.vol.disable.move === id && !a.locked) { stop(); return say('disabled'); }
+      if (bm.vol.flinch) { stop(); return say('flinch'); }
       if (bm.vol.confusion) {
         bm.vol.confusion--;
         if (bm.vol.confusion <= 0) { bm.vol.confusion = 0; this.emit('confusionEnd', { side: bm.side, uid: mon.uid }); }
@@ -346,13 +351,13 @@ G.Battle = (() => {
             const dmg = G.Damage.calc({ lvl: mon.lvl, pow: 40, atk: this.stat(bm, 'atk'), def: this.stat(bm, 'def'), roll: this.rng.int(85, 100) });
             this.emit('hurtSelf', { side: bm.side, uid: mon.uid });
             this.hurt(bm, dmg, { why: 'confusion' });
-            bm.vol.charging = null; bm.vol.rampage = null;
+            stop();
             return;
           }
         }
       }
-      if (mon.status === 'par' && this.rng.pct(25)) { bm.vol.charging = null; bm.vol.rampage = null; return say('par'); }
-      if (bm.vol.attract && this.alive(target) && this.rng.pct(50)) return say('attract');
+      if (mon.status === 'par' && this.rng.pct(25)) { stop(); return say('par'); }
+      if (bm.vol.attract && this.alive(target) && this.rng.pct(50)) { stop(); return say('attract'); }
       // PP is only used when the move really starts (not on the second turn of a charge or a rampage).
       if (!a.locked && id !== 'struggle') {
         const slot = bm.mon.moves.find(m => m.id === id);
@@ -384,6 +389,11 @@ G.Battle = (() => {
     /** Ends the battle when one side is done. */
     decide() {
       if (this.result) return;
+      // No Pokemon left able to fight is a loss, even when the foe fell at the same time.
+      if (this.healthyLeft(this.player) === 0) {
+        this.emit('outOfPokemon', {});
+        return this.finish('lose');
+      }
       const foeOut = this.foe.bm.fainted;
       if (foeOut && (this.kind === 'wild' || this.healthyLeft(this.foe) === 0)) {
         let money = 0;
@@ -394,10 +404,6 @@ G.Battle = (() => {
           this.emit('defeated', { trainer: t.id || null });
         }
         return this.finish('win', { money });
-      }
-      if (this.healthyLeft(this.player) === 0) {
-        this.emit('outOfPokemon', {});
-        return this.finish('lose');
       }
     }
 
@@ -436,8 +442,11 @@ G.Battle = (() => {
         }
         if (this.alive(bm) && bm.vol.trap) {
           const t = bm.vol.trap;
-          if (--t.turns <= 0) { bm.vol.trap = null; this.emit('freed', { side: bm.side, uid, move: t.move }); }
-          else this.hurt(bm, Math.max(1, Math.floor(max / 8)), { why: 'trap', src: t.move });
+          if (!this.byFoe(bm, t.src)) bm.vol.trap = null;          // the one holding it is gone
+          else {
+            this.hurt(bm, Math.max(1, Math.floor(max / 8)), { why: 'trap', src: t.move });
+            if (--t.turns <= 0 && this.alive(bm)) { bm.vol.trap = null; this.emit('freed', { side: bm.side, uid, move: t.move }); }
+          }
         }
         if (this.alive(bm) && bm.vol.yawn && --bm.vol.yawn === 0) {
           bm.vol.yawn = 0;

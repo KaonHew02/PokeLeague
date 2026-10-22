@@ -76,9 +76,12 @@ G.Mon = (() => {
     if (mon.hp > 0) mon.hp = Math.min(now, mon.hp + (now - oldMax));
   }
 
+  /** Learns into a free slot (-> null), or replaces `slot` (-> the forgotten move).
+   *  With four moves and no slot nothing changes (-> false): ask which one to forget first. */
   function learn(mon, id, slot) {
     const m = { id, pp: ppMax(id), ppUp: 0 };
-    if (mon.moves.length < 4 && (slot === undefined || slot >= mon.moves.length)) { mon.moves.push(m); return null; }
+    if (mon.moves.length < 4 && (slot == null || slot >= mon.moves.length)) { mon.moves.push(m); return null; }
+    if (slot == null || !mon.moves[slot]) return false;
     const old = mon.moves[slot].id;
     mon.moves[slot] = m;
     return old;

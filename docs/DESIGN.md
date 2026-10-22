@@ -160,6 +160,13 @@ It is pure and deterministic, runs in node, and never touches the DOM. **Built**
 | battle.js | `G.Battle` | the turn engine below |
 | text.js | `G.BattleText` | `line(event, battle)` → translated text or null; `who`, `trainerName` |
 
+Notes for callers:
+- `G.Mon.learn(mon, id)` with four moves and no slot returns `false` and changes nothing:
+  ask which move to forget first (TM / move tutor UI).
+- A lost battle reports `money: 0`; blacking out costs `G.Exp.blackoutLoss(money)`, applied
+  by the overworld.
+- No Pokémon left able to fight is a loss even if the foe fainted at the same time.
+
 `tools/sim_battle.js` plays a battle in the terminal. Two-turn moves, recharging and
 rampage turns need no input: one `act()` plays them through. When a trainer's Pokémon faints
 and `rules.shift` is on, the player gets a `shift` prompt (switch or `-1`). A caught Pokémon

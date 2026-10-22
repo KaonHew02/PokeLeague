@@ -47,6 +47,8 @@ G.BattleText = (() => {
       case 'dig': return fmt('{mon} burrowed its way under the ground!', { mon });
       case 'fly': return fmt('{mon} flew up high!', { mon });
       case 'skull-bash': return fmt('{mon} tucked in its head!', { mon });
+      case 'bounce': return fmt('{mon} sprang up!', { mon });
+      case 'dive': return fmt('{mon} hid underwater!', { mon });
       case 'sky-attack': return fmt('{mon} became cloaked in a harsh light!', { mon });
       case 'razor-wind': return fmt('{mon} whipped up a whirlwind!', { mon });
       default: return fmt('{mon} is getting ready!', { mon });
@@ -169,6 +171,7 @@ G.BattleText = (() => {
       case 'lockOn': return fmt('{mon} took aim!', { mon });
       case 'stockpile': return fmt('{mon} stockpiled {n}!', { mon, n: e.n });
       case 'haze': return fmt('All stat changes were eliminated!', {});
+      case 'screensBroken': return fmt('The wall shattered!', {});
       case 'crash': return fmt('{mon} kept going and crashed!', { mon });
       case 'field': return fieldLine(e.side, e.effect, true);
       case 'fieldEnd': return fieldLine(e.side, e.effect, false);

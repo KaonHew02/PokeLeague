@@ -59,6 +59,11 @@ G.BattleAI = (() => {
       if (G.BattleFx.AIL[ail]) {
         if (target.mon.status || (G.BattleFx.POWDER.has(id) && target.types.includes('grass'))) return 0;
         if (M.type === 'electric' && b.eff('electric', target) === 0) return 0;
+        // The same immunities the engine applies: no point trying them.
+        const s = id === 'toxic' ? 'tox' : G.BattleFx.AIL[ail], ty = target.types;
+        if ((s === 'brn' && ty.includes('fire')) || (s === 'par' && ty.includes('electric')) || (s === 'frz' && ty.includes('ice'))
+            || ((s === 'psn' || s === 'tox') && (ty.includes('poison') || ty.includes('steel')))) return 0;
+        if (b.sideOf(target).field.safeguard) return 0;
         return { slp: 40, par: 32, psn: 24, brn: 28, frz: 30 }[G.BattleFx.AIL[ail]] || 20;
       }
       if (ail === 'confusion') return target.vol.confusion ? 0 : 22;

@@ -428,15 +428,27 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   rejects other apps, newer versions and bad shapes, then asks before overwriting.
 - Saving only happens in the overworld, never during a battle.
 
-## 7. Audio (M7)
+## 7. Audio (M7 ✅)
 
-- `G.Audio.jingle(name)` plays a `once:true` song over the music bus, then resumes the
-  loop. It returns a Promise.
-- Jingles: heal, levelup, caught, item, badge, evolved.
-- New loops: evolution, victory-wild, victory-trainer, center, title.
-- `music-map.js` maps contexts to songs: town → village, route → forest,
-  forest → cave, wild → volcano, trainer → boss, gym → rift.
-- Extra SFX: bump, door, ledge, cry, expTick, lowHp.
+- `G.Audio.context(name)` plays the theme of a context; maps and scripts name a context,
+  never a song. `music-map.js` (`G.MusicMap`): title → title, town and lab → village,
+  center and mart → center, route → forest, forest → cave, cave → cave, wild → volcano,
+  trainer and rival → boss, gym → rift, victory-wild, victory-trainer (and victory-gym),
+  evolution, league → judgment, silence → null. An unknown context is reported and ignored.
+- `await G.Audio.jingle(name)` plays a `once:true` song over the music bus: the theme fades
+  out, the jingle plays to its last step, then the theme comes back at the beat where it
+  stopped (a theme asked for meanwhile starts instead). It resolves true at the end, false
+  when another jingle cuts it or no sound can play (at once), so scripts never hang.
+  Jingles: heal, levelup, caught, item, badge, evolved.
+- New loops: title, center, evolution, victory-wild, victory-trainer. New instruments:
+  brass, keys, tom, crash; melodies can hold chords (`C4+E4+G4:8`).
+- `G.Audio.cry(dex, {faint, pitch, vol})` → Promise (ends with the cry). The shape comes from
+  the evolution family, the pitch and length from the weight, the timbre from the types: the
+  same dex always sounds the same. Also `sfx('cry', dex)`.
+- Extra SFX: overworld bump, door, warp (stairs, exit mats), ledge, exclaim (a trainer spots
+  you), encounter; battle miss, statUp, statDown, status, run, throw, pop (send out), recall,
+  lock (the ball clicks shut), shine (badge or item glint), expTick (pass how full the bar
+  is, 0..1), lowHp; menus save, pcOn, pcOff. `G.Audio.alarm(true|false)` repeats lowHp.
 
 ## 8. Tests (`node --test tests/*.test.cjs`, vm sandbox via `tests/helpers.cjs`)
 

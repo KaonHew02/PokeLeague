@@ -358,6 +358,9 @@ G.World = (() => {
       if (w) { a.face('down'); warp(w.to, w.spot); return 'warped'; }
     }
     if (debug.noclip && M().inside(map, nx, ny)) { stepActor(a, dir, speed, false); return 'moved'; }
+    // A locked door: its script instead of the step.
+    const lw = M().inside(map, nx, ny) && map.warpAt.get(M().key(nx, ny));
+    if (lw && lw.locked && !(lw.to && G.Field.test(lw.if))) { a.face(dir); runScript(lw.locked, {}); return 'blocked'; }
     const k = M().kindAt(map, nx, ny);
     if (M().inside(map, nx, ny) && M().info(k).ledge === dir) {
       if (openTile(nx + dx, ny + dy) && !occupant(nx + dx, ny + dy, a)) {

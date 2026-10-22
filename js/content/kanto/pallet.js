@@ -7,8 +7,10 @@
  *   4. Leaving the lab, the rival challenges you (you may lose); then he leaves and Oak
  *      heals your Pokémon.
  *   5. Mom heals your party whenever you talk to her afterwards.
- * Flags: oak-escort, lab-intro, got-starter, lab-rival-battle, rival-left-lab.
- * Oak's Parcel and the Pokédex come with Viridian City (viridian.js).
+ *   6. Back from Viridian City with Oak's Parcel: Oak gives the rival and you a Pokédex
+ *      and you five Poké Balls; Daisy then gives you a Town Map.
+ * Flags: oak-escort, lab-intro, got-starter, lab-rival-battle, rival-left-lab,
+ * parcel-delivered, has-pokedex, got-town-map.
  */
 G.Maps.def({
   id: 'pallet', loc: 'pallet-town', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -225,6 +227,44 @@ G.Maps.def({
     };
   }
 
+  /** Oak's Parcel: the Pokédex for both of you, then Poké Balls. */
+  async function parcel(h) {
+    const F = G.Field;
+    await h.say(T("Oh, {player}! How is your Pokémon getting along?"), OAK);
+    await h.say(T('Hm? A parcel for me, from the Viridian City Poké Mart? Thank you!'), OAK);
+    F.takeItem('oaks-parcel', 1);
+    F.setFlag('parcel-delivered');
+    await h.say(T('Ah, the special Poké Ball I ordered! Splendid.'), OAK);
+    h.sfx('door');
+    h.place('rival', 6, 10, 'up');
+    h.show('rival');
+    await h.say(T('Gramps! You wanted to see me?'), RIVAL);
+    await h.walkTo('rival', 6, 5);
+    h.face('rival', 'up');
+    await h.say(T('Ah, {rival}, perfect timing. I have a favour to ask of you both.'), OAK);
+    await h.say(T('This is my newest invention: the Pokédex! It records every Pokémon you see or catch.'), OAK);
+    await h.say(T('{player}, {rival}: take one each!'), OAK);
+    F.setFlag('has-pokedex');
+    const j = h.jingle('item');
+    await h.say(T('{player} received the Pokédex!'));
+    await j;
+    await h.say(T("Meeting every kind of Pokémon in the world has been my dream for as long as I can remember. But I'm too old to travel far now."), OAK);
+    await h.say(T("So I'm counting on you two. Fill those Pokédexes!"), OAK);
+    await h.say(T("Leave it to me, Gramps! I'll find them all way before {player} does!"), RIVAL);
+    await h.say(T("I'll borrow a Town Map from my sister. Don't bother asking her for one, {player}!"), RIVAL);
+    await h.walkTo('rival', 6, 10);
+    await h.move('rival', ['down'], 4);
+    h.sfx('door');
+    h.hide('rival');
+    h.face('player', 'up');
+    await h.say(T("You can't catch wild Pokémon without Poké Balls. Take these!"), OAK);
+    F.giveItem('poke-ball', 5);
+    const j2 = h.jingle('item');
+    await h.say(T('{player} received {item} ×{n}!'), { vars: { item: G.Names.item('poke-ball'), n: 5 } });
+    await j2;
+    await h.say(T('Weaken a wild Pokémon first, then throw a Poké Ball. Good luck, {player}!'), OAK);
+  }
+
   /** Leaving the lab with a Pokémon: the rival wants a battle. Losing is fine here. */
   async function rivalBattle(h) {
     const F = G.Field, S = F.save, me = G.World.player;
@@ -277,7 +317,13 @@ G.Maps.def({
         ['setFlag', 'lab-intro']
       ]]
     ],
+    'lab.parcel': [['js', parcel]],
     'lab.oak': [
+      ['if', 'has:oaks-parcel', [['call', 'lab.parcel'], ['end']]],
+      ['if', 'has-pokedex', [
+        ['say', 'Fill that Pokédex, {player}! There are so many Pokémon waiting out there.', { name: 'Prof. Oak' }],
+        ['end']
+      ]],
       ['if', 'got-starter', [
         ['say', 'When a wild Pokémon jumps out, let your Pokémon battle it. Every win makes it stronger.', { name: 'Prof. Oak' }],
         ['say', 'Route 1, north of town, leads to Viridian City. Off you go!', { name: 'Prof. Oak' }]
@@ -312,6 +358,17 @@ G.Maps.def({
       ]]
     ],
     'pallet.daisy': [
+      ['if', ['has-pokedex', '!got-town-map'], [
+        ['say', "Grandpa asked you to help with his Pokédex? That's wonderful!", { name: 'Daisy' }],
+        ['say', "Here, take this Town Map. It'll help you find your way.", { name: 'Daisy' }],
+        ['giveItem', 'town-map', 1],
+        ['setFlag', 'got-town-map'],
+        ['end']
+      ]],
+      ['if', 'got-town-map', [
+        ['say', "Good luck with Grandpa's research, {player}. Don't let my brother get too far ahead!", { name: 'Daisy' }],
+        ['end']
+      ]],
       ['if', 'got-starter', [
         ['say', '{rival} came home just to show off his new Pokémon. He can be so full of himself!', { name: 'Daisy' }]
       ], [

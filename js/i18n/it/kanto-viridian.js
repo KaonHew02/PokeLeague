@@ -1,0 +1,28 @@
+/* Italian — kanto-viridian: Viridian City (js/content/kanto/viridian.js). */
+G.I18n.add({
+  "Please take that parcel to Professor Oak in Pallet Town. Thanks so much!": "Per favore, porta quel pacco al Professor Oak a Biancavilla. Grazie mille!",
+  "The Gym's doors are locked tight...": "Le porte della Palestra sono chiuse a chiave...",
+  "A note on the door says the Gym Leader is away.": "Un biglietto sulla porta dice che il Capopalestra è via.",
+  "Hmph! I'm not moving from this spot. Go away!": "Hmpf! Non mi sposto di qui. Vattene!",
+  "Sorry! Grandpa gets like this before his morning coffee. He won't let anyone pass.": "Scusa! Il nonno fa così prima del caffè del mattino. Non fa passare nessuno.",
+  "Ah, you carry a Pokédex now? Then listen to an old man's advice.": "Ah, ora hai un Pokédex? Allora ascolta il consiglio di un vecchio.",
+  "First, battle a wild Pokémon to weaken it. Then throw a Poké Ball. The weaker it is, the easier it is to catch!": "Prima lotta con un Pokémon selvatico per indebolirlo. Poi lancia una Poké Ball. Più è debole, più è facile catturarlo!",
+  "A sleeping or paralysed Pokémon is easier still. Off you go now!": "Se dorme o è paralizzato, è ancora più facile. Su, vai!",
+  "Hey! You came from Pallet Town, right?": "Ehi! Vieni da Biancavilla, vero?",
+  "You know Professor Oak? His order just came in. Would you take it to him for me?": "Conosci il Professor Oak? È appena arrivato il suo ordine. Glielo porteresti?",
+  "Thanks! Say hello to the professor for me.": "Grazie! Saluta il professore da parte mia.",
+  "Grandpa's in a much better mood now. He finally had his morning coffee!": "Il nonno è di umore molto migliore. Finalmente ha bevuto il suo caffè!",
+  "The Gym here is always shut. I wonder who the leader even is...": "La Palestra qui è sempre chiusa. Chissà chi è il Capopalestra...",
+  "When your Pokémon get hurt, take them to the Pokémon Center. It costs nothing!": "Quando i tuoi Pokémon sono feriti, portali al Centro Pokémon. È gratis!",
+  "The PC in the corner connects to the Pokémon Storage System. Handy when your party is full!": "Il PC nell'angolo è collegato al Sistema Memoria Pokémon. Comodo quando la squadra è al completo!",
+  "Potions heal your Pokémon anywhere. I always carry a few!": "Le Pozioni curano i tuoi Pokémon ovunque. Ne porto sempre qualcuna!",
+  "I'm studying to be a great Trainer! Did you know you can switch Pokémon in the middle of a battle?": "Studio per diventare un grande Allenatore! Sapevi che puoi cambiare Pokémon nel bel mezzo di una lotta?",
+  "A Pokémon that holds back its moves runs out of PP more slowly. Wait, is that right? I need to study more...": "Un Pokémon che si trattiene consuma meno PP. Aspetta, è giusto? Devo studiare di più...",
+  "Raise your Pokémon with care and they grow strong. Some even evolve into a whole new form!": "Cresci i tuoi Pokémon con cura e diventeranno forti. Alcuni si evolvono persino in una forma nuova!",
+  "You can give a Pokémon a nickname when you catch it. Mine is called Fluffy!": "Puoi dare un soprannome a un Pokémon quando lo catturi. Il mio si chiama Batuffolo!",
+  "Clerk": "Commesso",
+  "Viridian City Pokémon Gym": "Palestra Pokémon di Smeraldopoli",
+  "Viridian City. A city where the trees stay green all year round.": "Smeraldopoli. Una città dove gli alberi restano verdi tutto l'anno.",
+  "The blackboard reads: a Pokémon's status problems stay after battle. Heal them with items or at a Pokémon Center!": "Sulla lavagna c'è scritto: i problemi di stato di un Pokémon restano dopo la lotta. Curali con gli strumenti o al Centro Pokémon!",
+  "A shelf of books about raising Pokémon.": "Uno scaffale di libri su come crescere i Pokémon."
+}, "it");

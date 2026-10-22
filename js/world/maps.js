@@ -9,12 +9,15 @@
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
  *   G.Maps.validate(id) every error of one map (also checks the maps it points to)
- *   G.Maps.center(id, { exit:{ map, spot }, loc })      standard Pokémon Center interior
- *   G.Maps.mart(id, { exit:{ map, spot }, loc, stock })  standard Poké Mart interior
+ *   G.Maps.center(id, { exit:{ map, spot }, loc, npcs })               standard Pokémon Center interior
+ *   G.Maps.mart(id, { exit:{ map, spot }, loc, stock, clerk, npcs })   standard Poké Mart interior
+ *       (npcs: extra people; clerk: the clerk's own script instead of just the shop)
  *
  * Warps: a door (D) or stairs (^) warp when you step on them; an exit mat (X)
  * when you walk down onto it or press down while standing on it. Arrival
- * spots never warp, so a spot can be on a mat.
+ * spots never warp, so a spot can be on a mat. A locked door:
+ * { x, y, to?, spot?, if: cond, locked: script } — while there is no `to` or `if`
+ * fails, walking into it runs `locked` instead (the Viridian Gym).
  *
  * Pure logic: runs in node (tests, tools/map_check.js). Painting is tiles.js.
  */
@@ -263,6 +266,8 @@ G.Maps = (() => {
       seenWarp.add(at);
       if (!tileOk(w.x, w.y)) { E.push(`warp ${at} is outside the map`); continue; }
       if (!info(kindAt(m, w.x, w.y)).warp) E.push(`warp ${at} is on a ${kindAt(m, w.x, w.y)} tile (doors D, mats X, stairs ^)`);
+      if (typeof w.locked === 'string' && G.Script && !G.Script.get(w.locked)) E.push(`locked door ${at}: unknown script "${w.locked}"`);
+      if (!w.to && w.locked) continue;                 // a door that stays locked (for now)
       const t = get(w.to);
       if (!t) { E.push(`warp ${at} goes to the unknown map "${w.to}"`); continue; }
       const s = t.spots[w.spot];
@@ -411,7 +416,7 @@ G.Maps = (() => {
         ], [
           ['say', 'Come back any time you need us!']
         ]]
-      ] }],
+      ] }].concat(o.npcs || []),
       enter: o.enter
     });
   }
@@ -433,10 +438,10 @@ G.Maps = (() => {
       ],
       warps: [{ x: 4, y: 7, to: exit.map, spot: exit.spot }],
       spots: { door: [4, 7, 'up'], shop: [2, 4, 'left'] },
-      npcs: [{ id: 'clerk', who: 'clerk', x: 0, y: 4, dir: 'right', script: [
+      npcs: [{ id: 'clerk', who: 'clerk', x: 0, y: 4, dir: 'right', script: o.clerk || [
         ['say', 'Hi there! What can I get for you today?'],
         ['shop', o.stock || ['poke-ball', 'potion', 'antidote', 'paralyze-heal']]
-      ] }],
+      ] }].concat(o.npcs || []),
       enter: o.enter
     });
   }

@@ -43,7 +43,7 @@ G.Maps.def({
     'T........,,........T',
     'TTTTTTTTT,,TTTTTTTTT'
   ],
-  connect: { south: { map: 'pallet', offset: 0 } },
+  connect: { south: { map: 'pallet', offset: 0 }, north: { map: 'viridian', offset: -8 } },
   spots: { south: [9, 34, 'up'], north: [9, 1, 'down'] },
   signs: {
     '5,12': 'Trainer Tips: wild Pokémon hide in tall grass. Weaken one in battle before you throw a Poké Ball!',

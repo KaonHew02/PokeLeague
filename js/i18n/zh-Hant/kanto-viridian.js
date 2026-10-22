@@ -1,0 +1,28 @@
+/* Traditional Chinese — kanto-viridian: Viridian City (js/content/kanto/viridian.js). */
+G.I18n.add({
+  "Please take that parcel to Professor Oak in Pallet Town. Thanks so much!": "請把包裹交給真新鎮的大木博士。多謝了！",
+  "The Gym's doors are locked tight...": "道館的門緊緊鎖著……",
+  "A note on the door says the Gym Leader is away.": "門上的紙條寫著：道館館主外出中。",
+  "Hmph! I'm not moving from this spot. Go away!": "哼！我不會從這兒挪開的。走開！",
+  "Sorry! Grandpa gets like this before his morning coffee. He won't let anyone pass.": "對不起！爺爺早上沒喝咖啡就會這樣。他誰都不讓過。",
+  "Ah, you carry a Pokédex now? Then listen to an old man's advice.": "哦，你帶著寶可夢圖鑑了？那就聽聽老頭子的建議吧。",
+  "First, battle a wild Pokémon to weaken it. Then throw a Poké Ball. The weaker it is, the easier it is to catch!": "首先，和野生寶可夢對戰，削弱牠。然後扔出精靈球。牠越虛弱就越容易抓到！",
+  "A sleeping or paralysed Pokémon is easier still. Off you go now!": "要是牠睡著了或麻痺了，就更好抓了。去吧！",
+  "Hey! You came from Pallet Town, right?": "嘿！你是從真新鎮來的吧？",
+  "You know Professor Oak? His order just came in. Would you take it to him for me?": "你認識大木博士吧？他訂的東西剛到。能幫我帶給他嗎？",
+  "Thanks! Say hello to the professor for me.": "謝謝！替我向博士問好。",
+  "Grandpa's in a much better mood now. He finally had his morning coffee!": "爺爺心情好多了。他終於喝上早上的咖啡了！",
+  "The Gym here is always shut. I wonder who the leader even is...": "這裡的道館一直關著門。真想知道館主是誰……",
+  "When your Pokémon get hurt, take them to the Pokémon Center. It costs nothing!": "寶可夢受傷了就帶去寶可夢中心吧。不要錢哦！",
+  "The PC in the corner connects to the Pokémon Storage System. Handy when your party is full!": "角落裡的電腦連著寶可夢寄放系統。隊伍滿了的時候很方便！",
+  "Potions heal your Pokémon anywhere. I always carry a few!": "傷藥在哪兒都能給寶可夢療傷。我總是隨身帶幾瓶！",
+  "I'm studying to be a great Trainer! Did you know you can switch Pokémon in the middle of a battle?": "我在努力學習，要成為了不起的訓練家！你知道對戰中途可以換寶可夢嗎？",
+  "A Pokémon that holds back its moves runs out of PP more slowly. Wait, is that right? I need to study more...": "寶可夢省著用招式，PP就消耗得慢些。等等，是這樣嗎？我還得再學學……",
+  "Raise your Pokémon with care and they grow strong. Some even evolve into a whole new form!": "用心培養寶可夢，牠們就會變強。有些還會進化成全新的樣子！",
+  "You can give a Pokémon a nickname when you catch it. Mine is called Fluffy!": "抓到寶可夢的時候可以給牠取暱稱。我的叫毛毛！",
+  "Clerk": "店員",
+  "Viridian City Pokémon Gym": "常青市寶可夢道館",
+  "Viridian City. A city where the trees stay green all year round.": "常青市。一座四季常青的城市。",
+  "The blackboard reads: a Pokémon's status problems stay after battle. Heal them with items or at a Pokémon Center!": "黑板上寫著：寶可夢的異常狀態在對戰後也不會消失。用道具或到寶可夢中心治療吧！",
+  "A shelf of books about raising Pokémon.": "一架關於培養寶可夢的書。"
+}, "zh-Hant");

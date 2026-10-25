@@ -611,6 +611,30 @@ G.Tiles = (() => {
     'rkkkkkkkkkkkkkkr',
     'rrkkkkkkkkkkkkrr'
   ];
+  const CAN = [
+    '................',
+    '....oooooooo....',
+    '...oLLLLLLLLo...',
+    '...oLwwwwwwLo...',
+    '...oLLLLLLLLo...',
+    '....oggggggo....',
+    '....ogGggggo....',
+    '....ogGggdgo....',
+    '....ogGggdgo....',
+    '....ogGggdgo....',
+    '....ogGggdgo....',
+    '....ogGggdgo....',
+    '....ogGggdgo....',
+    '....oddddddo....',
+    '.....oooooo.....',
+    '................'
+  ];
+  /** A metal trash can (Lt. Surge's Gym). */
+  function can(P, C, ox, oy, tx, ty) {
+    floor(P, C, ox, oy, tx, ty, C.floor);
+    ascii(P, ox, oy, CAN, { o: pack('#202830'), L: pack('#a8b4c0'), w: pack('#d8e0e8'), g: pack('#8894a0'), G: pack('#b8c4d0'), d: pack('#5c6874') });
+  }
+
   function ladder(P, C, ox, oy, tx, ty) {
     grass(P, C, ox, oy, tx, ty);
     ascii(P, ox, oy, LADDER, { o: C.woodEdge, l: C.wood[1], d: C.wood[2] });
@@ -701,6 +725,22 @@ G.Tiles = (() => {
       for (let i = 0; i < 2; i++) ascii(P, i * 8, 0, TUFT, cols);
       return P.canvas();
     },
+    /** A small tree that Cut clears: 16×18, round and low. */
+    shrub(C) {
+      const P = Pix(T, 18);
+      const L = C.leaf, Tr = C.trunk;
+      for (let y = 13; y < 17; y++) for (let x = 7; x < 9; x++) P.set(x, y, Tr[x === 7 ? 0 : 1]);
+      for (const [bx, by, br] of [[7.5, 8, 6], [4.6, 10.5, 3.6], [10.4, 10.5, 3.6]]) {
+        disc(P, bx, by, br, (x, y) => {
+          if (x < 1 || x > 14 || y < 1) return null;
+          const lit = ((x - 7.5) * -0.55 + (y - 8) * -0.85) / 6;
+          const idx = lit > 0.42 ? 3 : lit > 0.02 ? 2 : lit > -0.5 ? 1 : 0;
+          return L[idx];
+        });
+      }
+      outline(P, C.treeEdge);
+      return P.canvas();
+    },
     /** An item on the ground: a Poké Ball. */
     ball() {
       const P = Pix(12, 12);
@@ -736,6 +776,8 @@ G.Tiles = (() => {
       case 'mat': mat(P, C, ox, oy, tx, ty); break;
       case 'stairs': stairs(P, C, ox, oy); break;
       case 'ladder': ladder(P, C, ox, oy, tx, ty); break;
+      case 'cuttree': grass(P, C, ox, oy, tx, ty); break;   // the tree itself is a prop (render.js)
+      case 'can': can(P, C, ox, oy, tx, ty); break;
       case 'hole': hole(P, C, ox, oy, tx, ty, at); break;
       default: P.rect(ox, oy, T, T, C.black);
     }

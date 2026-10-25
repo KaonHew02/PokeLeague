@@ -2,12 +2,13 @@
  * The end of chapter 2: Cerulean City (Center, Mart, the Bike Shop, two houses) and its
  * Gym, a swimming pool: Swimmer Luis, Picnicker Diana, then Leader Misty (Staryu Lv. 18,
  * Starmie Lv. 21). Beating her gives the Cascade Badge (badge 2) and TM03 Water Pulse.
- * The roads on (Nugget Bridge north, Route 5 south, Route 9 east) wait for chapter 3.
+ * North: Nugget Bridge (nugget.js). South: Route 5, once the thief who robbed a house is
+ * caught (vermilion.js). East: Route 9 (later).
  */
 G.Maps.def({
   id: 'cerulean', loc: 'cerulean-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
   rows: [
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
+    'TTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTT',
     'TTT.............,,.............TTT',
     'TTT.GGGGGG......,,...CCCCC.....TTT',
     'TTT.GGGGGG......,,...CCCCC.....TTT',
@@ -34,7 +35,7 @@ G.Maps.def({
     'T...............,,...............T',
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
-  connect: { west: { map: 'route4', offset: -4 } },
+  connect: { west: { map: 'route4', offset: -4 }, north: { map: 'route24', offset: 8 } },
   warps: [
     { x: 7, y: 6, to: 'cerulean-gym', spot: 'door' },
     { x: 23, y: 5, to: 'cerulean-center', spot: 'door' },
@@ -53,8 +54,6 @@ G.Maps.def({
     '8,14': 'Bike Shop: Bicycles for everyone!'
   },
   npcs: [
-    { id: 'worker', who: 'guide', x: 16, y: 2, dir: 'down',
-      say: 'Sorry, the road north to Nugget Bridge is closed for repairs. Come back another time!' },
     { id: 'officer', who: 'clerk', x: 16, y: 23, dir: 'up',
       say: 'Thieves broke into a house in town last night. The road south stays closed until we catch them.' },
     { id: 'girl', who: 'lass', x: 25, y: 20, move: 'look',

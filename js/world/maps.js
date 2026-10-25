@@ -3,7 +3,7 @@
  *
  *   G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto', music:'town',
  *     border:'T', rows:[ 'TTTT..TTTT', … ], connect:{ north:{ map:'route1', offset:0 } },
- *     warps:[{ x, y, to, spot }], spots:{ name:[x, y, dir] }, signs:{ 'x,y':'text' },
+ *     warps:[{ x, y, to, spot }], spots:{ name:[x, y, dir] }, signs:{ 'x,y':'text' | { script } },
  *     npcs:[…], trainers:[…], items:[…], triggers:[…], encounters:{ walk:'@area-key' }, enter:'script' })
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
@@ -32,7 +32,8 @@ G.Maps = (() => {
     door: { warp: 1 }, stamp: { solid: 1 },
     wall: { solid: 1 }, wood: {}, tile: {}, rug: {}, counter: { solid: 1, counter: 1 }, shelf: { solid: 1 },
     table: { solid: 1 }, plant: { solid: 1 }, pc: { solid: 1 }, healer: { solid: 1 },
-    mat: { warp: 1 }, stairs: { warp: 1 }, ladder: { warp: 1 }, hole: { warp: 1 }, void: { solid: 1 }
+    mat: { warp: 1 }, stairs: { warp: 1 }, ladder: { warp: 1 }, hole: { warp: 1 }, void: { solid: 1 },
+    cuttree: { solid: 1, cut: 1 }, can: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -40,12 +41,13 @@ G.Maps = (() => {
       T: 'tree', '#': 'cliff', '~': 'water', F: 'fence', S: 'sign',
       v: 'ledge-down', '<': 'ledge-left', '>': 'ledge-right',
       H: 'stamp', C: 'stamp', M: 'stamp', G: 'stamp', L: 'stamp', D: 'door',
-      '%': 'ladder', O: 'hole'                       // caves: a ladder, a cave mouth (both warps)
+      '%': 'ladder', O: 'hole',                      // caves: a ladder, a cave mouth (both warps)
+      c: 'cuttree'                                   // a small tree that Cut clears (until you leave the map)
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',
       '=': 'counter', b: 'shelf', t: 'table', p: 'plant', P: 'pc', h: 'healer',
-      X: 'mat', '^': 'stairs', '~': 'water'
+      X: 'mat', '^': 'stairs', '~': 'water', u: 'can'
     }
   };
   /** Buildings drawn as stamps: footprint in tiles (stamps.js paints them). */
@@ -310,7 +312,8 @@ G.Maps = (() => {
       ids.add(p.id);
       if (!tileOk(p.x, p.y)) E.push(`${what} "${p.id}" ${at} is outside the map`);
       else if (!open(m, p.x, p.y)) E.push(`${what} "${p.id}" stands on a ${kindAt(m, p.x, p.y)} tile at ${at}`);
-      if (known && !known.includes(p.who)) E.push(`${what} "${p.id}": unknown sprite "${p.who}"`);
+      if (p.mon != null) { if (species(p.mon) == null) E.push(`${what} "${p.id}": unknown Pokémon "${p.mon}"`); }
+      else if (known && !known.includes(p.who)) E.push(`${what} "${p.id}": unknown sprite "${p.who}"`);
       if (p.dir && !DIRS[p.dir]) E.push(`${what} "${p.id}": bad direction "${p.dir}"`);
       if (p.move && !MOVES.includes(p.move)) E.push(`${what} "${p.id}": move must be one of ${MOVES.join(', ')}`);
       if (p.script) scriptRef(p.script, `${what} "${p.id}"`);
@@ -354,7 +357,8 @@ G.Maps = (() => {
     for (const [k, text] of Object.entries(m.signs)) {
       const [x, y] = k.split(',').map(Number);
       if (!tileOk(x, y)) E.push(`sign ${k} is outside the map`);
-      if (typeof text !== 'string' && !Array.isArray(text)) E.push(`sign ${k}: the text must be a string or a list`);
+      if (text && typeof text === 'object' && !Array.isArray(text)) { scriptRef(text.script, `sign ${k}`); continue; }
+      if (typeof text !== 'string' && !Array.isArray(text)) E.push(`sign ${k}: the text must be a string, a list or { script }`);
     }
     for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w; x++) {
       if (kindAt(m, x, y) === 'sign' && !m.signs[key(x, y)]) E.push(`sign S at ${where(x, y)} has no text in signs`);

@@ -125,6 +125,12 @@ G.WorldRender = (() => {
       const cv = g.below.canvas;
       list.push({ y: (m.h + 0.5) * TS - 0.5, draw: c => c.drawImage(cv, -TS, (m.h + 1) * TS - cv.height * PX, cv.width * PX, cv.height * PX) });
     }
+    // Small trees Cut can clear (drawn here, not baked: they disappear when cut).
+    const shrub = G.Tiles.sprite('shrub', G.Tiles.PALETTES[m.palette] && !G.Tiles.PALETTES[m.palette].floor ? m.palette : 'kanto');
+    for (let ty = Math.max(0, r0); ty <= Math.min(m.h - 1, r1); ty++) for (let tx = 0; tx < m.w; tx++) {
+      if (m.kind[ty * m.w + tx] !== 'cuttree' || (S.cut && S.cut.has(tx + ',' + ty))) continue;
+      list.push({ y: (ty + 0.5) * TS, draw: c => c.drawImage(shrub, tx * TS, (ty + 1) * TS - shrub.height * PX, shrub.width * PX, shrub.height * PX) });
+    }
     const ball = G.Tiles.sprite('ball');
     for (const it of S.items) {
       if (it.got || it.def.hidden) continue;

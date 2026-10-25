@@ -156,6 +156,7 @@ G.World = (() => {
   let lastLoc = null;
   let started = false;
   let pendingClick = null;
+  let cut = new Set();                   // trees cut on this visit of the map ('x,y'); they grow back
   const debug = { noEnc: false, noclip: false };
   let rng = G.RNG(G.RNG.seed());
 
@@ -216,7 +217,7 @@ G.World = (() => {
   function makeActors() {
     actors = [];
     const id = map.id;
-    for (const d of map.npcs) actors.push(new G.Actor({ id: d.id, who: d.who, x: d.x, y: d.y, dir: d.dir || 'down', def: d }));
+    for (const d of map.npcs) actors.push(new G.Actor({ id: d.id, who: d.who, mon: d.mon != null ? M().species(d.mon) : 0, x: d.x, y: d.y, dir: d.dir || 'down', def: d }));
     for (const d of map.trainers) {
       const a = new G.Actor({ id: d.id, who: d.who, x: d.x, y: d.y, dir: d.dir || 'down', def: d });
       a.trainer = true; a.key = id + ':' + d.id;
@@ -251,6 +252,7 @@ G.World = (() => {
     const m = M().get(id);
     if (!m) { console.error('[World] unknown map ' + id); G.UI.toast('Unknown map: ' + id); return false; }
     map = m;
+    cut = new Set();
     const s = (where && typeof where === 'object' && !Array.isArray(where)) ? { x: where.x | 0, y: where.y | 0, dir: where.dir || 'down' }
       : M().spot(m, where) || M().spot(m, Object.keys(m.spots)[0]) || { x: m.w >> 1, y: m.h >> 1, dir: 'down' };
     if (!me) me = new G.Actor({ id: 'player', who: playerSprite() });
@@ -294,6 +296,7 @@ G.World = (() => {
     const nb = a.nb;
     const from = map;
     map = a.map;
+    cut = new Set();
     me.x -= nb.ox; me.y -= nb.oy; me.fx -= nb.ox; me.fy -= nb.oy;
     if (follower) { follower.x -= nb.ox; follower.y -= nb.oy; follower.fx -= nb.ox; follower.fy -= nb.oy; }
     makeActors();
@@ -332,7 +335,7 @@ G.World = (() => {
   // ---------------- tiles and people ----------------
 
   function openTile(x, y) {
-    if (M().inside(map, x, y)) return !map.solid[y * map.w + x];
+    if (M().inside(map, x, y)) return !map.solid[y * map.w + x] || cut.has(M().key(x, y));
     const a = M().across(map, x, y);
     return !!a && M().open(a.map, a.x, a.y);
   }
@@ -625,7 +628,9 @@ G.World = (() => {
       if (beyond && beyond instanceof G.Actor) return talk(beyond);
     }
     const sign = map.signs[M().key(tx, ty)];
+    if (sign && typeof sign === 'object' && !Array.isArray(sign)) return runScript(sign.script, { x: tx, y: ty });
     if (sign) return runScript([['say', sign]], {});
+    if (k === 'cuttree' && !cut.has(M().key(tx, ty))) return runScript([['js', h => cutTree(h, tx, ty)]], {});
     if (k === 'pc') return runScript([['sfx', 'pc'], ['say', '{player} turned on the PC.'], ['pc']], {});
     return null;
   }
@@ -658,6 +663,16 @@ G.World = (() => {
     const d = it.def;
     if (d.script) return runScript(d.script, { item: it });
     return runScript([['found', d.item, d.n || 1, it.key]], {});
+  }
+
+  /** A small tree in the way: a Pokémon that knows Cut can clear it (with the Cascade Badge, as in the games). */
+  async function cutTree(h, x, y) {
+    const mon = G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'cut'));
+    if (!mon || !G.Field.save.player.badges.includes(2)) { await h.say(G.T('This tree looks like it could be cut down.')); return; }
+    if (await h.choice(G.T('This tree looks like it could be cut down. Would you like to use Cut?'), {}) !== 0) return;
+    await h.say(G.T('{mon} used Cut!'), { vars: { mon: G.Mon.name(mon) } });
+    sfx('cut', 'hit');
+    cut.add(M().key(x, y));
   }
 
   // ---------------- scripts ----------------
@@ -822,6 +837,7 @@ G.World = (() => {
     if (follower && follower.visible && follower.x === tx && follower.y === ty) return follower;
     if (itemAt(tx, ty)) return { item: true };
     if (map.signs[M().key(tx, ty)] || M().kindAt(map, tx, ty) === 'pc') return { sign: true };
+    if (M().kindAt(map, tx, ty) === 'cuttree' && !cut.has(M().key(tx, ty))) return { sign: true };
     return null;
   }
 
@@ -929,7 +945,7 @@ G.World = (() => {
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, fade: fadeA, healFx,
+      map, me, follower, actors, items, fade: fadeA, healFx, cut,
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }
@@ -939,7 +955,7 @@ G.World = (() => {
     actor: id => actor(id, {}), host, debug,
     onEncounter: null, onTrainer: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; },
-    get actors() { return actors; }, get items() { return items; },
+    get actors() { return actors; }, get items() { return items; }, get cut() { return cut; },
     get locked() { return locks > 0 || (G.Dialog && G.Dialog.open); }, get started() { return started; },
     get rng() { return rng; }, seed(s) { rng = G.RNG(s); }
   };

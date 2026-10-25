@@ -16,5 +16,8 @@ G.TRAINER_CLASSES = {
   'super-nerd':  { title: 'Super Nerd', who: 'supernerd', prize: 24 },
   'team-rocket': { title: 'Team Rocket Grunt', who: 'rocket', prize: 30 },
   swimmer:       { title: 'Swimmer', who: 'swimmer', prize: 4 },
+  sailor:        { title: 'Sailor', who: 'sailor', prize: 32 },
+  gentleman:     { title: 'Gentleman', who: 'gentleman', prize: 72 },
+  engineer:      { title: 'Engineer', who: 'engineer', prize: 48 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

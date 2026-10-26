@@ -16,8 +16,8 @@ G.Maps.def({
     'T..CCDCC..,,.....,.....T',
     'T....,....,,.....,.....T',
     'T....,,,,,,,,,,,,,.....T',
-    'T,,,,,,,,,,,,,,,,,,,...T',
-    'T,,,,,,,,,,,,,,,,,,,...T',
+    ',,,,,,,,,,,,,,,,,,,,...T',
+    ',,,,,,,,,,,,,,,,,,,,...T',
     'T.........,,...........T',
     'T.HHHH....,,...KKKKK...T',
     'T.HHHH....,,...KKKKK...T',
@@ -30,7 +30,7 @@ G.Maps.def({
     'T...,.....,,...........T',
     'TTTTTTTTTTTTTTTTTTTTTTTT'
   ],
-  connect: { north: { map: 'route10', offset: -7 } },
+  connect: { north: { map: 'route10', offset: -7 }, west: { map: 'route8', offset: 3 } },
   warps: [
     { x: 5, y: 5, to: 'lavender-center', spot: 'door' },
     { x: 17, y: 4, to: 'lavender-mart', spot: 'door' },
@@ -39,7 +39,7 @@ G.Maps.def({
     { x: 4, y: 18, to: 'lavender-house2', spot: 'door' }
   ],
   spots: {
-    north: [10, 1, 'down'], 'center-door': [5, 6, 'down'], 'mart-door': [17, 5, 'down'], 'house-door': [3, 14, 'down'],
+    north: [10, 1, 'down'], west: [1, 8, 'right'], 'center-door': [5, 6, 'down'], 'mart-door': [17, 5, 'down'], 'house-door': [3, 14, 'down'],
     'tower-door': [17, 16, 'down'], 'house2-door': [4, 19, 'down']
   },
   signs: { '13,18': 'Lavender Town. A quiet town where Pokémon are remembered with love.' },

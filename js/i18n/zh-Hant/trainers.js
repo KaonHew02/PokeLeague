@@ -13,5 +13,11 @@ G.I18n.add({
   "Swimmer": "泳褲小伙",
   "Sailor": "水手",
   "Gentleman": "紳士",
-  "Engineer": "工程師"
+  "Engineer": "工程師",
+  "Gambler": "賭徒",
+  "PokéManiac": "寶可夢狂",
+  "Beauty": "大姐姐",
+  "Channeler": "祈禱師",
+  "Biker": "飆車族",
+  "Cool Trainer": "精英訓練家"
 }, "zh-Hant");

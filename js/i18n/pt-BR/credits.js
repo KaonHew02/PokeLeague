@@ -13,6 +13,9 @@ G.I18n.add({
   "The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!": "O caminho para o leste está aberto: a Rota 3, o Mt. Moon e Cerulean City esperam por você!",
   "Chapter 3 complete!": "Capítulo 3 concluído!",
   "{player} beat Lt. Surge and earned the Thunder Badge.": "{player} venceu Lt. Surge e conquistou a Insígnia do Trovão.",
-  "Thank you for playing! The road beyond Vermilion City opens in a future update.": "Obrigado por jogar! O caminho além de Vermilion City abrirá numa próxima atualização.",
-  "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "A Nugget Bridge, Bill e Vermilion City estão esperando: sua aventura continua!"
+  "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "A Nugget Bridge, Bill e Vermilion City estão esperando: sua aventura continua!",
+  "Chapter 4 complete!": "Capítulo 4 concluído!",
+  "{player} beat Erika and earned the Rainbow Badge.": "{player} venceu Erika e conquistou a Insígnia do Arco-Íris.",
+  "Thank you for playing! The secrets of Celadon City and the Pokémon Tower open in a future update.": "Obrigado por jogar! Os segredos de Celadon City e da Pokémon Tower serão revelados numa próxima atualização.",
+  "Rock Tunnel, Lavender Town and Celadon City are waiting: your adventure goes on!": "O Rock Tunnel, Lavender Town e Celadon City estão esperando: sua aventura continua!"
 }, "pt-BR");

@@ -1,0 +1,23 @@
+/* Traditional Chinese — kanto-lavender: Lavender Town and the Pokémon Tower (js/content/kanto/lavender.js). */
+G.I18n.add({
+  "Hey, {player}! What are you doing in the Pokémon Tower? Don't tell me one of your Pokémon...": "嘿，{player}！你來寶可夢塔做什麼？該不會是你的寶可夢……",
+  "Oh, they're all fine? Good. Then let's see how strong they've gotten!": "哦，牠們都沒事？那就好。那就讓我看看牠們變得多強了！",
+  "Hmph. You're not bad. But listen: people say there are ghosts upstairs that nobody can see.": "哼，還不賴嘛。不過聽好了：據說樓上有誰都看不見的幽靈。",
+  "I'm going to find a way to see them before you do. Later!": "我會比你先找到看見牠們的方法。回頭見！",
+  "An icy chill fills the stairway. Something you cannot see blocks the way up.": "樓梯上瀰漫著刺骨的寒氣。有什麼看不見的東西擋住了上樓的路。",
+  "Without some way to see the spirits, you cannot go any further.": "沒有辦法看見這些靈魂的話，就沒法再往前走了。",
+  "The Pokémon Tower is where people say goodbye to their Pokémon. It is sad... and a little spooky at night.": "寶可夢塔是人們和自己的寶可夢告別的地方。很傷感……晚上還有點嚇人。",
+  "Lately, strange things happen in the tower. People hear voices on the upper floors, but nobody is there.": "最近塔裡發生了怪事。有人在樓上聽到說話聲，可是那裡一個人都沒有。",
+  "Mr. Fuji looks after Pokémon that have lost their Trainers. He is the kindest man in town.": "富士老人照顧那些失去訓練家的寶可夢。他是鎮上最善良的人。",
+  "Mr. Fuji went to the Pokémon Tower to pray for the Pokémon there. He has not come back... I hope he is all right.": "富士老人去寶可夢塔為那裡的寶可夢祈禱了。他一直沒回來……希望他平安無事。",
+  "Psyduck tilts its head. It seems to be waiting for someone to come home.": "可達鴨歪著頭。牠好像在等誰回家。",
+  "Nidorino keeps looking at the door.": "尼多力諾一直盯著門口。",
+  "I found this Cubone alone near the tower. It never takes off the skull it wears. I let it stay with me as long as it likes.": "我在塔附近發現了這隻孤零零的卡拉卡拉。牠從不摘下頭上的頭骨。牠想待多久，我就讓牠待多久。",
+  "Cubone hugs its bone tightly and looks away.": "卡拉卡拉緊緊抱著骨頭，把臉轉開了。",
+  "The spirits upstairs are restless. Nobody can see them... They say only a special scope made by Silph Co. can.": "樓上的靈魂都很不安。誰都看不見牠們……據說只有西爾佛公司做的特殊鏡片才能看見。",
+  "I came to visit my Growlithe. It always loved running in the sun. I hope it can run free now.": "我來看我的卡蒂狗。牠最喜歡在陽光下奔跑了。希望牠現在能自由自在地跑。",
+  "Lavender Town. A quiet town where Pokémon are remembered with love.": "紫苑鎮。一個懷著愛緬懷寶可夢的寧靜小鎮。",
+  "Pokémon House: a home for Pokémon that have lost their Trainers. Run by Mr. Fuji.": "寶可夢之家：為失去訓練家的寶可夢提供的家。由富士老人經營。",
+  "A gravestone with fresh flowers. \"Rest well, my friend.\"": "一塊放著鮮花的墓碑。「好好安息吧，我的朋友。」",
+  "A small gravestone. Someone has left a Poké Ball-shaped stone on it.": "一塊小小的墓碑。有人在上面放了一塊精靈球形狀的石頭。"
+}, "zh-Hant");

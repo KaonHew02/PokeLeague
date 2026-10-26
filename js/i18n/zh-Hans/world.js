@@ -40,5 +40,7 @@ G.I18n.add({
   "Old game magazines are piled up on the shelf.": "架子上堆着旧游戏杂志。",
   "This tree looks like it could be cut down.": "这棵树好像可以砍掉。",
   "This tree looks like it could be cut down. Would you like to use Cut?": "这棵树好像可以砍掉。要使用居合斩吗？",
-  "{mon} used Cut!": "{mon}使用了居合斩！"
+  "{mon} used Cut!": "{mon}使用了居合斩！",
+  "It's pitch-dark in here. Would you like to use Flash?": "这里一片漆黑。要使用闪光吗？",
+  "{mon} used Flash!": "{mon}使用了闪光！"
 }, "zh-Hans");

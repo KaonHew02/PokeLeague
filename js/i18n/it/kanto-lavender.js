@@ -1,0 +1,23 @@
+/* Italian — kanto-lavender: Lavender Town and the Pokémon Tower (js/content/kanto/lavender.js). */
+G.I18n.add({
+  "Hey, {player}! What are you doing in the Pokémon Tower? Don't tell me one of your Pokémon...": "Ehi, {player}! Che ci fai nella Torre Pokémon? Non dirmi che uno dei tuoi Pokémon...",
+  "Oh, they're all fine? Good. Then let's see how strong they've gotten!": "Ah, stanno tutti bene? Meglio così. Allora vediamo quanto sono diventati forti!",
+  "Hmph. You're not bad. But listen: people say there are ghosts upstairs that nobody can see.": "Hmpf. Non male. Ma ascolta: dicono che di sopra ci siano fantasmi che nessuno riesce a vedere.",
+  "I'm going to find a way to see them before you do. Later!": "Troverò un modo per vederli prima di te. Ci vediamo!",
+  "An icy chill fills the stairway. Something you cannot see blocks the way up.": "Un gelo pungente riempie la scala. Qualcosa che non puoi vedere ti blocca la salita.",
+  "Without some way to see the spirits, you cannot go any further.": "Senza un modo per vedere gli spiriti, non puoi andare oltre.",
+  "The Pokémon Tower is where people say goodbye to their Pokémon. It is sad... and a little spooky at night.": "Nella Torre Pokémon la gente dice addio ai propri Pokémon. È triste... e la notte fa un po' paura.",
+  "Lately, strange things happen in the tower. People hear voices on the upper floors, but nobody is there.": "Ultimamente nella torre succedono cose strane. Si sentono voci ai piani alti, ma non c'è nessuno.",
+  "Mr. Fuji looks after Pokémon that have lost their Trainers. He is the kindest man in town.": "Il Sig. Fuji si prende cura dei Pokémon che hanno perso il loro Allenatore. È l'uomo più gentile del paese.",
+  "Mr. Fuji went to the Pokémon Tower to pray for the Pokémon there. He has not come back... I hope he is all right.": "Il Sig. Fuji è andato alla Torre Pokémon a pregare per i Pokémon. Non è più tornato... Spero che stia bene.",
+  "Psyduck tilts its head. It seems to be waiting for someone to come home.": "Psyduck piega la testa. Sembra aspettare che qualcuno torni a casa.",
+  "Nidorino keeps looking at the door.": "Nidorino continua a guardare la porta.",
+  "I found this Cubone alone near the tower. It never takes off the skull it wears. I let it stay with me as long as it likes.": "Ho trovato questo Cubone da solo vicino alla torre. Non si toglie mai il teschio che porta. Lo lascio stare con me quanto vuole.",
+  "Cubone hugs its bone tightly and looks away.": "Cubone stringe forte il suo osso e distoglie lo sguardo.",
+  "The spirits upstairs are restless. Nobody can see them... They say only a special scope made by Silph Co. can.": "Gli spiriti di sopra sono inquieti. Nessuno riesce a vederli... Dicono che solo uno speciale visore della Silph S.p.A. ci riesca.",
+  "I came to visit my Growlithe. It always loved running in the sun. I hope it can run free now.": "Sono venuta a trovare il mio Growlithe. Adorava correre al sole. Spero che ora possa correre libero.",
+  "Lavender Town. A quiet town where Pokémon are remembered with love.": "Lavandonia. Un paese tranquillo dove i Pokémon vengono ricordati con affetto.",
+  "Pokémon House: a home for Pokémon that have lost their Trainers. Run by Mr. Fuji.": "Casa Pokémon: una casa per i Pokémon che hanno perso il loro Allenatore. Gestita dal Sig. Fuji.",
+  "A gravestone with fresh flowers. \"Rest well, my friend.\"": "Una lapide con fiori freschi. «Riposa in pace, amico mio.»",
+  "A small gravestone. Someone has left a Poké Ball-shaped stone on it.": "Una piccola lapide. Qualcuno ci ha lasciato sopra una pietra a forma di Poké Ball."
+}, "it");

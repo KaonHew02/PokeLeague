@@ -13,6 +13,9 @@ G.I18n.add({
   "The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!": "La strada a est è aperta: il Percorso 3, il Monte Luna e Celestopoli ti aspettano!",
   "Chapter 3 complete!": "Capitolo 3 completato!",
   "{player} beat Lt. Surge and earned the Thunder Badge.": "{player} ha battuto Lt. Surge e ottenuto la Medaglia Tuono.",
-  "Thank you for playing! The road beyond Vermilion City opens in a future update.": "Grazie per aver giocato! La strada oltre Aranciopoli si aprirà in un prossimo aggiornamento.",
-  "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "Il Ponte Pepita, Bill e Aranciopoli ti aspettano: la tua avventura continua!"
+  "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "Il Ponte Pepita, Bill e Aranciopoli ti aspettano: la tua avventura continua!",
+  "Chapter 4 complete!": "Capitolo 4 completato!",
+  "{player} beat Erika and earned the Rainbow Badge.": "{player} ha battuto Erika e ottenuto la Medaglia Arcobaleno.",
+  "Thank you for playing! The secrets of Celadon City and the Pokémon Tower open in a future update.": "Grazie per aver giocato! I segreti di Azzurropoli e della Torre Pokémon si sveleranno in un prossimo aggiornamento.",
+  "Rock Tunnel, Lavender Town and Celadon City are waiting: your adventure goes on!": "Il Tunnel Roccioso, Lavandonia e Azzurropoli ti aspettano: la tua avventura continua!"
 }, "it");

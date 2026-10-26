@@ -13,6 +13,9 @@ G.I18n.add({
   "The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!": "La route de l'est est ouverte : la Route 3, le Mont Sélénite et Azuria t'attendent !",
   "Chapter 3 complete!": "Chapitre 3 terminé !",
   "{player} beat Lt. Surge and earned the Thunder Badge.": "{player} a battu le Major Bob et obtenu le Badge Foudre.",
-  "Thank you for playing! The road beyond Vermilion City opens in a future update.": "Merci d'avoir joué ! La route au-delà de Carmin sur Mer ouvrira dans une prochaine mise à jour.",
-  "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "Le Pont Pépite, Léo et Carmin sur Mer t'attendent : ton aventure continue !"
+  "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "Le Pont Pépite, Léo et Carmin sur Mer t'attendent : ton aventure continue !",
+  "Chapter 4 complete!": "Chapitre 4 terminé !",
+  "{player} beat Erika and earned the Rainbow Badge.": "{player} a battu Erika et obtenu le Badge Prisme.",
+  "Thank you for playing! The secrets of Celadon City and the Pokémon Tower open in a future update.": "Merci d'avoir joué ! Les secrets de Céladopole et de la Tour Pokémon seront révélés dans une prochaine mise à jour.",
+  "Rock Tunnel, Lavender Town and Celadon City are waiting: your adventure goes on!": "La Grotte, Lavanville et Céladopole t'attendent : ton aventure continue !"
 }, "fr");

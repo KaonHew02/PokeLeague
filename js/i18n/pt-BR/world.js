@@ -40,5 +40,7 @@ G.I18n.add({
   "Old game magazines are piled up on the shelf.": "Revistas antigas de games estão empilhadas na estante.",
   "This tree looks like it could be cut down.": "Parece que esta árvore pode ser cortada.",
   "This tree looks like it could be cut down. Would you like to use Cut?": "Parece que esta árvore pode ser cortada. Quer usar Cut?",
-  "{mon} used Cut!": "{mon} usou Cut!"
+  "{mon} used Cut!": "{mon} usou Cut!",
+  "It's pitch-dark in here. Would you like to use Flash?": "Está um breu aqui dentro. Quer usar Flash?",
+  "{mon} used Flash!": "{mon} usou Flash!"
 }, "pt-BR");

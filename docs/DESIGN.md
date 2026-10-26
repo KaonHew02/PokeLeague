@@ -421,6 +421,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - `M` Mart 4×3
   - `G` Gym 6×5
   - `L` lab 6×4
+  - `K` Pokémon Tower 5×5, `E` department store 8×5, `B` big building 6×4 (a mansion, a game
+    corner, a gate)
   - `D` is the door inside a stamp; every `D` needs a warp
 
 **Legend: indoor**
@@ -437,6 +439,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - `P` PC
   - `h` healing machine
   - `u` trash can (solid; give it a sign `{ script }` to make it do something)
+  - `g` gravestone, `k` hedge (both solid)
 - Exits: `X` exit mat and `^` stairs, both warps.
 - `G.Maps.center(id, {exit})` and `G.Maps.mart(id, {exit, stock})` build the standard interiors.
 - A sign may be `{ script: 'name' }` instead of a text: the script runs with `h.ctx = { x, y }`
@@ -458,7 +461,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - Archetypes: player-boy, player-girl, rival, oak, mom, nurse, clerk, youngster, lass,
     bugcatcher, camper, brock, guide, oldman, daisy, aide (chapter 1); rocket, supernerd,
     hiker, misty, swimmer (chapter 2); officer, sailor, gentleman, engineer, captain, surge,
-    bill (chapter 3).
+    bill (chapter 3); gambler, pokemaniac, beauty, channeler, biker, cooltrainer, erika (chapter 4).
   - The front frame is drawn at 4× for trainer battle intros.
 - `render.js`: the baked map, connected neighbour maps, the `border` fill, Y-sorted
   props and actors, and the tall-grass front tuft.
@@ -706,16 +709,45 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   with a Gloom 24 ~75%; a Geodude helps less (25–45%). The Gym guide points to Geodude, Oddish and Paras. The story test plays chapter 3
   (Paras evolves on the way, learns Cut in place of a status move and leads against Surge).
 
-### After chapter 3
+- **Chapter 4** ✅: Route 11 east of Vermilion (five Trainers; the gate to Route 12 is closed) and
+  Diglett's Cave to a new east side of Route 2 (behind a small tree on the road), where Professor
+  Oak's aide gives HM05 Flash once ten kinds are caught (flag `got-hm05`). Cerulean's east road,
+  behind a small tree: Route 9 (five Trainers), Route 10 with its Pokémon Center, Rock Tunnel 1F
+  and B1F (`dark: true`, six Trainers), Lavender Town (Center, Mart, the Pokémon House whose Mr.
+  Fuji has not come back, a house with a Cubone) and the Pokémon Tower 1F/2F (the rival on 2F,
+  flag `tower-rival`; the stairs up are blocked until a later chapter brings the Silph Scope).
+  Route 8 (five Trainers; the Saffron gates are closed, the guards are thirsty), the Underground
+  Path west-east, Route 7 and Celadon City: Pokémon Center, Department Store 1F–4F and roof
+  (TMs with prices, evolution stones, X items and vitamins, a vending machine; a girl trades TM16,
+  TM20, TM33 for drinks), Celadon Mansion with an Eevee (Lv. 25) on the roof (flag `got-eevee`),
+  a restaurant, a house, the Game Corner (closed for now) and Erika's greenhouse Gym behind a
+  small tree: Lass Kay, Beauty Bridget, Cool Trainer Mary, Picnicker Tina, Beauty Lori, then Erika
+  (Victreebel 27, Tangela 24, Vileplume 27; prize ₽2700, badge 4, TM19 Giga Drain).
+  Files: `diglett.js`, `rocktunnel.js`, `lavender.js`, `celadon.js`, `erika.js` (translations
+  `kanto-diglett`, `kanto-rocktunnel`, `kanto-lavender`, `kanto-celadon`, `kanto-erika`).
+- **Engine for chapter 4:** dark caves (map def `dark: true`): `render.js` draws a small circle of
+  light around the player; a Pokémon that knows Flash (with badge 1) lights the cave until you
+  leave the dark maps — `field.js` offers it when you come in and when you press A at nothing.
+  New stamps `K` tower (floors of windows), `E` department store, `B` big building; indoor tiles
+  `g` gravestone and `k` hedge; palettes `tower` and `garden`. Shop prices for the TMs the
+  Department Store sells (`item-effects.js`). `names.js` FIX gains Rock Tunnel.
+- **Balance:** with modern moves and stats Erika's original Lv. 29 Victreebel and Vileplume
+  (Petal Dance, Sleep Powder, Stun Spore) beat nearly every team of the auto-player, which never
+  heals; so they are Lv. 27 with gentler moves (Mega Drain in place of Petal Dance). A Parasect
+  leading a Wartortle wins ~92%, a Kadabra leading a Wartortle ~75%, Charmeleon with a Pidgeotto
+  ~95%; a lone Wartortle or Ivysaur never wins. The guide points to Fire, Flying, Ice and Psychic
+  and to Eevee + Fire Stone. The story test plays chapter 4 (Eevee becomes Flareon; Parasect
+  leads against Erika).
+
+### After chapter 4
 
 1. **Rest of Kanto:**
-   - Rock Tunnel, Lavender and the Pokémon Tower.
-   - Celadon, Erika and the Rocket Hideout.
+   - The Rocket Hideout under the Game Corner, the Silph Scope and the Pokémon Tower.
    - Saffron, Silph Co. and Sabrina.
    - Fuchsia, the Safari Zone and Koga.
    - Cinnabar, Blaine, then Giovanni.
    - Victory Road, the Elite Four, the Champion and the Hall of Fame.
-   - Engine features along the way: field moves (Surf, Strength, Flash, Fly), the
+   - Engine features along the way: field moves (Surf, Strength, Fly), the
      bike, fishing, more TMs, abilities, held items, weather, Exp. Share, Repel steps,
      legendaries.
 2. **Johto:** `fetch_data.py --region johto` (dex 1–251), plus day and night, friendship

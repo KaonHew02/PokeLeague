@@ -1,4 +1,4 @@
-// The story without a screen, chapter by chapter: from the bedroom to the Thunder Badge.
+// The story without a screen, chapter by chapter: from the bedroom to the Rainbow Badge.
 // The real scripts, maps, save and battle engine run in the node sandbox; a stand-in
 // host answers the dialog (Yes, no nickname) and an auto-player fights every battle
 // with its strongest move. Wild battles in the tall grass raise the party on the way,
@@ -401,22 +401,27 @@ test('chapter 2: Route 3, Mt. Moon and its fossils, Cerulean City and the Cascad
   await chapter2(st);
 });
 
-test('balance: Lt. Surge (chapter 3), win rates of typical teams are printed', () => {
-  const { G } = world(1);
-  const surge = G.Maps.get('vermilion-gym').trainers.find(t => t.id === 'surge');
-  const rate = team => {
+/** Win rate of a team ([[species, level], ...]) against a Gym Leader, over 40 seeded battles. */
+function leaderRate(G, mapId, id) {
+  const L = G.Maps.get(mapId).trainers.find(t => t.id === id);
+  return team => {
     let wins = 0;
     for (let s = 1; s <= 40; s++) {
       const rng = G.RNG(s * 19);
       const me = team.map(([sp, lvl]) => G.Mon.create(sp, lvl, { rng }));
-      const foes = surge.team.map(([x, l, moves]) => G.Mon.create(G.Maps.species(x), l, { rng, moves }));
+      const foes = L.team.map(([x, l, moves]) => G.Mon.create(G.Maps.species(x), l, { rng, moves }));
       const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
-        foe: { party: foes, trainer: { id: 'surge', name: 'Lt. Surge', ai: 'leader', items: surge.items || {}, prize: 100 } } });
+        foe: { party: foes, trainer: { id, name: L.name, ai: 'leader', items: L.items || {}, prize: 100 } } });
       b.start();
       if ((autoplay(G, b) || {}).outcome === 'win') wins++;
     }
     return wins / 40;
   };
+}
+
+test('balance: Lt. Surge (chapter 3), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'vermilion-gym', 'surge');
   const table = {
     'ivysaur 26': rate([[2, 26]]),
     'charmeleon 26': rate([[5, 26]]),
@@ -435,10 +440,30 @@ test('balance: Lt. Surge (chapter 3), win rates of typical teams are printed', (
   assert.ok(table['wartortle 26'] < 0.3, 'a lone Wartortle should struggle');
 });
 
-test('chapter 3: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut and the Thunder Badge', async () => {
-  const st = world(3);
-  await chapter1(st);
-  await chapter2(st);
+test('balance: Erika (chapter 4), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'celadon-gym', 'erika');
+  const table = {
+    'ivysaur 31': rate([[2, 31]]),
+    'charmeleon 32': rate([[5, 32]]),
+    'wartortle 31': rate([[8, 31]]),
+    'parasect 30 + wartortle 31': rate([[47, 30], [8, 31]]),
+    'kadabra 28 + wartortle 31': rate([[64, 28], [8, 31]]),
+    'flareon 28 + wartortle 31': rate([[136, 28], [8, 31]]),
+    'charmeleon 31 + pidgeotto 29': rate([[5, 31], [17, 29]])
+  };
+  console.log('[balance] vs Erika:', JSON.stringify(table));
+  // Sleep Powder and Stun Spore hurt a lone Pokémon that never heals (the auto-player); the
+  // answers the game offers do well: Paras from Mt. Moon, Abra from Route 24/25, Celadon's
+  // Eevee with a Fire Stone, a bird.
+  assert.ok(table['parasect 30 + wartortle 31'] >= 0.8, 'Parasect leading a Wartortle');
+  assert.ok(table['charmeleon 31 + pidgeotto 29'] >= 0.8, 'Charmeleon with a Pidgeotto');
+  assert.ok(table['kadabra 28 + wartortle 31'] >= 0.6, 'Kadabra leading a Wartortle');
+  assert.ok(table['wartortle 31'] < 0.3, 'a lone Wartortle should struggle');
+});
+
+/** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
+async function chapter3(st) {
   const { G, S, W } = st;
   const F = G.Field;
   const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
@@ -520,4 +545,83 @@ test('chapter 3: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut and the Thun
   assert.equal(S.player.money - before, 2400);
   assert.ok(F.flag('chapter-3-done'));
   assert.deepEqual(st.errors, [], 'no script errors');
+}
+
+test('chapter 3: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut and the Thunder Badge', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+  await chapter3(st);
+});
+
+/** Chapter 4 after chapter 3: Diglett's Cave and Flash, Rock Tunnel, Lavender Town, Celadon City, Erika. */
+async function chapter4(st) {
+  const { G, S, W } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  // Route 11, Diglett's Cave and Oak's aide on Route 2 (ten kinds caught for HM05 Flash).
+  await all('route11');
+  await run(st, 'route11', 'route11.gate');
+  const caught = () => Object.values(S.dex.caught).filter(Boolean).length;
+  if (caught() < 10) {
+    await run(st, 'route2-house', 'route2.aide');
+    assert.match(st.log[st.log.length - 1], /ten/, 'the aide waits for ten kinds');
+    assert.ok(!F.flag('got-hm05'));
+    // A few more catches along the way (Route 11 and Diglett's Cave).
+    for (const sp of [23, 27, 50, 21, 96, 19, 16, 10, 13, 41]) { if (caught() >= 10) break; S.dex.seen[sp] = 1; S.dex.caught[sp] = 1; }
+  }
+  await run(st, 'route2-house', 'route2.aide');
+  assert.ok(F.flag('got-hm05') && F.count('hm05') === 1);
+  // Route 9, Route 10, Rock Tunnel (dark: the auto-player feels its way through).
+  assert.ok(G.Maps.get('rocktunnel-1f').def.dark && G.Maps.get('rocktunnel-b1f').def.dark);
+  for (const id of ['route9', 'route10', 'rocktunnel-1f', 'rocktunnel-b1f']) await all(id);
+  // Lavender Town: the rival on the tower's second floor; the stairs up stay blocked.
+  W.player = { x: 4, y: 3, dir: 'left' };
+  F.healAll();
+  await run(st, 'tower-2f', 'tower.rival');
+  assert.ok(F.flag('tower-rival'));
+  assert.equal(st.battles[st.battles.length - 1].key, 'tower-2f:rival-tower');
+  await run(st, 'tower-2f', 'tower.upstairs');
+  // Route 8, the Underground Path, Celadon City.
+  await all('route8');
+  await run(st, 'route8', 'celadon.saffron-gate');
+  await run(st, 'celadon', 'celadon.gamecorner');
+  // The Eevee on Celadon Mansion's roof, and a Fire Stone from the Department Store.
+  await run(st, 'mansion-roof', 'celadon.eevee', [0]);
+  assert.ok(F.flag('got-eevee') && F.isDone('mansion-roof:eevee'));
+  const eevee = S.party.find(m => m.sp === 133);
+  assert.ok(eevee && eevee.lvl === 25, 'Eevee joined the party');
+  F.money(-2100); F.giveItem('fire-stone', 1);
+  const use = G.FieldItems.use('fire-stone', eevee);
+  assert.equal(use.evolve, 136, 'a Fire Stone makes Flareon');
+  F.takeItem('fire-stone', 1);
+  for (const id of G.Evolution.evolve(eevee, use.evolve)) if (eevee.moves.length < 4) G.Mon.learn(eevee, id);
+  // A drink for the girl on the roof: a TM.
+  F.money(-200); F.giveItem('fresh-water', 1);
+  await run(st, 'dept-roof', 'dept.roof-girl', [0]);
+  assert.equal(F.count('tm16'), 1);
+  assert.equal(F.count('fresh-water'), 0);
+  // Erika's Gym (behind a small tree Cut clears): the Trainers, then Erika with Parasect in front.
+  lead(st, 47);
+  grind(st, 'route8', 31, 200);
+  await all('celadon-gym');
+  F.healAll();
+  const before = S.player.money;
+  await run(st, 'celadon-gym', [['battle', 'celadon-gym:erika']]);
+  const last = st.battles[st.battles.length - 1];
+  assert.equal(last.outcome, 'win', 'Erika beaten at levels ' + last.levels);
+  assert.deepEqual([...S.player.badges], [1, 2, 3, 4]);
+  assert.equal(F.count('tm19'), 1);
+  assert.equal(S.player.money - before, 2700);
+  assert.ok(F.flag('chapter-4-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
+test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+  await chapter3(st);
+  await chapter4(st);
 });

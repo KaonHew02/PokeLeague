@@ -13,5 +13,11 @@ G.I18n.add({
   "Swimmer": "Nadador",
   "Sailor": "Marinero",
   "Gentleman": "Caballero",
-  "Engineer": "Mecánico"
+  "Engineer": "Mecánico",
+  "Gambler": "Jugador",
+  "PokéManiac": "Pokémaníaco",
+  "Beauty": "Bella",
+  "Channeler": "Médium",
+  "Biker": "Motorista",
+  "Cool Trainer": "Entrenador Guay"
 }, "es");

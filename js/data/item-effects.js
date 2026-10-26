@@ -83,6 +83,14 @@ G.ITEM_FX = {
   'leaf-stone':    { evo: 1, field: 1, price: 2100 },
   'moon-stone':    { evo: 1, field: 1, price: 2100 },
 
+  // ---- TMs sold in shops (Celadon Department Store) ----
+  'tm05':          { price: 1000 },
+  'tm15':          { price: 7500 },
+  'tm28':          { price: 2000 },
+  'tm31':          { price: 3000 },
+  'tm43':          { price: 3000 },
+  'tm45':          { price: 3000 },
+
   // ---- valuables (only for selling) ----
   'nugget':        { price: 10000 },
   'tiny-mushroom': { price: 500 },

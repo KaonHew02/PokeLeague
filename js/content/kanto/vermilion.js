@@ -176,8 +176,8 @@ G.Maps.def({
     'T....,..........,,.....,.........T',
     'T....,..........,,.....,.........T',
     'T....,........S.,,.....,.........T',
-    'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.T',
-    'T...............,,...............T',
+    'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+    'T.................................',
     'TTT......TTTTTT.,,........HHHH...T',
     'TTT......TTTTTT.,,........HHHH...T',
     'TTTGGGGGGTTTTTT.,,........HDHH...T',
@@ -196,7 +196,7 @@ G.Maps.def({
     'T~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~T',
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
-  connect: { north: { map: 'route6', offset: 8 } },
+  connect: { north: { map: 'route6', offset: 8 }, east: { map: 'route11', offset: 3 } },
   warps: [
     { x: 5, y: 5, to: 'vermilion-center', spot: 'door' },
     { x: 23, y: 4, to: 'vermilion-mart', spot: 'door' },

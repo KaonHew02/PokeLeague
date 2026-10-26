@@ -157,6 +157,7 @@ G.World = (() => {
   let started = false;
   let pendingClick = null;
   let cut = new Set();                   // trees cut on this visit of the map ('x,y'); they grow back
+  let lit = false;                       // Flash used: dark caves stay lit until you leave them
   const debug = { noEnc: false, noclip: false };
   let rng = G.RNG(G.RNG.seed());
 
@@ -253,6 +254,7 @@ G.World = (() => {
     if (!m) { console.error('[World] unknown map ' + id); G.UI.toast('Unknown map: ' + id); return false; }
     map = m;
     cut = new Set();
+    if (!m.def.dark) lit = false;
     const s = (where && typeof where === 'object' && !Array.isArray(where)) ? { x: where.x | 0, y: where.y | 0, dir: where.dir || 'down' }
       : M().spot(m, where) || M().spot(m, Object.keys(m.spots)[0]) || { x: m.w >> 1, y: m.h >> 1, dir: 'down' };
     if (!me) me = new G.Actor({ id: 'player', who: playerSprite() });
@@ -297,6 +299,7 @@ G.World = (() => {
     const from = map;
     map = a.map;
     cut = new Set();
+    if (!map.def.dark) lit = false;
     me.x -= nb.ox; me.y -= nb.oy; me.fx -= nb.ox; me.fy -= nb.oy;
     if (follower) { follower.x -= nb.ox; follower.y -= nb.oy; follower.fx -= nb.ox; follower.fy -= nb.oy; }
     makeActors();
@@ -330,6 +333,7 @@ G.World = (() => {
       await fadeTo(0, 0.2);
     } finally { locks--; }
     if (map.def.enter && !o.noEnter) await runScript(map.def.enter, {});
+    await darkCheck();
   }
 
   // ---------------- tiles and people ----------------
@@ -632,6 +636,7 @@ G.World = (() => {
     if (sign) return runScript([['say', sign]], {});
     if (k === 'cuttree' && !cut.has(M().key(tx, ty))) return runScript([['js', h => cutTree(h, tx, ty)]], {});
     if (k === 'pc') return runScript([['sfx', 'pc'], ['say', '{player} turned on the PC.'], ['pc']], {});
+    if (map.def.dark && !lit) return darkCheck();
     return null;
   }
 
@@ -673,6 +678,23 @@ G.World = (() => {
     await h.say(G.T('{mon} used Cut!'), { vars: { mon: G.Mon.name(mon) } });
     sfx('cut', 'hit');
     cut.add(M().key(x, y));
+  }
+
+  /**
+   * A dark cave (map def `dark: true`): only a small circle around you is visible. A Pokémon
+   * that knows Flash lights it up (with the Boulder Badge, as in the games): offered when you
+   * come in, and again when you press A at nothing.
+   */
+  function darkCheck() {
+    if (!map.def.dark || lit) return null;
+    const mon = G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'flash'));
+    if (!mon || !G.Field.save.player.badges.includes(1)) return null;
+    return runScript([['js', async h => {
+      if (await h.choice(G.T("It's pitch-dark in here. Would you like to use Flash?"), {}) !== 0) return;
+      await h.say(G.T('{mon} used Flash!'), { vars: { mon: G.Mon.name(mon) } });
+      sfx('flash', 'confirm');
+      lit = true;
+    }]], {});
   }
 
   // ---------------- scripts ----------------
@@ -899,7 +921,7 @@ G.World = (() => {
     if (arg && arg.map) {
       fadeA = 1;
       load(arg.map, arg.spot != null ? arg.spot : (arg.x != null ? { x: arg.x, y: arg.y, dir: arg.dir } : null));
-      fadeTo(0, 0.3).then(() => { if (map.def.enter) runScript(map.def.enter, {}); });
+      fadeTo(0, 0.3).then(async () => { if (map.def.enter) await runScript(map.def.enter, {}); darkCheck(); });
     } else if (map) {
       refresh();
       makeFollower();
@@ -945,7 +967,7 @@ G.World = (() => {
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, fade: fadeA, healFx, cut,
+      map, me, follower, actors, items, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit,
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }
@@ -955,7 +977,7 @@ G.World = (() => {
     actor: id => actor(id, {}), host, debug,
     onEncounter: null, onTrainer: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; },
-    get actors() { return actors; }, get items() { return items; }, get cut() { return cut; },
+    get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },
     get locked() { return locks > 0 || (G.Dialog && G.Dialog.open); }, get started() { return started; },
     get rng() { return rng; }, seed(s) { rng = G.RNG(s); }
   };

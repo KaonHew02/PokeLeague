@@ -19,5 +19,11 @@ G.TRAINER_CLASSES = {
   sailor:        { title: 'Sailor', who: 'sailor', prize: 32 },
   gentleman:     { title: 'Gentleman', who: 'gentleman', prize: 72 },
   engineer:      { title: 'Engineer', who: 'engineer', prize: 48 },
+  gambler:       { title: 'Gambler', who: 'gambler', prize: 72 },
+  pokemaniac:    { title: 'PokéManiac', who: 'pokemaniac', prize: 50 },
+  beauty:        { title: 'Beauty', who: 'beauty', prize: 72 },
+  channeler:     { title: 'Channeler', who: 'channeler', prize: 32 },
+  biker:         { title: 'Biker', who: 'biker', prize: 20 },
+  cooltrainer:   { title: 'Cool Trainer', who: 'cooltrainer', prize: 48 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

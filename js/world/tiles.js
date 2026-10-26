@@ -89,6 +89,16 @@ G.Tiles = (() => {
       grass: ['#e8eef4', '#e4eaf0', '#e8eef4'], speck: '#d8e2ea', light: '#eef2f6', shore: '#c8d6e2',
       liq: '#5ab4f4', liqDeep: '#3a94e4', foam: '#e6f6ff' }
   };
+  // The Pokémon Tower: cold purple stone.
+  PALETTES.tower = { floor: 'tile', wallTop: ['#3e344c', '#4a3e5a'], paper: ['#bcb2cc', '#aca2bc'], trim: '#7a6c90', base: '#4e4262',
+    wood: ['#8c7a9a', '#7c6a8a', '#9c8aaa'], woodLine: '#5c4c6a', tile: ['#a89cb8', '#9a8eaa'], grout: '#84789a',
+    rug: ['#6a4a8a', '#8a6aaa', '#4a3068'], counter: ['#c8c0d4', '#a49cb4', '#746a88'],
+    mat: ['#6a4a8a', '#8a6aaa'], screen: '#68d0f8' };
+  // A greenhouse Gym (Celadon): pale green tiles and hedges.
+  PALETTES.garden = { floor: 'tile', wallTop: ['#3e5a3e', '#4a684a'], paper: ['#dcecd4', '#cce0c4'], trim: '#7aa070', base: '#4e7448',
+    wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#d8e8c8', '#c8dcb8'], grout: '#b0c8a0',
+    rug: ['#e070a0', '#f094bc', '#b04c7c'], counter: ['#e8f0e0', '#c4d4b8', '#8aa080'],
+    mat: ['#5aa04a', '#7cc06c'], screen: '#68d0f8' };
   const OUT = 'kanto';
 
   // ---------------- colour and pixel helpers ----------------
@@ -629,6 +639,53 @@ G.Tiles = (() => {
     '.....oooooo.....',
     '................'
   ];
+  const GRAVE = [
+    '................',
+    '................',
+    '.....oooooo.....',
+    '....oLLLLLLo....',
+    '...oLwwLLLLgo...',
+    '...oLwLLLLLgo...',
+    '...oLLdLLdLgo...',
+    '...oLLLddLLgo...',
+    '...oLLdLLdLgo...',
+    '...oLLLLLLLgo...',
+    '...oLLLLLLLgo...',
+    '...oggggggggo...',
+    '..oddddddddddo..',
+    '..oddddddddddo..',
+    '...oooooooooo...',
+    '................'
+  ];
+  /** A gravestone (the Pokémon Tower). */
+  function grave(P, C, ox, oy, tx, ty) {
+    floor(P, C, ox, oy, tx, ty, C.floor);
+    ascii(P, ox, oy, GRAVE, { o: pack('#2a2630'), L: pack('#a8a4b0'), w: pack('#d4d0dc'), g: pack('#86828e'), d: pack('#6a6672') });
+  }
+  const HEDGE = [
+    '................',
+    '....oooooooo....',
+    '..ooLLLlLLLLoo..',
+    '.oLLlLLLLLlLLLo.',
+    '.oLLLLLlLLLLLLo.',
+    'oLlLLLLLLLLlLLLo',
+    'oLLLLlLLLLLLLLgo',
+    'oLLLLLLLLlLLLLgo',
+    'oLlLLLLLLLLLLggo',
+    'oLLLLLLlLLLLLLgo',
+    '.oLLLLLLLLLLLgo.',
+    '.ogLLLLLLLLLggo.',
+    '..ogggLLLggggo..',
+    '...oooggggooo...',
+    '.....oooooo.....',
+    '................'
+  ];
+  /** A trimmed hedge (Erika's greenhouse Gym). */
+  function hedge(P, C, ox, oy, tx, ty) {
+    floor(P, C, ox, oy, tx, ty, C.floor);
+    ascii(P, ox, oy, HEDGE, { o: pack('#1e3a1e'), L: pack('#4c9a44'), l: pack('#7cc46c'), g: pack('#357030') });
+  }
+
   /** A metal trash can (Lt. Surge's Gym). */
   function can(P, C, ox, oy, tx, ty) {
     floor(P, C, ox, oy, tx, ty, C.floor);
@@ -778,6 +835,8 @@ G.Tiles = (() => {
       case 'ladder': ladder(P, C, ox, oy, tx, ty); break;
       case 'cuttree': grass(P, C, ox, oy, tx, ty); break;   // the tree itself is a prop (render.js)
       case 'can': can(P, C, ox, oy, tx, ty); break;
+      case 'grave': grave(P, C, ox, oy, tx, ty); break;
+      case 'hedge': hedge(P, C, ox, oy, tx, ty); break;
       case 'hole': hole(P, C, ox, oy, tx, ty, at); break;
       default: P.rect(ox, oy, T, T, C.black);
     }

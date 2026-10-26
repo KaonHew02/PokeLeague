@@ -24,6 +24,9 @@ G.Stamps = (() => {
       case 'mart': return { up: 8, roofH: 18, roof: ['#4c78d0', '#7098ea', '#30529c'], wall: ['#f6f6f2', '#dcdcd8', '#a8a8a4'], windows: 'wide', emblem: 'bag', glass: true };
       case 'gym': return { up: 8, roofH: 30, roof: ['#8a7a68', '#a89886', '#5a4c40'], wall: ['#d4c8b4', '#b8ac96', '#887c68'], windows: 'none', emblem: 'badge', double: true };
       case 'lab': return { up: 10, roofH: 22, roof: ['#8c96a6', '#aab4c2', '#5e6878'], wall: ['#f4f6f6', '#dce0e2', '#a8aeb2'], windows: 'row' };
+      case 'tower': return { up: 34, roofH: 24, roof: ['#7a5a9a', '#9a7aba', '#4e3a68'], wall: ['#d8d0e0', '#bcb2c8', '#8a809a'], windows: 'tower', double: true };
+      case 'store': return { up: 10, roofH: 18, roof: ['#8a8a96', '#a6a6b0', '#5c5c68'], wall: ['#f2eee4', '#dad4c6', '#aaa496'], windows: 'wide', emblem: 'bag', glass: true };
+      case 'building': return { up: 8, roofH: 20, wall: ['#ece4d4', '#d4cab6', '#a49a86'], windows: 'row', double: true };
       default: return null;
     }
   }
@@ -100,6 +103,9 @@ G.Stamps = (() => {
     else if (sp.windows === 'wide') {
       for (const i of cols) if (Math.abs(i - door) >= 1) win(i * T + 2, wy + 2, 12, wh - 2);
     } else if (sp.windows === 'row') for (const i of cols) win(i * T + 2, wy, 12, 8);
+    else if (sp.windows === 'tower') {                 // floor after floor of small windows
+      for (let y = rh + 5; y + 9 < CH - T - 4; y += 15) for (let i = 0; i < S.w; i++) win(i * T + 4, y, 8, 9);
+    }
 
     // Door.
     const dx = door * T, dy = CH - T - 3, dh = T + 1;

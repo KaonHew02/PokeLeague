@@ -15,7 +15,7 @@ G.Maps.def({
     'TTT.GGGGGG......,,...CCCCC.....TTT',
     'T...GGGGGG......,,...CCDCC.....TTT',
     'T...GGGDGG.S....,,.....,.......TTT',
-    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,..T',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.c,',
     'T.............S.,,...............T',
     'T...............,,.........MMMM..T',
     'T...HHHH.HHHH...,,.........MMMM..T',
@@ -35,7 +35,7 @@ G.Maps.def({
     'T...............,,...............T',
     'TTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTT'
   ],
-  connect: { west: { map: 'route4', offset: -4 }, north: { map: 'route24', offset: 8 }, south: { map: 'route5', offset: 8 } },
+  connect: { west: { map: 'route4', offset: -4 }, north: { map: 'route24', offset: 8 }, south: { map: 'route5', offset: 8 }, east: { map: 'route9', offset: 3 } },
   warps: [
     { x: 7, y: 6, to: 'cerulean-gym', spot: 'door' },
     { x: 23, y: 5, to: 'cerulean-center', spot: 'door' },

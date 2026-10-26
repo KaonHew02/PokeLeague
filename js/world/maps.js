@@ -33,21 +33,21 @@ G.Maps = (() => {
     wall: { solid: 1 }, wood: {}, tile: {}, rug: {}, counter: { solid: 1, counter: 1 }, shelf: { solid: 1 },
     table: { solid: 1 }, plant: { solid: 1 }, pc: { solid: 1 }, healer: { solid: 1 },
     mat: { warp: 1 }, stairs: { warp: 1 }, ladder: { warp: 1 }, hole: { warp: 1 }, void: { solid: 1 },
-    cuttree: { solid: 1, cut: 1 }, can: { solid: 1 }
+    cuttree: { solid: 1, cut: 1 }, can: { solid: 1 }, grave: { solid: 1 }, hedge: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
       '.': 'grass', ',': 'path', ':': 'sand', '"': 'tall', f: 'flowers',
       T: 'tree', '#': 'cliff', '~': 'water', F: 'fence', S: 'sign',
       v: 'ledge-down', '<': 'ledge-left', '>': 'ledge-right',
-      H: 'stamp', C: 'stamp', M: 'stamp', G: 'stamp', L: 'stamp', D: 'door',
+      H: 'stamp', C: 'stamp', M: 'stamp', G: 'stamp', L: 'stamp', K: 'stamp', E: 'stamp', B: 'stamp', D: 'door',
       '%': 'ladder', O: 'hole',                      // caves: a ladder, a cave mouth (both warps)
       c: 'cuttree'                                   // a small tree that Cut clears (until you leave the map)
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',
       '=': 'counter', b: 'shelf', t: 'table', p: 'plant', P: 'pc', h: 'healer',
-      X: 'mat', '^': 'stairs', '~': 'water', u: 'can'
+      X: 'mat', '^': 'stairs', '~': 'water', u: 'can', g: 'grave', k: 'hedge'
     }
   };
   /** Buildings drawn as stamps: footprint in tiles (stamps.js paints them). */
@@ -56,7 +56,10 @@ G.Maps = (() => {
     C: { type: 'center', w: 5, h: 4 },
     M: { type: 'mart', w: 4, h: 3 },
     G: { type: 'gym', w: 6, h: 5 },
-    L: { type: 'lab', w: 6, h: 4 }
+    L: { type: 'lab', w: 6, h: 4 },
+    K: { type: 'tower', w: 5, h: 5 },          // the Pokémon Tower
+    E: { type: 'store', w: 8, h: 5 },          // a department store
+    B: { type: 'building', w: 6, h: 4 }        // a big building (a mansion, a game corner, a gate)
   };
   const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
   const OPP = { up: 'down', down: 'up', left: 'right', right: 'left' };

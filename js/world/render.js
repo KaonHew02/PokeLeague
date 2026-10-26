@@ -167,6 +167,15 @@ G.WorldRender = (() => {
       const w = b.width * PX * k, hh = b.height * PX * k;
       ctx.drawImage(b, Math.round(a.wx - w / 2), Math.round(a.headY - hh - 2), w, hh);
     }
+    // A dark cave: a small circle of light around the player (Flash lights it all).
+    if (S.dark && S.me) {
+      const cx = S.me.wx, cy = S.me.wy - TS / 2;
+      const grad = ctx.createRadialGradient(cx, cy, TS * 1.3, cx, cy, TS * 2.4);
+      grad.addColorStop(0, 'rgba(0,0,0,0)');
+      grad.addColorStop(1, 'rgba(0,0,0,0.97)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(L - TS, Tp - TS, W + 2 * TS, H + 2 * TS);
+    }
     for (const fn of extra) fn(ctx, S);
     ctx.restore();
 

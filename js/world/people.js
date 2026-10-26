@@ -18,7 +18,8 @@ G.People = (() => {
   const TYPES = ['player-boy', 'player-girl', 'rival', 'oak', 'mom', 'nurse', 'clerk', 'youngster',
                  'lass', 'bugcatcher', 'camper', 'brock', 'guide', 'oldman', 'daisy', 'aide',
                  'rocket', 'supernerd', 'hiker', 'misty', 'swimmer',
-                 'officer', 'sailor', 'gentleman', 'engineer', 'captain', 'surge', 'bill'];
+                 'officer', 'sailor', 'gentleman', 'engineer', 'captain', 'surge', 'bill',
+                 'gambler', 'pokemaniac', 'beauty', 'channeler', 'biker', 'cooltrainer', 'erika'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -152,6 +153,13 @@ G.People = (() => {
     engineer: { head: 'hat', body: 'jacket', legs: 'pants', a: '#f0c838', A: '#c09a20', b: '#c09a20', h: '#3c2c24', H: '#24180f', j: '#e07a2a', J: '#b05a1a', c: '#5a6a7a', C: '#3e4a56', p: '#4a5a6a', P: '#323e4a', k: '#3a3030' },
     captain: { head: 'cap', body: 'coat', legs: 'pants', a: '#f4f4f4', A: '#c8c8d0', b: '#1c2a58', h: '#e8e8e8', H: '#b8b8c0', j: '#f4f4f4', J: '#c8ccd4', c: '#2a3c78', C: '#1c2a58', p: '#e8e8f0', P: '#b8bcc8', k: '#1a1a22' },
     surge: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#f0d048', H: '#c0a020', s: '#e8b888', S: '#c49064', j: '#5a7a3a', J: '#3e5a26', c: '#3e4a2c', C: '#2a3420', p: '#4a5a32', P: '#323e22', k: '#2a2a22' },
+    gambler: { head: 'hat', body: 'jacket', legs: 'pants', a: '#e8e0c8', A: '#bcb49c', b: '#2a2a2a', h: '#5a4a3a', H: '#3a2e24', j: '#c83c3c', J: '#962828', c: '#f4f4f4', C: '#c8c8d0', p: '#3a3a44', P: '#26262e', k: '#2a2222' },
+    pokemaniac: { head: 'short', body: 'coat', legs: 'pants', h: '#3a2a20', H: '#24180f', j: '#6a9a3a', J: '#4c7428', c: '#f0d060', C: '#c8a83c', p: '#4a5a6a', P: '#323e4a', k: '#3a3030' },
+    beauty: { head: 'long', body: 'dress', legs: 'bare', h: '#f0d070', H: '#c4a448', c: '#b45ac4', C: '#8a3e9c', j: '#b45ac4', J: '#8a3e9c', k: '#e85a9c' },
+    channeler: { head: 'long', body: 'dress', legs: 'bare', h: '#e8e8ec', H: '#b8b8c4', c: '#6a4a8a', C: '#4c3268', j: '#6a4a8a', J: '#4c3268', k: '#4c3a3a' },
+    biker: { head: 'short', body: 'jacket', legs: 'pants', h: '#c84a2a', H: '#94321a', j: '#2a2a30', J: '#16161c', c: '#5a5a66', C: '#3e3e48', p: '#2a2a30', P: '#16161c', k: '#16161c' },
+    cooltrainer: { head: 'long', body: 'dress', legs: 'bare', h: '#c83c3c', H: '#962828', c: '#f4f4f4', C: '#c8c8d0', j: '#3a8a5a', J: '#28683e', k: '#2a2a30' },
+    erika: { head: 'short', body: 'coat', legs: 'bare', h: '#2a2220', H: '#16100c', j: '#5aa04a', J: '#3e7a32', c: '#f0a040', C: '#c47a28', k: '#c84a4a' },
     bill: { head: 'short', body: 'tee', legs: 'pants', h: '#7a4a2a', H: '#52301a', c: '#4a8ad8', C: '#2e66b0', p: '#5a4a3a', P: '#3e3226', k: '#3a3030' },
     daisy: { head: 'long', body: 'dress', legs: 'bare', h: '#8a5430', H: '#5e361a', c: '#f4f4f4', C: '#c8c8d0', j: '#5c9c5c', J: '#3e763e', k: '#7a5236' },
     aide: { head: 'short', body: 'coat', legs: 'pants', h: '#3c3434', H: '#241e1e', j: '#f4f4f4', J: '#c4c8d0', c: '#5a8ac8', C: '#3e66a0', p: '#4c4c5c', P: '#34343e', k: '#3a3030' },

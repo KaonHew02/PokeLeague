@@ -10,6 +10,9 @@ G.I18n.add({
   "Save and continue": "存档并继续",
   "Chapter 2 complete!": "第二章完成！",
   "{player} beat Misty and earned the Cascade Badge.": "{player}打败了小霞，得到了蓝色徽章。",
-  "Thank you for playing! The road beyond Cerulean City opens in a future update.": "感谢游玩！华蓝市以外的道路将在之后的更新中开放。",
-  "The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!": "东边的路已经开通：3号道路、月见山和华蓝市正等着你！"
+  "The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!": "东边的路已经开通：3号道路、月见山和华蓝市正等着你！",
+  "Chapter 3 complete!": "第三章完成！",
+  "{player} beat Lt. Surge and earned the Thunder Badge.": "{player}打败了马志士，得到了橙色徽章。",
+  "Thank you for playing! The road beyond Vermilion City opens in a future update.": "感谢游玩！枯叶市以外的道路将在之后的更新中开放。",
+  "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "金球大桥、正辉和枯叶市正等着你：你的冒险还在继续！"
 }, "zh-Hans");

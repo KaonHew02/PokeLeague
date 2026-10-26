@@ -37,5 +37,8 @@ G.I18n.add({
   "Pond ahead. Wild Pokémon hide in the tall grass to the west.": "前方有池塘。野生宝可梦藏在西边的草丛里。",
   "Sandbox Path. The town is just south.": "沙盒小路。往南就是镇子。",
   "Books about Pokémon. One is titled \"Raising Your First Partner\".": "关于宝可梦的书。其中一本叫《培育你的第一个伙伴》。",
-  "Old game magazines are piled up on the shelf.": "架子上堆着旧游戏杂志。"
+  "Old game magazines are piled up on the shelf.": "架子上堆着旧游戏杂志。",
+  "This tree looks like it could be cut down.": "这棵树好像可以砍掉。",
+  "This tree looks like it could be cut down. Would you like to use Cut?": "这棵树好像可以砍掉。要使用居合斩吗？",
+  "{mon} used Cut!": "{mon}使用了居合斩！"
 }, "zh-Hans");

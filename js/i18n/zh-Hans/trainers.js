@@ -10,5 +10,8 @@ G.I18n.add({
   "Leader": "道馆馆主",
   "Super Nerd": "书呆子",
   "Team Rocket Grunt": "火箭队手下",
-  "Swimmer": "泳裤小伙"
+  "Swimmer": "泳裤小伙",
+  "Sailor": "水手",
+  "Gentleman": "绅士",
+  "Engineer": "工程师"
 }, "zh-Hans");

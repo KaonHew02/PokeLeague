@@ -59,3 +59,24 @@ test('every trainer class used on a map exists, and story flags that maps wait f
   flags.delete('scripted');                          // never set: people only scripts show (Oak in town, the rival on Route 22)
   for (const f of flags) assert.ok(src.includes(`'${f}'`) && (src.includes(`setFlag', '${f}'`) || src.includes(`setFlag('${f}'`)), 'flag never set: ' + f);
 });
+
+test('Vermilion City: only Cut opens the way to the Gym (as in the games)', () => {
+  const m = G.Maps.get('vermilion');
+  // Tiles a player can walk from the north entrance; doors count once you stand in front of them.
+  const walk = cut => {
+    const seen = new Set(), todo = [[16, 1]];
+    while (todo.length) {
+      const [x, y] = todo.pop(), k = x + ',' + y;
+      if (seen.has(k) || !G.Maps.inside(m, x, y)) continue;
+      const kind = m.kind[y * m.w + x];
+      if (m.solid[y * m.w + x] && !(cut && kind === 'cuttree')) continue;
+      seen.add(k);
+      if (kind !== 'door') todo.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]);
+    }
+    return seen;
+  };
+  assert.equal(m.kind[19 * m.w + 11], 'cuttree');
+  assert.ok(!walk(false).has('6,17'), 'the Gym door can be reached without Cut');
+  assert.ok(walk(true).has('6,17'), 'Cut does not open the way to the Gym');
+  for (const door of ['5,5', '23,4', '27,13', '16,22']) assert.ok(walk(false).has(door), door);
+});

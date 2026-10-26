@@ -26,8 +26,16 @@ G.Names = (() => {
   /** 'viridian-city' -> 'Viridian City' (only used when the data has no name). */
   const pretty = id => String(id).split('-').map(w => w ? w[0].toUpperCase() + w.slice(1) : w).join(' ');
 
+  // Official names PokeAPI does not have yet (same columns as G.NAMES.langs).
+  const FIX = {
+    loc: {
+      'kanto-underground-path': ['Underground Path', 'Paso Subterráneo', 'Souterrain', 'Sotterraneo', '地下通道', '地下通道'],
+      'ss-anne': ['S.S. Anne', 'S.S. Anne', "L'Océane", 'S.S. Anne', '圣特安努号', '聖特安努號']
+    }
+  };
+
   function get(kind, id) {
-    const row = G.NAMES && G.NAMES[kind] && G.NAMES[kind][id];
+    const row = (FIX[kind] && FIX[kind][id]) || (G.NAMES && G.NAMES[kind] && G.NAMES[kind][id]);
     if (row) return row[column()] || row[0];
     if (kind === 'mon') {
       const sp = G.SPECIES && G.SPECIES[id];

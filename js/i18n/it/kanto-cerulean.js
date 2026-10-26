@@ -35,5 +35,11 @@ G.I18n.add({
   "Bike Shop: Bicycles for everyone!": "Negozio di Bici: biciclette per tutti!",
   "Cerulean City Pokémon Gym. Leader: Misty. Winning Trainers: {rival}": "Palestra Pokémon di Celestopoli. Capopalestra: Misty. Allenatori vincitori: {rival}",
   "A shiny new Bicycle. The price tag says ₽1,000,000!": "Una Bici nuova e scintillante. Il cartellino dice 1.000.000 ₽!",
-  "The shelves are a mess. Someone went through them in a hurry.": "Gli scaffali sono in disordine. Qualcuno li ha frugati in fretta."
+  "The shelves are a mess. Someone went through them in a hurry.": "Gli scaffali sono in disordine. Qualcuno li ha frugati in fretta.",
+  "We think the thief is still hiding in the house he robbed. Nobody leaves town by this road until he is caught!": "Pensiamo che il ladro sia ancora nascosto nella casa che ha derubato. Nessuno lascia la città da questa strada finché non lo prendiamo!",
+  "You caught the thief! Thank you! Keep that TM. You have earned it.": "Hai preso il ladro! Grazie! Tieni pure quella MT. Te la sei guadagnata.",
+  "Fine, fine! Take the stupid TM. I was going to sell it anyway...": "Va bene, va bene! Prenditi quella stupida MT. Tanto volevo venderla...",
+  "The thief ran out of the house. The police officer outside caught him!": "Il ladro è scappato dalla casa. Il poliziotto lì fuori l'ha acciuffato!",
+  "Huh? Who let you in? Nobody's supposed to know I'm hiding here!": "Eh? Chi ti ha fatto entrare? Nessuno doveva sapere che mi nascondo qui!",
+  "Argh! Caught by a kid!": "Argh! Beccato da un ragazzino!"
 }, "it");

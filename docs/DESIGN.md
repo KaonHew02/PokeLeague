@@ -412,6 +412,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - `~` water
   - `F` fence
   - `S` sign
+  - `c` small tree: solid until a Pokémon with Cut clears it (needs badge 2); it grows back
+    when you come back to the map
 - Ledges `v` `<` `>`: you can only jump them one way.
 - Buildings, drawn as stamps:
   - `H` house 4×3
@@ -434,8 +436,12 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - `p` plant
   - `P` PC
   - `h` healing machine
+  - `u` trash can (solid; give it a sign `{ script }` to make it do something)
 - Exits: `X` exit mat and `^` stairs, both warps.
 - `G.Maps.center(id, {exit})` and `G.Maps.mart(id, {exit, stock})` build the standard interiors.
+- A sign may be `{ script: 'name' }` instead of a text: the script runs with `h.ctx = { x, y }`
+  (Bill's machine, Lt. Surge's trash cans). A person may be a Pokémon: `mon: 'clefairy'`
+  draws its PMD sprite instead of a trainer sprite.
 
 **Modules**
 - `maps.js`: `def`, `get`, `parse` (a kind grid plus a solid mask, and stamp footprint
@@ -450,7 +456,9 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
 - `people.js`: 16×24 trainer and NPC sprites from ASCII templates and palettes.
   - Directions down, up and left; right is left mirrored. 3 frames each.
   - Archetypes: player-boy, player-girl, rival, oak, mom, nurse, clerk, youngster, lass,
-    bugcatcher, camper, brock, guide, oldman.
+    bugcatcher, camper, brock, guide, oldman, daisy, aide (chapter 1); rocket, supernerd,
+    hiker, misty, swimmer (chapter 2); officer, sailor, gentleman, engineer, captain, surge,
+    bill (chapter 3).
   - The front frame is drawn at 4× for trainer battle intros.
 - `render.js`: the baked map, connected neighbour maps, the `border` fill, Y-sorted
   props and actors, and the tall-grass front tuft.
@@ -671,19 +679,43 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   and a lone Wartortle below Lv. 24, Ivysaur Lv. 22 wins ~80%; Charmeleon with a Paras from
   Mt. Moon (Bug hits Starmie's Psychic type) wins every time. The Gym guide says so. The story
   test plays chapter 2 too (Squirtle with a Paras caught in the cave).
+- **Chapter 3** ✅: Cerulean's north road: Route 24 (the rival at the foot of Nugget Bridge, five
+  bridge Trainers, then the prize man: a Nugget, and he turns out to be a Team Rocket recruiter
+  who battles you), Route 25 (five Trainers) and Bill's Sea Cottage (Bill is stuck as a Clefairy;
+  he steps into the pod, you switch on the machine by his PC, he gives you the S.S. Ticket, flags
+  `bill-asked`, `bill-saved`, `got-ss-ticket`). With the ticket the thief appears in the robbed
+  Cerulean house (a Rocket Grunt: Machop, Drowzee; TM28 Dig, flag `caught-burglar`) and the
+  officer leaves the south road. Route 5, the Underground Path (north entrance, tunnel, south
+  entrance), Route 6 (four Trainers), Vermilion City (Center, Mart, the Pokémon Fan Club, the
+  harbour), the S.S. Anne (two decks, five Trainers, the rival outside the captain's cabin; the
+  seasick captain gives HM01 Cut, flag `got-hm01`; back at the harbour the ship sails, flag
+  `ss-anne-left`). The Gym sits behind a small tree only Cut clears. Inside, an electric barrier:
+  two switches in fifteen trash cans (the first in a random can, the second next to it; a wrong
+  can resets), flag `surge-locks-open`; Engineer Baily, Sailor Dwayne, Gentleman Tucker, then
+  Lt. Surge (Voltorb 21, Pikachu 18, Raichu 24; prize ₽2400, badge 3, TM34 Shock Wave).
+  Files: `nugget.js`, `vermilion.js`, `ssanne.js`, `surge.js` (translations `kanto-nugget`,
+  `kanto-vermilion`, `kanto-ssanne`, `kanto-surge`).
+- **Engine for chapter 3:** `c` small trees and Cut (`field.js` keeps the cut trees of the
+  current visit; `render.js` draws them as props), `u` trash cans, signs with `{ script }`,
+  Pokémon NPCs (`mon`). People: `officer`, `sailor`, `gentleman`, `engineer`, `captain`,
+  `surge`, `bill`; classes `sailor`, `gentleman`, `engineer`. `names.js` has a small `FIX`
+  table for official names PokeAPI lacks (the S.S. Anne in Chinese, the Underground Path).
+- **Balance:** Lt. Surge is the hardest wall so far (Raichu's Double Team, Voltorb's
+  Self-Destruct): a lone Wartortle Lv. 26 never wins, a lone Charmeleon or Ivysaur rarely.
+  Grass types take Electric moves well: Wartortle 26 with a Paras 24 wins ~80%, Charmeleon 26
+  with a Gloom 24 ~75%; a Geodude helps less (25–45%). The Gym guide points to Geodude, Oddish and Paras. The story test plays chapter 3
+  (Paras evolves on the way, learns Cut in place of a status move and leads against Surge).
 
-### After chapter 2
+### After chapter 3
 
 1. **Rest of Kanto:**
-   - Route 3, Mt. Moon, Cerulean and Misty, Nugget Bridge, Bill.
-   - Vermilion, the S.S. Anne and Lt. Surge.
    - Rock Tunnel, Lavender and the Pokémon Tower.
    - Celadon, Erika and the Rocket Hideout.
    - Saffron, Silph Co. and Sabrina.
    - Fuchsia, the Safari Zone and Koga.
    - Cinnabar, Blaine, then Giovanni.
    - Victory Road, the Elite Four, the Champion and the Hall of Fame.
-   - Engine features along the way: field moves (Cut, Surf, Strength, Flash, Fly), the
+   - Engine features along the way: field moves (Surf, Strength, Flash, Fly), the
      bike, fishing, more TMs, abilities, held items, weather, Exp. Share, Repel steps,
      legendaries.
 2. **Johto:** `fetch_data.py --region johto` (dex 1–251), plus day and night, friendship

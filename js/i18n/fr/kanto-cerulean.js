@@ -35,5 +35,11 @@ G.I18n.add({
   "Bike Shop: Bicycles for everyone!": "Magasin de Vélos : des vélos pour tout le monde !",
   "Cerulean City Pokémon Gym. Leader: Misty. Winning Trainers: {rival}": "Arène Pokémon d'Azuria. Championne : Ondine. Dresseurs victorieux : {rival}",
   "A shiny new Bicycle. The price tag says ₽1,000,000!": "Un Vélo tout neuf et brillant. L'étiquette indique 1 000 000 ₽ !",
-  "The shelves are a mess. Someone went through them in a hurry.": "Les étagères sont en désordre. Quelqu'un les a fouillées à la hâte."
+  "The shelves are a mess. Someone went through them in a hurry.": "Les étagères sont en désordre. Quelqu'un les a fouillées à la hâte.",
+  "We think the thief is still hiding in the house he robbed. Nobody leaves town by this road until he is caught!": "On pense que le voleur se cache encore dans la maison qu'il a cambriolée. Personne ne quitte la ville par cette route tant qu'il n'est pas arrêté !",
+  "You caught the thief! Thank you! Keep that TM. You have earned it.": "Tu as attrapé le voleur ! Merci ! Garde cette CT. Tu l'as bien méritée.",
+  "Fine, fine! Take the stupid TM. I was going to sell it anyway...": "D'accord, d'accord ! Prends-la, ta CT. De toute façon, j'allais la revendre...",
+  "The thief ran out of the house. The police officer outside caught him!": "Le voleur s'est enfui de la maison. Le policier qui attendait dehors l'a attrapé !",
+  "Huh? Who let you in? Nobody's supposed to know I'm hiding here!": "Hein ? Qui t'a laissé entrer ? Personne ne devait savoir que je me cache ici !",
+  "Argh! Caught by a kid!": "Argh ! Pris par un gamin !"
 }, "fr");

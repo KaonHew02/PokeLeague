@@ -33,9 +33,9 @@ G.Maps.def({
     'T.ffffffff......,,........~~~~~~~T',
     'T...............,,...............T',
     'T...............,,...............T',
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
+    'TTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTT'
   ],
-  connect: { west: { map: 'route4', offset: -4 }, north: { map: 'route24', offset: 8 } },
+  connect: { west: { map: 'route4', offset: -4 }, north: { map: 'route24', offset: 8 }, south: { map: 'route5', offset: 8 } },
   warps: [
     { x: 7, y: 6, to: 'cerulean-gym', spot: 'door' },
     { x: 23, y: 5, to: 'cerulean-center', spot: 'door' },
@@ -54,8 +54,7 @@ G.Maps.def({
     '8,14': 'Bike Shop: Bicycles for everyone!'
   },
   npcs: [
-    { id: 'officer', who: 'clerk', x: 16, y: 23, dir: 'up',
-      say: 'Thieves broke into a house in town last night. The road south stays closed until we catch them.' },
+    { id: 'officer', who: 'officer', x: 16, y: 23, dir: 'up', if: '!caught-burglar', script: 'cerulean.officer' },
     { id: 'girl', who: 'lass', x: 25, y: 20, move: 'look',
       say: 'Misty trains her Pokémon in the Gym pool every day. Water types are tough to beat!' },
     { id: 'kid', who: 'youngster', x: 12, y: 15, move: 'wander', r: 2,
@@ -166,8 +165,15 @@ G.Maps.def({
   spots: { door: [4, 7, 'up'] },
   signs: { '0,2': 'The shelves are a mess. Someone went through them in a hurry.', '1,2': 'The shelves are a mess. Someone went through them in a hurry.' },
   npcs: [
-    { id: 'man', who: 'oldman', x: 7, y: 4, dir: 'left',
-      say: 'Thieves broke in last night and stole a TM! They wore black uniforms with a big red R...' }
+    { id: 'man', who: 'oldman', x: 7, y: 4, dir: 'left', script: 'cerulean.robbed-man' }
+  ],
+  trainers: [
+    { id: 'burglar', who: 'rocket', cls: 'team-rocket', x: 1, y: 5, dir: 'right', sight: 3, if: ['got-ss-ticket', '!caught-burglar'],
+      team: [['machop', 16], ['drowzee', 16]],
+      before: "Huh? Who let you in? Nobody's supposed to know I'm hiding here!",
+      defeat: 'Argh! Caught by a kid!',
+      win: 'cerulean.burglar-win',
+      after: '…' }
   ]
 });
 
@@ -203,6 +209,26 @@ G.Script.def({
     ['giveItem', 'tm03', 1],
     // The end of the second chapter (credits-ui.js).
     ['js', () => (G.CreditsUI ? G.CreditsUI.ending(2) : G.Field.setFlag('chapter-2-done'))]
+  ],
+  'cerulean.officer': [
+    ['if', 'got-ss-ticket', [
+      ['say', 'We think the thief is still hiding in the house he robbed. Nobody leaves town by this road until he is caught!']
+    ], [
+      ['say', 'Thieves broke into a house in town last night. The road south stays closed until we catch them.']
+    ]]
+  ],
+  'cerulean.robbed-man': [
+    ['if', 'caught-burglar', [
+      ['say', 'You caught the thief! Thank you! Keep that TM. You have earned it.']
+    ], [
+      ['say', 'Thieves broke in last night and stole a TM! They wore black uniforms with a big red R...']
+    ]]
+  ],
+  'cerulean.burglar-win': [
+    ['say', 'Fine, fine! Take the stupid TM. I was going to sell it anyway...'],
+    ['giveItem', 'tm28', 1],
+    ['setFlag', 'caught-burglar'],
+    ['say', 'The thief ran out of the house. The police officer outside caught him!']
   ],
   'cerulean.gym-guide': [
     ['if', 'badge:2', [

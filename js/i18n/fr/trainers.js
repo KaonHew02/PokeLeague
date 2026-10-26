@@ -10,5 +10,8 @@ G.I18n.add({
   "Leader": "Champion",
   "Super Nerd": "Intello",
   "Team Rocket Grunt": "Sbire Team Rocket",
-  "Swimmer": "Nageur"
+  "Swimmer": "Nageur",
+  "Sailor": "Marin",
+  "Gentleman": "Gentleman",
+  "Engineer": "Ingénieur"
 }, "fr");

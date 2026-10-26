@@ -1,6 +1,6 @@
 /* ============ credits-ui.js — the credits, and the end of the first chapter ============
  *   G.CreditsUI.open()      from the title screen: who made what (licences, sprite artists)
- *   await G.CreditsUI.ending(n)  after a chapter's last Gym (1: Brock, 2: Misty): "Chapter n
+ *   await G.CreditsUI.ending(n)  after a chapter's last Gym (1: Brock, 2: Misty, 3: Lt. Surge): "Chapter n
  *                           complete!", the player's numbers and party, then the credits;
  *                           Save and continue / Continue. Sets the flag chapter-n-done.
  * The text scrolls slowly by itself; the wheel, a finger or the arrows take over.
@@ -32,8 +32,10 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 3) return { title: T('Chapter 3 complete!'), done: fmt('{player} beat Lt. Surge and earned the Thunder Badge.', { player }),
+                          next: T('Thank you for playing! The road beyond Vermilion City opens in a future update.') };
     if (n === 2) return { title: T('Chapter 2 complete!'), done: fmt('{player} beat Misty and earned the Cascade Badge.', { player }),
-                          next: T('Thank you for playing! The road beyond Cerulean City opens in a future update.') };
+                          next: T('Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!') };
     return { title: T('Chapter 1 complete!'), done: fmt('{player} beat Brock and earned the Boulder Badge.', { player }),
              next: T('The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!') };
   }

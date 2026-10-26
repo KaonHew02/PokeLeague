@@ -1,4 +1,4 @@
-// The first slice without a screen: from the bedroom to the Boulder Badge.
+// The story without a screen, chapter by chapter: from the bedroom to the Thunder Badge.
 // The real scripts, maps, save and battle engine run in the node sandbox; a stand-in
 // host answers the dialog (Yes, no nickname) and an auto-player fights every battle
 // with its strongest move. Wild battles in the tall grass raise the party on the way,
@@ -157,13 +157,15 @@ function host(st) {
 }
 
 /** Runs a named script (or a person's script) as if the player were on that map. */
-async function run(st, mapId, script, answers = []) {
+async function run(st, mapId, script, answers = [], ctx = {}) {
   st.W.map = mapId;
   st.S.player.map = mapId;
   st.answers.push(...answers);
   const cmds = typeof script === 'string' ? st.G.Script.get(script) : script;
   assert.ok(cmds, 'no script ' + script);
-  await st.G.Script.run(cmds, host(st));
+  const h = host(st);
+  h.ctx = ctx;
+  await st.G.Script.run(cmds, h);
 }
 const npc = (st, mapId, id) => st.G.Maps.get(mapId).npcs.find(p => p.id === id).script;
 
@@ -336,9 +338,8 @@ function lead(st, sp) {
   if (i > 0) p.unshift(p.splice(i, 1)[0]);
 }
 
-test('chapter 2: Route 3, Mt. Moon and its fossils, Cerulean City and the Cascade Badge', async () => {
-  const st = world(3);
-  await chapter1(st);
+/** Chapter 2 after chapter 1: Route 3, Mt. Moon, Cerulean City, Misty. */
+async function chapter2(st) {
   const { G, S } = st;
   const F = G.Field;
   await run(st, 'pewter', 'pewter.east-kid');
@@ -391,5 +392,132 @@ test('chapter 2: Route 3, Mt. Moon and its fossils, Cerulean City and the Cascad
   assert.equal(F.count('tm03'), 1);
   assert.equal(S.player.money - before, 2100);
   assert.ok(F.flag('chapter-2-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
+test('chapter 2: Route 3, Mt. Moon and its fossils, Cerulean City and the Cascade Badge', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+});
+
+test('balance: Lt. Surge (chapter 3), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const surge = G.Maps.get('vermilion-gym').trainers.find(t => t.id === 'surge');
+  const rate = team => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const me = team.map(([sp, lvl]) => G.Mon.create(sp, lvl, { rng }));
+      const foes = surge.team.map(([x, l, moves]) => G.Mon.create(G.Maps.species(x), l, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 'surge', name: 'Lt. Surge', ai: 'leader', items: surge.items || {}, prize: 100 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 40;
+  };
+  const table = {
+    'ivysaur 26': rate([[2, 26]]),
+    'charmeleon 26': rate([[5, 26]]),
+    'wartortle 26': rate([[8, 26]]),
+    'wartortle 26 + geodude 22': rate([[8, 26], [74, 22]]),
+    'charmeleon 26 + geodude 22': rate([[5, 26], [74, 22]]),
+    'wartortle 26 + paras 24': rate([[8, 26], [46, 24]]),
+    'charmeleon 26 + gloom 24': rate([[5, 26], [44, 24]])
+  };
+  console.log('[balance] vs Lt. Surge:', JSON.stringify(table));
+  // Surge is the hardest wall so far (Raichu's Double Team, Voltorb's Self-Destruct); Grass types
+  // (Paras from Mt. Moon, Oddish/Gloom from Routes 24 and 25) take Electric moves well. The auto-player
+  // never switches or heals, so a player with a team does better.
+  assert.ok(table['wartortle 26 + paras 24'] >= 0.7, 'Wartortle with a Paras');
+  assert.ok(table['charmeleon 26 + gloom 24'] >= 0.6, 'Charmeleon with a Gloom');
+  assert.ok(table['wartortle 26'] < 0.3, 'a lone Wartortle should struggle');
+});
+
+test('chapter 3: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut and the Thunder Badge', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+  const { G, S, W } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  // Nugget Bridge: the rival, five Trainers, then the recruiter.
+  W.player = { x: 8, y: 23, dir: 'up' };
+  F.healAll();
+  await run(st, 'route24', 'route24.rival');
+  assert.ok(F.flag('route24-rival'));
+  W.player = { x: 8, y: 10, dir: 'up' };
+  await run(st, 'route24', 'route24.recruiter');
+  assert.match(st.log[st.log.length - 1], /five/i, 'the prize man wants all five beaten first');
+  for (const id of ['cale', 'ali', 'timmy', 'reli', 'ethan']) await fight('route24', id);
+  F.healAll();
+  await run(st, 'route24', 'route24.recruiter', [0]);
+  assert.equal(F.count('nugget'), 1);
+  assert.ok(F.isDone('route24:recruiter'), 'the recruiter was beaten');
+  for (const t of G.Maps.get('route25').trainers) await fight('route25', t.id);
+  // Bill: the Clefairy, the machine, the S.S. Ticket.
+  W.player = { x: 4, y: 3, dir: 'up' };
+  await run(st, 'bill-house', 'bill.machine');
+  assert.ok(!F.flag('bill-saved'), 'the machine does nothing before Bill asks');
+  await run(st, 'bill-house', 'bill.clefairy');
+  await run(st, 'bill-house', 'bill.machine');
+  assert.ok(F.flag('bill-saved') && F.count('ss-ticket') === 1);
+  // The thief in Cerulean: TM28, and the road south opens.
+  await fight('cerulean-house', 'burglar');
+  assert.ok(F.flag('caught-burglar') && F.count('tm28') === 1);
+  for (const t of G.Maps.get('route6').trainers) await fight('route6', t.id);
+  // The S.S. Anne.
+  for (const id of ['trevor', 'ann', 'arthur']) await fight('ssanne-1f', id);
+  for (const id of ['leonard', 'tyler']) await fight('ssanne-2f', id);
+  W.player = { x: 7, y: 5, dir: 'right' };
+  F.healAll();
+  await run(st, 'ssanne-2f', 'ssanne.rival');
+  await run(st, 'ssanne-2f', 'ssanne.captain', [0]);
+  assert.ok(F.flag('got-hm01') && F.count('hm01') === 1);
+  await run(st, 'vermilion-harbor', 'vermilion.harbor-enter');
+  assert.ok(F.flag('ss-anne-left'), 'the ship sailed');
+  // Cut, taught from the bag to a Pokémon that can learn it.
+  const cutter = S.party.find(m => G.FieldItems.tmFor(m, 'hm01') === 'able');
+  assert.ok(cutter, 'someone can learn Cut');
+  // In place of its weakest move, as a player would (Poison Powder rather than Leech Life).
+  const pow = m => G.MOVES[m.id].pow || 0;
+  const weakest = cutter.moves.reduce((j, m, i, all) => pow(m) < pow(all[j]) ? i : j, 0);
+  G.Mon.learn(cutter, 'cut', cutter.moves.length < 4 ? undefined : weakest);
+  assert.ok(G.Mon.knows(cutter, 'cut'));
+  // Lt. Surge's switches: a wrong can, the first, a wrong neighbour (reset), then both.
+  const can = i => [[2, 4, 6, 8, 10][i % 5], [8, 10, 12][Math.floor(i / 5)]];
+  await run(st, 'vermilion-gym', 'surge.enter');
+  const first = F.getVar('surge-first');
+  const [wx, wy] = can((first + 7) % 15);
+  await run(st, 'vermilion-gym', 'surge.can', [], { x: wx, y: wy });
+  assert.ok(!F.getVar('surge-found'));
+  let [fx, fy] = can(F.getVar('surge-first'));
+  await run(st, 'vermilion-gym', 'surge.can', [], { x: fx, y: fy });
+  assert.equal(F.getVar('surge-found'), 1);
+  const second = F.getVar('surge-second');
+  const [sx, sy] = can(second);
+  assert.equal(Math.abs(sx - fx) + Math.abs(sy - fy), 2, 'the second switch is next to the first');
+  [fx, fy] = can(F.getVar('surge-first'));
+  await run(st, 'vermilion-gym', 'surge.can', [], { x: fx, y: fy });     // the same can again: wrong, resets
+  assert.ok(!F.getVar('surge-found') && !F.flag('surge-locks-open'));
+  [fx, fy] = can(F.getVar('surge-first'));
+  await run(st, 'vermilion-gym', 'surge.can', [], { x: fx, y: fy });
+  const [tx, ty] = can(F.getVar('surge-second'));
+  await run(st, 'vermilion-gym', 'surge.can', [], { x: tx, y: ty });
+  assert.ok(F.flag('surge-locks-open'), 'the barrier is down');
+  // The trainers and Lt. Surge, with Paras (Grass takes Electric moves well) in front.
+  lead(st, 46);
+  grind(st, 'route6', 26, 150);
+  for (const id of ['baily', 'dwayne', 'tucker']) await fight('vermilion-gym', id);
+  F.healAll();
+  const before = S.player.money;
+  await run(st, 'vermilion-gym', [['battle', 'vermilion-gym:surge']]);
+  const last = st.battles[st.battles.length - 1];
+  assert.equal(last.outcome, 'win', 'Lt. Surge beaten at levels ' + last.levels);
+  assert.deepEqual([...S.player.badges], [1, 2, 3]);
+  assert.equal(F.count('tm34'), 1);
+  assert.equal(S.player.money - before, 2400);
+  assert.ok(F.flag('chapter-3-done'));
   assert.deepEqual(st.errors, [], 'no script errors');
 });

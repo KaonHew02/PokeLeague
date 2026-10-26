@@ -10,6 +10,9 @@ G.I18n.add({
   "Save and continue": "Sauver et continuer",
   "Chapter 2 complete!": "Chapitre 2 terminé !",
   "{player} beat Misty and earned the Cascade Badge.": "{player} a battu Ondine et obtenu le Badge Cascade.",
-  "Thank you for playing! The road beyond Cerulean City opens in a future update.": "Merci d'avoir joué ! La route au-delà d'Azuria ouvrira dans une prochaine mise à jour.",
-  "The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!": "La route de l'est est ouverte : la Route 3, le Mont Sélénite et Azuria t'attendent !"
+  "The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!": "La route de l'est est ouverte : la Route 3, le Mont Sélénite et Azuria t'attendent !",
+  "Chapter 3 complete!": "Chapitre 3 terminé !",
+  "{player} beat Lt. Surge and earned the Thunder Badge.": "{player} a battu le Major Bob et obtenu le Badge Foudre.",
+  "Thank you for playing! The road beyond Vermilion City opens in a future update.": "Merci d'avoir joué ! La route au-delà de Carmin sur Mer ouvrira dans une prochaine mise à jour.",
+  "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "Le Pont Pépite, Léo et Carmin sur Mer t'attendent : ton aventure continue !"
 }, "fr");

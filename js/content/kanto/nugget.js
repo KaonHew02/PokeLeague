@@ -192,7 +192,7 @@ G.Maps.def({
       team: [['pidgeotto', 17], ['abra', 16], ['rattata', 15], [EVOLVED[S.rival.starter] || 8, 18]] }, {});
     if (out === 'lose') return;
     await h.say(T("Heh, not bad. I've already been to see Bill, by the way. He gave me something great."), RIVAL);
-    await h.say(T("You should visit him too. He lives at the end of Route 25. Smell you later!"), RIVAL);
+    await h.say(T("You should visit him too. He lives at the end of Route 25. Catch you later!"), RIVAL);
     h.hide('rival');
   }
 

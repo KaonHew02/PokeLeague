@@ -35,5 +35,11 @@ G.I18n.add({
   "Bike Shop: Bicycles for everyone!": "自行车店：人人都能骑！",
   "Cerulean City Pokémon Gym. Leader: Misty. Winning Trainers: {rival}": "华蓝市宝可梦道馆。馆主：小霞。获胜的训练家：{rival}",
   "A shiny new Bicycle. The price tag says ₽1,000,000!": "一辆闪闪发亮的新自行车。价签上写着₽1,000,000！",
-  "The shelves are a mess. Someone went through them in a hurry.": "架子乱七八糟的。好像有人匆匆翻过。"
+  "The shelves are a mess. Someone went through them in a hurry.": "架子乱七八糟的。好像有人匆匆翻过。",
+  "We think the thief is still hiding in the house he robbed. Nobody leaves town by this road until he is caught!": "我们认为小偷还躲在他闯入的那户人家里。抓到他之前，谁都不能从这条路离开城镇！",
+  "You caught the thief! Thank you! Keep that TM. You have earned it.": "你抓到小偷了！谢谢你！那张招式学习器你就留着吧。这是你应得的。",
+  "Fine, fine! Take the stupid TM. I was going to sell it anyway...": "好啦好啦！这破招式学习器给你就是了。反正我本来也打算卖掉的……",
+  "The thief ran out of the house. The police officer outside caught him!": "小偷从屋子里逃了出去，结果被守在外面的警察逮住了！",
+  "Huh? Who let you in? Nobody's supposed to know I'm hiding here!": "嗯？谁让你进来的？不应该有人知道我躲在这里的！",
+  "Argh! Caught by a kid!": "啊啊！居然被一个小鬼抓住了！"
 }, "zh-Hans");

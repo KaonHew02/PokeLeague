@@ -10,6 +10,9 @@ G.I18n.add({
   "Save and continue": "Salvar e continuar",
   "Chapter 2 complete!": "Capítulo 2 concluído!",
   "{player} beat Misty and earned the Cascade Badge.": "{player} venceu Misty e conquistou a Insígnia da Cascata.",
-  "Thank you for playing! The road beyond Cerulean City opens in a future update.": "Obrigado por jogar! O caminho além de Cerulean City abrirá numa próxima atualização.",
-  "The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!": "O caminho para o leste está aberto: a Rota 3, o Mt. Moon e Cerulean City esperam por você!"
+  "The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!": "O caminho para o leste está aberto: a Rota 3, o Mt. Moon e Cerulean City esperam por você!",
+  "Chapter 3 complete!": "Capítulo 3 concluído!",
+  "{player} beat Lt. Surge and earned the Thunder Badge.": "{player} venceu Lt. Surge e conquistou a Insígnia do Trovão.",
+  "Thank you for playing! The road beyond Vermilion City opens in a future update.": "Obrigado por jogar! O caminho além de Vermilion City abrirá numa próxima atualização.",
+  "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "A Nugget Bridge, Bill e Vermilion City estão esperando: sua aventura continua!"
 }, "pt-BR");

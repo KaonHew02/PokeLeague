@@ -37,5 +37,8 @@ G.I18n.add({
   "Pond ahead. Wild Pokémon hide in the tall grass to the west.": "Laghetto più avanti. I Pokémon selvatici si nascondono nell'erba alta a ovest.",
   "Sandbox Path. The town is just south.": "Sentiero Prova. Il paese è appena a sud.",
   "Books about Pokémon. One is titled \"Raising Your First Partner\".": "Libri sui Pokémon. Uno si intitola «Crescere il tuo primo compagno».",
-  "Old game magazines are piled up on the shelf.": "Vecchie riviste di videogiochi sono ammucchiate sullo scaffale."
+  "Old game magazines are piled up on the shelf.": "Vecchie riviste di videogiochi sono ammucchiate sullo scaffale.",
+  "This tree looks like it could be cut down.": "Sembra che questo albero si possa tagliare.",
+  "This tree looks like it could be cut down. Would you like to use Cut?": "Sembra che questo albero si possa tagliare. Vuoi usare Taglio?",
+  "{mon} used Cut!": "{mon} usa Taglio!"
 }, "it");

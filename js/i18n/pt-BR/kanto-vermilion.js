@@ -47,5 +47,14 @@ G.I18n.add({
   "Do you like fishing, young one?": "Você gosta de pescar, jovem?",
   "Ha! A kindred spirit! Take this old rod of mine. Face the water and give it a try.": "Rá! Uma alma gêmea! Pegue esta minha vara velha. Fique de frente para a água e experimente.",
   "Use it from your Bag, or just press A at the water.": "Use pela Mochila, ou simplesmente aperte A de frente para a água.",
-  "Oh... If you change your mind, come back and see me.": "Ah... Se mudar de ideia, volte para me ver."
+  "Oh... If you change your mind, come back and see me.": "Ah... Se mudar de ideia, volte para me ver.",
+  "Ah, my favourite listener! Have you been to the Bike Shop in Cerulean City yet?": "Ah, meu ouvinte favorito! Você já foi à Loja de Bicicletas de Cerulean City?",
+  "I could talk about Rapidash all day. And I often do! Come back any time you'd like to hear more.": "Eu poderia falar de Rapidash o dia todo. E muitas vezes falo! Volte quando quiser ouvir mais.",
+  "Would you like to hear about my favourite Pokémon?": "Quer ouvir sobre o meu Pokémon favorito?",
+  "Wonderful! It is Rapidash! So elegant, so fast. Its mane of fire is a work of art.": "Maravilha! É o Rapidash! Tão elegante, tão rápido. Sua crina de fogo é uma obra de arte.",
+  "When it gallops, it leaves the wind behind. Ten steps and it is at full speed. Ten! Magnificent!": "Quando galopa, deixa o vento para trás. Dez passos e já está a toda velocidade. Dez! Magnífico!",
+  "And its kindness! A Rapidash that trusts you will never let its flames burn you.": "E a sua bondade! Um Rapidash que confia em você nunca deixa as chamas o queimarem.",
+  "Ah, thank you for listening so patiently. Nobody here lets me finish anymore. Please, take this.": "Ah, obrigado por ouvir com tanta paciência. Ninguém aqui me deixa terminar. Por favor, aceite isto.",
+  "A Bike Voucher! The Bike Shop in Cerulean City will give you a Bicycle for it. Now you can be as fast as a Rapidash!": "Um Bike Voucher! A Loja de Bicicletas de Cerulean City lhe dará uma Bicicleta em troca. Agora você pode ser rápido como um Rapidash!",
+  "Oh... Another time, then. My story will still be here.": "Ah... Fica para outra vez, então. Minha história vai continuar aqui."
 }, "pt-BR");

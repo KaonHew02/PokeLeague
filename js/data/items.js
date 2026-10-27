@@ -81,6 +81,7 @@ G.ITEMS = {
   "dome-fossil": {"id":102,"pocket":"items","cat":"dex-completion"},
   "old-amber": {"id":103,"pocket":"items","cat":"dex-completion"},
   "gold-teeth": {"id":546,"pocket":"key","cat":"plot-advancement"},
+  "bike-voucher": {"id":545,"pocket":"key","cat":"plot-advancement"},
   hm01: {"id":397,"pocket":"tms","cat":"all-machines","move":"cut"},
   hm02: {"id":398,"pocket":"tms","cat":"all-machines","move":"fly"},
   hm03: {"id":399,"pocket":"tms","cat":"all-machines","move":"surf"},

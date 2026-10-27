@@ -6,10 +6,11 @@
  *      parcel-delivered, has-pokedex); Daisy then gives you a Town Map.
  *   3. An old man and his granddaughter block the road to Route 2 until you have a
  *      Pokédex; afterwards he gives catching tips.
- * The Gym is locked: its leader is away (he comes back at the end of Kanto).
+ * The Gym is locked: its leader is away until you hold seven badges (giovanni.js, chapter 8).
  */
 G.Maps.def({
   id: 'viridian', loc: 'viridian-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
+  fly: { spot: 'center-door', if: 'got-parcel' },
   rows: [
     'TTTTTTTTTTTTTTTTT,,TTTTTTTTTTT',
     'T................,,..........T',
@@ -38,7 +39,7 @@ G.Maps.def({
   ],
   connect: { south: { map: 'route1', offset: 8 }, north: { map: 'route2', offset: 8 }, west: { map: 'route22', offset: 4 } },
   warps: [
-    { x: 6, y: 6, locked: 'viridian.gym-locked' },
+    { x: 6, y: 6, to: 'viridian-gym', spot: 'door', if: 'badges>=7', locked: 'viridian.gym-locked' },
     { x: 23, y: 5, to: 'viridian-mart', spot: 'door' },
     { x: 23, y: 13, to: 'viridian-center', spot: 'door' },
     { x: 8, y: 17, to: 'viridian-school', spot: 'door' },
@@ -46,7 +47,7 @@ G.Maps.def({
   ],
   spots: {
     south: [17, 22, 'up'], north: [17, 1, 'down'],
-    'mart-door': [23, 6, 'down'], 'center-door': [23, 14, 'down'],
+    'gym-door': [6, 7, 'down'], 'mart-door': [23, 6, 'down'], 'center-door': [23, 14, 'down'],
     'school-door': [8, 18, 'down'], 'house-door': [23, 19, 'down']
   },
   signs: {
@@ -59,8 +60,10 @@ G.Maps.def({
     { id: 'oldman-tips', who: 'oldman', x: 15, y: 3, dir: 'right', if: 'has-pokedex', script: 'viridian.oldman-tips' },
     { id: 'girl-happy', who: 'lass', x: 20, y: 3, dir: 'left', if: 'has-pokedex',
       say: "Grandpa's in a much better mood now. He finally had his morning coffee!" },
-    { id: 'kid', who: 'youngster', x: 13, y: 6, move: 'wander', r: 1,
+    { id: 'kid', who: 'youngster', x: 13, y: 6, move: 'wander', r: 1, if: '!giovanni-gym',
       say: "The Gym here is always shut. I wonder who the leader even is..." },
+    { id: 'kid-after', who: 'youngster', x: 13, y: 6, move: 'wander', r: 1, if: 'giovanni-gym',
+      say: 'The Gym Leader was the boss of Team Rocket? And he just left? This town is never boring!' },
     { id: 'fan', who: 'camper', x: 3, y: 8, move: 'look',
       say: 'West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!' },
     { id: 'lady', who: 'lass', x: 10, y: 12, move: 'look',

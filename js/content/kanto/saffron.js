@@ -9,6 +9,7 @@
  */
 G.Maps.def({
   id: 'saffron', loc: 'saffron-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
+  fly: { spot: 'center-door', if: 'badge:6' },
   rows: [
     'TTTTTTTTTTTTTTTTTTT,TTTTTTTTTTTTTTTTTTTT',
     'T..................,...................T',

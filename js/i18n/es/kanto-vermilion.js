@@ -47,5 +47,14 @@ G.I18n.add({
   "Do you like fishing, young one?": "¿Te gusta pescar, jovencito?",
   "Ha! A kindred spirit! Take this old rod of mine. Face the water and give it a try.": "¡Ja! ¡Un alma gemela! Toma esta caña vieja mía. Ponte frente al agua y pruébala.",
   "Use it from your Bag, or just press A at the water.": "Úsala desde la Mochila, o pulsa A frente al agua.",
-  "Oh... If you change your mind, come back and see me.": "Oh... Si cambias de opinión, vuelve a verme."
+  "Oh... If you change your mind, come back and see me.": "Oh... Si cambias de opinión, vuelve a verme.",
+  "Ah, my favourite listener! Have you been to the Bike Shop in Cerulean City yet?": "¡Ah, mi oyente favorito! ¿Ya has ido a la Tienda de Bicis de Ciudad Celeste?",
+  "I could talk about Rapidash all day. And I often do! Come back any time you'd like to hear more.": "Podría hablar de Rapidash todo el día. ¡Y a menudo lo hago! Vuelve cuando quieras oír más.",
+  "Would you like to hear about my favourite Pokémon?": "¿Quieres que te hable de mi Pokémon favorito?",
+  "Wonderful! It is Rapidash! So elegant, so fast. Its mane of fire is a work of art.": "¡Maravilloso! ¡Es Rapidash! Tan elegante, tan rápido. Su crin de fuego es una obra de arte.",
+  "When it gallops, it leaves the wind behind. Ten steps and it is at full speed. Ten! Magnificent!": "Cuando galopa, deja atrás al viento. Diez pasos y ya va a toda velocidad. ¡Diez! ¡Magnífico!",
+  "And its kindness! A Rapidash that trusts you will never let its flames burn you.": "¡Y qué bondad! Un Rapidash que confía en ti nunca dejará que sus llamas te quemen.",
+  "Ah, thank you for listening so patiently. Nobody here lets me finish anymore. Please, take this.": "Ah, gracias por escucharme con tanta paciencia. Aquí ya nadie me deja terminar. Por favor, toma esto.",
+  "A Bike Voucher! The Bike Shop in Cerulean City will give you a Bicycle for it. Now you can be as fast as a Rapidash!": "¡Un Bono Bici! En la Tienda de Bicis de Ciudad Celeste te darán una Bici a cambio. ¡Así serás tan rápido como un Rapidash!",
+  "Oh... Another time, then. My story will still be here.": "Oh... Otra vez será. Mi historia seguirá aquí."
 }, "es");

@@ -29,5 +29,6 @@ G.I18n.add({
   "Boss": "Boss",
   "Black Belt": "Karatéka",
   "Psychic": "Kinésiste",
-  "Burglar": "Cambrioleur"
+  "Burglar": "Cambrioleur",
+  "Cue Ball": "Loubard"
 }, "fr");

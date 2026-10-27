@@ -709,6 +709,8 @@ G.Audio = (() => {
     lift:    () => { tone('sawtooth', 70, 90, 0.5, 0.05); hiss(0.5, 0.04, 'lowpass', 300); tone('sine', 1320, 1320, 0.2, 0.04, 0.55); },
     strength:() => { tone('triangle', 90, 50, 0.22, 0.11); hiss(0.22, 0.06, 'lowpass', 500, 200); },   // a boulder pushed along
     fall:    () => { tone('sine', 520, 70, 0.4, 0.05); tone('triangle', 70, 40, 0.15, 0.12, 0.38); hiss(0.12, 0.06, 'lowpass', 400, 0, 0.38); },   // down a hole
+    bike:    () => { tone('sine', 2093, 2093, 0.18, 0.04); tone('sine', 2637, 2637, 0.3, 0.035, 0.12); },   // the Bicycle's bell
+    fly:     () => { hiss(0.7, 0.1, 'bandpass', 400, 3200, 0, 1.6); tone('triangle', 220, 880, 0.6, 0.03); },   // Fly: wings and a rush of air
     exclaim: () => { tone('square', 1568, 1568, 0.05, 0.045); tone('square', 2093, 2093, 0.14, 0.045, 0.06); },  // a trainer spots you
     encounter: () => {                                                         // into a battle
       tone('sawtooth', 180, 1400, 0.55, 0.055); tone('square', 360, 2800, 0.55, 0.03);

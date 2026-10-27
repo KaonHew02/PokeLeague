@@ -7,6 +7,7 @@
  */
 G.Maps.def({
   id: 'cerulean', loc: 'cerulean-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
+  fly: { spot: 'center-door', if: 'badge:2' },
   rows: [
     'TTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTT',
     'TTT.............,,.............TTT',
@@ -142,8 +143,7 @@ G.Maps.def({
     '9,4': 'A shiny new Bicycle. The price tag says ₽1,000,000!'
   },
   npcs: [
-    { id: 'owner', who: 'clerk', x: 1, y: 3, dir: 'down',
-      say: 'Welcome to the Bike Shop! Our finest Bicycle is only ₽1,000,000. A bargain, really!' },
+    { id: 'owner', who: 'clerk', x: 1, y: 3, dir: 'down', script: 'cerulean.bike-shop' },
     { id: 'customer', who: 'youngster', x: 8, y: 6, move: 'look',
       say: "A million? Who has that much money? I'll keep walking, I guess." }
   ]
@@ -200,6 +200,21 @@ G.Maps.def({
 });
 
 G.Script.def({
+  // The Bike Voucher from the Fan Club chairman in Vermilion City buys the Bicycle.
+  'cerulean.bike-shop': [
+    ['if', 'got-bicycle', [
+      ['say', 'How do you like your Bicycle? Ride it outside, on the roads and in caves. Not indoors, please!']
+    ], [
+      ['say', 'Welcome to the Bike Shop! Our finest Bicycle is only ₽1,000,000. A bargain, really!'],
+      ['if', 'has:bike-voucher', [
+        ['say', "Oh? That's a Bike Voucher! The Fan Club chairman sent you? Then this Bicycle is yours, free!"],
+        ['takeItem', 'bike-voucher', 1],
+        ['giveItem', 'bicycle', 1],
+        ['setFlag', 'got-bicycle'],
+        ['say', 'Use it from your Bag, or press the Bicycle button. Ride safely!']
+      ]]
+    ]]
+  ],
   'cerulean.misty-win': [
     ['say', 'This is the Cascade Badge. It proves you beat me, fair and square!', { name: 'Misty' }],
     ['badge', 2],

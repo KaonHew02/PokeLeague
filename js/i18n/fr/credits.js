@@ -25,6 +25,9 @@ G.I18n.add({
   "{player} beat Sabrina and earned the Marsh Badge.": "{player} a battu Morgane et obtenu le Badge Marais.",
   "Chapter 7 complete!": "Chapitre 7 terminé !",
   "{player} beat Blaine and earned the Volcano Badge.": "{player} a battu Auguste et obtenu le Badge Volcan.",
-  "Thank you for playing! The last Gym, Victory Road and the Pokémon League open in a future update.": "Merci d'avoir joué ! La dernière Arène, la Route Victoire et la Ligue Pokémon arriveront dans une prochaine mise à jour.",
-  "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "Les chenaux, les Îles Écume et Cramois'Île t'attendent : ton aventure continue !"
+  "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "Les chenaux, les Îles Écume et Cramois'Île t'attendent : ton aventure continue !",
+  "Chapter 8 complete!": "Chapitre 8 terminé !",
+  "{player} beat Giovanni and earned the Earth Badge: all eight badges!": "{player} a battu Giovanni et obtenu le Badge Terre : les huit badges !",
+  "Thank you for playing! Victory Road and the Pokémon League open in a future update.": "Merci d'avoir joué ! La Route Victoire et la Ligue Pokémon arrivent dans une prochaine mise à jour.",
+  "Cycling Road, Fly and the last Gym in Viridian City are waiting: your adventure goes on!": "La Piste Cyclable, Vol et la dernière Arène à Jadielle t'attendent : ton aventure continue !"
 }, "fr");

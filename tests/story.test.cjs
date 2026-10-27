@@ -1,4 +1,4 @@
-// The story without a screen, chapter by chapter: from the bedroom to the Volcano Badge.
+// The story without a screen, chapter by chapter: from the bedroom to the Earth Badge.
 // The real scripts, maps, save and battle engine run in the node sandbox; a stand-in
 // host answers the dialog (Yes, no nickname) and an auto-player fights every battle
 // with its strongest move. Wild battles in the tall grass raise the party on the way,
@@ -551,6 +551,28 @@ test('balance: Blaine (chapter 7), win rates of typical teams are printed', () =
   assert.ok(table['charizard 45'] < 0.3, 'a lone Charizard should struggle');
 });
 
+test('balance: Giovanni (chapter 8), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'viridian-gym', 'giovanni');
+  const SURF = ['surf', 'bite', 'skull-bash', 'rapid-spin'];
+  const table = {
+    'blastoise 50 (Surf)': rate([[9, 50, SURF]]),
+    'venusaur 50': rate([[3, 50]]),
+    'charizard 50': rate([[6, 50]]),
+    'charizard 50 + lapras 45 (Surf)': rate([[6, 50], [131, 45, ['surf', 'ice-beam', 'body-slam', 'confuse-ray']]]),
+    'venusaur 50 + blastoise 47 (Surf)': rate([[3, 50], [9, 47, SURF]]),
+    'charizard 50 + blastoise 47 (Surf)': rate([[6, 50], [9, 47, SURF]]),
+    'pidgeot 48 + golduck 46 (Surf)': rate([[18, 48], [55, 46, ['surf', 'confusion', 'disable', 'fury-swipes']]])
+  };
+  console.log('[balance] vs Giovanni:', JSON.stringify(table));
+  // Five Ground types (Rhydon's Earthquake, Nidoking's Thrash) against a team that never heals:
+  // Water and Ice answer them, as the Gym guide says; a lone Fire or Grass starter does not last.
+  assert.ok(table['blastoise 50 (Surf)'] >= 0.7, 'Blastoise with Surf');
+  assert.ok(table['charizard 50 + lapras 45 (Surf)'] >= 0.8, 'Charizard with the Lapras from Silph Co.');
+  assert.ok(table['venusaur 50 + blastoise 47 (Surf)'] >= 0.75, 'Venusaur with a Surfer');
+  assert.ok(table['charizard 50'] < 0.3, 'a lone Charizard should struggle');
+});
+
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
 async function chapter3(st) {
   const { G, S, W } = st;
@@ -940,6 +962,55 @@ async function chapter7(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 8 after chapter 7: the Bicycle, Routes 16 to 18, Fly, the Viridian Gym and Giovanni. */
+async function chapter8(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const won = () => assert.equal(st.battles[st.battles.length - 1].outcome, 'win', st.battles[st.battles.length - 1].key);
+  // The Bicycle: a million at the Bike Shop, or the Fan Club chairman's voucher for listening to him.
+  await run(st, 'cerulean-bikeshop', 'cerulean.bike-shop');
+  assert.equal(F.count('bicycle'), 0, 'nobody has a million');
+  await run(st, 'vermilion-fanclub', 'vermilion.chairman', [1]);
+  assert.ok(!F.flag('got-bike-voucher'), 'no story, no voucher');
+  await run(st, 'vermilion-fanclub', 'vermilion.chairman', [0]);
+  assert.equal(F.count('bike-voucher'), 1);
+  await run(st, 'cerulean-bikeshop', 'cerulean.bike-shop');
+  assert.ok(F.count('bicycle') === 1 && F.count('bike-voucher') === 0, 'the voucher bought the Bicycle');
+  // Route 16: the second Snorlax (the Poké Flute), the house behind the small tree and HM02 Fly.
+  await run(st, 'route16', 'route16.snorlax', [0]);
+  assert.ok(F.flag('route16-snorlax'));
+  await run(st, 'route16-house', 'route16.fly-girl');
+  assert.equal(F.count('hm02'), 1);
+  // Cycling Road: its guards stop you only without a Bicycle; Fly lands in the towns.
+  for (const gate of ['route16-gate', 'route18-gate']) assert.ok(!F.test(G.Maps.get(gate).triggers[0].if), gate);
+  assert.ok(G.Maps.get('route17').def.bike && G.Maps.get('route17').def.slope === 'down');
+  for (const town of ['pallet', 'viridian', 'pewter', 'cerulean', 'vermilion', 'lavender', 'celadon', 'fuchsia', 'saffron', 'cinnabar']) {
+    const fly = G.Maps.get(town).def.fly;
+    assert.ok(fly && F.test(fly.if), town + ' is a place to fly to');
+  }
+  // Their Bikers, Cue Balls and Bird Keepers; Parasect leads.
+  lead(st, 47);
+  for (const m of ['route16', 'route17', 'route18']) { await all(m); won(); }
+  // The Viridian Gym opens with seven badges: eight Trainers, then Giovanni (Parasect leads).
+  const door = G.Maps.get('viridian').warps.find(w => w.to === 'viridian-gym');
+  assert.ok(F.test(door.if), 'seven badges open the Gym');
+  await all('viridian-gym');
+  won();
+  F.healAll();
+  const money = S.player.money;
+  await run(st, 'viridian-gym', [['battle', 'viridian-gym:giovanni']]);
+  const last = st.battles[st.battles.length - 1];
+  assert.equal(last.outcome, 'win', 'Giovanni beaten at levels ' + last.levels);
+  assert.deepEqual([...S.player.badges], [1, 2, 3, 4, 5, 6, 7, 8]);
+  assert.equal(F.count('tm26'), 1);
+  assert.equal(S.player.money - money, 5000);
+  assert.ok(F.flag('giovanni-gym') && F.flag('giovanni-left'), 'he leaves the Gym');
+  assert.ok(F.flag('chapter-8-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -978,4 +1049,17 @@ test('chapter 7: the sea routes, Cinnabar Island, the Pokémon Mansion and the V
   await chapter6(st);
   console.log('[story] after chapter 6:', st.S.party.map(m => st.G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
   await chapter7(st);
+});
+
+test('chapter 8: the Bicycle, Cycling Road, Fly, the Viridian Gym and the Earth Badge', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+  await chapter3(st);
+  await chapter4(st);
+  await chapter5(st);
+  await chapter6(st);
+  await chapter7(st);
+  console.log('[story] after chapter 7:', st.S.party.map(m => st.G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
+  await chapter8(st);
 });

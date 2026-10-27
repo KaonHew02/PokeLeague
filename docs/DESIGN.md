@@ -318,6 +318,11 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
   `bars` (gates, above), `calm` (a condition: fast water becomes water) and `flow`, `encounters.water`
   (an area whose `surf` and rod tables the water of this map uses; a walk area gives them too), and
   people with `swim: true` (they stand in water and are drawn up to the shoulders).
+- **Chapter 8 map fields:** `fly: { spot, if }` (a town you can fly to: its landing spot, and a
+  condition that counts it as visited in saves older than chapter 8; arriving sets flag
+  `visited:<map>`), `bike: true` (Cycling Road: with a Bicycle you are on it there and cannot get
+  off), `slope: 'down'` (while riding and letting go you roll that way; riding against it is slow)
+  and `noBike: true` (an outdoor map without the Bicycle).
 - **Extra map fields:** `enter` (script run after arriving by warp), `items[].hidden` (found by facing
   it and pressing A) and `items[].n`, npc/trainer `if` (conditions: shown only while true), `fixed`
   (does not turn to face you), `move: 'still' | 'look' | 'wander' | 'spin'` with `r` (wander radius,
@@ -489,7 +494,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
     hiker, misty, swimmer (chapter 2); officer, sailor, gentleman, engineer, captain, surge,
     bill (chapter 3); gambler, pokemaniac, beauty, channeler, biker, cooltrainer, erika (chapter 4);
     giovanni, fuji, scientist, fisherman, rocker, birdkeeper, juggler, tamer, koga, warden (chapter 5);
-    blackbelt, psychic, sabrina (chapter 6); swimmerf, burglar, blaine (chapter 7).
+    blackbelt, psychic, sabrina (chapter 6); swimmerf, burglar, blaine (chapter 7); cueball (chapter 8).
   - The front frame is drawn at 4× for trainer battle intros.
 - `render.js`: the baked map, connected neighbour maps, the `border` fill, Y-sorted
   props and actors, and the tall-grass front tuft.
@@ -867,14 +872,45 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Surf is needed to reach Cinnabar at all, so every player has the answer. The story test plays
   chapter 7 (Wartortle learns Surf, Dugtrio learns Dig and leads against Blaine).
 
-### After chapter 7
+- **Chapter 8** ✅: the Bicycle: the Pokémon Fan Club chairman in Vermilion City gives the Bike
+  Voucher to anyone who listens to him praise Rapidash (flag `got-bike-voucher`); the Bike Shop in
+  Cerulean City takes it for a Bicycle (flag `got-bicycle`). Route 16 west of Celadon City: a
+  second Snorlax where the trees close in (the Poké Flute, flag `route16-snorlax`), a meadow behind
+  a small tree with a hidden house, where a girl gives HM02 Fly (flag `got-hm02`), two Bikers and
+  two Cue Balls, and the gate to Cycling Road. Route 17, Cycling Road: Bicycles only (the guards
+  of both gates stop you without one), a long downhill road with eight Bikers and Cue Balls who
+  stand on it, side meadows behind the fences; its south gate opens on Route 18 (three Bird
+  Keepers), which joins Fuchsia City from the west. Every town is a place to fly to once visited.
+  The Viridian Gym opens with seven badges: its Leader is Giovanni. Spin tiles in three rooms
+  (an arrow up through a gap in each wall, an arrow down beside it to go back), eight Trainers
+  (Tamers, Black Belts, Cool Trainers), then Giovanni (Rhyhorn 45, Dugtrio 42, Nidoqueen 44,
+  Nidoking 45, Rhydon 50, as in the games; prize ₽5000, badge 8, TM26 Earthquake); he breaks up
+  Team Rocket and leaves (flags `giovanni-gym`, `giovanni-left`). Files: `cycling.js`,
+  `giovanni.js` (translations `kanto-cycling`, `kanto-giovanni`).
+- **Engine for chapter 8:** the Bicycle (`G.World.toggleBike()`: from the Bag, a bike button under
+  the menu button, or Select / V): outdoor maps only, 11 tiles a second, its own original theme
+  (`cycling`), drawn as a red or pink bicycle under the rider; you get off indoors and to Surf, and
+  the save remembers it (so does Surf now: `player.surf`, `player.bike`). Cycling Road (`bike`,
+  `slope`, above). Fly: the party menu offers it for a Pokémon that knows it (with the Thunder
+  Badge, outdoors, not in caves or on Cycling Road); `G.TownMapUI` (`js/ui/town-map-ui.js`) draws
+  Kanto with its towns, roads and sea routes and lets you pick a visited town, and the Town Map from
+  the Bag shows where you are. `G.World.flyTo(map)` lands on the town's `fly` spot. Sounds `bike`
+  and `fly`; the palette `earth`; class cue-ball; the Bike Voucher comes from PokeAPI
+  (`fetch_data.py`), the Chinese names of the Bicycle and the voucher from `names.js` FIX. The
+  Gym's layout was checked with a simulator of the spin rules (reachable, no endless slide, no
+  trap).
+- **Balance:** five Ground types (Rhydon's Earthquake, Nidoking's Thrash) against a team that
+  never heals: a lone Charizard or Venusaur never wins, Blastoise Lv. 50 with Surf ~85%,
+  Charizard with the Lapras from Silph Co. ~95%, Venusaur with a Surfing Blastoise ~90%. The
+  guide points to Water, Grass and Ice. The story test plays chapter 8 (Parasect leads).
+
+### After chapter 8
 
 1. **Rest of Kanto:**
-   - Giovanni in Viridian City (with Fly and Routes 16 to 18 along the way).
-   - Victory Road, the Elite Four, the Champion and the Hall of Fame.
-   - Engine features along the way: field moves (Surf, Strength, Fly), the
-     bike, fishing, more TMs, abilities, held items, weather, Exp. Share, Repel steps,
-     legendaries.
+   - Route 22's last rival battle, Route 23, Victory Road, the Elite Four, the Champion and the
+     Hall of Fame (the Indigo Plateau becomes a place to fly to).
+   - Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel
+     steps, legendaries.
 2. **Johto:** `fetch_data.py --region johto` (dex 1–251), plus day and night, friendship
    evolutions, berries, new palettes and buildings. Kanto teams carry over, but high levels
    disobey until you earn badges.

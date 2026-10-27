@@ -138,6 +138,11 @@ G.Tiles = (() => {
     wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#dca684', '#cf9876'], grout: '#ae7050',
     rug: ['#d84a2a', '#f06a4a', '#a83218'], counter: ['#f0dcc4', '#d4b694', '#a07a58'],
     mat: ['#d84a2a', '#f06a4a'], screen: '#f8a058' };
+  // The Viridian Gym: packed earth and sandstone.
+  PALETTES.earth = { floor: 'tile', wallTop: ['#3a3024', '#463a2c'], paper: ['#d6c49c', '#cab890'], trim: '#8c7448', base: '#5c4a2e',
+    wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#c8b080', '#bca474'], grout: '#9a8458',
+    rug: ['#6a8a3a', '#8aaa5a', '#4a6a24'], counter: ['#e4d6b4', '#c4b088', '#8e7a54'],
+    mat: ['#6a8a3a', '#8aaa5a'], screen: '#68d0f8' };
   const OUT = 'kanto';
 
   // ---------------- colour and pixel helpers ----------------

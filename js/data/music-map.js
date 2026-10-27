@@ -15,6 +15,7 @@ G.MusicMap = {
   route: 'forest',
   forest: 'cave',                      // Viridian Forest
   cave: 'cave',
+  bike: 'cycling',                    // on the Bicycle
   wild: 'volcano',                     // battle with a wild Pokémon
   trainer: 'boss',                     // battle with a trainer
   rival: 'boss',

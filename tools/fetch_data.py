@@ -82,7 +82,7 @@ REGIONS = {
         'items': ITEMS_COMMON + [
             'oaks-parcel', 'town-map', 'bicycle', 'old-rod', 'good-rod', 'super-rod',
             'ss-ticket', 'poke-flute', 'silph-scope', 'card-key', 'lift-key', 'secret-key',
-            'coin-case', 'helix-fossil', 'dome-fossil', 'old-amber', 'gold-teeth',
+            'coin-case', 'helix-fossil', 'dome-fossil', 'old-amber', 'gold-teeth', 'bike-voucher',
         ],
         'region': 'kanto',
     },

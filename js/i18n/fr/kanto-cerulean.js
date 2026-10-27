@@ -41,5 +41,8 @@ G.I18n.add({
   "Fine, fine! Take the stupid TM. I was going to sell it anyway...": "D'accord, d'accord ! Prends-la, ta CT. De toute façon, j'allais la revendre...",
   "The thief ran out of the house. The police officer outside caught him!": "Le voleur s'est enfui de la maison. Le policier qui attendait dehors l'a attrapé !",
   "Huh? Who let you in? Nobody's supposed to know I'm hiding here!": "Hein ? Qui t'a laissé entrer ? Personne ne devait savoir que je me cache ici !",
-  "Argh! Caught by a kid!": "Argh ! Pris par un gamin !"
+  "Argh! Caught by a kid!": "Argh ! Pris par un gamin !",
+  "How do you like your Bicycle? Ride it outside, on the roads and in caves. Not indoors, please!": "Elle te plaît, ta Bicyclette ? Roule dehors, sur les routes et dans les grottes. Pas à l'intérieur, s'il te plaît !",
+  "Oh? That's a Bike Voucher! The Fan Club chairman sent you? Then this Bicycle is yours, free!": "Oh ? C'est un Bon Commande ! C'est le président du Fan Club qui t'envoie ? Alors cette Bicyclette est à toi, gratuitement !",
+  "Use it from your Bag, or press the Bicycle button. Ride safely!": "Utilise-la depuis ton Sac, ou appuie sur le bouton de la Bicyclette. Sois prudent !"
 }, "fr");

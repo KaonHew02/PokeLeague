@@ -25,6 +25,9 @@ G.I18n.add({
   "{player} beat Sabrina and earned the Marsh Badge.": "{player}打敗了娜姿，得到了金色徽章。",
   "Chapter 7 complete!": "第七章完成！",
   "{player} beat Blaine and earned the Volcano Badge.": "{player}打敗了夏伯，得到了深紅徽章。",
-  "Thank you for playing! The last Gym, Victory Road and the Pokémon League open in a future update.": "感謝遊玩！最後的道館、冠軍之路和寶可夢聯盟將在之後的更新中開放。",
-  "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "水路、雙子島和紅蓮島正等著你：你的冒險還在繼續！"
+  "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "水路、雙子島和紅蓮島正等著你：你的冒險還在繼續！",
+  "Chapter 8 complete!": "第8章完成！",
+  "{player} beat Giovanni and earned the Earth Badge: all eight badges!": "{player}打敗了坂木，得到了大地徽章：八枚徽章全部到手！",
+  "Thank you for playing! Victory Road and the Pokémon League open in a future update.": "感謝遊玩！冠軍之路和寶可夢聯盟將在之後的更新中開放。",
+  "Cycling Road, Fly and the last Gym in Viridian City are waiting: your adventure goes on!": "自行車道、飛翔和常青市的最後一個道館正等著你：你的冒險還在繼續！"
 }, "zh-Hant");

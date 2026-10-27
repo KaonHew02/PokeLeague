@@ -1,5 +1,6 @@
 /* ============ party-ui.js — the party screen ============
- *   G.PartyUI.open()                          from the start menu: Summary, Switch
+ *   G.PartyUI.open()                          from the start menu: Summary, Switch, and Fly for a
+ *                                             Pokémon that knows it (G.TownMapUI picks the town)
  *   await G.PartyUI.pick({ title, note })     -> index | null   choose one (items, TMs...)
  *       note(mon, i) -> a short label shown on the card instead of the HP ('Able', 'Learned'...)
  *       or null; disabled(mon, i) -> true greys it out.
@@ -69,12 +70,28 @@ G.PartyUI = (() => {
       return;
     }
     const m = party()[i];
+    const flies = G.Mon.knows(m, 'fly') && G.World && G.World.flyTo;
     const v = await G.Popup.choose(G.Mon.name(m), [
+      ...(flies ? [{ label: G.Names.move('fly'), value: 'fly' }] : []),
       { label: T('Summary'), value: 'summary' },
       { label: T('Switch'), value: 'switch', disabled: party().length < 2 },
       { label: T('Cancel'), value: null, back: true }]);
     if (v === 'summary') G.SummaryUI.open(party(), i, () => render());
     else if (v === 'switch') { st.moving = i; render(i); }
+    else if (v === 'fly') await fly(m);
+  }
+
+  /** Fly (with the Thunder Badge, outdoors): pick a visited town on the Town Map, then off you go. */
+  async function fly(m) {
+    const why = m.hp <= 0 ? 'fainted' : G.World.flyBlock();
+    if (why === 'badge') { await G.Popup.say(T('You need the Thunder Badge to use Fly outside of battle.')); return; }
+    if (why === 'fainted') { await G.Popup.say(fmt('{mon} is too tired to fly.', { mon: G.Mon.name(m) })); return; }
+    if (why) { await G.Popup.say(T("You can't fly from here.")); return; }
+    const town = await G.TownMapUI.open({ fly: true });
+    if (!town) return;
+    finish(null);
+    G.UI.closeAll();
+    G.World.flyTo(town);
   }
 
   function back() {

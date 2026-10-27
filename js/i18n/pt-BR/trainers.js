@@ -29,5 +29,6 @@ G.I18n.add({
   "Boss": "Chefe",
   "Black Belt": "Faixa-Preta",
   "Psychic": "Paranormal",
-  "Burglar": "Ladrão"
+  "Burglar": "Ladrão",
+  "Cue Ball": "Careca"
 }, "pt-BR");

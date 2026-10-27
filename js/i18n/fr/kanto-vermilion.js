@@ -47,5 +47,14 @@ G.I18n.add({
   "Do you like fishing, young one?": "Tu aimes la pêche, petit ?",
   "Ha! A kindred spirit! Take this old rod of mine. Face the water and give it a try.": "Ha ! Une âme sœur ! Prends ma vieille canne. Tourne-toi vers l'eau et essaie.",
   "Use it from your Bag, or just press A at the water.": "Utilise-la depuis ton Sac, ou appuie simplement sur A face à l'eau.",
-  "Oh... If you change your mind, come back and see me.": "Oh... Si tu changes d'avis, reviens me voir."
+  "Oh... If you change your mind, come back and see me.": "Oh... Si tu changes d'avis, reviens me voir.",
+  "Ah, my favourite listener! Have you been to the Bike Shop in Cerulean City yet?": "Ah, mon auditeur préféré ! Tu es déjà allé au Magasin de Vélos d'Azuria ?",
+  "I could talk about Rapidash all day. And I often do! Come back any time you'd like to hear more.": "Je pourrais parler de Galopa toute la journée. Et c'est souvent ce que je fais ! Reviens quand tu veux en entendre plus.",
+  "Would you like to hear about my favourite Pokémon?": "Tu veux que je te parle de mon Pokémon préféré ?",
+  "Wonderful! It is Rapidash! So elegant, so fast. Its mane of fire is a work of art.": "Merveilleux ! C'est Galopa ! Si élégant, si rapide. Sa crinière de feu est une œuvre d'art.",
+  "When it gallops, it leaves the wind behind. Ten steps and it is at full speed. Ten! Magnificent!": "Quand il galope, il laisse le vent derrière lui. Dix foulées et il est à pleine vitesse. Dix ! Magnifique !",
+  "And its kindness! A Rapidash that trusts you will never let its flames burn you.": "Et sa gentillesse ! Un Galopa qui te fait confiance ne laissera jamais ses flammes te brûler.",
+  "Ah, thank you for listening so patiently. Nobody here lets me finish anymore. Please, take this.": "Ah, merci de m'avoir écouté si patiemment. Plus personne ici ne me laisse finir. Tiens, prends ceci.",
+  "A Bike Voucher! The Bike Shop in Cerulean City will give you a Bicycle for it. Now you can be as fast as a Rapidash!": "Un Bon Commande ! Le Magasin de Vélos d'Azuria te donnera une Bicyclette en échange. Tu seras aussi rapide qu'un Galopa !",
+  "Oh... Another time, then. My story will still be here.": "Oh... Une autre fois, alors. Mon histoire sera toujours là."
 }, "fr");

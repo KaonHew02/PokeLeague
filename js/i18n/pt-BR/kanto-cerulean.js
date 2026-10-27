@@ -41,5 +41,8 @@ G.I18n.add({
   "Fine, fine! Take the stupid TM. I was going to sell it anyway...": "Tá bom, tá bom! Pode ficar com essa TM idiota. Eu ia vender mesmo...",
   "The thief ran out of the house. The police officer outside caught him!": "O ladrão saiu correndo da casa. O policial lá fora pegou ele!",
   "Huh? Who let you in? Nobody's supposed to know I'm hiding here!": "Hã? Quem deixou você entrar? Ninguém devia saber que estou escondido aqui!",
-  "Argh! Caught by a kid!": "Argh! Pego por uma criança!"
+  "Argh! Caught by a kid!": "Argh! Pego por uma criança!",
+  "How do you like your Bicycle? Ride it outside, on the roads and in caves. Not indoors, please!": "Gostou da sua Bicicleta? Ande com ela lá fora, nas rotas e nas cavernas. Dentro de casa não, por favor!",
+  "Oh? That's a Bike Voucher! The Fan Club chairman sent you? Then this Bicycle is yours, free!": "Oh? Isso é um Bike Voucher! Foi o presidente do Fã-Clube que mandou você? Então esta Bicicleta é sua, de graça!",
+  "Use it from your Bag, or press the Bicycle button. Ride safely!": "Use pela Mochila ou aperte o botão da Bicicleta. Pedale com cuidado!"
 }, "pt-BR");

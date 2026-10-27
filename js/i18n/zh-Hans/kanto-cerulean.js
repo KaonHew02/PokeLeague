@@ -41,5 +41,8 @@ G.I18n.add({
   "Fine, fine! Take the stupid TM. I was going to sell it anyway...": "好啦好啦！这破招式学习器给你就是了。反正我本来也打算卖掉的……",
   "The thief ran out of the house. The police officer outside caught him!": "小偷从屋子里逃了出去，结果被守在外面的警察逮住了！",
   "Huh? Who let you in? Nobody's supposed to know I'm hiding here!": "嗯？谁让你进来的？不应该有人知道我躲在这里的！",
-  "Argh! Caught by a kid!": "啊啊！居然被一个小鬼抓住了！"
+  "Argh! Caught by a kid!": "啊啊！居然被一个小鬼抓住了！",
+  "How do you like your Bicycle? Ride it outside, on the roads and in caves. Not indoors, please!": "自行车骑得还顺手吗？在外面、道路上和洞窟里都能骑。请不要在室内骑哦！",
+  "Oh? That's a Bike Voucher! The Fan Club chairman sent you? Then this Bicycle is yours, free!": "哦？这是自行车兑换券！是粉丝俱乐部的会长让你来的？那这辆自行车就免费送你了！",
+  "Use it from your Bag, or press the Bicycle button. Ride safely!": "可以在背包里使用，或者按自行车按钮。骑车注意安全！"
 }, "zh-Hans");

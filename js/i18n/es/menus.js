@@ -154,5 +154,12 @@ G.I18n.add({
   "{mon}'s HP was restored by {n} points.": "{mon} ha recuperado {n} PS.",
   "{move}'s PP increased.": "Han aumentado los PP de {move}.",
   "{mon}'s {stat} rose.": "Ha subido el {stat} de {mon}.",
-  "There's no water here to fish in.": "Aquí no hay agua donde pescar."
+  "There's no water here to fish in.": "Aquí no hay agua donde pescar.",
+  "You can't ride your Bicycle here.": "Aquí no puedes ir en Bici.",
+  "You can't get off your Bicycle here!": "¡Aquí no puedes bajarte de la Bici!",
+  "You need the Thunder Badge to use Fly outside of battle.": "Necesitas la Medalla Trueno para usar Vuelo fuera de los combates.",
+  "{mon} is too tired to fly.": "{mon} está demasiado cansado para volar.",
+  "You can't fly from here.": "No puedes volar desde aquí.",
+  "You are here": "Estás aquí",
+  "Where would you like to fly?": "¿Adónde quieres volar?"
 }, "es");

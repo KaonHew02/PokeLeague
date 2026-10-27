@@ -25,5 +25,6 @@ G.I18n.add({
   "Viridian City. A city where the trees stay green all year round.": "Smeraldopoli. Una città dove gli alberi restano verdi tutto l'anno.",
   "The blackboard reads: a Pokémon's status problems stay after battle. Heal them with items or at a Pokémon Center!": "Sulla lavagna c'è scritto: i problemi di stato di un Pokémon restano dopo la lotta. Curali con gli strumenti o al Centro Pokémon!",
   "A shelf of books about raising Pokémon.": "Uno scaffale di libri su come crescere i Pokémon.",
-  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "A ovest c'è il Percorso 22. Nell'erba vivono dei Mankey, e il loro Colpo Basso fa male!"
+  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "A ovest c'è il Percorso 22. Nell'erba vivono dei Mankey, e il loro Colpo Basso fa male!",
+  "The Gym Leader was the boss of Team Rocket? And he just left? This town is never boring!": "Il Capopalestra era il capo del Team Rocket? E se n'è andato così? In questa città non ci si annoia mai!"
 }, "it");

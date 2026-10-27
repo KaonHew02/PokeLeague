@@ -25,5 +25,6 @@ G.I18n.add({
   "Viridian City. A city where the trees stay green all year round.": "常青市。一座四季常青的城市。",
   "The blackboard reads: a Pokémon's status problems stay after battle. Heal them with items or at a Pokémon Center!": "黑板上写着：宝可梦的异常状态在对战后也不会消失。用道具或到宝可梦中心治疗吧！",
   "A shelf of books about raising Pokémon.": "一架关于培养宝可梦的书。",
-  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "西边是22号道路。那里的草丛里住着猴怪，它们的踢倒可厉害了！"
+  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "西边是22号道路。那里的草丛里住着猴怪，它们的踢倒可厉害了！",
+  "The Gym Leader was the boss of Team Rocket? And he just left? This town is never boring!": "道馆馆主居然是火箭队的老大？而且他就这么走了？这个镇子真是一点都不无聊！"
 }, "zh-Hans");

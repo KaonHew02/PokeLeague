@@ -9,6 +9,7 @@
  */
 G.Maps.def({
   id: 'lavender', loc: 'lavender-town', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
+  fly: { spot: 'center-door', if: 'badge:4' },
   rows: [
     'TTTTTTTTTT,,TTTTTTTTTTTT',
     'T.........,,...........T',

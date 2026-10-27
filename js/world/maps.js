@@ -8,6 +8,8 @@
  *   Chapter 7: boulders:[{ id, x, y, if, fixed }] (Strength), bars:[{ x, y, w, h, if }] (gates),
  *   calm: cond (fast water becomes water), flow: 'down', encounters.water: '@area' (Surf and rods),
  *   and people with swim: true (standing in water).
+ *   Chapter 8: fly: { spot, if } (a town you can fly to), bike: true (Cycling Road: on the Bicycle
+ *   only), slope: 'down' (you roll that way while riding), noBike: true (an outdoor map without it).
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
@@ -422,6 +424,9 @@ G.Maps = (() => {
       else scriptRef(t.script, `trigger ${i}`);
     });
     if (d.enter) scriptRef(d.enter, 'enter');
+    // Fly: a town's landing spot.
+    if (d.fly && !spot(m, d.fly.spot)) E.push(`fly: no spot "${d.fly.spot}"`);
+    if (d.slope && !DIRS[d.slope]) E.push(`slope: bad direction "${d.slope}"`);
 
     // Encounters
     for (const [method, e] of Object.entries(m.encounters)) {

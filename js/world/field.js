@@ -38,6 +38,10 @@
  * cannot be surfed until the map's `calm` holds. Gates (`bars`) open while their rule holds.
  * Rods (Old, Good, Super): G.World.fish(rod) facing water, from the Bag or by pressing A at the
  * water. Swimmers (people with `swim`) stand in the water, and trainers see across it.
+ * Chapter 8: the Bicycle (G.World.toggleBike(): from the Bag, the bike button or Select) on
+ * outdoor maps, faster than running; a map with `bike: true` (Cycling Road) puts you on it and
+ * keeps you there, and its `slope: 'down'` rolls you downhill while you let go. Fly: a map with
+ * `fly: { spot, if }` is a town you can fly to once visited (flag visited:<map>, or its `if`).
  */
 G.Field = (() => {
   function fresh() {
@@ -177,6 +181,7 @@ G.World = (() => {
   let lit = false;                       // Flash used: dark caves stay lit until you leave them
   let sliding = null;                    // a spin tile sent the player this way (the Rocket Hideout)
   let surfing = false;                   // riding a Pokémon on the water (Surf)
+  let biking = false;                    // on the Bicycle
   let strength = false;                  // Strength used: boulders move until you leave the map
   let rocks = [];                        // the boulders of this map: { id, x, y, px, py, t0, fixed, fall }
   let spinN = 0, slideN = 0;
@@ -191,7 +196,7 @@ G.World = (() => {
     G.Audio.sfx(name);
   }
   const SONG = { town: 'village', route: 'forest', forest: 'cave', cave: 'cave', center: 'village', mart: 'village',
-                 house: 'village', lab: 'village', gym: 'boss' };
+                 house: 'village', lab: 'village', gym: 'boss', bike: 'cycling' };
   function song(ctx) {
     if (!ctx) return null;
     const MM = G.MUSIC_MAP;
@@ -199,6 +204,8 @@ G.World = (() => {
     if (G.MUSIC && G.MUSIC[ctx]) return ctx;
     return SONG[ctx] || null;
   }
+  /** The theme of this map (the Bicycle has its own). */
+  const tune = (m = map) => (biking ? song('bike') : null) || (m && song(m.music));
 
   // ---------------- DOM: menu button, place name ----------------
 
@@ -212,11 +219,18 @@ G.World = (() => {
     btn.setAttribute('translate', 'no');
     btn.innerHTML = '<span></span><span></span><span></span>';
     btn.addEventListener('click', e => { e.stopPropagation(); if (!locks && !G.UI.anyOpen()) openMenu(); });
+    // The Bicycle, once you have one: on and off with a tap (or Select).
+    const bike = document.createElement('button');
+    bike.className = 'ow-bike hidden';
+    bike.setAttribute('translate', 'no');
+    bike.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/>'
+      + '<path d="M6 16l4-7h6l2 7M10 9l3 7h-7M15 6h3"/></svg>';
+    bike.addEventListener('click', e => { e.stopPropagation(); if (!locks && !G.UI.anyOpen() && !G.Dialog.open) toggleBike(); });
     const banner = document.createElement('div');
     banner.className = 'ow-banner';
     banner.setAttribute('translate', 'no');
-    frame.appendChild(btn); frame.appendChild(banner);
-    dom = { btn, banner, bannerT: 0 };
+    frame.appendChild(btn); frame.appendChild(bike); frame.appendChild(banner);
+    dom = { btn, bike, banner, bannerT: 0 };
     return dom;
   }
 
@@ -287,14 +301,17 @@ G.World = (() => {
     me.who = playerSprite();
     me.place(s.x, s.y, s.dir);
     me.queue.length = 0;
-    setSurf(isWater(me.x, me.y) && (surfing || !!G.Field.save.player.surf));
+    // Standing on water is surfing (also in a save loaded there).
+    setSurf(isWater(me.x, me.y));
+    setBike(!surfing && canRide(m) && (biking || !!G.Field.save.player.bike || mustRide(m)));
+    visit(m);
     makeActors();
     makeFollower();
     G.Player.reset();
     G.WorldRender.prepare(m);
     savePos();
-    const tune = song(m.music);
-    if (tune) G.Audio.music(tune);
+    const t = tune(m);
+    if (t) G.Audio.music(t);
     if (m.tileset === 'outdoor' && m.loc && m.loc !== lastLoc) showBanner(G.Names.loc(m.loc));
     if (m.loc) lastLoc = m.loc;
     snapCamera();
@@ -307,6 +324,7 @@ G.World = (() => {
     const p = G.Field.save.player;
     p.map = map.id; p.x = me.x; p.y = me.y; p.dir = me.dir;
     if (surfing) p.surf = 1; else delete p.surf;
+    if (biking) p.bike = 1; else delete p.bike;
     safariHud();
   }
 
@@ -333,11 +351,14 @@ G.World = (() => {
     me.x -= nb.ox; me.y -= nb.oy; me.fx -= nb.ox; me.fy -= nb.oy;
     if (follower) { follower.x -= nb.ox; follower.y -= nb.oy; follower.fx -= nb.ox; follower.fy -= nb.oy; }
     if (surfing && !isWater(me.x, me.y)) setSurf(false);
+    const before = tune(from);
+    setBike(!surfing && canRide(map) && (biking || mustRide(map)));
+    visit(map);
     makeActors();
     G.WorldRender.prepare(map);
     savePos();
-    const tune = song(map.music);
-    if (tune && song(from.music) !== tune) G.Audio.music(tune);
+    const t = tune(map);
+    if (t && before !== t) G.Audio.music(t);
     if (map.loc && map.loc !== lastLoc) showBanner(G.Names.loc(map.loc));
     if (map.loc) lastLoc = map.loc;
     snapCamera();
@@ -921,12 +942,67 @@ G.World = (() => {
     const mon = surfer();
     if (!mon) { await h.say(G.T('The water is a deep blue.')); return; }
     if (!chosen && await h.choice(G.T('The water is a deep blue. Would you like to Surf?'), {}) !== 0) return;
+    if (mustRide(map)) { await h.say(G.T("You can't get off your Bicycle here!")); return; }
     await h.say(G.T('{mon} used Surf!'), { vars: { mon: G.Mon.name(mon) } });
     sfx('surf', 'confirm');
+    if (biking) { setBike(false); G.Audio.music(tune()); }
     setSurf(true);
     follower = null;
     me.face(dir);
     stepActor(me, dir, G.Player.WALK, false);
+  }
+
+  // ---------------- the Bicycle ----------------
+
+  const hasBike = () => G.Field.count('bicycle') > 0;
+  /** Outdoor maps only (not on the water, not indoors). */
+  const canRide = (m = map) => !!m && m.tileset === 'outdoor' && !m.def.noBike;
+  /** Cycling Road (map `bike: true`): with a Bicycle you are always on it there. */
+  const mustRide = (m = map) => !!m && !!m.def.bike && hasBike();
+  function setBike(on) {
+    biking = !!on && hasBike();
+    if (me) me.bike = biking ? (G.Field.save.player.gender === 'f' ? 2 : 1) : 0;
+  }
+  /** On or off the Bicycle (the Bag, the bike button, Select). -> the script promise, or null */
+  function toggleBike() {
+    if (!map || !me || !hasBike() || locks || (G.Dialog && G.Dialog.open)) return null;
+    if (biking && mustRide(map)) return runScript([['say', "You can't get off your Bicycle here!"]], {});
+    if (!biking && (surfing || !canRide(map))) return runScript([['say', "You can't ride your Bicycle here."]], {});
+    setBike(!biking);
+    sfx(biking ? 'bike' : 'click', 'select');
+    savePos();
+    const t = tune();
+    if (t) G.Audio.music(t);
+    return null;
+  }
+  /** Cycling Road's slope: the way you roll while riding and letting go, or null. */
+  const slope = () => (biking && map && !surfing && map.def.slope) || null;
+
+  // ---------------- Fly ----------------
+
+  /** Arriving in a town (map `fly`) makes it a place to fly to. */
+  function visit(m) { if (m.def.fly) G.Field.setFlag('visited:' + m.id); }
+  const visited = id => {
+    const d = M().has(id) && M().get(id).def.fly;
+    return !!d && (G.Field.flag('visited:' + id) || (d.if != null && G.Field.test(d.if)));
+  };
+  /** Every town with a landing spot: [{ id, loc, visited }]. */
+  const flyTargets = () => M().all().filter(id => M().get(id).def.fly).map(id => ({ id, loc: M().get(id).loc, visited: visited(id) }));
+  /** The Pokémon that can Fly (the Thunder Badge allows it outside battle, as in the games). */
+  const flier = () => G.Field.save.player.badges.includes(3) ? G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'fly')) || null : null;
+  /** Can you take off here? -> null, or why not ('badge', 'here') */
+  function flyBlock() {
+    if (!G.Field.save.player.badges.includes(3)) return 'badge';
+    if (!map || map.tileset !== 'outdoor' || map.def.cave || map.def.noFly || mustRide(map) || locks) return 'here';
+    return null;
+  }
+  /** Flies to a visited town: off the bike or the water, to its landing spot. */
+  async function flyTo(id) {
+    if (!visited(id)) return false;
+    setSurf(false); setBike(false);
+    delete G.Field.save.player.bike;
+    await warp(id, M().get(id).def.fly.spot, { sfx: 'fly' });
+    return true;
   }
 
   const safariOn = () => !!(map && map.def.safari && G.Field.flag('safari-on'));
@@ -1193,14 +1269,14 @@ G.World = (() => {
     } else if (map) {
       refresh();
       makeFollower();
-      const tune = song(map.music);
-      if (tune) G.Audio.music(tune);
+      const t = tune();
+      if (t) G.Audio.music(t);
     }
     dom.btn.classList.remove('hidden');
   }
 
   function exit() {
-    if (dom) { dom.btn.classList.add('hidden'); dom.banner.classList.remove('show'); }
+    if (dom) { dom.btn.classList.add('hidden'); dom.bike.classList.add('hidden'); dom.banner.classList.remove('show'); }
     G.Player.walk(null);
   }
 
@@ -1228,7 +1304,12 @@ G.World = (() => {
         if (a.trainer && a.dir !== before && !me.moving) spotted();
       }
     }
-    if (dom) dom.btn.classList.toggle('hidden', !!(locks || G.Dialog.open || ui));
+    if (dom) {
+      const busy = !!(locks || G.Dialog.open || ui);
+      dom.btn.classList.toggle('hidden', busy);
+      dom.bike.classList.toggle('hidden', busy || !hasBike() || (!biking && (surfing || !canRide(map))));
+      dom.bike.classList.toggle('on', biking);
+    }
     snapCamera();
   }
 
@@ -1246,6 +1327,7 @@ G.World = (() => {
     onEncounter: null, onTrainer: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, get surfing() { return surfing; }, keyOpen,
     barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod,
+    get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },
     get locked() { return locks > 0 || (G.Dialog && G.Dialog.open); }, get started() { return started; },

@@ -169,6 +169,7 @@ G.Maps.def({
 
 G.Maps.def({
   id: 'vermilion', loc: 'vermilion-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
+  fly: { spot: 'center-door', if: 'badge:3' },
   rows: [
     'TTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTT',
     'T...............,,...............T',
@@ -300,9 +301,23 @@ G.Script.def({
     ]]
   ],
   'vermilion.chairman': [
-    ['say', 'Welcome to the Pokémon Fan Club! I am the chairman.'],
-    ['say', 'My favourite? Rapidash! So elegant, so fast. Its mane of fire is a work of art.'],
-    ['say', "I could talk about it all day. And I often do! Come back any time you'd like to hear more."]
+    ['if', 'got-bike-voucher', [
+      ['say', 'Ah, my favourite listener! Have you been to the Bike Shop in Cerulean City yet?'],
+      ['say', "I could talk about Rapidash all day. And I often do! Come back any time you'd like to hear more."]
+    ], [
+      ['say', 'Welcome to the Pokémon Fan Club! I am the chairman.'],
+      ['choice', 'Would you like to hear about my favourite Pokémon?', [
+        ['say', 'Wonderful! It is Rapidash! So elegant, so fast. Its mane of fire is a work of art.'],
+        ['say', 'When it gallops, it leaves the wind behind. Ten steps and it is at full speed. Ten! Magnificent!'],
+        ['say', 'And its kindness! A Rapidash that trusts you will never let its flames burn you.'],
+        ['say', 'Ah, thank you for listening so patiently. Nobody here lets me finish anymore. Please, take this.'],
+        ['giveItem', 'bike-voucher', 1],
+        ['setFlag', 'got-bike-voucher'],
+        ['say', 'A Bike Voucher! The Bike Shop in Cerulean City will give you a Bicycle for it. Now you can be as fast as a Rapidash!']
+      ], [
+        ['say', 'Oh... Another time, then. My story will still be here.']
+      ]]
+    ]]
   ],
   'vermilion.sailor': [
     ['if', 'ss-anne-left', [

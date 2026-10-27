@@ -135,6 +135,17 @@ G.BagUI = (() => {
       G.World.fish(id);
       return;
     }
+    // The Town Map shows Kanto; the Bicycle gets you on or off it (G.World.toggleBike).
+    if (id === 'town-map' && G.TownMapUI) { await G.TownMapUI.open(); return; }
+    if (id === 'bicycle' && G.World && G.World.toggleBike) {
+      const W = G.World;
+      if (!W.biking && (W.surfing || !W.canRide())) { await G.Popup.say(T("You can't ride your Bicycle here.")); return; }
+      if (W.biking && W.mustRide()) { await G.Popup.say(T("You can't get off your Bicycle here!")); return; }
+      finish(null);
+      G.UI.closeAll();
+      W.toggleBike();
+      return;
+    }
     if (k === 'key') { await G.Popup.say(T("This can't be used now.")); return; }
     if (fx.repel) {
       if (FI().repel(S, id) === 'active') { await G.Popup.say(T('A Repel is still working.')); return; }

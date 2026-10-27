@@ -38,5 +38,6 @@ G.TRAINER_CLASSES = {
   'black-belt':  { title: 'Black Belt', who: 'blackbelt', prize: 24 },
   psychic:       { title: 'Psychic', who: 'psychic', prize: 24 },
   burglar:       { title: 'Burglar', who: 'burglar', prize: 90 },
+  'cue-ball':    { title: 'Cue Ball', who: 'cueball', prize: 24 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

@@ -5,7 +5,8 @@
  * a PMD sprite when it is a Pokémon (mon: dex).
  *
  * G.Player: reads the buttons and the clicks and moves the player's actor:
- *   - 4-direction steps at 4 tiles/s, 8 when running (B or Shift held)
+ *   - 4-direction steps at 4 tiles/s, 8 when running (B or Shift held), 11 on the Bicycle
+ *     (Select gets on and off it); on Cycling Road's slope you roll downhill when you let go
  *   - a short press turns on the spot; holding it walks
  *   - bumping into something plays the bump sound and walks in place
  *   - ledges: a 2-tile hop with a shadow, only in the ledge's direction
@@ -21,6 +22,7 @@ G.Actor = class Actor {
     this.mon = o.mon || 0;             // dex number: drawn with a PMD sprite
     this.ride = 0;                     // dex number of the Pokémon carrying it over water (Surf)
     this.rideAnim = null;
+    this.bike = 0;                     // on a Bicycle: 1 (red frame) or 2 (pink frame)
     this.shiny = !!o.shiny;
     this.x = o.x | 0; this.y = o.y | 0;
     this.fx = this.x; this.fy = this.y;
@@ -128,9 +130,50 @@ G.Actor = class Actor {
       ctx.beginPath(); ctx.ellipse(x, line, 7 * PX, 1.8 * PX, 0, 0, 6.2832); ctx.stroke();
       return;
     }
+    if (this.bike) { this.drawBike(ctx, x, fy - lift, PX, lift); return; }
     ctx.fillStyle = lift ? 'rgba(0,0,0,.35)' : 'rgba(0,0,0,.18)';
     ctx.beginPath(); ctx.ellipse(x, fy - 1, (lift ? 6 : 7) * PX, 2.2 * PX, 0, 0, 6.2832); ctx.fill();
     G.People.draw(ctx, this.who, this.dir, this.frame(), x, fy - lift, PX);
+  }
+
+  /** On the Bicycle: wheels and frame under the rider, who pedals while moving. */
+  drawBike(ctx, x, fy, PX, lift) {
+    const side = this.dir === 'left' || this.dir === 'right', s = this.dir === 'left' ? -1 : 1;
+    const tyre = '#26262e', rim = '#c4c8d2', frame = this.bike === 2 ? '#e2629e' : '#d63838';
+    const pedal = this.moving ? (this.steps % 2 ? 1 : 2) : 0;
+    ctx.fillStyle = lift ? 'rgba(0,0,0,.35)' : 'rgba(0,0,0,.2)';
+    ctx.beginPath(); ctx.ellipse(x, fy + lift - 1, (side ? 9 : 4) * PX, 2 * PX, 0, 0, 6.2832); ctx.fill();
+    const wheel = (cx, cy, rx, ry) => {
+      ctx.fillStyle = tyre; ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = rim; ctx.beginPath(); ctx.ellipse(cx, cy, Math.max(0.5 * PX, rx - 1.2 * PX), Math.max(0.5 * PX, ry - 1.2 * PX), 0, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = tyre; ctx.fillRect(cx - PX / 2, cy - PX / 2, PX, PX);
+    };
+    const line = (pts, color, w) => {
+      ctx.strokeStyle = color; ctx.lineWidth = w * PX; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath(); pts.forEach(([px, py], i) => (i ? ctx.lineTo(x + px * PX, fy + py * PX) : ctx.moveTo(x + px * PX, fy + py * PX))); ctx.stroke();
+    };
+    if (side) {
+      wheel(x - s * 5 * PX, fy - 3.5 * PX, 3.5 * PX, 3.5 * PX);
+      wheel(x + s * 5 * PX, fy - 3.5 * PX, 3.5 * PX, 3.5 * PX);
+      line([[-s * 5, -3.5], [-s * 1, -8.5], [s * 4, -8.5], [s * 5, -3.5]], frame, 1.4);
+      line([[-s * 1, -8.5], [0, -3.5], [-s * 5, -3.5]], frame, 1.4);
+      G.People.draw(ctx, this.who, this.dir, pedal, x - s * PX, fy - 3 * PX, PX);
+      line([[s * 4, -8.5], [s * 3, -12.5], [s * 1.5, -12.5]], tyre, 1);
+      return;
+    }
+    // From the front or the back: the far wheel and the handlebar hide behind the rider.
+    const bar = () => { line([[-5, -12], [5, -12]], tyre, 1); line([[0, -12], [0, -6]], frame, 1.4); };
+    if (this.dir === 'up') {
+      bar();
+      G.People.draw(ctx, this.who, this.dir, pedal, x, fy - 3 * PX, PX);
+      wheel(x, fy - 3.5 * PX, 1.6 * PX, 3.8 * PX);
+      line([[0, -7.5], [0, -10]], frame, 1.4);
+      return;
+    }
+    wheel(x, fy - 6 * PX, 1.4 * PX, 3 * PX);
+    G.People.draw(ctx, this.who, this.dir, pedal, x, fy - 3 * PX, PX);
+    wheel(x, fy - 3.5 * PX, 1.6 * PX, 3.8 * PX);
+    bar();
   }
 
   /** The top of the head (for emotes). */
@@ -141,7 +184,7 @@ G.Actor = class Actor {
 };
 
 G.Player = (() => {
-  const WALK = 4, RUN = 8, TURN = 0.09;
+  const WALK = 4, RUN = 8, BIKE = 11, TURN = 0.09;
   let turned = false, holdT = 0, chained = false;
   let path = null;                    // { dirs, then, goal } click / tap walk
   let bumpSfxT = 0;
@@ -172,10 +215,11 @@ G.Player = (() => {
 
     if (G.Btn.pressed('start')) { path = null; W.openMenu(); return; }
     if (G.Btn.pressed('a')) { path = null; W.interact(); return; }
+    if (G.Btn.pressed('select') && W.toggleBike) { path = null; W.toggleBike(); return; }
 
     // (A very quick tap is pressed without ever being held: it still turns.)
     let dir = G.Btn.dir4() || ['up', 'down', 'left', 'right'].find(d => G.Btn.pressed(d)) || null;
-    let auto = false;
+    let auto = false, roll = false;
     if (!dir && path) {
       if (!path.dirs.length) {
         const then = path.then; path = null;
@@ -185,7 +229,15 @@ G.Player = (() => {
       dir = path.dirs[0];
       auto = true;
     }
+    // Cycling Road: letting go on the slope rolls you downhill.
+    const hill = W.slope ? W.slope() : null;
+    if (!dir && hill) { dir = hill; roll = true; }
     if (!dir) { turned = false; chained = false; me.bumpT = 0; return; }
+    if (roll) {
+      const r = W.tryStep(me, dir, BIKE);
+      if (r !== 'moved') me.bumpT = 0;
+      return;
+    }
 
     // A short press turns on the spot; holding it (or arriving from a step) walks.
     if (dir !== me.dir && !chained && !auto) {
@@ -199,7 +251,9 @@ G.Player = (() => {
     turned = false;
     chained = false;
     const run = G.Btn.held('run') && !auto ? true : (auto && path && path.run);
-    const r = W.tryStep(me, dir, run ? RUN : WALK);
+    // On the Bicycle: fast, but slow going up Cycling Road's slope.
+    const speed = W.biking ? (hill && dir === G.Maps.OPP[hill] ? WALK : BIKE) : run ? RUN : WALK;
+    const r = W.tryStep(me, dir, speed);
     if (r === 'moved') {
       if (auto) path.dirs.shift();
     } else if (r === 'blocked') {
@@ -210,5 +264,5 @@ G.Player = (() => {
     } else if (auto) path = null;            // warped, a script began...
   }
 
-  return { update, reset, walk, walking, WALK, RUN, get path() { return path; } };
+  return { update, reset, walk, walking, WALK, RUN, BIKE, get path() { return path; } };
 })();

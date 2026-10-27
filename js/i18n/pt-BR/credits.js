@@ -25,6 +25,9 @@ G.I18n.add({
   "{player} beat Sabrina and earned the Marsh Badge.": "{player} venceu Sabrina e conquistou a Insígnia do Pântano.",
   "Chapter 7 complete!": "Capítulo 7 concluído!",
   "{player} beat Blaine and earned the Volcano Badge.": "{player} venceu Blaine e conquistou a Insígnia do Vulcão.",
-  "Thank you for playing! The last Gym, Victory Road and the Pokémon League open in a future update.": "Obrigado por jogar! O último Ginásio, a Victory Road e a Liga Pokémon chegam numa próxima atualização.",
-  "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "As rotas marítimas, as Seafoam Islands e Cinnabar Island esperam por você: sua aventura continua!"
+  "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "As rotas marítimas, as Seafoam Islands e Cinnabar Island esperam por você: sua aventura continua!",
+  "Chapter 8 complete!": "Capítulo 8 concluído!",
+  "{player} beat Giovanni and earned the Earth Badge: all eight badges!": "{player} venceu Giovanni e ganhou a Insígnia da Terra: todas as oito insígnias!",
+  "Thank you for playing! Victory Road and the Pokémon League open in a future update.": "Obrigado por jogar! A Victory Road e a Liga Pokémon chegam em uma próxima atualização.",
+  "Cycling Road, Fly and the last Gym in Viridian City are waiting: your adventure goes on!": "A Cycling Road, o Fly e o último Ginásio em Viridian City esperam por você: sua aventura continua!"
 }, "pt-BR");

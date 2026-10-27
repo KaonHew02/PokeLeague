@@ -131,6 +131,9 @@ G.Store = (() => {
       lastHeal: obj(p.lastHeal) && typeof p.lastHeal.map === 'string'
         ? { map: p.lastHeal.map, spot: typeof p.lastHeal.spot === 'string' || typeof p.lastHeal.spot === 'number' ? p.lastHeal.spot : null } : null
     });
+    // Saved on the water or on the Bicycle.
+    if (p.surf) out.player.surf = 1;
+    if (p.bike) out.player.bike = 1;
     const r = obj(s.rival) ? s.rival : {};
     out.rival = { name: cleanName(r.name) || 'Blue', starter: Number.isInteger(r.starter) && knownSp(r.starter) ? r.starter : null };
     // Party: at most six; any extra goes to the PC.

@@ -118,6 +118,7 @@ G.ITEM_FX = {
   'secret-key':    { key: 1 },
   'coin-case':     { key: 1, field: 1 },
   'gold-teeth':    { key: 1 },
+  'bike-voucher':  { key: 1 },
 
   // ---- fossils ----
   'helix-fossil':  { fossil: 138 },

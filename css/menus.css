@@ -189,6 +189,17 @@ kbd {
 .dex-text { margin: .2em 0 0 !important; font-size: .9em; }
 
 /* ---------- PC ---------- */
+/* The Town Map, and where to Fly (town-map-ui.js) */
+.box.tm-box { width: 98%; height: 98%; display: flex; flex-direction: column; padding: .5em .7em; }
+.tm-box .opt-head h3 { margin-right: auto; }
+.tm-main { flex: 1; min-height: 0; display: flex; gap: .6em; margin-top: .3em; }
+.tm-map { flex: 1.7; min-width: 0; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .3em; }
+.tm-map canvas { flex: none; image-rendering: pixelated; border-radius: .4em; cursor: pointer; }
+.tm-place { margin: 0 !important; font-size: .9em; text-align: center; }
+.tm-list { flex: 0 0 auto; min-width: 7.5em; overflow: auto; flex-wrap: nowrap; }
+.tm-list .menu-item { font-size: .9em; }
+.tm-list .menu-item.unseen { color: var(--muted); }
+
 .box.pc-box { width: 98%; height: 98%; display: flex; flex-direction: column; padding: .5em .7em; }
 .pc-main { flex: 1; min-height: 0; display: flex; gap: .6em; margin-top: .2em; }
 .pc-party { width: 20%; display: flex; flex-direction: column; gap: .15em; }

@@ -154,5 +154,12 @@ G.I18n.add({
   "{mon}'s HP was restored by {n} points.": "{mon}的HP回复了{n}点。",
   "{move}'s PP increased.": "{move}的PP提升了。",
   "{mon}'s {stat} rose.": "{mon}的{stat}提高了。",
-  "There's no water here to fish in.": "这里没有可以钓鱼的水。"
+  "There's no water here to fish in.": "这里没有可以钓鱼的水。",
+  "You can't ride your Bicycle here.": "这里不能骑自行车。",
+  "You can't get off your Bicycle here!": "这里不能下自行车！",
+  "You need the Thunder Badge to use Fly outside of battle.": "需要橙色徽章才能在对战以外使用飞翔。",
+  "{mon} is too tired to fly.": "{mon}太累了，飞不起来。",
+  "You can't fly from here.": "这里不能飞。",
+  "You are here": "当前位置",
+  "Where would you like to fly?": "要飞到哪里？"
 }, "zh-Hans");

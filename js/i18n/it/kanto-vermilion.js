@@ -47,5 +47,14 @@ G.I18n.add({
   "Do you like fishing, young one?": "Ti piace pescare, giovanotto?",
   "Ha! A kindred spirit! Take this old rod of mine. Face the water and give it a try.": "Ah! Un'anima affine! Prendi questo mio vecchio amo. Mettiti di fronte all'acqua e provalo.",
   "Use it from your Bag, or just press A at the water.": "Usalo dalla Borsa, oppure premi A davanti all'acqua.",
-  "Oh... If you change your mind, come back and see me.": "Oh... Se cambi idea, torna a trovarmi."
+  "Oh... If you change your mind, come back and see me.": "Oh... Se cambi idea, torna a trovarmi.",
+  "Ah, my favourite listener! Have you been to the Bike Shop in Cerulean City yet?": "Ah, il mio ascoltatore preferito! Sei già stato al Negozio di Bici di Celestopoli?",
+  "I could talk about Rapidash all day. And I often do! Come back any time you'd like to hear more.": "Potrei parlare di Rapidash tutto il giorno. E spesso lo faccio! Torna quando vuoi sentirne ancora.",
+  "Would you like to hear about my favourite Pokémon?": "Vuoi che ti parli del mio Pokémon preferito?",
+  "Wonderful! It is Rapidash! So elegant, so fast. Its mane of fire is a work of art.": "Meraviglioso! È Rapidash! Così elegante, così veloce. La sua criniera di fuoco è un'opera d'arte.",
+  "When it gallops, it leaves the wind behind. Ten steps and it is at full speed. Ten! Magnificent!": "Quando galoppa, si lascia il vento alle spalle. Dieci passi ed è già a tutta velocità. Dieci! Magnifico!",
+  "And its kindness! A Rapidash that trusts you will never let its flames burn you.": "E la sua gentilezza! Un Rapidash che si fida di te non lascerà mai che le sue fiamme ti brucino.",
+  "Ah, thank you for listening so patiently. Nobody here lets me finish anymore. Please, take this.": "Ah, grazie per avermi ascoltato con tanta pazienza. Qui nessuno mi lascia più finire. Ecco, prendi questo.",
+  "A Bike Voucher! The Bike Shop in Cerulean City will give you a Bicycle for it. Now you can be as fast as a Rapidash!": "Un Buono Bici! Il Negozio di Bici di Celestopoli ti darà una Bicicletta in cambio. Sarai veloce come un Rapidash!",
+  "Oh... Another time, then. My story will still be here.": "Oh... Sarà per un'altra volta. La mia storia sarà ancora qui."
 }, "it");

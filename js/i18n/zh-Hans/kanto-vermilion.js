@@ -47,5 +47,14 @@ G.I18n.add({
   "Do you like fishing, young one?": "年轻人，你喜欢钓鱼吗？",
   "Ha! A kindred spirit! Take this old rod of mine. Face the water and give it a try.": "哈！遇到同道中人了！这根旧钓竿给你。面对水面试试看吧。",
   "Use it from your Bag, or just press A at the water.": "可以从背包里使用，或者面对水面按A键。",
-  "Oh... If you change your mind, come back and see me.": "哦……如果你改变主意了，再来找我吧。"
+  "Oh... If you change your mind, come back and see me.": "哦……如果你改变主意了，再来找我吧。",
+  "Ah, my favourite listener! Have you been to the Bike Shop in Cerulean City yet?": "啊，我最喜欢的听众！你去过华蓝市的自行车店了吗？",
+  "I could talk about Rapidash all day. And I often do! Come back any time you'd like to hear more.": "我能聊一整天的烈焰马。我也经常这么干！想听更多的话随时来找我。",
+  "Would you like to hear about my favourite Pokémon?": "要听我讲讲我最喜欢的宝可梦吗？",
+  "Wonderful! It is Rapidash! So elegant, so fast. Its mane of fire is a work of art.": "太好了！是烈焰马！那么优雅，那么快。它那火焰的鬃毛简直是艺术品。",
+  "When it gallops, it leaves the wind behind. Ten steps and it is at full speed. Ten! Magnificent!": "它一奔跑，连风都被甩在后面。只要十步就能达到全速。十步！太了不起了！",
+  "And its kindness! A Rapidash that trusts you will never let its flames burn you.": "还有它的温柔！信任你的烈焰马绝不会让火焰烧到你。",
+  "Ah, thank you for listening so patiently. Nobody here lets me finish anymore. Please, take this.": "啊，谢谢你这么耐心地听我说。这里已经没人肯让我说完了。请收下这个。",
+  "A Bike Voucher! The Bike Shop in Cerulean City will give you a Bicycle for it. Now you can be as fast as a Rapidash!": "是自行车兑换券！拿去华蓝市的自行车店就能换一辆自行车。这样你也能像烈焰马一样快了！",
+  "Oh... Another time, then. My story will still be here.": "哦……那就下次吧。我的故事会一直在这里等你。"
 }, "zh-Hans");

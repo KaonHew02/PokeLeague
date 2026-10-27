@@ -25,5 +25,6 @@ G.I18n.add({
   "Viridian City. A city where the trees stay green all year round.": "Jadielle. Une ville où les arbres restent verts toute l'année.",
   "The blackboard reads: a Pokémon's status problems stay after battle. Heal them with items or at a Pokémon Center!": "Au tableau : les problèmes de statut d'un Pokémon restent après le combat. Soigne-les avec des objets ou au Centre Pokémon !",
   "A shelf of books about raising Pokémon.": "Une étagère de livres sur l'élevage des Pokémon.",
-  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "À l'ouest, c'est la Route 22. Des Férosinge vivent dans les herbes, et leur Balayage fait mal !"
+  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "À l'ouest, c'est la Route 22. Des Férosinge vivent dans les herbes, et leur Balayage fait mal !",
+  "The Gym Leader was the boss of Team Rocket? And he just left? This town is never boring!": "Le Champion de l'Arène était le chef de la Team Rocket ? Et il est parti, comme ça ? On ne s'ennuie jamais ici !"
 }, "fr");

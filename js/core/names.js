@@ -32,6 +32,10 @@ G.Names = (() => {
       'kanto-underground-path': ['Underground Path', 'Paso Subterráneo', 'Souterrain', 'Sotterraneo', '地下通道', '地下通道'],
       'ss-anne': ['S.S. Anne', 'S.S. Anne', "L'Océane", 'S.S. Anne', '圣特安努号', '聖特安努號'],
       'rock-tunnel': ['Rock Tunnel', 'Túnel Roca', 'Grotte', 'Tunnel Roccioso', '岩山隧道', '岩山隧道']
+    },
+    item: {
+      bicycle: ['Bicycle', 'Bici', 'Bicyclette', 'Bicicletta', '自行车', '自行車'],
+      'bike-voucher': ['Bike Voucher', 'Bono Bici', 'Bon Commande', 'Buono Bici', '自行车兑换券', '自行車兌換券']
     }
   };
 

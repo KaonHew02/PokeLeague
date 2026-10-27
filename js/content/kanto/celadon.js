@@ -117,6 +117,7 @@ G.Maps.def({
 
 G.Maps.def({
   id: 'celadon', loc: 'celadon-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
+  fly: { spot: 'center-door', if: 'badge:4' },
   rows: [
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
     'T......................................T',
@@ -126,8 +127,8 @@ G.Maps.def({
     'T..EEEEEEEE.....BBBDBB.......CCDCC.....T',
     'T..EEEDEEEE........,...........,.......T',
     'T.....,............,...........,.......T',
-    'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
-    'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
     'T.....~~~~~~.....,.....................T',
     'T.....~~~~~~.....,.....BBBBBB...HHHH...T',
     'T.....~~~~~~.....,.....BBBBBB...HHHH...T',
@@ -145,7 +146,7 @@ G.Maps.def({
     'T........T.............................T',
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
-  connect: { east: { map: 'route7', offset: 1 } },
+  connect: { east: { map: 'route7', offset: 1 }, west: { map: 'route16', offset: -2 } },
   warps: [
     { x: 6, y: 6, to: 'dept-1f', spot: 'door' },
     { x: 19, y: 5, to: 'mansion-1f', spot: 'door' },

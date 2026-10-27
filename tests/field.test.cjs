@@ -182,3 +182,74 @@ test('swimmers stand in the water, and a trainer sees a surfer across it', async
   const sam = W.actors.find(a => a.id === 'sam');
   assert.deepEqual([sam.x, sam.y], [2, 1], 'he swam up to the player');
 });
+
+test('the Bicycle: outdoors only, faster than running; Cycling Road keeps you on it and rolls you downhill', async () => {
+  const { G, W } = world();
+  G.Maps.def({ id: 't-out', tileset: 'outdoor', palette: 'kanto', rows: ['TTTTT', 'T...T', 'TTTTT'], spots: { start: [1, 1, 'right'] } });
+  G.Maps.def({ id: 't-in', tileset: 'indoor', rows: ['WWWW', '++++', '++++'], spots: { start: [0, 1, 'right'] } });
+  G.Maps.def({ id: 't-road', tileset: 'outdoor', palette: 'kanto', bike: true, slope: 'down',
+    rows: ['TTTTT', 'T...T', 'T...T', 'T...T', 'TTTTT'], spots: { top: [2, 1, 'down'] } });
+  for (const id of ['t-out', 't-in', 't-road']) assert.deepEqual(plain(G.Maps.validate(id)), [], id);
+  G.Field.giveMon('pidgey', 10);
+  W.load('t-out', 'start');
+  W.toggleBike();
+  assert.ok(!W.biking, 'no Bicycle, no ride');
+  G.Field.giveItem('bicycle');
+  W.toggleBike();
+  assert.ok(W.biking && W.player.bike, 'on the Bicycle');
+  assert.equal(G.Field.save.player.bike, 1, 'the save remembers it');
+  assert.equal(G.Store.sanitize(JSON.parse(JSON.stringify(G.Field.save))).player.bike, 1, 'and keeps it when loaded');
+  // Indoors you walk; the Bicycle stays folded when you come out again.
+  W.load('t-in', 'start');
+  assert.ok(!W.biking && !G.Field.save.player.bike, 'off the Bicycle indoors');
+  await pump(W, W.toggleBike());
+  assert.ok(!W.biking, "can't ride indoors");
+  W.load('t-out', 'start');
+  assert.ok(!W.biking);
+  // Cycling Road: on the Bicycle from the gate on, and no getting off.
+  W.load('t-road', 'top');
+  assert.ok(W.biking, 'Cycling Road puts you on the Bicycle');
+  await pump(W, W.toggleBike());
+  assert.ok(W.biking, "can't get off on Cycling Road");
+  assert.equal(W.slope(), 'down');
+  // Letting go on the slope: you roll downhill, fast, until something stops you.
+  const me = W.player;
+  G.Player.reset();
+  G.Player.update(0.02, me, W);
+  assert.ok(me.moving && me.dir === 'down', 'rolling down');
+  assert.ok(Math.abs(me.dur - 1 / G.Player.BIKE) < 1e-9, 'at Bicycle speed');
+  for (let i = 0; i < 6; i++) G.Player.update(0.5, me, W);
+  assert.deepEqual([me.x, me.y], [2, 3], 'stopped at the trees');
+  assert.equal(W.tryStep(me, 'up', 4), 'moved', 'you can still ride uphill');
+});
+
+test('Fly: towns you have visited (or that an older save had reached) are places to fly to', async () => {
+  const { G, W } = world();
+  G.Maps.def({ id: 't-town1', tileset: 'outdoor', palette: 'kanto', fly: { spot: 'center', if: 'badge:1' },
+    rows: ['TTTTT', 'T...T', 'TTTTT'], spots: { center: [3, 1, 'down'] } });
+  G.Maps.def({ id: 't-town2', tileset: 'outdoor', palette: 'kanto', fly: { spot: 'center' },
+    rows: ['TTTTT', 'T...T', 'TTTTT'], spots: { center: [1, 1, 'down'] } });
+  G.Maps.def({ id: 't-cave', tileset: 'outdoor', palette: 'cave', cave: true, border: '#', rows: ['###', '#.#', '###'], spots: { start: [1, 1, 'down'] } });
+  G.Maps.def({ id: 't-bad', tileset: 'outdoor', fly: { spot: 'nowhere' }, rows: ['TTT', 'T.T', 'TTT'], spots: { start: [1, 1, 'down'] } });
+  assert.deepEqual(plain(G.Maps.validate('t-town1')), []);
+  assert.ok(G.Maps.validate('t-bad').some(e => /fly: no spot/.test(e)), 'a landing spot must exist');
+  G.Field.giveMon('pidgeotto', 30, { moves: ['fly', 'gust'] });
+  const ids = W.flyTargets().map(t => t.id);
+  assert.ok(ids.includes('t-town1') && ids.includes('t-town2'));
+  assert.ok(W.visited('t-town1'), 'the Boulder Badge says you have been to this town');
+  assert.ok(!W.visited('t-town2'));
+  W.load('t-town2', 'center');
+  assert.ok(W.visited('t-town2') && G.Field.flag('visited:t-town2'), 'arriving makes it a destination');
+  assert.equal(W.flyBlock(), null);
+  assert.ok(W.flier(), 'Pidgeotto can fly');
+  G.Field.save.player.badges = [1, 2];
+  assert.equal(W.flyBlock(), 'badge', 'Fly needs the Thunder Badge');
+  assert.equal(W.flier(), null);
+  G.Field.save.player.badges = [1, 2, 3];
+  W.load('t-cave', 'start');
+  assert.equal(W.flyBlock(), 'here', 'not from a cave');
+  assert.equal(await W.flyTo('t-bad'), false, 'only to towns you have visited');
+  await pump(W, W.flyTo('t-town1'));
+  assert.equal(W.map.id, 't-town1');
+  assert.deepEqual([W.player.x, W.player.y], [3, 1], 'landed on the spot');
+});

@@ -11,6 +11,7 @@
  */
 G.Maps.def({
   id: 'fuchsia', loc: 'fuchsia-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
+  fly: { spot: 'center-door', if: 'badge:5' },
   rows: [
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
     'T......................................T',
@@ -27,8 +28,8 @@ G.Maps.def({
     'T........MMMM.......,....CCCCC.........T',
     'T........MMDM.......,....CCCCC.........T',
     'T..........,........,....CCDCC.........T',
-    'T..........,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
-    'T..........,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
     'T...................,..................T',
     'T.HHHH..............,..........HHHH....T',
     'T.HHHH..............,..........HHHH....T',
@@ -44,7 +45,7 @@ G.Maps.def({
     'T..................,,,,................T',
     'TTTTTTTTTTTTTTTTTTT,,,,TTTTTTTTTTTTTTTTT'
   ],
-  connect: { east: { map: 'route15', offset: 10 }, south: { map: 'route19', offset: 12 } },
+  connect: { east: { map: 'route15', offset: 10 }, south: { map: 'route19', offset: 12 }, west: { map: 'route18', offset: 8 } },
   warps: [
     { x: 20, y: 5, to: 'safari-gate', spot: 'door' },
     { x: 11, y: 13, to: 'fuchsia-mart', spot: 'door' },

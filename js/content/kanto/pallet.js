@@ -14,6 +14,7 @@
  */
 G.Maps.def({
   id: 'pallet', loc: 'pallet-town', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
+  fly: { spot: 'player-door', if: 'has-pokedex' },
   rows: [
     'TTTTTTTTT,,TTTTTTTTT',
     'T........,,........T',

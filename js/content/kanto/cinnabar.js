@@ -9,6 +9,7 @@
  */
 G.Maps.def({
   id: 'cinnabar', loc: 'cinnabar-island', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'sea', border: '~',
+  fly: { spot: 'center-door', if: 'badge:7' },
   rows: [
     '~~~~~~~~~~~~~~~~~~~~~~~~',
     '~~~~~~~~~~~~~~~~~~~~~~~~',

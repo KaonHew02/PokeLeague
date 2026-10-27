@@ -6,7 +6,7 @@
  *   a        Space · Enter · E · Z            A
  *   b        X · Backspace · right click      B
  *   start    Esc · C                          Start · X
- *   select   V                                Back · Y
+ *   select   V                                Back · Y   (the Bicycle, on and off)
  *   run      (held B or Shift)
  *
  * Walking by clicking the map and clicking menus are pointer things, read

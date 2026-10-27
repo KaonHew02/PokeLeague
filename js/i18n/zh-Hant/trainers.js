@@ -29,5 +29,6 @@ G.I18n.add({
   "Boss": "首領",
   "Black Belt": "空手道王",
   "Psychic": "超能力者",
-  "Burglar": "小偷"
+  "Burglar": "小偷",
+  "Cue Ball": "光頭男"
 }, "zh-Hant");

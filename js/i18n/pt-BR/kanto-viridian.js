@@ -25,5 +25,6 @@ G.I18n.add({
   "Viridian City. A city where the trees stay green all year round.": "Viridian City. Uma cidade onde as árvores ficam verdes o ano todo.",
   "The blackboard reads: a Pokémon's status problems stay after battle. Heal them with items or at a Pokémon Center!": "No quadro está escrito: os problemas de status de um Pokémon continuam após a batalha. Cure-os com itens ou no Centro Pokémon!",
   "A shelf of books about raising Pokémon.": "Uma estante de livros sobre criar Pokémon.",
-  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "A oeste fica a Rota 22. Mankey vivem no mato de lá, e o Low Kick deles bate forte!"
+  "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "A oeste fica a Rota 22. Mankey vivem no mato de lá, e o Low Kick deles bate forte!",
+  "The Gym Leader was the boss of Team Rocket? And he just left? This town is never boring!": "O Líder do Ginásio era o chefe da Equipe Rocket? E simplesmente foi embora? Esta cidade nunca é chata!"
 }, "pt-BR");

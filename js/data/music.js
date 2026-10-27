@@ -337,3 +337,23 @@ G.MUSIC.evolved = {
   drums: { kick: 'x.......x.......', shaker: 'o.x.o.x.o.x.o.x.' }
 };
 
+
+/* ---------------- On the Bicycle ----------------
+ * D major, quick and carefree: a lead that leaps up the octave and coasts back down over
+ * bouncing octave bass, like freewheeling downhill. */
+G.MUSIC.cycling = {
+  bpm: 152,
+  chords: ['D', 'A/C#', 'Bm', 'G', 'D', 'A', 'G', 'A',
+           'G', 'A', 'F#m', 'Bm', 'Em', 'A', 'D', 'D'],
+  melody: [{ inst: 'lead', vel: 1, bars: [
+    'F#5:2 A5:2 D6:4 C#6:2 A5:2 F#5:4', 'E5:2 F#5:2 A5:4 E5:4 C#5:4', 'D5:2 F#5:2 B5:4 A5:2 F#5:2 D5:4', 'G5:4 F#5:2 E5:2 D5:4 B4:4',
+    'F#5:2 A5:2 D6:4 E6:2 D6:2 A5:4', 'C#6:4 B5:2 A5:2 E5:4 A5:4', 'B5:2 A5:2 G5:2 F#5:2 G5:4 B5:4', 'A5:12 -:4',
+    'B5:3 A5:1 G5:4 D5:4 G5:4', 'C#6:3 B5:1 A5:4 E5:4 A5:4', 'A5:2 F#5:2 C#5:4 F#5:4 A5:4', 'D6:4 C#6:2 B5:2 F#5:8',
+    'G5:2 B5:2 E6:4 D6:2 B5:2 G5:4', 'A5:2 C#6:2 E6:4 G6:4 E6:4', 'F#6:4 E6:2 D6:2 A5:4 F#5:4', 'D6:12 -:4'] }],
+  parts: [
+    { inst: 'bass', octave: 2, useBass: true, vel: 0.95, pattern: 'R.R.O.R.R.F.O.R.' },
+    { inst: 'pluck', octave: 4, vel: 0.5, pattern: '0.1.2.3.2.1.2.1.' },
+    { inst: 'pad', octave: 3, vel: 0.6, pattern: 'C-------C-------' }
+  ],
+  drums: { kick: 'X...x...X...x...', snare: '....X.......X.x.', hat: 'xoxoxoxoxoxoxoxo' }
+};

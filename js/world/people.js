@@ -21,7 +21,7 @@ G.People = (() => {
                  'officer', 'sailor', 'gentleman', 'engineer', 'captain', 'surge', 'bill',
                  'gambler', 'pokemaniac', 'beauty', 'channeler', 'biker', 'cooltrainer', 'erika',
                  'giovanni', 'fuji', 'scientist', 'fisherman', 'rocker', 'birdkeeper', 'juggler', 'tamer', 'koga', 'warden',
-                 'blackbelt', 'psychic', 'sabrina', 'swimmerf', 'burglar', 'blaine'];
+                 'blackbelt', 'psychic', 'sabrina', 'swimmerf', 'burglar', 'blaine', 'cueball'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -177,6 +177,7 @@ G.People = (() => {
     swimmerf: { head: 'long', body: 'tee', legs: 'bare', h: '#c86a2a', H: '#94481a', c: '#e8486a', C: '#b8304c', p: '#e8486a', P: '#b8304c', k: '#d89c74' },
     burglar: { head: 'bald', body: 'jacket', legs: 'pants', h: '#3a302c', H: '#221a16', j: '#4a4a5c', J: '#30303e', c: '#e8e0d0', C: '#b8b0a0', p: '#3a3a48', P: '#24242e', k: '#1a1a22' },
     blaine: { head: 'bald', body: 'coat', legs: 'pants', h: '#f0f0f0', H: '#c0c0c8', e: '#0c0c14', j: '#f4f4f4', J: '#c4c8d0', c: '#d0482c', C: '#a0321c', p: '#5a4a44', P: '#3e322e', k: '#2a2222' },
+    cueball: { head: 'bald', body: 'jacket', legs: 'pants', h: '#e8b888', H: '#c49064', j: '#2a2a30', J: '#16161c', c: '#e8e8e8', C: '#b8b8c0', p: '#3a4a7a', P: '#283458', k: '#16161c' },
     warden: { head: 'bald', body: 'coat', legs: 'pants', h: '#d8d8dc', H: '#a8a8b0', j: '#a89a6a', J: '#80744c', c: '#e8e0c8', C: '#c0b8a0', p: '#6a5c44', P: '#4c4230', k: '#3a2e22' },
     bill: { head: 'short', body: 'tee', legs: 'pants', h: '#7a4a2a', H: '#52301a', c: '#4a8ad8', C: '#2e66b0', p: '#5a4a3a', P: '#3e3226', k: '#3a3030' },
     daisy: { head: 'long', body: 'dress', legs: 'bare', h: '#8a5430', H: '#5e361a', c: '#f4f4f4', C: '#c8c8d0', j: '#5c9c5c', J: '#3e763e', k: '#7a5236' },

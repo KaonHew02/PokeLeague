@@ -20,7 +20,8 @@
  *   ['giveItem', item, n, { quiet }]  ['takeItem', item, n]  ['money', delta]
  *   ['found', item, n, doneKey]    an item ball: "found", jingle, into the bag, marked as collected
  * Battles and services:
- *   ['battle', 'trainer-id' | 'map:trainer-id', { canLose }]  ['wild', sp, lvl]
+ *   ['battle', 'trainer-id' | 'map:trainer-id', { canLose }]  ['wild', sp, lvl, { noCatch }]
+ *   (then ['if', 'battle=win', …]: the outcome of the last battle: win, lose, run, caught)
  *   ['heal']  ['healAnim']  ['lastHeal', spot]  ['shop', [items]]  ['pc']
  * People and the map ('player', 'follower', 'self' or an npc / trainer id):
  *   ['move', who, 'UULL', speed]  ['walkTo', who, x, y]  ['face', who, dir | otherWho]
@@ -91,7 +92,7 @@ G.Script = (() => {
     },
 
     battle: (h, ref, o) => h.battle(ref, o || {}),
-    wild: (h, sp, lvl) => h.wild(sp, lvl),
+    wild: (h, sp, lvl, o) => h.wild(sp, lvl, o || {}),
     heal: h => h.heal(),
     healAnim: h => h.healAnim(),
     lastHeal: (h, spot) => h.lastHeal(spot),

@@ -515,6 +515,8 @@ G.BattleUI = (() => {
       const fx = G.ITEM_FX[id];
       if (fx.ball) {
         if (b.kind !== 'wild') { await say(T("You can't use that on a trainer's Pokémon!")); continue; }
+        // rules.noCatch: a Pokémon that cannot be caught (the ghost in the Pokémon Tower).
+        if (b.rules.noCatch) { await say(T("The Pokémon dodged the Ball! It can't be caught!")); continue; }
         return { type: 'ball', item: id };
       }
       if (fx.stage || fx.crit || fx.mist) return { type: 'item', item: id, target: b.player.active };

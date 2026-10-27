@@ -7,12 +7,16 @@ const { plain } = require('./helpers.cjs');
 const G = load();
 const kanto = G.Maps.all().filter(id => !id.startsWith('sandbox') && !/^t\d+$/.test(id));
 
-/** Maps reachable from one map through doors, mats, stairs and edges (locked doors excluded). */
+/** Maps a locked door's script warps to (the hideout's lift: ['warp', map, spot]). */
+const scriptWarps = name => [...JSON.stringify(G.Script.get(name) || []).matchAll(/\["warp","([\w-]+)"/g)].map(m => m[1]);
+
+/** Maps reachable from one map through doors, mats, stairs and edges (and the warps of locked doors' scripts). */
 function reachable(from) {
   const seen = new Set([from]), todo = [from];
   while (todo.length) {
     const m = G.Maps.get(todo.pop());
-    const next = m.warps.filter(w => w.to).map(w => w.to).concat(Object.values(m.def.connect || {}).map(c => c.map));
+    const next = m.warps.filter(w => w.to).map(w => w.to).concat(Object.values(m.def.connect || {}).map(c => c.map),
+      m.warps.filter(w => typeof w.locked === 'string').flatMap(w => scriptWarps(w.locked)));
     for (const id of next) if (!seen.has(id)) { seen.add(id); todo.push(id); }
   }
   return seen;

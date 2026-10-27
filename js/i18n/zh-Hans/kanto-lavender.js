@@ -19,5 +19,9 @@ G.I18n.add({
   "Lavender Town. A quiet town where Pokémon are remembered with love.": "紫苑镇。一个怀着爱缅怀宝可梦的宁静小镇。",
   "Pokémon House: a home for Pokémon that have lost their Trainers. Run by Mr. Fuji.": "宝可梦之家：为失去训练家的宝可梦提供的家。由富士老人经营。",
   "A gravestone with fresh flowers. \"Rest well, my friend.\"": "一块放着鲜花的墓碑。「好好安息吧，我的朋友。」",
-  "A small gravestone. Someone has left a Poké Ball-shaped stone on it.": "一块小小的墓碑。有人在上面放了一块精灵球形状的石头。"
+  "A small gravestone. Someone has left a Poké Ball-shaped stone on it.": "一块小小的墓碑。有人在上面放了一块精灵球形状的石头。",
+  "Mr. Fuji is home! Thank you so much. The Pokémon here missed him terribly.": "富士老人回来了！太谢谢你了。这里的宝可梦都非常想念他。",
+  "Pokémon are not tools. They feel joy and sorrow, just as we do. Please treat yours kindly.": "宝可梦不是工具。它们和我们一样，会高兴，也会难过。请好好对待你的宝可梦。",
+  "Last night Cubone looked out of the window toward the tower for a long time. This morning it ate its whole breakfast.": "昨晚卡拉卡拉望着窗外的塔看了很久。今天早上，它把早饭全吃完了。",
+  "Cubone looks up at you. It seems a little less lonely now.": "卡拉卡拉抬头看着你。它看起来没那么孤单了。"
 }, "zh-Hans");

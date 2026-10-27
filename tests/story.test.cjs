@@ -1,4 +1,4 @@
-// The story without a screen, chapter by chapter: from the bedroom to the Rainbow Badge.
+// The story without a screen, chapter by chapter: from the bedroom to the Soul Badge.
 // The real scripts, maps, save and battle engine run in the node sandbox; a stand-in
 // host answers the dialog (Yes, no nickname) and an auto-player fights every battle
 // with its strongest move. Wild battles in the tall grass raise the party on the way,
@@ -92,6 +92,7 @@ async function fight(st, ref, o, h) {
   b.start();
   const r = autoplay(G, b);
   st.battles.push({ key, outcome: r.outcome, levels: S.party.map(m => m.lvl) });
+  G.Field.lastBattle = r.outcome;
   for (const sp of r.seen || []) S.dex.seen[sp] = 1;
   if (r.outcome === 'win' && r.money > 0) G.Field.money(r.money);
   evolve(G, S, r);
@@ -104,6 +105,23 @@ async function fight(st, ref, o, h) {
     G.Field.healAll();
   }
   return r.outcome;
+}
+
+/** A scripted wild battle (['wild', sp, lvl, { noCatch }]): the auto-player fights it. */
+function wildFight(st, sp, lvl, o = {}) {
+  const { G, S, W } = st;
+  const rng = G.RNG(W.seed * 389 + st.battles.length);
+  const foe = G.Mon.create(G.Maps.species(sp), lvl, { rng, wild: true });
+  S.dex.seen[foe.sp] = 1;
+  const b = G.Battle.create({ kind: 'wild', seed: W.seed * 53 + st.battles.length, player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag },
+    foe: { party: [foe] }, rules: { noCatch: !!o.noCatch } });
+  b.start();
+  const r = autoplay(G, b);
+  st.battles.push({ key: 'wild:' + sp, outcome: r.outcome, levels: S.party.map(m => m.lvl) });
+  G.Field.lastBattle = r.outcome;
+  evolve(G, S, r);
+  if (r.outcome === 'lose') { G.Field.money(-G.Exp.blackoutLoss(S.player.money)); G.Field.healAll(); }
+  return Promise.resolve(r.outcome);
 }
 
 /** Wild battles in a map's tall grass until the lead reaches a level (healing in between, as at a Center). */
@@ -148,7 +166,7 @@ function host(st) {
     },
     fade: P, wait: P,
     battle: (ref, o) => fight(st, ref, o, h),
-    wild: P, heal: () => G.Field.healAll(), healAnim: P,
+    wild: (sp, lvl, o) => wildFight(st, sp, lvl, o), heal: () => G.Field.healAll(), healAnim: P,
     lastHeal(spot) { G.Field.save.player.lastHeal = { map: W.map, spot }; },
     shop: P, pc: P, music() {}, sfx() {}, jingle: P, nickname: P,
     itemName: id => G.Names.item(id), monName: sp => G.Names.mon(G.Maps.species(sp))
@@ -586,7 +604,6 @@ async function chapter4(st) {
   // Route 8, the Underground Path, Celadon City.
   await all('route8');
   await run(st, 'route8', 'celadon.saffron-gate');
-  await run(st, 'celadon', 'celadon.gamecorner');
   // The Eevee on Celadon Mansion's roof, and a Fire Stone from the Department Store.
   await run(st, 'mansion-roof', 'celadon.eevee', [0]);
   assert.ok(F.flag('got-eevee') && F.isDone('mansion-roof:eevee'));
@@ -618,10 +635,63 @@ async function chapter4(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 5 after chapter 4: the Rocket Hideout, the Pokémon Tower, Snorlax, Fuchsia City and Koga. */
+async function chapter5(st) {
+  const { G, S, W } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const won = () => assert.equal(st.battles[st.battles.length - 1].outcome, 'win', st.battles[st.battles.length - 1].key);
+  // The Game Corner: the Grunt by the poster, then the switch behind it.
+  const stairs = G.Maps.get('celadon-gamecorner').warps.find(w => w.to === 'hideout-b1f');
+  assert.ok(!F.test(stairs.if), 'the stairs are hidden at first');
+  await fight('celadon-gamecorner', 'grunt');
+  won();
+  await run(st, 'celadon-gamecorner', 'gamecorner.poster', [0]);
+  assert.ok(F.flag('hideout-switch') && F.test(stairs.if), 'the switch opens the stairs');
+  // The Rocket Hideout: B1F to B3F, the Lift Key on B4F, the lift down to the Boss.
+  for (const id of ['hideout-b1f', 'hideout-b2f', 'hideout-b3f']) await all(id);
+  await fight('hideout-b4f', 'keyholder');
+  assert.equal(F.count('lift-key'), 1, 'the Grunt drops the Lift Key');
+  await run(st, 'hideout-b4f', 'hideout.lift-b4f');
+  assert.equal(W.map, 'hideout-lift');
+  await run(st, 'hideout-lift', 'hideout.lift-panel', [2]);
+  assert.equal(F.getVar('hideout-lift'), 'hideout-b4f');
+  await run(st, 'hideout-lift', 'hideout.lift-exit');
+  assert.equal(W.map, 'hideout-b4f', 'the lift goes down to B4F');
+  for (const id of ['guard1', 'guard2', 'giovanni']) { await fight('hideout-b4f', id); won(); }
+  assert.ok(F.flag('hideout-boss') && F.count('silph-scope') === 1, 'Giovanni leaves the Silph Scope');
+  // The Pokémon Tower: the Silph Scope opens the stairs on 2F.
+  const up = G.Maps.get('tower-2f').warps.find(w => w.to === 'tower-3f');
+  assert.ok(F.test(up.if), 'the stairs up open with the Silph Scope');
+  for (const id of ['tower-3f', 'tower-4f', 'tower-5f']) await all(id);
+  await run(st, 'tower-5f', 'tower.purified');
+  await all('tower-6f');
+  F.healAll();
+  await run(st, 'tower-6f', 'tower.marowak');
+  assert.equal(st.battles[st.battles.length - 1].key, 'wild:marowak');
+  assert.ok(F.flag('marowak-calm'), 'the spirit of Marowak is at peace');
+  await all('tower-7f');
+  await run(st, 'tower-7f', 'tower.fuji');
+  assert.ok(F.flag('fuji-saved') && F.count('poke-flute') === 1, 'Mr. Fuji gives the Poké Flute');
+  assert.equal(W.map, 'lavender-house');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
   await chapter3(st);
   await chapter4(st);
+});
+
+test('chapter 5: the Rocket Hideout, the Pokémon Tower, Snorlax, Fuchsia City and the Soul Badge', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+  await chapter3(st);
+  await chapter4(st);
+  await chapter5(st);
+  console.log('[story] after chapter 5:', st.S.party.map(m => st.G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
 });

@@ -25,5 +25,12 @@ G.TRAINER_CLASSES = {
   channeler:     { title: 'Channeler', who: 'channeler', prize: 32 },
   biker:         { title: 'Biker', who: 'biker', prize: 20 },
   cooltrainer:   { title: 'Cool Trainer', who: 'cooltrainer', prize: 48 },
+  scientist:     { title: 'Scientist', who: 'scientist', prize: 48 },
+  fisherman:     { title: 'Fisherman', who: 'fisherman', prize: 36 },
+  rocker:        { title: 'Rocker', who: 'rocker', prize: 24 },
+  'bird-keeper': { title: 'Bird Keeper', who: 'birdkeeper', prize: 24 },
+  juggler:       { title: 'Juggler', who: 'juggler', prize: 42 },
+  tamer:         { title: 'Tamer', who: 'tamer', prize: 40 },
+  boss:          { title: 'Boss', who: 'giovanni', prize: 100 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

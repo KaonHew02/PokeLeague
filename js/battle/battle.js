@@ -6,7 +6,7 @@
  *   const b = G.Battle.create({ kind: 'wild' | 'trainer', seed,
  *     player: { name, id, party, bag },            // live references: the battle changes them
  *     foe:    { party, trainer: { id, name, title, ai: 'basic' | 'leader', items: {potion: 1}, prize: 20 } | null },
- *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', forceCatch: false (debug) } })
+ *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', noCatch: false, forceCatch: false (debug) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
  *                           | { kind: 'learn', uid, move } | null (battle over)
@@ -58,7 +58,7 @@ G.Battle = (() => {
       return {
         moves, struggle: !moves.some(m => m.usable),
         switchable: this.player.party.map((m, i) => i).filter(i => i !== this.player.active && this.player.party[i].hp > 0),
-        canSwitch: !trapped, canRun: this.kind === 'wild' && !trapped, canBall: this.kind === 'wild', trapped
+        canSwitch: !trapped, canRun: this.kind === 'wild' && !trapped, canBall: this.kind === 'wild' && !this.rules.noCatch, trapped
       };
     }
 

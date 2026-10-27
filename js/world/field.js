@@ -24,7 +24,9 @@
  * stairs warp when stepped on, an exit mat when you walk down onto it or
  * press down on it, map edges cross into connected maps, tall grass rolls
  * rate/180 for an encounter on each step, trainers look along their sight
- * after each step, triggers run their script when stepped into.
+ * after each step, triggers run their script when stepped into. Spin tiles (the Rocket
+ * Hideout) send the player sliding until a stop tile or a wall; a `secret` tile is a warp drawn
+ * as a wall poster until its `if` holds; an exit mat with a locked warp runs its script.
  */
 G.Field = (() => {
   function fresh() {
@@ -120,7 +122,8 @@ G.Field = (() => {
     const m = /^([\w.-]+?)\s*(>=|<=|!=|=|>|<)\s*(.+)$/.exec(s);
     if (!m) return flag(s);
     const [, k, op, rhs] = m;
-    const lv = k === 'party' ? S.party.length : k === 'money' ? S.player.money : k === 'badges' ? S.player.badges.length : S.vars[k];
+    const lv = k === 'party' ? S.party.length : k === 'money' ? S.player.money : k === 'badges' ? S.player.badges.length
+      : k === 'battle' ? last : S.vars[k];
     const num = rhs !== '' && !isNaN(+rhs);
     const rv = num ? +rhs : rhs;
     const l = num ? +(lv || 0) : lv;
@@ -136,10 +139,13 @@ G.Field = (() => {
   }
 
   const vars = () => ({ player: S.player.name, rival: S.rival.name });
+  /** The outcome of the last battle ('win', 'lose', 'run', 'caught'): scripts test it with 'battle=win'. */
+  let last = null;
 
   return { get save() { return S; }, get fake() { return fake; }, bind, reset,
            flag, setFlag, clearFlag, getVar, setVar, isDone, markDone,
-           party, lead, makeMon, giveMon, toBox, count, giveItem, takeItem, money, healAll, badge, test, vars };
+           party, lead, makeMon, giveMon, toBox, count, giveItem, takeItem, money, healAll, badge, test, vars,
+           get lastBattle() { return last; }, set lastBattle(v) { last = v; } };
 })();
 
 G.World = (() => {
@@ -158,6 +164,8 @@ G.World = (() => {
   let pendingClick = null;
   let cut = new Set();                   // trees cut on this visit of the map ('x,y'); they grow back
   let lit = false;                       // Flash used: dark caves stay lit until you leave them
+  let sliding = null;                    // a spin tile sent the player this way (the Rocket Hideout)
+  let spinN = 0, slideN = 0;
   const debug = { noEnc: false, noclip: false };
   let rng = G.RNG(G.RNG.seed());
 
@@ -254,6 +262,7 @@ G.World = (() => {
     if (!m) { console.error('[World] unknown map ' + id); G.UI.toast('Unknown map: ' + id); return false; }
     map = m;
     cut = new Set();
+    sliding = null;
     if (!m.def.dark) lit = false;
     const s = (where && typeof where === 'object' && !Array.isArray(where)) ? { x: where.x | 0, y: where.y | 0, dir: where.dir || 'down' }
       : M().spot(m, where) || M().spot(m, Object.keys(m.spots)[0]) || { x: m.w >> 1, y: m.h >> 1, dir: 'down' };
@@ -362,6 +371,7 @@ G.World = (() => {
     // Exit mats: pressing down on one leaves.
     if (dir === 'down' && M().kindAt(map, a.x, a.y) === 'mat' && !openTile(nx, ny)) {
       const w = map.warpAt.get(M().key(a.x, a.y));
+      if (w && w.locked && !(w.to && G.Field.test(w.if))) { a.face('down'); runScript(w.locked, {}); return 'blocked'; }
       if (w) { a.face('down'); warp(w.to, w.spot); return 'warped'; }
     }
     if (debug.noclip && M().inside(map, nx, ny)) { stepActor(a, dir, speed, false); return 'moved'; }
@@ -417,6 +427,10 @@ G.World = (() => {
     const k = M().kindAt(map, me.x, me.y);
     const w = map.warpAt.get(M().key(me.x, me.y));
     if (w && (k !== 'mat' || me.dir === 'down')) { warp(w.to, w.spot); return; }
+    // Spin tiles: an arrow sends the player sliding (spinning) until a stop tile or a wall.
+    const inf = M().info(k);
+    if (inf.spin || (sliding && !inf.stop)) { if (slide(inf.spin || sliding)) return; }
+    sliding = null;
     for (const t of map.triggers) {
       if (me.x >= t.x && me.y >= t.y && me.x < t.x + (t.w || 1) && me.y < t.y + (t.h || 1) && G.Field.test(t.if)) {
         G.Player.walk(null);
@@ -433,6 +447,23 @@ G.World = (() => {
       if (maybeEncounter('walk')) return;
     }
     if (repelOut) { repelOut = false; runScript([['say', "The Repel's effect wore off..."]], {}); }
+  }
+
+  const SPIN = ['down', 'left', 'up', 'right'];
+  /** One more sliding step; false when something is in the way (the slide ends here). */
+  function slide(dir) {
+    const [dx, dy] = M().DIRS[dir];
+    const nx = me.x + dx, ny = me.y + dy;
+    if (!M().inside(map, nx, ny) || !openTile(nx, ny) || occupant(nx, ny, me)) { sliding = null; return false; }
+    const lw = map.warpAt.get(M().key(nx, ny));
+    if (lw && lw.locked && !(lw.to && G.Field.test(lw.if))) { sliding = null; return false; }
+    if (!sliding) { sfx('spin', 'select'); slideN = 0; }
+    if (++slideN > 300) { sliding = null; return false; }      // a loop of arrows: never spin forever
+    sliding = dir;
+    G.Player.walk(null);
+    stepActor(me, dir, G.Player.RUN, false);
+    me.dir = SPIN[spinN++ % 4];
+    return true;
   }
 
   // ---------------- encounters ----------------
@@ -473,10 +504,15 @@ G.World = (() => {
       G.Field.save.dex.seen[wild.sp] = 1;
       let r;
       if (api.onEncounter) r = await api.onEncounter(wild.sp, wild.lvl, wild.area, wild);
-      else if (G.BattleUI && G.BattleUI.wild) r = await G.BattleUI.wild(battler(), wild.sp, wild.lvl, battleOpts(false));
+      else if (G.BattleUI && G.BattleUI.wild) {
+        const o = battleOpts(false);
+        if (wild.noCatch) o.rules.noCatch = true;
+        r = await G.BattleUI.wild(battler(), wild.sp, wild.lvl, o);
+      }
       else r = await fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) }));
       out = settle(r);
     } finally { locks--; }
+    G.Field.lastBattle = out;
     if (out === 'lose') await blackout();
     return out;
   }
@@ -594,6 +630,7 @@ G.World = (() => {
       else r = await fallbackBattle(trainerName(d) || G.Names.pretty(d.id));
       out = settle(r);
     } finally { locks--; }
+    G.Field.lastBattle = out;
     if (out !== 'lose') G.Field.markDone(key);
     else if (!o.canLose) await blackout();
     return out;
@@ -786,7 +823,7 @@ G.World = (() => {
       fade: (dir, secs) => fadeTo(dir === 'in' ? 0 : 1, secs || 0.3),
       wait,
       battle: (ref, o) => battle(ref, o),
-      wild: (sp, lvl) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null }),
+      wild: (sp, lvl, o = {}) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null, noCatch: !!o.noCatch }),
       heal: () => G.Field.healAll(),
       /** Offers a nickname for a Pokémon just received (starter, gifts). */
       async nickname(mon) {

@@ -19,5 +19,12 @@ G.I18n.add({
   "Beauty": "大姐姐",
   "Channeler": "祈禱師",
   "Biker": "飆車族",
-  "Cool Trainer": "精英訓練家"
+  "Cool Trainer": "精英訓練家",
+  "Scientist": "研究員",
+  "Fisherman": "釣魚人",
+  "Rocker": "搖滾歌手",
+  "Bird Keeper": "養鳥人",
+  "Juggler": "雜耍藝人",
+  "Tamer": "馴獸師",
+  "Boss": "首領"
 }, "zh-Hant");

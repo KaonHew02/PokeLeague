@@ -30,5 +30,6 @@ G.I18n.add({
   "What? {mon} is evolving!": "咦？{mon}的樣子……",
   "Huh? {mon} stopped evolving!": "咦？{mon}停止了進化！",
   "Congratulations! Your {mon} evolved into {to}!": "恭喜！你的{mon}進化成了{to}！",
-  "New move: {move} ({type}, PP {pp})": "新招式：{move}（{type}，PP {pp}）"
+  "New move: {move} ({type}, PP {pp})": "新招式：{move}（{type}，PP {pp}）",
+  "The Pokémon dodged the Ball! It can't be caught!": "寶可夢躲開了精靈球！無法捕捉！"
 }, "zh-Hant");

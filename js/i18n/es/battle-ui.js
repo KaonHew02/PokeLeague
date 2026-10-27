@@ -30,5 +30,6 @@ G.I18n.add({
   "What? {mon} is evolving!": "¿Eh? ¡{mon} está evolucionando!",
   "Huh? {mon} stopped evolving!": "¿Eh? ¡{mon} dejó de evolucionar!",
   "Congratulations! Your {mon} evolved into {to}!": "¡Enhorabuena! ¡Tu {mon} ha evolucionado a {to}!",
-  "New move: {move} ({type}, PP {pp})": "Nuevo movimiento: {move} ({type}, PP {pp})"
+  "New move: {move} ({type}, PP {pp})": "Nuevo movimiento: {move} ({type}, PP {pp})",
+  "The Pokémon dodged the Ball! It can't be caught!": "¡El Pokémon ha esquivado la Ball! ¡No se puede capturar!"
 }, "es");

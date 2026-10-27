@@ -19,7 +19,8 @@ G.People = (() => {
                  'lass', 'bugcatcher', 'camper', 'brock', 'guide', 'oldman', 'daisy', 'aide',
                  'rocket', 'supernerd', 'hiker', 'misty', 'swimmer',
                  'officer', 'sailor', 'gentleman', 'engineer', 'captain', 'surge', 'bill',
-                 'gambler', 'pokemaniac', 'beauty', 'channeler', 'biker', 'cooltrainer', 'erika'];
+                 'gambler', 'pokemaniac', 'beauty', 'channeler', 'biker', 'cooltrainer', 'erika',
+                 'giovanni', 'fuji', 'scientist', 'fisherman', 'rocker', 'birdkeeper', 'juggler', 'tamer', 'koga', 'warden'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -160,6 +161,16 @@ G.People = (() => {
     biker: { head: 'short', body: 'jacket', legs: 'pants', h: '#c84a2a', H: '#94321a', j: '#2a2a30', J: '#16161c', c: '#5a5a66', C: '#3e3e48', p: '#2a2a30', P: '#16161c', k: '#16161c' },
     cooltrainer: { head: 'long', body: 'dress', legs: 'bare', h: '#c83c3c', H: '#962828', c: '#f4f4f4', C: '#c8c8d0', j: '#3a8a5a', J: '#28683e', k: '#2a2a30' },
     erika: { head: 'short', body: 'coat', legs: 'bare', h: '#2a2220', H: '#16100c', j: '#5aa04a', J: '#3e7a32', c: '#f0a040', C: '#c47a28', k: '#c84a4a' },
+    giovanni: { head: 'short', body: 'coat', legs: 'pants', h: '#2a2420', H: '#16100c', j: '#b8743a', J: '#8a5426', c: '#2a2a30', C: '#18181e', p: '#7a5430', P: '#56381e', k: '#2a2222' },
+    fuji: { head: 'bald', body: 'coat', legs: 'pants', h: '#e4e4e8', H: '#b4b4bc', j: '#6a6a88', J: '#4c4c66', c: '#c8c0b0', C: '#a09888', p: '#5a5a6a', P: '#40404c', k: '#3a3030' },
+    scientist: { head: 'short', body: 'coat', legs: 'pants', h: '#5a4a3a', H: '#3a2e24', j: '#f4f4f4', J: '#c4c8d0', c: '#4a9a8a', C: '#327466', p: '#4c4c5c', P: '#34343e', k: '#3a3030' },
+    fisherman: { head: 'hat', body: 'jacket', legs: 'pants', a: '#e8d8a0', A: '#c0ae74', b: '#8a7448', h: '#3a2a1e', H: '#24180f', j: '#5a8a4a', J: '#3e6a32', c: '#f0e8d0', C: '#c8c0a8', p: '#3a5a8a', P: '#283e62', k: '#3a3030' },
+    rocker: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#f0e070', H: '#c4b040', j: '#2a2a30', J: '#16161c', c: '#d84040', C: '#a82c2c', p: '#3a3a48', P: '#24242e', k: '#16161c' },
+    birdkeeper: { head: 'cap', body: 'tee', legs: 'pants', a: '#f08a30', A: '#c46a1c', b: '#8a4a14', h: '#3c2c24', H: '#24180f', c: '#7ab8e8', C: '#5290c4', p: '#4a5a3a', P: '#323e26', k: '#4a3626' },
+    juggler: { head: 'short', body: 'jacket', legs: 'pants', h: '#3a2a20', H: '#24180f', j: '#8a4ac0', J: '#66309a', c: '#f4f4f4', C: '#c8c8d0', p: '#f4f4f4', P: '#c8c8d0', k: '#3a3030' },
+    tamer: { head: 'hat', body: 'jacket', legs: 'pants', a: '#6a4a2a', A: '#4a3218', b: '#2e1e0e', h: '#2a1e14', H: '#160e08', j: '#a86a3a', J: '#7c4c26', c: '#e8d8b8', C: '#c0b090', p: '#5a4a3a', P: '#3e3226', k: '#2a2018' },
+    koga: { head: 'short', body: 'coat', legs: 'pants', h: '#3a3448', H: '#24202e', j: '#4a3a6a', J: '#30264a', c: '#8a8aa0', C: '#66667a', p: '#3a3050', P: '#262036', k: '#1a1622' },
+    warden: { head: 'bald', body: 'coat', legs: 'pants', h: '#d8d8dc', H: '#a8a8b0', j: '#a89a6a', J: '#80744c', c: '#e8e0c8', C: '#c0b8a0', p: '#6a5c44', P: '#4c4230', k: '#3a2e22' },
     bill: { head: 'short', body: 'tee', legs: 'pants', h: '#7a4a2a', H: '#52301a', c: '#4a8ad8', C: '#2e66b0', p: '#5a4a3a', P: '#3e3226', k: '#3a3030' },
     daisy: { head: 'long', body: 'dress', legs: 'bare', h: '#8a5430', H: '#5e361a', c: '#f4f4f4', C: '#c8c8d0', j: '#5c9c5c', J: '#3e763e', k: '#7a5236' },
     aide: { head: 'short', body: 'coat', legs: 'pants', h: '#3c3434', H: '#241e1e', j: '#f4f4f4', J: '#c4c8d0', c: '#5a8ac8', C: '#3e66a0', p: '#4c4c5c', P: '#34343e', k: '#3a3030' },

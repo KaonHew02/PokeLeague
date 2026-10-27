@@ -99,6 +99,21 @@ G.Tiles = (() => {
     wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#d8e8c8', '#c8dcb8'], grout: '#b0c8a0',
     rug: ['#e070a0', '#f094bc', '#b04c7c'], counter: ['#e8f0e0', '#c4d4b8', '#8aa080'],
     mat: ['#5aa04a', '#7cc06c'], screen: '#68d0f8' };
+  // The Rocket Hideout: cold grey metal.
+  PALETTES.hideout = { floor: 'tile', wallTop: ['#262a32', '#30343e'], paper: ['#7a8292', '#707888'], trim: '#a2aab8', base: '#3a404c',
+    wood: ['#8a8e98', '#7a7e88', '#9a9ea8'], woodLine: '#5a5e68', tile: ['#b2bac6', '#a6aeba'], grout: '#8a92a0',
+    rug: ['#b83a3a', '#d85a5a', '#882626'], counter: ['#d0d4dc', '#a8aeb8', '#7a808c'],
+    mat: ['#b83a3a', '#d85a5a'], screen: '#68d0f8' };
+  // The Game Corner: a loud red carpet and gold.
+  PALETTES.corner = { floor: 'tile', wallTop: ['#3c2a3c', '#4a344a'], paper: ['#e8c868', '#dcbc5c'], trim: '#f4e0a0', base: '#8a3c3c',
+    wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#c84c4c', '#bc4444'], grout: '#9c3434',
+    rug: ['#3c5cc8', '#5c7ce0', '#2a4498'], counter: ['#f0e2c0', '#d0bc90', '#9c8458'],
+    mat: ['#e8c868', '#f4e0a0'], screen: '#68d0f8' };
+  // Koga's Gym: a dark wooden dojo floor.
+  PALETTES.dojo = { floor: 'wood', wallTop: ['#3a3030', '#463a3a'], paper: ['#e4dcc8', '#d8d0bc'], trim: '#8a6a4a', base: '#5a4030',
+    wood: ['#a07848', '#94703e', '#ac8454'], woodLine: '#6c4c2c', tile: ['#d8d0bc', '#ccc4b0'], grout: '#b0a890',
+    rug: ['#7a3a8a', '#9a5aaa', '#562868'], counter: ['#e0d4bc', '#bca888', '#8a7458'],
+    mat: ['#7a3a8a', '#9a5aaa'], screen: '#68d0f8' };
   const OUT = 'kanto';
 
   // ---------------- colour and pixel helpers ----------------
@@ -449,9 +464,11 @@ G.Tiles = (() => {
     }
   }
 
+  // Tiles that are part of a wall (a poster, lift doors): the wall above them has no face.
+  const WALLISH = new Set(['wall', 'void', 'secret', 'poster', 'lift']);
   function wall(P, C, ox, oy, tx, ty, at) {
     const below = at(tx, ty + 1);
-    const face = below !== 'wall' && below !== 'void';
+    const face = !WALLISH.has(below);
     for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
       let col;
       if (!face) col = C.wallTop[(H(tx * T + x, ty * T + y, 61) < 0.15) ? 1 : 0];
@@ -460,7 +477,7 @@ G.Tiles = (() => {
       else col = C.paper[((tx * T + x) >> 2) & 1];
       P.set(ox + x, oy + y, col);
     }
-    if (!face && (below !== 'wall')) for (let x = 0; x < T; x++) P.set(ox + x, oy + T - 1, C.base);
+    if (!face && below === 'void') for (let x = 0; x < T; x++) P.set(ox + x, oy + T - 1, C.base);
   }
 
   // Furniture standing on a rug keeps the rug under it.
@@ -720,6 +737,131 @@ G.Tiles = (() => {
     'oooooooooooooooo'
   ];
 
+  // ---------------- chapter 5: the Game Corner, the Rocket Hideout, Koga's Gym ----------------
+
+  const POSTER = [
+    '................',
+    '...oooooooooo...',
+    '...oRRRRRRRRo...',
+    '...oRRwwwwRRo...',
+    '...oRRwRRwwRo...',
+    '...oRRwRRwwRo...',
+    '...oRRwwwwRRo...',
+    '...oRRwRwRRRo...',
+    '...oRRwRRwRRo...',
+    '...oRRwRRRwRo...',
+    '...oRRRRRRRRo...',
+    '...oddddddddo...',
+    '...oooooooooo...',
+    '................',
+    '................',
+    '................'
+  ];
+  /** A poster on the wall (in the Game Corner one hides a switch). */
+  function poster(P, C, ox, oy, tx, ty, at) {
+    wall(P, C, ox, oy, tx, ty, at);
+    ascii(P, ox, oy, POSTER, { o: pack('#201820'), R: pack('#d83838'), w: pack('#f8f0f0'), d: pack('#9a2626') });
+  }
+
+  const SLOTS = [
+    '...oooooooooo...',
+    '..oyYYYYYYYYyo..',
+    '..oYoooooooYo...',
+    '..oYowowowoYo...',
+    '..oYorocowoYo...',
+    '..oYowowowoYo...',
+    '..oYoooooooYo...',
+    '..oyYYYYYYYYyo..',
+    '..oggggggggggo..',
+    '..ogGGGGGGGGgo..',
+    '..ogGllllllGgo..',
+    '..ogGGGGGGGGgo..',
+    '..oggggggggggo..',
+    '..oddddddddddo..',
+    '...oooooooooo...',
+    '................'
+  ];
+  /** A slot machine (the Game Corner). */
+  function slots(P, C, ox, oy, tx, ty) {
+    floor(P, C, ox, oy, tx, ty, C.floor);
+    ascii(P, ox, oy, SLOTS, { o: pack('#201820'), y: pack('#c89a20'), Y: pack('#f0c838'), w: pack('#f8f8f8'), r: pack('#e04040'),
+                              c: pack('#4070e0'), g: pack('#5a5a6a'), G: pack('#7a7a8a'), l: pack('#f8e070'), d: pack('#3a3a46') });
+  }
+
+  const LIFT = [
+    'tttttttttttttttt',
+    'ppoooooooooooopp',
+    'ppoMMMMMMMMMMopp',
+    'ppoMmmmmommmMopp',
+    'ppoMmmmmommmMopp',
+    'ppoMmmmmommmMopp',
+    'ppoMmmmmommmMopp',
+    'ppoMmmmmommmMopp',
+    'ppoMmmmmommmMopp',
+    'ppoMmmmmommmMopp',
+    'ppoMmmmmommmMopp',
+    'ppoMmmmmommmMopp',
+    'ppoMmmmmommmMopp',
+    'tttMddddoddddMtt',
+    'bbbMddddoddddMbb',
+    'bbbbbbbbbbbbbbbb'
+  ];
+  /** Lift doors in a wall (the Rocket Hideout). */
+  function lift(P, C, ox, oy, tx, ty, at) {
+    wall(P, C, ox, oy, tx, ty, at);
+    ascii(P, ox, oy, LIFT, { o: pack('#20242c'), M: pack('#5a6070'), m: pack('#a8b0bc'), d: pack('#7a8290'), t: C.trim, b: C.base });
+  }
+
+  // A spin tile: an arrow on a metal plate, drawn pointing up and turned for the other directions.
+  const ARROW = [
+    '................',
+    '.oooooooooooooo.',
+    '.oggggggggggggo.',
+    '.ogggggYYgggggo.',
+    '.oggggYYYYggggo.',
+    '.ogggYYYYYYgggo.',
+    '.oggYYYYYYYYggo.',
+    '.ogYYYYYYYYYYgo.',
+    '.ogggggYYgggggo.',
+    '.ogggggYYgggggo.',
+    '.ogggggYYgggggo.',
+    '.ogggggYYgggggo.',
+    '.ogggggYYgggggo.',
+    '.oggggggggggggo.',
+    '.oooooooooooooo.',
+    '................'
+  ];
+  const turn = rows => rows[0].split('').map((_, x) => rows.map(r => r[x]).reverse().join(''));   // 90° clockwise
+  const ARROWS = { up: ARROW };
+  ARROWS.right = turn(ARROWS.up); ARROWS.down = turn(ARROWS.right); ARROWS.left = turn(ARROWS.down);
+  function spin(P, C, ox, oy, tx, ty, dir) {
+    floor(P, C, ox, oy, tx, ty, C.floor);
+    ascii(P, ox, oy, ARROWS[dir], { o: pack('#20242c'), g: pack('#5a6272'), Y: pack('#f0d040') });
+  }
+  const STOP = [
+    '................',
+    '.....oooooo.....',
+    '...ooRRRRRRoo...',
+    '..oRRrrrrrrRRo..',
+    '..oRrrrrrrrrRo..',
+    '.oRrrwwwwwwrrRo.',
+    '.oRrrwRRRRwrrRo.',
+    '.oRrrwRRRRwrrRo.',
+    '.oRrrwRRRRwrrRo.',
+    '.oRrrwRRRRwrrRo.',
+    '.oRrrwwwwwwrrRo.',
+    '..oRrrrrrrrrRo..',
+    '..oRRrrrrrrRRo..',
+    '...ooRRRRRRoo...',
+    '.....oooooo.....',
+    '................'
+  ];
+  /** The tile a spin stops on. */
+  function stop(P, C, ox, oy, tx, ty) {
+    floor(P, C, ox, oy, tx, ty, C.floor);
+    ascii(P, ox, oy, STOP, { o: pack('#20242c'), R: pack('#a82c2c'), r: pack('#d84a4a'), w: pack('#f0e0e0') });
+  }
+
   function furniture(P, C, ox, oy, tx, ty, kind, at) {
     if (isRug(at, tx, ty)) rug(P, C, ox, oy, tx, ty, at);
     else floor(P, C, ox, oy, tx, ty, C.floor);
@@ -798,6 +940,16 @@ G.Tiles = (() => {
       outline(P, C.treeEdge);
       return P.canvas();
     },
+    /** Stairs that open behind a poster (the Game Corner): drawn over the wall once open. */
+    passage(C) {
+      const P = Pix(T, T);
+      P.rect(0, 0, T, T, C.black);
+      for (let x = 0; x < T; x++) { P.set(x, 0, C.trim); P.set(x, 1, C.trim); }
+      for (let y = 0; y < T; y++) { P.set(0, y, C.trim); P.set(1, y, C.trim); P.set(T - 1, y, C.trim); P.set(T - 2, y, C.trim); }
+      // Three steps going down into the dark.
+      for (const [y, col] of [[13, C.tile[0]], [10, C.tile[1]], [7, C.grout]]) for (let x = 2; x < T - 2; x++) { P.set(x, y, col); P.set(x, y + 1, col); }
+      return P.canvas();
+    },
     /** An item on the ground: a Poké Ball. */
     ball() {
       const P = Pix(12, 12);
@@ -838,6 +990,12 @@ G.Tiles = (() => {
       case 'grave': grave(P, C, ox, oy, tx, ty); break;
       case 'hedge': hedge(P, C, ox, oy, tx, ty); break;
       case 'hole': hole(P, C, ox, oy, tx, ty, at); break;
+      case 'secret': case 'poster': poster(P, C, ox, oy, tx, ty, at); break;   // open stairs: a prop (render.js)
+      case 'slots': slots(P, C, ox, oy, tx, ty); break;
+      case 'lift': lift(P, C, ox, oy, tx, ty, at); break;
+      case 'spin-up': case 'spin-down': case 'spin-left': case 'spin-right': spin(P, C, ox, oy, tx, ty, kind.slice(5)); break;
+      case 'spin-stop': stop(P, C, ox, oy, tx, ty); break;
+      case 'invisible': floor(P, C, ox, oy, tx, ty, C.floor); break;
       default: P.rect(ox, oy, T, T, C.black);
     }
     // Under a building: whatever is around it (path in front of the door).

@@ -19,5 +19,12 @@ G.I18n.add({
   "Beauty": "Bellezza",
   "Channeler": "Medium",
   "Biker": "Motociclista",
-  "Cool Trainer": "Fantallenatore"
+  "Cool Trainer": "Fantallenatore",
+  "Scientist": "Scienziato",
+  "Fisherman": "Pescatore",
+  "Rocker": "Rocker",
+  "Bird Keeper": "Ornitologo",
+  "Juggler": "Giocoliere",
+  "Tamer": "Domatore",
+  "Boss": "Capo"
 }, "it");

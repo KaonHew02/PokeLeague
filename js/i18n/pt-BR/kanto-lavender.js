@@ -19,5 +19,9 @@ G.I18n.add({
   "Lavender Town. A quiet town where Pokémon are remembered with love.": "Lavender Town. Uma cidade tranquila onde os Pokémon são lembrados com carinho.",
   "Pokémon House: a home for Pokémon that have lost their Trainers. Run by Mr. Fuji.": "Casa Pokémon: um lar para Pokémon que perderam seus Treinadores. Administrada pelo Sr. Fuji.",
   "A gravestone with fresh flowers. \"Rest well, my friend.\"": "Uma lápide com flores frescas. “Descanse em paz, meu amigo.”",
-  "A small gravestone. Someone has left a Poké Ball-shaped stone on it.": "Uma lápide pequena. Alguém deixou uma pedra em forma de Poké Bola sobre ela."
+  "A small gravestone. Someone has left a Poké Ball-shaped stone on it.": "Uma lápide pequena. Alguém deixou uma pedra em forma de Poké Bola sobre ela.",
+  "Mr. Fuji is home! Thank you so much. The Pokémon here missed him terribly.": "O Sr. Fuji voltou! Muito obrigada. Os Pokémon daqui sentiram muita falta dele.",
+  "Pokémon are not tools. They feel joy and sorrow, just as we do. Please treat yours kindly.": "Pokémon não são ferramentas. Eles sentem alegria e tristeza, assim como nós. Trate bem os seus.",
+  "Last night Cubone looked out of the window toward the tower for a long time. This morning it ate its whole breakfast.": "Ontem à noite o Cubone ficou um bom tempo olhando pela janela para a torre. Hoje de manhã comeu o café da manhã inteiro.",
+  "Cubone looks up at you. It seems a little less lonely now.": "Cubone olha para você. Parece um pouco menos sozinho agora."
 }, "pt-BR");

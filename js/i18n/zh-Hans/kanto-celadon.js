@@ -13,7 +13,6 @@ G.I18n.add({
   "Battle items for the serious Trainer!": "给认真训练家的对战道具！",
   "Vitamins make your Pokémon stronger, a little at a time.": "营养饮料能让宝可梦一点一点变强。",
   "A vending machine. Cold drinks for thirsty Trainers!": "自动售货机。给口渴的训练家准备的冰饮料！",
-  "The Game Corner is closed. A poster on the door says: Grand reopening soon!": "游戏城关门了。门上的海报写着：即将盛大重新开业！",
   "A guard blocks the gate: Saffron City is closed. Nobody gets through.": "警卫挡在大门前：金黄市封闭中，谁也不能通过。",
   "Phew, it's hot... I'd give anything for something to drink.": "呼，好热啊……真想喝点什么。",
   "Aidan": "艾登",
@@ -27,7 +26,6 @@ G.I18n.add({
   "Rich": "里奇",
   "I am on my way to the Game Corner in Celadon. A warm-up battle first!": "我正要去玉虹市的游戏城。先来场对战热热身！",
   "Not a lucky day...": "今天运气不好……",
-  "The Game Corner is closed, they say. Shady people hang around it lately.": "听说游戏城关门了。最近有些可疑的人在那附近转悠。",
   "Jaren": "杰伦",
   "Out of my way, kid! Or battle me, if you dare!": "让开，小鬼！不然就跟我打一场，如果你敢的话！",
   "You have guts, kid.": "小鬼，你有种。",
@@ -39,7 +37,6 @@ G.I18n.add({
   "Saffron City is closed, so everybody walks underneath it. Good for the legs!": "金黄市封闭了，所以大家都从下面走。正好锻炼腿脚！",
   "Erika grows flowers in her Gym. It smells wonderful in there, but her Grass-type Pokémon are no joke!": "莉佳在她的道馆里种花。里面香极了，不过她的草属性宝可梦可不好惹！",
   "The Department Store has everything a Trainer could want. Even evolution stones!": "百货公司里有训练家想要的一切。连进化之石都有！",
-  "What are you looking at? The Game Corner is closed. Move along, kid.": "看什么看？游戏城关门了。快走开，小鬼。",
   "Some Pokémon evolve when they touch a special stone. Eevee can turn into three different Pokémon that way!": "有些宝可梦碰到特殊的石头就会进化。伊布就能这样变成三种不同的宝可梦！",
   "Welcome to the Celadon Department Store! The stairs to the upper floors are on the right.": "欢迎光临玉虹百货！上楼的楼梯在右边。",
   "A TM teaches its move as many times as you like. Great value, right?": "招式学习器想用几次都可以。很划算吧？",
@@ -49,7 +46,6 @@ G.I18n.add({
   "Meowth purrs and rubs against your leg.": "喵喵发出呼噜声，在你腿边蹭来蹭去。",
   "Clefairy hops happily in a circle.": "皮皮开心地绕着圈跳来跳去。",
   "Today's special: Berry stew! Sorry, the kitchen is closed for a private party.": "今日特餐：树果炖菜！抱歉，厨房被包场了。",
-  "I lost every coin I had at the Game Corner... And now it is closed! Those men in black hang around it all day.": "我在游戏城把代币全输光了……现在它还关门了！那些穿黑衣服的人整天在那附近转悠。",
   "The food here is good, but I come for the gossip. Did you hear? Team Rocket might be hiding somewhere in this city!": "这里的菜不错，不过我是来听八卦的。你听说了吗？火箭队可能就躲在这座城市的某个地方！",
   "Erika's Gym is south-west of here, behind a small tree. You need a Pokémon that knows Cut to get in.": "莉佳的道馆在西南边，被一棵小树挡着。要有会居合斩的宝可梦才能进去。",
   "Guard": "警卫",
@@ -57,5 +53,8 @@ G.I18n.add({
   "Underground Path. Celadon City is just west of here.": "地下通道。往西走就是玉虹市。",
   "Celadon City. A big, bright city where dreams come in every color.": "玉虹市。一座明亮的大城市，梦想在这里有各种颜色。",
   "Celadon City Pokémon Gym. Leader: Erika, the gentle lover of nature!": "玉虹市宝可梦道馆。馆主：温柔热爱大自然的莉佳！",
-  "Floor guide. 1F: Service Counter. 2F: Trainer's Market. 3F: Evolution stones. 4F: Battle items and vitamins. Rooftop: Vending machines.": "楼层导览。1楼：服务台。2楼：训练家市场。3楼：进化之石。4楼：对战道具和营养饮料。屋顶：自动售货机。"
+  "Floor guide. 1F: Service Counter. 2F: Trainer's Market. 3F: Evolution stones. 4F: Battle items and vitamins. Rooftop: Vending machines.": "楼层导览。1楼：服务台。2楼：训练家市场。3楼：进化之石。4楼：对战道具和营养饮料。屋顶：自动售货机。",
+  "The slot machines at the Game Corner are broken, they say. Shady people hang around it lately.": "听说游戏城的老虎机坏了。最近有些可疑的人在那附近转悠。",
+  "What are you looking at? Nothing is going on in the Game Corner. Nothing at all. Move along, kid.": "看什么看？游戏城里什么事都没有。完全没有。快走开，小鬼。",
+  "I lost every coin I had at the Game Corner... And now the machines are broken! Those men in black hang around it all day.": "我在游戏城把代币全输光了……现在机器还坏了！那些穿黑衣服的人整天在那附近转悠。"
 }, "zh-Hans");

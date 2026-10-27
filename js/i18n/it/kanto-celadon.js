@@ -13,7 +13,6 @@ G.I18n.add({
   "Battle items for the serious Trainer!": "Strumenti da lotta per l'Allenatore serio!",
   "Vitamins make your Pokémon stronger, a little at a time.": "Le vitamine rendono i tuoi Pokémon più forti, un po' alla volta.",
   "A vending machine. Cold drinks for thirsty Trainers!": "Un distributore. Bibite fresche per Allenatori assetati!",
-  "The Game Corner is closed. A poster on the door says: Grand reopening soon!": "Il Casinò è chiuso. Un cartello sulla porta dice: Grande riapertura a breve!",
   "A guard blocks the gate: Saffron City is closed. Nobody gets through.": "Una guardia blocca l'ingresso: Zafferanopoli è chiusa. Non passa nessuno.",
   "Phew, it's hot... I'd give anything for something to drink.": "Uff, che caldo... Darei qualsiasi cosa per qualcosa da bere.",
   "Aidan": "Aidan",
@@ -27,7 +26,6 @@ G.I18n.add({
   "Rich": "Riccardo",
   "I am on my way to the Game Corner in Celadon. A warm-up battle first!": "Sto andando al Casinò di Azzurropoli. Prima una lotta di riscaldamento!",
   "Not a lucky day...": "Non è il mio giorno fortunato...",
-  "The Game Corner is closed, they say. Shady people hang around it lately.": "Dicono che il Casinò sia chiuso. Ultimamente ci girano intorno tipi loschi.",
   "Jaren": "Jaren",
   "Out of my way, kid! Or battle me, if you dare!": "Togliti di mezzo, ragazzino! O lotta con me, se hai il coraggio!",
   "You have guts, kid.": "Hai fegato, ragazzino.",
@@ -39,7 +37,6 @@ G.I18n.add({
   "Saffron City is closed, so everybody walks underneath it. Good for the legs!": "Zafferanopoli è chiusa, quindi tutti ci passano sotto. Fa bene alle gambe!",
   "Erika grows flowers in her Gym. It smells wonderful in there, but her Grass-type Pokémon are no joke!": "Erika coltiva fiori nella sua Palestra. Lì dentro c'è un profumo meraviglioso, ma i suoi Pokémon di tipo Erba non scherzano!",
   "The Department Store has everything a Trainer could want. Even evolution stones!": "Il Centro Commerciale ha tutto ciò che un Allenatore può desiderare. Persino le pietre evolutive!",
-  "What are you looking at? The Game Corner is closed. Move along, kid.": "Che hai da guardare? Il Casinò è chiuso. Circola, ragazzino.",
   "Some Pokémon evolve when they touch a special stone. Eevee can turn into three different Pokémon that way!": "Alcuni Pokémon si evolvono toccando una pietra speciale. Eevee può diventare così tre Pokémon diversi!",
   "Welcome to the Celadon Department Store! The stairs to the upper floors are on the right.": "Benvenuto al Centro Commerciale di Azzurropoli! Le scale per i piani superiori sono a destra.",
   "A TM teaches its move as many times as you like. Great value, right?": "Una MT insegna la sua mossa tutte le volte che vuoi. Un affare, no?",
@@ -49,7 +46,6 @@ G.I18n.add({
   "Meowth purrs and rubs against your leg.": "Meowth fa le fusa e si strofina contro la tua gamba.",
   "Clefairy hops happily in a circle.": "Clefairy saltella felice in cerchio.",
   "Today's special: Berry stew! Sorry, the kitchen is closed for a private party.": "Piatto del giorno: stufato di bacche! Mi spiace, la cucina è chiusa per una festa privata.",
-  "I lost every coin I had at the Game Corner... And now it is closed! Those men in black hang around it all day.": "Ho perso tutti i gettoni al Casinò... E ora è chiuso! Quegli uomini in nero ci girano intorno tutto il giorno.",
   "The food here is good, but I come for the gossip. Did you hear? Team Rocket might be hiding somewhere in this city!": "Qui si mangia bene, ma io vengo per i pettegolezzi. Hai sentito? Il Team Rocket potrebbe nascondersi da qualche parte in città!",
   "Erika's Gym is south-west of here, behind a small tree. You need a Pokémon that knows Cut to get in.": "La Palestra di Erika è a sud-ovest, dietro un alberello. Ti serve un Pokémon che conosca Taglio per entrare.",
   "Guard": "Guardia",
@@ -57,5 +53,8 @@ G.I18n.add({
   "Underground Path. Celadon City is just west of here.": "Sotterraneo. Azzurropoli è appena a ovest di qui.",
   "Celadon City. A big, bright city where dreams come in every color.": "Azzurropoli. Una città grande e luminosa dove i sogni hanno tutti i colori.",
   "Celadon City Pokémon Gym. Leader: Erika, the gentle lover of nature!": "Palestra Pokémon di Azzurropoli. Capopalestra: Erika, la dolce amante della natura!",
-  "Floor guide. 1F: Service Counter. 2F: Trainer's Market. 3F: Evolution stones. 4F: Battle items and vitamins. Rooftop: Vending machines.": "Guida ai piani. 1° piano: Servizio clienti. 2°: Mercato dell'Allenatore. 3°: Pietre evolutive. 4°: Strumenti da lotta e vitamine. Tetto: Distributori."
+  "Floor guide. 1F: Service Counter. 2F: Trainer's Market. 3F: Evolution stones. 4F: Battle items and vitamins. Rooftop: Vending machines.": "Guida ai piani. 1° piano: Servizio clienti. 2°: Mercato dell'Allenatore. 3°: Pietre evolutive. 4°: Strumenti da lotta e vitamine. Tetto: Distributori.",
+  "The slot machines at the Game Corner are broken, they say. Shady people hang around it lately.": "Dicono che le slot machine del Casinò siano guaste. Ultimamente gira gente sospetta da quelle parti.",
+  "What are you looking at? Nothing is going on in the Game Corner. Nothing at all. Move along, kid.": "Che hai da guardare? Al Casinò non succede niente. Proprio niente. Circola, ragazzino.",
+  "I lost every coin I had at the Game Corner... And now the machines are broken! Those men in black hang around it all day.": "Ho perso tutti i gettoni al Casinò... E ora le macchine sono guaste! Quegli uomini in nero ci girano intorno tutto il giorno."
 }, "it");

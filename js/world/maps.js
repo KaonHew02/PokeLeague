@@ -33,7 +33,13 @@ G.Maps = (() => {
     wall: { solid: 1 }, wood: {}, tile: {}, rug: {}, counter: { solid: 1, counter: 1 }, shelf: { solid: 1 },
     table: { solid: 1 }, plant: { solid: 1 }, pc: { solid: 1 }, healer: { solid: 1 },
     mat: { warp: 1 }, stairs: { warp: 1 }, ladder: { warp: 1 }, hole: { warp: 1 }, void: { solid: 1 },
-    cuttree: { solid: 1, cut: 1 }, can: { solid: 1 }, grave: { solid: 1 }, hedge: { solid: 1 }
+    cuttree: { solid: 1, cut: 1 }, can: { solid: 1 }, grave: { solid: 1 }, hedge: { solid: 1 },
+    // Chapter 5: a poster hiding stairs (a warp that opens with its `if`), a wall poster, slot
+    // machines, lift doors, spin tiles (an arrow sends you sliding until a stop tile or a wall)
+    // and walls you cannot see (Koga's Gym).
+    secret: { warp: 1 }, poster: { solid: 1 }, slots: { solid: 1 }, lift: { warp: 1 },
+    'spin-up': { spin: 'up' }, 'spin-down': { spin: 'down' }, 'spin-left': { spin: 'left' }, 'spin-right': { spin: 'right' },
+    'spin-stop': { stop: 1 }, invisible: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -47,7 +53,9 @@ G.Maps = (() => {
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',
       '=': 'counter', b: 'shelf', t: 'table', p: 'plant', P: 'pc', h: 'healer',
-      X: 'mat', '^': 'stairs', '~': 'water', u: 'can', g: 'grave', k: 'hedge'
+      X: 'mat', '^': 'stairs', '~': 'water', u: 'can', g: 'grave', k: 'hedge',
+      Q: 'secret', q: 'poster', s: 'slots', e: 'lift',
+      U: 'spin-up', D: 'spin-down', L: 'spin-left', R: 'spin-right', o: 'spin-stop', i: 'invisible'
     }
   };
   /** Buildings drawn as stamps: footprint in tiles (stamps.js paints them). */

@@ -3,7 +3,7 @@
  * are thirsty and let nobody through), the Underground Path to Route 7, and Celadon City:
  * Pokémon Center, the Department Store (1F to the rooftop: items and TMs, evolution stones,
  * vitamins and battle items, drinks; a girl on the roof trades TMs for drinks), Celadon Mansion
- * (an Eevee waits in a room on its roof), a restaurant, a house, the Game Corner (closed for now)
+ * (an Eevee waits in a room on its roof), a restaurant, a house, the Game Corner (hideout.js)
  * and, behind a small tree, Erika's Gym (erika.js).
  */
 G.Maps.def({
@@ -40,7 +40,7 @@ G.Maps.def({
       team: [['growlithe', 22], ['vulpix', 22]],
       before: 'I am on my way to the Game Corner in Celadon. A warm-up battle first!',
       defeat: 'Not a lucky day...',
-      after: 'The Game Corner is closed, they say. Shady people hang around it lately.' },
+      after: 'The slot machines at the Game Corner are broken, they say. Shady people hang around it lately.' },
     { id: 'jaren', who: 'biker', cls: 'biker', name: 'Jaren', x: 37, y: 8, dir: 'up', sight: 2,
       team: [['koffing', 24], ['grimer', 24]],
       before: 'Out of my way, kid! Or battle me, if you dare!',
@@ -148,14 +148,14 @@ G.Maps.def({
     { x: 6, y: 6, to: 'dept-1f', spot: 'door' },
     { x: 19, y: 5, to: 'mansion-1f', spot: 'door' },
     { x: 31, y: 5, to: 'celadon-center', spot: 'door' },
-    { x: 25, y: 14, locked: 'celadon.gamecorner' },
+    { x: 25, y: 14, to: 'celadon-gamecorner', spot: 'door' },
     { x: 33, y: 13, to: 'celadon-restaurant', spot: 'door' },
     { x: 24, y: 20, to: 'celadon-house', spot: 'door' },
     { x: 5, y: 21, to: 'celadon-gym', spot: 'door' }
   ],
   spots: {
     east: [38, 8, 'left'], 'dept-door': [6, 7, 'down'], 'mansion-door': [19, 6, 'down'], 'center-door': [31, 6, 'down'],
-    'restaurant-door': [33, 14, 'down'], 'house-door': [24, 21, 'down'], 'gym-door': [5, 22, 'down']
+    'restaurant-door': [33, 14, 'down'], 'gamecorner-door': [25, 15, 'down'], 'house-door': [24, 21, 'down'], 'gym-door': [5, 22, 'down']
   },
   signs: {
     '9,13': 'Celadon City. A big, bright city where dreams come in every color.',
@@ -166,8 +166,8 @@ G.Maps.def({
       say: 'Erika grows flowers in her Gym. It smells wonderful in there, but her Grass-type Pokémon are no joke!' },
     { id: 'man', who: 'gentleman', x: 28, y: 17, move: 'wander', r: 2,
       say: 'The Department Store has everything a Trainer could want. Even evolution stones!' },
-    { id: 'rocket', who: 'rocket', x: 27, y: 15, dir: 'up', move: 'look',
-      say: 'What are you looking at? The Game Corner is closed. Move along, kid.' }
+    { id: 'rocket', who: 'rocket', x: 27, y: 15, dir: 'up', move: 'look', if: '!hideout-boss',
+      say: 'What are you looking at? Nothing is going on in the Game Corner. Nothing at all. Move along, kid.' }
   ],
   encounters: {}
 });
@@ -345,7 +345,7 @@ G.Maps.def({
   npcs: [
     { id: 'chef', who: 'clerk', x: 2, y: 2, dir: 'down', say: 'Today\'s special: Berry stew! Sorry, the kitchen is closed for a private party.' },
     { id: 'gambler', who: 'gambler', x: 6, y: 4, dir: 'down', move: 'look',
-      say: 'I lost every coin I had at the Game Corner... And now it is closed! Those men in black hang around it all day.' },
+      say: 'I lost every coin I had at the Game Corner... And now the machines are broken! Those men in black hang around it all day.' },
     { id: 'girl', who: 'beauty', x: 8, y: 5, dir: 'left', move: 'look', say: 'The food here is good, but I come for the gossip. Did you hear? Team Rocket might be hiding somewhere in this city!' }
   ]
 });
@@ -406,9 +406,6 @@ G.Maps.def({
       ['shop', ['fresh-water', 'soda-pop', 'lemonade']]
     ],
     'celadon.eevee': [['js', eevee]],
-    'celadon.gamecorner': [
-      ['say', 'The Game Corner is closed. A poster on the door says: Grand reopening soon!']
-    ],
     'celadon.saffron-gate': [
       ['say', 'A guard blocks the gate: Saffron City is closed. Nobody gets through.'],
       ['say', 'Phew, it\'s hot... I\'d give anything for something to drink.', { name: 'Guard' }]

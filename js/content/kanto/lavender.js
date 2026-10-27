@@ -3,7 +3,9 @@
  * owner, Mr. Fuji, has gone to the tower and not come back), a house with a Cubone, and the
  * Pokémon Tower, where people lay their Pokémon to rest. On the tower's second floor the rival
  * battles you (flag tower-rival); the stairs further up are blocked by something you cannot
- * see (a later chapter brings the Silph Scope). The road west leads to Route 8 and Celadon.
+ * see until you carry the Silph Scope (hideout.js); the floors above are in tower.js. Once
+ * saved, Mr. Fuji is back home (flag fuji-saved). The road west leads to Route 8 and Celadon,
+ * the road south to Route 12 (route12.js).
  */
 G.Maps.def({
   id: 'lavender', loc: 'lavender-town', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -75,11 +77,15 @@ G.Maps.def({
     '___X_____'
   ],
   warps: [{ x: 3, y: 6, to: 'lavender', spot: 'house-door' }],
-  spots: { door: [3, 6, 'up'] },
+  spots: { door: [3, 6, 'up'], fuji: [4, 4, 'up'] },
   signs: { '0,2': 'Pokémon House: a home for Pokémon that have lost their Trainers. Run by Mr. Fuji.', '1,2': 'Pokémon House: a home for Pokémon that have lost their Trainers. Run by Mr. Fuji.' },
   npcs: [
-    { id: 'girl', who: 'lass', x: 5, y: 3, dir: 'down', move: 'look',
+    { id: 'girl', who: 'lass', x: 5, y: 3, dir: 'down', move: 'look', if: '!fuji-saved',
       say: 'Mr. Fuji went to the Pokémon Tower to pray for the Pokémon there. He has not come back... I hope he is all right.' },
+    { id: 'girl2', who: 'lass', x: 7, y: 3, dir: 'down', move: 'look', if: 'fuji-saved',
+      say: 'Mr. Fuji is home! Thank you so much. The Pokémon here missed him terribly.' },
+    { id: 'fuji', who: 'fuji', x: 4, y: 3, dir: 'down', if: 'fuji-saved',
+      say: 'Pokémon are not tools. They feel joy and sorrow, just as we do. Please treat yours kindly.' },
     { id: 'psyduck', who: 'psyduck', mon: 'psyduck', x: 2, y: 4, dir: 'right', move: 'look',
       say: 'Psyduck tilts its head. It seems to be waiting for someone to come home.' },
     { id: 'nidorino', who: 'nidorino', mon: 'nidorino', x: 7, y: 5, dir: 'left', move: 'look',
@@ -100,10 +106,14 @@ G.Maps.def({
   warps: [{ x: 3, y: 5, to: 'lavender', spot: 'house2-door' }],
   spots: { door: [3, 5, 'up'] },
   npcs: [
-    { id: 'woman', who: 'mom', x: 5, y: 3, dir: 'down', move: 'look',
+    { id: 'woman', who: 'mom', x: 5, y: 3, dir: 'down', move: 'look', if: '!marowak-calm',
       say: 'I found this Cubone alone near the tower. It never takes off the skull it wears. I let it stay with me as long as it likes.' },
-    { id: 'cubone', who: 'cubone', mon: 'cubone', x: 2, y: 3, dir: 'right', move: 'look',
-      say: 'Cubone hugs its bone tightly and looks away.' }
+    { id: 'woman2', who: 'mom', x: 5, y: 3, dir: 'down', move: 'look', if: 'marowak-calm',
+      say: 'Last night Cubone looked out of the window toward the tower for a long time. This morning it ate its whole breakfast.' },
+    { id: 'cubone', who: 'cubone', mon: 'cubone', x: 2, y: 3, dir: 'right', move: 'look', if: '!marowak-calm',
+      say: 'Cubone hugs its bone tightly and looks away.' },
+    { id: 'cubone2', who: 'cubone', mon: 'cubone', x: 2, y: 3, dir: 'right', move: 'look', if: 'marowak-calm',
+      say: 'Cubone looks up at you. It seems a little less lonely now.' }
   ]
 });
 
@@ -149,8 +159,9 @@ G.Maps.def({
     '+g+g++++g+g+',
     '++++++++++++'
   ],
-  warps: [{ x: 10, y: 2, to: 'tower-1f', spot: 'stairs' }, { x: 1, y: 2, locked: 'tower.upstairs' }],
-  spots: { stairs: [10, 3, 'down'] },
+  warps: [{ x: 10, y: 2, to: 'tower-1f', spot: 'stairs' },
+          { x: 1, y: 2, to: 'tower-3f', spot: 'from-below', if: 'has:silph-scope', locked: 'tower.upstairs' }],
+  spots: { stairs: [10, 3, 'down'], 'from-above': [1, 3, 'down'] },
   npcs: [{ id: 'rival', who: 'rival', x: 1, y: 3, dir: 'down', if: 'scripted' }],
   // Every way to the stairs up crosses column 4: the rival meets you there once.
   triggers: [{ x: 4, y: 3, w: 1, h: 7, if: '!tower-rival', script: 'tower.rival' }]

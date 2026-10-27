@@ -109,6 +109,15 @@ G.WorldRender = (() => {
       if (x > L + W || y > Tp + H || x + w < L || y + h < Tp) continue;
       ctx.drawImage(it.g.ground[frame], x, y, w, h);
     }
+    // Stairs behind a poster (`secret` tiles): drawn once their warp is open.
+    if (m.kind.includes('secret')) {
+      const pass = G.Tiles.sprite('passage', m.palette);
+      m.kind.forEach((k, i) => {
+        if (k !== 'secret') return;
+        const x = i % m.w, y = (i / m.w) | 0, w = m.warpAt.get(x + ',' + y);
+        if (w && w.to && G.Field.test(w.if)) ctx.drawImage(pass, x * TS, y * TS, TS, TS);
+      });
+    }
 
     // Y-sorted things.
     const list = [];

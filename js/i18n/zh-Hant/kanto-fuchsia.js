@@ -56,5 +56,9 @@ G.I18n.add({
   "Please take this as my thanks. It was a gift from an old friend.": "請收下這個作為謝禮。這是一位老朋友送我的。",
   "HM04 is Strength. A strong Pokémon can push boulders with it.": "秘傳學習器04是怪力。有力氣的寶可夢能用它推動大石頭。",
   "In the Safari Zone you only get Safari Balls, Bait and Rocks. No battling! I love it.": "在狩獵地帶只能用狩獵球、餌料和石頭。不能對戰！我超喜歡。",
-  "Safari Zone Warden": "狩獵地帶園長"
+  "Safari Zone Warden": "狩獵地帶園長",
+  "The Good Rod pulls up better Pokémon than the Old Rod. Try it in the sea south of town!": "好釣竿能釣到比破舊釣竿更好的寶可夢。去鎮子南邊的海裡試試吧！",
+  "Say, do you like fishing?": "喂，你喜歡釣魚嗎？",
+  "I knew it! You have the look of an angler. Take this Good Rod and catch something big!": "我就知道！你一看就是釣魚的料。這根好釣竿給你，去釣條大的吧！",
+  "No? Well, the fish will wait for you.": "不喜歡？沒關係，魚兒會等你的。"
 }, "zh-Hant");

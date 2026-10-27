@@ -114,6 +114,30 @@ G.Tiles = (() => {
     wood: ['#a07848', '#94703e', '#ac8454'], woodLine: '#6c4c2c', tile: ['#d8d0bc', '#ccc4b0'], grout: '#b0a890',
     rug: ['#7a3a8a', '#9a5aaa', '#562868'], counter: ['#e0d4bc', '#bca888', '#8a7458'],
     mat: ['#7a3a8a', '#9a5aaa'], screen: '#68d0f8' };
+  // The Seafoam Islands: an icy cave (outdoor-style, like Mt. Moon).
+  PALETTES.seafoam = {
+    grass: ['#b4ccd8', '#acc4d2', '#bcd4e0'], speck: '#8eaabc', light: '#d4e6ee',
+    path: ['#c4d4dc', '#bccdd6', '#ccdce4'], pathEdge: '#90a8b8', pathSpeck: '#a2b8c6',
+    sand: ['#d4dee2', '#ccd6dc', '#dce6ea'], sandEdge: '#a4b4bc', sandSpeck: '#b4c2ca',
+    tall: ['#7a96a8', '#8aa6b8', '#9cb6c6'], tallEdge: '#4a6272',
+    petals: ['#e8f4ff', '#f8f8f8'], petalCenter: '#a8d8f8',
+    leaf: ['#2a3c4a', '#3a5060', '#4e687a', '#688494'], trunk: ['#2e3a44', '#3e4c58'], treeEdge: '#141c24',
+    cliffTop: ['#6e8ea8', '#7898b2', '#6686a0'], cliffLight: '#a4c4dc', cliffEdge: '#24344a',
+    cliffFace: ['#587a96', '#50708c'], cliffFaceDark: '#34506a',
+    liq: '#3a7ccc', liqDeep: '#2a62b4', foam: '#e0f4ff', shore: '#8eaabc',
+    wood: ['#8a7a6a', '#a89888', '#5e5046'], woodEdge: '#2e2620',
+    ledge: ['#8aa4b4', '#6e8a9c', '#526c7e']
+  };
+  // The Pokémon Mansion: scorched wood and old wallpaper.
+  PALETTES.mansion = { floor: 'wood', wallTop: ['#3a302c', '#463a34'], paper: ['#cdbd9e', '#c0b090'], trim: '#6e5442', base: '#4a382a',
+    wood: ['#9a7654', '#8c6a4a', '#a8825e'], woodLine: '#5e4430', tile: ['#bcae98', '#ae9f88'], grout: '#8e806a',
+    rug: ['#7c3c2c', '#9c5a46', '#5c2a1c'], counter: ['#d8c8ac', '#b4a284', '#806e54'],
+    mat: ['#7c3c2c', '#9c5a46'], screen: '#68d0f8' };
+  // Blaine's Gym: warm red tiles by the volcano.
+  PALETTES.volcano = { floor: 'tile', wallTop: ['#4a2a24', '#56322a'], paper: ['#ecd0b0', '#e0c4a4'], trim: '#c86a3a', base: '#8a3a24',
+    wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#dca684', '#cf9876'], grout: '#ae7050',
+    rug: ['#d84a2a', '#f06a4a', '#a83218'], counter: ['#f0dcc4', '#d4b694', '#a07a58'],
+    mat: ['#d84a2a', '#f06a4a'], screen: '#f8a058' };
   const OUT = 'kanto';
 
   // ---------------- colour and pixel helpers ----------------
@@ -209,7 +233,7 @@ G.Tiles = (() => {
   const FAMILY = {
     grass: 'grass', tall: 'grass', flowers: 'grass', tree: 'grass', 'sign': 'grass', fence: 'grass',
     'ledge-down': 'grass', 'ledge-left': 'grass', 'ledge-right': 'grass',
-    path: 'path', door: 'path', stamp: 'path', sand: 'sand', water: 'water', cliff: 'cliff'
+    path: 'path', door: 'path', stamp: 'path', sand: 'sand', water: 'water', rapids: 'water', cliff: 'cliff'
   };
   const fam = k => FAMILY[k] || k;
 
@@ -339,7 +363,7 @@ G.Tiles = (() => {
 
   /** Water with shore, foam and a few waves; frame 1 moves the waves. */
   function water(P, C, ox, oy, tx, ty, at, frame) {
-    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge'; };
+    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge' || k === 'rapids'; };
     const n = same(0, -1), s = same(0, 1), w = same(-1, 0), e = same(1, 0);
     grass(P, C, ox, oy, tx, ty);
     for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
@@ -895,6 +919,79 @@ G.Tiles = (() => {
     ascii(P, ox, oy, PAD, { o: pack('#202430'), b: pack('#4a5068'), c: pack('#6a78a8'), w: pack('#a8e0f8') });
   }
 
+  // ---------------- chapter 7: the Seafoam Islands, the Pokémon Mansion, Blaine's Gym ----------------
+
+  const PIT = [
+    '................',
+    '................',
+    '....rrrrrrrr....',
+    '..rrkkkkkkkkrr..',
+    '.rkkkkkkkkkkkkr.',
+    '.rkkkkkkkkkkkkr.',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    'rkkkkkkkkkkkkkkr',
+    '.rkkkkkkkkkkkkr.',
+    '.rkkkkkkkkkkkkr.',
+    '..rrkkkkkkkkrr..',
+    '....llllllll....',
+    '................',
+    '................'
+  ];
+  /** A hole in the floor: you fall to the floor below (a boulder fills it: a prop in render.js). */
+  function pit(P, C, ox, oy, tx, ty) {
+    if (C.floor) floor(P, C, ox, oy, tx, ty, C.floor);
+    else grass(P, C, ox, oy, tx, ty);
+    ascii(P, ox, oy, PIT, { r: C.floor ? C.base : C.cliffEdge, k: C.black, l: C.floor ? C.trim : C.light });
+  }
+  const STATUE = [
+    '.....oooooo.....',
+    '....oLLLLLLo....',
+    '...oLwLLLLLgo...',
+    '...oLLoLLoLgo...',
+    '...oLLLLLLLgo...',
+    '....oLLggLgo....',
+    '.....oLLLgo.....',
+    '....oLLLLLgo....',
+    '...oLLLLLLLgo...',
+    '...oggggggggo...',
+    '..oddddddddddo..',
+    '..odDDDDDDDDdo..',
+    '..odDDDDDDDDdo..',
+    '..oddddddddddo..',
+    '...oooooooooo...',
+    '................'
+  ];
+  /** A statue on a pedestal (the Pokémon Mansion: some hide a switch). */
+  function statue(P, C, ox, oy, tx, ty) {
+    floor(P, C, ox, oy, tx, ty, C.floor);
+    ascii(P, ox, oy, STATUE, { o: pack('#22201e'), L: pack('#b4aca2'), w: pack('#e0dad2'), g: pack('#8a8278'), d: pack('#6a5a4a'), D: pack('#8a7864') });
+  }
+  const QUIZ = [
+    '..oooooooooooo..',
+    '.oMMMMMMMMMMMMo.',
+    '.oMooooooooooMo.',
+    '.oMossYYYsssoMo.',
+    '.oMosYsssYssoMo.',
+    '.oMosssssYssoMo.',
+    '.oMossssYsssoMo.',
+    '.oMosssYssssoMo.',
+    '.oMossssssssoMo.',
+    '.oMosssYssssoMo.',
+    '.oMooooooooooMo.',
+    '.oMMMMMMMMMMMMo.',
+    '.oddrrddggddddo.',
+    '.oddddddddddddo.',
+    '..oooooooooooo..',
+    '................'
+  ];
+  /** A quiz machine (Blaine's Gym): a screen with a question mark. */
+  function quiz(P, C, ox, oy, tx, ty) {
+    floor(P, C, ox, oy, tx, ty, C.floor);
+    ascii(P, ox, oy, QUIZ, { o: pack('#1c1c22'), M: pack('#8a8e9a'), s: pack('#2a5aa8'), Y: pack('#f8e070'), d: pack('#5a5e6a'), r: pack('#e04848'), g: pack('#48c060') });
+  }
+
   /** The tile a spin stops on. */
   function stop(P, C, ox, oy, tx, ty) {
     floor(P, C, ox, oy, tx, ty, C.floor);
@@ -1001,6 +1098,36 @@ G.Tiles = (() => {
       P.rect(11, 7, 2, 3, r);
       return P.canvas();
     },
+    /** A boulder Strength can push: 16×17, a round rock. */
+    boulder(C) {
+      const P = Pix(T, 17);
+      const S = C.src, rock = C.floor ? ['#5e5650', '#7a726a', '#9a928a', '#bab2a8'] : [S.cliffFaceDark, S.cliffFace[0], S.cliffTop[0], S.cliffLight];
+      const cols = rock.map(c => pack(c));
+      disc(P, 7.5, 9, 7.2, (x, y) => {
+        const lit = ((x - 7.5) * -0.5 + (y - 9) * -0.85) / 7;
+        return cols[lit > 0.45 ? 3 : lit > 0.05 ? 2 : lit > -0.45 ? 1 : 0];
+      });
+      for (const [x, y] of [[5, 11], [6, 12], [10, 7], [11, 8], [9, 13]]) P.set(x, y, cols[0]);
+      outline(P, pack('#1e1a18'));
+      return P.canvas();
+    },
+    /** A pit a boulder fell into: the top of the boulder, flush with the floor. */
+    plug(C) {
+      const P = Pix(T, T);
+      const S = C.src, rock = C.floor ? ['#5e5650', '#7a726a', '#9a928a'] : [S.cliffFaceDark, S.cliffFace[0], S.cliffTop[0]];
+      const cols = rock.map(c => pack(c));
+      disc(P, 7.5, 7.5, 6.5, (x, y) => cols[((x + y) & 3) === 0 ? 0 : (x - 7.5) * -0.6 + (y - 7.5) * -0.8 > 1 ? 2 : 1]);
+      outline(P, pack('#1e1a18'));
+      return P.canvas();
+    },
+    /** A closed gate: iron bars across the tile (open: not drawn). */
+    bars() {
+      const P = Pix(T, T);
+      const o = pack('#1c1c22'), m = pack('#7a7e8a'), l = pack('#b0b4c0');
+      for (let x = 0; x < T; x++) { P.set(x, 1, o); P.set(x, 2, l); P.set(x, 3, m); P.set(x, 4, o); P.set(x, 12, o); P.set(x, 13, m); P.set(x, 14, o); }
+      for (const bx of [1, 5, 9, 13]) for (let y = 0; y < T; y++) { P.set(bx, y, o); P.set(bx + 1, y, y < 2 ? l : m); P.set(bx + 2, y, o); }
+      return P.canvas();
+    },
     /** An item on the ground: a Poké Ball. */
     ball() {
       const P = Pix(12, 12);
@@ -1049,6 +1176,11 @@ G.Tiles = (() => {
       case 'spin-stop': stop(P, C, ox, oy, tx, ty); break;
       case 'invisible': case 'keydoor': floor(P, C, ox, oy, tx, ty, C.floor); break;   // a closed key door: a prop (render.js)
       case 'pad': pad(P, C, ox, oy, tx, ty); break;
+      case 'pit': pit(P, C, ox, oy, tx, ty); break;
+      case 'rapids': water(P, C, ox, oy, tx, ty, at, frame); break;   // its foam streaks: render.js
+      case 'bars': floor(P, C, ox, oy, tx, ty, C.floor); break;       // a closed gate: a prop (render.js)
+      case 'statue': statue(P, C, ox, oy, tx, ty); break;
+      case 'quiz': quiz(P, C, ox, oy, tx, ty); break;
       default: P.rect(ox, oy, T, T, C.black);
     }
     // Under a building: whatever is around it (path in front of the door).
@@ -1070,7 +1202,7 @@ G.Tiles = (() => {
 
   /** The whole map, once: two ground frames and the Y-sorted strips. */
   function bakeMap(m) {
-    const animated = m.kind.some(k => k === 'water' || k === 'flowers');
+    const animated = m.kind.some(k => k === 'water' || k === 'flowers' || k === 'rapids');
     const g0 = bakeGround(m, 0);
     const ground = [g0, animated ? bakeGround(m, 1) : g0];
     const strips = {};

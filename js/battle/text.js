@@ -26,7 +26,7 @@ G.BattleText = (() => {
   function trainerName(b) {
     const t = b.foe.trainer;
     if (!t) return '';
-    return t.title ? G.T(t.title, 'trainer') + ' ' + t.name : t.name;
+    return t.title ? G.T(t.title, t.titleCtx || 'trainer') + ' ' + t.name : t.name;
   }
   const money = n => '₽' + G.I18n.num(n);
 

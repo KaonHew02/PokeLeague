@@ -48,5 +48,15 @@ G.I18n.add({
   "{mon} used Surf!": "{mon} usa Surf!",
   "Safari Balls ×{n} · Steps {s}": "Safari Ball ×{n} · Passi {s}",
   "The door is locked. A slot beside it reads: Card Key required.": "La porta è chiusa. Una fessura accanto dice: Serve l'Apriporta.",
-  "{player} used the Card Key. The door slid open!": "{player} usa l'Apriporta. La porta si apre scorrendo!"
+  "{player} used the Card Key. The door slid open!": "{player} usa l'Apriporta. La porta si apre scorrendo!",
+  "A huge boulder. A strong Pokémon could push it out of the way.": "Un enorme masso. Un Pokémon forte potrebbe spostarlo.",
+  "A huge boulder. A strong Pokémon could push it out of the way. Would you like to use Strength?": "Un enorme masso. Un Pokémon forte potrebbe spostarlo. Vuoi usare Forza?",
+  "{mon} used Strength!": "{mon} usa Forza!",
+  "{mon} can push boulders around now!": "Ora {mon} può spingere i massi!",
+  "{player} used the {item}!": "{player} usa {item}!",
+  "Oh! A bite!": "Oh! Ha abboccato!",
+  "The water is a deep blue. What would you like to do?": "L'acqua è di un blu intenso. Cosa vuoi fare?",
+  "Fish": "Pescare",
+  "Would you like to fish with the {item}?": "Vuoi pescare con {item}?",
+  "The current is much too strong to Surf against!": "La corrente è troppo forte per fare Surf!"
 }, "it");

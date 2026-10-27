@@ -127,6 +127,14 @@ G.BagUI = (() => {
   async function use(id) {
     const k = FI().kind(id), fx = G.ITEM_FX[id] || {};
     const S = G.Field.save;
+    // A rod: fish in the water in front of you (G.World.fish).
+    if (fx.rod) {
+      if (!G.World || !G.World.canFish || !G.World.canFish()) { await G.Popup.say(T("There's no water here to fish in.")); return; }
+      finish(null);
+      G.UI.closeAll();
+      G.World.fish(id);
+      return;
+    }
     if (k === 'key') { await G.Popup.say(T("This can't be used now.")); return; }
     if (fx.repel) {
       if (FI().repel(S, id) === 'active') { await G.Popup.say(T('A Repel is still working.')); return; }

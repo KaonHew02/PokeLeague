@@ -97,5 +97,10 @@ G.I18n.add({
   "Poison powder and sleep powder are useful, but Koga has even nastier tricks.": "毒粉和催眠粉都很好用，不过阿桔还有更阴险的招数。",
   "Route 12. North: Lavender Town. South: the Silence Bridge, then Route 13.": "12号道路。北：紫苑镇。南：寂静桥，然后是13号道路。",
   "Route 13. The fences turn this road into a maze. Look for the way around!": "13号道路。栅栏把这条路变成了迷宫。找找绕过去的路吧！",
-  "Route 15. West: Fuchsia City.": "15号道路。西：浅红市。"
+  "Route 15. West: Fuchsia City.": "15号道路。西：浅红市。",
+  "With the Super Rod, Pokémon from the deepest water will bite. Good luck out there!": "用厉害钓竿，连最深水里的宝可梦都会上钩。祝你好运！",
+  "I am the best angler on Route 12! Hmm? You look like you love fishing too.": "我是12号道路上最厉害的钓鱼人！嗯？你看起来也很爱钓鱼嘛。",
+  "Do you love fishing?": "你热爱钓鱼吗？",
+  "I can tell! Here, take my Super Rod. Real anglers deserve real gear!": "我看得出来！来，我的厉害钓竿送你。真正的钓鱼人就该用真正的好装备！",
+  "Really? What a shame. My rod would have liked you.": "真的吗？太可惜了。我的钓竿本来会喜欢你的。"
 }, "zh-Hans");

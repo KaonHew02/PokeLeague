@@ -41,10 +41,10 @@ G.Maps.def({
     'T............GGGDGG.,..................T',
     'T..........S....,,,,,..................T',
     'T...............,,,,,..................T',
-    'T......................................T',
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
+    'T..................,,,,................T',
+    'TTTTTTTTTTTTTTTTTTT,,,,TTTTTTTTTTTTTTTTT'
   ],
-  connect: { east: { map: 'route15', offset: 10 } },
+  connect: { east: { map: 'route15', offset: 10 }, south: { map: 'route19', offset: 12 } },
   warps: [
     { x: 20, y: 5, to: 'safari-gate', spot: 'door' },
     { x: 11, y: 13, to: 'fuchsia-mart', spot: 'door' },
@@ -70,8 +70,7 @@ G.Maps.def({
     { id: 'voltorb', who: 'voltorb', mon: 'voltorb', x: 34, y: 5, dir: 'left', move: 'look', say: 'Voltorb rolls around a little.' },
     { id: 'boy', who: 'youngster', x: 14, y: 9, move: 'wander', r: 2,
       say: 'In the Safari Zone you only get Safari Balls, Bait and Rocks. No battling! I love it.' },
-    { id: 'fisher', who: 'fisherman', x: 24, y: 18, move: 'wander', r: 2,
-      say: 'Fuchsia is by the sea. Folks say there are islands far to the south, across the water.' },
+    { id: 'fisher', who: 'fisherman', x: 24, y: 18, move: 'wander', r: 2, script: 'fuchsia.good-rod' },
     { id: 'girl', who: 'lass', x: 8, y: 23, dir: 'right', move: 'look',
       say: 'Koga\'s Gym is full of walls you cannot see. Bump into them to find the way!' }
   ],
@@ -196,6 +195,21 @@ G.Maps.def({
 });
 
 G.Script.def({
+  // The Good Rod (as in the games, from a fisherman in Fuchsia City).
+  'fuchsia.good-rod': [
+    ['if', 'got-good-rod', [
+      ['say', 'The Good Rod pulls up better Pokémon than the Old Rod. Try it in the sea south of town!']
+    ], [
+      ['say', 'Fuchsia is by the sea. Folks say there are islands far to the south, across the water.'],
+      ['choice', 'Say, do you like fishing?', [
+        ['say', 'I knew it! You have the look of an angler. Take this Good Rod and catch something big!'],
+        ['giveItem', 'good-rod', 1],
+        ['setFlag', 'got-good-rod']
+      ], [
+        ['say', 'No? Well, the fish will wait for you.']
+      ]]
+    ]]
+  ],
   'fuchsia.warden': [
     ['if', 'got-hm04', [
       ['say', 'Strength lets a Pokémon push heavy boulders out of the way. With the Rainbow Badge it works outside battle too.', { name: 'Safari Zone Warden' }]

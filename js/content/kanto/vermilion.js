@@ -216,13 +216,13 @@ G.Maps.def({
     '15,18': 'Vermilion City Pokémon Gym. Leader: Lt. Surge, the thunder-loving soldier!',
     '19,21': 'Vermilion Harbor. The S.S. Anne is docked here.'
   },
+  encounters: { water: '@vermilion-city-area' },
   npcs: [
     { id: 'sailor', who: 'sailor', x: 20, y: 12, move: 'look',
       say: 'The S.S. Anne is a famous cruise ship. Trainers from all over the world are aboard!' },
     { id: 'kid', who: 'youngster', x: 12, y: 10, move: 'wander', r: 2,
       say: "The Gym is behind that little tree. You'll need a Pokémon that knows Cut to get through." },
-    { id: 'fisher', who: 'oldman', x: 28, y: 22, dir: 'down',
-      say: "I've fished here for forty years. The sea air keeps me young!" }
+    { id: 'fisher', who: 'oldman', x: 28, y: 22, dir: 'down', script: 'vermilion.old-rod' }
   ]
 });
 
@@ -283,6 +283,22 @@ G.Maps.def({
 });
 
 G.Script.def({
+  // The Old Rod (as in the games, from the old fisherman of Vermilion).
+  'vermilion.old-rod': [
+    ['if', 'got-old-rod', [
+      ['say', 'How is the fishing? Even a Magikarp is a fine catch, if you ask me!']
+    ], [
+      ['say', "I've fished here for forty years. The sea air keeps me young!"],
+      ['choice', 'Do you like fishing, young one?', [
+        ['say', 'Ha! A kindred spirit! Take this old rod of mine. Face the water and give it a try.'],
+        ['giveItem', 'old-rod', 1],
+        ['setFlag', 'got-old-rod'],
+        ['say', 'Use it from your Bag, or just press A at the water.']
+      ], [
+        ['say', 'Oh... If you change your mind, come back and see me.']
+      ]]
+    ]]
+  ],
   'vermilion.chairman': [
     ['say', 'Welcome to the Pokémon Fan Club! I am the chairman.'],
     ['say', 'My favourite? Rapidash! So elegant, so fast. Its mane of fire is a work of art.'],

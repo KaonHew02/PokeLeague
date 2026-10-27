@@ -117,6 +117,35 @@ G.WorldRender = (() => {
         if (k === 'keydoor' && !G.World.keyOpen(x, y, m)) ctx.drawImage(kd, x * TS, y * TS, TS, TS);
       });
     }
+    // Closed gates, pits a boulder filled, and the foam of fast water that is not calm yet.
+    if (m.kind.includes('bars')) {
+      const bars = G.Tiles.sprite('bars', m.palette);
+      m.kind.forEach((k, i) => {
+        const x = i % m.w, y = (i / m.w) | 0;
+        if (k === 'bars' && !G.World.barsOpen(x, y, m)) ctx.drawImage(bars, x * TS, y * TS, TS, TS);
+      });
+    }
+    if (m.kind.includes('pit')) {
+      const plug = G.Tiles.sprite('plug', m.palette);
+      m.kind.forEach((k, i) => {
+        const x = i % m.w, y = (i / m.w) | 0;
+        if (k === 'pit' && G.World.pitFilled(x, y, m)) ctx.drawImage(plug, x * TS, y * TS, TS, TS);
+      });
+    }
+    if (m.kind.includes('rapids') && !G.World.calm(m)) {
+      const t = performance.now() / 1000, flow = G.Maps.DIRS[m.def.flow || 'down'];
+      ctx.fillStyle = 'rgba(236,250,255,.75)';
+      m.kind.forEach((k, i) => {
+        if (k !== 'rapids') return;
+        const x = i % m.w, y = (i / m.w) | 0;
+        for (let j = 0; j < 3; j++) {
+          const ph = (t * 1.8 + j / 3 + ((x * 7 + y * 13) % 10) / 10) % 1;
+          const along = ph * TS, across = 4 + ((j * 11 + x * 5 + y * 3) % 7) * 4;
+          const px = flow[0] ? along * flow[0] + (flow[0] < 0 ? TS : 0) : across, py = flow[1] ? along * flow[1] + (flow[1] < 0 ? TS : 0) : across;
+          ctx.fillRect(x * TS + px - (flow[0] ? 5 : 1), y * TS + py - (flow[1] ? 5 : 1), flow[0] ? 10 : 2, flow[1] ? 10 : 2);
+        }
+      });
+    }
     // Stairs behind a poster (`secret` tiles): drawn once their warp is open.
     if (m.kind.includes('secret')) {
       const pass = G.Tiles.sprite('passage', m.palette);
@@ -147,6 +176,18 @@ G.WorldRender = (() => {
     for (let ty = Math.max(0, r0); ty <= Math.min(m.h - 1, r1); ty++) for (let tx = 0; tx < m.w; tx++) {
       if (m.kind[ty * m.w + tx] !== 'cuttree' || (S.cut && S.cut.has(tx + ',' + ty))) continue;
       list.push({ y: (ty + 0.5) * TS, draw: c => c.drawImage(shrub, tx * TS, (ty + 1) * TS - shrub.height * PX, shrub.width * PX, shrub.height * PX) });
+    }
+    // Boulders (Strength): slide to their new tile; one pushed into a pit sinks out of sight.
+    if (S.rocks && S.rocks.length) {
+      const rock = G.Tiles.sprite('boulder', m.palette), now = performance.now();
+      for (const r of S.rocks) {
+        const k = Math.min(1, (now - r.t0) / 220);
+        let s = 1;
+        if (r.fall && now > r.fall) { s = 1 - (now - r.fall) / 260; if (s <= 0) continue; }
+        const x = (r.px + (r.x - r.px) * k) * TS, y = (r.py + (r.y - r.py) * k) * TS;
+        const w = rock.width * PX * s, hh = rock.height * PX * s;
+        list.push({ y: (r.y + 0.5) * TS - 1, draw: c => c.drawImage(rock, x + (TS - w) / 2, y + TS - hh - (1 - s) * TS * 0.3, w, hh) });
+      }
     }
     const ball = G.Tiles.sprite('ball');
     for (const it of S.items) {

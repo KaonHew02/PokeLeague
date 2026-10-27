@@ -28,5 +28,6 @@ G.I18n.add({
   "Tamer": "Domatore",
   "Boss": "Capo",
   "Black Belt": "Karateka",
-  "Psychic": "Sensitivo"
+  "Psychic": "Sensitivo",
+  "Burglar": "Ladro"
 }, "it");

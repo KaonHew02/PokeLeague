@@ -32,6 +32,12 @@
  * The Safari Zone (maps with `safari: true` while flag safari-on): every step counts down var
  * safari-steps, wild Pokémon meet you in a Safari battle (G.BattleUI.safari), and the game ends
  * (script safari.timeup / safari.out-of-balls) when the steps or the Safari Balls run out.
+ * Chapter 7: boulders (map `boulders`) move when pushed after Strength is used (with the Rainbow
+ * Badge), until you leave the map; one pushed into a pit falls through for good (flags
+ * rock:<map>:<id> and pit:<map>:<x>,<y>; the pit is floor from then on). Fast water (`rapids`)
+ * cannot be surfed until the map's `calm` holds. Gates (`bars`) open while their rule holds.
+ * Rods (Old, Good, Super): G.World.fish(rod) facing water, from the Bag or by pressing A at the
+ * water. Swimmers (people with `swim`) stand in the water, and trainers see across it.
  */
 G.Field = (() => {
   function fresh() {
@@ -171,6 +177,8 @@ G.World = (() => {
   let lit = false;                       // Flash used: dark caves stay lit until you leave them
   let sliding = null;                    // a spin tile sent the player this way (the Rocket Hideout)
   let surfing = false;                   // riding a Pokémon on the water (Surf)
+  let strength = false;                  // Strength used: boulders move until you leave the map
+  let rocks = [];                        // the boulders of this map: { id, x, y, px, py, t0, fixed, fall }
   let spinN = 0, slideN = 0;
   const debug = { noEnc: false, noclip: false };
   let rng = G.RNG(G.RNG.seed());
@@ -239,6 +247,8 @@ G.World = (() => {
       actors.push(a);
     }
     items = map.items.map(d => ({ def: d, key: id + ':' + d.flag }));
+    rocks = (map.def.boulders || []).filter(b => G.Field.test(b.if) && !G.Field.flag('rock:' + id + ':' + b.id))
+      .map(b => ({ id: b.id, x: b.x, y: b.y, px: b.x, py: b.y, t0: -1e9, fixed: !!b.fixed, fall: 0 }));
     refresh();
   }
 
@@ -269,6 +279,7 @@ G.World = (() => {
     map = m;
     cut = new Set();
     sliding = null;
+    strength = false;
     if (!m.def.dark) lit = false;
     const s = (where && typeof where === 'object' && !Array.isArray(where)) ? { x: where.x | 0, y: where.y | 0, dir: where.dir || 'down' }
       : M().spot(m, where) || M().spot(m, Object.keys(m.spots)[0]) || { x: m.w >> 1, y: m.h >> 1, dir: 'down' };
@@ -317,6 +328,7 @@ G.World = (() => {
     const from = map;
     map = a.map;
     cut = new Set();
+    strength = false;
     if (!map.def.dark) lit = false;
     me.x -= nb.ox; me.y -= nb.oy; me.fx -= nb.ox; me.fy -= nb.oy;
     if (follower) { follower.x -= nb.ox; follower.y -= nb.oy; follower.fx -= nb.ox; follower.fy -= nb.oy; }
@@ -359,15 +371,31 @@ G.World = (() => {
 
   /** A door opened with the Card Key stays open (flag door:<map>:<x>,<y>). */
   const keyOpen = (x, y, m = map) => G.Field.flag('door:' + m.id + ':' + x + ',' + y);
+  /** A gate (`bars`) is open while the rule of the map's `bars` rectangle over it holds. */
+  function barsOpen(x, y, m = map) {
+    const r = (m.def.bars || []).find(b => x >= b.x && y >= b.y && x < b.x + (b.w || 1) && y < b.y + (b.h || 1));
+    return !!r && G.Field.test(r.if);
+  }
+  /** A pit a boulder fell into is floor from then on. */
+  const pitFilled = (x, y, m = map) => G.Field.flag('pit:' + m.id + ':' + x + ',' + y);
+  /** Fast water is calm (surfable) once the map's `calm` holds (boulders dropped from above). */
+  const calm = m => m.def.calm != null && G.Field.test(m.def.calm);
   function openTile(x, y) {
-    if (M().inside(map, x, y)) return !map.solid[y * map.w + x] || cut.has(M().key(x, y)) || (M().kindAt(map, x, y) === 'keydoor' && keyOpen(x, y));
+    if (M().inside(map, x, y)) {
+      if (!map.solid[y * map.w + x]) return true;
+      const k = M().kindAt(map, x, y);
+      return cut.has(M().key(x, y)) || (k === 'keydoor' && keyOpen(x, y)) || (k === 'bars' && barsOpen(x, y));
+    }
     const a = M().across(map, x, y);
     return !!a && M().open(a.map, a.x, a.y);
   }
-  /** The visible person (or item) on a tile, else null. */
+  const rockAt = (x, y) => rocks.find(r => !r.fall && r.x === x && r.y === y) || null;
+  /** The visible person (or item, or boulder) on a tile, else null. */
   function occupant(x, y, except) {
     for (const a of actors) if (a !== except && a.visible && a.x === x && a.y === y) return a;
     for (const it of items) if (!it.got && !it.def.hidden && it.def.x === x && it.def.y === y) return it;
+    const r = rockAt(x, y);
+    if (r) return r;
     if (me && me !== except && me.x === x && me.y === y) return me;
     return null;
   }
@@ -405,6 +433,10 @@ G.World = (() => {
       stepActor(a, dir, speed, false);
       return 'moved';
     }
+    if (a === me && surfing && M().inside(map, nx, ny) && M().kindAt(map, nx, ny) === 'rapids') { rapidsSay(); return 'blocked'; }
+    // A boulder: pushed one tile while Strength is on.
+    const rk = rockAt(nx, ny);
+    if (rk) { if (a === me) push(rk, dir); return 'blocked'; }
     if (!openTile(nx, ny)) return 'blocked';
     if (occupant(nx, ny, a)) return 'blocked';
     if (!M().inside(map, nx, ny)) {
@@ -445,7 +477,10 @@ G.World = (() => {
     countRepel();
     const k = M().kindAt(map, me.x, me.y);
     const w = map.warpAt.get(M().key(me.x, me.y));
-    if (w && (k !== 'mat' || me.dir === 'down')) { warp(w.to, w.spot); return; }
+    if (w && k === 'pit') {
+      // A hole in the floor: you fall to the floor below (a filled one is just floor).
+      if (!pitFilled(me.x, me.y)) { G.Player.walk(null); warp(w.to, w.spot, { sfx: 'fall' }); return; }
+    } else if (w && (k !== 'mat' || me.dir === 'down')) { warp(w.to, w.spot); return; }
     // The Safari Zone: every step counts.
     if (map.def.safari && G.Field.flag('safari-on')) {
       const left = (+G.Field.getVar('safari-steps') || 0) - 1;
@@ -553,7 +588,9 @@ G.World = (() => {
     return { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag };
   }
   function battleOpts(canLose) {
-    return { bg: map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld',
+    // On the water (Surf, a rod) outside a cave: the sea behind the Pokémon.
+    const sea = (surfing || fishing) && map.tileset === 'outdoor' && !map.def.cave;
+    return { bg: sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld',
              rules: { canLose: !!canLose, where: map.loc || map.id } };
   }
   /** After a battle: Pokédex, prize money, a caught Pokémon that goes to the PC. -> the outcome */
@@ -591,7 +628,7 @@ G.World = (() => {
           trainerBattle(t, true);
           return true;
         }
-        if (!openTile(x, y) || occupant(x, y, t)) break;
+        if ((!openTile(x, y) && !isWater(x, y)) || occupant(x, y, t)) break;
       }
     }
     return false;
@@ -603,10 +640,14 @@ G.World = (() => {
       if (seen) {
         sfx('exclaim', 'error');
         await emote(t, '!');
-        // Walk up to the player.
+        // Walk up to the player (a swimmer only through water, anyone else only on land).
         const [dx, dy] = M().DIRS[t.dir];
         const dist = Math.abs(me.x - t.x) + Math.abs(me.y - t.y);
-        if (dist > 1 && (me.x - t.x) * dx + (me.y - t.y) * dy > 0) await moveActor(t, new Array(dist - 1).fill(t.dir), 4);
+        let n = 0;
+        if ((me.x - t.x) * dx + (me.y - t.y) * dy > 0) {
+          while (n < dist - 1 && isWater(t.x + dx * (n + 1), t.y + dy * (n + 1)) === !!(t.def && t.def.swim)) n++;
+        }
+        if (n > 0) await moveActor(t, new Array(n).fill(t.dir), 4);
       }
       faceEachOther(t);
       if (t.def.before) await say(t.def.before, { name: trainerName(t.def) });
@@ -626,16 +667,18 @@ G.World = (() => {
     const cls = G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls];
     return (cls && (cls.title || cls.name)) || (d.cls ? G.Names.pretty(d.cls) : '');
   }
+  /** The translation context of a class title ('trainer', or 'trainer-f' for a woman's title). */
+  const classCtx = d => (G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls] && G.TRAINER_CLASSES[d.cls].ctx) || 'trainer';
   function trainerName(d) {
     if (!d.name) return null;
     const label = classTitle(d);
-    return label ? G.T(label, 'trainer') + ' ' + G.T(d.name) : G.T(d.name);
+    return label ? G.T(label, classCtx(d)) + ' ' + G.T(d.name) : G.T(d.name);
   }
 
   /** A map trainer as G.BattleUI.trainer wants it. */
   function battleTrainer(d, key) {
     const cls = (G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls]) || {};
-    return { id: key, name: d.name ? G.T(d.name) : '', title: classTitle(d), who: d.who, cls: d.cls,
+    return { id: key, name: d.name ? G.T(d.name) : '', title: classTitle(d), titleCtx: classCtx(d), who: d.who, cls: d.cls,
              ai: d.ai || (d.leader ? 'leader' : 'basic'), prize: d.prize != null ? d.prize : cls.prize,
              items: d.items || {}, leader: !!d.leader, team: d.team };
   }
@@ -690,6 +733,7 @@ G.World = (() => {
     const tx = me.x + dx, ty = me.y + dy;
     const who = occupant(tx, ty, me);
     if (who && who instanceof G.Actor) return talk(who);
+    if (who && who.t0 !== undefined) return strengthAt();
     if (follower && follower.visible && follower.x === tx && follower.y === ty) return talkFollower();
     const it = itemAt(tx, ty);
     if (it) return pickUp(it);
@@ -702,7 +746,8 @@ G.World = (() => {
     if (sign && typeof sign === 'object' && !Array.isArray(sign)) return runScript(sign.script, { x: tx, y: ty });
     if (sign) return runScript([['say', sign]], {});
     if (k === 'cuttree' && !cut.has(M().key(tx, ty))) return runScript([['js', h => cutTree(h, tx, ty)]], {});
-    if (!surfing && isWater(tx, ty) && !occupant(tx, ty, me)) return runScript([['js', h => surf(h, me.dir)]], {});
+    if (k === 'rapids' && !isWater(tx, ty)) return runScript([['say', "The current is much too strong to Surf against!"]], {});
+    if (isWater(tx, ty) && !occupant(tx, ty, me) && (!surfing || bestRod())) return runScript([['js', h => atWater(h, me.dir)]], {});
     if (k === 'keydoor' && !keyOpen(tx, ty)) return runScript([['js', h => cardKey(h, tx, ty)]], {});
     if (k === 'pc') return runScript([['sfx', 'pc'], ['say', '{player} turned on the PC.'], ['pc']], {});
     if (map.def.dark && !lit) return darkCheck();
@@ -757,11 +802,112 @@ G.World = (() => {
     await h.say(G.T('{player} used the Card Key. The door slid open!'));
   }
 
-  /** Water (inside the map or across a connection): Surf goes there. */
+  /** A boulder in front of you: Strength (with the Rainbow Badge, as in the games) lets you push it. */
+  function strengthAt() {
+    if (strength) return null;
+    const mon = G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'strength'));
+    return runScript([['js', async h => {
+      if (!mon || !G.Field.save.player.badges.includes(4)) { await h.say(G.T('A huge boulder. A strong Pokémon could push it out of the way.')); return; }
+      if (await h.choice(G.T('A huge boulder. A strong Pokémon could push it out of the way. Would you like to use Strength?'), {}) !== 0) return;
+      await h.say(G.T('{mon} used Strength!'), { vars: { mon: G.Mon.name(mon) } });
+      sfx('strength', 'hit');
+      strength = true;
+      await h.say(G.T('{mon} can push boulders around now!'), { vars: { mon: G.Mon.name(mon) } });
+    }]], {});
+  }
+
+  /** Walking into a boulder with Strength on pushes it one tile; into a pit, it falls through. */
+  function push(rk, dir) {
+    if (!strength || rk.fixed) return false;
+    const now = performance.now();
+    if (now - rk.t0 < 260) return false;                   // still sliding from the last push
+    const [dx, dy] = M().DIRS[dir];
+    const bx = rk.x + dx, by = rk.y + dy;
+    if (!M().inside(map, bx, by) || !openTile(bx, by) || occupant(bx, by)) return false;
+    if (follower && follower.visible && follower.x === bx && follower.y === by) return false;
+    const k = M().kindAt(map, bx, by), pit = k === 'pit' && !pitFilled(bx, by);
+    if (M().info(k).warp && !pit) return false;
+    rk.px = rk.x; rk.py = rk.y; rk.x = bx; rk.y = by; rk.t0 = now;
+    sfx('strength', 'bump');
+    if (pit) {
+      rk.fall = now + 220;
+      G.Field.setFlag('rock:' + map.id + ':' + rk.id);
+      G.Field.setFlag('pit:' + map.id + ':' + bx + ',' + by);
+      setTimeout(() => sfx('fall', 'bump'), 220);
+    }
+    return true;
+  }
+
+  let rapidsT = 0;
+  /** Bumping into fast water: say so (not more than every few seconds). */
+  function rapidsSay() {
+    const now = performance.now();
+    if (now - rapidsT < 2500) return;
+    rapidsT = now;
+    G.Player.walk(null);
+    runScript([['say', 'The current is much too strong to Surf against!']], {});
+  }
+
+  // ---------------- fishing ----------------
+
+  const RODS = ['super-rod', 'good-rod', 'old-rod'];
+  let fishing = false;                   // a battle with something that bit (the sea behind it)
+  const BITE = { 'old-rod': 0.7, 'good-rod': 0.75, 'super-rod': 0.8 };
+  const bestRod = () => RODS.find(r => G.Field.count(r) > 0) || null;
+  /** The water tile in front of the player, if there is one to fish in. */
+  function fishSpot() {
+    if (!me || !map) return null;
+    const [dx, dy] = M().DIRS[me.dir];
+    const tx = me.x + dx, ty = me.y + dy;
+    return isWater(tx, ty) && !occupant(tx, ty, me) ? { x: tx, y: ty } : null;
+  }
+  const canFish = () => !!fishSpot() && !locks;
+
+  /** Casts a rod: a bite (by the rod's table on this map) is a wild battle. */
+  async function fishWith(h, rod) {
+    await h.say(G.T('{player} used the {item}!'), { vars: { item: G.Names.item(rod) } });
+    const table = M().encounters(map, rod);
+    await wait(500 + rng.int(0, 900));
+    if (!table || !table.mons || !table.mons.length || !(rng.next() < BITE[rod])) { await h.say(G.T('Not even a nibble...')); return; }
+    sfx('exclaim', 'error');
+    await emote(me, '!');
+    await h.say(G.T('Oh! A bite!'));
+    let r = rng.next() * 100, pick = table.mons[table.mons.length - 1];
+    for (const row of table.mons) { if ((r -= row[3]) < 0) { pick = row; break; } }
+    fishing = true;
+    try { await wildBattle({ sp: M().species(pick[0]), lvl: rng.int(pick[1], pick[2]), method: rod, map: map.id, area: null }); }
+    finally { fishing = false; }
+  }
+  /** From the Bag: fish here with this rod. -> the script (a Promise), or false when there is no water in front */
+  function fish(rod) {
+    if (!canFish()) return false;
+    return runScript([['js', h => fishWith(h, rod)]], {});
+  }
+
+  /** A at the water: Surf, fish with the best rod, or both to choose from. */
+  async function atWater(h, dir) {
+    const rod = bestRod(), mon = surfing ? null : surfer();
+    if (rod && mon) {
+      const i = await G.Dialog.ask(G.T('The water is a deep blue. What would you like to do?'),
+        { options: [G.Names.move('surf'), G.T('Fish'), G.T('Cancel')] });
+      if (i === 0) await surf(h, dir, true);
+      else if (i === 1) await fishWith(h, rod);
+      return;
+    }
+    if (rod) {
+      if (await h.choice(G.T('Would you like to fish with the {item}?'), { vars: { item: G.Names.item(rod) } }) === 0) await fishWith(h, rod);
+      return;
+    }
+    await surf(h, dir);
+  }
+
+  /** Water (inside the map or across a connection): Surf goes there. Fast water only once it is calm. */
   function isWater(x, y) {
-    if (M().inside(map, x, y)) return M().kindAt(map, x, y) === 'water';
+    if (M().inside(map, x, y)) { const k = M().kindAt(map, x, y); return k === 'water' || (k === 'rapids' && calm(map)); }
     const a = M().across(map, x, y);
-    return !!a && M().kindAt(a.map, a.x, a.y) === 'water';
+    if (!a) return false;
+    const k = M().kindAt(a.map, a.x, a.y);
+    return k === 'water' || (k === 'rapids' && calm(a.map));
   }
   /** The Pokémon that can Surf (the Soul Badge allows it outside battle, as in the games). */
   const surfer = () => G.Field.save.player.badges.includes(5) ? G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'surf')) : null;
@@ -771,10 +917,10 @@ G.World = (() => {
     const mon = on ? surfer() || G.Field.party().find(m => G.Mon.knows(m, 'surf')) : null;
     me.ride = on ? (mon ? mon.sp : 131) : 0;
   }
-  async function surf(h, dir) {
+  async function surf(h, dir, chosen) {
     const mon = surfer();
     if (!mon) { await h.say(G.T('The water is a deep blue.')); return; }
-    if (await h.choice(G.T('The water is a deep blue. Would you like to Surf?'), {}) !== 0) return;
+    if (!chosen && await h.choice(G.T('The water is a deep blue. Would you like to Surf?'), {}) !== 0) return;
     await h.say(G.T('{mon} used Surf!'), { vars: { mon: G.Mon.name(mon) } });
     sfx('surf', 'confirm');
     setSurf(true);
@@ -981,6 +1127,7 @@ G.World = (() => {
     if (itemAt(tx, ty)) return { item: true };
     if (map.signs[M().key(tx, ty)] || M().kindAt(map, tx, ty) === 'pc') return { sign: true };
     if (M().kindAt(map, tx, ty) === 'cuttree' && !cut.has(M().key(tx, ty))) return { sign: true };
+    if (rockAt(tx, ty)) return { sign: true };
     return null;
   }
 
@@ -1088,16 +1235,18 @@ G.World = (() => {
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit,
+      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit,
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }
 
   const api = {
-    start, warp, load, tryStep, arrived, interact, openMenu, repath, sfx, song, refresh, runScript, battle, blackout,
+    start, warp, load, tryStep, arrived, interact, openMenu, repath, sfx, song, refresh, runScript, battle, blackout, update,
     actor: id => actor(id, {}), host, debug,
     onEncounter: null, onTrainer: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, get surfing() { return surfing; }, keyOpen,
+    barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod,
+    get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },
     get locked() { return locks > 0 || (G.Dialog && G.Dialog.open); }, get started() { return started; },
     get rng() { return rng; }, seed(s) { rng = G.RNG(s); }

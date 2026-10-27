@@ -42,5 +42,10 @@ G.I18n.add({
   "Vermilion Harbor. The S.S. Anne is docked here.": "枯叶港。圣特安努号停靠在这里。",
   "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "宝可梦粉丝俱乐部规则：尽情聊你最喜欢的宝可梦吧！",
   "South: Saffron City.": "南：金黄市。",
-  "Route 6. South: Vermilion City. North: Saffron City.": "6号道路。南：枯叶市。北：金黄市。"
+  "Route 6. South: Vermilion City. North: Saffron City.": "6号道路。南：枯叶市。北：金黄市。",
+  "How is the fishing? Even a Magikarp is a fine catch, if you ask me!": "钓得怎么样？要我说，就算是鲤鱼王也是很好的收获！",
+  "Do you like fishing, young one?": "年轻人，你喜欢钓鱼吗？",
+  "Ha! A kindred spirit! Take this old rod of mine. Face the water and give it a try.": "哈！遇到同道中人了！这根旧钓竿给你。面对水面试试看吧。",
+  "Use it from your Bag, or just press A at the water.": "可以从背包里使用，或者面对水面按A键。",
+  "Oh... If you change your mind, come back and see me.": "哦……如果你改变主意了，再来找我吧。"
 }, "zh-Hans");

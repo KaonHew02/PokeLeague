@@ -153,5 +153,6 @@ G.I18n.add({
   "{mon} was cured of paralysis.": "{mon}的麻痺治好了。",
   "{mon}'s HP was restored by {n} points.": "{mon}的HP回復了{n}點。",
   "{move}'s PP increased.": "{move}的PP提升了。",
-  "{mon}'s {stat} rose.": "{mon}的{stat}提高了。"
+  "{mon}'s {stat} rose.": "{mon}的{stat}提高了。",
+  "There's no water here to fish in.": "這裡沒有可以釣魚的水。"
 }, "zh-Hant");

@@ -28,5 +28,6 @@ G.I18n.add({
   "Tamer": "驯兽师",
   "Boss": "首领",
   "Black Belt": "空手道王",
-  "Psychic": "超能力者"
+  "Psychic": "超能力者",
+  "Burglar": "小偷"
 }, "zh-Hans");

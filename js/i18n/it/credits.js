@@ -23,5 +23,8 @@ G.I18n.add({
   "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "La Zona Safari, Zafferanopoli e la Silph S.p.A. ti aspettano: la tua avventura continua!",
   "Chapter 6 complete!": "Capitolo 6 completato!",
   "{player} beat Sabrina and earned the Marsh Badge.": "{player} ha battuto Sabrina e ottenuto la Medaglia Palude.",
-  "Thank you for playing! The sea routes, Cinnabar Island and the last Gyms open in a future update.": "Grazie per aver giocato! Le rotte marine, l'Isola Cannella e le ultime Palestre si apriranno in un prossimo aggiornamento."
+  "Chapter 7 complete!": "Capitolo 7 completato!",
+  "{player} beat Blaine and earned the Volcano Badge.": "{player} ha battuto Blaine e ottenuto la Medaglia Vulcano.",
+  "Thank you for playing! The last Gym, Victory Road and the Pokémon League open in a future update.": "Grazie per aver giocato! L'ultima Palestra, la Via Vittoria e la Lega Pokémon arriveranno in un prossimo aggiornamento.",
+  "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "I percorsi marini, le Isole Spumarine e l'Isola Cannella ti aspettano: la tua avventura continua!"
 }, "it");

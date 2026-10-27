@@ -116,13 +116,28 @@ G.Actor = class Actor {
       G.People.draw(ctx, this.who, this.dir, 0, x, fy - 9 * PX + bob, PX);
       return;
     }
+    // A swimmer (npc / trainer `swim`): only the head and shoulders show above the water.
+    if (this.def && this.def.swim) {
+      const bob = Math.sin(performance.now() / 300 + this.x * 1.7) * PX * 0.6;
+      const line = Math.round(fy - 4 * PX + bob);
+      ctx.save();
+      ctx.beginPath(); ctx.rect(x - 10 * PX, line - 24 * PX, 20 * PX, 24 * PX); ctx.clip();
+      G.People.draw(ctx, this.who, this.dir, 0, x, line + 10 * PX, PX);
+      ctx.restore();
+      ctx.strokeStyle = 'rgba(232,248,255,.85)'; ctx.lineWidth = PX;
+      ctx.beginPath(); ctx.ellipse(x, line, 7 * PX, 1.8 * PX, 0, 0, 6.2832); ctx.stroke();
+      return;
+    }
     ctx.fillStyle = lift ? 'rgba(0,0,0,.35)' : 'rgba(0,0,0,.18)';
     ctx.beginPath(); ctx.ellipse(x, fy - 1, (lift ? 6 : 7) * PX, 2.2 * PX, 0, 0, 6.2832); ctx.fill();
     G.People.draw(ctx, this.who, this.dir, this.frame(), x, fy - lift, PX);
   }
 
   /** The top of the head (for emotes). */
-  get headY() { return this.wy + G.Maps.TS / 2 - (this.mon ? G.Sprites.bodyHeight(this.mon) : G.People.H * G.Sprites.PX) - this.lift(); }
+  get headY() {
+    const sunk = this.def && this.def.swim ? 6 * G.Sprites.PX : 0;
+    return this.wy + G.Maps.TS / 2 - (this.mon ? G.Sprites.bodyHeight(this.mon) : G.People.H * G.Sprites.PX) - this.lift() + sunk;
+  }
 };
 
 G.Player = (() => {

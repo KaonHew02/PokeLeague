@@ -38,5 +38,8 @@ G.I18n.add({
   "You beat Brock? Amazing! The road east goes to Route 3 and Mt. Moon.": "Hai battuto Brock? Fantastico! La strada a est porta al Percorso 3 e al Monte Luna.",
   "You can't leave Pewter City without trying the Gym! Brock is waiting.": "Non puoi lasciare Plumbeopoli senza sfidare la Palestra! Brock ti aspetta.",
   "Pewter City Pokémon Gym. Leader: Brock, a Trainer as tough as stone!": "Palestra Pokémon di Plumbeopoli. Capopalestra: Brock, un Allenatore duro come la pietra!",
-  "Pewter City. Mountains all around, and rocks everywhere you look.": "Plumbeopoli. Montagne tutt'intorno e rocce ovunque guardi."
+  "Pewter City. Mountains all around, and rocks everywhere you look.": "Plumbeopoli. Montagne tutt'intorno e rocce ovunque guardi.",
+  "The lab on Cinnabar Island can bring fossils back to life. I would love to see what is inside that amber!": "Il laboratorio dell'Isola Cannella può riportare in vita i fossili. Mi piacerebbe tanto vedere cosa c'è in quell'ambra!",
+  "We dug up this piece of amber with something trapped inside. Our museum has no way to study it.": "Abbiamo dissotterrato questo pezzo d'ambra con qualcosa intrappolato dentro. Il nostro museo non ha modo di studiarlo.",
+  "They say the Pokémon Lab on Cinnabar Island can bring fossils back to life. Would you take it there for us?": "Si dice che il Laboratorio Pokémon dell'Isola Cannella possa riportare in vita i fossili. Ce lo porteresti tu?"
 }, "it");

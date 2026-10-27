@@ -153,5 +153,6 @@ G.I18n.add({
   "{mon} was cured of paralysis.": "{mon} non è più paralizzato.",
   "{mon}'s HP was restored by {n} points.": "{mon} recupera {n} PS.",
   "{move}'s PP increased.": "I PP di {move} sono aumentati.",
-  "{mon}'s {stat} rose.": "{stat} di {mon} aumenta."
+  "{mon}'s {stat} rose.": "{stat} di {mon} aumenta.",
+  "There's no water here to fish in.": "Qui non c'è acqua in cui pescare."
 }, "it");

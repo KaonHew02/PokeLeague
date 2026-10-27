@@ -48,5 +48,15 @@ G.I18n.add({
   "{mon} used Surf!": "{mon}使用了衝浪！",
   "Safari Balls ×{n} · Steps {s}": "狩獵球 ×{n} · 步數 {s}",
   "The door is locked. A slot beside it reads: Card Key required.": "門鎖著。旁邊的插槽上寫著：需要鑰匙卡。",
-  "{player} used the Card Key. The door slid open!": "{player}使用了鑰匙卡。門滑開了！"
+  "{player} used the Card Key. The door slid open!": "{player}使用了鑰匙卡。門滑開了！",
+  "A huge boulder. A strong Pokémon could push it out of the way.": "一塊巨大的岩石。力氣大的寶可夢也許能把它推開。",
+  "A huge boulder. A strong Pokémon could push it out of the way. Would you like to use Strength?": "一塊巨大的岩石。力氣大的寶可夢也許能把它推開。要使用怪力嗎？",
+  "{mon} used Strength!": "{mon}使用了怪力！",
+  "{mon} can push boulders around now!": "{mon}現在可以推動岩石了！",
+  "{player} used the {item}!": "{player}使用了{item}！",
+  "Oh! A bite!": "哦！上鉤了！",
+  "The water is a deep blue. What would you like to do?": "水是深藍色的。要做什麼呢？",
+  "Fish": "釣魚",
+  "Would you like to fish with the {item}?": "要用{item}釣魚嗎？",
+  "The current is much too strong to Surf against!": "水流太急了，沒法衝浪！"
 }, "zh-Hant");

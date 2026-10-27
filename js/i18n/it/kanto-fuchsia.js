@@ -56,5 +56,9 @@ G.I18n.add({
   "Please take this as my thanks. It was a gift from an old friend.": "Per favore, prendi questo come ringraziamento. Era il regalo di un vecchio amico.",
   "HM04 is Strength. A strong Pokémon can push boulders with it.": "La MN04 è Forza. Un Pokémon forte può spostare i massi con questa mossa.",
   "In the Safari Zone you only get Safari Balls, Bait and Rocks. No battling! I love it.": "Nella Zona Safari hai solo Safari Ball, Esca e Sassi. Niente lotte! Lo adoro.",
-  "Safari Zone Warden": "Guardiano della Zona Safari"
+  "Safari Zone Warden": "Guardiano della Zona Safari",
+  "The Good Rod pulls up better Pokémon than the Old Rod. Try it in the sea south of town!": "Con l'Amo Buono si pescano Pokémon migliori che con l'Amo Vecchio. Provalo nel mare a sud della città!",
+  "Say, do you like fishing?": "Senti, ti piace pescare?",
+  "I knew it! You have the look of an angler. Take this Good Rod and catch something big!": "Lo sapevo! Hai proprio l'aria da pescatore. Prendi questo Amo Buono e pesca qualcosa di grosso!",
+  "No? Well, the fish will wait for you.": "No? Be', i pesci ti aspetteranno."
 }, "it");

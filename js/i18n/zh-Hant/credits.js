@@ -23,5 +23,8 @@ G.I18n.add({
   "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "狩獵地帶、金黃市和西爾佛公司正等著你：你的冒險還在繼續！",
   "Chapter 6 complete!": "第六章完成！",
   "{player} beat Sabrina and earned the Marsh Badge.": "{player}打敗了娜姿，得到了金色徽章。",
-  "Thank you for playing! The sea routes, Cinnabar Island and the last Gyms open in a future update.": "感謝遊玩！海上道路、紅蓮島和最後的道館將在之後的更新中開放。"
+  "Chapter 7 complete!": "第七章完成！",
+  "{player} beat Blaine and earned the Volcano Badge.": "{player}打敗了夏伯，得到了深紅徽章。",
+  "Thank you for playing! The last Gym, Victory Road and the Pokémon League open in a future update.": "感謝遊玩！最後的道館、冠軍之路和寶可夢聯盟將在之後的更新中開放。",
+  "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "水路、雙子島和紅蓮島正等著你：你的冒險還在繼續！"
 }, "zh-Hant");

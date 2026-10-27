@@ -1,4 +1,4 @@
-// The story without a screen, chapter by chapter: from the bedroom to the Marsh Badge.
+// The story without a screen, chapter by chapter: from the bedroom to the Volcano Badge.
 // The real scripts, maps, save and battle engine run in the node sandbox; a stand-in
 // host answers the dialog (Yes, no nickname) and an auto-player fights every battle
 // with its strongest move. Wild battles in the tall grass raise the party on the way,
@@ -526,6 +526,31 @@ test('balance: Sabrina (chapter 6), win rates of typical teams are printed', () 
   assert.ok(table['blastoise 42'] < 0.3, 'a lone Blastoise should struggle');
 });
 
+test('balance: Blaine (chapter 7), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'cinnabar-gym', 'blaine');
+  const SURF = ['surf', 'bite', 'skull-bash', 'rapid-spin'];
+  const DIG = ['dig', 'slash', 'sand-tomb', 'mud-slap'];
+  const table = {
+    'venusaur 45': rate([[3, 45]]),
+    'charizard 45': rate([[6, 45]]),
+    'blastoise 42 (Surf)': rate([[9, 42, SURF]]),
+    'golduck 42 (Surf)': rate([[55, 42, ['surf', 'confusion', 'disable', 'fury-swipes']]]),
+    'lapras 40 (Surf)': rate([[131, 40, ['surf', 'ice-beam', 'body-slam', 'confuse-ray']]]),
+    'charizard 45 + dugtrio 42 (Dig)': rate([[6, 45], [51, 42, DIG]]),
+    'venusaur 45 + blastoise 42 (Surf)': rate([[3, 45], [9, 42, SURF]]),
+    'charizard 45 + snorlax 42': rate([[6, 45], [143, 42]])
+  };
+  console.log('[balance] vs Blaine:', JSON.stringify(table));
+  // Four Fire types against a small team that never heals (the auto-player): Surf (needed to reach
+  // Cinnabar at all) and Dig (TM28 from Cerulean) answer them, as the Gym guide says.
+  assert.ok(table['blastoise 42 (Surf)'] >= 0.6, 'Blastoise with Surf');
+  assert.ok(table['charizard 45 + dugtrio 42 (Dig)'] >= 0.75, 'Charizard with a Dugtrio that knows Dig');
+  assert.ok(table['venusaur 45 + blastoise 42 (Surf)'] >= 0.5, 'Venusaur with a Surfer');
+  assert.ok(table['venusaur 45'] < 0.3, 'a lone Venusaur should struggle');
+  assert.ok(table['charizard 45'] < 0.3, 'a lone Charizard should struggle');
+});
+
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
 async function chapter3(st) {
   const { G, S, W } = st;
@@ -839,6 +864,82 @@ async function chapter6(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 7 after chapter 6: the rods, the sea routes, Cinnabar's lab, the Pokémon Mansion, Blaine. */
+async function chapter7(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const won = () => assert.equal(st.battles[st.battles.length - 1].outcome, 'win', st.battles[st.battles.length - 1].key);
+  const has = sp => S.party.concat(...S.boxes).some(m => m && m.sp === sp && m.lvl === 30);
+  // The rods: Vermilion's old fisherman, Fuchsia's fisherman, the angler by the Silence Bridge.
+  await run(st, 'vermilion', 'vermilion.old-rod', [0]);
+  await run(st, 'fuchsia', 'fuchsia.good-rod', [0]);
+  await run(st, 'route12', 'route12.super-rod', [1]);
+  assert.ok(!F.flag('got-super-rod'), 'no Super Rod for someone who does not love fishing');
+  await run(st, 'route12', 'route12.super-rod', [0]);
+  for (const rod of ['old-rod', 'good-rod', 'super-rod']) assert.equal(F.count(rod), 1, rod);
+  assert.ok(G.Maps.encounters(G.Maps.get('vermilion'), 'super-rod'), 'Vermilion has fish to catch');
+  // The Pewter Museum gives the Old Amber.
+  await run(st, 'pewter-museum', 'pewter.old-amber');
+  assert.equal(F.count('old-amber'), 1);
+  // Surf the sea routes (Wartortle learns it from HM03): their Swimmers, Fishermen and the
+  // Trainers on the sandbanks; Parasect leads.
+  const weakest = mon => mon.moves.reduce((w, m, j) => ((G.MOVES[m.id].pow || 0) < (G.MOVES[mon.moves[w].id].pow || 0) ? j : w), 0);
+  const wartortle = S.party.find(m => m.sp === 8);
+  G.Mon.learn(wartortle, 'surf', weakest(wartortle));
+  assert.ok(G.Mon.knows(wartortle, 'surf'));
+  lead(st, 47);
+  for (const m of ['route19', 'route20', 'route21']) { await all(m); won(); }
+  // Cinnabar Island: the Gym is locked.
+  const door = G.Maps.get('cinnabar').warps.find(w => w.to === 'cinnabar-gym');
+  assert.ok(!F.test(door.if), 'no key, no Gym');
+  // The Pokémon Lab: the Helix Fossil from Mt. Moon, then the Old Amber; each one after a walk outside.
+  await run(st, 'cinnabar-lab', 'cinnabar.fossil', [0]);
+  assert.ok(F.flag('fossil-waiting') && F.count('helix-fossil') === 0);
+  await run(st, 'cinnabar-lab', 'cinnabar.fossil');
+  assert.ok(!has(138), 'not ready before you leave the lab');
+  await run(st, 'cinnabar-lab', 'cinnabar.lab-enter');
+  await run(st, 'cinnabar-lab', 'cinnabar.fossil');
+  assert.ok(has(138) && !F.flag('fossil-waiting'), 'Omanyte Lv. 30');
+  await run(st, 'cinnabar-lab', 'cinnabar.fossil', [0]);
+  await run(st, 'cinnabar-lab', 'cinnabar.lab-enter');
+  await run(st, 'cinnabar-lab', 'cinnabar.fossil');
+  assert.ok(has(142) && F.count('old-amber') === 0, 'Aerodactyl Lv. 30');
+  // The Pokémon Mansion: its Trainers, the switches, and the Secret Key behind the basement gate.
+  for (const m of ['pokemon-mansion-1f', 'pokemon-mansion-2f', 'pokemon-mansion-3f', 'pokemon-mansion-b1f']) await all(m);
+  won();
+  const gate = (m, i = 0) => F.test(G.Maps.get(m).def.bars[i].if);
+  assert.ok(gate('pokemon-mansion-2f') && !gate('pokemon-mansion-3f'), 'switch off: the stairs to 3F open, the hole closed');
+  await run(st, 'pokemon-mansion-3f', 'mansion.switch', [0]);
+  assert.ok(gate('pokemon-mansion-3f') && gate('pokemon-mansion-1f') && !gate('pokemon-mansion-b1f'), 'switch on');
+  await run(st, 'pokemon-mansion-b1f', 'mansion.switch', [0]);
+  assert.ok(gate('pokemon-mansion-b1f'), 'switch off again: the key room opens');
+  await run(st, 'pokemon-mansion-b1f', [['found', 'secret-key', 1, 'pokemon-mansion-b1f:mansion-b1f-secretkey']]);
+  assert.ok(F.test(door.if), 'the Secret Key opens the Gym');
+  // Blaine's Gym: two quizzes answered wrong (their Trainers battle), three right. Dugtrio
+  // learns Dig (TM28, from the Cerulean thief) and leads.
+  const dugtrio = S.party.find(m => m.sp === 51);
+  assert.equal(F.count('tm28'), 1);
+  G.Mon.learn(dugtrio, 'dig', weakest(dugtrio));
+  lead(st, 51);
+  grind(st, 'route21', 54, 300);
+  const before = st.battles.length;
+  for (const [n, answer] of [[1, 0], [2, 0], [3, 0], [4, 1], [5, 0]]) { F.healAll(); await run(st, 'cinnabar-gym', 'blaine.q' + n, [answer]); }
+  for (let n = 1; n <= 5; n++) assert.ok(F.flag('blaine-q' + n), 'gate ' + n + ' open');
+  assert.deepEqual(st.battles.slice(before).map(b => b.key), ['cinnabar-gym:avery', 'cinnabar-gym:zac'], 'only wrong answers bring out a Trainer');
+  F.healAll();
+  const money = S.player.money;
+  await run(st, 'cinnabar-gym', [['battle', 'cinnabar-gym:blaine']]);
+  const last = st.battles[st.battles.length - 1];
+  assert.equal(last.outcome, 'win', 'Blaine beaten at levels ' + last.levels);
+  assert.deepEqual([...S.player.badges], [1, 2, 3, 4, 5, 6, 7]);
+  assert.equal(F.count('tm38'), 1);
+  assert.equal(S.player.money - money, 4300);
+  assert.ok(F.flag('chapter-7-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -865,4 +966,16 @@ test('chapter 6: the Safari Zone, Saffron City, Silph Co. and the Marsh Badge', 
   await chapter4(st);
   await chapter5(st);
   await chapter6(st);
+});
+
+test('chapter 7: the sea routes, Cinnabar Island, the Pokémon Mansion and the Volcano Badge', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+  await chapter3(st);
+  await chapter4(st);
+  await chapter5(st);
+  await chapter6(st);
+  console.log('[story] after chapter 6:', st.S.party.map(m => st.G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
+  await chapter7(st);
 });

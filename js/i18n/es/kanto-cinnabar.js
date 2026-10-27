@@ -1,0 +1,26 @@
+/* Spanish — kanto-cinnabar: Cinnabar Island, its Center, Mart and Pokémon Lab (js/content/kanto/cinnabar.js). */
+G.I18n.add({
+  "The Gym door is locked. A note is stuck to it.": "La puerta del Gimnasio está cerrada. Hay una nota pegada.",
+  "\"I lost the key somewhere in the old mansion. Bring it to me if you want a battle! —Blaine\"": "«Perdí la llave en algún lugar de la vieja mansión. ¡Tráemela si quieres combatir! —Blaine»",
+  "Bringing a fossil back to life takes a little while. Take a walk outside and come back.": "Devolver la vida a un fósil lleva un rato. Da un paseo fuera y vuelve.",
+  "Ah, there you are! The fossil you gave me has come back to life!": "¡Ah, ahí estás! ¡El fósil que me diste ha vuelto a la vida!",
+  "Take good care of it. It has a lot of catching up to do!": "Cuídalo bien. ¡Tiene mucho tiempo que recuperar!",
+  "I study fossils. With our machine, a fossil can become a living Pokémon again!": "Yo estudio fósiles. ¡Con nuestra máquina, un fósil puede volver a ser un Pokémon vivo!",
+  "If you ever find one, bring it to me.": "Si alguna vez encuentras uno, tráemelo.",
+  "Oh! That is a Helix Fossil! Shall I bring it back to life?": "¡Oh! ¡Eso es un Fósil Hélix! ¿Quieres que lo devuelva a la vida?",
+  "Oh! That is a Dome Fossil! Shall I bring it back to life?": "¡Oh! ¡Eso es un Fósil Domo! ¿Quieres que lo devuelva a la vida?",
+  "Oh! Old Amber, with something trapped inside! Shall I bring it back to life?": "¡Oh! ¡Ámbar Viejo, con algo atrapado dentro! ¿Quieres que lo devuelva a la vida?",
+  "Leave it with me. Go for a walk, and when you come back it should be ready.": "Déjamelo a mí. Ve a dar un paseo y, cuando vuelvas, estará listo.",
+  "I see. Come back if you change your mind.": "Entiendo. Vuelve si cambias de opinión.",
+  "The Pokémon Lab here can bring fossils back to life. Have you found one?": "El Laboratorio Pokémon de aquí puede devolver la vida a los fósiles. ¿Has encontrado alguno?",
+  "Blaine lost the key to his own Gym in the old mansion! Nobody has been brave enough to look for it.": "¡Blaine perdió la llave de su propio Gimnasio en la vieja mansión! Nadie se ha atrevido a buscarla.",
+  "That mansion burned down long ago. Researchers lived there. Strange Pokémon roam its halls now.": "Esa mansión se quemó hace mucho. Allí vivían investigadores. Ahora rondan Pokémon extraños por sus pasillos.",
+  "Blaine asks quiz questions in his Gym. Get one wrong and a Trainer jumps out to battle you!": "Blaine hace preguntas de concurso en su Gimnasio. ¡Si fallas una, sale un Entrenador a combatir contigo!",
+  "The people who lived in the mansion studied a very rare Pokémon. We still do not know what became of it.": "La gente que vivía en la mansión estudiaba un Pokémon muy raro. Aún no sabemos qué fue de él.",
+  "I want to see a living fossil Pokémon one day! They lived millions of years ago!": "¡Algún día quiero ver un Pokémon fósil vivo! ¡Vivieron hace millones de años!",
+  "Cinnabar Island. An island town on a sleeping volcano, as hot-blooded as its Gym Leader.": "Isla Canela. Un pueblo isleño sobre un volcán dormido, tan apasionado como su Líder de Gimnasio.",
+  "The Cinnabar dock. North across the sea: Pallet Town. East: the Seafoam Islands and Fuchsia City.": "El muelle de Canela. Al norte, cruzando el mar: Pueblo Paleta. Al este: las Islas Espuma y Ciudad Fucsia.",
+  "Cinnabar Island Pokémon Gym. Leader: Blaine, the fiery quiz master!": "Gimnasio Pokémon de Isla Canela. Líder: ¡Blaine, el ardiente maestro de los acertijos!",
+  "Research notes on fossils: some ancient Pokémon can be brought back from what they left behind.": "Notas de investigación sobre fósiles: algunos Pokémon antiguos pueden revivir a partir de sus restos.",
+  "A thick report about a Pokémon found in a faraway jungle. Most of the pages are missing.": "Un grueso informe sobre un Pokémon encontrado en una selva lejana. Faltan casi todas las páginas."
+}, "es");

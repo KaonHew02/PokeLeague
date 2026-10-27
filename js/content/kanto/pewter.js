@@ -134,6 +134,7 @@ G.Maps.def({
   npcs: [
     { id: 'curator', who: 'aide', x: 10, y: 5, dir: 'left',
       say: 'Welcome to the Pewter Museum of Science! Fossils are what remains of Pokémon that lived ages ago.' },
+    { id: 'amber', who: 'scientist', x: 11, y: 7, dir: 'left', script: 'pewter.old-amber' },
     { id: 'visitor', who: 'oldman', x: 4, y: 4, dir: 'up',
       say: 'They say scientists can bring Pokémon back from fossils. Imagine that!' }
   ]
@@ -194,6 +195,17 @@ G.Maps.mart('pewter-mart', {
 });
 
 G.Script.def({
+  // Old Amber: the Pokémon Lab on Cinnabar Island brings it back to life (an Aerodactyl).
+  'pewter.old-amber': [
+    ['if', 'got-old-amber', [
+      ['say', 'The lab on Cinnabar Island can bring fossils back to life. I would love to see what is inside that amber!']
+    ], [
+      ['say', 'We dug up this piece of amber with something trapped inside. Our museum has no way to study it.'],
+      ['say', 'They say the Pokémon Lab on Cinnabar Island can bring fossils back to life. Would you take it there for us?'],
+      ['giveItem', 'old-amber', 1],
+      ['setFlag', 'got-old-amber']
+    ]]
+  ],
   'pewter.brock-win': [
     ['say', 'As proof of your victory, take this: the Boulder Badge, an official Pokémon League badge!', { name: 'Brock' }],
     ['badge', 1],

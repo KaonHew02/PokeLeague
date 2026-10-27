@@ -313,6 +313,11 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
   just its outcome). With neither, a toast stands in and counts as a win.
   Debug: `?debug&wild=…` without `map` is the battle screen's own test battle; with `map=…` the wild
   battle starts from the overworld.
+- **Chapter 7 map fields:** `boulders: [{ id, x, y, if, fixed }]` (pushed with Strength; one that
+  fell into a pit sets flag `rock:<map>:<id>`; a `fixed` one may lie in water and never moves),
+  `bars` (gates, above), `calm` (a condition: fast water becomes water) and `flow`, `encounters.water`
+  (an area whose `surf` and rod tables the water of this map uses; a walk area gives them too), and
+  people with `swim: true` (they stand in water and are drawn up to the shoulders).
 - **Extra map fields:** `enter` (script run after arriving by warp), `items[].hidden` (found by facing
   it and pressing A) and `items[].n`, npc/trainer `if` (conditions: shown only while true), `fixed`
   (does not turn to face you), `move: 'still' | 'look' | 'wander' | 'spin'` with `r` (wander radius,
@@ -416,6 +421,10 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
     when you come back to the map
 - `=` wooden bridge over water (walkable; Route 12's Silence Bridge)
 - `Y` an office tower 8×6 (Silph Co.)
+- Chapter 7: `R` a burnt mansion 6×5 (the Pokémon Mansion); `o` a hole in a cave floor (a warp you
+  fall through, until a boulder fills it: flag `pit:<map>:<x>,<y>`, floor from then on); `r` fast
+  water (solid, its foam drawn by render.js, until the map's `calm` condition holds; `flow` gives
+  its direction)
 - Ledges `v` `<` `>`: you can only jump them one way.
 - Buildings, drawn as stamps:
   - `H` house 4×3
@@ -453,6 +462,9 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
 - Chapter 6: `n` a door with a card slot (solid until the Card Key opens it for good: flag
   `door:<map>:<x>,<y>`; drawn as a prop while closed) and `w` a teleport pad (a warp; its spot is
   the pad it lands on, so arriving never sends you on again)
+- Chapter 7: `O` a hole in the floor (as outdoor `o`), `y` a gate of iron bars (open while the rule
+  of the map's `bars` rectangle over it holds: `bars: [{ x, y, w, h, if }]`), `j` a statue (solid;
+  a sign `{ script }` makes it a switch), `z` a quiz machine (solid; Blaine's Gym)
 - Exits: `X` exit mat and `^` stairs, both warps. An exit mat whose warp is `locked` runs its
   script instead (the hideout's lift).
 - `G.Maps.center(id, {exit})` and `G.Maps.mart(id, {exit, stock})` build the standard interiors.
@@ -477,7 +489,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
     hiker, misty, swimmer (chapter 2); officer, sailor, gentleman, engineer, captain, surge,
     bill (chapter 3); gambler, pokemaniac, beauty, channeler, biker, cooltrainer, erika (chapter 4);
     giovanni, fuji, scientist, fisherman, rocker, birdkeeper, juggler, tamer, koga, warden (chapter 5);
-    blackbelt, psychic, sabrina (chapter 6).
+    blackbelt, psychic, sabrina (chapter 6); swimmerf, burglar, blaine (chapter 7).
   - The front frame is drawn at 4× for trainer battle intros.
 - `render.js`: the baked map, connected neighbour maps, the `border` fill, Y-sorted
   props and actors, and the tall-grass front tuft.
@@ -820,11 +832,45 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   is three to four levels below the games'. The story test plays chapter 6 (Parasect and Dugtrio
   against Sabrina).
 
-### After chapter 6
+- **Chapter 7** ✅: the sea. Fuchsia's beach leads to Sea Route 19 (six Swimmers), Route 20 (five
+  Trainers on the water and sandbanks) and Cinnabar Island; Route 21 (two Fishermen, three
+  Swimmers, Tangela in its grass) joins Pallet Town's shore to Cinnabar. The Seafoam Islands fill
+  Route 20 from top to bottom: 1F to B3F, an icy cave whose way west needs Strength (a boulder in the
+  way on B1F; on B2F two boulders pushed into pits fall to B3F and dam the current, flags
+  `pit:seafoam-b2f:12,8` and `12,11`), then Surf across the calmed lake; Articuno (Lv. 50, flag
+  `seafoam-articuno`) rests there. Cinnabar Island: Center, Mart, the Pokémon Lab (fossils come back
+  to life at Lv. 30 after a walk outside: the Helix or Dome Fossil from Mt. Moon, the Old Amber from
+  a scientist in the Pewter Museum; flags `fossil-waiting`, `fossil-ready`, var `fossil-mon`), the
+  Pokémon Mansion (1F to 3F and B1F: Burglars and Scientists, journal pages about Mew and Mewtwo,
+  statues with a switch that flips flag `mansion-switch` and with it every gate; 3F's hole drops you
+  into a closed room of 1F with the stairs down; the Secret Key in the basement) and Blaine's Gym,
+  locked until you hold the Secret Key: five quiz machines before five gates (flags
+  `blaine-q1`…`blaine-q5`; a wrong answer brings out the Trainer of that room first), then Blaine
+  (Growlithe 40, Ponyta 38, Rapidash 40, Arcanine 43; prize ₽4300, badge 7, TM38 Fire Blast). The
+  rods: the old fisherman of Vermilion (Old Rod), a fisherman in Fuchsia (Good Rod), an angler by
+  Route 12's bridge (Super Rod). Files: `sea.js`, `seafoam.js`, `cinnabar.js`, `mansion.js`,
+  `blaine.js` (translations `kanto-sea`, `kanto-seafoam`, `kanto-cinnabar`, `kanto-mansion`,
+  `kanto-blaine`).
+- **Engine for chapter 7:** Strength (with the Rainbow Badge; press A at a boulder: the boulders of
+  the map move until you leave it, a push takes one tile and a pit swallows a boulder for good),
+  holes in the floor, fast water, gates and statues (above). Fishing: `G.World.fish(rod)` from the
+  Bag, or A at the water (Surf or Fish to choose from); a bite (70–80%) rolls the map's `old-rod`,
+  `good-rod` or `super-rod` table into a wild battle. Battle backgrounds `sea` (on the water outside
+  caves) and `ice`. Trainers see across water; swimmers swim up to you and land trainers stop at the
+  shore. A trainer class may name a translation context: `swimmer-f` is "Swimmer" in English and
+  takes the feminine title elsewhere (context `trainer-f`, dictionary `trainers-f`). The stamp `R`,
+  palettes `seafoam`, `mansion`, `volcano`; sounds `strength` and `fall`; class burglar.
+  `tests/field.test.cjs` runs field.js without a screen (boulders, pits, gates, fast water, fishing,
+  swimmers).
+- **Balance:** four Fire types: a lone Venusaur or Charizard never wins, Blastoise Lv. 42 with Surf
+  wins ~75%, Charizard with a Dugtrio that knows Dig ~90%, Venusaur with a Surfing Blastoise ~65%.
+  Surf is needed to reach Cinnabar at all, so every player has the answer. The story test plays
+  chapter 7 (Wartortle learns Surf, Dugtrio learns Dig and leads against Blaine).
+
+### After chapter 7
 
 1. **Rest of Kanto:**
-   - The sea routes (Surf), the Seafoam Islands (Strength's boulders), Cinnabar, Blaine,
-     then Giovanni in Viridian City.
+   - Giovanni in Viridian City (with Fly and Routes 16 to 18 along the way).
    - Victory Road, the Elite Four, the Champion and the Hall of Fame.
    - Engine features along the way: field moves (Surf, Strength, Fly), the
      bike, fishing, more TMs, abilities, held items, weather, Exp. Share, Repel steps,

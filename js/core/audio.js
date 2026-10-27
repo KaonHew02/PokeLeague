@@ -707,6 +707,8 @@ G.Audio = (() => {
     spin:    () => arp('square', [880, 1175, 1568, 1175, 880], 0.03, 0.05, 0.035),        // a spin tile (the Rocket Hideout)
     surf:    () => { hiss(0.45, 0.09, 'bandpass', 700, 2600, 0, 1.2); tone('sine', 300, 600, 0.3, 0.03); },   // Surf: a splash
     lift:    () => { tone('sawtooth', 70, 90, 0.5, 0.05); hiss(0.5, 0.04, 'lowpass', 300); tone('sine', 1320, 1320, 0.2, 0.04, 0.55); },
+    strength:() => { tone('triangle', 90, 50, 0.22, 0.11); hiss(0.22, 0.06, 'lowpass', 500, 200); },   // a boulder pushed along
+    fall:    () => { tone('sine', 520, 70, 0.4, 0.05); tone('triangle', 70, 40, 0.15, 0.12, 0.38); hiss(0.12, 0.06, 'lowpass', 400, 0, 0.38); },   // down a hole
     exclaim: () => { tone('square', 1568, 1568, 0.05, 0.045); tone('square', 2093, 2093, 0.14, 0.045, 0.06); },  // a trainer spots you
     encounter: () => {                                                         // into a battle
       tone('sawtooth', 180, 1400, 0.55, 0.055); tone('square', 360, 2800, 0.55, 0.03);

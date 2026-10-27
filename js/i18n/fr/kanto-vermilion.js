@@ -42,5 +42,10 @@ G.I18n.add({
   "Vermilion Harbor. The S.S. Anne is docked here.": "Port de Carmin sur Mer. L'Océane est amarrée ici.",
   "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "Règle du Fan Club Pokémon : parle de ton Pokémon préféré autant que tu veux !",
   "South: Saffron City.": "Sud : Safrania.",
-  "Route 6. South: Vermilion City. North: Saffron City.": "Route 6. Sud : Carmin sur Mer. Nord : Safrania."
+  "Route 6. South: Vermilion City. North: Saffron City.": "Route 6. Sud : Carmin sur Mer. Nord : Safrania.",
+  "How is the fishing? Even a Magikarp is a fine catch, if you ask me!": "Alors, cette pêche ? Même un Magicarpe, c'est une belle prise, si tu veux mon avis !",
+  "Do you like fishing, young one?": "Tu aimes la pêche, petit ?",
+  "Ha! A kindred spirit! Take this old rod of mine. Face the water and give it a try.": "Ha ! Une âme sœur ! Prends ma vieille canne. Tourne-toi vers l'eau et essaie.",
+  "Use it from your Bag, or just press A at the water.": "Utilise-la depuis ton Sac, ou appuie simplement sur A face à l'eau.",
+  "Oh... If you change your mind, come back and see me.": "Oh... Si tu changes d'avis, reviens me voir."
 }, "fr");

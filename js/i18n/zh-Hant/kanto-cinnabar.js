@@ -1,0 +1,26 @@
+/* Traditional Chinese — kanto-cinnabar: Cinnabar Island, its Center, Mart and Pokémon Lab (js/content/kanto/cinnabar.js). */
+G.I18n.add({
+  "The Gym door is locked. A note is stuck to it.": "道館的門鎖著。門上貼著一張紙條。",
+  "\"I lost the key somewhere in the old mansion. Bring it to me if you want a battle! —Blaine\"": "「我把鑰匙弄丟在那棟舊宅子裡了。想跟我對戰的話，就把它找回來！——夏伯」",
+  "Bringing a fossil back to life takes a little while. Take a walk outside and come back.": "讓化石復活需要一點時間。去外面走走再回來吧。",
+  "Ah, there you are! The fossil you gave me has come back to life!": "啊，你來了！你交給我的化石復活了！",
+  "Take good care of it. It has a lot of catching up to do!": "要好好照顧牠哦。牠可是錯過了好幾百萬年呢！",
+  "I study fossils. With our machine, a fossil can become a living Pokémon again!": "我在研究化石。用我們的機器，化石就能變回活生生的寶可夢！",
+  "If you ever find one, bring it to me.": "如果你找到化石，就拿來給我吧。",
+  "Oh! That is a Helix Fossil! Shall I bring it back to life?": "哦！這是貝殼化石！要讓牠復活嗎？",
+  "Oh! That is a Dome Fossil! Shall I bring it back to life?": "哦！這是甲殼化石！要讓牠復活嗎？",
+  "Oh! Old Amber, with something trapped inside! Shall I bring it back to life?": "哦！是裡面封著東西的秘密琥珀！要讓牠復活嗎？",
+  "Leave it with me. Go for a walk, and when you come back it should be ready.": "交給我吧。你去外面走走，回來的時候應該就好了。",
+  "I see. Come back if you change your mind.": "這樣啊。改變主意的話再來找我吧。",
+  "The Pokémon Lab here can bring fossils back to life. Have you found one?": "這裡的寶可夢研究所能讓化石復活。你找到過化石嗎？",
+  "Blaine lost the key to his own Gym in the old mansion! Nobody has been brave enough to look for it.": "夏伯把自己道館的鑰匙弄丟在那棟舊宅子裡了！到現在都沒人敢進去找。",
+  "That mansion burned down long ago. Researchers lived there. Strange Pokémon roam its halls now.": "那棟宅子很久以前就燒毀了。以前住著一些研究者。現在裡面到處是奇怪的寶可夢。",
+  "Blaine asks quiz questions in his Gym. Get one wrong and a Trainer jumps out to battle you!": "夏伯會在道館裡出問答題。答錯的話，就會有訓練家跳出來跟你對戰！",
+  "The people who lived in the mansion studied a very rare Pokémon. We still do not know what became of it.": "以前住在那棟宅子裡的人在研究一種非常稀有的寶可夢。到現在還不知道牠後來怎麼樣了。",
+  "I want to see a living fossil Pokémon one day! They lived millions of years ago!": "我總有一天要親眼看看活著的化石寶可夢！牠們可是幾百萬年前的寶可夢呢！",
+  "Cinnabar Island. An island town on a sleeping volcano, as hot-blooded as its Gym Leader.": "紅蓮島。建在沉睡火山上的島上小鎮，和它的道館館主一樣熱血。",
+  "The Cinnabar dock. North across the sea: Pallet Town. East: the Seafoam Islands and Fuchsia City.": "紅蓮島碼頭。往北渡海：真新鎮。往東：雙子島和淺紅市。",
+  "Cinnabar Island Pokémon Gym. Leader: Blaine, the fiery quiz master!": "紅蓮島寶可夢道館。館主：夏伯，熱情似火的問答大師！",
+  "Research notes on fossils: some ancient Pokémon can be brought back from what they left behind.": "關於化石的研究筆記：有些古代寶可夢可以從牠們留下的遺骸中復活。",
+  "A thick report about a Pokémon found in a faraway jungle. Most of the pages are missing.": "一份厚厚的報告，寫的是在遙遠叢林中發現的寶可夢。大部分頁面都不見了。"
+}, "zh-Hant");

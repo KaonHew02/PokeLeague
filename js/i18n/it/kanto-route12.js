@@ -97,5 +97,10 @@ G.I18n.add({
   "Poison powder and sleep powder are useful, but Koga has even nastier tricks.": "Le polveri velenose e soporifere sono utili, ma Koga ha trucchi ancora peggiori.",
   "Route 12. North: Lavender Town. South: the Silence Bridge, then Route 13.": "Percorso 12. Nord: Lavandonia. Sud: il Ponte Silenzio, poi il Percorso 13.",
   "Route 13. The fences turn this road into a maze. Look for the way around!": "Percorso 13. Le staccionate trasformano questa strada in un labirinto. Cerca il modo di aggirarle!",
-  "Route 15. West: Fuchsia City.": "Percorso 15. Ovest: Fucsiapoli."
+  "Route 15. West: Fuchsia City.": "Percorso 15. Ovest: Fucsiapoli.",
+  "With the Super Rod, Pokémon from the deepest water will bite. Good luck out there!": "Con il Super Amo abboccano i Pokémon delle acque più profonde. Buona fortuna!",
+  "I am the best angler on Route 12! Hmm? You look like you love fishing too.": "Sono il miglior pescatore del Percorso 12! Mmh? Anche a te piace pescare, si vede.",
+  "Do you love fishing?": "Ami la pesca?",
+  "I can tell! Here, take my Super Rod. Real anglers deserve real gear!": "Si vede! Ecco, prendi il mio Super Amo. I veri pescatori meritano la vera attrezzatura!",
+  "Really? What a shame. My rod would have liked you.": "Davvero? Che peccato. Al mio amo saresti piaciuto."
 }, "it");

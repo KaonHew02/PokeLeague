@@ -42,5 +42,10 @@ G.I18n.add({
   "Vermilion Harbor. The S.S. Anne is docked here.": "Porto de Vermilion. O S.S. Anne está atracado aqui.",
   "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "Regra do Pokémon Fan Club: fale do seu Pokémon favorito o quanto quiser!",
   "South: Saffron City.": "Sul: Saffron City.",
-  "Route 6. South: Vermilion City. North: Saffron City.": "Rota 6. Sul: Vermilion City. Norte: Saffron City."
+  "Route 6. South: Vermilion City. North: Saffron City.": "Rota 6. Sul: Vermilion City. Norte: Saffron City.",
+  "How is the fishing? Even a Magikarp is a fine catch, if you ask me!": "Como vai a pescaria? Para mim, até um Magikarp é uma bela pesca!",
+  "Do you like fishing, young one?": "Você gosta de pescar, jovem?",
+  "Ha! A kindred spirit! Take this old rod of mine. Face the water and give it a try.": "Rá! Uma alma gêmea! Pegue esta minha vara velha. Fique de frente para a água e experimente.",
+  "Use it from your Bag, or just press A at the water.": "Use pela Mochila, ou simplesmente aperte A de frente para a água.",
+  "Oh... If you change your mind, come back and see me.": "Ah... Se mudar de ideia, volte para me ver."
 }, "pt-BR");

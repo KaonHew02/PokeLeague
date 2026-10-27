@@ -28,6 +28,7 @@ G.Stamps = (() => {
       case 'store': return { up: 10, roofH: 18, roof: ['#8a8a96', '#a6a6b0', '#5c5c68'], wall: ['#f2eee4', '#dad4c6', '#aaa496'], windows: 'wide', emblem: 'bag', glass: true };
       case 'building': return { up: 8, roofH: 20, wall: ['#ece4d4', '#d4cab6', '#a49a86'], windows: 'row', double: true };
       case 'office': return { up: 14, roofH: 12, roof: ['#56687c', '#768aa0', '#384658'], wall: ['#dfe6ee', '#c2ccd8', '#8c98a8'], windows: 'tower', double: true, glass: true };
+      case 'ruin': return { up: 10, roofH: 24, roof: ['#54443e', '#6a5850', '#382c28'], wall: ['#c4b49c', '#a69680', '#766856'], windows: 'house', dim: true, soot: true, double: true };
       default: return null;
     }
   }
@@ -89,7 +90,7 @@ G.Stamps = (() => {
     }
 
     // Windows.
-    const glass = pack('#7ec4f0'), glassL = pack('#c8ecff'), frame = pack('#7a6044');
+    const glass = pack(sp.dim ? '#3a3640' : '#7ec4f0'), glassL = pack(sp.dim ? '#5a5462' : '#c8ecff'), frame = pack('#7a6044');
     const win = (x0, y0, w, h) => {
       for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
         let c = (x === 0 || y === 0 || x === w - 1 || y === h - 1) ? frame : (x + y < 5 ? glassL : glass);
@@ -106,6 +107,15 @@ G.Stamps = (() => {
     } else if (sp.windows === 'row') for (const i of cols) win(i * T + 2, wy, 12, 8);
     else if (sp.windows === 'tower') {                 // floor after floor of small windows
       for (let y = rh + 5; y + 9 < CH - T - 4; y += 15) for (let i = 0; i < S.w; i++) win(i * T + 4, y, 8, 9);
+    }
+
+    // Soot above the windows and along the roof (the burnt Pokémon Mansion).
+    if (sp.soot) {
+      const ash = pack('#5a4c44'), ash2 = pack('#3e3430');
+      for (let x = 1; x < W - 1; x++) {
+        const h = Math.floor(G.U.hash(x, 3, 91) * 7) + (x % 16 < 13 && x % 16 > 2 ? 3 : 0);
+        for (let y = 0; y < h; y++) if (G.U.hash(x, y, 92) < 0.75 - y / 12) P.set(x, rh + y, y < 2 ? ash2 : ash);
+      }
     }
 
     // Door.

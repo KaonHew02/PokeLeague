@@ -34,7 +34,8 @@ G.Maps.def({
     'T~~~~~~~~~~~~~~~~~~T',
     'T~~~~~~~~~~~~~~~~~~T'
   ],
-  connect: { north: { map: 'route1', offset: 0 } },
+  connect: { north: { map: 'route1', offset: 0 }, south: { map: 'route21', offset: 0 } },
+  encounters: { water: '@pallet-town-area' },
   warps: [
     { x: 4, y: 4, to: 'player-1f', spot: 'door' },
     { x: 14, y: 4, to: 'rival-house', spot: 'door' },

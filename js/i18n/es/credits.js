@@ -23,5 +23,8 @@ G.I18n.add({
   "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "La Zona Safari, Ciudad Azafrán y Silph S.A. te esperan: ¡tu aventura continúa!",
   "Chapter 6 complete!": "¡Capítulo 6 completado!",
   "{player} beat Sabrina and earned the Marsh Badge.": "{player} ha vencido a Sabrina y ha conseguido la Medalla Pantano.",
-  "Thank you for playing! The sea routes, Cinnabar Island and the last Gyms open in a future update.": "¡Gracias por jugar! Las rutas marinas, la Isla Canela y los últimos Gimnasios se abrirán en una próxima actualización."
+  "Chapter 7 complete!": "¡Capítulo 7 completado!",
+  "{player} beat Blaine and earned the Volcano Badge.": "{player} venció a Blaine y consiguió la Medalla Volcán.",
+  "Thank you for playing! The last Gym, Victory Road and the Pokémon League open in a future update.": "¡Gracias por jugar! El último Gimnasio, la Calle Victoria y la Liga Pokémon llegarán en una próxima actualización.",
+  "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "Las rutas marítimas, las Islas Espuma y la Isla Canela te esperan: ¡tu aventura continúa!"
 }, "es");

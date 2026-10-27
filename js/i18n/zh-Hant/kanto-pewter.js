@@ -38,5 +38,8 @@ G.I18n.add({
   "You beat Brock? Amazing! The road east goes to Route 3 and Mt. Moon.": "你打贏小剛了？太厲害了！往東走是3號道路和月見山。",
   "You can't leave Pewter City without trying the Gym! Brock is waiting.": "不挑戰道館就別離開深灰市！小剛在等你。",
   "Pewter City Pokémon Gym. Leader: Brock, a Trainer as tough as stone!": "深灰市寶可夢道館。館主：像石頭一樣堅強的訓練家小剛！",
-  "Pewter City. Mountains all around, and rocks everywhere you look.": "深灰市。四面環山，放眼望去到處都是岩石。"
+  "Pewter City. Mountains all around, and rocks everywhere you look.": "深灰市。四面環山，放眼望去到處都是岩石。",
+  "The lab on Cinnabar Island can bring fossils back to life. I would love to see what is inside that amber!": "紅蓮島的研究所能讓化石復活。真想看看那塊琥珀裡面到底是什麼！",
+  "We dug up this piece of amber with something trapped inside. Our museum has no way to study it.": "我們挖出了這塊裡面封著東西的琥珀。可是我們博物館沒辦法研究它。",
+  "They say the Pokémon Lab on Cinnabar Island can bring fossils back to life. Would you take it there for us?": "聽說紅蓮島的寶可夢研究所能讓化石復活。你能幫我們把它帶過去嗎？"
 }, "zh-Hant");

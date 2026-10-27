@@ -5,6 +5,8 @@
  *   prize   base prize money: the player wins prize × the level of the trainer's last Pokémon
  *           (the Gen 3 rule, G.Exp.prize)
  * The rival and other named characters have no class: their def carries name and prize itself.
+ *   ctx     the translation context of the title (default 'trainer'): 'trainer-f' for a woman's
+ *           title that is the same word in English but not in other languages (a Swimmer)
  */
 G.TRAINER_CLASSES = {
   youngster:     { title: 'Youngster', who: 'youngster', prize: 16 },
@@ -16,6 +18,7 @@ G.TRAINER_CLASSES = {
   'super-nerd':  { title: 'Super Nerd', who: 'supernerd', prize: 24 },
   'team-rocket': { title: 'Team Rocket Grunt', who: 'rocket', prize: 30 },
   swimmer:       { title: 'Swimmer', who: 'swimmer', prize: 4 },
+  'swimmer-f':   { title: 'Swimmer', ctx: 'trainer-f', who: 'swimmerf', prize: 4 },
   sailor:        { title: 'Sailor', who: 'sailor', prize: 32 },
   gentleman:     { title: 'Gentleman', who: 'gentleman', prize: 72 },
   engineer:      { title: 'Engineer', who: 'engineer', prize: 48 },
@@ -34,5 +37,6 @@ G.TRAINER_CLASSES = {
   boss:          { title: 'Boss', who: 'giovanni', prize: 100 },
   'black-belt':  { title: 'Black Belt', who: 'blackbelt', prize: 24 },
   psychic:       { title: 'Psychic', who: 'psychic', prize: 24 },
+  burglar:       { title: 'Burglar', who: 'burglar', prize: 90 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

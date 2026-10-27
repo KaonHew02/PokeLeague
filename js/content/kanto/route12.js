@@ -88,6 +88,7 @@ G.Maps.def({
   spots: { north: [10, 1, 'down'], 'gate-door': [4, 36, 'down'], west: [1, 49, 'right'] },
   signs: { '13,2': 'Route 12. North: Lavender Town. South: the Silence Bridge, then Route 13.' },
   npcs: [
+    { id: 'angler', who: 'fisherman', x: 16, y: 5, dir: 'down', move: 'look', script: 'route12.super-rod' },
     { id: 'snorlax', who: 'snorlax', mon: 'snorlax', x: 10, y: 38, dir: 'down', fixed: true, if: '!route12-snorlax', script: 'route12.snorlax' }
   ],
   trainers: [
@@ -322,6 +323,21 @@ G.Maps.def({
 });
 
 G.Script.def({
+  // The Super Rod (as in the games, from a fisherman by the Silence Bridge).
+  'route12.super-rod': [
+    ['if', 'got-super-rod', [
+      ['say', 'With the Super Rod, Pokémon from the deepest water will bite. Good luck out there!']
+    ], [
+      ['say', 'I am the best angler on Route 12! Hmm? You look like you love fishing too.'],
+      ['choice', 'Do you love fishing?', [
+        ['say', 'I can tell! Here, take my Super Rod. Real anglers deserve real gear!'],
+        ['giveItem', 'super-rod', 1],
+        ['setFlag', 'got-super-rod']
+      ], [
+        ['say', 'Really? What a shame. My rod would have liked you.']
+      ]]
+    ]]
+  ],
   'route12.snorlax': [
     ['if', '!has:poke-flute', [
       ['say', 'A huge Pokémon is sleeping in the middle of the road, snoring loudly. It will not budge.']

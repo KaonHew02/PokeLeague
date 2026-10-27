@@ -28,5 +28,6 @@ G.I18n.add({
   "Tamer": "Domador",
   "Boss": "Chefe",
   "Black Belt": "Faixa-Preta",
-  "Psychic": "Paranormal"
+  "Psychic": "Paranormal",
+  "Burglar": "Ladrão"
 }, "pt-BR");

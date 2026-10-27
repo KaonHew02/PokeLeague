@@ -5,6 +5,9 @@
  *     border:'T', rows:[ 'TTTT..TTTT', … ], connect:{ north:{ map:'route1', offset:0 } },
  *     warps:[{ x, y, to, spot }], spots:{ name:[x, y, dir] }, signs:{ 'x,y':'text' | { script } },
  *     npcs:[…], trainers:[…], items:[…], triggers:[…], encounters:{ walk:'@area-key' }, enter:'script' })
+ *   Chapter 7: boulders:[{ id, x, y, if, fixed }] (Strength), bars:[{ x, y, w, h, if }] (gates),
+ *   calm: cond (fast water becomes water), flow: 'down', encounters.water: '@area' (Surf and rods),
+ *   and people with swim: true (standing in water).
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
@@ -41,7 +44,11 @@ G.Maps = (() => {
     'spin-up': { spin: 'up' }, 'spin-down': { spin: 'down' }, 'spin-left': { spin: 'left' }, 'spin-right': { spin: 'right' },
     'spin-stop': { stop: 1 }, invisible: { solid: 1 }, bridge: {},
     // Chapter 6: doors that open with the Card Key (Silph Co.) and teleport pads (warps).
-    keydoor: { solid: 1 }, pad: { warp: 1 }
+    keydoor: { solid: 1 }, pad: { warp: 1 },
+    // Chapter 7: a hole in the floor (a warp you fall through, until a boulder fills it), fast
+    // water (solid until the map's `calm` holds), gates (open while their `bars` rule holds),
+    // statues (switches in the Pokémon Mansion) and quiz machines (Blaine's Gym).
+    pit: { warp: 1 }, rapids: { solid: 1 }, bars: { solid: 1 }, statue: { solid: 1 }, quiz: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -51,7 +58,9 @@ G.Maps = (() => {
       H: 'stamp', C: 'stamp', M: 'stamp', G: 'stamp', L: 'stamp', K: 'stamp', E: 'stamp', B: 'stamp', Y: 'stamp', D: 'door',
       '%': 'ladder', O: 'hole',                      // caves: a ladder, a cave mouth (both warps)
       c: 'cuttree',                                  // a small tree that Cut clears (until you leave the map)
-      '=': 'bridge'                                  // a wooden bridge over water
+      '=': 'bridge',                                 // a wooden bridge over water
+      R: 'stamp',                                    // the burnt Pokémon Mansion
+      o: 'pit', r: 'rapids'                          // a hole in a cave floor, fast water (the Seafoam Islands)
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',
@@ -59,7 +68,8 @@ G.Maps = (() => {
       X: 'mat', '^': 'stairs', '~': 'water', u: 'can', g: 'grave', k: 'hedge',
       Q: 'secret', q: 'poster', s: 'slots', e: 'lift',
       U: 'spin-up', D: 'spin-down', L: 'spin-left', R: 'spin-right', o: 'spin-stop', i: 'invisible',
-      n: 'keydoor', w: 'pad'
+      n: 'keydoor', w: 'pad',
+      O: 'pit', y: 'bars', j: 'statue', z: 'quiz'
     }
   };
   /** Buildings drawn as stamps: footprint in tiles (stamps.js paints them). */
@@ -72,7 +82,8 @@ G.Maps = (() => {
     K: { type: 'tower', w: 5, h: 5 },          // the Pokémon Tower
     E: { type: 'store', w: 8, h: 5 },          // a department store
     B: { type: 'building', w: 6, h: 4 },       // a big building (a mansion, a game corner, a gate)
-    Y: { type: 'office', w: 8, h: 6 }          // an office tower (Silph Co.)
+    Y: { type: 'office', w: 8, h: 6 },         // an office tower (Silph Co.)
+    R: { type: 'ruin', w: 6, h: 5 }            // a burnt mansion (Cinnabar Island)
   };
   const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
   const OPP = { up: 'down', down: 'up', left: 'right', right: 'left' };
@@ -246,11 +257,15 @@ G.Maps = (() => {
     return null;
   }
 
-  /** Encounter table { rate, mons } of one method ('walk', 'surf'...), or null. */
+  /** Methods on the water: a map's `water` area gives them all (and so does the area of its grass). */
+  const WATERY = ['surf', 'old-rod', 'good-rod', 'super-rod'];
+  /** Encounter table { rate, mons } of one method ('walk', 'surf', 'old-rod'...), or null. */
   function encounters(m, method = 'walk') {
     let e = m.encounters && m.encounters[method];
-    // Surfing on a map whose grass names an area: that area's water table.
-    if (!e && method === 'surf' && m.encounters && typeof m.encounters.walk === 'string') e = m.encounters.walk;
+    if (!e && WATERY.includes(method) && m.encounters) {
+      const area = [m.encounters.water, m.encounters.walk].find(a => typeof a === 'string' && G.ENCOUNTERS && G.ENCOUNTERS[a.slice(1)] && G.ENCOUNTERS[a.slice(1)][method]);
+      e = area || null;
+    }
     if (!e) return null;
     if (typeof e === 'string' && e[0] === '@') {
       const area = G.ENCOUNTERS && G.ENCOUNTERS[e.slice(1)];
@@ -307,15 +322,17 @@ G.Maps = (() => {
       const back = t.connect[SIDE_OPP[side]];
       if (!back || back.map !== m.id) E.push(`connect ${side} -> ${t.id}: ${t.id} has no ${SIDE_OPP[side]} connection back to ${m.id}`);
       else if ((back.offset | 0) !== -(c.offset | 0)) E.push(`connect ${side} -> ${t.id}: offsets ${c.offset | 0} and ${back.offset | 0} do not match (one must be minus the other)`);
-      // The shared edge needs at least one open tile on both sides.
+      // The shared edge needs at least one open tile on both sides (or water on both: the sea routes).
       const nb = neighbour(m, side);
+      const wet = (mm, x, y) => inside(mm, x, y) && kindAt(mm, x, y) === 'water';
+      const both = (x, y, tx, ty) => (open(m, x, y) && open(t, tx, ty)) || (wet(m, x, y) && wet(t, tx, ty));
       let pass = 0;
       if (side === 'north' || side === 'south') {
         const y = side === 'north' ? 0 : m.h - 1, ty = side === 'north' ? t.h - 1 : 0;
-        for (let x = 0; x < m.w; x++) if (open(m, x, y) && open(t, x - nb.ox, ty)) pass++;
+        for (let x = 0; x < m.w; x++) if (both(x, y, x - nb.ox, ty)) pass++;
       } else {
         const x = side === 'west' ? 0 : m.w - 1, tx = side === 'west' ? t.w - 1 : 0;
-        for (let y = 0; y < m.h; y++) if (open(m, x, y) && open(t, tx, y - nb.oy)) pass++;
+        for (let y = 0; y < m.h; y++) if (both(x, y, tx, y - nb.oy)) pass++;
       }
       if (!pass) E.push(`connect ${side} -> ${t.id}: no open tile lines up on both sides of the edge`);
     }
@@ -329,7 +346,7 @@ G.Maps = (() => {
       else if (ids.has(p.id)) E.push(`two people with the id "${p.id}"`);
       ids.add(p.id);
       if (!tileOk(p.x, p.y)) E.push(`${what} "${p.id}" ${at} is outside the map`);
-      else if (!open(m, p.x, p.y)) E.push(`${what} "${p.id}" stands on a ${kindAt(m, p.x, p.y)} tile at ${at}`);
+      else if (p.swim ? kindAt(m, p.x, p.y) !== 'water' : !open(m, p.x, p.y)) E.push(`${what} "${p.id}" ${p.swim ? 'swims' : 'stands'} on a ${kindAt(m, p.x, p.y)} tile at ${at}`);
       if (p.mon != null) { if (species(p.mon) == null) E.push(`${what} "${p.id}": unknown Pokémon "${p.mon}"`); }
       else if (known && !known.includes(p.who)) E.push(`${what} "${p.id}": unknown sprite "${p.who}"`);
       if (p.dir && !DIRS[p.dir]) E.push(`${what} "${p.id}": bad direction "${p.dir}"`);
@@ -363,9 +380,24 @@ G.Maps = (() => {
       if (it.script && typeof it.script === 'string' && !G.Script.get(it.script)) E.push(`item at ${at}: unknown script "${it.script}"`);
       if (G.ITEMS && !G.ITEMS[it.item]) E.push(`item at ${at}: unknown item "${it.item}"`);
     }
+    // Boulders (Strength): on open ground, unless `fixed` (one that fell into the water from above).
+    for (const b of m.def.boulders || []) {
+      const at = where(b.x, b.y);
+      if (!b.id) E.push(`boulder at ${at} has no id`);
+      else if (ids.has(b.id)) E.push(`two things with the id "${b.id}"`);
+      ids.add(b.id);
+      if (!tileOk(b.x, b.y)) E.push(`boulder "${b.id}" ${at} is outside the map`);
+      else if (!b.fixed && (!open(m, b.x, b.y) || info(kindAt(m, b.x, b.y)).warp)) E.push(`boulder "${b.id}" is on a ${kindAt(m, b.x, b.y)} tile at ${at}`);
+    }
+    // Gates: `bars` rules are rectangles inside the map, over gate tiles.
+    for (const [i, r] of (m.def.bars || []).entries()) {
+      const w = r.w || 1, h = r.h || 1;
+      if (!tileOk(r.x, r.y) || !tileOk(r.x + w - 1, r.y + h - 1)) { E.push(`bars ${i} is outside the map`); continue; }
+      for (let y = r.y; y < r.y + h; y++) for (let x = r.x; x < r.x + w; x++) if (kindAt(m, x, y) !== 'bars') E.push(`bars ${i} covers a ${kindAt(m, x, y)} tile at ${where(x, y)}`);
+    }
     // Two things on one tile
     const taken = new Map();
-    for (const p of [...m.npcs, ...m.trainers, ...m.items.filter(i => !i.hidden)]) {
+    for (const p of [...m.npcs, ...m.trainers, ...m.items.filter(i => !i.hidden), ...(m.def.boulders || [])]) {
       const at = where(p.x, p.y);
       if (taken.has(at) && !(p.if || taken.get(at).if)) E.push(`${taken.get(at).id || taken.get(at).item} and ${p.id || p.item} are both at ${at}`);
       taken.set(at, p);
@@ -393,6 +425,11 @@ G.Maps = (() => {
 
     // Encounters
     for (const [method, e] of Object.entries(m.encounters)) {
+      if (method === 'water') {
+        const a = typeof e === 'string' && e[0] === '@' && G.ENCOUNTERS && G.ENCOUNTERS[e.slice(1)];
+        if (G.ENCOUNTERS && !(a && WATERY.some(k => a[k]))) E.push(`encounters.water: "${e}" names no area with water encounters`);
+        continue;
+      }
       if (typeof e === 'string') {
         if (e[0] !== '@') E.push(`encounters.${method}: use "@area-key" or { rate, mons }`);
         else if (G.ENCOUNTERS && !(G.ENCOUNTERS[e.slice(1)] && G.ENCOUNTERS[e.slice(1)][method]))
@@ -471,7 +508,7 @@ G.Maps = (() => {
     });
   }
 
-  return { TS, KINDS, LEGEND, STAMPS, DIRS, OPP, SIDES, MOVES, def, get, all, has, parse, validate,
+  return { TS, KINDS, LEGEND, STAMPS, DIRS, OPP, SIDES, MOVES, WATERY, def, get, all, has, parse, validate,
            inside, kindAt, kindNear, chAt, open, ledge, info, spot, neighbour, neighbours, across, species, encounters, key,
            center, mart, get defs() { return defs; } };
 })();

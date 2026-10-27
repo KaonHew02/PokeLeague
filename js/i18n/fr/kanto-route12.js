@@ -97,5 +97,10 @@ G.I18n.add({
   "Poison powder and sleep powder are useful, but Koga has even nastier tricks.": "La poudre toxique et la poudre dodo sont utiles, mais Koga a des tours encore plus vicieux.",
   "Route 12. North: Lavender Town. South: the Silence Bridge, then Route 13.": "Route 12. Nord : Lavanville. Sud : le Pont Silence, puis la Route 13.",
   "Route 13. The fences turn this road into a maze. Look for the way around!": "Route 13. Les clôtures font de cette route un labyrinthe. Cherche le moyen de les contourner !",
-  "Route 15. West: Fuchsia City.": "Route 15. Ouest : Parmanie."
+  "Route 15. West: Fuchsia City.": "Route 15. Ouest : Parmanie.",
+  "With the Super Rod, Pokémon from the deepest water will bite. Good luck out there!": "Avec la Méga Canne, les Pokémon des eaux les plus profondes vont mordre. Bonne chance !",
+  "I am the best angler on Route 12! Hmm? You look like you love fishing too.": "Je suis le meilleur pêcheur de la Route 12 ! Hmm ? Tu as l'air d'aimer la pêche, toi aussi.",
+  "Do you love fishing?": "Tu adores la pêche ?",
+  "I can tell! Here, take my Super Rod. Real anglers deserve real gear!": "Ça se voit ! Tiens, prends ma Méga Canne. Les vrais pêcheurs méritent du vrai matériel !",
+  "Really? What a shame. My rod would have liked you.": "Vraiment ? Quel dommage. Ma canne t'aurait bien aimé."
 }, "fr");

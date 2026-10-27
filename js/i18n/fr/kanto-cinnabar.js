@@ -1,0 +1,26 @@
+/* French — kanto-cinnabar: Cinnabar Island, its Center, Mart and Pokémon Lab (js/content/kanto/cinnabar.js). */
+G.I18n.add({
+  "The Gym door is locked. A note is stuck to it.": "La porte de l'Arène est fermée. Une note y est collée.",
+  "\"I lost the key somewhere in the old mansion. Bring it to me if you want a battle! —Blaine\"": "« J'ai perdu la clé quelque part dans le vieux manoir. Rapporte-la-moi si tu veux un combat ! —Auguste »",
+  "Bringing a fossil back to life takes a little while. Take a walk outside and come back.": "Ramener un fossile à la vie prend un peu de temps. Va faire un tour dehors et reviens.",
+  "Ah, there you are! The fossil you gave me has come back to life!": "Ah, te voilà ! Le fossile que tu m'as donné est revenu à la vie !",
+  "Take good care of it. It has a lot of catching up to do!": "Prends-en bien soin. Il a beaucoup de temps à rattraper !",
+  "I study fossils. With our machine, a fossil can become a living Pokémon again!": "J'étudie les fossiles. Grâce à notre machine, un fossile peut redevenir un Pokémon vivant !",
+  "If you ever find one, bring it to me.": "Si jamais tu en trouves un, apporte-le-moi.",
+  "Oh! That is a Helix Fossil! Shall I bring it back to life?": "Oh ! C'est un Nautile ! Veux-tu que je le ramène à la vie ?",
+  "Oh! That is a Dome Fossil! Shall I bring it back to life?": "Oh ! C'est un Fossile Dôme ! Veux-tu que je le ramène à la vie ?",
+  "Oh! Old Amber, with something trapped inside! Shall I bring it back to life?": "Oh ! Du Vieil Ambre, avec quelque chose piégé dedans ! Veux-tu que je le ramène à la vie ?",
+  "Leave it with me. Go for a walk, and when you come back it should be ready.": "Confie-le-moi. Va te promener, et à ton retour, il devrait être prêt.",
+  "I see. Come back if you change your mind.": "Je vois. Reviens si tu changes d'avis.",
+  "The Pokémon Lab here can bring fossils back to life. Have you found one?": "Le Labo Pokémon d'ici peut ramener les fossiles à la vie. Tu en as trouvé un ?",
+  "Blaine lost the key to his own Gym in the old mansion! Nobody has been brave enough to look for it.": "Auguste a perdu la clé de sa propre Arène dans le vieux manoir ! Personne n'a osé aller la chercher.",
+  "That mansion burned down long ago. Researchers lived there. Strange Pokémon roam its halls now.": "Ce manoir a brûlé il y a longtemps. Des chercheurs y vivaient. D'étranges Pokémon hantent ses couloirs maintenant.",
+  "Blaine asks quiz questions in his Gym. Get one wrong and a Trainer jumps out to battle you!": "Auguste pose des questions de quiz dans son Arène. Si tu te trompes, un Dresseur surgit pour te combattre !",
+  "The people who lived in the mansion studied a very rare Pokémon. We still do not know what became of it.": "Les gens qui vivaient au manoir étudiaient un Pokémon très rare. On ne sait toujours pas ce qu'il est devenu.",
+  "I want to see a living fossil Pokémon one day! They lived millions of years ago!": "Un jour, je veux voir un Pokémon fossile vivant ! Ils vivaient il y a des millions d'années !",
+  "Cinnabar Island. An island town on a sleeping volcano, as hot-blooded as its Gym Leader.": "Cramois'Île. Une ville insulaire sur un volcan endormi, aussi bouillante que son Champion d'Arène.",
+  "The Cinnabar dock. North across the sea: Pallet Town. East: the Seafoam Islands and Fuchsia City.": "Le quai de Cramois'Île. Au nord, de l'autre côté de la mer : Bourg Palette. À l'est : les Îles Écume et Parmanie.",
+  "Cinnabar Island Pokémon Gym. Leader: Blaine, the fiery quiz master!": "Arène Pokémon de Cramois'Île. Champion : Auguste, le maître des quiz enflammé !",
+  "Research notes on fossils: some ancient Pokémon can be brought back from what they left behind.": "Notes de recherche sur les fossiles : certains Pokémon anciens peuvent revenir à la vie à partir de leurs restes.",
+  "A thick report about a Pokémon found in a faraway jungle. Most of the pages are missing.": "Un épais rapport sur un Pokémon trouvé dans une jungle lointaine. La plupart des pages manquent."
+}, "fr");

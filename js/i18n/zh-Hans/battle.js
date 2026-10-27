@@ -150,5 +150,12 @@ G.I18n.add({
   "Your team became cloaked in a mystical veil!": "我方被神秘的面纱包围了！",
   "The foe team became cloaked in a mystical veil!": "对手被神秘的面纱包围了！",
   "Your team's {effect} wore off!": "我方的{effect}效果消失了！",
-  "The foe team's {effect} wore off!": "对手的{effect}效果消失了！"
+  "The foe team's {effect} wore off!": "对手的{effect}效果消失了！",
+  "{player} threw some Bait!": "{player}扔出了饵料！",
+  "{player} threw a Rock!": "{player}扔出了石头！",
+  "{mon} is eating!": "{mon}正在吃东西！",
+  "{mon} is angry!": "{mon}生气了！",
+  "{mon} is watching carefully!": "{mon}正在仔细观察！",
+  "{mon} fled!": "{mon}逃走了！",
+  "You have no Safari Balls left!": "你没有狩猎球了！"
 }, "zh-Hans");

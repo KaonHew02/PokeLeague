@@ -19,6 +19,8 @@ G.Actor = class Actor {
     this.id = o.id || null;
     this.who = o.who || null;          // people.js archetype
     this.mon = o.mon || 0;             // dex number: drawn with a PMD sprite
+    this.ride = 0;                     // dex number of the Pokémon carrying it over water (Surf)
+    this.rideAnim = null;
     this.shiny = !!o.shiny;
     this.x = o.x | 0; this.y = o.y | 0;
     this.fx = this.x; this.fy = this.y;
@@ -70,6 +72,7 @@ G.Actor = class Actor {
   update(dt) {
     if (this.emote && (this.emote.t -= dt) <= 0) { const e = this.emote; this.emote = null; if (e.done) e.done(); }
     if (this.anim) this.anim.update(dt);
+    if (this.rideAnim) this.rideAnim.update(dt);
     if (this.t >= 1) return false;
     this.t = Math.min(1, this.t + dt / this.dur);
     if (this.t >= 1) { this.fx = this.x; this.fy = this.y; this.hop = false; return true; }
@@ -102,6 +105,17 @@ G.Actor = class Actor {
       return;
     }
     const fy = y + G.Maps.TS / 2 - PX;
+    // Surfing: the Pokémon swims under the player, who sits on its back.
+    if (this.ride) {
+      if (!this.rideAnim || this.rideAnim.dex !== this.ride) { this.rideAnim = new G.Sprites.Animator(this.ride, 1); this.rideAnim.loop('Idle'); }
+      const r = this.rideAnim;
+      r.dir = G.Sprites.DIR4[this.dir];
+      r.loop(this.moving ? 'Walk' : 'Idle');
+      const bob = Math.sin(performance.now() / 260) * PX;
+      r.draw(ctx, x, y + 10 + bob);
+      G.People.draw(ctx, this.who, this.dir, 0, x, fy - 9 * PX + bob, PX);
+      return;
+    }
     ctx.fillStyle = lift ? 'rgba(0,0,0,.35)' : 'rgba(0,0,0,.18)';
     ctx.beginPath(); ctx.ellipse(x, fy - 1, (lift ? 6 : 7) * PX, 2.2 * PX, 0, 0, 6.2832); ctx.fill();
     G.People.draw(ctx, this.who, this.dir, this.frame(), x, fy - lift, PX);

@@ -34,7 +34,7 @@ const DATA = ['js/data/types.js', 'js/data/species.js', 'js/data/moves.js', 'js/
               'js/data/names.js', 'js/data/natures.js', 'js/data/item-effects.js'];
 const BATTLE = ['js/battle/stats.js', 'js/battle/mon.js', 'js/battle/damage.js', 'js/battle/effects.js', 'js/battle/moves-special.js',
                 'js/battle/ai.js', 'js/battle/capture.js', 'js/battle/exp.js', 'js/battle/evolution.js', 'js/battle/items.js',
-                'js/battle/battle.js', 'js/battle/text.js'];
+                'js/battle/battle.js', 'js/battle/safari.js', 'js/battle/text.js'];
 
 /** The whole battle engine with real data: G. opts as boot() (lang, dictionaries). */
 const battleBoot = (opts = {}) => boot(CORE.concat(DATA, BATTLE), opts).G;

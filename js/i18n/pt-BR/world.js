@@ -42,5 +42,9 @@ G.I18n.add({
   "This tree looks like it could be cut down. Would you like to use Cut?": "Parece que esta árvore pode ser cortada. Quer usar Cut?",
   "{mon} used Cut!": "{mon} usou Cut!",
   "It's pitch-dark in here. Would you like to use Flash?": "Está um breu aqui dentro. Quer usar Flash?",
-  "{mon} used Flash!": "{mon} usou Flash!"
+  "{mon} used Flash!": "{mon} usou Flash!",
+  "The water is a deep blue.": "A água é de um azul profundo.",
+  "The water is a deep blue. Would you like to Surf?": "A água é de um azul profundo. Quer usar Surf?",
+  "{mon} used Surf!": "{mon} usou Surf!",
+  "Safari Balls ×{n} · Steps {s}": "Safari Balls ×{n} · Passos {s}"
 }, "pt-BR");

@@ -15,6 +15,7 @@
  *   G.BattleUI.wild(player, sp, lvl, opts)       a wild battle against one new Pokémon (sp: dex number or slug)
  *   G.BattleUI.trainer(player, trainer, opts)    trainer = { id, name, title, ai, prize, items, leader,
  *                                                            team: [[sp, lvl, moves?], ...] }
+ *   G.BattleUI.safari(player, sp, lvl, opts)     the Safari Zone (safari.js): Ball / Bait / Rock / Run
  *   (the overworld calls these from its encounter / trainer hooks; opts as for start())
  *
  * Debug: dev.html?debug&wild=pidgey:3[,rattata:4]&party=charmander:8&items=poke-ball:5,potion:3&seed=7
@@ -219,6 +220,13 @@ G.BattleUI = (() => {
       case 'learned': G.Audio.sfx('levelup'); return say(line);
       case 'learnPrompt': return say(line, { wait: true });
       case 'run': if (e.ok) G.Audio.sfx('back'); return say(line);
+      case 'bait': case 'rock': G.Audio.sfx('throw'); return say(line);
+      case 'safariFled': {
+        const s = sides[1];
+        G.Audio.sfx('run');
+        if (s) await tween(0.4, 1, 0, v => { s.alpha = v; s.dx = (1 - v) * 0.3; });
+        return say(line);
+      }
       case 'money': return say(line);
       case 'end': return;
       default: return say(line);
@@ -230,7 +238,7 @@ G.BattleUI = (() => {
     G.Audio.sfx('confirm');
     introT = 1;
     await wait(0.5);
-    if (b.kind === 'wild') {
+    if (b.kind === 'wild' || b.kind === 'safari') {
       // The wild Pokémon is already there when the screen opens.
       const fo = b.foe.party[b.foe.active || 0];
       sides[1] = makeSide(1, fo);
@@ -557,8 +565,27 @@ G.BattleUI = (() => {
 
   // ---------------- the battle ----------------
 
+  /** The Safari Zone: Ball (how many left), Bait, Rock, Run. */
+  async function chooseSafari() {
+    const set = (sel, t) => { root.querySelector(sel).textContent = t; };
+    set('[data-a=fight]', fmt('Ball ×{n}', { n: b.options().balls }));
+    set('[data-a=bag]', T('Bait')); set('[data-a=pokemon]', T('Rock')); set('[data-a=run]', T('Run'));
+    box.set(fmt('What will {player} do?', { player: b.player.name }));
+    root.onBack = () => {};
+    const a = await menuWait(() => $('bt-menu').classList.remove('hidden'));
+    hideMenus(); setPhase('text');
+    return { fight: { type: 'ball' }, bag: { type: 'bait' }, pokemon: { type: 'rock' }, run: { type: 'run' } }[a] || null;
+  }
+
   async function run() {
     await play(b.start());
+    if (b.kind === 'safari') {
+      while (!b.result) {
+        const a = await chooseSafari();
+        if (a) await play(b.act(a));
+      }
+      return b.result;
+    }
     while (!b.result) {
       const p = b.prompt;
       let ev;
@@ -628,8 +655,9 @@ G.BattleUI = (() => {
     labels();
     o = opts;
     scene = { bg: opts.bg || 'grass' };
-    b = G.Battle.create({ kind: opts.kind, seed: opts.seed == null ? G.RNG.seed() : opts.seed,
-                          player: opts.player, foe: opts.foe, rules: opts.rules });
+    const seed = opts.seed == null ? G.RNG.seed() : opts.seed;
+    b = opts.kind === 'safari' ? G.Safari.create({ seed, player: opts.player, foe: opts.foe, rules: opts.rules })
+      : G.Battle.create({ kind: opts.kind, seed, player: opts.player, foe: opts.foe, rules: opts.rules });
     G.UI.closeAll();
     G.Game.setMode('battle');
     const t = opts.foe.trainer;
@@ -777,6 +805,12 @@ G.BattleUI = (() => {
     return start(Object.assign({ kind: 'wild', player, foe: { party: [mon] } }, opts));
   }
 
+  function safari(player, sp, lvl, opts = {}) {
+    const rng = G.RNG(opts.seed == null ? G.RNG.seed() : opts.seed + 1);
+    const mon = G.Mon.create(spId(sp), lvl, { rng, wild: true });
+    return start(Object.assign({ kind: 'safari', player, foe: { party: [mon] } }, opts));
+  }
+
   function trainer(player, t, opts = {}) {
     const rng = G.RNG(opts.seed == null ? G.RNG.seed() : opts.seed + 1);
     const party = t.team.map(([sp, lvl, moves]) => G.Mon.create(spId(sp), lvl, { rng, moves }));
@@ -787,5 +821,5 @@ G.BattleUI = (() => {
     G.Game.define('battle', Mode);
   }
 
-  return { init, start, wild, trainer, debugFromUrl, TextBox, get battle() { return b; }, get busy() { return phase !== 'off'; } };
+  return { init, start, wild, safari, trainer, debugFromUrl, TextBox, get battle() { return b; }, get busy() { return phase !== 'off'; } };
 })();

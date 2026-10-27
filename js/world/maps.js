@@ -244,7 +244,9 @@ G.Maps = (() => {
 
   /** Encounter table { rate, mons } of one method ('walk', 'surf'...), or null. */
   function encounters(m, method = 'walk') {
-    const e = m.encounters && m.encounters[method];
+    let e = m.encounters && m.encounters[method];
+    // Surfing on a map whose grass names an area: that area's water table.
+    if (!e && method === 'surf' && m.encounters && typeof m.encounters.walk === 'string') e = m.encounters.walk;
     if (!e) return null;
     if (typeof e === 'string' && e[0] === '@') {
       const area = G.ENCOUNTERS && G.ENCOUNTERS[e.slice(1)];

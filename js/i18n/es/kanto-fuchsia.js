@@ -2,7 +2,6 @@
 G.I18n.add({
   "Toxic poisons the foe badly: the damage grows every turn. A ninja's favourite.": "Tóxico envenena gravemente al rival: el daño aumenta cada turno. El favorito de un ninja.",
   "They say the leader in Saffron City reads minds. Be ready for anything.": "Dicen que la líder de Ciudad Azafrán lee la mente. Prepárate para cualquier cosa.",
-  "A notice on the door: The Safari Zone is closed for now. The warden is looking for something he lost. Sorry!": "Un aviso en la puerta: La Zona Safari está cerrada por ahora. El guarda está buscando algo que ha perdido. ¡Disculpen!",
   "You beat Koga! Five badges. Only three more to go!": "¡Has vencido a Koga! Cinco medallas. ¡Solo te quedan tres!",
   "Hey, future Champion! Koga's Gym is full of walls you cannot see. Walk slowly and feel your way.": "¡Eh, futuro Campeón! El Gimnasio de Koga está lleno de paredes invisibles. Camina despacio y ve tanteando.",
   "Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.": "Koga usa Pokémon de tipo Veneno. Los movimientos de tipo Tierra y Psíquico son muy eficaces contra ellos.",
@@ -14,7 +13,6 @@ G.I18n.add({
   "Kangaskhan keeps a careful eye on its baby.": "Kangaskhan vigila de cerca a su cría.",
   "Slowpoke is staring into space.": "Slowpoke mira al vacío.",
   "Voltorb rolls around a little.": "Voltorb rueda un poco.",
-  "The Safari Zone is closed? Aww! I wanted to catch something rare.": "¿La Zona Safari está cerrada? ¡Jo! Quería atrapar algo raro.",
   "Fuchsia is by the sea. Folks say there are islands far to the south, across the water.": "Ciudad Fucsia está junto al mar. Dicen que hay islas muy al sur, al otro lado del agua.",
   "Koga's Gym is full of walls you cannot see. Bump into them to find the way!": "El Gimnasio de Koga está lleno de paredes invisibles. ¡Choca con ellas para encontrar el camino!",
   "Poison-type Pokémon are weak to Ground and Psychic moves. Keep that in mind against Koga.": "Los Pokémon de tipo Veneno son débiles a los movimientos de tipo Tierra y Psíquico. Tenlo en cuenta contra Koga.",
@@ -50,5 +48,13 @@ G.I18n.add({
   "Hmm! You have proven your worth.": "¡Hmm! Has demostrado lo que vales.",
   "Fuchsia City. A bright pink town by the sea, home of the Safari Zone.": "Ciudad Fucsia. Una alegre ciudad rosa junto al mar, hogar de la Zona Safari.",
   "Fuchsia City Pokémon Gym. Leader: Koga, the ninja who strikes with poison!": "Gimnasio Pokémon de Ciudad Fucsia. Líder: ¡Koga, el ninja que ataca con veneno!",
-  "The Safari Zone's little zoo. These Pokémon came from the Safari Zone. Please do not feed them!": "El pequeño zoo de la Zona Safari. Estos Pokémon vienen de la Zona Safari. ¡No les des de comer, por favor!"
+  "The Safari Zone's little zoo. These Pokémon came from the Safari Zone. Please do not feed them!": "El pequeño zoo de la Zona Safari. Estos Pokémon vienen de la Zona Safari. ¡No les des de comer, por favor!",
+  "Strength lets a Pokémon push heavy boulders out of the way. With the Rainbow Badge it works outside battle too.": "Fuerza permite a un Pokémon apartar rocas pesadas del camino. Con la Medalla Arcoíris también funciona fuera de los combates.",
+  "Mmf? Mmmf! (The old man stares at the Gold Teeth in your hand.)": "¿Mmf? ¡Mmmf! (El anciano mira fijamente la Dentadura de Oro que tienes en la mano.)",
+  "{player} gave the Gold Teeth to the old man. He popped them in.": "{player} le ha dado la Dentadura de Oro al anciano. Se la ha puesto enseguida.",
+  "Ahh, that is much better! Thank you, thank you! I lost those in the Safari Zone weeks ago.": "¡Ah, mucho mejor! ¡Gracias, gracias! La perdí en la Zona Safari hace semanas.",
+  "Please take this as my thanks. It was a gift from an old friend.": "Por favor, acepta esto como agradecimiento. Me lo regaló un viejo amigo.",
+  "HM04 is Strength. A strong Pokémon can push boulders with it.": "La MO04 es Fuerza. Un Pokémon fuerte puede empujar rocas con ella.",
+  "In the Safari Zone you only get Safari Balls, Bait and Rocks. No battling! I love it.": "En la Zona Safari solo tienes Safari Balls, Cebo y Rocas. ¡Nada de combates! Me encanta.",
+  "Safari Zone Warden": "Guarda de la Zona Safari"
 }, "es");

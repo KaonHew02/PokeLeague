@@ -2,7 +2,6 @@
 G.I18n.add({
   "Toxic poisons the foe badly: the damage grows every turn. A ninja's favourite.": "Tossina avvelena gravemente il nemico: il danno cresce a ogni turno. La preferita di un ninja.",
   "They say the leader in Saffron City reads minds. Be ready for anything.": "Dicono che la Capopalestra di Zafferanopoli legga nel pensiero. Preparati a tutto.",
-  "A notice on the door: The Safari Zone is closed for now. The warden is looking for something he lost. Sorry!": "Un avviso sulla porta: La Zona Safari è chiusa per ora. Il guardiano sta cercando una cosa che ha perso. Scusate!",
   "You beat Koga! Five badges. Only three more to go!": "Hai battuto Koga! Cinque medaglie. Ne mancano solo tre!",
   "Hey, future Champion! Koga's Gym is full of walls you cannot see. Walk slowly and feel your way.": "Ehi, futuro Campione! La Palestra di Koga è piena di muri invisibili. Cammina piano e procedi a tentoni.",
   "Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.": "Koga usa Pokémon di tipo Veleno. Le mosse di tipo Terra e Psico sono efficacissime contro di loro.",
@@ -14,7 +13,6 @@ G.I18n.add({
   "Kangaskhan keeps a careful eye on its baby.": "Kangaskhan tiene d'occhio il suo piccolo.",
   "Slowpoke is staring into space.": "Slowpoke fissa il vuoto.",
   "Voltorb rolls around a little.": "Voltorb rotola un po'.",
-  "The Safari Zone is closed? Aww! I wanted to catch something rare.": "La Zona Safari è chiusa? Uffa! Volevo catturare qualcosa di raro.",
   "Fuchsia is by the sea. Folks say there are islands far to the south, across the water.": "Fucsiapoli è sul mare. Si dice che ci siano isole lontano a sud, oltre l'acqua.",
   "Koga's Gym is full of walls you cannot see. Bump into them to find the way!": "La Palestra di Koga è piena di muri invisibili. Sbattici contro per trovare la strada!",
   "Poison-type Pokémon are weak to Ground and Psychic moves. Keep that in mind against Koga.": "I Pokémon di tipo Veleno sono deboli alle mosse di tipo Terra e Psico. Tienilo a mente contro Koga.",
@@ -50,5 +48,13 @@ G.I18n.add({
   "Hmm! You have proven your worth.": "Hmm! Hai dimostrato il tuo valore.",
   "Fuchsia City. A bright pink town by the sea, home of the Safari Zone.": "Fucsiapoli. Una vivace città rosa sul mare, dove si trova la Zona Safari.",
   "Fuchsia City Pokémon Gym. Leader: Koga, the ninja who strikes with poison!": "Palestra Pokémon di Fucsiapoli. Capopalestra: Koga, il ninja che colpisce con il veleno!",
-  "The Safari Zone's little zoo. These Pokémon came from the Safari Zone. Please do not feed them!": "Il piccolo zoo della Zona Safari. Questi Pokémon vengono dalla Zona Safari. Per favore, non dar loro da mangiare!"
+  "The Safari Zone's little zoo. These Pokémon came from the Safari Zone. Please do not feed them!": "Il piccolo zoo della Zona Safari. Questi Pokémon vengono dalla Zona Safari. Per favore, non dar loro da mangiare!",
+  "Strength lets a Pokémon push heavy boulders out of the way. With the Rainbow Badge it works outside battle too.": "Forza permette a un Pokémon di spostare massi pesanti. Con la Medaglia Arcobaleno funziona anche fuori dalla lotta.",
+  "Mmf? Mmmf! (The old man stares at the Gold Teeth in your hand.)": "Mmf? Mmmf! (Il vecchio fissa i Denti d’oro che hai in mano.)",
+  "{player} gave the Gold Teeth to the old man. He popped them in.": "{player} dà i Denti d’oro al vecchio. Lui se li rimette subito.",
+  "Ahh, that is much better! Thank you, thank you! I lost those in the Safari Zone weeks ago.": "Ahh, molto meglio! Grazie, grazie! Li avevo persi nella Zona Safari settimane fa.",
+  "Please take this as my thanks. It was a gift from an old friend.": "Per favore, prendi questo come ringraziamento. Era il regalo di un vecchio amico.",
+  "HM04 is Strength. A strong Pokémon can push boulders with it.": "La MN04 è Forza. Un Pokémon forte può spostare i massi con questa mossa.",
+  "In the Safari Zone you only get Safari Balls, Bait and Rocks. No battling! I love it.": "Nella Zona Safari hai solo Safari Ball, Esca e Sassi. Niente lotte! Lo adoro.",
+  "Safari Zone Warden": "Guardiano della Zona Safari"
 }, "it");

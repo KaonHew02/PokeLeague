@@ -31,5 +31,9 @@ G.I18n.add({
   "Huh? {mon} stopped evolving!": "Hein ? {mon} n'évolue plus !",
   "Congratulations! Your {mon} evolved into {to}!": "Félicitations ! Votre {mon} a évolué en {to} !",
   "New move: {move} ({type}, PP {pp})": "Nouvelle capacité : {move} ({type}, PP {pp})",
-  "The Pokémon dodged the Ball! It can't be caught!": "Le Pokémon a esquivé la Ball ! Impossible de le capturer !"
+  "The Pokémon dodged the Ball! It can't be caught!": "Le Pokémon a esquivé la Ball ! Impossible de le capturer !",
+  "Ball ×{n}": "Ball ×{n}",
+  "Bait": "Appât",
+  "Rock": "Caillou",
+  "What will {player} do?": "Que doit faire {player} ?"
 }, "fr");

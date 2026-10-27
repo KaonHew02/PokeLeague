@@ -2,7 +2,6 @@
 G.I18n.add({
   "Toxic poisons the foe badly: the damage grows every turn. A ninja's favourite.": "剧毒会让对手中剧毒：伤害每回合都会增加。这是忍者的最爱。",
   "They say the leader in Saffron City reads minds. Be ready for anything.": "听说金黄市的馆主能读心。做好万全的准备吧。",
-  "A notice on the door: The Safari Zone is closed for now. The warden is looking for something he lost. Sorry!": "门上贴着告示：狩猎地带暂时关闭。园长在找他弄丢的东西。抱歉！",
   "You beat Koga! Five badges. Only three more to go!": "你打败阿桔了！五枚徽章。只差三枚了！",
   "Hey, future Champion! Koga's Gym is full of walls you cannot see. Walk slowly and feel your way.": "嘿，未来的冠军！阿桔的道馆里到处都是看不见的墙。慢慢走，一点点摸索吧。",
   "Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.": "阿桔用毒属性的宝可梦。地面和超能力属性的招式对它们效果拔群。",
@@ -14,7 +13,6 @@ G.I18n.add({
   "Kangaskhan keeps a careful eye on its baby.": "袋兽小心翼翼地看着它的宝宝。",
   "Slowpoke is staring into space.": "呆呆兽正在发呆。",
   "Voltorb rolls around a little.": "霹雳电球滚来滚去。",
-  "The Safari Zone is closed? Aww! I wanted to catch something rare.": "狩猎地带关门了？唉！我还想抓点稀有的宝可梦呢。",
   "Fuchsia is by the sea. Folks say there are islands far to the south, across the water.": "浅红市靠着海。听说往南很远的海对面有几座岛。",
   "Koga's Gym is full of walls you cannot see. Bump into them to find the way!": "阿桔的道馆里到处都是看不见的墙。撞上去就知道路在哪了！",
   "Poison-type Pokémon are weak to Ground and Psychic moves. Keep that in mind against Koga.": "毒属性宝可梦怕地面和超能力属性的招式。对付阿桔时要记住。",
@@ -50,5 +48,13 @@ G.I18n.add({
   "Hmm! You have proven your worth.": "嗯！你证明了自己的实力。",
   "Fuchsia City. A bright pink town by the sea, home of the Safari Zone.": "浅红市。海边一座明亮的粉红色城市，狩猎地带就在这里。",
   "Fuchsia City Pokémon Gym. Leader: Koga, the ninja who strikes with poison!": "浅红市宝可梦道馆。馆主：用毒出击的忍者——阿桔！",
-  "The Safari Zone's little zoo. These Pokémon came from the Safari Zone. Please do not feed them!": "狩猎地带的小动物园。这些宝可梦来自狩猎地带。请勿投喂！"
+  "The Safari Zone's little zoo. These Pokémon came from the Safari Zone. Please do not feed them!": "狩猎地带的小动物园。这些宝可梦来自狩猎地带。请勿投喂！",
+  "Strength lets a Pokémon push heavy boulders out of the way. With the Rainbow Badge it works outside battle too.": "怪力能让宝可梦推开挡路的大石头。有了彩虹徽章，在对战以外也能使用。",
+  "Mmf? Mmmf! (The old man stares at the Gold Teeth in your hand.)": "唔？唔唔！（老爷爷盯着你手里的金假牙。）",
+  "{player} gave the Gold Teeth to the old man. He popped them in.": "{player}把金假牙交给了老爷爷。他马上装了回去。",
+  "Ahh, that is much better! Thank you, thank you! I lost those in the Safari Zone weeks ago.": "啊，这下舒服多了！谢谢，谢谢你！我几个星期前在狩猎地带把它弄丢了。",
+  "Please take this as my thanks. It was a gift from an old friend.": "请收下这个作为谢礼。这是一位老朋友送我的。",
+  "HM04 is Strength. A strong Pokémon can push boulders with it.": "秘传学习器04是怪力。有力气的宝可梦能用它推动大石头。",
+  "In the Safari Zone you only get Safari Balls, Bait and Rocks. No battling! I love it.": "在狩猎地带只能用狩猎球、饵料和石头。不能对战！我超喜欢。",
+  "Safari Zone Warden": "狩猎地带园长"
 }, "zh-Hans");

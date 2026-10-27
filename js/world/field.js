@@ -27,6 +27,11 @@
  * after each step, triggers run their script when stepped into. Spin tiles (the Rocket
  * Hideout) send the player sliding until a stop tile or a wall; a `secret` tile is a warp drawn
  * as a wall poster until its `if` holds; an exit mat with a locked warp runs its script.
+ * Surf (with the Soul Badge and a Pokémon that knows it): press A facing water; the player rides
+ * that Pokémon (Actor.ride) until stepping back on land; water rolls the map's 'surf' table.
+ * The Safari Zone (maps with `safari: true` while flag safari-on): every step counts down var
+ * safari-steps, wild Pokémon meet you in a Safari battle (G.BattleUI.safari), and the game ends
+ * (script safari.timeup / safari.out-of-balls) when the steps or the Safari Balls run out.
  */
 G.Field = (() => {
   function fresh() {
@@ -165,6 +170,7 @@ G.World = (() => {
   let cut = new Set();                   // trees cut on this visit of the map ('x,y'); they grow back
   let lit = false;                       // Flash used: dark caves stay lit until you leave them
   let sliding = null;                    // a spin tile sent the player this way (the Rocket Hideout)
+  let surfing = false;                   // riding a Pokémon on the water (Surf)
   let spinN = 0, slideN = 0;
   const debug = { noEnc: false, noclip: false };
   let rng = G.RNG(G.RNG.seed());
@@ -247,7 +253,7 @@ G.World = (() => {
 
   function makeFollower() {
     const lead = G.Field.lead();
-    if (!lead || G.Settings.get('follower') === false) { follower = null; return; }
+    if (!lead || surfing || G.Settings.get('follower') === false) { follower = null; return; }
     if (!follower || follower.mon !== lead.sp) follower = new G.Actor({ id: 'follower', mon: lead.sp, shiny: !!lead.shiny });
     // One tile behind the player, if there is room; else under the player (hidden) until the first step.
     const [dx, dy] = M().DIRS[M().OPP[me.dir]];
@@ -270,6 +276,7 @@ G.World = (() => {
     me.who = playerSprite();
     me.place(s.x, s.y, s.dir);
     me.queue.length = 0;
+    setSurf(isWater(me.x, me.y) && (surfing || !!G.Field.save.player.surf));
     makeActors();
     makeFollower();
     G.Player.reset();
@@ -288,6 +295,8 @@ G.World = (() => {
   function savePos() {
     const p = G.Field.save.player;
     p.map = map.id; p.x = me.x; p.y = me.y; p.dir = me.dir;
+    if (surfing) p.surf = 1; else delete p.surf;
+    safariHud();
   }
 
   /** The camera follows the player; a small interior stays centred (no black above its walls). */
@@ -311,6 +320,7 @@ G.World = (() => {
     if (!map.def.dark) lit = false;
     me.x -= nb.ox; me.y -= nb.oy; me.fx -= nb.ox; me.fy -= nb.oy;
     if (follower) { follower.x -= nb.ox; follower.y -= nb.oy; follower.fx -= nb.ox; follower.fy -= nb.oy; }
+    if (surfing && !isWater(me.x, me.y)) setSurf(false);
     makeActors();
     G.WorldRender.prepare(map);
     savePos();
@@ -387,6 +397,12 @@ G.World = (() => {
       }
       return 'blocked';
     }
+    // Surfing: water is open (and land too: stepping on it ends the ride).
+    if (a === me && surfing && isWater(nx, ny)) {
+      if (occupant(nx, ny, a)) return 'blocked';
+      stepActor(a, dir, speed, false);
+      return 'moved';
+    }
     if (!openTile(nx, ny)) return 'blocked';
     if (occupant(nx, ny, a)) return 'blocked';
     if (!M().inside(map, nx, ny)) {
@@ -422,11 +438,19 @@ G.World = (() => {
       if (c) cross(c);
       return;
     }
+    if (surfing && !isWater(me.x, me.y)) { setSurf(false); makeFollower(); }
     savePos();
     countRepel();
     const k = M().kindAt(map, me.x, me.y);
     const w = map.warpAt.get(M().key(me.x, me.y));
     if (w && (k !== 'mat' || me.dir === 'down')) { warp(w.to, w.spot); return; }
+    // The Safari Zone: every step counts.
+    if (map.def.safari && G.Field.flag('safari-on')) {
+      const left = (+G.Field.getVar('safari-steps') || 0) - 1;
+      G.Field.setVar('safari-steps', Math.max(0, left));
+      safariHud();
+      if (left <= 0) { G.Player.walk(null); runScript('safari.timeup', {}); return; }
+    }
     // Spin tiles: an arrow sends the player sliding (spinning) until a stop tile or a wall.
     const inf = M().info(k);
     if (inf.spin || (sliding && !inf.stop)) { if (slide(inf.spin || sliding)) return; }
@@ -439,7 +463,9 @@ G.World = (() => {
       }
     }
     if (spotted()) return;
-    if (k === 'tall') {
+    if (surfing) {
+      if (maybeEncounter('surf')) return;
+    } else if (k === 'tall') {
       sfx('grass');
       if (maybeEncounter('walk')) return;
     } else if (map.def.cave && !M().info(k).warp) {
@@ -504,6 +530,7 @@ G.World = (() => {
       G.Field.save.dex.seen[wild.sp] = 1;
       let r;
       if (api.onEncounter) r = await api.onEncounter(wild.sp, wild.lvl, wild.area, wild);
+      else if (G.BattleUI && G.BattleUI.safari && safariOn()) r = await G.BattleUI.safari(battler(), wild.sp, wild.lvl, battleOpts(false));
       else if (G.BattleUI && G.BattleUI.wild) {
         const o = battleOpts(false);
         if (wild.noCatch) o.rules.noCatch = true;
@@ -514,6 +541,7 @@ G.World = (() => {
     } finally { locks--; }
     G.Field.lastBattle = out;
     if (out === 'lose') await blackout();
+    else if (safariOn()) { safariHud(); if (!G.Field.count('safari-ball')) await runScript('safari.out-of-balls', {}); }
     return out;
   }
 
@@ -672,6 +700,7 @@ G.World = (() => {
     if (sign && typeof sign === 'object' && !Array.isArray(sign)) return runScript(sign.script, { x: tx, y: ty });
     if (sign) return runScript([['say', sign]], {});
     if (k === 'cuttree' && !cut.has(M().key(tx, ty))) return runScript([['js', h => cutTree(h, tx, ty)]], {});
+    if (!surfing && isWater(tx, ty) && !occupant(tx, ty, me)) return runScript([['js', h => surf(h, me.dir)]], {});
     if (k === 'pc') return runScript([['sfx', 'pc'], ['say', '{player} turned on the PC.'], ['pc']], {});
     if (map.def.dark && !lit) return darkCheck();
     return null;
@@ -715,6 +744,50 @@ G.World = (() => {
     await h.say(G.T('{mon} used Cut!'), { vars: { mon: G.Mon.name(mon) } });
     sfx('cut', 'hit');
     cut.add(M().key(x, y));
+  }
+
+  /** Water (inside the map or across a connection): Surf goes there. */
+  function isWater(x, y) {
+    if (M().inside(map, x, y)) return M().kindAt(map, x, y) === 'water';
+    const a = M().across(map, x, y);
+    return !!a && M().kindAt(a.map, a.x, a.y) === 'water';
+  }
+  /** The Pokémon that can Surf (the Soul Badge allows it outside battle, as in the games). */
+  const surfer = () => G.Field.save.player.badges.includes(5) ? G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'surf')) : null;
+  function setSurf(on) {
+    surfing = !!on;
+    if (!me) return;
+    const mon = on ? surfer() || G.Field.party().find(m => G.Mon.knows(m, 'surf')) : null;
+    me.ride = on ? (mon ? mon.sp : 131) : 0;
+  }
+  async function surf(h, dir) {
+    const mon = surfer();
+    if (!mon) { await h.say(G.T('The water is a deep blue.')); return; }
+    if (await h.choice(G.T('The water is a deep blue. Would you like to Surf?'), {}) !== 0) return;
+    await h.say(G.T('{mon} used Surf!'), { vars: { mon: G.Mon.name(mon) } });
+    sfx('surf', 'confirm');
+    setSurf(true);
+    follower = null;
+    me.face(dir);
+    stepActor(me, dir, G.Player.WALK, false);
+  }
+
+  const safariOn = () => !!(map && map.def.safari && G.Field.flag('safari-on'));
+  /** Safari Balls and steps left, in a corner, while a Safari Game is on. */
+  function safariHud() {
+    if (typeof document === 'undefined') return;
+    const frame = document.getElementById('frame');
+    if (!frame) return;
+    let el = document.getElementById('safari-hud');
+    if (!safariOn()) { if (el) el.classList.add('hidden'); return; }
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'safari-hud'; el.className = 'safari-hud';
+      el.setAttribute('translate', 'no');
+      frame.appendChild(el);
+    }
+    el.textContent = G.I18n.fmt('Safari Balls ×{n} · Steps {s}', { n: G.Field.count('safari-ball'), s: +G.Field.getVar('safari-steps') || 0 });
+    el.classList.remove('hidden');
   }
 
   /**
@@ -1013,7 +1086,7 @@ G.World = (() => {
     start, warp, load, tryStep, arrived, interact, openMenu, repath, sfx, song, refresh, runScript, battle, blackout,
     actor: id => actor(id, {}), host, debug,
     onEncounter: null, onTrainer: null,
-    get map() { return map; }, get player() { return me; }, get follower() { return follower; },
+    get map() { return map; }, get player() { return me; }, get follower() { return follower; }, get surfing() { return surfing; },
     get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },
     get locked() { return locks > 0 || (G.Dialog && G.Dialog.open); }, get started() { return started; },
     get rng() { return rng; }, seed(s) { rng = G.RNG(s); }

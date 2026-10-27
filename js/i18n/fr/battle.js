@@ -150,5 +150,12 @@ G.I18n.add({
   "Your team became cloaked in a mystical veil!": "Votre équipe est protégée par un voile mystérieux !",
   "The foe team became cloaked in a mystical veil!": "L'équipe adverse est protégée par un voile mystérieux !",
   "Your team's {effect} wore off!": "L'effet de {effect} de votre équipe prend fin !",
-  "The foe team's {effect} wore off!": "L'effet de {effect} de l'équipe adverse prend fin !"
+  "The foe team's {effect} wore off!": "L'effet de {effect} de l'équipe adverse prend fin !",
+  "{player} threw some Bait!": "{player} lance de l'Appât !",
+  "{player} threw a Rock!": "{player} lance un Caillou !",
+  "{mon} is eating!": "{mon} mange !",
+  "{mon} is angry!": "{mon} est en colère !",
+  "{mon} is watching carefully!": "{mon} observe attentivement !",
+  "{mon} fled!": "{mon} s'est enfui !",
+  "You have no Safari Balls left!": "Tu n'as plus de Safari Balls !"
 }, "fr");

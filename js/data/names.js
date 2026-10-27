@@ -539,6 +539,7 @@ G.NAMES = {
     "helix-fossil": ["Helix Fossil","Fósil Hélix","Nautile","Helixfossile","贝壳化石","貝殼化石"],
     "dome-fossil": ["Dome Fossil","Fósil Domo","Fossile Dôme","Domofossile","甲壳化石","甲殼化石"],
     "old-amber": ["Old Amber","Ámbar Viejo","Vieil Ambre","Ambra antica","秘密琥珀","秘密琥珀"],
+    "gold-teeth": ["Gold Teeth","Dentadura de Oro","Dentier en Or","Denti d’oro","金假牙","金假牙"],
     hm01: ["HM01","MO01","CS01","MN01","秘传学习器０１","秘傳學習器０１"],
     hm02: ["HM02","MO02","CS02","MN02","秘传学习器０２","秘傳學習器０２"],
     hm03: ["HM03","MO03","CS03","MN03","秘传学习器０３","秘傳學習器０３"],

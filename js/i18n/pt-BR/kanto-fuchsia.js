@@ -2,7 +2,6 @@
 G.I18n.add({
   "Toxic poisons the foe badly: the damage grows every turn. A ninja's favourite.": "Toxic envenena gravemente o oponente: o dano aumenta a cada turno. O favorito de um ninja.",
   "They say the leader in Saffron City reads minds. Be ready for anything.": "Dizem que a líder de Saffron City lê mentes. Esteja pronto para tudo.",
-  "A notice on the door: The Safari Zone is closed for now. The warden is looking for something he lost. Sorry!": "Um aviso na porta: A Safari Zone está fechada por enquanto. O guarda está procurando algo que perdeu. Desculpe!",
   "You beat Koga! Five badges. Only three more to go!": "Você venceu o Koga! Cinco insígnias. Só faltam três!",
   "Hey, future Champion! Koga's Gym is full of walls you cannot see. Walk slowly and feel your way.": "Ei, futuro Campeão! O Ginásio do Koga está cheio de paredes invisíveis. Ande devagar e vá tateando.",
   "Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.": "Koga usa Pokémon do tipo Venenoso. Golpes Terrestres e Psíquicos funcionam muito bem contra eles.",
@@ -14,7 +13,6 @@ G.I18n.add({
   "Kangaskhan keeps a careful eye on its baby.": "Kangaskhan fica de olho no seu filhote.",
   "Slowpoke is staring into space.": "Slowpoke está olhando para o nada.",
   "Voltorb rolls around a little.": "Voltorb rola um pouquinho.",
-  "The Safari Zone is closed? Aww! I wanted to catch something rare.": "A Safari Zone está fechada? Ah, não! Eu queria pegar algo raro.",
   "Fuchsia is by the sea. Folks say there are islands far to the south, across the water.": "Fuchsia fica à beira-mar. Dizem que há ilhas bem ao sul, do outro lado da água.",
   "Koga's Gym is full of walls you cannot see. Bump into them to find the way!": "O Ginásio do Koga está cheio de paredes invisíveis. Esbarre nelas para achar o caminho!",
   "Poison-type Pokémon are weak to Ground and Psychic moves. Keep that in mind against Koga.": "Pokémon do tipo Venenoso são fracos contra golpes Terrestres e Psíquicos. Lembre-se disso contra o Koga.",
@@ -50,5 +48,13 @@ G.I18n.add({
   "Hmm! You have proven your worth.": "Hmm! Você provou o seu valor.",
   "Fuchsia City. A bright pink town by the sea, home of the Safari Zone.": "Fuchsia City. Uma cidade cor-de-rosa à beira-mar, lar da Safari Zone.",
   "Fuchsia City Pokémon Gym. Leader: Koga, the ninja who strikes with poison!": "Ginásio Pokémon de Fuchsia City. Líder: Koga, o ninja que ataca com veneno!",
-  "The Safari Zone's little zoo. These Pokémon came from the Safari Zone. Please do not feed them!": "O pequeno zoológico da Safari Zone. Estes Pokémon vieram da Safari Zone. Por favor, não os alimente!"
+  "The Safari Zone's little zoo. These Pokémon came from the Safari Zone. Please do not feed them!": "O pequeno zoológico da Safari Zone. Estes Pokémon vieram da Safari Zone. Por favor, não os alimente!",
+  "Strength lets a Pokémon push heavy boulders out of the way. With the Rainbow Badge it works outside battle too.": "Strength permite que um Pokémon empurre pedras pesadas do caminho. Com a Insígnia do Arco-Íris, funciona fora das batalhas também.",
+  "Mmf? Mmmf! (The old man stares at the Gold Teeth in your hand.)": "Mmf? Mmmf! (O velho encara os Gold Teeth na sua mão.)",
+  "{player} gave the Gold Teeth to the old man. He popped them in.": "{player} entregou os Gold Teeth ao velho. Ele os colocou na hora.",
+  "Ahh, that is much better! Thank you, thank you! I lost those in the Safari Zone weeks ago.": "Ahh, bem melhor! Obrigado, obrigado! Eu os perdi na Safari Zone há semanas.",
+  "Please take this as my thanks. It was a gift from an old friend.": "Por favor, aceite isto como agradecimento. Foi um presente de um velho amigo.",
+  "HM04 is Strength. A strong Pokémon can push boulders with it.": "A HM04 é Strength. Um Pokémon forte consegue empurrar pedras com ela.",
+  "In the Safari Zone you only get Safari Balls, Bait and Rocks. No battling! I love it.": "Na Safari Zone você só tem Safari Balls, Iscas e Pedras. Nada de batalhas! Eu adoro.",
+  "Safari Zone Warden": "Guarda da Safari Zone"
 }, "pt-BR");

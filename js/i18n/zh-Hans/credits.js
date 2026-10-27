@@ -19,6 +19,6 @@ G.I18n.add({
   "Rock Tunnel, Lavender Town and Celadon City are waiting: your adventure goes on!": "岩山隧道、紫苑镇和玉虹市正等着你：你的冒险还在继续！",
   "Chapter 5 complete!": "第五章完成！",
   "{player} beat Koga and earned the Soul Badge.": "{player}打败了阿桔，得到了粉红徽章。",
-  "Thank you for playing! The Safari Zone and Saffron City open in a future update.": "感谢游玩！狩猎地带和金黄市将在之后的更新中开放。",
-  "Team Rocket, the Pokémon Tower and Fuchsia City are waiting: your adventure goes on!": "火箭队、宝可梦塔和浅红市正等着你：你的冒险还在继续！"
+  "Team Rocket, the Pokémon Tower and Fuchsia City are waiting: your adventure goes on!": "火箭队、宝可梦塔和浅红市正等着你：你的冒险还在继续！",
+  "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "狩猎地带、金黄市和西尔佛公司正等着你：你的冒险还在继续！"
 }, "zh-Hans");

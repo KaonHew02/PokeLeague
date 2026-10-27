@@ -19,7 +19,7 @@ G.BattleText = (() => {
     if (!f) return '?';
     const n = G.Mon.name(f.mon);
     if ((side == null ? f.side : side) === 0) return n;
-    return b.kind === 'wild' ? fmt('Wild {mon}', { mon: n }) : fmt('Foe {mon}', { mon: n });
+    return b.kind === 'wild' || b.kind === 'safari' ? fmt('Wild {mon}', { mon: n }) : fmt('Foe {mon}', { mon: n });
   }
   const plain = (b, uid) => { const f = findMon(b, uid); return f ? G.Mon.name(f.mon) : '?'; };
 
@@ -87,7 +87,7 @@ G.BattleText = (() => {
     const mon = e.uid ? who(b, e.uid, e.side) : null;
     switch (e.type) {
       case 'start':
-        if (b.kind === 'wild') { const f = b.foe.party[0]; return fmt('Wild {mon} appeared!', { mon: G.Mon.name(f) }); }
+        if (b.kind === 'wild' || b.kind === 'safari') { const f = b.foe.party[0]; return fmt('Wild {mon} appeared!', { mon: G.Mon.name(f) }); }
         return fmt('{trainer} would like to battle!', { trainer: trainerName(b) });
       case 'send':
         if (e.side === 0) return fmt('Go! {mon}!', { mon: plain(b, e.uid) });
@@ -159,6 +159,14 @@ G.BattleText = (() => {
       case 'rest': return fmt('{mon} slept and became healthy!', { mon });
       case 'nothing': return fmt('But nothing happened!', {});
       case 'teleported': return fmt('{mon} fled from the battle!', { mon });
+      // The Safari Zone (safari.js).
+      case 'bait': return fmt('{player} threw some Bait!', { player: e.player });
+      case 'rock': return fmt('{player} threw a Rock!', { player: e.player });
+      case 'eating': return fmt('{mon} is eating!', { mon: who(b, e.uid, 1) });
+      case 'angry': return fmt('{mon} is angry!', { mon: who(b, e.uid, 1) });
+      case 'watching': return fmt('{mon} is watching carefully!', { mon: who(b, e.uid, 1) });
+      case 'safariFled': return fmt('{mon} fled!', { mon: who(b, e.uid, 1) });
+      case 'noBalls': return fmt('You have no Safari Balls left!', {});
       case 'metronome': return fmt('Waggling a finger let it use {move}!', { move: G.Names.move(e.move) });
       case 'typeChange': return fmt("{mon}'s type changed to {type}!", { mon, type: G.Names.type(e.to) });
       case 'disabled': return fmt("{mon}'s {move} was disabled!", { mon, move: G.Names.move(e.move) });

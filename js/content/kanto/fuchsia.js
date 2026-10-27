@@ -1,8 +1,8 @@
 /* ============ fuchsia.js — Fuchsia City and Koga ============
  * Chapter 5, part 3, the end of the chapter. Fuchsia City at the end of Route 15: Pokémon
  * Center, Mart, the Safari Zone's little zoo (Chansey, Kangaskhan, Slowpoke, Voltorb behind
- * fences), the Safari Zone's gate (closed: its warden has lost something; a later chapter opens
- * it), the warden's house and another house. Koga's Gym is a dojo whose walls cannot be seen
+ * fences), the Safari Zone's gate (safari.js), the warden's house (he lost his Gold Teeth in the
+ * Safari Zone and gives HM04 Strength for them, flag got-hm04) and another house. Koga's Gym is a dojo whose walls cannot be seen
  * (indoor tile `i`): the maze comes from a seeded generator, its six Trainers stand in dead
  * ends beside the way. Koga (Koffing 33, Muk 35, Koffing 33, Weezing 37: well below the games'
  * 37-43, because the auto-player of tests/story.test.cjs never heals and Toxic and Poison Gas
@@ -46,7 +46,7 @@ G.Maps.def({
   ],
   connect: { east: { map: 'route15', offset: 10 } },
   warps: [
-    { x: 20, y: 5, locked: 'fuchsia.safari' },
+    { x: 20, y: 5, to: 'safari-gate', spot: 'door' },
     { x: 11, y: 13, to: 'fuchsia-mart', spot: 'door' },
     { x: 27, y: 14, to: 'fuchsia-center', spot: 'door' },
     { x: 3, y: 20, to: 'fuchsia-house', spot: 'door' },
@@ -54,7 +54,7 @@ G.Maps.def({
     { x: 16, y: 26, to: 'fuchsia-gym', spot: 'door' }
   ],
   spots: {
-    east: [38, 15, 'left'], 'mart-door': [11, 14, 'down'], 'center-door': [27, 15, 'down'], 'house-door': [3, 21, 'down'],
+    east: [38, 15, 'left'], 'safari-door': [20, 6, 'down'], 'mart-door': [11, 14, 'down'], 'center-door': [27, 15, 'down'], 'house-door': [3, 21, 'down'],
     'warden-door': [32, 21, 'down'], 'gym-door': [16, 27, 'down']
   },
   signs: {
@@ -69,7 +69,7 @@ G.Maps.def({
     { id: 'slowpoke', who: 'slowpoke', mon: 'slowpoke', x: 30, y: 4, dir: 'down', say: 'Slowpoke is staring into space.' },
     { id: 'voltorb', who: 'voltorb', mon: 'voltorb', x: 34, y: 5, dir: 'left', move: 'look', say: 'Voltorb rolls around a little.' },
     { id: 'boy', who: 'youngster', x: 14, y: 9, move: 'wander', r: 2,
-      say: 'The Safari Zone is closed? Aww! I wanted to catch something rare.' },
+      say: 'In the Safari Zone you only get Safari Balls, Bait and Rocks. No battling! I love it.' },
     { id: 'fisher', who: 'fisherman', x: 24, y: 18, move: 'wander', r: 2,
       say: 'Fuchsia is by the sea. Folks say there are islands far to the south, across the water.' },
     { id: 'girl', who: 'lass', x: 8, y: 23, dir: 'right', move: 'look',
@@ -122,8 +122,7 @@ G.Maps.def({
   warps: [{ x: 3, y: 5, to: 'fuchsia', spot: 'warden-door' }],
   spots: { door: [3, 5, 'up'] },
   npcs: [
-    { id: 'warden', who: 'warden', x: 5, y: 3, dir: 'down',
-      say: 'Hmmf... mmf fmm! (The old man is trying to tell you something, but he has lost his false teeth. You cannot understand a word.)' }
+    { id: 'warden', who: 'warden', x: 5, y: 3, dir: 'down', script: 'fuchsia.warden' }
   ]
 });
 
@@ -197,8 +196,23 @@ G.Maps.def({
 });
 
 G.Script.def({
-  'fuchsia.safari': [
-    ['say', 'A notice on the door: The Safari Zone is closed for now. The warden is looking for something he lost. Sorry!']
+  'fuchsia.warden': [
+    ['if', 'got-hm04', [
+      ['say', 'Strength lets a Pokémon push heavy boulders out of the way. With the Rainbow Badge it works outside battle too.', { name: 'Safari Zone Warden' }]
+    ], [
+      ['if', 'has:gold-teeth', [
+        ['say', 'Mmf? Mmmf! (The old man stares at the Gold Teeth in your hand.)'],
+        ['takeItem', 'gold-teeth', 1],
+        ['say', '{player} gave the Gold Teeth to the old man. He popped them in.'],
+        ['say', 'Ahh, that is much better! Thank you, thank you! I lost those in the Safari Zone weeks ago.', { name: 'Safari Zone Warden' }],
+        ['say', 'Please take this as my thanks. It was a gift from an old friend.', { name: 'Safari Zone Warden' }],
+        ['setFlag', 'got-hm04'],
+        ['giveItem', 'hm04', 1],
+        ['say', 'HM04 is Strength. A strong Pokémon can push boulders with it.', { name: 'Safari Zone Warden' }]
+      ], [
+        ['say', 'Hmmf... mmf fmm! (The old man is trying to tell you something, but he has lost his false teeth. You cannot understand a word.)']
+      ]]
+    ]]
   ],
   'koga.gym-guide': [
     ['if', 'badge:5', [

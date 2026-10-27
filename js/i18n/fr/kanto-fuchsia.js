@@ -2,7 +2,6 @@
 G.I18n.add({
   "Toxic poisons the foe badly: the damage grows every turn. A ninja's favourite.": "Toxik empoisonne gravement l'ennemi : les dégâts augmentent à chaque tour. Le favori des ninjas.",
   "They say the leader in Saffron City reads minds. Be ready for anything.": "On dit que la Championne de Safrania lit dans les pensées. Sois prêt à tout.",
-  "A notice on the door: The Safari Zone is closed for now. The warden is looking for something he lost. Sorry!": "Une affiche sur la porte : Le Parc Safari est fermé pour le moment. Le gardien cherche quelque chose qu'il a perdu. Désolé !",
   "You beat Koga! Five badges. Only three more to go!": "Tu as battu Koga ! Cinq badges. Plus que trois !",
   "Hey, future Champion! Koga's Gym is full of walls you cannot see. Walk slowly and feel your way.": "Hé, futur Maître ! L'Arène de Koga est pleine de murs invisibles. Avance lentement et tâtonne.",
   "Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.": "Koga utilise des Pokémon Poison. Les capacités Sol et Psy sont très efficaces contre eux.",
@@ -14,7 +13,6 @@ G.I18n.add({
   "Kangaskhan keeps a careful eye on its baby.": "Kangourex surveille attentivement son petit.",
   "Slowpoke is staring into space.": "Ramoloss fixe le vide.",
   "Voltorb rolls around a little.": "Voltorbe roule un peu sur lui-même.",
-  "The Safari Zone is closed? Aww! I wanted to catch something rare.": "Le Parc Safari est fermé ? Oh non ! Je voulais attraper quelque chose de rare.",
   "Fuchsia is by the sea. Folks say there are islands far to the south, across the water.": "Parmanie est au bord de la mer. On dit qu'il y a des îles loin au sud, de l'autre côté de l'eau.",
   "Koga's Gym is full of walls you cannot see. Bump into them to find the way!": "L'Arène de Koga est pleine de murs invisibles. Cogne-toi dedans pour trouver le chemin !",
   "Poison-type Pokémon are weak to Ground and Psychic moves. Keep that in mind against Koga.": "Les Pokémon Poison craignent les capacités Sol et Psy. Garde-le en tête contre Koga.",
@@ -50,5 +48,13 @@ G.I18n.add({
   "Hmm! You have proven your worth.": "Hmm ! Tu as prouvé ta valeur.",
   "Fuchsia City. A bright pink town by the sea, home of the Safari Zone.": "Parmanie. Une ville rose vif au bord de la mer, où se trouve le Parc Safari.",
   "Fuchsia City Pokémon Gym. Leader: Koga, the ninja who strikes with poison!": "Arène Pokémon de Parmanie. Champion : Koga, le ninja qui frappe avec le poison !",
-  "The Safari Zone's little zoo. These Pokémon came from the Safari Zone. Please do not feed them!": "Le petit zoo du Parc Safari. Ces Pokémon viennent du Parc Safari. Merci de ne pas les nourrir !"
+  "The Safari Zone's little zoo. These Pokémon came from the Safari Zone. Please do not feed them!": "Le petit zoo du Parc Safari. Ces Pokémon viennent du Parc Safari. Merci de ne pas les nourrir !",
+  "Strength lets a Pokémon push heavy boulders out of the way. With the Rainbow Badge it works outside battle too.": "Force permet à un Pokémon de pousser de lourds rochers. Avec le Badge Prisme, ça marche aussi hors des combats.",
+  "Mmf? Mmmf! (The old man stares at the Gold Teeth in your hand.)": "Mmf ? Mmmf ! (Le vieil homme fixe le Dentier en Or dans ta main.)",
+  "{player} gave the Gold Teeth to the old man. He popped them in.": "{player} donne le Dentier en Or au vieil homme. Il le met aussitôt.",
+  "Ahh, that is much better! Thank you, thank you! I lost those in the Safari Zone weeks ago.": "Ahh, c'est bien mieux ! Merci, merci ! Je l'avais perdu au Parc Safari il y a des semaines.",
+  "Please take this as my thanks. It was a gift from an old friend.": "Prends ceci en remerciement, je t'en prie. C'est le cadeau d'un vieil ami.",
+  "HM04 is Strength. A strong Pokémon can push boulders with it.": "La CS04, c'est Force. Un Pokémon puissant peut pousser des rochers avec.",
+  "In the Safari Zone you only get Safari Balls, Bait and Rocks. No battling! I love it.": "Au Parc Safari, on n'a que des Safari Balls, des Appâts et des Cailloux. Pas de combats ! J'adore.",
+  "Safari Zone Warden": "Gardien du Parc Safari"
 }, "fr");

@@ -42,5 +42,9 @@ G.I18n.add({
   "This tree looks like it could be cut down. Would you like to use Cut?": "這棵樹好像可以砍掉。要使用居合斬嗎？",
   "{mon} used Cut!": "{mon}使用了居合斬！",
   "It's pitch-dark in here. Would you like to use Flash?": "這裡一片漆黑。要使用閃光嗎？",
-  "{mon} used Flash!": "{mon}使用了閃光！"
+  "{mon} used Flash!": "{mon}使用了閃光！",
+  "The water is a deep blue.": "水是深藍色的。",
+  "The water is a deep blue. Would you like to Surf?": "水是深藍色的。要使用衝浪嗎？",
+  "{mon} used Surf!": "{mon}使用了衝浪！",
+  "Safari Balls ×{n} · Steps {s}": "狩獵球 ×{n} · 步數 {s}"
 }, "zh-Hant");

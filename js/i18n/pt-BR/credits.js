@@ -19,6 +19,6 @@ G.I18n.add({
   "Rock Tunnel, Lavender Town and Celadon City are waiting: your adventure goes on!": "O Rock Tunnel, Lavender Town e Celadon City estão esperando: sua aventura continua!",
   "Chapter 5 complete!": "Capítulo 5 concluído!",
   "{player} beat Koga and earned the Soul Badge.": "{player} venceu Koga e conquistou a Insígnia da Alma.",
-  "Thank you for playing! The Safari Zone and Saffron City open in a future update.": "Obrigado por jogar! A Safari Zone e Saffron City abrirão numa próxima atualização.",
-  "Team Rocket, the Pokémon Tower and Fuchsia City are waiting: your adventure goes on!": "A Equipe Rocket, a Torre Pokémon e Fuchsia City esperam por você: sua aventura continua!"
+  "Team Rocket, the Pokémon Tower and Fuchsia City are waiting: your adventure goes on!": "A Equipe Rocket, a Torre Pokémon e Fuchsia City esperam por você: sua aventura continua!",
+  "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "A Safari Zone, Saffron City e a Silph Co. esperam por você: sua aventura continua!"
 }, "pt-BR");

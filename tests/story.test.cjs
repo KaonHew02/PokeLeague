@@ -703,9 +703,8 @@ async function chapter5(st) {
   await run(st, 'route12', 'route12.snorlax', [0]);
   assert.equal(st.battles[st.battles.length - 1].key, 'wild:snorlax');
   assert.ok(F.flag('route12-snorlax'), 'Snorlax leaves the road');
-  // Routes 13 to 15, then Fuchsia City (the Safari Zone is closed).
+  // Routes 13 to 15, then Fuchsia City.
   for (const id of ['route13', 'route14', 'route15']) await all(id);
-  await run(st, 'fuchsia', 'fuchsia.safari');
   // A Diglett from Diglett's Cave, grown into a Dugtrio, leads against Koga (the guide says Ground).
   const dug = F.giveMon('dugtrio', 31);
   S.dex.seen[51] = 1; S.dex.caught[51] = 1;
@@ -725,6 +724,40 @@ async function chapter5(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 6 after chapter 5: the Safari Zone (Surf and Strength). */
+async function chapter6(st) {
+  const { G, S, W } = st;
+  const F = G.Field;
+  // The Safari Zone: ₽500 for 30 Safari Balls and 600 steps.
+  const money = S.player.money;
+  await run(st, 'safari-gate', 'safari.attendant', [0]);
+  assert.ok(F.flag('safari-on'), 'a Safari Game is on');
+  assert.equal(S.player.money, money - 500);
+  assert.equal(F.count('safari-ball'), 30);
+  assert.equal(F.getVar('safari-steps'), 600);
+  assert.equal(W.map, 'safari-center');
+  // A Safari battle: Safari Balls until it is caught, flees or the balls run out.
+  const rng = G.RNG(W.seed * 11);
+  const b = G.Safari.create({ seed: 7, player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag },
+                              foe: { party: [G.Mon.create(115, 25, { rng, wild: true })] } });
+  b.start();
+  while (!b.result) b.act({ type: 'ball' });
+  assert.ok(['caught', 'fled', 'run'].includes(b.result.outcome));
+  assert.ok(F.count('safari-ball') < 30, 'Safari Balls were thrown');
+  // The west area: the Gold Teeth by the water, the Secret House and HM03 Surf.
+  await run(st, 'safari-west', [['found', 'gold-teeth', 1, 'safari-west:gold-teeth']]);
+  await run(st, 'safari-house', 'safari.secret-house');
+  assert.ok(F.flag('got-hm03') && F.count('hm03') === 1, 'HM03 Surf');
+  // Time is up: back at the gate, the Safari Balls go back.
+  await run(st, 'safari-center', 'safari.timeup');
+  assert.ok(!F.flag('safari-on') && F.count('safari-ball') === 0);
+  assert.equal(W.map, 'safari-gate');
+  // The warden gets his teeth back and gives HM04 Strength.
+  await run(st, 'warden-house', 'fuchsia.warden');
+  assert.ok(F.flag('got-hm04') && F.count('hm04') === 1 && F.count('gold-teeth') === 0, 'HM04 Strength');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -741,4 +774,14 @@ test('chapter 5: the Rocket Hideout, the Pokémon Tower, Snorlax, Fuchsia City a
   await chapter4(st);
   await chapter5(st);
   console.log('[story] after chapter 5:', st.S.party.map(m => st.G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
+});
+
+test('chapter 6: the Safari Zone, Surf and Strength', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+  await chapter3(st);
+  await chapter4(st);
+  await chapter5(st);
+  await chapter6(st);
 });

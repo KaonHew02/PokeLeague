@@ -1,4 +1,4 @@
-// The story without a screen, chapter by chapter: from the bedroom to the Soul Badge.
+// The story without a screen, chapter by chapter: from the bedroom to the Marsh Badge.
 // The real scripts, maps, save and battle engine run in the node sandbox; a stand-in
 // host answers the dialog (Yes, no nickname) and an auto-player fights every battle
 // with its strongest move. Wild battles in the tall grass raise the party on the way,
@@ -264,7 +264,7 @@ test('every trainer on the Kanto maps can be battled to the end by the engine', 
   for (const id of G.Maps.all()) {
     for (const t of G.Maps.get(id).trainers) {
       S.party.length = 0;
-      S.party.push(G.Mon.create(150, 40, { rng: G.RNG(1), moves: ['psychic', 'recover'] }));
+      S.party.push(G.Mon.create(150, 40, { rng: G.RNG(1), moves: ['psychic', 'recover', 'shadow-ball', 'ice-beam'] }));
       const rng = G.RNG(2);
       const party = t.team.map(([sp, lvl, moves]) => G.Mon.create(G.Maps.species(sp), lvl, { rng, moves }));
       for (const m of party) for (const mv of m.moves) assert.ok(G.MOVES[mv.id], `${id}:${t.id} move ${mv.id}`);
@@ -426,7 +426,7 @@ function leaderRate(G, mapId, id) {
     let wins = 0;
     for (let s = 1; s <= 40; s++) {
       const rng = G.RNG(s * 19);
-      const me = team.map(([sp, lvl]) => G.Mon.create(sp, lvl, { rng }));
+      const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
       const foes = L.team.map(([x, l, moves]) => G.Mon.create(G.Maps.species(x), l, { rng, moves }));
       const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
         foe: { party: foes, trainer: { id, name: L.name, ai: 'leader', items: L.items || {}, prize: 100 } } });
@@ -501,6 +501,29 @@ test('balance: Koga (chapter 5), win rates of typical teams are printed', () => 
   assert.ok(table['charmeleon 35 + pidgeotto 34 + dugtrio 33'] >= 0.8, 'a team of three with a Dugtrio');
   assert.ok(table['blastoise 38 + dugtrio 34'] >= 0.4, 'Blastoise with a Dugtrio');
   assert.ok(table['blastoise 38'] < 0.3, 'a lone Blastoise should struggle');
+});
+
+test('balance: Sabrina (chapter 6), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'saffron-gym', 'sabrina');
+  const SURF = ['surf', 'bite', 'skull-bash', 'rapid-spin'];
+  const table = {
+    'blastoise 42': rate([[9, 42]]),
+    'blastoise 42 (Surf)': rate([[9, 42, SURF]]),
+    'charizard 42': rate([[6, 42]]),
+    'snorlax 40': rate([[143, 40]]),
+    'parasect 42 + dugtrio 40': rate([[47, 42], [51, 40]]),
+    'blastoise 42 (Surf) + parasect 42': rate([[9, 42, SURF], [47, 42]]),
+    'snorlax 40 + scyther 38': rate([[143, 40], [123, 38]]),
+    'charizard 42 + snorlax 40': rate([[6, 42], [143, 40]])
+  };
+  console.log('[balance] vs Sabrina:', JSON.stringify(table));
+  // Four Psychic Pokémon against a small team that never heals (the auto-player): a lone starter
+  // loses, Snorlax from Route 12, a Scyther or Parasect (Bug) and Surf from the Safari Zone help.
+  assert.ok(table['charizard 42 + snorlax 40'] >= 0.8, 'Charizard with a Snorlax');
+  assert.ok(table['blastoise 42 (Surf) + parasect 42'] >= 0.4, 'Blastoise with Surf and a Parasect');
+  assert.ok(table['snorlax 40 + scyther 38'] >= 0.4, 'Snorlax with a Scyther');
+  assert.ok(table['blastoise 42'] < 0.3, 'a lone Blastoise should struggle');
 });
 
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
@@ -724,7 +747,7 @@ async function chapter5(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
-/** Chapter 6 after chapter 5: the Safari Zone (Surf and Strength). */
+/** Chapter 6 after chapter 5: the Safari Zone (Surf and Strength), Saffron City, Silph Co., Sabrina. */
 async function chapter6(st) {
   const { G, S, W } = st;
   const F = G.Field;
@@ -755,6 +778,64 @@ async function chapter6(st) {
   // The warden gets his teeth back and gives HM04 Strength.
   await run(st, 'warden-house', 'fuchsia.warden');
   assert.ok(F.flag('got-hm04') && F.count('hm04') === 1 && F.count('gold-teeth') === 0, 'HM04 Strength');
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const won = () => assert.equal(st.battles[st.battles.length - 1].outcome, 'win', st.battles[st.battles.length - 1].key);
+  // Saffron City: a drink from the Celadon rooftop for the thirsty guard opens every gate.
+  await run(st, 'route8', 'celadon.saffron-gate');
+  assert.ok(!F.flag('saffron-open'), 'no drink, no entry');
+  F.money(-200); F.giveItem('soda-pop', 1);
+  await run(st, 'route8', 'celadon.saffron-gate', [0]);
+  assert.ok(F.flag('saffron-open') && F.count('soda-pop') === 0, 'the guard took the drink');
+  assert.ok(F.test(G.Maps.get('route7').warps.find(w => w.to === 'saffron-gate-west').if), 'the west gate is open too');
+  // The Fighting Dojo, then one of the master's Pokémon.
+  await all('saffron-dojo');
+  won();
+  await run(st, 'saffron-dojo', 'dojo.chan', [0]);
+  await run(st, 'saffron-dojo', 'dojo.lee');
+  assert.ok(F.flag('got-hitmonchan') && !F.flag('got-hitmonlee'), 'only one of the two');
+  await run(st, 'saffron-psychic', 'saffron.mr-psychic');
+  assert.equal(F.count('tm29'), 1);
+  // Silph Co.: the floors, the Card Key on 5F, the rival on 7F, Lapras, the lift, Giovanni.
+  lead(st, 47);
+  for (let n = 2; n <= 10; n++) await all('silph-' + n + 'f');
+  await run(st, 'silph-5f', [['found', 'card-key', 1, 'silph-5f:card-key']]);
+  assert.equal(F.count('card-key'), 1);
+  W.player = { x: 5, y: 3, dir: 'right' };
+  F.healAll();
+  await run(st, 'silph-7f', 'silph.rival');
+  assert.ok(F.flag('silph-rival'));
+  assert.equal(st.battles[st.battles.length - 1].key, 'silph-7f:rival-silph');
+  won();
+  await run(st, 'silph-7f', 'silph.lapras');
+  assert.ok(F.flag('got-lapras') && (S.party.concat(...S.boxes).some(m => m && m.sp === 131)), 'Lapras joined');
+  await run(st, 'silph-9f', 'silph.nurse');
+  await run(st, 'silph-9f', 'silph.lift-9f');
+  await run(st, 'silph-lift', 'silph.lift-panel', [5]);
+  await run(st, 'silph-lift', 'silph.lift-exit');
+  assert.equal(W.map, 'silph-11f', 'the lift goes up to 11F');
+  await fight('silph-11f', 'grunt1');
+  F.setFlag('door:silph-11f:8,6');                     // the Card Key opens the boardroom (field.js)
+  await fight('silph-11f', 'giovanni');
+  won();
+  assert.ok(F.flag('silph-cleared'), 'Team Rocket leaves Silph Co.');
+  await run(st, 'silph-11f', 'silph.president');
+  assert.ok(F.flag('got-master-ball') && F.count('master-ball') === 1, 'the Master Ball');
+  // Sabrina's Gym: the Psychics and Channelers, then Sabrina: a Parasect (Bug) in front, a Dugtrio behind.
+  lead(st, 51);
+  grind(st, 'route15', 50, 400);
+  lead(st, 47);
+  grind(st, 'route15', 52, 200);
+  await all('saffron-gym');
+  F.healAll();
+  const before = S.player.money;
+  await run(st, 'saffron-gym', [['battle', 'saffron-gym:sabrina']]);
+  const last = st.battles[st.battles.length - 1];
+  assert.equal(last.outcome, 'win', 'Sabrina beaten at levels ' + last.levels);
+  assert.deepEqual([...S.player.badges], [1, 2, 3, 4, 5, 6]);
+  assert.equal(F.count('tm04'), 1);
+  assert.equal(S.player.money - before, 3900);
+  assert.ok(F.flag('chapter-6-done'));
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
@@ -776,7 +857,7 @@ test('chapter 5: the Rocket Hideout, the Pokémon Tower, Snorlax, Fuchsia City a
   console.log('[story] after chapter 5:', st.S.party.map(m => st.G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
 });
 
-test('chapter 6: the Safari Zone, Surf and Strength', async () => {
+test('chapter 6: the Safari Zone, Saffron City, Silph Co. and the Marsh Badge', async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);

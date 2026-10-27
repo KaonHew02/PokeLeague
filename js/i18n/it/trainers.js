@@ -26,5 +26,7 @@ G.I18n.add({
   "Bird Keeper": "Ornitologo",
   "Juggler": "Giocoliere",
   "Tamer": "Domatore",
-  "Boss": "Capo"
+  "Boss": "Capo",
+  "Black Belt": "Karateka",
+  "Psychic": "Sensitivo"
 }, "it");

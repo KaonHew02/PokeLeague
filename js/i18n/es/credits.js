@@ -20,5 +20,8 @@ G.I18n.add({
   "Chapter 5 complete!": "¡Capítulo 5 completado!",
   "{player} beat Koga and earned the Soul Badge.": "{player} ha vencido a Koga y ha conseguido la Medalla Alma.",
   "Team Rocket, the Pokémon Tower and Fuchsia City are waiting: your adventure goes on!": "El Team Rocket, la Torre Pokémon y Ciudad Fucsia te esperan: ¡tu aventura continúa!",
-  "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "La Zona Safari, Ciudad Azafrán y Silph S.A. te esperan: ¡tu aventura continúa!"
+  "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "La Zona Safari, Ciudad Azafrán y Silph S.A. te esperan: ¡tu aventura continúa!",
+  "Chapter 6 complete!": "¡Capítulo 6 completado!",
+  "{player} beat Sabrina and earned the Marsh Badge.": "{player} ha vencido a Sabrina y ha conseguido la Medalla Pantano.",
+  "Thank you for playing! The sea routes, Cinnabar Island and the last Gyms open in a future update.": "¡Gracias por jugar! Las rutas marinas, la Isla Canela y los últimos Gimnasios se abrirán en una próxima actualización."
 }, "es");

@@ -109,6 +109,14 @@ G.WorldRender = (() => {
       if (x > L + W || y > Tp + H || x + w < L || y + h < Tp) continue;
       ctx.drawImage(it.g.ground[frame], x, y, w, h);
     }
+    // Doors that open with the Card Key: drawn while closed.
+    if (m.kind.includes('keydoor')) {
+      const kd = G.Tiles.sprite('keydoor', m.palette);
+      m.kind.forEach((k, i) => {
+        const x = i % m.w, y = (i / m.w) | 0;
+        if (k === 'keydoor' && !G.World.keyOpen(x, y, m)) ctx.drawImage(kd, x * TS, y * TS, TS, TS);
+      });
+    }
     // Stairs behind a poster (`secret` tiles): drawn once their warp is open.
     if (m.kind.includes('secret')) {
       const pass = G.Tiles.sprite('passage', m.palette);

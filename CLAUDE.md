@@ -16,8 +16,8 @@ the map format and which files each milestone owns.
 - `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1 [--trainer] [--lang zh-Hans]` — a battle in the terminal.
 - `python tools/fetch_data.py --region kanto [--offline]` — regenerates js/data/ from PokeAPI (cached).
 - `node tools/map_check.js <map-id> | --all` — prints a map with its objects and checks it.
-- `tests/story.test.cjs` plays chapters 1 to 5 headless (real scripts and battle engine with an
-  auto-player) and prints `[balance]` win rates against Brock, Misty, Lt. Surge, Erika and Koga. The game grows chapter by
+- `tests/story.test.cjs` plays chapters 1 to 6 headless (real scripts and battle engine with an
+  auto-player) and prints `[balance]` win rates against Brock, Misty, Lt. Surge, Erika, Koga and Sabrina. The game grows chapter by
   chapter (docs/DESIGN.md section 10); a chapter ends with `G.CreditsUI.ending(n)`.
   Try a map in the browser with `dev.html?debug&map=<id>` (`map=sandbox` is the M3 test town).
 - Run: `python tools/serve.py` → http://localhost:8130/dev.html (PokéGo uses 8123). It is

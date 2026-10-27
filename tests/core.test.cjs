@@ -58,9 +58,9 @@ test('other languages translate from their dictionaries; unknown text stays Engl
   const zh = boot(CORE, { lang: 'zh-Hant', dictionaries: true }).G;
   assert.equal(zh.T('New game'), '新遊戲');
   // A context tells apart the same English word.
-  zh.I18n.add({ Psychic: '超能力' }, 'zh-Hant', 'type');
-  assert.equal(zh.T('Psychic', 'type'), '超能力');
-  assert.equal(zh.T('Psychic'), 'Psychic');
+  zh.I18n.add({ Dragon: '龍' }, 'zh-Hant', 'type');
+  assert.equal(zh.T('Dragon', 'type'), '龍');
+  assert.equal(zh.T('Dragon'), 'Dragon');
 });
 
 test('names come from the data in the player\'s language; pt-BR uses English; ids as a last resort', () => {

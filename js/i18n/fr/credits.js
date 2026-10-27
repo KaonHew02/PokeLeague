@@ -20,5 +20,8 @@ G.I18n.add({
   "Chapter 5 complete!": "Chapitre 5 terminé !",
   "{player} beat Koga and earned the Soul Badge.": "{player} a battu Koga et obtenu le Badge Âme.",
   "Team Rocket, the Pokémon Tower and Fuchsia City are waiting: your adventure goes on!": "La Team Rocket, la Tour Pokémon et Parmanie t'attendent : ton aventure continue !",
-  "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "Le Parc Safari, Safrania et Sylphe SARL t'attendent : ton aventure continue !"
+  "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "Le Parc Safari, Safrania et Sylphe SARL t'attendent : ton aventure continue !",
+  "Chapter 6 complete!": "Chapitre 6 terminé !",
+  "{player} beat Sabrina and earned the Marsh Badge.": "{player} a battu Morgane et obtenu le Badge Marais.",
+  "Thank you for playing! The sea routes, Cinnabar Island and the last Gyms open in a future update.": "Merci d'avoir joué ! Les routes maritimes, Cramois'Île et les dernières Arènes ouvriront dans une prochaine mise à jour."
 }, "fr");

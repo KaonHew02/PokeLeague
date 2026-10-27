@@ -35,12 +35,12 @@ G.I18n.add({
   "Our chairman can talk about Pokémon for hours. Hours!": "我们会长聊起宝可梦能聊好几个小时。好几个小时啊！",
   "Pika pika!": "皮卡皮卡！",
   "Underground Path. Route 5 to Route 6, under Saffron City.": "地下通道。从5号道路通往6号道路，从金黄市地下穿过。",
-  "South: Saffron City. The gate is closed for now.": "南：金黄市。大门暂时关闭。",
   "Maps of the Underground Path, and a sign: Mind your step on the stairs!": "地下通道的地图，还有一块牌子：上下楼梯请小心脚下！",
   "Maps of the Underground Path. Vermilion City is just south of here.": "地下通道的地图。往南走就是枯叶市。",
-  "Route 6. South: Vermilion City. North: Saffron City (the gate is closed).": "6号道路。南：枯叶市。北：金黄市（大门关闭中）。",
   "Vermilion City. A port town where ships from all over the world come and go.": "枯叶市。世界各地的船只往来的港口城市。",
   "Vermilion City Pokémon Gym. Leader: Lt. Surge, the thunder-loving soldier!": "枯叶市宝可梦道馆。馆主：热爱雷电的军人马志士！",
   "Vermilion Harbor. The S.S. Anne is docked here.": "枯叶港。圣特安努号停靠在这里。",
-  "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "宝可梦粉丝俱乐部规则：尽情聊你最喜欢的宝可梦吧！"
+  "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "宝可梦粉丝俱乐部规则：尽情聊你最喜欢的宝可梦吧！",
+  "South: Saffron City.": "南：金黄市。",
+  "Route 6. South: Vermilion City. North: Saffron City.": "6号道路。南：枯叶市。北：金黄市。"
 }, "zh-Hans");

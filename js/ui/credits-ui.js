@@ -32,6 +32,8 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 6) return { title: T('Chapter 6 complete!'), done: fmt('{player} beat Sabrina and earned the Marsh Badge.', { player }),
+                          next: T('Thank you for playing! The sea routes, Cinnabar Island and the last Gyms open in a future update.') };
     if (n === 5) return { title: T('Chapter 5 complete!'), done: fmt('{player} beat Koga and earned the Soul Badge.', { player }),
                           next: T('The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!') };
     if (n === 4) return { title: T('Chapter 4 complete!'), done: fmt('{player} beat Erika and earned the Rainbow Badge.', { player }),

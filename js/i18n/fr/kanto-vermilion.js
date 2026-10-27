@@ -35,12 +35,12 @@ G.I18n.add({
   "Our chairman can talk about Pokémon for hours. Hours!": "Notre président peut parler de Pokémon pendant des heures. Des heures !",
   "Pika pika!": "Pika pika !",
   "Underground Path. Route 5 to Route 6, under Saffron City.": "Souterrain. De la Route 5 à la Route 6, sous Safrania.",
-  "South: Saffron City. The gate is closed for now.": "Sud : Safrania. La porte est fermée pour l'instant.",
   "Maps of the Underground Path, and a sign: Mind your step on the stairs!": "Des plans du Souterrain, et un panneau : Attention à la marche !",
   "Maps of the Underground Path. Vermilion City is just south of here.": "Des plans du Souterrain. Carmin sur Mer est juste au sud.",
-  "Route 6. South: Vermilion City. North: Saffron City (the gate is closed).": "Route 6. Sud : Carmin sur Mer. Nord : Safrania (la porte est fermée).",
   "Vermilion City. A port town where ships from all over the world come and go.": "Carmin sur Mer. Une ville portuaire où vont et viennent des navires du monde entier.",
   "Vermilion City Pokémon Gym. Leader: Lt. Surge, the thunder-loving soldier!": "Arène Pokémon de Carmin sur Mer. Champion : Major Bob, le soldat qui adore la foudre !",
   "Vermilion Harbor. The S.S. Anne is docked here.": "Port de Carmin sur Mer. L'Océane est amarrée ici.",
-  "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "Règle du Fan Club Pokémon : parle de ton Pokémon préféré autant que tu veux !"
+  "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "Règle du Fan Club Pokémon : parle de ton Pokémon préféré autant que tu veux !",
+  "South: Saffron City.": "Sud : Safrania.",
+  "Route 6. South: Vermilion City. North: Saffron City.": "Route 6. Sud : Carmin sur Mer. Nord : Safrania."
 }, "fr");

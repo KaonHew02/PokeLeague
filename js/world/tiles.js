@@ -871,6 +871,30 @@ G.Tiles = (() => {
     '.....oooooo.....',
     '................'
   ];
+  const PAD = [
+    '................',
+    '..oooooooooooo..',
+    '.obbbbbbbbbbbbo.',
+    '.obccccccccccbo.',
+    '.obcwwwwwwwwcbo.',
+    '.obcwccccccwcbo.',
+    '.obcwcwwwwcwcbo.',
+    '.obcwcwccwcwcbo.',
+    '.obcwcwccwcwcbo.',
+    '.obcwcwwwwcwcbo.',
+    '.obcwccccccwcbo.',
+    '.obcwwwwwwwwcbo.',
+    '.obccccccccccbo.',
+    '.obbbbbbbbbbbbo.',
+    '..oooooooooooo..',
+    '................'
+  ];
+  /** A teleport pad (Silph Co., Sabrina's Gym): step on it to be sent elsewhere. */
+  function pad(P, C, ox, oy, tx, ty) {
+    floor(P, C, ox, oy, tx, ty, C.floor);
+    ascii(P, ox, oy, PAD, { o: pack('#202430'), b: pack('#4a5068'), c: pack('#6a78a8'), w: pack('#a8e0f8') });
+  }
+
   /** The tile a spin stops on. */
   function stop(P, C, ox, oy, tx, ty) {
     floor(P, C, ox, oy, tx, ty, C.floor);
@@ -965,6 +989,18 @@ G.Tiles = (() => {
       for (const [y, col] of [[13, C.tile[0]], [10, C.tile[1]], [7, C.grout]]) for (let x = 2; x < T - 2; x++) { P.set(x, y, col); P.set(x, y + 1, col); }
       return P.canvas();
     },
+    /** A door that opens with the Card Key (Silph Co.): metal, with a card slot. */
+    keydoor() {
+      const P = Pix(T, T);
+      const o = pack('#202430'), m = pack('#8a94a8'), l = pack('#b4bccc'), d = pack('#5a6478'), r = pack('#e05050'), g = pack('#303848');
+      P.rect(0, 0, T, T, o);
+      P.rect(1, 1, T - 2, T - 2, d);
+      P.rect(2, 2, 5, 12, m); P.rect(9, 2, 5, 12, m);
+      P.rect(2, 2, 5, 1, l); P.rect(9, 2, 5, 1, l);
+      P.rect(7, 2, 2, 12, g);
+      P.rect(11, 7, 2, 3, r);
+      return P.canvas();
+    },
     /** An item on the ground: a Poké Ball. */
     ball() {
       const P = Pix(12, 12);
@@ -1011,7 +1047,8 @@ G.Tiles = (() => {
       case 'lift': lift(P, C, ox, oy, tx, ty, at); break;
       case 'spin-up': case 'spin-down': case 'spin-left': case 'spin-right': spin(P, C, ox, oy, tx, ty, kind.slice(5)); break;
       case 'spin-stop': stop(P, C, ox, oy, tx, ty); break;
-      case 'invisible': floor(P, C, ox, oy, tx, ty, C.floor); break;
+      case 'invisible': case 'keydoor': floor(P, C, ox, oy, tx, ty, C.floor); break;   // a closed key door: a prop (render.js)
+      case 'pad': pad(P, C, ox, oy, tx, ty); break;
       default: P.rect(ox, oy, T, T, C.black);
     }
     // Under a building: whatever is around it (path in front of the door).

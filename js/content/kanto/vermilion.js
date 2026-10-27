@@ -2,7 +2,8 @@
  * South of Cerulean City (the texts are our own; the events follow the games):
  *   - The road south opens once the thief hiding in the robbed house is beaten (cerulean.js,
  *     flag caught-burglar). Route 5 leads to the Underground Path, a tunnel under Saffron
- *     City (its gates are shut), and Route 6 to Vermilion City.
+ *     City, and Route 6 to Vermilion City. Guards stand on both roads into Saffron until one
+ *     of them gets a drink (saffron.js, flag saffron-open).
  *   - Vermilion: the Pokémon Center, the Mart, the Pokémon Fan Club, the harbour where the
  *     S.S. Anne is docked (ssanne.js; a sailor checks the ticket) and Lt. Surge's Gym, behind
  *     a tree that only Cut clears (the captain of the S.S. Anne teaches it).
@@ -29,18 +30,19 @@ G.Maps.def({
     'T."""""S.........TTTTT.T',
     'T.........FFFFFF.TTTTT.T',
     'T.........FFFFFF.......T',
-    'TTTTTTTTTTTTTTTTTTTTTTTT'
+    'TTTTTTTT,TTTTTTTTTTTTTTT'
   ],
-  connect: { north: { map: 'cerulean', offset: -8 } },
+  connect: { north: { map: 'cerulean', offset: -8 }, south: { map: 'saffron', offset: -11 } },
   warps: [{ x: 13, y: 14, to: 'underground-north', spot: 'door' }],
   spots: { north: [8, 1, 'down'], 'under-door': [13, 15, 'down'] },
   signs: {
     '11,11': 'Underground Path. Route 5 to Route 6, under Saffron City.',
-    '7,16': 'South: Saffron City. The gate is closed for now.'
+    '7,16': 'South: Saffron City.'
   },
   npcs: [
     { id: 'girl', who: 'lass', x: 4, y: 9, move: 'look',
-      say: "Saffron City's gates are all shut. People use the Underground Path to get around it." }
+      say: "Saffron City's gates are all shut. People use the Underground Path to get around it." },
+    { id: 'guard', who: 'officer', x: 8, y: 19, dir: 'up', if: '!saffron-open', script: 'celadon.saffron-gate' }
   ],
   encounters: { walk: '@kanto-route-5-area' }
 });
@@ -110,7 +112,7 @@ G.Maps.def({
 G.Maps.def({
   id: 'route6', loc: 'kanto-route-6', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
   rows: [
-    'TTTTTTTTTTTTTTTTTTTTTTTT',
+    'TTTTTTTT,TTTTTTTTTTTTTTT',
     'T......................T',
     'TTTTT..HHHH..TTTTTTTT..T',
     'TTTTT..HHHH..TTTTTTTT..T',
@@ -135,10 +137,10 @@ G.Maps.def({
     'T.......,,.............T',
     'TTTTTTTT,,TTTTTTTTTTTTTT'
   ],
-  connect: { south: { map: 'vermilion', offset: -8 } },
+  connect: { south: { map: 'vermilion', offset: -8 }, north: { map: 'saffron', offset: -11 } },
   warps: [{ x: 8, y: 4, to: 'underground-south', spot: 'door' }],
   spots: { 'under-door': [8, 5, 'down'], south: [8, 22, 'up'] },
-  signs: { '10,21': 'Route 6. South: Vermilion City. North: Saffron City (the gate is closed).' },
+  signs: { '10,21': 'Route 6. South: Vermilion City. North: Saffron City.' },
   trainers: [
     { id: 'ricky', who: 'camper', cls: 'camper', name: 'Ricky', x: 7, y: 8, dir: 'right', sight: 1,
       team: [['squirtle', 20]],
@@ -161,6 +163,7 @@ G.Maps.def({
       defeat: 'You win! Go and see the ship.',
       after: 'The S.S. Anne only stops here once a year. Lucky!' }
   ],
+  npcs: [{ id: 'guard', who: 'officer', x: 8, y: 0, dir: 'down', if: '!saffron-open', script: 'celadon.saffron-gate' }],
   encounters: { walk: '@kanto-route-6-area' }
 });
 

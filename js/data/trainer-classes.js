@@ -32,5 +32,7 @@ G.TRAINER_CLASSES = {
   juggler:       { title: 'Juggler', who: 'juggler', prize: 42 },
   tamer:         { title: 'Tamer', who: 'tamer', prize: 40 },
   boss:          { title: 'Boss', who: 'giovanni', prize: 100 },
+  'black-belt':  { title: 'Black Belt', who: 'blackbelt', prize: 24 },
+  psychic:       { title: 'Psychic', who: 'psychic', prize: 24 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

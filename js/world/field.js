@@ -357,8 +357,10 @@ G.World = (() => {
 
   // ---------------- tiles and people ----------------
 
+  /** A door opened with the Card Key stays open (flag door:<map>:<x>,<y>). */
+  const keyOpen = (x, y, m = map) => G.Field.flag('door:' + m.id + ':' + x + ',' + y);
   function openTile(x, y) {
-    if (M().inside(map, x, y)) return !map.solid[y * map.w + x] || cut.has(M().key(x, y));
+    if (M().inside(map, x, y)) return !map.solid[y * map.w + x] || cut.has(M().key(x, y)) || (M().kindAt(map, x, y) === 'keydoor' && keyOpen(x, y));
     const a = M().across(map, x, y);
     return !!a && M().open(a.map, a.x, a.y);
   }
@@ -701,6 +703,7 @@ G.World = (() => {
     if (sign) return runScript([['say', sign]], {});
     if (k === 'cuttree' && !cut.has(M().key(tx, ty))) return runScript([['js', h => cutTree(h, tx, ty)]], {});
     if (!surfing && isWater(tx, ty) && !occupant(tx, ty, me)) return runScript([['js', h => surf(h, me.dir)]], {});
+    if (k === 'keydoor' && !keyOpen(tx, ty)) return runScript([['js', h => cardKey(h, tx, ty)]], {});
     if (k === 'pc') return runScript([['sfx', 'pc'], ['say', '{player} turned on the PC.'], ['pc']], {});
     if (map.def.dark && !lit) return darkCheck();
     return null;
@@ -744,6 +747,14 @@ G.World = (() => {
     await h.say(G.T('{mon} used Cut!'), { vars: { mon: G.Mon.name(mon) } });
     sfx('cut', 'hit');
     cut.add(M().key(x, y));
+  }
+
+  /** A locked door: the Card Key opens it for good. */
+  async function cardKey(h, x, y) {
+    if (!G.Field.count('card-key')) { await h.say(G.T('The door is locked. A slot beside it reads: Card Key required.')); return; }
+    sfx('click');
+    G.Field.setFlag('door:' + map.id + ':' + x + ',' + y);
+    await h.say(G.T('{player} used the Card Key. The door slid open!'));
   }
 
   /** Water (inside the map or across a connection): Surf goes there. */
@@ -1086,7 +1097,7 @@ G.World = (() => {
     start, warp, load, tryStep, arrived, interact, openMenu, repath, sfx, song, refresh, runScript, battle, blackout,
     actor: id => actor(id, {}), host, debug,
     onEncounter: null, onTrainer: null,
-    get map() { return map; }, get player() { return me; }, get follower() { return follower; }, get surfing() { return surfing; },
+    get map() { return map; }, get player() { return me; }, get follower() { return follower; }, get surfing() { return surfing; }, keyOpen,
     get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },
     get locked() { return locks > 0 || (G.Dialog && G.Dialog.open); }, get started() { return started; },
     get rng() { return rng; }, seed(s) { rng = G.RNG(s); }

@@ -46,5 +46,7 @@ G.I18n.add({
   "The water is a deep blue.": "A água é de um azul profundo.",
   "The water is a deep blue. Would you like to Surf?": "A água é de um azul profundo. Quer usar Surf?",
   "{mon} used Surf!": "{mon} usou Surf!",
-  "Safari Balls ×{n} · Steps {s}": "Safari Balls ×{n} · Passos {s}"
+  "Safari Balls ×{n} · Steps {s}": "Safari Balls ×{n} · Passos {s}",
+  "The door is locked. A slot beside it reads: Card Key required.": "A porta está trancada. Uma fenda ao lado diz: Card Key necessária.",
+  "{player} used the Card Key. The door slid open!": "{player} usou a Card Key. A porta deslizou e abriu!"
 }, "pt-BR");

@@ -26,5 +26,7 @@ G.I18n.add({
   "Bird Keeper": "Criador de Pássaros",
   "Juggler": "Malabarista",
   "Tamer": "Domador",
-  "Boss": "Chefe"
+  "Boss": "Chefe",
+  "Black Belt": "Faixa-Preta",
+  "Psychic": "Paranormal"
 }, "pt-BR");

@@ -20,5 +20,8 @@ G.I18n.add({
   "Chapter 5 complete!": "第五章完成！",
   "{player} beat Koga and earned the Soul Badge.": "{player}打敗了阿桔，得到了粉紅徽章。",
   "Team Rocket, the Pokémon Tower and Fuchsia City are waiting: your adventure goes on!": "火箭隊、寶可夢塔和淺紅市正等著你：你的冒險還在繼續！",
-  "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "狩獵地帶、金黃市和西爾佛公司正等著你：你的冒險還在繼續！"
+  "The Safari Zone, Saffron City and Silph Co. are waiting: your adventure goes on!": "狩獵地帶、金黃市和西爾佛公司正等著你：你的冒險還在繼續！",
+  "Chapter 6 complete!": "第六章完成！",
+  "{player} beat Sabrina and earned the Marsh Badge.": "{player}打敗了娜姿，得到了金色徽章。",
+  "Thank you for playing! The sea routes, Cinnabar Island and the last Gyms open in a future update.": "感謝遊玩！海上道路、紅蓮島和最後的道館將在之後的更新中開放。"
 }, "zh-Hant");

@@ -415,6 +415,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - `c` small tree: solid until a Pokémon with Cut clears it (needs badge 2); it grows back
     when you come back to the map
 - `=` wooden bridge over water (walkable; Route 12's Silence Bridge)
+- `Y` an office tower 8×6 (Silph Co.)
 - Ledges `v` `<` `>`: you can only jump them one way.
 - Buildings, drawn as stamps:
   - `H` house 4×3
@@ -449,6 +450,9 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - spin tiles `U` `D` `L` `R`: stepping on one sends you sliding that way (spinning) until a stop
     tile `o` or something in the way; floor keeps you sliding, another arrow turns you
   - `i` a wall you cannot see (drawn as floor; Koga's Gym)
+- Chapter 6: `n` a door with a card slot (solid until the Card Key opens it for good: flag
+  `door:<map>:<x>,<y>`; drawn as a prop while closed) and `w` a teleport pad (a warp; its spot is
+  the pad it lands on, so arriving never sends you on again)
 - Exits: `X` exit mat and `^` stairs, both warps. An exit mat whose warp is `locked` runs its
   script instead (the hideout's lift).
 - `G.Maps.center(id, {exit})` and `G.Maps.mart(id, {exit, stock})` build the standard interiors.
@@ -472,7 +476,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
     bugcatcher, camper, brock, guide, oldman, daisy, aide (chapter 1); rocket, supernerd,
     hiker, misty, swimmer (chapter 2); officer, sailor, gentleman, engineer, captain, surge,
     bill (chapter 3); gambler, pokemaniac, beauty, channeler, biker, cooltrainer, erika (chapter 4);
-    giovanni, fuji, scientist, fisherman, rocker, birdkeeper, juggler, tamer, koga, warden (chapter 5).
+    giovanni, fuji, scientist, fisherman, rocker, birdkeeper, juggler, tamer, koga, warden (chapter 5);
+    blackbelt, psychic, sabrina (chapter 6).
   - The front frame is drawn at 4× for trainer battle intros.
 - `render.js`: the baked map, connected neighbour maps, the `border` fill, Y-sorted
   props and actors, and the tall-grass front tuft.
@@ -783,11 +788,43 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Lv. 38 are weak). The guide points to Ground and Psychic. The story test plays chapter 5
   (a Dugtrio from Diglett's Cave leads against Koga).
 
-### After chapter 5
+- **Chapter 6** ✅: the Safari Zone north of Fuchsia: ₽500 buys a Safari Game (30 Safari Balls,
+  600 steps; flag `safari-on`, var `safari-steps`, shown in a corner) in four areas (center, east,
+  north, west) with the games' encounter tables; the game ends when steps or balls run out
+  (`safari.timeup`, `safari.out-of-balls`) or when you walk out, and the balls left go back. The
+  Secret House in the west gives HM03 Surf (flag `got-hm03`); the warden's Gold Teeth lie by the
+  water there, and he gives HM04 Strength for them (flag `got-hm04`; Strength's field use comes
+  with the first boulders). Saffron City: a drink from the Celadon rooftop for a thirsty guard
+  opens all four gates (flag `saffron-open`; gate houses on Routes 7 and 8, guards on the roads of
+  Routes 5 and 6). Team Rocket holds the city and Silph Co. (11 floors; stairs everywhere, a lift
+  to 1F, 3F, 5F, 7F, 9F and 11F; the Card Key on 5F opens the doors with a card slot; the rival on
+  7F, flag `silph-rival`; a Lapras on 7F, flag `got-lapras`; a nurse on 9F; a teleport pad from 7F
+  to the boardroom on 11F, where Giovanni (Nidorino 35, Kangaskhan 34, Rhyhorn 35, Nidoqueen 38)
+  battles you and leaves, flag `silph-cleared`; the president gives the Master Ball). Also: the
+  Fighting Dojo (four Black Belts and their master Hideki; then Hitmonlee or Hitmonchan),
+  Mr. Psychic (TM29 Psychic), and Sabrina's Gym: nine rooms joined by teleport pads, seven
+  Psychics and Channelers, Sabrina (Kadabra 35, Mr. Mime 35, Venomoth 36, Alakazam 39; prize
+  ₽3900, badge 6, TM04 Calm Mind). Files: `safari.js`, `saffron.js`, `silph.js`, `sabrina.js`
+  (translations `kanto-safari`, `kanto-saffron`, `kanto-silph`, `kanto-sabrina`).
+- **Engine for chapter 6:** the Safari battle (`js/battle/safari.js`, its own tests): Safari
+  Balls, Bait (catch rate ×½, flee ×¼), Rocks (catch rate ×2, flee ×2; both last 1 to 5 turns), fleeing
+  by speed; the battle screen shows Ball ×N / Bait / Rock / Run (`G.BattleUI.safari`). Surf in the
+  field: with the Soul Badge and a Pokémon that knows it, press A at water; the player rides that
+  Pokémon (`Actor.ride`), water rolls the map's `surf` table (or the surf table of its grass area),
+  and stepping on land ends the ride (the save remembers it). Key doors and teleport pads; the
+  office stamp `Y`; sounds `surf`; trainer classes black-belt and psychic. Gold Teeth come from
+  PokeAPI (`fetch_data.py`).
+- **Balance:** Sabrina's four Psychic Pokémon are the hardest yet for the auto-player: a lone
+  Blastoise never wins, Charizard with a Snorlax always does, Blastoise with Surf and a Parasect
+  ~60%, Snorlax with a Scyther ~55%. Her Alakazam has no Recover (no endless stalls) and her team
+  is three to four levels below the games'. The story test plays chapter 6 (Parasect and Dugtrio
+  against Sabrina).
+
+### After chapter 6
 
 1. **Rest of Kanto:**
-   - The Safari Zone (Surf, Strength and the warden's teeth), Saffron, Silph Co. and Sabrina.
-   - Cinnabar, Blaine, then Giovanni.
+   - The sea routes (Surf), the Seafoam Islands (Strength's boulders), Cinnabar, Blaine,
+     then Giovanni in Viridian City.
    - Victory Road, the Elite Four, the Champion and the Hall of Fame.
    - Engine features along the way: field moves (Surf, Strength, Fly), the
      bike, fishing, more TMs, abilities, held items, weather, Exp. Share, Repel steps,

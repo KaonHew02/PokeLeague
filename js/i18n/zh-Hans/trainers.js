@@ -26,5 +26,7 @@ G.I18n.add({
   "Bird Keeper": "养鸟人",
   "Juggler": "杂耍艺人",
   "Tamer": "驯兽师",
-  "Boss": "首领"
+  "Boss": "首领",
+  "Black Belt": "空手道王",
+  "Psychic": "超能力者"
 }, "zh-Hans");

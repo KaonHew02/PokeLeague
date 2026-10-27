@@ -39,14 +39,16 @@ G.Maps = (() => {
     // and walls you cannot see (Koga's Gym).
     secret: { warp: 1 }, poster: { solid: 1 }, slots: { solid: 1 }, lift: { warp: 1 },
     'spin-up': { spin: 'up' }, 'spin-down': { spin: 'down' }, 'spin-left': { spin: 'left' }, 'spin-right': { spin: 'right' },
-    'spin-stop': { stop: 1 }, invisible: { solid: 1 }, bridge: {}
+    'spin-stop': { stop: 1 }, invisible: { solid: 1 }, bridge: {},
+    // Chapter 6: doors that open with the Card Key (Silph Co.) and teleport pads (warps).
+    keydoor: { solid: 1 }, pad: { warp: 1 }
   };
   const LEGEND = {
     outdoor: {
       '.': 'grass', ',': 'path', ':': 'sand', '"': 'tall', f: 'flowers',
       T: 'tree', '#': 'cliff', '~': 'water', F: 'fence', S: 'sign',
       v: 'ledge-down', '<': 'ledge-left', '>': 'ledge-right',
-      H: 'stamp', C: 'stamp', M: 'stamp', G: 'stamp', L: 'stamp', K: 'stamp', E: 'stamp', B: 'stamp', D: 'door',
+      H: 'stamp', C: 'stamp', M: 'stamp', G: 'stamp', L: 'stamp', K: 'stamp', E: 'stamp', B: 'stamp', Y: 'stamp', D: 'door',
       '%': 'ladder', O: 'hole',                      // caves: a ladder, a cave mouth (both warps)
       c: 'cuttree',                                  // a small tree that Cut clears (until you leave the map)
       '=': 'bridge'                                  // a wooden bridge over water
@@ -56,7 +58,8 @@ G.Maps = (() => {
       '=': 'counter', b: 'shelf', t: 'table', p: 'plant', P: 'pc', h: 'healer',
       X: 'mat', '^': 'stairs', '~': 'water', u: 'can', g: 'grave', k: 'hedge',
       Q: 'secret', q: 'poster', s: 'slots', e: 'lift',
-      U: 'spin-up', D: 'spin-down', L: 'spin-left', R: 'spin-right', o: 'spin-stop', i: 'invisible'
+      U: 'spin-up', D: 'spin-down', L: 'spin-left', R: 'spin-right', o: 'spin-stop', i: 'invisible',
+      n: 'keydoor', w: 'pad'
     }
   };
   /** Buildings drawn as stamps: footprint in tiles (stamps.js paints them). */
@@ -68,7 +71,8 @@ G.Maps = (() => {
     L: { type: 'lab', w: 6, h: 4 },
     K: { type: 'tower', w: 5, h: 5 },          // the Pokémon Tower
     E: { type: 'store', w: 8, h: 5 },          // a department store
-    B: { type: 'building', w: 6, h: 4 }        // a big building (a mansion, a game corner, a gate)
+    B: { type: 'building', w: 6, h: 4 },       // a big building (a mansion, a game corner, a gate)
+    Y: { type: 'office', w: 8, h: 6 }          // an office tower (Silph Co.)
   };
   const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
   const OPP = { up: 'down', down: 'up', left: 'right', right: 'left' };

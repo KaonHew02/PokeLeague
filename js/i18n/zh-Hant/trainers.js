@@ -26,5 +26,7 @@ G.I18n.add({
   "Bird Keeper": "養鳥人",
   "Juggler": "雜耍藝人",
   "Tamer": "馴獸師",
-  "Boss": "首領"
+  "Boss": "首領",
+  "Black Belt": "空手道王",
+  "Psychic": "超能力者"
 }, "zh-Hant");

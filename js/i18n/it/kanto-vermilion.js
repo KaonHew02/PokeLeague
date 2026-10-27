@@ -35,12 +35,12 @@ G.I18n.add({
   "Our chairman can talk about Pokémon for hours. Hours!": "Il nostro presidente può parlare di Pokémon per ore. Ore!",
   "Pika pika!": "Pika pika!",
   "Underground Path. Route 5 to Route 6, under Saffron City.": "Sotterraneo. Dal Percorso 5 al Percorso 6, sotto Zafferanopoli.",
-  "South: Saffron City. The gate is closed for now.": "Sud: Zafferanopoli. L'ingresso per ora è chiuso.",
   "Maps of the Underground Path, and a sign: Mind your step on the stairs!": "Mappe del Sotterraneo e un cartello: Attenzione ai gradini!",
   "Maps of the Underground Path. Vermilion City is just south of here.": "Mappe del Sotterraneo. Aranciopoli è appena a sud di qui.",
-  "Route 6. South: Vermilion City. North: Saffron City (the gate is closed).": "Percorso 6. Sud: Aranciopoli. Nord: Zafferanopoli (l'ingresso è chiuso).",
   "Vermilion City. A port town where ships from all over the world come and go.": "Aranciopoli. Una città portuale dove vanno e vengono navi da tutto il mondo.",
   "Vermilion City Pokémon Gym. Leader: Lt. Surge, the thunder-loving soldier!": "Palestra Pokémon di Aranciopoli. Capopalestra: Lt. Surge, il soldato che ama i fulmini!",
   "Vermilion Harbor. The S.S. Anne is docked here.": "Porto di Aranciopoli. Qui è ormeggiata la S.S. Anne.",
-  "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "Regola del Fan Club Pokémon: parla del tuo Pokémon preferito quanto vuoi!"
+  "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "Regola del Fan Club Pokémon: parla del tuo Pokémon preferito quanto vuoi!",
+  "South: Saffron City.": "Sud: Zafferanopoli.",
+  "Route 6. South: Vermilion City. North: Saffron City.": "Percorso 6. Sud: Aranciopoli. Nord: Zafferanopoli."
 }, "it");

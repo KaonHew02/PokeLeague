@@ -35,12 +35,12 @@ G.I18n.add({
   "Our chairman can talk about Pokémon for hours. Hours!": "Nuestro presidente puede hablar de Pokémon durante horas. ¡Horas!",
   "Pika pika!": "¡Pika pika!",
   "Underground Path. Route 5 to Route 6, under Saffron City.": "Paso Subterráneo. De la Ruta 5 a la Ruta 6, por debajo de Ciudad Azafrán.",
-  "South: Saffron City. The gate is closed for now.": "Sur: Ciudad Azafrán. La puerta está cerrada de momento.",
   "Maps of the Underground Path, and a sign: Mind your step on the stairs!": "Mapas del Paso Subterráneo y un cartel: ¡Cuidado con los escalones!",
   "Maps of the Underground Path. Vermilion City is just south of here.": "Mapas del Paso Subterráneo. Ciudad Carmín está justo al sur.",
-  "Route 6. South: Vermilion City. North: Saffron City (the gate is closed).": "Ruta 6. Sur: Ciudad Carmín. Norte: Ciudad Azafrán (la puerta está cerrada).",
   "Vermilion City. A port town where ships from all over the world come and go.": "Ciudad Carmín. Un puerto al que llegan barcos de todo el mundo.",
   "Vermilion City Pokémon Gym. Leader: Lt. Surge, the thunder-loving soldier!": "Gimnasio Pokémon de Ciudad Carmín. Líder: Lt. Surge, ¡el soldado amante del trueno!",
   "Vermilion Harbor. The S.S. Anne is docked here.": "Puerto de Ciudad Carmín. Aquí está atracado el S.S. Anne.",
-  "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "Norma del Club de Fans de Pokémon: ¡habla de tu Pokémon favorito todo lo que quieras!"
+  "Pokémon Fan Club rule: talk about your favourite Pokémon as much as you like!": "Norma del Club de Fans de Pokémon: ¡habla de tu Pokémon favorito todo lo que quieras!",
+  "South: Saffron City.": "Sur: Ciudad Azafrán.",
+  "Route 6. South: Vermilion City. North: Saffron City.": "Ruta 6. Sur: Ciudad Carmín. Norte: Ciudad Azafrán."
 }, "es");

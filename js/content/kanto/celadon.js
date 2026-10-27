@@ -1,6 +1,6 @@
 /* ============ celadon.js — Route 8, the Underground Path (west-east), Route 7, Celadon City ============
- * West of Lavender Town: Route 8 (five Trainers), the gates to Saffron City (closed: the guards
- * are thirsty and let nobody through), the Underground Path to Route 7, and Celadon City:
+ * West of Lavender Town: Route 8 (five Trainers), the gates to Saffron City (closed until a
+ * thirsty guard gets a drink: saffron.js), the Underground Path to Route 7, and Celadon City:
  * Pokémon Center, the Department Store (1F to the rooftop: items and TMs, evolution stones,
  * vitamins and battle items, drinks; a girl on the roof trades TMs for drinks), Celadon Mansion
  * (an Eevee waits in a room on its roof), a restaurant, a house, the Game Corner (hideout.js)
@@ -23,8 +23,9 @@ G.Maps.def({
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
   connect: { east: { map: 'lavender', offset: -3 } },
-  warps: [{ x: 11, y: 3, to: 'underground-east', spot: 'door' }, { x: 3, y: 4, locked: 'celadon.saffron-gate' }],
-  spots: { east: [38, 5, 'left'], 'under-door': [11, 4, 'down'] },
+  warps: [{ x: 11, y: 3, to: 'underground-east', spot: 'door' },
+          { x: 3, y: 4, to: 'saffron-gate-east', spot: 'east', if: 'saffron-open', locked: 'celadon.saffron-gate' }],
+  spots: { east: [38, 5, 'left'], 'under-door': [11, 4, 'down'], 'gate-door': [3, 5, 'down'] },
   trainers: [
     { id: 'aidan', who: 'supernerd', cls: 'super-nerd', name: 'Aidan', x: 16, y: 4, dir: 'down', sight: 2,
       team: [['koffing', 23], ['grimer', 23]],
@@ -108,8 +109,9 @@ G.Maps.def({
     'TTTTTTTTTTTTTTTTTT'
   ],
   connect: { west: { map: 'celadon', offset: -1 } },
-  warps: [{ x: 6, y: 3, to: 'underground-west', spot: 'door' }, { x: 14, y: 5, locked: 'celadon.saffron-gate' }],
-  spots: { west: [1, 7, 'right'], 'under-door': [6, 4, 'down'] },
+  warps: [{ x: 6, y: 3, to: 'underground-west', spot: 'door' },
+          { x: 14, y: 5, to: 'saffron-gate-west', spot: 'west', if: 'saffron-open', locked: 'celadon.saffron-gate' }],
+  spots: { west: [1, 7, 'right'], 'under-door': [6, 4, 'down'], 'gate-door': [14, 6, 'down'] },
   encounters: { walk: '@kanto-route-7-area' }
 });
 
@@ -405,10 +407,6 @@ G.Maps.def({
       ['say', 'A vending machine. Cold drinks for thirsty Trainers!'],
       ['shop', ['fresh-water', 'soda-pop', 'lemonade']]
     ],
-    'celadon.eevee': [['js', eevee]],
-    'celadon.saffron-gate': [
-      ['say', 'A guard blocks the gate: Saffron City is closed. Nobody gets through.'],
-      ['say', 'Phew, it\'s hot... I\'d give anything for something to drink.', { name: 'Guard' }]
-    ]
+    'celadon.eevee': [['js', eevee]]
   });
 })();

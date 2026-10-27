@@ -46,5 +46,7 @@ G.I18n.add({
   "The water is a deep blue.": "水是深蓝色的。",
   "The water is a deep blue. Would you like to Surf?": "水是深蓝色的。要使用冲浪吗？",
   "{mon} used Surf!": "{mon}使用了冲浪！",
-  "Safari Balls ×{n} · Steps {s}": "狩猎球 ×{n} · 步数 {s}"
+  "Safari Balls ×{n} · Steps {s}": "狩猎球 ×{n} · 步数 {s}",
+  "The door is locked. A slot beside it reads: Card Key required.": "门锁着。旁边的插槽上写着：需要钥匙卡。",
+  "{player} used the Card Key. The door slid open!": "{player}使用了钥匙卡。门滑开了！"
 }, "zh-Hans");

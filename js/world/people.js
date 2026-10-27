@@ -20,7 +20,8 @@ G.People = (() => {
                  'rocket', 'supernerd', 'hiker', 'misty', 'swimmer',
                  'officer', 'sailor', 'gentleman', 'engineer', 'captain', 'surge', 'bill',
                  'gambler', 'pokemaniac', 'beauty', 'channeler', 'biker', 'cooltrainer', 'erika',
-                 'giovanni', 'fuji', 'scientist', 'fisherman', 'rocker', 'birdkeeper', 'juggler', 'tamer', 'koga', 'warden'];
+                 'giovanni', 'fuji', 'scientist', 'fisherman', 'rocker', 'birdkeeper', 'juggler', 'tamer', 'koga', 'warden',
+                 'blackbelt', 'psychic', 'sabrina'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -170,6 +171,9 @@ G.People = (() => {
     juggler: { head: 'short', body: 'jacket', legs: 'pants', h: '#3a2a20', H: '#24180f', j: '#8a4ac0', J: '#66309a', c: '#f4f4f4', C: '#c8c8d0', p: '#f4f4f4', P: '#c8c8d0', k: '#3a3030' },
     tamer: { head: 'hat', body: 'jacket', legs: 'pants', a: '#6a4a2a', A: '#4a3218', b: '#2e1e0e', h: '#2a1e14', H: '#160e08', j: '#a86a3a', J: '#7c4c26', c: '#e8d8b8', C: '#c0b090', p: '#5a4a3a', P: '#3e3226', k: '#2a2018' },
     koga: { head: 'short', body: 'coat', legs: 'pants', h: '#3a3448', H: '#24202e', j: '#4a3a6a', J: '#30264a', c: '#8a8aa0', C: '#66667a', p: '#3a3050', P: '#262036', k: '#1a1622' },
+    blackbelt: { head: 'short', body: 'jacket', legs: 'pants', h: '#2a2018', H: '#16100a', j: '#f4f4f4', J: '#c8c8d0', c: '#2a2a2a', C: '#161616', p: '#f4f4f4', P: '#c8c8d0', k: '#d8a070' },
+    psychic: { head: 'short', body: 'coat', legs: 'pants', h: '#5a3a7a', H: '#3c2454', j: '#4a4a8a', J: '#323266', c: '#e8d070', C: '#c4a848', p: '#3a3a5a', P: '#262640', k: '#2a2a3a' },
+    sabrina: { head: 'long', body: 'dress', legs: 'bare', h: '#2a2238', H: '#16101e', c: '#c83c4c', C: '#962834', j: '#2a2a34', J: '#16161e', k: '#2a2a34' },
     warden: { head: 'bald', body: 'coat', legs: 'pants', h: '#d8d8dc', H: '#a8a8b0', j: '#a89a6a', J: '#80744c', c: '#e8e0c8', C: '#c0b8a0', p: '#6a5c44', P: '#4c4230', k: '#3a2e22' },
     bill: { head: 'short', body: 'tee', legs: 'pants', h: '#7a4a2a', H: '#52301a', c: '#4a8ad8', C: '#2e66b0', p: '#5a4a3a', P: '#3e3226', k: '#3a3030' },
     daisy: { head: 'long', body: 'dress', legs: 'bare', h: '#8a5430', H: '#5e361a', c: '#f4f4f4', C: '#c8c8d0', j: '#5c9c5c', J: '#3e763e', k: '#7a5236' },

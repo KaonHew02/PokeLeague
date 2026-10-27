@@ -1,0 +1,176 @@
+/* ============ sabrina.js — Saffron City Gym: Sabrina ============
+ * Chapter 6, part 3, the end of the chapter. Nine rooms in a square, joined only by teleport pads
+ * (indoor tile `w`) in their corners: the entrance is the bottom-middle room, Sabrina the middle
+ * one. Psychics and Channelers wait in the other rooms. Team Rocket keeps the door shut until
+ * Silph Co. is free (saffron.js). Sabrina (Kadabra 35, Mr. Mime 35, Venomoth 36, Alakazam 39: the
+ * games' 37-43, lowered as for Koga, and her Alakazam has no Recover, so a battle never turns into a
+ * long stall; tests/story.test.cjs prints the balance) gives the Marsh Badge (badge 6) and TM04 Calm Mind.
+ */
+G.Maps.def({
+  id: 'saffron-gym', loc: 'saffron-city', tileset: 'indoor', palette: 'tower', music: 'gym', battleBg: 'indoor',
+  rows: [
+    'WWWWWWWWWWWWWWWWWWW',
+    'WWWWWWWWWWWWWWWWWWW',
+    'Ww+++wWw+++wWw+++wW',
+    'W+++++W+++++W+++++W',
+    'W+++++W+++++W+++++W',
+    'Ww+++wWw+++wWw+++wW',
+    'WWWWWWWWWWWWWWWWWWW',
+    'Ww+++wWw++++Ww+++wW',
+    'W+++++W+++++W+++++W',
+    'W+++++W+++++W+++++W',
+    'Ww+++wW++++wWw+++wW',
+    'WWWWWWWWWWWWWWWWWWW',
+    'Ww+++wWw+++wWw+++wW',
+    'W+++++W+++++W+++++W',
+    'W+++++W+++++W+++++W',
+    'Ww+++wWw+++wWw+++wW',
+    'WWWWWWWWWXWWWWWWWWW'
+  ],
+  warps: [
+    { x: 9, y: 16, to: 'saffron', spot: 'gym-door' },
+    { x: 7, y: 12, to: 'saffron-gym', spot: 'C1TR' },
+    { x: 5, y: 12, to: 'saffron-gym', spot: 'C2TL' },
+    { x: 11, y: 12, to: 'saffron-gym', spot: 'C3TL' },
+    { x: 13, y: 12, to: 'saffron-gym', spot: 'C2TR' },
+    { x: 7, y: 15, to: 'saffron-gym', spot: 'A1BL' },
+    { x: 1, y: 5, to: 'saffron-gym', spot: 'C2BL' },
+    { x: 11, y: 15, to: 'saffron-gym', spot: 'A3BR' },
+    { x: 17, y: 5, to: 'saffron-gym', spot: 'C2BR' },
+    { x: 1, y: 12, to: 'saffron-gym', spot: 'B1BL' },
+    { x: 1, y: 10, to: 'saffron-gym', spot: 'C1TL' },
+    { x: 1, y: 15, to: 'saffron-gym', spot: 'A2TL' },
+    { x: 7, y: 2, to: 'saffron-gym', spot: 'C1BL' },
+    { x: 5, y: 15, to: 'saffron-gym', spot: 'A1BR' },
+    { x: 5, y: 5, to: 'saffron-gym', spot: 'C1BR' },
+    { x: 17, y: 12, to: 'saffron-gym', spot: 'B3BR' },
+    { x: 17, y: 10, to: 'saffron-gym', spot: 'C3TR' },
+    { x: 17, y: 15, to: 'saffron-gym', spot: 'A1TR' },
+    { x: 5, y: 2, to: 'saffron-gym', spot: 'C3BR' },
+    { x: 13, y: 15, to: 'saffron-gym', spot: 'B1BR' },
+    { x: 5, y: 10, to: 'saffron-gym', spot: 'C3BL' },
+    { x: 1, y: 7, to: 'saffron-gym', spot: 'A1TL' },
+    { x: 1, y: 2, to: 'saffron-gym', spot: 'B1TL' },
+    { x: 5, y: 7, to: 'saffron-gym', spot: 'A3TL' },
+    { x: 13, y: 2, to: 'saffron-gym', spot: 'B1TR' },
+    { x: 13, y: 7, to: 'saffron-gym', spot: 'A2TR' },
+    { x: 11, y: 2, to: 'saffron-gym', spot: 'B3TL' },
+    { x: 17, y: 7, to: 'saffron-gym', spot: 'A3TR' },
+    { x: 17, y: 2, to: 'saffron-gym', spot: 'B3TR' },
+    { x: 13, y: 10, to: 'saffron-gym', spot: 'A3BL' },
+    { x: 13, y: 5, to: 'saffron-gym', spot: 'B3BL' },
+    { x: 7, y: 5, to: 'saffron-gym', spot: 'B2TL' },
+    { x: 7, y: 7, to: 'saffron-gym', spot: 'A2BL' },
+    { x: 11, y: 5, to: 'saffron-gym', spot: 'B2BR' },
+    { x: 11, y: 10, to: 'saffron-gym', spot: 'A2BR' }
+  ],
+  spots: {
+    door: [9, 16, 'up'],
+    C2TL: [7, 12, 'down'],
+    C1TR: [5, 12, 'down'],
+    C2TR: [11, 12, 'down'],
+    C3TL: [13, 12, 'down'],
+    C2BL: [7, 15, 'down'],
+    A1BL: [1, 5, 'down'],
+    C2BR: [11, 15, 'down'],
+    A3BR: [17, 5, 'down'],
+    C1TL: [1, 12, 'down'],
+    B1BL: [1, 10, 'down'],
+    C1BL: [1, 15, 'down'],
+    A2TL: [7, 2, 'down'],
+    C1BR: [5, 15, 'down'],
+    A1BR: [5, 5, 'down'],
+    C3TR: [17, 12, 'down'],
+    B3BR: [17, 10, 'down'],
+    C3BR: [17, 15, 'down'],
+    A1TR: [5, 2, 'down'],
+    C3BL: [13, 15, 'down'],
+    B1BR: [5, 10, 'down'],
+    B1TL: [1, 7, 'down'],
+    A1TL: [1, 2, 'down'],
+    B1TR: [5, 7, 'down'],
+    A3TL: [13, 2, 'down'],
+    B3TL: [13, 7, 'down'],
+    A2TR: [11, 2, 'down'],
+    B3TR: [17, 7, 'down'],
+    A3TR: [17, 2, 'down'],
+    B3BL: [13, 10, 'down'],
+    A3BL: [13, 5, 'down'],
+    A2BL: [7, 5, 'down'],
+    B2TL: [7, 7, 'down'],
+    A2BR: [11, 5, 'down'],
+    B2BR: [11, 10, 'down']
+  },
+  npcs: [{ id: 'guide', who: 'guide', x: 10, y: 15, dir: 'left', script: 'sabrina.gym-guide' }],
+  trainers: [
+    { id: 'johan', who: 'psychic', cls: 'psychic', name: 'Johan', x: 3, y: 3, dir: 'down', sight: 2,
+      team: [['slowpoke', 36], ['slowbro', 37]],
+      before: 'Sabrina sees the future. She saw you coming, and so did I.',
+      defeat: 'I did not see this part coming...',
+      after: 'The pads take you from room to room. Not every one leads somewhere useful.' },
+    { id: 'amanda', who: 'channeler', cls: 'channeler', name: 'Amanda', x: 9, y: 3, dir: 'down', sight: 2,
+      team: [['gastly', 36], ['haunter', 37]],
+      before: 'The spirits whisper your name... and your defeat!',
+      defeat: 'The spirits were wrong for once.',
+      after: 'Sabrina is just through the pads below. Her mind is stronger than any wall.' },
+    { id: 'tyron', who: 'psychic', cls: 'psychic', name: 'Tyron', x: 15, y: 3, dir: 'down', sight: 2,
+      team: [['kadabra', 37]],
+      before: 'I am thinking of a number. You will lose that many times!',
+      defeat: 'The number was zero...',
+      after: 'Psychic Pokémon fear Bug and Ghost moves. Dark ones too, though few Pokémon here know any.' },
+    { id: 'stacy', who: 'channeler', cls: 'channeler', name: 'Stacy', x: 3, y: 8, dir: 'down', sight: 2,
+      team: [['haunter', 37]],
+      before: 'Do not look behind you... Too late! Battle!',
+      defeat: 'There was nothing behind you. Sorry.',
+      after: 'I came for the spirits and stayed for Sabrina. She is amazing.' },
+    { id: 'cameron', who: 'psychic', cls: 'psychic', name: 'Cameron', x: 15, y: 8, dir: 'down', sight: 2,
+      team: [['mr-mime', 36], ['kadabra', 37]],
+      before: 'With my mind alone, I will bend this battle my way!',
+      defeat: 'My mind is tied in knots...',
+      after: 'Mr. Mime builds walls you cannot see. A bit like Koga\'s Gym, but in battle.' },
+    { id: 'preston', who: 'psychic', cls: 'psychic', name: 'Preston', x: 3, y: 13, dir: 'down', sight: 2,
+      team: [['drowzee', 36], ['hypno', 37]],
+      before: 'Look into my Hypno\'s pendulum... You are getting sleepy...',
+      defeat: 'I am the one who is sleepy...',
+      after: 'When a pad sends you back, try another one. The Gym is a puzzle.' },
+    { id: 'tasha', who: 'channeler', cls: 'channeler', name: 'Tasha', x: 15, y: 13, dir: 'down', sight: 2,
+      team: [['gastly', 36], ['gastly', 36], ['haunter', 37]],
+      before: 'Three spirits, three chances to lose!',
+      defeat: 'All three of them fled.',
+      after: 'The pads in the corners of every room lead somewhere. Find the one to Sabrina.' },
+    { id: 'sabrina', who: 'sabrina', cls: 'leader', name: 'Sabrina', x: 9, y: 8, dir: 'down', sight: 0, leader: true, ai: 'leader',
+      team: [['kadabra', 35, ['psybeam', 'reflect', 'confusion', 'disable']],
+             ['mr-mime', 35, ['psybeam', 'barrier', 'confusion', 'double-slap']],
+             ['venomoth', 36, ['psybeam', 'stun-spore', 'supersonic', 'leech-life']],
+             ['alakazam', 39, ['psychic', 'future-sight', 'confusion', 'disable']]],
+      before: 'I knew you would come. I saw it three days ago. Since I was a child, I could move things with my mind. I do not enjoy battles... but I will not lose this one.',
+      defeat: 'I did not foresee this... You are stronger than my visions.',
+      win: 'sabrina.win',
+      afterScript: [
+        ['say', 'Calm Mind raises the user\'s Sp. Atk and Sp. Def. A clear mind is the strongest weapon.', { name: 'Sabrina' }],
+        ['say', 'The Pokémon League waits beyond two more badges. I can feel it.', { name: 'Sabrina' }]
+      ] }
+  ]
+});
+
+G.Script.def({
+  'sabrina.gym-guide': [
+    ['if', 'badge:6', [
+      ['say', 'You beat Sabrina! Six badges. The Pokémon League is getting close!']
+    ], [
+      ['say', 'Hey, future Champion! Sabrina\'s Gym is a maze of teleport pads. Step on one and see where it takes you.'],
+      ['say', 'Her Psychic Pokémon are tough. Bug and Ghost moves work best, and strong physical attacks help too.'],
+      ['say', 'Her Alakazam hits very hard. Send in your toughest Pokémon against it!']
+    ]]
+  ],
+  'sabrina.win': [
+    ['say', 'You have earned the Marsh Badge. Take it.', { name: 'Sabrina' }],
+    ['badge', 6],
+    ['jingle', 'badge'],
+    ['say', '{player} received the Marsh Badge from Sabrina!'],
+    ['say', 'And this is TM04, Calm Mind. It sharpens the mind and steadies the heart.', { name: 'Sabrina' }],
+    ['giveItem', 'tm04', 1],
+    // The end of the sixth chapter (credits-ui.js).
+    ['js', () => (G.CreditsUI ? G.CreditsUI.ending(6) : G.Field.setFlag('chapter-6-done'))]
+  ]
+});

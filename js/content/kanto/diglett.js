@@ -1,5 +1,5 @@
 /* ============ diglett.js — Route 11 and Diglett's Cave ============
- * East of Vermilion City: Route 11 (five Trainers; the gate to Route 12 is closed for now)
+ * East of Vermilion City: Route 11 (five Trainers; its gate leads to Route 12, route12.js)
  * and the mouth of Diglett's Cave, a long tunnel dug by wild Diglett that comes out on the
  * east side of Route 2 (route2.js), where Professor Oak's aide gives HM05 Flash to Trainers
  * who have caught ten kinds of Pokémon. The texts are our own; the places follow the games.
@@ -23,9 +23,9 @@ G.Maps.def({
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
   connect: { west: { map: 'vermilion', offset: -3 } },
-  warps: [{ x: 4, y: 3, to: 'digletts-cave', spot: 'south' }, { x: 36, y: 6, locked: 'route11.gate' }],
-  spots: { west: [1, 6, 'right'], cave: [4, 4, 'down'] },
-  signs: { '24,4': "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: Route 12 (the gate is closed)." },
+  warps: [{ x: 4, y: 3, to: 'digletts-cave', spot: 'south' }, { x: 36, y: 6, to: 'route11-gate', spot: 'west' }],
+  spots: { west: [1, 6, 'right'], cave: [4, 4, 'down'], 'gate-door': [36, 7, 'down'] },
+  signs: { '24,4': "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: the gate to Route 12." },
   trainers: [
     { id: 'hugo', who: 'gambler', cls: 'gambler', name: 'Hugo', x: 10, y: 5, dir: 'down', sight: 2,
       team: [['poliwag', 18], ['horsea', 18]],
@@ -139,9 +139,6 @@ G.Maps.def({
   }
 
   G.Script.def({
-    'route2.aide': [['js', aide]],
-    'route11.gate': [
-      ['say', 'The gate to Route 12 is closed. A notice says: Road blocked by a sleeping Pokémon. Sorry for the trouble!']
-    ]
+    'route2.aide': [['js', aide]]
   });
 })();

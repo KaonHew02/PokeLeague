@@ -6,7 +6,6 @@ G.I18n.add({
   "Your Pokédex shows {n} caught so far. Come back when it reaches ten!": "你的圖鑑目前顯示捉到了{n}種。等到了十種再來吧！",
   "{n} kinds! The Professor will be thrilled. Here, he wants you to have this.": "{n}種！博士一定會很高興的。來，他希望你收下這個。",
   "HM05 is Flash. It lights up dark caves. You need the Boulder Badge to use it outside of battle.": "秘傳學習器05是閃光，能照亮黑暗的洞窟。要在戰鬥以外使用，需要灰色徽章。",
-  "The gate to Route 12 is closed. A notice says: Road blocked by a sleeping Pokémon. Sorry for the trouble!": "通往12號道路的大門關著。告示上寫著：道路被一隻睡著的寶可夢擋住了。造成不便，敬請見諒！",
   "Hugo": "雨果",
   "Win or lose, I always bet on a battle. Let us see where luck takes us!": "不管輸贏，我總是押在對戰上。看看運氣會把我們帶到哪兒吧！",
   "My luck ran out...": "我的運氣用光了……",
@@ -28,6 +27,6 @@ G.I18n.add({
   "Tails. I always pick tails, and it is always heads.": "反面。我每次都選反面，結果每次都是正面。",
   "The road east is closed. Something huge is sleeping on Route 12, they say.": "往東的路封閉了。聽說有個巨大的傢伙睡在12號道路上。",
   "Prof. Oak's Aide": "大木博士的助手",
-  "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: Route 12 (the gate is closed).": "11號道路。西：枯葉市。西北：地鼠洞穴。東：12號道路（大門關閉中）。",
-  "Research notes on how many kinds of Pokémon live in Kanto. The number is crossed out and rewritten many times.": "關於關都有多少種寶可夢的研究筆記。上面的數字被劃掉又重寫了好多次。"
+  "Research notes on how many kinds of Pokémon live in Kanto. The number is crossed out and rewritten many times.": "關於關都有多少種寶可夢的研究筆記。上面的數字被劃掉又重寫了好多次。",
+  "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: the gate to Route 12.": "11號道路。西：枯葉市。西北：地鼠洞穴。東：通往12號道路的大門。"
 }, "zh-Hant");

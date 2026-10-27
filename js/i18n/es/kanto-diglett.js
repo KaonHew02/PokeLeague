@@ -6,7 +6,6 @@ G.I18n.add({
   "Your Pokédex shows {n} caught so far. Come back when it reaches ten!": "Tu Pokédex muestra {n} capturados por ahora. ¡Vuelve cuando llegues a diez!",
   "{n} kinds! The Professor will be thrilled. Here, he wants you to have this.": "¡{n} tipos! El Profesor estará encantado. Toma, quiere que tengas esto.",
   "HM05 is Flash. It lights up dark caves. You need the Boulder Badge to use it outside of battle.": "La MO05 es Destello. Ilumina las cuevas oscuras. Para usarla fuera de los combates necesitas la Medalla Roca.",
-  "The gate to Route 12 is closed. A notice says: Road blocked by a sleeping Pokémon. Sorry for the trouble!": "La puerta a la Ruta 12 está cerrada. Un aviso dice: Camino bloqueado por un Pokémon dormido. ¡Disculpen las molestias!",
   "Hugo": "Hugo",
   "Win or lose, I always bet on a battle. Let us see where luck takes us!": "Gane o pierda, siempre apuesto por un combate. ¡A ver adónde nos lleva la suerte!",
   "My luck ran out...": "Se me acabó la suerte...",
@@ -28,6 +27,6 @@ G.I18n.add({
   "Tails. I always pick tails, and it is always heads.": "Cruz. Siempre elijo cruz, y siempre sale cara.",
   "The road east is closed. Something huge is sleeping on Route 12, they say.": "El camino al este está cerrado. Dicen que algo enorme duerme en la Ruta 12.",
   "Prof. Oak's Aide": "Ayudante del Prof. Oak",
-  "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: Route 12 (the gate is closed).": "Ruta 11. Oeste: Ciudad Carmín. Noroeste: Cueva Diglett. Este: Ruta 12 (la puerta está cerrada).",
-  "Research notes on how many kinds of Pokémon live in Kanto. The number is crossed out and rewritten many times.": "Notas de investigación sobre cuántos tipos de Pokémon viven en Kanto. El número está tachado y reescrito muchas veces."
+  "Research notes on how many kinds of Pokémon live in Kanto. The number is crossed out and rewritten many times.": "Notas de investigación sobre cuántos tipos de Pokémon viven en Kanto. El número está tachado y reescrito muchas veces.",
+  "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: the gate to Route 12.": "Ruta 11. Oeste: Ciudad Carmín. Noroeste: Cueva Diglett. Este: la puerta a la Ruta 12."
 }, "es");

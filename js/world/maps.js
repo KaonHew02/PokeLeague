@@ -39,7 +39,7 @@ G.Maps = (() => {
     // and walls you cannot see (Koga's Gym).
     secret: { warp: 1 }, poster: { solid: 1 }, slots: { solid: 1 }, lift: { warp: 1 },
     'spin-up': { spin: 'up' }, 'spin-down': { spin: 'down' }, 'spin-left': { spin: 'left' }, 'spin-right': { spin: 'right' },
-    'spin-stop': { stop: 1 }, invisible: { solid: 1 }
+    'spin-stop': { stop: 1 }, invisible: { solid: 1 }, bridge: {}
   };
   const LEGEND = {
     outdoor: {
@@ -48,7 +48,8 @@ G.Maps = (() => {
       v: 'ledge-down', '<': 'ledge-left', '>': 'ledge-right',
       H: 'stamp', C: 'stamp', M: 'stamp', G: 'stamp', L: 'stamp', K: 'stamp', E: 'stamp', B: 'stamp', D: 'door',
       '%': 'ladder', O: 'hole',                      // caves: a ladder, a cave mouth (both warps)
-      c: 'cuttree'                                   // a small tree that Cut clears (until you leave the map)
+      c: 'cuttree',                                  // a small tree that Cut clears (until you leave the map)
+      '=': 'bridge'                                  // a wooden bridge over water
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',

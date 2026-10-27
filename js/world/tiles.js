@@ -339,7 +339,7 @@ G.Tiles = (() => {
 
   /** Water with shore, foam and a few waves; frame 1 moves the waves. */
   function water(P, C, ox, oy, tx, ty, at, frame) {
-    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void'; };
+    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge'; };
     const n = same(0, -1), s = same(0, 1), w = same(-1, 0), e = same(1, 0);
     grass(P, C, ox, oy, tx, ty);
     for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
@@ -359,6 +359,21 @@ G.Tiles = (() => {
       if (d >= 6 && d < 99 && r < 0.08) col = C.liq;
       if (d >= 3 && H(gx >> 2, gy, 33) < 0.06 && (gx & 3) !== 3) col = C.liqLight;
       if (d >= 3 && H(gx, gy, 34 + frame) < 0.006) col = C.foam;
+      P.set(ox + x, oy + y, col);
+    }
+  }
+
+  /** A wooden bridge over water (Route 12's Silence Bridge): planks across it, rails on its open sides. */
+  function bridge(P, C, ox, oy, tx, ty, at, frame) {
+    water(P, C, ox, oy, tx, ty, at, frame);
+    const B = (dx, dy) => at(tx + dx, ty + dy) === 'bridge';
+    const vertical = B(0, -1) || B(0, 1) || !(B(-1, 0) || B(1, 0));
+    const [mid, lite, dark] = C.wood, edge = C.woodEdge;
+    const railA = vertical ? !B(-1, 0) : !B(0, -1), railB = vertical ? !B(1, 0) : !B(0, 1);
+    for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
+      const a = vertical ? y : x, b = vertical ? x : y;
+      let col = (a & 3) === 3 ? dark : (a & 3) === 0 ? lite : mid;
+      if ((railA && b < 2) || (railB && b > T - 3)) col = (b === 0 || b === T - 1) ? edge : dark;
       P.set(ox + x, oy + y, col);
     }
   }
@@ -972,6 +987,7 @@ G.Tiles = (() => {
       case 'flowers': flowers(P, C, ox, oy, tx, ty, frame); break;
       case 'cliff': cliff(P, C, ox, oy, tx, ty, at); break;
       case 'water': water(P, C, ox, oy, tx, ty, at, frame); break;
+      case 'bridge': bridge(P, C, ox, oy, tx, ty, at, frame); break;
       case 'fence': fence(P, C, ox, oy, tx, ty, at); break;
       case 'sign': sign(P, C, ox, oy, tx, ty); break;
       case 'ledge-down': ledge(P, C, ox, oy, tx, ty, at, 'down'); break;

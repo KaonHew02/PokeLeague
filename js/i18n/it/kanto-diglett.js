@@ -6,7 +6,6 @@ G.I18n.add({
   "Your Pokédex shows {n} caught so far. Come back when it reaches ten!": "Il tuo Pokédex segna {n} catturati finora. Torna quando arriverai a dieci!",
   "{n} kinds! The Professor will be thrilled. Here, he wants you to have this.": "{n} tipi! Il Professore sarà entusiasta. Ecco, vuole che tu abbia questo.",
   "HM05 is Flash. It lights up dark caves. You need the Boulder Badge to use it outside of battle.": "La MN05 è Flash. Illumina le grotte buie. Per usarla fuori dalla lotta ti serve la Medaglia Sasso.",
-  "The gate to Route 12 is closed. A notice says: Road blocked by a sleeping Pokémon. Sorry for the trouble!": "L'ingresso al Percorso 12 è chiuso. Un avviso dice: Strada bloccata da un Pokémon addormentato. Ci scusiamo per il disagio!",
   "Hugo": "Hugo",
   "Win or lose, I always bet on a battle. Let us see where luck takes us!": "Che vinca o perda, scommetto sempre su una lotta. Vediamo dove ci porta la fortuna!",
   "My luck ran out...": "La fortuna mi ha abbandonato...",
@@ -28,6 +27,6 @@ G.I18n.add({
   "Tails. I always pick tails, and it is always heads.": "Croce. Scelgo sempre croce, ed esce sempre testa.",
   "The road east is closed. Something huge is sleeping on Route 12, they say.": "La strada verso est è chiusa. Dicono che qualcosa di enorme dorma sul Percorso 12.",
   "Prof. Oak's Aide": "Assistente del Prof. Oak",
-  "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: Route 12 (the gate is closed).": "Percorso 11. Ovest: Aranciopoli. Nord-ovest: Grotta Diglett. Est: Percorso 12 (l'ingresso è chiuso).",
-  "Research notes on how many kinds of Pokémon live in Kanto. The number is crossed out and rewritten many times.": "Appunti di ricerca su quanti tipi di Pokémon vivono a Kanto. Il numero è stato cancellato e riscritto molte volte."
+  "Research notes on how many kinds of Pokémon live in Kanto. The number is crossed out and rewritten many times.": "Appunti di ricerca su quanti tipi di Pokémon vivono a Kanto. Il numero è stato cancellato e riscritto molte volte.",
+  "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: the gate to Route 12.": "Percorso 11. Ovest: Aranciopoli. Nord-ovest: Grotta Diglett. Est: il cancello per il Percorso 12."
 }, "it");

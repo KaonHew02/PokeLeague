@@ -414,6 +414,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - `S` sign
   - `c` small tree: solid until a Pokémon with Cut clears it (needs badge 2); it grows back
     when you come back to the map
+- `=` wooden bridge over water (walkable; Route 12's Silence Bridge)
 - Ledges `v` `<` `>`: you can only jump them one way.
 - Buildings, drawn as stamps:
   - `H` house 4×3
@@ -440,7 +441,16 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - `h` healing machine
   - `u` trash can (solid; give it a sign `{ script }` to make it do something)
   - `g` gravestone, `k` hedge (both solid)
-- Exits: `X` exit mat and `^` stairs, both warps.
+  - `s` slot machine, `q` poster on a wall (both solid)
+- Chapter 5:
+  - `Q` a poster that hides stairs: a warp with `if` and `locked`, drawn as a poster until its
+    `if` holds, then as stairs going down (render.js)
+  - `e` lift doors in a wall (a warp; the hideout's lift uses locked warps with scripts)
+  - spin tiles `U` `D` `L` `R`: stepping on one sends you sliding that way (spinning) until a stop
+    tile `o` or something in the way; floor keeps you sliding, another arrow turns you
+  - `i` a wall you cannot see (drawn as floor; Koga's Gym)
+- Exits: `X` exit mat and `^` stairs, both warps. An exit mat whose warp is `locked` runs its
+  script instead (the hideout's lift).
 - `G.Maps.center(id, {exit})` and `G.Maps.mart(id, {exit, stock})` build the standard interiors.
 - A sign may be `{ script: 'name' }` instead of a text: the script runs with `h.ctx = { x, y }`
   (Bill's machine, Lt. Surge's trash cans). A person may be a Pokémon: `mon: 'clefairy'`
@@ -461,7 +471,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   - Archetypes: player-boy, player-girl, rival, oak, mom, nurse, clerk, youngster, lass,
     bugcatcher, camper, brock, guide, oldman, daisy, aide (chapter 1); rocket, supernerd,
     hiker, misty, swimmer (chapter 2); officer, sailor, gentleman, engineer, captain, surge,
-    bill (chapter 3); gambler, pokemaniac, beauty, channeler, biker, cooltrainer, erika (chapter 4).
+    bill (chapter 3); gambler, pokemaniac, beauty, channeler, biker, cooltrainer, erika (chapter 4);
+    giovanni, fuji, scientist, fisherman, rocker, birdkeeper, juggler, tamer, koga, warden (chapter 5).
   - The front frame is drawn at 4× for trainer battle intros.
 - `render.js`: the baked map, connected neighbour maps, the `border` fill, Y-sorted
   props and actors, and the tall-grass front tuft.
@@ -739,12 +750,43 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   and to Eevee + Fire Stone. The story test plays chapter 4 (Eevee becomes Flareon; Parasect
   leads against Erika).
 
-### After chapter 4
+- **Chapter 5** ✅: the Celadon Game Corner opens (its slot machines are switched off); a Grunt
+  guards a poster with a switch behind it (flag `hideout-switch`) that opens stairs down to the
+  Rocket Hideout: B1F (four Grunts), B2F and B3F (spin-tile mazes from a seeded generator, checked
+  to be solvable and free of endless loops; a conveyor along the bottom row always takes you back
+  to the stairs), B4F in two halves: the Grunt by the stairs drops the Lift Key, the lift (B1F,
+  B2F, B4F; var `hideout-lift`) reaches the other half, two guards and Giovanni (Onix 25, Rhyhorn
+  24, Kangaskhan 29, as in the games), who leaves the Silph Scope (flag `hideout-boss`). With the
+  scope the Pokémon Tower opens above 2F: Channelers on 3F to 6F, a purified zone on 5F that heals,
+  the spirit of Marowak on 6F (a wild battle it cannot be caught in; flag `marowak-calm`), three
+  Grunts and Mr. Fuji on 7F, who takes you home and gives the Poké Flute (flags `fuji-saved`,
+  `got-poke-flute`). Lavender's south road: Route 12 with the Silence Bridge (four Fishermen), the
+  gate from Route 11, Snorlax across the road (the Poké Flute wakes it for a Lv. 30 battle; flag
+  `route12-snorlax`), Routes 13 (fences), 14 (ledges) and 15, and Fuchsia City: Center, Mart, the
+  Safari Zone's little zoo, the Safari Zone gate (closed: the warden lost his teeth), the warden's
+  house, a house, and Koga's Gym, a dojo of invisible walls (a seeded Prim maze; its six Trainers
+  stand in dead ends beside the way): Koga (Koffing 33, Muk 35, Koffing 33, Weezing 37; prize
+  ₽3700, badge 5, TM06 Toxic). Files: `hideout.js`, `tower.js`, `route12.js`, `fuchsia.js`
+  (translations `kanto-hideout`, `kanto-tower`, `kanto-route12`, `kanto-fuchsia`).
+- **Engine for chapter 5:** spin and stop tiles (`field.js` slides the player, spinning, and gives
+  up after 300 tiles in case of a loop of arrows), `secret` stairs behind a poster, lift doors,
+  slot machines, invisible walls, the wooden bridge; palettes `hideout`, `corner`, `dojo`. Exit
+  mats with a locked warp run its script. Scripted wild battles take options:
+  `['wild', sp, lvl, { noCatch }]` (`rules.noCatch`: the ball is dodged and kept), and scripts can
+  test the outcome of the last battle: `'battle=win'`, `'battle!=lose'`, `'battle=run'`
+  (`G.Field.lastBattle`). Sounds `spin` and `lift`; an original jingle `flute` (the Poké Flute).
+  New trainer classes: scientist, fisherman, rocker, bird-keeper, juggler, tamer, boss.
+- **Balance:** Koga's original Lv. 37–43 team with Toxic, Smokescreen and Self-Destruct beats any
+  small team of the auto-player, which never heals: his Pokémon are Lv. 33–37 and only Weezing
+  keeps Smokescreen. A Kadabra leading a Wartortle wins every time, a Charmeleon + Pidgeotto +
+  Dugtrio team ~95%, Blastoise with a Dugtrio ~65%; a lone Blastoise never does (its moves by
+  Lv. 38 are weak). The guide points to Ground and Psychic. The story test plays chapter 5
+  (a Dugtrio from Diglett's Cave leads against Koga).
+
+### After chapter 5
 
 1. **Rest of Kanto:**
-   - The Rocket Hideout under the Game Corner, the Silph Scope and the Pokémon Tower.
-   - Saffron, Silph Co. and Sabrina.
-   - Fuchsia, the Safari Zone and Koga.
+   - The Safari Zone (Surf, Strength and the warden's teeth), Saffron, Silph Co. and Sabrina.
    - Cinnabar, Blaine, then Giovanni.
    - Victory Road, the Elite Four, the Champion and the Hall of Fame.
    - Engine features along the way: field moves (Surf, Strength, Fly), the

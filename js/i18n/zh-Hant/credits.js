@@ -16,6 +16,9 @@ G.I18n.add({
   "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "金球大橋、正輝和枯葉市正等著你：你的冒險還在繼續！",
   "Chapter 4 complete!": "第四章完成！",
   "{player} beat Erika and earned the Rainbow Badge.": "{player}打敗了莉佳，得到了彩虹徽章。",
-  "Thank you for playing! The secrets of Celadon City and the Pokémon Tower open in a future update.": "感謝遊玩！玉虹市和寶可夢塔的秘密將在之後的更新中揭曉。",
-  "Rock Tunnel, Lavender Town and Celadon City are waiting: your adventure goes on!": "岩山隧道、紫苑鎮和玉虹市正等著你：你的冒險還在繼續！"
+  "Rock Tunnel, Lavender Town and Celadon City are waiting: your adventure goes on!": "岩山隧道、紫苑鎮和玉虹市正等著你：你的冒險還在繼續！",
+  "Chapter 5 complete!": "第五章完成！",
+  "{player} beat Koga and earned the Soul Badge.": "{player}打敗了阿桔，得到了粉紅徽章。",
+  "Thank you for playing! The Safari Zone and Saffron City open in a future update.": "感謝遊玩！狩獵地帶和金黃市將在之後的更新中開放。",
+  "Team Rocket, the Pokémon Tower and Fuchsia City are waiting: your adventure goes on!": "火箭隊、寶可夢塔和淺紅市正等著你：你的冒險還在繼續！"
 }, "zh-Hant");

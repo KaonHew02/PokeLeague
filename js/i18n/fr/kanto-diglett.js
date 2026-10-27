@@ -6,7 +6,6 @@ G.I18n.add({
   "Your Pokédex shows {n} caught so far. Come back when it reaches ten!": "Ton Pokédex indique {n} capturés pour l'instant. Reviens quand tu en auras dix !",
   "{n} kinds! The Professor will be thrilled. Here, he wants you to have this.": "{n} sortes ! Le Professeur va être ravi. Tiens, il veut que tu aies ceci.",
   "HM05 is Flash. It lights up dark caves. You need the Boulder Badge to use it outside of battle.": "La CS05, c'est Flash. Elle éclaire les grottes sombres. Il te faut le Badge Roche pour l'utiliser hors combat.",
-  "The gate to Route 12 is closed. A notice says: Road blocked by a sleeping Pokémon. Sorry for the trouble!": "La porte vers la Route 12 est fermée. Un avis indique : Route bloquée par un Pokémon endormi. Désolés pour la gêne !",
   "Hugo": "Hugo",
   "Win or lose, I always bet on a battle. Let us see where luck takes us!": "Gagner ou perdre, je parie toujours sur un combat. Voyons où la chance nous mène !",
   "My luck ran out...": "Ma chance a tourné...",
@@ -28,6 +27,6 @@ G.I18n.add({
   "Tails. I always pick tails, and it is always heads.": "Face. Je choisis toujours face, et ça tombe toujours sur pile.",
   "The road east is closed. Something huge is sleeping on Route 12, they say.": "La route de l'est est fermée. On dit que quelque chose d'énorme dort sur la Route 12.",
   "Prof. Oak's Aide": "Assistant du Prof. Chen",
-  "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: Route 12 (the gate is closed).": "Route 11. Ouest : Carmin sur Mer. Nord-ouest : Cave Taupiqueur. Est : Route 12 (la porte est fermée).",
-  "Research notes on how many kinds of Pokémon live in Kanto. The number is crossed out and rewritten many times.": "Des notes de recherche sur le nombre de sortes de Pokémon vivant à Kanto. Le chiffre a été barré et réécrit plein de fois."
+  "Research notes on how many kinds of Pokémon live in Kanto. The number is crossed out and rewritten many times.": "Des notes de recherche sur le nombre de sortes de Pokémon vivant à Kanto. Le chiffre a été barré et réécrit plein de fois.",
+  "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: the gate to Route 12.": "Route 11. Ouest : Carmin sur Mer. Nord-ouest : Cave Taupiqueur. Est : le poste de la Route 12."
 }, "fr");

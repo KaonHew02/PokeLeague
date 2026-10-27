@@ -16,6 +16,9 @@ G.I18n.add({
   "Nugget Bridge, Bill and Vermilion City are waiting: your adventure goes on!": "Il Ponte Pepita, Bill e Aranciopoli ti aspettano: la tua avventura continua!",
   "Chapter 4 complete!": "Capitolo 4 completato!",
   "{player} beat Erika and earned the Rainbow Badge.": "{player} ha battuto Erika e ottenuto la Medaglia Arcobaleno.",
-  "Thank you for playing! The secrets of Celadon City and the Pokémon Tower open in a future update.": "Grazie per aver giocato! I segreti di Azzurropoli e della Torre Pokémon si sveleranno in un prossimo aggiornamento.",
-  "Rock Tunnel, Lavender Town and Celadon City are waiting: your adventure goes on!": "Il Tunnel Roccioso, Lavandonia e Azzurropoli ti aspettano: la tua avventura continua!"
+  "Rock Tunnel, Lavender Town and Celadon City are waiting: your adventure goes on!": "Il Tunnel Roccioso, Lavandonia e Azzurropoli ti aspettano: la tua avventura continua!",
+  "Chapter 5 complete!": "Capitolo 5 completato!",
+  "{player} beat Koga and earned the Soul Badge.": "{player} ha battuto Koga e ottenuto la Medaglia Anima.",
+  "Thank you for playing! The Safari Zone and Saffron City open in a future update.": "Grazie per aver giocato! La Zona Safari e Zafferanopoli si apriranno in un prossimo aggiornamento.",
+  "Team Rocket, the Pokémon Tower and Fuchsia City are waiting: your adventure goes on!": "Il Team Rocket, la Torre Pokémon e Fucsiapoli ti aspettano: la tua avventura continua!"
 }, "it");

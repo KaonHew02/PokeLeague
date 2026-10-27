@@ -315,6 +315,16 @@ G.MUSIC.badge = {
            crash: 'X...............' + '................' + 'X...............' }
 };
 
+/* The Poké Flute (about 3.5 s): an original wake-up tune, a lilting flute phrase in F that climbs to a bright end. */
+G.MUSIC.flute = {
+  once: true, bpm: 112,
+  melody: [
+    { inst: 'flute', vel: 1, bars: ['C5:3 F5:1 A5:4 G5:2 F5:2 D5:4', 'E5:2 G5:2 C6:4 A5:2 F5:2 F5:4'] },
+    { inst: 'bell', vel: 0.4, bars: ['F4:4 A4:4 Bb4:4 A4:4', 'C5:4 E5:4 F5:8'] },
+    { inst: 'pad', vel: 0.6, bars: ['F3+A3+C4:8 Bb3+D4+F4:8', 'C4+E4+G4:8 F3+A3+C4:8'] }
+  ]
+};
+
 /* A Pokémon evolved (about 4 s): a warm flute phrase in G over bells, home on the tonic. */
 G.MUSIC.evolved = {
   once: true, bpm: 120,

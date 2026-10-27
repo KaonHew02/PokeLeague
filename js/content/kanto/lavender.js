@@ -30,9 +30,9 @@ G.Maps.def({
     'T.HHHH....,,...........T',
     'T.HHDH....,,.S.........T',
     'T...,.....,,...........T',
-    'TTTTTTTTTTTTTTTTTTTTTTTT'
+    'TTTTTTTTTT,,TTTTTTTTTTTT'
   ],
-  connect: { north: { map: 'route10', offset: -7 }, west: { map: 'route8', offset: 3 } },
+  connect: { north: { map: 'route10', offset: -7 }, west: { map: 'route8', offset: 3 }, south: { map: 'route12', offset: 0 } },
   warps: [
     { x: 5, y: 5, to: 'lavender-center', spot: 'door' },
     { x: 17, y: 4, to: 'lavender-mart', spot: 'door' },

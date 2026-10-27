@@ -480,6 +480,29 @@ test('balance: Erika (chapter 4), win rates of typical teams are printed', () =>
   assert.ok(table['wartortle 31'] < 0.3, 'a lone Wartortle should struggle');
 });
 
+test('balance: Koga (chapter 5), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'fuchsia-gym', 'koga');
+  const table = {
+    'blastoise 38': rate([[9, 38]]),
+    'charizard 38': rate([[6, 38]]),
+    'wartortle 36': rate([[8, 36]]),
+    'parasect 36 + wartortle 36': rate([[47, 36], [8, 36]]),
+    'dugtrio 34 + wartortle 36': rate([[51, 34], [8, 36]]),
+    'kadabra 34 + wartortle 36': rate([[64, 34], [8, 36]]),
+    'blastoise 38 + dugtrio 34': rate([[9, 38], [51, 34]]),
+    'charmeleon 35 + pidgeotto 34 + dugtrio 33': rate([[5, 35], [17, 34], [51, 33]])
+  };
+  console.log('[balance] vs Koga:', JSON.stringify(table));
+  // Four Pokémon with Poison Gas, Toxic and Smokescreen wear down a small team that never heals
+  // (the auto-player); Ground and Psychic types (Diglett's Cave, Abra from Route 24/25) answer them,
+  // as the Gym guide says.
+  assert.ok(table['kadabra 34 + wartortle 36'] >= 0.8, 'Kadabra leading a Wartortle');
+  assert.ok(table['charmeleon 35 + pidgeotto 34 + dugtrio 33'] >= 0.8, 'a team of three with a Dugtrio');
+  assert.ok(table['blastoise 38 + dugtrio 34'] >= 0.4, 'Blastoise with a Dugtrio');
+  assert.ok(table['blastoise 38'] < 0.3, 'a lone Blastoise should struggle');
+});
+
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
 async function chapter3(st) {
   const { G, S, W } = st;
@@ -580,7 +603,6 @@ async function chapter4(st) {
   const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
   // Route 11, Diglett's Cave and Oak's aide on Route 2 (ten kinds caught for HM05 Flash).
   await all('route11');
-  await run(st, 'route11', 'route11.gate');
   const caught = () => Object.values(S.dex.caught).filter(Boolean).length;
   if (caught() < 10) {
     await run(st, 'route2-house', 'route2.aide');
@@ -675,6 +697,31 @@ async function chapter5(st) {
   await run(st, 'tower-7f', 'tower.fuji');
   assert.ok(F.flag('fuji-saved') && F.count('poke-flute') === 1, 'Mr. Fuji gives the Poké Flute');
   assert.equal(W.map, 'lavender-house');
+  // Route 12: the Fishermen on the Silence Bridge, then Snorlax and the Poké Flute.
+  await all('route12');
+  F.healAll();
+  await run(st, 'route12', 'route12.snorlax', [0]);
+  assert.equal(st.battles[st.battles.length - 1].key, 'wild:snorlax');
+  assert.ok(F.flag('route12-snorlax'), 'Snorlax leaves the road');
+  // Routes 13 to 15, then Fuchsia City (the Safari Zone is closed).
+  for (const id of ['route13', 'route14', 'route15']) await all(id);
+  await run(st, 'fuchsia', 'fuchsia.safari');
+  // A Diglett from Diglett's Cave, grown into a Dugtrio, leads against Koga (the guide says Ground).
+  const dug = F.giveMon('dugtrio', 31);
+  S.dex.seen[51] = 1; S.dex.caught[51] = 1;
+  lead(st, 51);
+  grind(st, 'route15', 37, 200);
+  assert.equal(S.party[0], dug);
+  await all('fuchsia-gym');
+  F.healAll();
+  const before = S.player.money;
+  await run(st, 'fuchsia-gym', [['battle', 'fuchsia-gym:koga']]);
+  const last = st.battles[st.battles.length - 1];
+  assert.equal(last.outcome, 'win', 'Koga beaten at levels ' + last.levels);
+  assert.deepEqual([...S.player.badges], [1, 2, 3, 4, 5]);
+  assert.equal(F.count('tm06'), 1);
+  assert.equal(S.player.money - before, 3700);
+  assert.ok(F.flag('chapter-5-done'));
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 

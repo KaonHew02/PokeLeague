@@ -6,7 +6,6 @@ G.I18n.add({
   "Your Pokédex shows {n} caught so far. Come back when it reaches ten!": "Sua Pokédex mostra {n} capturados até agora. Volte quando chegar a dez!",
   "{n} kinds! The Professor will be thrilled. Here, he wants you to have this.": "{n} tipos! O Professor vai ficar muito contente. Tome, ele quer que você fique com isto.",
   "HM05 is Flash. It lights up dark caves. You need the Boulder Badge to use it outside of battle.": "A HM05 é Flash. Ela ilumina cavernas escuras. Você precisa da Insígnia da Rocha para usá-la fora de batalha.",
-  "The gate to Route 12 is closed. A notice says: Road blocked by a sleeping Pokémon. Sorry for the trouble!": "O portão para a Rota 12 está fechado. Um aviso diz: Estrada bloqueada por um Pokémon adormecido. Desculpe o transtorno!",
   "Hugo": "Hugo",
   "Win or lose, I always bet on a battle. Let us see where luck takes us!": "Ganhando ou perdendo, sempre aposto numa batalha. Vamos ver aonde a sorte nos leva!",
   "My luck ran out...": "Minha sorte acabou...",
@@ -28,6 +27,6 @@ G.I18n.add({
   "Tails. I always pick tails, and it is always heads.": "Coroa. Eu sempre escolho coroa, e sempre dá cara.",
   "The road east is closed. Something huge is sleeping on Route 12, they say.": "O caminho para o leste está fechado. Dizem que algo enorme está dormindo na Rota 12.",
   "Prof. Oak's Aide": "Assistente do Prof. Carvalho",
-  "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: Route 12 (the gate is closed).": "Rota 11. Oeste: Vermilion City. Noroeste: Diglett's Cave. Leste: Rota 12 (o portão está fechado).",
-  "Research notes on how many kinds of Pokémon live in Kanto. The number is crossed out and rewritten many times.": "Anotações de pesquisa sobre quantos tipos de Pokémon vivem em Kanto. O número foi riscado e reescrito muitas vezes."
+  "Research notes on how many kinds of Pokémon live in Kanto. The number is crossed out and rewritten many times.": "Anotações de pesquisa sobre quantos tipos de Pokémon vivem em Kanto. O número foi riscado e reescrito muitas vezes.",
+  "Route 11. West: Vermilion City. North-west: Diglett's Cave. East: the gate to Route 12.": "Rota 11. Oeste: Vermilion City. Noroeste: Diglett's Cave. Leste: o portão para a Rota 12."
 }, "pt-BR");

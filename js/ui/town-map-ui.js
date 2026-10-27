@@ -16,7 +16,7 @@ G.TownMapUI = (() => {
     'fuchsia-city': [11, 13], 'cinnabar-island': [4, 14], 'indigo-plateau': [1, 2],
     'viridian-forest': [4, 5], 'mt-moon': [8, 2], 'rock-tunnel': [17, 3], 'pokemon-tower': [17, 6],
     'digletts-cave': [15, 10], 'kanto-safari-zone': [11, 12], 'seafoam-islands': [8, 14],
-    'pokemon-mansion': [4, 14], 'ss-anne': [13, 10.6], 'kanto-underground-path': [13, 8]
+    'pokemon-mansion': [4, 14], 'ss-anne': [13, 10.6], 'kanto-underground-path': [13, 8], 'kanto-victory-road-2': [1, 3.6]
   };
   // The roads (Route n: its line) and the sea routes.
   const ROADS = {

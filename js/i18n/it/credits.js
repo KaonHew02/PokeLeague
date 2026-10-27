@@ -28,6 +28,9 @@ G.I18n.add({
   "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "I percorsi marini, le Isole Spumarine e l'Isola Cannella ti aspettano: la tua avventura continua!",
   "Chapter 8 complete!": "Capitolo 8 completato!",
   "{player} beat Giovanni and earned the Earth Badge: all eight badges!": "{player} ha sconfitto Giovanni e ottenuto la Medaglia Terra: tutte e otto le medaglie!",
-  "Thank you for playing! Victory Road and the Pokémon League open in a future update.": "Grazie per aver giocato! La Via Vittoria e la Lega Pokémon arriveranno in un prossimo aggiornamento.",
-  "Cycling Road, Fly and the last Gym in Viridian City are waiting: your adventure goes on!": "La Pista Ciclabile, Volo e l'ultima Palestra a Smeraldopoli ti aspettano: la tua avventura continua!"
+  "Cycling Road, Fly and the last Gym in Viridian City are waiting: your adventure goes on!": "La Pista Ciclabile, Volo e l'ultima Palestra a Smeraldopoli ti aspettano: la tua avventura continua!",
+  "Congratulations, Champion!": "Congratulazioni, Campione!",
+  "{player} beat the Elite Four and the Champion, and entered the Hall of Fame!": "{player} ha sconfitto i Superquattro e il Campione, ed è entrato nella Sala d'Onore!",
+  "Thank you for playing! The story of Kanto is complete. More adventures come in a future update.": "Grazie per aver giocato! La storia di Kanto è completa. Altre avventure arriveranno nei prossimi aggiornamenti.",
+  "Victory Road, the Elite Four and the Champion are waiting: your adventure goes on!": "La Via Vittoria, i Superquattro e il Campione ti aspettano: la tua avventura continua!"
 }, "it");

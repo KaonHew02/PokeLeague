@@ -29,6 +29,7 @@ G.Stamps = (() => {
       case 'building': return { up: 8, roofH: 20, wall: ['#ece4d4', '#d4cab6', '#a49a86'], windows: 'row', double: true };
       case 'office': return { up: 14, roofH: 12, roof: ['#56687c', '#768aa0', '#384658'], wall: ['#dfe6ee', '#c2ccd8', '#8c98a8'], windows: 'tower', double: true, glass: true };
       case 'ruin': return { up: 10, roofH: 24, roof: ['#54443e', '#6a5850', '#382c28'], wall: ['#c4b49c', '#a69680', '#766856'], windows: 'house', dim: true, soot: true, double: true };
+      case 'league': return { up: 18, roofH: 30, roof: ['#c8a040', '#e8c460', '#8a6a24'], wall: ['#f4ecdc', '#dcd0b8', '#a89c84'], windows: 'tower', emblem: 'badge', double: true, glass: true };
       default: return null;
     }
   }

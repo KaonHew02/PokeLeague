@@ -1,6 +1,6 @@
 /* ============ credits-ui.js — the credits, and the end of the first chapter ============
  *   G.CreditsUI.open()      from the title screen: who made what (licences, sprite artists)
- *   await G.CreditsUI.ending(n)  after a chapter's last Gym (1 Brock, 2 Misty … 8 Giovanni): "Chapter n
+ *   await G.CreditsUI.ending(n)  after a chapter's last Gym (1 Brock, 2 Misty … 8 Giovanni; 9 the Champion): "Chapter n
  *                           complete!", the player's numbers and party, then the credits;
  *                           Save and continue / Continue. Sets the flag chapter-n-done.
  * The text scrolls slowly by itself; the wheel, a finger or the arrows take over.
@@ -32,8 +32,10 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 9) return { title: T('Congratulations, Champion!'), done: fmt('{player} beat the Elite Four and the Champion, and entered the Hall of Fame!', { player }),
+                          next: T('Thank you for playing! The story of Kanto is complete. More adventures come in a future update.') };
     if (n === 8) return { title: T('Chapter 8 complete!'), done: fmt('{player} beat Giovanni and earned the Earth Badge: all eight badges!', { player }),
-                          next: T('Thank you for playing! Victory Road and the Pokémon League open in a future update.') };
+                          next: T('Victory Road, the Elite Four and the Champion are waiting: your adventure goes on!') };
     if (n === 7) return { title: T('Chapter 7 complete!'), done: fmt('{player} beat Blaine and earned the Volcano Badge.', { player }),
                           next: T('Cycling Road, Fly and the last Gym in Viridian City are waiting: your adventure goes on!') };
     if (n === 6) return { title: T('Chapter 6 complete!'), done: fmt('{player} beat Sabrina and earned the Marsh Badge.', { player }),

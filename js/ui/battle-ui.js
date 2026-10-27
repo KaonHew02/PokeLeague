@@ -662,7 +662,8 @@ G.BattleUI = (() => {
     G.Game.setMode('battle');
     const t = opts.foe.trainer;
     const song = opts.music || (t ? (t.leader ? 'rift' : 'boss') : 'volcano');
-    if (G.Audio.context && !opts.music) G.Audio.context(t ? (t.leader ? 'gym' : 'trainer') : 'wild');
+    // A trainer may name a music context ('league': the Elite Four and the Champion).
+    if (G.Audio.context && !opts.music) G.Audio.context(t ? (t.music || (t.leader ? 'gym' : 'trainer')) : 'wild');
     else G.Audio.music(song);
     G.UI.open('battle-ui');
     setPhase('text');

@@ -27,7 +27,10 @@ G.I18n.add({
   "{player} beat Blaine and earned the Volcano Badge.": "{player}打败了夏伯，得到了深红徽章。",
   "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "水路、双子岛和红莲岛正等着你：你的冒险还在继续！",
   "Chapter 8 complete!": "第8章完成！",
-  "{player} beat Giovanni and earned the Earth Badge: all eight badges!": "{player}打败了坂木，得到了大地徽章：八枚徽章全部到手！",
-  "Thank you for playing! Victory Road and the Pokémon League open in a future update.": "感谢游玩！冠军之路和宝可梦联盟将在之后的更新中开放。",
-  "Cycling Road, Fly and the last Gym in Viridian City are waiting: your adventure goes on!": "自行车道、飞翔和常青市的最后一个道馆正等着你：你的冒险还在继续！"
+  "{player} beat Giovanni and earned the Earth Badge: all eight badges!": "{player}打败了坂木，得到了绿色徽章：八枚徽章全部到手！",
+  "Cycling Road, Fly and the last Gym in Viridian City are waiting: your adventure goes on!": "自行车道、飞翔和常青市的最后一个道馆正等着你：你的冒险还在继续！",
+  "Congratulations, Champion!": "恭喜你，冠军！",
+  "{player} beat the Elite Four and the Champion, and entered the Hall of Fame!": "{player}打败了四天王和冠军，登录了殿堂！",
+  "Thank you for playing! The story of Kanto is complete. More adventures come in a future update.": "感谢游玩！关都的故事到此完结。更多冒险将在之后的更新中推出。",
+  "Victory Road, the Elite Four and the Champion are waiting: your adventure goes on!": "冠军之路、四天王和冠军正等着你：你的冒险还在继续！"
 }, "zh-Hans");

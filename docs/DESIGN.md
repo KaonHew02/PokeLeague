@@ -430,6 +430,9 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   fall through, until a boulder fills it: flag `pit:<map>:<x>,<y>`, floor from then on); `r` fast
   water (solid, its foam drawn by render.js, until the map's `calm` condition holds; `flow` gives
   its direction)
+- Chapter 9: `x` a floor switch (a boulder pushed onto it stays for good: flag
+  `plate:<map>:<x>,<y>`), `b` a rock barrier (a `bars` gate, drawn as a pile of rocks outdoors),
+  `I` the Pokémon League 8×6 (the Indigo Plateau)
 - Ledges `v` `<` `>`: you can only jump them one way.
 - Buildings, drawn as stamps:
   - `H` house 4×3
@@ -494,7 +497,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
     hiker, misty, swimmer (chapter 2); officer, sailor, gentleman, engineer, captain, surge,
     bill (chapter 3); gambler, pokemaniac, beauty, channeler, biker, cooltrainer, erika (chapter 4);
     giovanni, fuji, scientist, fisherman, rocker, birdkeeper, juggler, tamer, koga, warden (chapter 5);
-    blackbelt, psychic, sabrina (chapter 6); swimmerf, burglar, blaine (chapter 7); cueball (chapter 8).
+    blackbelt, psychic, sabrina (chapter 6); swimmerf, burglar, blaine (chapter 7); cueball (chapter 8);
+    lorelei, bruno, agatha, lance (chapter 9).
   - The front frame is drawn at 4× for trainer battle intros.
 - `render.js`: the baked map, connected neighbour maps, the `border` fill, Y-sorted
   props and actors, and the tall-grass front tuft.
@@ -597,9 +601,10 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   `pl.save.N.bak`. `pl.slot` holds the last slot used.
 ```js
 { v:1, app:'PokeLeague', created, savedAt, playTime,
-  player:{ name, gender, id, money, badges:[], map, x, y, dir, lastHeal:{ map, spot } },
+  player:{ name, gender, id, money, badges:[], map, x, y, dir, lastHeal:{ map, spot }, surf?:1, bike?:1 },
   rival:{ name, starter }, party:[mon], boxes:[[mon|null ×30] ×8], box:0, bag:{ potion:2 }, repel:0,
-  dex:{ seen:{16:1}, caught:{4:1} }, flags:{}, vars:{}, done:{ 'route2:rick':1 } }
+  dex:{ seen:{16:1}, caught:{4:1} }, flags:{}, vars:{}, done:{ 'route2:rick':1 },
+  fame:[{ at, party:[{ sp, lvl, nick, shiny }] }] }      // the Hall of Fame (chapter 9)
 ```
 - `migrate(s)` runs `while (s.v < V) MIG[s.v++](s)`, then sanitises the shapes.
 - Export writes `{ app:'PokeLeague', kind:'save', v, at, save }` to a JSON file. Import
@@ -904,13 +909,36 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Charizard with the Lapras from Silph Co. ~95%, Venusaur with a Surfing Blastoise ~90%. The
   guide points to Water, Grass and Ice. The story test plays chapter 8 (Parasect leads).
 
-### After chapter 8
+- **Chapter 9** ✅, the end of Kanto: with eight badges the rival waits in front of the Pokémon
+  League Front Gate on Route 22 (flag `route22-rival2`; Pidgeot 46, Rhyhorn 44, two of Gyarados /
+  Arcanine / Exeggutor 45, Alakazam 46, his starter 50) and the gate opens on Route 23 (badge-check
+  guards, a river to Surf across). Victory Road (`cave`, three floors): on 1F a boulder pushed onto
+  a floor switch opens the rock barrier to the ladder (flag `plate:victory-1f:11,17`); on 3F a
+  boulder pushed into a hole falls to 2F onto its switch (flag `pit:victory-3f:10,12`), which opens
+  the barrier to the way out; Moltres rests on 2F (Lv. 50, flag `victory-moltres`); seven
+  Trainers. The Indigo Plateau (a place to fly to): the League building, a lobby that is a Pokémon
+  Center and a Mart, and a guard who asks if you are ready. The Elite Four, one room after another
+  with no way back (the stairs open with flags `e4-lorelei`, `e4-bruno`, `e4-agatha`, `e4-lance`;
+  Lorelei's room clears them, so every run starts over): Lorelei (Ice, 48-51), Bruno (Fighting,
+  48-53), Agatha (Ghost, 50-55), Lance (Dragon, 50-56), then the Champion: the rival (51-57, his
+  team after his starter, `G.League.championTeam(starter)`), with the league theme. Professor Oak
+  comes in and takes you to the Hall of Fame (the team is written to `save.fame`; flags
+  `champion`, `hall-of-fame`), you wake up at home and the credits roll (`ending(9)`); Mom has a
+  word for the Champion. Files: `victory.js`, `league.js`, `route22.js` (translations
+  `kanto-victory`, `kanto-league`, `kanto-route22`).
+- **Engine for chapter 9:** floor switches and rock barriers (above; `field.js` keeps a boulder on
+  its switch with var `boulder:<map>:<id>`), the stamp `I`, palettes `ice`, `dragon`, `champion`,
+  a trainer's `music` (the battle screen plays that context: `league`), classes elite-four and
+  champion, `save.fame` (the Hall of Fame, kept by `G.Store.sanitize`), an original fanfare `fame`.
+- **Balance:** each member alone against a fresh team of six (a starter at Lv. 55, five others at
+  50): Lorelei, Bruno and Agatha ~100%, Lance ~75%, the Champion ~50% (~85% with the team at 58).
+  The auto-player neither switches nor uses items; in the League a player heals between the rooms.
+  The story test raises the rest of its team on Routes 18 and 23 and beats them all.
 
-1. **Rest of Kanto:**
-   - Route 22's last rival battle, Route 23, Victory Road, the Elite Four, the Champion and the
-     Hall of Fame (the Indigo Plateau becomes a place to fly to).
-   - Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel
-     steps, legendaries.
+### After chapter 9
+
+1. **Kanto after the League:** Cerulean Cave and Mewtwo, Zapdos and the Power Plant, rematches.
+   Engine features: more TMs, abilities, held items, weather, Exp. Share, Repel steps.
 2. **Johto:** `fetch_data.py --region johto` (dex 1–251), plus day and night, friendship
    evolutions, berries, new palettes and buildings. Kanto teams carry over, but high levels
    disobey until you earn badges.

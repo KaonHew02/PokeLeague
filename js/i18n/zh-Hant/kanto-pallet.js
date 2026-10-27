@@ -70,5 +70,6 @@ G.I18n.add({
   "Fill that Pokédex, {player}! There are so many Pokémon waiting out there.": "把圖鑑填滿吧，{player}！外面有好多寶可夢在等著你。",
   "Grandpa asked you to help with his Pokédex? That's wonderful!": "爺爺請你幫他完成圖鑑？太好了！",
   "Here, take this Town Map. It'll help you find your way.": "給，這張城鎮地圖送你。它能幫你認路。",
-  "Good luck with Grandpa's research, {player}. Don't let my brother get too far ahead!": "爺爺的研究就拜託你了，{player}。可別讓我弟弟領先太多哦！"
+  "Good luck with Grandpa's research, {player}. Don't let my brother get too far ahead!": "爺爺的研究就拜託你了，{player}。可別讓我弟弟領先太多哦！",
+  "Oh, {player}! The whole town is talking about the new Champion. I'm so proud of you!": "哎呀，{player}！鎮上的人都在談論新的冠軍呢。我真為你驕傲！"
 }, "zh-Hant");

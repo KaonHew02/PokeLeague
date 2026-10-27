@@ -42,6 +42,8 @@
  * outdoor maps, faster than running; a map with `bike: true` (Cycling Road) puts you on it and
  * keeps you there, and its `slope: 'down'` rolls you downhill while you let go. Fly: a map with
  * `fly: { spot, if }` is a town you can fly to once visited (flag visited:<map>, or its `if`).
+ * Chapter 9: a boulder pushed onto a floor switch (`plate`) stays there for good (flag
+ * plate:<map>:<x>,<y>, var boulder:<map>:<id> = 'x,y'): rock barriers (`bars`) can open with it.
  */
 G.Field = (() => {
   function fresh() {
@@ -261,8 +263,12 @@ G.World = (() => {
       actors.push(a);
     }
     items = map.items.map(d => ({ def: d, key: id + ':' + d.flag }));
-    rocks = (map.def.boulders || []).filter(b => G.Field.test(b.if) && !G.Field.flag('rock:' + id + ':' + b.id))
-      .map(b => ({ id: b.id, x: b.x, y: b.y, px: b.x, py: b.y, t0: -1e9, fixed: !!b.fixed, fall: 0 }));
+    rocks = (map.def.boulders || []).filter(b => G.Field.test(b.if) && !G.Field.flag('rock:' + id + ':' + b.id)).map(b => {
+      // One that was pushed onto a floor switch rests there.
+      const on = G.Field.getVar('boulder:' + id + ':' + b.id);
+      const [x, y] = on ? String(on).split(',').map(Number) : [b.x, b.y];
+      return { id: b.id, x, y, px: x, py: y, t0: -1e9, fixed: !!b.fixed || !!on, fall: 0 };
+    });
     refresh();
   }
 
@@ -701,7 +707,7 @@ G.World = (() => {
     const cls = (G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls]) || {};
     return { id: key, name: d.name ? G.T(d.name) : '', title: classTitle(d), titleCtx: classCtx(d), who: d.who, cls: d.cls,
              ai: d.ai || (d.leader ? 'leader' : 'basic'), prize: d.prize != null ? d.prize : cls.prize,
-             items: d.items || {}, leader: !!d.leader, team: d.team };
+             items: d.items || {}, leader: !!d.leader, team: d.team, music: d.music || null };
   }
 
   /** A trainer battle through the M4 hook. ref: a trainer def, 'id' on this map or 'map:id'. */
@@ -850,6 +856,13 @@ G.World = (() => {
     if (M().info(k).warp && !pit) return false;
     rk.px = rk.x; rk.py = rk.y; rk.x = bx; rk.y = by; rk.t0 = now;
     sfx('strength', 'bump');
+    if (k === 'plate') {
+      // On a floor switch: it clicks, and the boulder stays there for good.
+      rk.fixed = true;
+      G.Field.setFlag('plate:' + map.id + ':' + bx + ',' + by);
+      G.Field.setVar('boulder:' + map.id + ':' + rk.id, bx + ',' + by);
+      setTimeout(() => sfx('click', 'select'), 200);
+    }
     if (pit) {
       rk.fall = now + 220;
       G.Field.setFlag('rock:' + map.id + ':' + rk.id);

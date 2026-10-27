@@ -10,6 +10,9 @@
  *   and people with swim: true (standing in water).
  *   Chapter 8: fly: { spot, if } (a town you can fly to), bike: true (Cycling Road: on the Bicycle
  *   only), slope: 'down' (you roll that way while riding), noBike: true (an outdoor map without it).
+ *   Chapter 9: outdoor `x` a floor switch (a boulder pushed onto it stays there for good: flag
+ *   plate:<map>:<x>,<y>), outdoor `b` a rock barrier (a `bars` gate: open while its rule holds),
+ *   stamp `I` the Pokémon League.
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
@@ -50,7 +53,9 @@ G.Maps = (() => {
     // Chapter 7: a hole in the floor (a warp you fall through, until a boulder fills it), fast
     // water (solid until the map's `calm` holds), gates (open while their `bars` rule holds),
     // statues (switches in the Pokémon Mansion) and quiz machines (Blaine's Gym).
-    pit: { warp: 1 }, rapids: { solid: 1 }, bars: { solid: 1 }, statue: { solid: 1 }, quiz: { solid: 1 }
+    pit: { warp: 1 }, rapids: { solid: 1 }, bars: { solid: 1 }, statue: { solid: 1 }, quiz: { solid: 1 },
+    // Chapter 9: a floor switch a boulder can be pushed onto (Victory Road).
+    plate: {}
   };
   const LEGEND = {
     outdoor: {
@@ -62,7 +67,9 @@ G.Maps = (() => {
       c: 'cuttree',                                  // a small tree that Cut clears (until you leave the map)
       '=': 'bridge',                                 // a wooden bridge over water
       R: 'stamp',                                    // the burnt Pokémon Mansion
-      o: 'pit', r: 'rapids'                          // a hole in a cave floor, fast water (the Seafoam Islands)
+      o: 'pit', r: 'rapids',                         // a hole in a cave floor, fast water (the Seafoam Islands)
+      x: 'plate', b: 'bars',                         // a floor switch, a rock barrier (Victory Road)
+      I: 'stamp'                                     // the Pokémon League
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',
@@ -85,7 +92,8 @@ G.Maps = (() => {
     E: { type: 'store', w: 8, h: 5 },          // a department store
     B: { type: 'building', w: 6, h: 4 },       // a big building (a mansion, a game corner, a gate)
     Y: { type: 'office', w: 8, h: 6 },         // an office tower (Silph Co.)
-    R: { type: 'ruin', w: 6, h: 5 }            // a burnt mansion (Cinnabar Island)
+    R: { type: 'ruin', w: 6, h: 5 },           // a burnt mansion (Cinnabar Island)
+    I: { type: 'league', w: 8, h: 6 }          // the Pokémon League (Indigo Plateau)
   };
   const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
   const OPP = { up: 'down', down: 'up', left: 'right', right: 'left' };

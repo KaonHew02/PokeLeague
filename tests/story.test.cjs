@@ -1,11 +1,11 @@
-// The story without a screen, chapter by chapter: from the bedroom to the Earth Badge.
+// The story without a screen, chapter by chapter: from the bedroom to the Hall of Fame.
 // The real scripts, maps, save and battle engine run in the node sandbox; a stand-in
 // host answers the dialog (Yes, no nickname) and an auto-player fights every battle
 // with its strongest move. Wild battles in the tall grass raise the party on the way,
 // like a player would.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { boot, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
+const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 
 const dev = source('dev.html');
 const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/kanto\/[^"]+\.js)"/g)].map(m => m[1]);
@@ -263,8 +263,10 @@ test('every trainer on the Kanto maps can be battled to the end by the engine', 
   const { G, S } = st;
   for (const id of G.Maps.all()) {
     for (const t of G.Maps.get(id).trainers) {
+      // (A Mewtwo well above the team: this checks that every battle ends, not the balance.)
       S.party.length = 0;
-      S.party.push(G.Mon.create(150, 40, { rng: G.RNG(1), moves: ['psychic', 'recover', 'shadow-ball', 'ice-beam'] }));
+      const top = Math.max(...t.team.map(m => m[1]));
+      S.party.push(G.Mon.create(150, Math.max(40, top + 15), { rng: G.RNG(1), moves: ['psychic', 'recover', 'shadow-ball', 'ice-beam'] }));
       const rng = G.RNG(2);
       const party = t.team.map(([sp, lvl, moves]) => G.Mon.create(G.Maps.species(sp), lvl, { rng, moves }));
       for (const m of party) for (const mv of m.moves) assert.ok(G.MOVES[mv.id], `${id}:${t.id} move ${mv.id}`);
@@ -571,6 +573,43 @@ test('balance: Giovanni (chapter 8), win rates of typical teams are printed', ()
   assert.ok(table['charizard 50 + lapras 45 (Surf)'] >= 0.8, 'Charizard with the Lapras from Silph Co.');
   assert.ok(table['venusaur 50 + blastoise 47 (Surf)'] >= 0.75, 'Venusaur with a Surfer');
   assert.ok(table['charizard 50'] < 0.3, 'a lone Charizard should struggle');
+});
+
+test('balance: the Elite Four and the Champion (chapter 9), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  // A full team of six, as a player would bring: its starter and five others a few levels lower.
+  const team = (lead, l) => [lead, [131, l - 5, ['surf', 'ice-beam', 'body-slam', 'thunderbolt']], [143, l - 5, ['body-slam', 'earthquake', 'rest', 'headbutt']],
+    [135, l - 5, ['thunderbolt', 'pin-missile', 'double-kick', 'quick-attack']], [51, l - 5, ['earthquake', 'slash', 'dig', 'sand-tomb']],
+    [65, l - 5, ['psychic', 'recover', 'thunder-punch', 'fire-punch']]];
+  const CHARIZARD = l => team([6, l, ['flamethrower', 'wing-attack', 'slash', 'earthquake']], l);
+  const VENUSAUR = l => team([3, l, ['razor-leaf', 'sludge-bomb', 'earthquake', 'body-slam']], l);
+  const fight = (foe, me) => {
+    let wins = 0;
+    for (let s = 1; s <= 30; s++) {
+      const rng = G.RNG(s * 19);
+      const mine = me.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const foes = foe.map(([x, l, moves]) => G.Mon.create(G.Maps.species(x), l, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: mine, bag: {} },
+        foe: { party: foes, trainer: { id: 'x', name: 'X', ai: 'leader', items: {}, prize: 100 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return Math.round(wins / 30 * 100) / 100;
+  };
+  const member = (room, id) => G.Maps.get(room).trainers.find(t => t.id === id).team;
+  const FOES = { lorelei: member('lorelei-room', 'lorelei'), bruno: member('bruno-room', 'bruno'), agatha: member('agatha-room', 'agatha'),
+                 lance: member('lance-room', 'lance'), 'champion (Venusaur)': G.League.championTeam(1), 'champion (Blastoise)': G.League.championTeam(7) };
+  const table = {};
+  for (const [name, foe] of Object.entries(FOES)) {
+    table[name] = { 'charizard team 55': fight(foe, CHARIZARD(55)), 'venusaur team 55': fight(foe, VENUSAUR(55)), 'charizard team 58': fight(foe, CHARIZARD(58)) };
+  }
+  console.log('[balance] vs the Elite Four:', JSON.stringify(table));
+  // Each member alone, with a fresh team (in the League they come one after another, and a player
+  // heals with items in between; the auto-player never does, nor switches).
+  for (const id of ['lorelei', 'bruno', 'agatha']) assert.ok(table[id]['charizard team 55'] >= 0.8, id);
+  assert.ok(table.lance['charizard team 55'] >= 0.5, 'Lance');
+  assert.ok(table['champion (Venusaur)']['charizard team 58'] >= 0.6 && table['champion (Blastoise)']['charizard team 58'] >= 0.6, 'the Champion');
+  assert.ok(table['champion (Venusaur)']['charizard team 55'] < table['champion (Venusaur)']['charizard team 58'], 'levels matter');
 });
 
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
@@ -1011,6 +1050,67 @@ async function chapter8(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 9 after chapter 8: Route 22's rival, Victory Road, the Elite Four, the Champion, the Hall of Fame. */
+async function chapter9(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader' && t.cls !== 'elite-four')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // Like a player before the League: raise the rest of the team on the routes (Wartortle, Flareon,
+  // Kangaskhan), Parasect and Dugtrio lead the way.
+  for (const sp of [8, 136, 115]) { lead(st, sp); grind(st, 'route18', 42, 400); grind(st, 'route23', 54, 600); }
+  console.log('[story] before the League:', S.party.map(m => G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
+  // Route 22: eight badges, and the rival waits in front of the League gate.
+  lead(st, 47);
+  F.healAll();
+  await run(st, 'route22', 'route22.rival2');
+  won();
+  assert.equal(last().key, 'route22:rival-22b');
+  assert.ok(F.flag('route22-rival2'));
+  assert.ok(F.test(G.Maps.get('route22').warps.find(w => w.to === 'route22-gate').if), 'the gate opens with eight badges');
+  // Victory Road: its Trainers, and the boulders (pushed in tests/field.test.cjs: here the flags).
+  for (const m of ['victory-1f', 'victory-2f', 'victory-3f']) { await all(m); won(); }
+  const barrier = m => F.test(G.Maps.get(m).def.bars[0].if);
+  assert.ok(!barrier('victory-1f') && !barrier('victory-2f'), 'the barriers start closed');
+  F.setFlag('plate:victory-1f:11,17');
+  F.setFlag('pit:victory-3f:10,12');
+  assert.ok(barrier('victory-1f') && barrier('victory-2f'), 'the switches open them');
+  F.healAll();
+  await run(st, 'victory-2f', 'victory.moltres');
+  assert.ok(F.flag('victory-moltres'), 'Moltres was battled');
+  // The Indigo Plateau: heal in the lobby, then the Elite Four one after another.
+  await run(st, 'indigo-lobby', G.Maps.get('indigo-lobby').npcs.find(n => n.id === 'nurse').script, [0]);
+  assert.deepEqual(plain(S.player.lastHeal), { map: 'indigo-lobby', spot: 'heal' });
+  await run(st, 'lorelei-room', 'league.start');
+  const LEADS = { lorelei: 136, bruno: 47, agatha: 51, lance: 47 };
+  for (const id of ['lorelei', 'bruno', 'agatha', 'lance']) {
+    lead(st, LEADS[id]);
+    await fight(id + '-room', id);              // (healed first: a player uses items between the rooms)
+    won();
+    assert.ok(F.flag('e4-' + id), id + ' opens the door');
+  }
+  // The Champion, then Professor Oak and the Hall of Fame.
+  lead(st, 47);
+  F.healAll();
+  const money = S.player.money;
+  await run(st, 'champion-room', 'league.champion');
+  assert.equal(last().key, 'champion-room:rival-champion');
+  won();
+  assert.ok(S.player.money > money, 'prize money');
+  assert.ok(F.flag('champion') && F.flag('hall-of-fame') && F.flag('chapter-9-done'));
+  assert.equal(S.fame.length, 1);
+  assert.deepEqual(S.fame[0].party.map(m => m.sp), S.party.map(m => m.sp), 'the team is in the Hall of Fame');
+  assert.equal(st.W.map, 'player-2f', 'home again');
+  const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
+  assert.equal(back.fame.length, 1, 'the save keeps the Hall of Fame');
+  // A new run through the League starts again with Lorelei.
+  await run(st, 'lorelei-room', 'league.start');
+  assert.ok(!F.flag('e4-lorelei') && !F.isDone('lorelei-room:lorelei') && !F.flag('e4-champion'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1062,4 +1162,18 @@ test('chapter 8: the Bicycle, Cycling Road, Fly, the Viridian Gym and the Earth 
   await chapter7(st);
   console.log('[story] after chapter 7:', st.S.party.map(m => st.G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
   await chapter8(st);
+});
+
+test('chapter 9: Victory Road, the Elite Four, the Champion and the Hall of Fame', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+  await chapter3(st);
+  await chapter4(st);
+  await chapter5(st);
+  await chapter6(st);
+  await chapter7(st);
+  await chapter8(st);
+  console.log('[story] after chapter 8:', st.S.party.map(m => st.G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
+  await chapter9(st);
 });

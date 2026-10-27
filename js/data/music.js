@@ -357,3 +357,16 @@ G.MUSIC.cycling = {
   ],
   drums: { kick: 'X...x...X...x...', snare: '....X.......X.x.', hat: 'xoxoxoxoxoxoxoxo' }
 };
+
+/* The Hall of Fame (about 7 s): an original fanfare in C, brass climbing in fourths over a march
+ * snare, a held high C at the end. */
+G.MUSIC.fame = {
+  once: true, bpm: 108,
+  melody: [
+    { inst: 'brass', vel: 1, bars: ['G4:2 C5:2 F5:4 E5:2 C5:2 G5:4', 'A5:4 G5:2 F5:2 E5:4 D5:4', 'F5:2 A5:2 D6:4 C6:2 A5:2 B5:4', 'C6:16'] },
+    { inst: 'bell', vel: 0.45, bars: ['E5:4 G5:4 A5:4 G5:4', 'F5:4 E5:4 C5:4 B4:4', 'D5:4 F5:4 A5:4 G5:4', 'E5:4 G5:4 C6:8'] },
+    { inst: 'bass', vel: 0.85, bars: ['C3:8 A2:8', 'F2:8 G2:8', 'D3:8 G2:8', 'C3:16'] },
+    { inst: 'pad', vel: 0.7, bars: ['C4+E4+G4:8 A3+C4+E4:8', 'F3+A3+C4:8 G3+B3+D4:8', 'D4+F4+A4:8 G3+B3+D4:8', 'C4+E4+G4:16'] }
+  ],
+  drums: { snare: 'x.x.x.xxX...x.x.', kick: 'X.......X.......', crash: 'X...............' + '................'.repeat(2) + 'X...............' }
+};

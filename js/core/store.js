@@ -51,7 +51,7 @@ G.Store = (() => {
                 money: 3000, badges: [], map: null, x: 0, y: 0, dir: 'down', lastHeal: null },
       rival: { name: cleanName(o.rival) || 'Blue', starter: null },
       party: [], boxes: emptyBoxes(), box: 0, bag: {}, repel: 0,
-      dex: { seen: {}, caught: {} }, flags: {}, vars: {}, done: {}
+      dex: { seen: {}, caught: {} }, flags: {}, vars: {}, done: {}, fame: []
     };
   }
 
@@ -158,6 +158,12 @@ G.Store = (() => {
       }
     }
     out.repel = int(s.repel, 0, 999, 0);
+    // The Hall of Fame: each entry is the team that beat the Champion (at most 50 kept).
+    out.fame = (Array.isArray(s.fame) ? s.fame : []).filter(obj).slice(-50).map(e => ({
+      at: int(e.at, 0, 1e15, 0),
+      party: (Array.isArray(e.party) ? e.party : []).filter(m => obj(m) && Number.isInteger(m.sp) && knownSp(m.sp)).slice(0, 6)
+        .map(m => ({ sp: m.sp, lvl: int(m.lvl, 1, 100, 1), nick: typeof m.nick === 'string' ? cleanName(m.nick) || null : null, shiny: !!m.shiny }))
+    }));
     const dex = obj(s.dex) ? s.dex : {};
     for (const k of ['seen', 'caught']) {
       if (obj(dex[k])) for (const id of Object.keys(dex[k])) if (dex[k][id] && knownSp(+id)) out.dex[k][+id] = 1;

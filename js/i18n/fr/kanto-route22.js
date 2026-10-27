@@ -6,5 +6,10 @@ G.I18n.add({
   "The gate to the Pokémon League. A guard calls out from inside:": "La porte de la Ligue Pokémon. Un garde lance de l'intérieur :",
   "Only Trainers who have all eight Gym Badges may pass. Come back when you have them!": "Seuls les Dresseurs qui ont les huit Badges d'Arène peuvent passer. Reviens quand tu les auras !",
   "Pokémon League Front Gate": "Entrée de la Ligue Pokémon",
-  "Route 22. West: the Pokémon League. East: Viridian City.": "Route 22. Ouest : Ligue Pokémon. Est : Jadielle."
+  "Route 22. West: the Pokémon League. East: Viridian City.": "Route 22. Ouest : Ligue Pokémon. Est : Jadielle.",
+  "Hold it, {player}!": "Attends, {player} !",
+  "So you got all eight badges too? Heh. Then we're both heading for the Pokémon League.": "Alors toi aussi, tu as les huit badges ? Hé. Alors on va tous les deux à la Ligue Pokémon.",
+  "But only one of us gets to be Champion. Let's settle this right here!": "Mais un seul d'entre nous deviendra Maître. Réglons ça ici et maintenant !",
+  "Tch! Fine, you win this one. But the Elite Four are nothing like Gym Leaders. They'll crush you!": "Tss ! D'accord, tu gagnes celle-là. Mais le Conseil 4, ce n'est pas comme les Champions d'Arène. Ils vont t'écraser !",
+  "I'm going on ahead. See you at the top, {player}!": "Je passe devant. On se voit au sommet, {player} !"
 }, "fr");

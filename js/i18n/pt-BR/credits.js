@@ -28,6 +28,9 @@ G.I18n.add({
   "The sea routes, the Seafoam Islands and Cinnabar Island are waiting: your adventure goes on!": "As rotas marítimas, as Seafoam Islands e Cinnabar Island esperam por você: sua aventura continua!",
   "Chapter 8 complete!": "Capítulo 8 concluído!",
   "{player} beat Giovanni and earned the Earth Badge: all eight badges!": "{player} venceu Giovanni e ganhou a Insígnia da Terra: todas as oito insígnias!",
-  "Thank you for playing! Victory Road and the Pokémon League open in a future update.": "Obrigado por jogar! A Victory Road e a Liga Pokémon chegam em uma próxima atualização.",
-  "Cycling Road, Fly and the last Gym in Viridian City are waiting: your adventure goes on!": "A Cycling Road, o Fly e o último Ginásio em Viridian City esperam por você: sua aventura continua!"
+  "Cycling Road, Fly and the last Gym in Viridian City are waiting: your adventure goes on!": "A Cycling Road, o Fly e o último Ginásio em Viridian City esperam por você: sua aventura continua!",
+  "Congratulations, Champion!": "Parabéns, Campeão!",
+  "{player} beat the Elite Four and the Champion, and entered the Hall of Fame!": "{player} venceu a Elite dos Quatro e o Campeão, e entrou para o Hall da Fama!",
+  "Thank you for playing! The story of Kanto is complete. More adventures come in a future update.": "Obrigado por jogar! A história de Kanto está completa. Mais aventuras chegam em uma próxima atualização.",
+  "Victory Road, the Elite Four and the Champion are waiting: your adventure goes on!": "A Victory Road, a Elite dos Quatro e o Campeão esperam por você: sua aventura continua!"
 }, "pt-BR");

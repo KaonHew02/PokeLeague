@@ -30,5 +30,7 @@ G.I18n.add({
   "Black Belt": "Faixa-Preta",
   "Psychic": "Paranormal",
   "Burglar": "Ladrão",
-  "Cue Ball": "Careca"
+  "Cue Ball": "Careca",
+  "Elite Four": "Elite dos Quatro",
+  "Champion": "Campeão"
 }, "pt-BR");

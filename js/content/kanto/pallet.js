@@ -349,6 +349,7 @@ G.Maps.def({
     'lab.ball-charmander': [['js', chooseBall(4)]],
     'lab.ball-squirtle': [['js', chooseBall(7)]],
     'pallet.mom': [
+      ['if', 'champion', [['say', "Oh, {player}! The whole town is talking about the new Champion. I'm so proud of you!", { name: 'Mom' }]]],
       ['if', 'got-starter', [
         ['say', '{player}! You and your Pokémon look tired. Have a little rest.', { name: 'Mom' }],
         ['heal'], ['lastHeal', 'mom'],

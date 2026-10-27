@@ -143,6 +143,19 @@ G.Tiles = (() => {
     wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#c8b080', '#bca474'], grout: '#9a8458',
     rug: ['#6a8a3a', '#8aaa5a', '#4a6a24'], counter: ['#e4d6b4', '#c4b088', '#8e7a54'],
     mat: ['#6a8a3a', '#8aaa5a'], screen: '#68d0f8' };
+  // The Elite Four: Lorelei's ice-blue hall, Lance's dragon den, the Champion's golden room.
+  PALETTES.ice = { floor: 'tile', wallTop: ['#2a3a52', '#344662'], paper: ['#d4e8f6', '#c4dcee'], trim: '#7aaed4', base: '#3e6a94',
+    wood: ['#b8d0e0', '#a8c0d4', '#c8deec'], woodLine: '#7896ae', tile: ['#dceef8', '#cce2f2'], grout: '#a6c6dc',
+    rug: ['#3a8ad0', '#5aa8e8', '#2a6aa8'], counter: ['#eef6fc', '#c4d8e8', '#8aa4bc'],
+    mat: ['#3a8ad0', '#5aa8e8'], screen: '#a8e8ff' };
+  PALETTES.dragon = { floor: 'tile', wallTop: ['#2a1e26', '#36262e'], paper: ['#8a4a4a', '#7c4040'], trim: '#c89040', base: '#4a2a2a',
+    wood: ['#7a5a4a', '#6a4c3e', '#8a6a58'], woodLine: '#4a3228', tile: ['#6c5a64', '#605058'], grout: '#4a3c44',
+    rug: ['#a83232', '#c85050', '#7a2020'], counter: ['#c8b8a8', '#a08a7a', '#6a5448'],
+    mat: ['#a83232', '#c85050'], screen: '#f8a058' };
+  PALETTES.champion = { floor: 'tile', wallTop: ['#3a3020', '#463a28'], paper: ['#f2e2b0', '#e6d4a0'], trim: '#c8a040', base: '#7a5a24',
+    wood: ['#c8a46c', '#b8945c', '#d8b47c'], woodLine: '#8a6a3c', tile: ['#f4ead0', '#e8dcbc'], grout: '#c8b890',
+    rug: ['#c83a3a', '#e05a5a', '#982828'], counter: ['#fff4d8', '#e0cc9c', '#a88c54'],
+    mat: ['#c83a3a', '#e05a5a'], screen: '#68d0f8' };
   const OUT = 'kanto';
 
   // ---------------- colour and pixel helpers ----------------
@@ -950,6 +963,30 @@ G.Tiles = (() => {
     else grass(P, C, ox, oy, tx, ty);
     ascii(P, ox, oy, PIT, { r: C.floor ? C.base : C.cliffEdge, k: C.black, l: C.floor ? C.trim : C.light });
   }
+  // A floor switch (Victory Road): a round stone plate with a groove.
+  const PLATE = [
+    '................',
+    '................',
+    '.....oooooo.....',
+    '...ooLLLLLLoo...',
+    '..oLLwwwwwwLLo..',
+    '..oLwLLLLLLgLo..',
+    '.oLwLLoooooLgLo.',
+    '.oLwLoggggoLgLo.',
+    '.oLwLoggggoLgLo.',
+    '.oLwLLoooooLgLo.',
+    '..oLLggggggLLo..',
+    '..oLLLLLLLLLLo..',
+    '...ooLLLLLLoo...',
+    '.....oooooo.....',
+    '................',
+    '................'
+  ];
+  function plate(P, C, ox, oy, tx, ty) {
+    grass(P, C, ox, oy, tx, ty);
+    const S = C.src;
+    ascii(P, ox, oy, PLATE, { o: pack('#1e1a18'), L: pack(S.cliffTop[0]), w: pack(S.cliffLight), g: pack(S.cliffFaceDark) });
+  }
   const STATUE = [
     '.....oooooo.....',
     '....oLLLLLLo....',
@@ -1125,9 +1162,20 @@ G.Tiles = (() => {
       outline(P, pack('#1e1a18'));
       return P.canvas();
     },
-    /** A closed gate: iron bars across the tile (open: not drawn). */
-    bars() {
+    /** A closed gate: iron bars across the tile (open: not drawn); in a cave, a pile of rocks. */
+    bars(C) {
       const P = Pix(T, T);
+      if (!C.floor) {
+        const S = C.src, rock = [S.cliffFaceDark, S.cliffFace[0], S.cliffTop[0], S.cliffLight].map(c => pack(c));
+        for (const [cx, cy, r] of [[4.5, 10, 4.2], [11, 10.5, 4.4], [7.8, 5, 4.3]]) {
+          disc(P, cx, cy, r, (x, y) => {
+            const lit = ((x - cx) * -0.5 + (y - cy) * -0.85) / r;
+            return rock[lit > 0.45 ? 3 : lit > 0.05 ? 2 : lit > -0.45 ? 1 : 0];
+          });
+        }
+        outline(P, pack('#1e1a18'));
+        return P.canvas();
+      }
       const o = pack('#1c1c22'), m = pack('#7a7e8a'), l = pack('#b0b4c0');
       for (let x = 0; x < T; x++) { P.set(x, 1, o); P.set(x, 2, l); P.set(x, 3, m); P.set(x, 4, o); P.set(x, 12, o); P.set(x, 13, m); P.set(x, 14, o); }
       for (const bx of [1, 5, 9, 13]) for (let y = 0; y < T; y++) { P.set(bx, y, o); P.set(bx + 1, y, y < 2 ? l : m); P.set(bx + 2, y, o); }
@@ -1183,7 +1231,8 @@ G.Tiles = (() => {
       case 'pad': pad(P, C, ox, oy, tx, ty); break;
       case 'pit': pit(P, C, ox, oy, tx, ty); break;
       case 'rapids': water(P, C, ox, oy, tx, ty, at, frame); break;   // its foam streaks: render.js
-      case 'bars': floor(P, C, ox, oy, tx, ty, C.floor); break;       // a closed gate: a prop (render.js)
+      case 'bars': if (C.floor) floor(P, C, ox, oy, tx, ty, C.floor); else grass(P, C, ox, oy, tx, ty); break;   // closed: a prop (render.js)
+      case 'plate': plate(P, C, ox, oy, tx, ty); break;
       case 'statue': statue(P, C, ox, oy, tx, ty); break;
       case 'quiz': quiz(P, C, ox, oy, tx, ty); break;
       default: P.rect(ox, oy, T, T, C.black);

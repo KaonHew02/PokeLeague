@@ -14,7 +14,7 @@ const mon = (sp, lvl, o) => G.Mon.create(sp, lvl, Object.assign({ rng: G.RNG(7),
 
 test('a new save has the documented shape', () => {
   const s = G.Store.newSave({ name: 'Ash', gender: 'f', rival: 'Gary', id: 70000 });
-  assert.deepEqual(Object.keys(s).sort(), ['app', 'bag', 'box', 'boxes', 'created', 'dex', 'done', 'flags', 'party', 'player', 'playTime',
+  assert.deepEqual(Object.keys(s).sort(), ['app', 'bag', 'box', 'boxes', 'created', 'dex', 'done', 'fame', 'flags', 'party', 'player', 'playTime',
     'repel', 'rival', 'savedAt', 'v', 'vars'].sort());
   assert.equal(s.app, 'PokeLeague');
   assert.equal(s.player.name, 'Ash');

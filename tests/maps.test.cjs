@@ -22,7 +22,7 @@ test('every map in the game validates (warps, spots, connections, legend, footpr
 });
 
 test('legend: unknown tiles and ragged rows are errors; indoor and outdoor tiles do not mix', () => {
-  assert.ok(has(errors({ rows: ['..x.', '....'] }), /unknown tile "x"/));
+  assert.ok(has(errors({ rows: ['..Z.', '....'] }), /unknown tile "Z"/));
   assert.ok(has(errors({ rows: ['....', '...'] }), /row 1 is 3 wide/));
   assert.ok(has(errors({ rows: ['W_', '__'] }), /unknown tile "W"/), 'W is an indoor tile');
   assert.ok(has(errors({ tileset: 'indoor', rows: ['WW', '.,'] }), /unknown tile "\."/));

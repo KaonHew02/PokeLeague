@@ -253,3 +253,30 @@ test('Fly: towns you have visited (or that an older save had reached) are places
   assert.equal(W.map.id, 't-town1');
   assert.deepEqual([W.player.x, W.player.y], [3, 1], 'landed on the spot');
 });
+
+test('floor switches: a boulder pushed onto one stays there for good and opens the rock barrier', () => {
+  const { G, W, later } = world();
+  G.Maps.def({ id: 't-plate', tileset: 'outdoor', palette: 'cave', border: '#', cave: true,
+    rows: ['#######', '#.....#', '#....x#', '###b###', '#.....#', '#######'],
+    spots: { start: [1, 2, 'right'] },
+    boulders: [{ id: 'r', x: 2, y: 2 }],
+    bars: [{ x: 3, y: 3, if: 'plate:t-plate:5,2' }] });
+  assert.deepEqual(plain(G.Maps.validate('t-plate')), []);
+  W.load('t-plate', { x: 3, y: 2, dir: 'down' });
+  assert.equal(W.tryStep(W.player, 'down', 4), 'blocked', 'the rock barrier is closed');
+  W.load('t-plate', 'start');
+  W.strength = true;
+  for (let i = 0; i < 3; i++) {
+    later(1000);
+    assert.equal(step(W, 'right'), 'blocked', 'a push');
+    if (i < 2) assert.equal(step(W, 'right'), 'moved');
+  }
+  assert.ok(G.Field.flag('plate:t-plate:5,2'), 'the boulder is on the switch');
+  assert.ok(W.rocks[0].fixed, 'and it stays there');
+  assert.ok(W.barsOpen(3, 3), 'the barrier is open');
+  W.load('t-plate', { x: 3, y: 2, dir: 'down' });
+  assert.equal(W.tryStep(W.player, 'down', 4), 'moved', 'through the opened barrier');
+  // Leaving and coming back: the boulder still sits on the switch, fixed.
+  W.load('t-plate', 'start');
+  assert.deepEqual([W.rocks[0].x, W.rocks[0].y, W.rocks[0].fixed], [5, 2, true]);
+});

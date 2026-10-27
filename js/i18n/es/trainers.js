@@ -30,5 +30,7 @@ G.I18n.add({
   "Black Belt": "Karateka",
   "Psychic": "Psíquico",
   "Burglar": "Ladrón",
-  "Cue Ball": "Calvo"
+  "Cue Ball": "Calvo",
+  "Elite Four": "Alto Mando",
+  "Champion": "Campeón"
 }, "es");

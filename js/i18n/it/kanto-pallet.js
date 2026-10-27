@@ -70,5 +70,6 @@ G.I18n.add({
   "Fill that Pokédex, {player}! There are so many Pokémon waiting out there.": "Completa quel Pokédex, {player}! Là fuori ti aspettano tantissimi Pokémon.",
   "Grandpa asked you to help with his Pokédex? That's wonderful!": "Il nonno ti ha chiesto di aiutarlo con il Pokédex? Che bello!",
   "Here, take this Town Map. It'll help you find your way.": "Ecco, prendi questa Mappa. Ti aiuterà a orientarti.",
-  "Good luck with Grandpa's research, {player}. Don't let my brother get too far ahead!": "Buona fortuna con le ricerche del nonno, {player}. Non lasciare che mio fratello ti stacchi troppo!"
+  "Good luck with Grandpa's research, {player}. Don't let my brother get too far ahead!": "Buona fortuna con le ricerche del nonno, {player}. Non lasciare che mio fratello ti stacchi troppo!",
+  "Oh, {player}! The whole town is talking about the new Champion. I'm so proud of you!": "Oh, {player}! Tutto il paese parla del nuovo Campione. Sono così orgogliosa di te!"
 }, "it");

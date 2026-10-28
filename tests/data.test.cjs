@@ -9,10 +9,10 @@ const DATA = ['js/data/types.js', 'js/data/species.js', 'js/data/moves.js', 'js/
 const { G } = boot(CORE.concat(DATA));
 const STATS6 = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 
-test('all 151 Kanto species, with six base stats, valid types and a known growth rate', () => {
+test('all 251 species of Kanto and Johto, with six base stats, valid types and a known growth rate', () => {
   const dex = Object.keys(G.SPECIES).map(Number).sort((a, b) => a - b);
-  assert.equal(dex.length, 151);
-  assert.equal(dex[0], 1); assert.equal(dex[150], 151);
+  assert.equal(dex.length, 251);
+  assert.equal(dex[0], 1); assert.equal(dex[250], 251);
   for (const [d, s] of Object.entries(G.SPECIES)) {
     assert.equal(s.base.length, 6, d);
     assert.ok(s.base.every(v => Number.isInteger(v) && v > 0), d);
@@ -44,7 +44,7 @@ test('learnsets: every move exists, each species knows something at level 1', ()
   assert.equal(G.ITEMS.tm39.move, 'rock-tomb');
 });
 
-test('evolutions: levels, stones and trades turned into levels', () => {
+test('evolutions: levels, stones, friendship, and trades turned into levels or items', () => {
   const evo = d => plain(G.SPECIES[d].evo);
   assert.deepEqual(evo(10), [{ to: 11, how: 'level', level: 7 }]);
   assert.deepEqual(evo(11), [{ to: 12, how: 'level', level: 10 }]);
@@ -52,7 +52,11 @@ test('evolutions: levels, stones and trades turned into levels', () => {
   assert.deepEqual(evo(25), [{ to: 26, how: 'item', item: 'thunder-stone' }]);
   assert.deepEqual(evo(64), [{ to: 65, how: 'level', level: 36, via: 'trade' }]);
   assert.deepEqual(evo(67), [{ to: 68, how: 'level', level: 37, via: 'trade' }]);
-  assert.equal(G.SPECIES[133].evo.length, 3);                        // Eevee: three stones
+  assert.equal(G.SPECIES[133].evo.length, 5);                        // Eevee: three stones, Espeon by day, Umbreon by night
+  assert.deepEqual(plain(G.SPECIES[133].evo.filter(e => e.how === 'friendship').map(e => e.time)), ['day', 'night']);
+  assert.deepEqual(evo(42), [{ to: 169, how: 'friendship', min: 160 }]);   // Golbat -> Crobat
+  assert.deepEqual(evo(95), [{ to: 208, how: 'item', item: 'metal-coat', via: 'trade' }]);   // Onix -> Steelix
+  assert.deepEqual(plain(G.SPECIES[236].evo.map(e => e.stats)), [1, -1, 0]);                  // Tyrogue by its stats
   assert.equal(G.SPECIES[151].evo.length, 0);
   for (const [d, s] of Object.entries(G.SPECIES)) {
     for (const e of s.evo) {

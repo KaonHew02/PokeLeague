@@ -44,6 +44,11 @@
  * `fly: { spot, if }` is a town you can fly to once visited (flag visited:<map>, or its `if`).
  * Chapter 9: a boulder pushed onto a floor switch (`plate`) stays there for good (flag
  * plate:<map>:<x>,<y>, var boulder:<map>:<id> = 'x,y'): rock barriers (`bars`) can open with it.
+ * Johto (chapter 11, maps with `region: 'johto'`): wild Pokémon follow the time of day
+ * (G.Clock), and once the Johto journey has begun (flag johto-start) the player's Pokémon above
+ * the level cap of the Johto badges may not obey (G.Field.obeyCap(), rules.obeyCap). Walking
+ * raises friendship (one point every 128 steps), and var egg-steps counts down to script
+ * egg.hatch (the Mystery Egg).
  */
 G.Field = (() => {
   function fresh() {
@@ -121,6 +126,15 @@ G.Field = (() => {
     }
   }
   function badge(n) { if (!S.player.badges.includes(n)) S.player.badges.push(n); S.player.badges.sort((a, b) => a - b); }
+  /** Johto's badges are 9-16: the level up to which every Pokémon obeys, by how many you hold. */
+  const OBEY = [20, 25, 30, 35, 40, 50, 60, 70];
+  const johtoBadges = () => S.player.badges.filter(b => b >= 9 && b <= 16).length;
+  /** The level cap while in Johto (null: everybody obeys). */
+  function obeyCap(region) {
+    if (region !== 'johto' || !flag('johto-start')) return null;
+    const n = johtoBadges();
+    return n >= OBEY.length ? null : OBEY[n];
+  }
 
   /**
    * Script conditions: 'flag', '!flag', 'var=v', 'var!=v', 'var>=n' (also <= > <),
@@ -155,13 +169,13 @@ G.Field = (() => {
     return false;
   }
 
-  const vars = () => ({ player: S.player.name, rival: S.rival.name });
+  const vars = () => ({ player: S.player.name, rival: S.rival.name, rival2: (S.rival2 && S.rival2.name) || '???' });
   /** The outcome of the last battle ('win', 'lose', 'run', 'caught'): scripts test it with 'battle=win'. */
   let last = null;
 
   return { get save() { return S; }, get fake() { return fake; }, bind, reset,
            flag, setFlag, clearFlag, getVar, setVar, isDone, markDone,
-           party, lead, makeMon, giveMon, toBox, count, giveItem, takeItem, money, healAll, badge, test, vars,
+           party, lead, makeMon, giveMon, toBox, count, giveItem, takeItem, money, healAll, badge, johtoBadges, obeyCap, OBEY, test, vars,
            get lastBattle() { return last; }, set lastBattle(v) { last = v; } };
 })();
 
@@ -502,6 +516,7 @@ G.World = (() => {
     if (surfing && !isWater(me.x, me.y)) { setSurf(false); makeFollower(); }
     savePos();
     countRepel();
+    if (walked()) return;
     const k = M().kindAt(map, me.x, me.y);
     const w = map.warpAt.get(M().key(me.x, me.y));
     if (w && k === 'pit') {
@@ -556,6 +571,19 @@ G.World = (() => {
     return true;
   }
 
+  /** Every step: friendship (one point every 128 steps) and the Mystery Egg. -> a script began */
+  function walked() {
+    const V = G.Field.save.vars;
+    V.walk = ((+V.walk || 0) + 1) % 128;
+    if (!V.walk) for (const m of G.Field.party()) if (m.hp > 0) m.friendship = Math.min(255, (m.friendship || 0) + 1);
+    if (V['egg-steps'] > 0 && --V['egg-steps'] === 0 && G.Script.get('egg.hatch')) {
+      G.Player.walk(null);
+      runScript('egg.hatch', {});
+      return true;
+    }
+    return false;
+  }
+
   // ---------------- encounters ----------------
 
   /** Repel: one step less. When it runs out, the next quiet step says so (repelOut). */
@@ -569,9 +597,11 @@ G.World = (() => {
     const table = M().encounters(map, method);
     if (!table || !table.mons || !table.mons.length) return null;
     if (!(rng.next() < (table.rate || 0) / 180)) return null;
+    // Johto's tables may have their own morning and night slots.
+    const mons = (G.Clock && table[G.Clock.period()]) || table.mons;
     let r = rng.next() * 100;
-    let pick = table.mons[table.mons.length - 1];
-    for (const row of table.mons) { if ((r -= row[3]) < 0) { pick = row; break; } }
+    let pick = mons[mons.length - 1];
+    for (const row of mons) { if ((r -= row[3]) < 0) { pick = row; break; } }
     const sp = M().species(pick[0]);
     return { sp, lvl: rng.int(pick[1], pick[2]), method, map: map.id, area: typeof map.encounters[method] === 'string' ? map.encounters[method].slice(1) : null };
   }
@@ -618,7 +648,7 @@ G.World = (() => {
     // On the water (Surf, a rod) outside a cave: the sea behind the Pokémon.
     const sea = (surfing || fishing) && map.tileset === 'outdoor' && !map.def.cave;
     return { bg: sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld',
-             rules: { canLose: !!canLose, where: map.loc || map.id } };
+             rules: { canLose: !!canLose, where: map.loc || map.id, obeyCap: G.Field.obeyCap(map.def.region) } };
   }
   /** After a battle: Pokédex, prize money, a caught Pokémon that goes to the PC. -> the outcome */
   function settle(r) {
@@ -1326,10 +1356,14 @@ G.World = (() => {
     snapCamera();
   }
 
+  /** The light of the time of day over Johto's outdoor maps (none indoors, in caves or in Kanto). */
+  const TINT = { morning: 'rgba(255,176,96,0.10)', day: null, night: 'rgba(14,22,70,0.40)' };
+  const tint = () => (map.def.region === 'johto' && map.tileset === 'outdoor' && !map.def.cave && G.Clock ? TINT[G.Clock.period()] : null);
+
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit,
+      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(),
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }

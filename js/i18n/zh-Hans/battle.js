@@ -157,5 +157,12 @@ G.I18n.add({
   "{mon} is angry!": "{mon}生气了！",
   "{mon} is watching carefully!": "{mon}正在仔细观察！",
   "{mon} fled!": "{mon}逃走了！",
-  "You have no Safari Balls left!": "你没有狩猎球了！"
+  "You have no Safari Balls left!": "你没有狩猎球了！",
+  "The battlers shared their pain!": "双方平分了体力！",
+  "{mon} began to nap!": "{mon}开始打盹了！",
+  "{mon} won't obey!": "{mon}不听指挥！",
+  "{mon} is loafing around!": "{mon}在偷懒！",
+  "{mon} turned away!": "{mon}把头扭了过去！",
+  "{mon} pretended not to notice!": "{mon}装作没听见！",
+  "A bell chimed!": "铃声响起了！"
 }, "zh-Hans");

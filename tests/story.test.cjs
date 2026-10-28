@@ -1,4 +1,4 @@
-// The story without a screen, chapter by chapter: from the bedroom to the Hall of Fame and Mewtwo.
+// The story without a screen, chapter by chapter: from the bedroom to the Hall of Fame, Mewtwo and Johto.
 // The real scripts, maps, save and battle engine run in the node sandbox; a stand-in
 // host answers the dialog (Yes, no nickname) and an auto-player fights every battle
 // with its strongest move. Wild battles in the tall grass raise the party on the way,
@@ -8,7 +8,7 @@ const assert = require('node:assert/strict');
 const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 
 const dev = source('dev.html');
-const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/kanto\/[^"]+\.js)"/g)].map(m => m[1]);
+const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
   ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/script/script.js'], CONTENT);
 
@@ -88,7 +88,7 @@ async function fight(st, ref, o, h) {
   const b = G.Battle.create({ kind: 'trainer', seed: W.seed * 31 + st.battles.length,
     player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag },
     foe: { party, trainer: { id: key, name: d.name || '', ai: d.ai || (d.leader ? 'leader' : 'basic'), items: d.items || {}, prize: d.prize != null ? d.prize : cls.prize } },
-    rules: { canLose: !!(o && o.canLose) } });
+    rules: { canLose: !!(o && o.canLose), obeyCap: obeyCap(st) } });
   b.start();
   const r = autoplay(G, b);
   st.battles.push({ key, outcome: r.outcome, levels: S.party.map(m => m.lvl) });
@@ -107,6 +107,9 @@ async function fight(st, ref, o, h) {
   return r.outcome;
 }
 
+/** Johto (chapter 11): above the badges' level cap the player's Pokémon may not obey. */
+const obeyCap = st => st.G.Field.obeyCap((st.G.Maps.get(st.W.map) || { def: {} }).def.region);
+
 /** A scripted wild battle (['wild', sp, lvl, { noCatch }]): the auto-player fights it. */
 function wildFight(st, sp, lvl, o = {}) {
   const { G, S, W } = st;
@@ -114,7 +117,7 @@ function wildFight(st, sp, lvl, o = {}) {
   const foe = G.Mon.create(G.Maps.species(sp), lvl, { rng, wild: true });
   S.dex.seen[foe.sp] = 1;
   const b = G.Battle.create({ kind: 'wild', seed: W.seed * 53 + st.battles.length, player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag },
-    foe: { party: [foe] }, rules: { noCatch: !!o.noCatch } });
+    foe: { party: [foe] }, rules: { noCatch: !!o.noCatch, obeyCap: obeyCap(st) } });
   b.start();
   const r = autoplay(G, b);
   st.battles.push({ key: 'wild:' + sp, outcome: r.outcome, levels: S.party.map(m => m.lvl) });
@@ -135,7 +138,8 @@ function grind(st, mapId, level, max = 60) {
     for (const row of table.mons) if ((r -= row[3]) < 0) { pick = row; break; }
     const foe = G.Mon.create(pick[0], rng.int(pick[1], pick[2]), { rng, wild: true });
     S.dex.seen[foe.sp] = 1;
-    const b = G.Battle.create({ kind: 'wild', seed: rng.int(1, 1e9), player: { name: 'Red', party: S.party, bag: S.bag }, foe: { party: [foe] } });
+    const b = G.Battle.create({ kind: 'wild', seed: rng.int(1, 1e9), player: { name: 'Red', party: S.party, bag: S.bag }, foe: { party: [foe] },
+      rules: { obeyCap: G.Field.obeyCap(G.Maps.get(mapId).def.region) } });
     b.start();
     evolve(G, S, autoplay(G, b));
     G.Field.healAll();
@@ -618,6 +622,25 @@ test('balance: the Elite Four and the Champion (chapter 9), win rates of typical
   };
   console.log('[balance] the rematches:', JSON.stringify(again));
   assert.ok(again.lance >= 0.5 && again['champion (Venusaur)'] >= 0.5 && again['champion (Blastoise)'] >= 0.5, 'the rematches');
+});
+
+test('balance: Falkner (chapter 11), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'violet-gym', 'falkner');
+  const table = {
+    'chikorita 13': rate([[152, 13]]),
+    'cyndaquil 13': rate([[155, 13]]),
+    'totodile 13': rate([[158, 13]]),
+    'cyndaquil 12 + pidgey 9': rate([[155, 12], [16, 9]]),
+    'chikorita 15 + hoothoot 11': rate([[152, 15], [163, 11]])
+  };
+  console.log('[balance] vs Falkner:', JSON.stringify(table));
+  // Pidgey 7 and Pidgeotto 11 (Mud-Slap lowers accuracy): the wild Pokémon before Violet City are
+  // Lv. 2 to 6, so a starter around Lv. 13 wins. Gust hits Chikorita hard: it needs a few more
+  // levels and a friend, as in the games.
+  assert.ok(table['cyndaquil 13'] >= 0.7 && table['totodile 13'] >= 0.5, 'Cyndaquil and Totodile');
+  assert.ok(table['chikorita 15 + hoothoot 11'] >= 0.5, 'Chikorita with a Hoothoot');
+  assert.ok(table['chikorita 13'] < 0.3, 'a lone Chikorita should struggle');
 });
 
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
@@ -1172,6 +1195,69 @@ async function chapter10(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 11 after chapter 10: to Johto, Professor Elm, the thief, the Mystery Egg, Sprout Tower and Falkner. */
+async function chapter11(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // South of the Indigo Plateau, Routes 26 and 27 lead to New Bark Town in Johto.
+  assert.equal(G.Maps.get('indigo').def.connect.south.map, 'route26');
+  assert.equal(G.Maps.get('route27').def.connect.west.map, 'new-bark');
+  assert.equal(F.obeyCap('johto'), null, 'everybody obeys before the Johto journey begins');
+  // Professor Elm: Johto's rule, and a starter (the party is full: it goes to the PC, and the
+  // player swaps it for Magikarp at the lab's PC).
+  await run(st, 'elm-lab', 'elm.elm');
+  assert.ok(F.flag('elm-intro'));
+  await run(st, 'elm-lab', 'elm.ball-cyndaquil', [0]);
+  assert.ok(F.flag('johto-start'));
+  assert.equal(S.rival2.starter, 158, 'the thief will take Totodile, strong against Cyndaquil');
+  const box = S.boxes.find(b => b.some(m => m && m.sp === 155));
+  const i = box.findIndex(m => m && m.sp === 155), k = S.party.findIndex(m => m.sp === 129);
+  [box[i], S.party[k]] = [S.party[k], box[i]];
+  assert.equal(F.obeyCap('johto'), 20, 'no Johto badge: up to Lv. 20');
+  assert.equal(F.obeyCap(undefined), null, 'Kanto has no such rule');
+  // Route 29, Cherrygrove City and Route 30 (Cyndaquil leads), then Mr. Pokémon and Oak.
+  lead(st, 155);
+  grind(st, 'route29', 8, 200);
+  await all('route30');
+  won();
+  await run(st, 'mr-pokemon-house', 'mrpoke.talk');
+  assert.ok(F.count('mystery-egg') === 1 && F.flag('johto-dex') && F.flag('johto-theft'));
+  assert.ok(F.isDone('elm-lab:ball-totodile'), "the thief's ball is gone from the lab");
+  // The thief at Cherrygrove's north entrance.
+  F.healAll();
+  await run(st, 'cherrygrove', 'cherrygrove.rival');
+  assert.equal(last().key, 'cherrygrove:rival2-cherrygrove');
+  assert.ok(F.flag('rival2-battle'));
+  // Back at the lab: the officer asks his name, Elm gives the Egg back to hatch.
+  await run(st, 'elm-lab', 'elm.enter');
+  assert.ok(F.flag('rival2-named') && S.rival2.name === 'Silver');
+  const balls = F.count('poke-ball');
+  await run(st, 'elm-lab', 'elm.elm');
+  assert.ok(F.flag('elm-egg') && S.vars['egg-steps'] === 800 && F.count('poke-ball') === balls + 5);
+  S.vars['egg-steps'] = 0;
+  await run(st, 'route29', 'egg.hatch');
+  assert.ok(F.flag('egg-hatched') && !F.count('mystery-egg'));
+  assert.ok(S.party.concat(...S.boxes).some(m => m && m.sp === 175), 'Togepi hatched');
+  // Route 31, Sprout Tower and its Elder (TM27 Return).
+  grind(st, 'route31', 15, 300);
+  await all('route31');
+  for (const m of ['sprout-2f', 'sprout-3f']) { await all(m); won(); }
+  assert.equal(F.count('tm27'), 1, 'Elder Li gives TM27');
+  // Falkner.
+  await all('violet-gym');
+  won();
+  F.healAll();
+  await run(st, 'violet-gym', [['battle', 'violet-gym:falkner']]);
+  assert.equal(last().outcome, 'win', 'Falkner beaten at levels ' + last().levels);
+  assert.ok(S.player.badges.includes(9) && F.count('tm40') === 1 && F.flag('chapter-11-done'));
+  assert.equal(F.obeyCap('johto'), 25, 'the Zephyr Badge: up to Lv. 25');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1251,4 +1337,19 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter8(st);
   await chapter9(st);
   await chapter10(st);
+});
+
+test('chapter 11: to Johto, Professor Elm, the thief, the Mystery Egg and Falkner', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+  await chapter3(st);
+  await chapter4(st);
+  await chapter5(st);
+  await chapter6(st);
+  await chapter7(st);
+  await chapter8(st);
+  await chapter9(st);
+  await chapter10(st);
+  await chapter11(st);
 });

@@ -82,6 +82,12 @@ G.ITEM_FX = {
   'thunder-stone': { evo: 1, field: 1, price: 2100 },
   'leaf-stone':    { evo: 1, field: 1, price: 2100 },
   'moon-stone':    { evo: 1, field: 1, price: 2100 },
+  'sun-stone':     { evo: 1, field: 1, price: 2100 },
+  // Items that make a Pokémon evolve when it is traded holding them: used like a stone here.
+  'metal-coat':    { evo: 1, field: 1, price: 2100 },
+  'kings-rock':    { evo: 1, field: 1, price: 2100 },
+  'dragon-scale':  { evo: 1, field: 1, price: 2100 },
+  'up-grade':      { evo: 1, field: 1, price: 2100 },
 
   // ---- TMs sold in shops (Celadon Department Store) ----
   'tm05':          { price: 1000 },
@@ -119,6 +125,7 @@ G.ITEM_FX = {
   'coin-case':     { key: 1, field: 1 },
   'gold-teeth':    { key: 1 },
   'bike-voucher':  { key: 1 },
+  'mystery-egg':   { key: 1 },
 
   // ---- fossils ----
   'helix-fossil':  { fossil: 138 },

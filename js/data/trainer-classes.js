@@ -41,5 +41,6 @@ G.TRAINER_CLASSES = {
   'cue-ball':    { title: 'Cue Ball', who: 'cueball', prize: 24 },
   'elite-four':  { title: 'Elite Four', who: 'lorelei', prize: 100 },
   champion:      { title: 'Champion', who: 'rival', prize: 100 },
+  sage:          { title: 'Sage', who: 'sage', prize: 32 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

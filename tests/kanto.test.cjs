@@ -47,8 +47,8 @@ test('Brock: a leader with Geodude and Onix whose win script gives badge 1 and T
 
 test('every trainer class used on a map exists, and story flags that maps wait for get set somewhere', () => {
   const fs = require('node:fs'), path = require('node:path');
-  const dir = path.join(__dirname, '..', 'js', 'content', 'kanto');
-  const src = fs.readdirSync(dir).map(f => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n');
+  const dirs = ['kanto', 'johto'].map(r => path.join(__dirname, '..', 'js', 'content', r));
+  const src = dirs.flatMap(dir => fs.readdirSync(dir).map(f => fs.readFileSync(path.join(dir, f), 'utf8'))).join('\n');
   for (const id of kanto) {
     for (const t of G.Maps.get(id).trainers) if (t.cls) assert.ok(G.TRAINER_CLASSES[t.cls], `${id}:${t.id} class ${t.cls}`);
   }

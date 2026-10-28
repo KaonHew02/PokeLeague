@@ -13,6 +13,7 @@
  *   Chapter 9: outdoor `x` a floor switch (a boulder pushed onto it stays there for good: flag
  *   plate:<map>:<x>,<y>), outdoor `b` a rock barrier (a `bars` gate: open while its rule holds),
  *   stamp `I` the Pokémon League.
+ *   Chapter 11: region: 'johto' (the time of day, obedience; Kanto maps leave it out).
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }

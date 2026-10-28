@@ -157,5 +157,12 @@ G.I18n.add({
   "{mon} is angry!": "{mon} est en colère !",
   "{mon} is watching carefully!": "{mon} observe attentivement !",
   "{mon} fled!": "{mon} s'est enfui !",
-  "You have no Safari Balls left!": "Tu n'as plus de Safari Balls !"
+  "You have no Safari Balls left!": "Tu n'as plus de Safari Balls !",
+  "The battlers shared their pain!": "Les combattants partagent leur douleur !",
+  "{mon} began to nap!": "{mon} fait une petite sieste !",
+  "{mon} won't obey!": "{mon} n'obéit pas !",
+  "{mon} is loafing around!": "{mon} se tourne les pouces !",
+  "{mon} turned away!": "{mon} se détourne !",
+  "{mon} pretended not to notice!": "{mon} fait semblant de ne rien entendre !",
+  "A bell chimed!": "Une cloche a sonné !"
 }, "fr");

@@ -5,6 +5,7 @@ Downloads the game data of a region from PokeAPI and writes it to js/data/.
 After that the game never touches the internet: everything is local.
 
     python tools/fetch_data.py --region kanto            # dex 1-151
+    python tools/fetch_data.py --region johto            # dex 1-251: Kanto (FireRed) and Johto (HeartGold)
     python tools/fetch_data.py --region kanto --offline  # cache only; fails on a miss
     python tools/fetch_data.py --region kanto --refresh  # download everything again
 
@@ -75,7 +76,6 @@ REGIONS = {
         'learnset_vg': ['firered-leafgreen', 'emerald', 'heartgold-soulsilver'],
         'tm_vg': 'firered-leafgreen',
         # Encounter tables: the first version with data for each area.
-        'enc_versions': ['firered', 'leafgreen', 'red', 'blue', 'yellow'],
         # Flavor text: first version (group) with that language, else the newest one.
         'text_versions': ['firered', 'leafgreen', 'lets-go-pikachu', 'lets-go-eevee'],
         'text_vgs': ['firered-leafgreen', 'lets-go-pikachu-lets-go-eevee'],
@@ -84,9 +84,23 @@ REGIONS = {
             'ss-ticket', 'poke-flute', 'silph-scope', 'card-key', 'lift-key', 'secret-key',
             'coin-case', 'helix-fossil', 'dome-fossil', 'old-amber', 'gold-teeth', 'bike-voucher',
         ],
-        'region': 'kanto',
+        # Places: each region's locations, with the versions whose encounter tables they use.
+        'regions': [('kanto', ['firered', 'leafgreen', 'red', 'blue', 'yellow'])],
     },
 }
+# Johto adds Pokémon 152-251 and its places (HeartGold tables, with morning / day / night slots);
+# Kanto keeps its FireRed tables, learnsets and TMs, so the Kanto chapters play as before.
+REGIONS['johto'] = dict(REGIONS['kanto'], **{
+    'dex': (1, 251),
+    'learnset_vg': ['firered-leafgreen', 'emerald', 'heartgold-soulsilver', 'crystal'],
+    'text_versions': ['firered', 'leafgreen', 'heartgold', 'soulsilver', 'lets-go-pikachu', 'lets-go-eevee'],
+    'text_vgs': ['firered-leafgreen', 'heartgold-soulsilver', 'lets-go-pikachu-lets-go-eevee'],
+    'items': REGIONS['kanto']['items'] + [
+        'mystery-egg', 'sun-stone', 'metal-coat', 'kings-rock', 'dragon-scale', 'up-grade',
+    ],
+    'regions': [('kanto', ['firered', 'leafgreen', 'red', 'blue', 'yellow']),
+                ('johto', ['heartgold', 'soulsilver', 'crystal', 'gold', 'silver'])],
+})
 
 # Official place names PokeAPI lacks (it has en and fr, not es, it or Chinese).
 # Only names we are sure of; the rest falls back to English and is counted.
@@ -114,6 +128,19 @@ LOC_NAMES = {
     'pokemon-tower':     ('Torre Pokémon',      'Torre Pokémon',       '宝可梦塔',   '寶可夢塔'),
     'pokemon-mansion':   ('Mansión Pokémon',    'Villa Pokémon',       '宝可梦屋',   '寶可夢屋'),
     'kanto-safari-zone': ('Zona Safari',        'Zona Safari',         '狩猎地带',   '狩獵地帶'),
+    # Johto
+    'new-bark-town':     ('Pueblo Primavera',   'Borgo Foglianova',    '若叶镇',     '若葉鎮'),
+    'cherrygrove-city':  ('Ciudad Cerezo',      'Fiorpescopoli',       '吉花市',     '吉花市'),
+    'violet-city':       ('Ciudad Malva',       'Violapoli',           '桔梗市',     '桔梗市'),
+    'azalea-town':       ('Pueblo Azalea',      'Azalina',             '桧皮镇',     '檜皮鎮'),
+    'goldenrod-city':    ('Ciudad Trigal',      'Fiordoropoli',        '满金市',     '滿金市'),
+    'ecruteak-city':     ('Ciudad Iris',        'Amarantopoli',        '圆朱市',     '圓朱市'),
+    'olivine-city':      ('Ciudad Olivo',       'Olivinopoli',         '浅葱市',     '淺蔥市'),
+    'cianwood-city':     ('Ciudad Orquídea',    'Fiorlisopoli',        '湛蓝市',     '湛藍市'),
+    'mahogany-town':     ('Pueblo Caoba',       'Mogania',             '卡吉镇',     '卡吉鎮'),
+    'blackthorn-city':   ('Ciudad Endrino',     'Ebanopoli',           '烟墨市',     '煙墨市'),
+    'sprout-tower':      ('Torre Bellsprout',   'Torre Sprout',        '喇叭芽之塔', '喇叭芽之塔'),
+    'dark-cave':         ('Cueva Oscura',       'Grotta Scura',        '黑暗洞穴',   '黑暗洞穴'),
 }
 
 
@@ -125,12 +152,20 @@ def loc_extra(slug):
     if m:
         n = m.group(1)
         return (f'Ruta {n}', f'Percorso {n}', f'{n}号道路', f'{n}號道路')
+    m = re.fullmatch(r'johto-route-(\d+)', slug)
+    if m:
+        n = m.group(1)
+        return (f'Ruta {n}', f'Percorso {n}', f'{n}号道路', f'{n}號道路')
     m = re.fullmatch(r'kanto-sea-route-(\d+)', slug)
     if m:
         n = m.group(1)
         return (f'Ruta {n}', f'Percorso {n}', f'{n}号水路', f'{n}號水路')
     return None
 
+
+# Encounter slots that need a swarm or the radio (HeartGold): left out. Times of day kept apart.
+SKIP_CONDITIONS = {'swarm-yes', 'radio-hoenn', 'radio-sinnoh'}
+TIMES = ['morning', 'day', 'night']
 
 # Trade evolutions become level evolutions (there is no trading).
 TRADE_LEVEL = 37
@@ -412,8 +447,12 @@ def build(region):
         names_stat[STAT[s]] = names_of(get('stat', s)['names'], 'stat', fallback=s)
 
     # ---- locations and encounters ----
-    reg = get('region', cfg['region'])
-    loc_list = [l['name'] for l in reg['locations']]
+    loc_list, loc_vers = [], {}
+    for reg_name, versions in cfg['regions']:
+        for l in get('region', reg_name)['locations']:
+            if l['name'] not in loc_vers:
+                loc_list.append(l['name'])
+                loc_vers[l['name']] = versions
     locs = dict(zip(loc_list, pmap(lambda n: get('location', n), loc_list)))
     area_urls = [(l, a['url']) for l, v in locs.items() if v for a in v['areas']]
     areas = pmap(lambda la: (la[0], get_url(la[1])), area_urls)
@@ -438,9 +477,16 @@ def build(region):
             dex = url_id(pe['pokemon']['url'])
             for vd in pe['version_details']:
                 for ed in vd['encounter_details']:
+                    conds = {c['name'] for c in ed.get('condition_values', [])}
+                    if conds & SKIP_CONDITIONS:
+                        continue                   # swarms, the radio: not in this game
+                    time = next((t for t in TIMES if 'time-' + t in conds), None)
                     by_v.setdefault(vd['version']['name'], {}).setdefault(ed['method']['name'], []).append(
-                        (dex, ed['min_level'], ed['max_level'], ed['chance']))
-        ver = next((v for v in cfg['enc_versions'] if v in by_v), None)
+                        (dex, ed['min_level'], ed['max_level'], ed['chance'], time))
+        # A place with no table in its region's versions (Routes 26 and 27 count as Kanto, but only
+        # HeartGold has them) takes one from the other regions' versions.
+        others = [v for _, vs in cfg['regions'] for v in vs if v not in loc_vers[loc]]
+        ver = next((v for v in loc_vers[loc] + others if v in by_v), None)
         if not ver:
             continue
         used_versions[ver] = used_versions.get(ver, 0) + 1
@@ -451,15 +497,22 @@ def build(region):
                     rates[r['encounter_method']['name']] = vd['rate']
         methods = {}
         for meth, slots in by_v[ver].items():
-            merged = {}
-            for dex, mn, mx, ch in slots:
+            # One table per time of day (HeartGold's grass has morning, day and night slots).
+            merged = {t: {} for t in TIMES}
+            for dex, mn, mx, ch, time in slots:
                 if not (lo <= dex <= hi):
                     dropped.add(dex)
                     continue
-                merged[(dex, mn, mx)] = merged.get((dex, mn, mx), 0) + ch
-            if merged:
-                mons = sorted(([d, mn, mx, ch] for (d, mn, mx), ch in merged.items()), key=lambda r: (-r[3], r[0], r[1]))
-                methods[meth] = {'rate': rates.get(meth, 0), 'mons': mons}
+                for t in ([time] if time else TIMES):
+                    merged[t][(dex, mn, mx)] = merged[t].get((dex, mn, mx), 0) + ch
+            tables = {t: sorted(([d, mn, mx, ch] for (d, mn, mx), ch in m.items()), key=lambda r: (-r[3], r[0], r[1]))
+                      for t, m in merged.items()}
+            if tables['day']:
+                rec = {'rate': rates.get(meth, 0), 'mons': tables['day']}
+                for t in ('morning', 'night'):
+                    if tables[t] and tables[t] != tables['day']:
+                        rec[t] = tables[t]
+                methods[meth] = rec
         if methods:
             ENC[a['name']] = {'loc': loc, 'ver': ver, **methods}
     if dropped:
@@ -490,7 +543,8 @@ def build(region):
                            ' * Brazilian Portuguese uses the English column. Read them through G.Names (core/names.js).')
           + nested('G.NAMES', names))
     write('encounters.js', head('Wild Pokémon per location area: { loc, ver, <method>: { rate, mons: [[dex, min, max, chance %]] } }.\n'
-                                ' * Methods: walk (tall grass / caves), surf, old-rod, good-rod, super-rod, rock-smash...')
+                                ' * Methods: walk (tall grass / caves), surf, old-rod, good-rod, super-rod, rock-smash...\n'
+                                ' * Johto tables may add `morning` and `night` slot lists (`mons` is the daytime one).')
           + obj('G.ENCOUNTERS', dict(sorted(ENC.items()))))
     write('dex-text.js', head('Pokédex entries and move / item descriptions, one column per language (G.NAMES.langs order).')
           + nested('G.DEX_TEXT', {'mon': dex_txt, 'move': move_txt, 'item': item_txt}))
@@ -508,6 +562,8 @@ def evo_rule(frm, to, details):
         trig = d['trigger']['name']
         if trig == 'level-up':
             rec = {'to': to, 'how': 'level', 'level': d.get('min_level') or 1}
+            if d.get('relative_physical_stats') is not None:
+                rec['stats'] = d['relative_physical_stats']     # Tyrogue: 1 Atk > Def, -1 Atk < Def, 0 equal
             if d.get('min_happiness'):
                 rec = {'to': to, 'how': 'friendship', 'min': d['min_happiness']}
             if d.get('time_of_day'):
@@ -521,6 +577,9 @@ def evo_rule(frm, to, details):
             return {'to': to, 'how': 'item', 'item': d['item']['name']}
         if trig == 'trade' and not d.get('held_item') and not d.get('trade_species'):
             return {'to': to, 'how': 'level', 'level': TRADE_LEVEL_OVERRIDE.get(frm, TRADE_LEVEL), 'via': 'trade'}
+        if trig == 'trade' and d.get('held_item'):
+            # A trade holding an item (Onix with a Metal Coat): the item is used like a stone.
+            return {'to': to, 'how': 'item', 'item': d['held_item']['name'], 'via': 'trade'}
     print(f'  ! no usable evolution rule {frm} -> {to}: {[d["trigger"]["name"] for d in details]}')
     return None
 

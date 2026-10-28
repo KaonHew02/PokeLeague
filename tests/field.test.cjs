@@ -1,5 +1,5 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
-// water, fishing, and trainers who see across water. Test maps are defined here; the drawing,
+// water, fishing, trainers who see across water, and Johto's clock, obedience and Egg. Test maps are defined here; the drawing,
 // the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -279,4 +279,48 @@ test('floor switches: a boulder pushed onto one stays there for good and opens t
   // Leaving and coming back: the boulder still sits on the switch, fixed.
   W.load('t-plate', 'start');
   assert.deepEqual([W.rocks[0].x, W.rocks[0].y, W.rocks[0].fixed], [5, 2, true]);
+});
+
+test("Johto: the clock picks the wild Pokémon, the badges set who obeys, walking hatches the Egg", async () => {
+  const { G, W } = world();
+  const F = G.Field, S = F.save;
+  G.Maps.def({ id: 't-johto', region: 'johto', tileset: 'outdoor', palette: 'kanto',
+    rows: ['TTTTTTTTT', 'T"""""""T', 'TTTTTTTTT'], spots: { start: [1, 1, 'right'] },
+    encounters: { walk: { rate: 180, mons: [[16, 3, 3, 100]], night: [[163, 3, 3, 100]] } } });
+  assert.deepEqual(plain(G.Maps.validate('t-johto')), []);
+  F.giveMon('cyndaquil', 30);
+  const got = [];
+  W.onEncounter = async sp => { got.push(G.Maps.species(sp)); return 'run'; };
+  const walk = async () => {
+    got.length = 0;
+    W.load('t-johto', 'start');
+    await pump(W, (async () => { for (let i = 0; i < 6 && !got.length; i++) { step(W, i % 2 ? 'left' : 'right'); await tick(); } })());
+    return got[0];
+  };
+  G.Clock.set('day');
+  assert.equal(await walk(), 16, 'Pidgey by day');
+  G.Clock.set('night');
+  assert.equal(await walk(), 163, 'Hoothoot at night');
+  G.Clock.set(null);
+  // Obedience: none in Kanto, and in Johto only once the journey there began.
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8];
+  assert.equal(F.obeyCap('johto'), null);
+  F.setFlag('johto-start');
+  assert.equal(F.obeyCap('johto'), 20);
+  assert.equal(F.obeyCap('kanto'), null);
+  S.player.badges.push(9, 10);
+  assert.equal(F.obeyCap('johto'), 30, 'two Johto badges: Lv. 30');
+  // The Egg: egg-steps counts down on each step, and runs egg.hatch at 0.
+  let hatched = 0;
+  G.Script.def({ 'egg.hatch': [['js', () => { hatched++; }]] });
+  G.Maps.def({ id: 't-path', region: 'johto', tileset: 'outdoor', palette: 'kanto',
+    rows: ['TTTTTTTTT', 'T.......T', 'TTTTTTTTT'], spots: { start: [1, 1, 'right'] } });
+  W.load('t-path', 'start');
+  S.vars['egg-steps'] = 3;
+  for (let i = 0; i < 3; i++) step(W, 'right');
+  await pump(W, tick());
+  assert.equal(S.vars['egg-steps'], 0);
+  assert.equal(hatched, 1, 'the Egg hatched once');
+  step(W, 'right');
+  assert.equal(hatched, 1);
 });

@@ -225,6 +225,11 @@ G.WorldRender = (() => {
       const w = b.width * PX * k, hh = b.height * PX * k;
       ctx.drawImage(b, Math.round(a.wx - w / 2), Math.round(a.headY - hh - 2), w, hh);
     }
+    // The time of day (Johto): a wash of colour over the whole map.
+    if (S.tint) {
+      ctx.fillStyle = S.tint;
+      ctx.fillRect(L - TS, Tp - TS, W + 2 * TS, H + 2 * TS);
+    }
     // A dark cave: a small circle of light around the player (Flash lights it all).
     if (S.dark && S.me) {
       const cx = S.me.wx, cy = S.me.wy - TS / 2;

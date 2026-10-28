@@ -1,5 +1,5 @@
 /* ============ name-ui.js — naming the player, the rival and Pokémon ============
- *   await G.NameUI.ask({ kind: 'player' | 'rival' | 'mon', gender, mon, cancel })
+ *   await G.NameUI.ask({ kind: 'player' | 'rival' | 'rival2' | 'mon', gender, mon, cancel })   (rival2: Johto's)
  *       -> the name (cleaned, at most G.Store.MAX_NAME characters) | null
  *   'player' and 'rival' always get a name (empty = the first suggestion);
  *   'mon' returns null for "no nickname" (B, Cancel, or the species name).
@@ -14,7 +14,8 @@ G.NameUI = (() => {
   const SUGGEST = {
     m: ['Red', 'Ash', 'Jack', 'Kai', 'Leo'],
     f: ['Leaf', 'Green', 'Mia', 'Lily', 'Yui'],
-    rival: ['Blue', 'Gary', 'Jay', 'Rex', 'Ken']
+    rival: ['Blue', 'Gary', 'Jay', 'Rex', 'Ken'],
+    rival2: ['Silver', 'Kamon', 'Hugo', 'Zack', 'Rai']
   };
 
   function build() {
@@ -49,11 +50,11 @@ G.NameUI = (() => {
       G.UI.sprite(cv, o.mon.sp, { shiny: !!o.mon.shiny, hero: true, scale: 3 });
       pic.classList.remove('hidden');
     } else {
-      title.textContent = kind === 'rival' ? T("Your rival's name?") : T('Your name?');
-      picks = kind === 'rival' ? SUGGEST.rival : SUGGEST[o.gender === 'f' ? 'f' : 'm'];
+      title.textContent = kind === 'rival2' ? T("The thief's name?") : kind === 'rival' ? T("Your rival's name?") : T('Your name?');
+      picks = kind === 'rival' || kind === 'rival2' ? SUGGEST[kind] : SUGGEST[o.gender === 'f' ? 'f' : 'm'];
       input.placeholder = picks[0];
       input.value = '';
-      const who = kind === 'rival' ? 'rival' : (o.gender === 'f' ? 'player-girl' : 'player-boy');
+      const who = kind === 'rival' ? 'rival' : kind === 'rival2' ? 'silver' : (o.gender === 'f' ? 'player-girl' : 'player-boy');
       const art = G.People && G.People.portrait ? G.People.portrait(who, 4) : null;
       const c = cv.getContext('2d');
       c.setTransform(1, 0, 0, 1, 0, 0);

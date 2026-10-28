@@ -32,5 +32,6 @@ G.I18n.add({
   "Burglar": "小偷",
   "Cue Ball": "光头男",
   "Elite Four": "四天王",
-  "Champion": "冠军"
+  "Champion": "冠军",
+  "Sage": "和尚"
 }, "zh-Hans");

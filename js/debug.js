@@ -3,6 +3,7 @@
  *   map=sandbox&spot=start      start in the overworld instead of the title (spot: a name or x,y)
  *   party=charmander:9,pidgey:7 items=poke-ball:10,potion:3 flags=a,b badges=3 seed=42
  *   fast (no typewriter) · noenc (no wild Pokémon)
+ *   time=morning|day|night      pins the time of day (Johto's wild Pokémon and light)
  *   wild=caterpie:6             with map: a wild battle at once, from the overworld
  *                               (without map the battle screen runs its own test battle)
  *   trainer=pewter-gym:brock    a trainer battle at once (map defaults to sandbox)
@@ -22,6 +23,7 @@ G.Debug = (() => {
   if (P('seed')) G.World.seed(+P('seed') >>> 0);
   if (q.has('fast')) G.Dialog.instant = true;
   if (q.has('noenc')) G.World.debug.noEnc = true;
+  if (P('time') && G.Clock) G.Clock.set(P('time'));
 
   function setup() {
     const S = G.Field.save;

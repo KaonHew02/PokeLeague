@@ -115,7 +115,7 @@ G.BattleText = (() => {
       case 'damage': return damageLine(b, e, mon);
       case 'heal':
         if (e.why === 'drain') return fmt('{mon} had its energy drained!', { mon: who(b, e.from, e.fromSide) });
-        if (e.why === 'leech' || e.why === 'rest' || e.why === 'item') return e.why === 'item' ? fmt("{mon}'s HP was restored.", { mon }) : null;
+        if (e.why === 'leech' || e.why === 'rest' || e.why === 'item' || e.why === 'painSplit') return e.why === 'item' ? fmt("{mon}'s HP was restored.", { mon }) : null;
         if (e.why === 'ingrain') return fmt('{mon} absorbed nutrients with its roots!', { mon });
         return fmt('{mon} regained health!', { mon });
       case 'status': return statusLine(mon, e.s);
@@ -175,6 +175,13 @@ G.BattleText = (() => {
       case 'psychUp': return fmt("{mon} copied its opponent's stat changes!", { mon });
       case 'spite': return fmt("It reduced the PP of {mon}'s {move} by {n}!", { mon, move: G.Names.move(e.move), n: e.n });
       case 'aromatherapy': return fmt('A soothing aroma wafted through the area!', {});
+      case 'painSplit': return fmt('The battlers shared their pain!', {});
+      case 'disobey':
+        if (e.why === 'nap') return fmt('{mon} began to nap!', { mon });
+        if (e.why === 'other') return fmt("{mon} won't obey!", { mon });
+        return [fmt('{mon} is loafing around!', { mon }), fmt('{mon} turned away!', { mon }),
+                fmt("{mon} won't obey!", { mon }), fmt('{mon} pretended not to notice!', { mon })][e.n | 0];
+      case 'healBell': return fmt('A bell chimed!', {});
       case 'cantEscapeNow': return fmt('{mon} can no longer escape!', { mon });
       case 'lockOn': return fmt('{mon} took aim!', { mon });
       case 'stockpile': return fmt('{mon} stockpiled {n}!', { mon, n: e.n });

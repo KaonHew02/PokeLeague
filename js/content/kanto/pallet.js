@@ -323,7 +323,8 @@ G.Maps.def({
     // Professor Oak rates the Pokédex: how many kinds are caught (chapter 10). All 150 of Kanto (Mew is
     // a myth) earn the Diploma (flag diploma).
     'lab.rating': [['js', async h => {
-      const n = Object.keys(G.Field.save.dex.caught).length, P = { name: 'Prof. Oak', vars: { n } };
+      // (Kanto's Pokédex: numbers 1 to 151.)
+      const n = Object.keys(G.Field.save.dex.caught).filter(sp => +sp <= 151).length, P = { name: 'Prof. Oak', vars: { n } };
       await h.say(T('Let me see your Pokédex, {player}. You have caught {n} kinds of Pokémon.'), P);
       if (n < 10) await h.say(T('A fine start! Wild Pokémon live in the tall grass everywhere. Weaken them first, then throw a Poké Ball.'), P);
       else if (n < 30) await h.say(T('Good work! Every route and cave has Pokémon of its own. Keep exploring!'), P);

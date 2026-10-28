@@ -28,7 +28,7 @@ function fakeStorage(init = {}) {
 }
 
 /** The core files every test needs, in dev.html order. */
-const CORE = ['js/core/locales.js', 'js/core/util.js', 'js/core/rng.js', 'js/core/i18n.js', 'js/core/names.js'];
+const CORE = ['js/core/locales.js', 'js/core/util.js', 'js/core/rng.js', 'js/core/i18n.js', 'js/core/names.js', 'js/core/clock.js'];
 /** Game data and the battle engine (also what tools/sim_battle.js loads). */
 const DATA = ['js/data/types.js', 'js/data/species.js', 'js/data/moves.js', 'js/data/items.js', 'js/data/growth.js',
               'js/data/names.js', 'js/data/natures.js', 'js/data/item-effects.js'];

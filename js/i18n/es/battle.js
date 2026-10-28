@@ -157,5 +157,12 @@ G.I18n.add({
   "{mon} is angry!": "¡{mon} está enfadado!",
   "{mon} is watching carefully!": "¡{mon} observa con atención!",
   "{mon} fled!": "¡{mon} ha huido!",
-  "You have no Safari Balls left!": "¡No te quedan Safari Balls!"
+  "You have no Safari Balls left!": "¡No te quedan Safari Balls!",
+  "The battlers shared their pain!": "¡Los combatientes compartieron su dolor!",
+  "{mon} began to nap!": "¡{mon} se echó una siesta!",
+  "{mon} won't obey!": "¡{mon} no obedece!",
+  "{mon} is loafing around!": "¡{mon} está holgazaneando!",
+  "{mon} turned away!": "¡{mon} se dio la vuelta!",
+  "{mon} pretended not to notice!": "¡{mon} hizo como si no oyera!",
+  "A bell chimed!": "¡Sonó una campana!"
 }, "es");

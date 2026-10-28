@@ -161,5 +161,16 @@ G.I18n.add({
   "{mon} is too tired to fly.": "{mon}太累了，飞不起来。",
   "You can't fly from here.": "这里不能飞。",
   "You are here": "当前位置",
-  "Where would you like to fly?": "要飞到哪里？"
+  "Where would you like to fly?": "要飞到哪里？",
+  "The thief's name?": "小偷的名字？",
+  "Zephyr Badge": "飞翼徽章",
+  "Hive Badge": "昆虫徽章",
+  "Plain Badge": "常规徽章",
+  "Fog Badge": "幻影徽章",
+  "Storm Badge": "打击徽章",
+  "Mineral Badge": "钢铁徽章",
+  "Glacier Badge": "冰雪徽章",
+  "Rising Badge": "升龙徽章",
+  "Kanto": "关都",
+  "Johto": "城都"
 }, "zh-Hans");

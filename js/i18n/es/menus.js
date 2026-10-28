@@ -161,5 +161,16 @@ G.I18n.add({
   "{mon} is too tired to fly.": "{mon} está demasiado cansado para volar.",
   "You can't fly from here.": "No puedes volar desde aquí.",
   "You are here": "Estás aquí",
-  "Where would you like to fly?": "¿Adónde quieres volar?"
+  "Where would you like to fly?": "¿Adónde quieres volar?",
+  "The thief's name?": "¿Nombre del ladrón?",
+  "Zephyr Badge": "Medalla Céfiro",
+  "Hive Badge": "Medalla Colmena",
+  "Plain Badge": "Medalla Planicie",
+  "Fog Badge": "Medalla Niebla",
+  "Storm Badge": "Medalla Tormenta",
+  "Mineral Badge": "Medalla Mineral",
+  "Glacier Badge": "Medalla Glaciar",
+  "Rising Badge": "Medalla Dragón",
+  "Kanto": "Kanto",
+  "Johto": "Johto"
 }, "es");

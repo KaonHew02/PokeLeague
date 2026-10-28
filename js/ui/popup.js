@@ -97,16 +97,20 @@ G.Menus = (() => {
   const money = n => '₽' + fmtNum(n);
   /** Play time as h:mm. */
   const time = secs => { const m = Math.floor((secs | 0) / 60); return Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0'); };
-  const COLORS = ['#9aa0a8', '#4aa8ff', '#ff9a2a', '#7ad86a', '#ff6fb0', '#ffd23f', '#ff4a3a', '#3fbf6a'];
+  const COLORS = ['#9aa0a8', '#4aa8ff', '#ff9a2a', '#7ad86a', '#ff6fb0', '#ffd23f', '#ff4a3a', '#3fbf6a',
+                  '#b8cce8', '#e8a830', '#f4d858', '#9a78d0', '#d8643c', '#b8c0c8', '#78d0f0', '#e04848'];
   const badgeNames = () => [G.T('Boulder Badge'), G.T('Cascade Badge'), G.T('Thunder Badge'), G.T('Rainbow Badge'),
-                            G.T('Soul Badge'), G.T('Marsh Badge'), G.T('Volcano Badge'), G.T('Earth Badge')];
-  /** The Kanto badges as a row of coloured gems; the ones not earned are dark. */
+                            G.T('Soul Badge'), G.T('Marsh Badge'), G.T('Volcano Badge'), G.T('Earth Badge'),
+                            G.T('Zephyr Badge'), G.T('Hive Badge'), G.T('Plain Badge'), G.T('Fog Badge'),
+                            G.T('Storm Badge'), G.T('Mineral Badge'), G.T('Glacier Badge'), G.T('Rising Badge')];
+  /** The badges as rows of coloured gems (Kanto 1-8; Johto 9-16 once one is earned); the ones not earned are dark. */
   function badges(have) {
     const names = badgeNames();
-    return `<div class="badges">${COLORS.map((col, i) => {
-      const on = have.includes(i + 1);
+    const row = from => `<div class="badges">${COLORS.slice(from, from + 8).map((col, j) => {
+      const i = from + j, on = have.includes(i + 1);
       return `<span class="badge${on ? ' on' : ''}" style="--c:${col}" title="${G.U.esc(on ? names[i] : '?')}"></span>`;
     }).join('')}</div>`;
+    return row(0) + (have.some(b => b > 8) ? row(8) : '');
   }
   const badgeName = n => badgeNames()[n - 1];
   return { money, time, badges, badgeName, num: fmtNum };

@@ -1,15 +1,17 @@
 /* ============ town-map-ui.js — the Town Map, and where to Fly ============
  *   await G.TownMapUI.open()               the Town Map (from the Bag): where you are
  *   await G.TownMapUI.open({ fly: true })  -> the map id of a visited town to fly to, or null
- * A small drawing of Kanto (land, sea, the routes and the towns) beside a list of the towns.
+ * A small drawing of a region (land, sea, the routes and the towns) beside a list of its towns.
  * The place under the cursor blinks; visited towns are red, the others grey. The towns are
  * the maps with a `fly` landing spot (G.World.flyTargets); a click on the drawing picks one too.
+ * It shows the region you are in (map `region`, Kanto by default); once you have been to both,
+ * a button switches to the other one (Fly crosses between them).
  */
 G.TownMapUI = (() => {
   const esc = s => G.U.esc(s);
   const T = s => G.T(s);
   const CELL = 16, PAD = 12, COLS = 20, ROWS = 15;
-  // Where places sit on the drawing (grid cells), by location id.
+  // Kanto. Where places sit on the drawing (grid cells), by location id.
   const AT = {
     'pallet-town': [4, 11], 'viridian-city': [4, 7], 'pewter-city': [4, 3], 'cerulean-city': [13, 2],
     'vermilion-city': [13, 10], 'lavender-town': [17, 6], 'celadon-city': [9, 6], 'saffron-city': [13, 6],
@@ -30,6 +32,28 @@ G.TownMapUI = (() => {
   const SEA = { 19: [[11, 13], [11, 14]], 20: [[11, 14], [4, 14]], 21: [[4, 11], [4, 14]] };
   // Land: the mainland, the southern coast, Cinnabar and the Seafoam Islands.
   const LAND = [[-0.5, -0.5, 20, 12.4], [8.5, 11.5, 11, 2.4], [3.2, 13.3, 1.6, 1.4], [7.4, 13.4, 1.2, 1.2]];
+  // Johto: New Bark Town in the east, the League's Routes 26 and 27 at the right edge.
+  const JOHTO = {
+    AT: {
+      'new-bark-town': [17, 11], 'cherrygrove-city': [12, 11], 'violet-city': [9, 5], 'azalea-town': [5, 12],
+      'goldenrod-city': [5, 8], 'ecruteak-city': [7, 3], 'olivine-city': [2.5, 4], 'cianwood-city': [0.6, 9],
+      'mahogany-town': [13, 3], 'blackthorn-city': [17, 3], 'sprout-tower': [9, 3.9], 'dark-cave': [11, 5]
+    },
+    ROADS: {
+      29: [[17, 11], [12, 11]], 30: [[12, 11], [12, 6]], 31: [[12, 6], [9, 6], [9, 5]], 32: [[9, 5], [9, 12]],
+      33: [[9, 12], [5, 12]], 34: [[5, 12], [5, 8]], 35: [[5, 8], [5, 5]], 36: [[5, 5], [9, 5]], 37: [[7, 5], [7, 3]],
+      38: [[7, 3], [3, 3]], 39: [[3, 3], [2.5, 4]], 42: [[7, 3], [13, 3]], 43: [[13, 3], [13, 0.8]], 44: [[13, 3], [17, 3]],
+      45: [[17, 3], [17, 8]], 46: [[17, 8], [14.5, 8], [14.5, 11]], 26: [[19.2, 0.8], [19.2, 9]], 27: [[19.2, 9], [19.2, 11], [17, 11]]
+    },
+    SEA: { 40: [[2.5, 4], [2.5, 7]], 41: [[2.5, 7], [0.6, 9]] },
+    LAND: [[1.6, -0.5, 18.9, 12.8], [-0.5, 8, 1.8, 2.2], [3, 12, 7.5, 2]]
+  };
+  const MAPS = { kanto: { AT, ROADS, SEA, LAND }, johto: JOHTO };
+  const REGION_NAME = { kanto: () => T('Kanto'), johto: () => T('Johto') };
+  /** The drawing being shown. */
+  const R = () => MAPS[st.region];
+  /** The region of a location id (by the drawing it is on). */
+  const regionOf = loc => Object.keys(MAPS).find(r => MAPS[r].AT[loc]) || null;
 
   let el = null, st = null, raf = 0;
 
@@ -38,7 +62,7 @@ G.TownMapUI = (() => {
     el.id = 'scr-townmap';
     el.className = 'scr dim hidden';
     el.setAttribute('translate', 'no');
-    el.innerHTML = '<div class="box tm-box"><div class="opt-head"><h3></h3><button class="btn small ghost" data-back></button></div>'
+    el.innerHTML = '<div class="box tm-box"><div class="opt-head"><h3></h3><button class="btn small ghost hidden" data-region></button><button class="btn small ghost" data-back></button></div>'
       + '<div class="tm-main"><div class="tm-map"><canvas></canvas><p class="tm-place"></p></div><div class="menu-list tm-list"></div></div></div>';
     document.getElementById('frame').appendChild(el);
     const cv = el.querySelector('canvas');
@@ -47,7 +71,7 @@ G.TownMapUI = (() => {
       const r = cv.getBoundingClientRect();
       const x = (e.clientX - r.left) * cv.width / r.width, y = (e.clientY - r.top) * cv.height / r.height;
       let best = null, bd = 14;
-      for (const t of st.towns) {
+      for (const t of shown()) {
         const [px, py] = pos(t.loc), d = Math.hypot(px - x, py - y);
         if (d < bd) { bd = d; best = t; }
       }
@@ -58,18 +82,28 @@ G.TownMapUI = (() => {
       if (st.fly && best.visited) finish(best.id);
     });
     el.querySelector('[data-back]').onclick = () => finish(null);
+    el.querySelector('[data-region]').onclick = () => {
+      st.region = st.region === 'kanto' ? 'johto' : 'kanto';
+      const first = shown().find(t => t.visited) || shown()[0];
+      st.sel = first ? first.id : null;
+      render(); label();
+      const b = st.sel && el.querySelector(`[data-id="${st.sel}"]:not(:disabled)`);
+      if (b) G.Nav.focusFirst(b);
+    };
   }
 
-  const pos = loc => { const p = AT[loc] || [0, 0]; return [PAD + (p[0] + 0.5) * CELL, PAD + (p[1] + 0.5) * CELL]; };
+  /** The towns on the drawing being shown. */
+  const shown = () => st.towns.filter(t => regionOf(t.loc) === st.region);
+  const pos = loc => { const p = R().AT[loc] || [0, 0]; return [PAD + (p[0] + 0.5) * CELL, PAD + (p[1] + 0.5) * CELL]; };
   /** The route number of a location id ('kanto-route-16', 'kanto-sea-route-20'), or 0. */
   const routeNo = loc => { const m = /route-(\d+)$/.exec(loc || ''); return m ? +m[1] : 0; };
   /** Where the player is on the drawing (a town, a place, the middle of a route), or null. */
   function here() {
     const m = G.World && G.World.map;
     const loc = m && m.loc;
-    if (!loc) return null;
-    if (AT[loc]) return pos(loc);
-    const line = ROADS[routeNo(loc)] || SEA[routeNo(loc)];
+    if (!loc || (m.def.region || 'kanto') !== st.region) return null;
+    if (R().AT[loc]) return pos(loc);
+    const line = R().ROADS[routeNo(loc)] || R().SEA[routeNo(loc)];
     if (!line) return null;
     const [a, b] = [line[0], line[line.length - 1]];
     return [PAD + ((a[0] + b[0]) / 2 + 0.5) * CELL, PAD + ((a[1] + b[1]) / 2 + 0.5) * CELL];
@@ -93,7 +127,7 @@ G.TownMapUI = (() => {
     for (let y = 10; y < cv.height; y += 14) for (let x = (y / 14 | 0) % 2 * 10; x < cv.width; x += 24) {
       c.beginPath(); c.moveTo(x, y); c.lineTo(x + 6, y - 2); c.lineTo(x + 12, y); c.stroke();
     }
-    for (const [x, y, w, h] of LAND) {
+    for (const [x, y, w, h] of R().LAND) {
       c.fillStyle = '#3e7d34'; c.fillRect(PAD + x * k - 2, PAD + y * k - 2, w * k + 4, h * k + 4);
       c.fillStyle = '#74b84e'; c.fillRect(PAD + x * k, PAD + y * k, w * k, h * k);
     }
@@ -101,12 +135,12 @@ G.TownMapUI = (() => {
       c.strokeStyle = color; c.lineWidth = w; c.setLineDash(dash || []); c.lineCap = 'round'; c.lineJoin = 'round';
       c.beginPath(); pts.forEach(([x, y], i) => { const [px, py] = P(x, y); if (i) c.lineTo(px, py); else c.moveTo(px, py); }); c.stroke();
     };
-    for (const pts of Object.values(SEA)) road(pts, '#a8d4ff', 3, [4, 4]);
-    for (const pts of Object.values(ROADS)) road(pts, '#3c5a2a', 6);
-    for (const pts of Object.values(ROADS)) road(pts, '#f2dc8c', 3.5);
+    for (const pts of Object.values(R().SEA)) road(pts, '#a8d4ff', 3, [4, 4]);
+    for (const pts of Object.values(R().ROADS)) road(pts, '#3c5a2a', 6);
+    for (const pts of Object.values(R().ROADS)) road(pts, '#f2dc8c', 3.5);
     c.setLineDash([]);
     const blink = Math.floor(now / 350) % 2 === 0;
-    for (const t of st.towns) {
+    for (const t of shown()) {
       const [x, y] = pos(t.loc);
       const sel = t.id === st.sel;
       c.fillStyle = '#20242c'; c.fillRect(x - 6, y - 6, 12, 12);
@@ -133,8 +167,13 @@ G.TownMapUI = (() => {
   function render() {
     el.querySelector('h3').textContent = st.fly ? T('Where would you like to fly?') : G.Names.item('town-map');
     el.querySelector('[data-back]').textContent = st.fly ? T('Cancel') : T('Back');
+    // The other region's drawing, once you have been there.
+    const other = st.region === 'kanto' ? 'johto' : 'kanto';
+    const rb = el.querySelector('[data-region]');
+    rb.textContent = REGION_NAME[other]();
+    rb.classList.toggle('hidden', !st.towns.some(t => t.visited && regionOf(t.loc) === other));
     const list = el.querySelector('.tm-list');
-    list.innerHTML = st.towns.map(t => `<button class="menu-item${t.visited ? '' : ' unseen'}" data-id="${esc(t.id)}"${st.fly && !t.visited ? ' disabled' : ''}>`
+    list.innerHTML = shown().map(t => `<button class="menu-item${t.visited ? '' : ' unseen'}" data-id="${esc(t.id)}"${st.fly && !t.visited ? ' disabled' : ''}>`
       + `${esc(t.visited || !st.fly ? G.Names.loc(t.loc) : '-----')}</button>`).join('');
     list.querySelectorAll('[data-id]').forEach(b => {
       b.onclick = () => { st.sel = b.dataset.id; label(); if (st.fly) finish(b.dataset.id); };
@@ -154,15 +193,16 @@ G.TownMapUI = (() => {
   function open(o = {}) {
     if (!el) build();
     return new Promise(res => {
-      const ORDER = Object.keys(AT);
+      const ORDER = [...Object.keys(AT), ...Object.keys(JOHTO.AT)];
       const towns = (G.World && G.World.flyTargets ? G.World.flyTargets() : [])
-        .filter(t => AT[t.loc]).sort((a, b) => ORDER.indexOf(a.loc) - ORDER.indexOf(b.loc));
+        .filter(t => regionOf(t.loc)).sort((a, b) => ORDER.indexOf(a.loc) - ORDER.indexOf(b.loc));
       const m = G.World && G.World.map;
+      const region = (m && m.def.region) || 'kanto';
       const cur = towns.find(t => m && t.loc === m.loc);
       // Flying: the town you are in, else the first one you can fly to. The Town Map on a route: nothing
       // picked yet, so it says where you are.
-      const pick = cur || (o.fly ? towns.find(t => t.visited) : null);
-      st = { fly: !!o.fly, towns, done: res, sel: pick ? pick.id : null };
+      const pick = cur || (o.fly ? towns.find(t => t.visited && regionOf(t.loc) === region) : null);
+      st = { fly: !!o.fly, towns, region, done: res, sel: pick ? pick.id : null };
       render();
       label();
       const first = st.sel ? el.querySelector(`[data-id="${st.sel}"]:not(:disabled)`) : st.fly ? null : el.querySelector('[data-back]');
@@ -179,5 +219,5 @@ G.TownMapUI = (() => {
     });
   }
 
-  return { open, AT, ROADS };
+  return { open, AT, ROADS, JOHTO };
 })();

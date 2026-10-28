@@ -32,5 +32,6 @@ G.I18n.add({
   "Burglar": "Ladro",
   "Cue Ball": "Teppista",
   "Elite Four": "Superquattro",
-  "Champion": "Campione"
+  "Champion": "Campione",
+  "Sage": "Saggio"
 }, "it");

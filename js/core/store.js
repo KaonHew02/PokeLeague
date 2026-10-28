@@ -50,6 +50,7 @@ G.Store = (() => {
                 id: o.id != null ? (o.id >>> 0) % 65536 : now % 65536,
                 money: 3000, badges: [], map: null, x: 0, y: 0, dir: 'down', lastHeal: null },
       rival: { name: cleanName(o.rival) || 'Blue', starter: null },
+      rival2: { name: null, starter: null },              // Johto's rival (named when you meet him)
       party: [], boxes: emptyBoxes(), box: 0, bag: {}, repel: 0,
       dex: { seen: {}, caught: {} }, flags: {}, vars: {}, done: {}, fame: []
     };
@@ -125,7 +126,8 @@ G.Store = (() => {
     Object.assign(out.player, {
       name: cleanName(p.name) || 'Red', gender: p.gender === 'f' ? 'f' : 'm',
       id: int(p.id, 0, 65535, d.player.id), money: int(p.money, 0, 999999, 3000),
-      badges: [...new Set((Array.isArray(p.badges) ? p.badges : []).filter(b => Number.isInteger(b) && b >= 1 && b <= 8))].sort((a, b) => a - b),
+      // Kanto's badges are 1-8, Johto's 9-16.
+      badges: [...new Set((Array.isArray(p.badges) ? p.badges : []).filter(b => Number.isInteger(b) && b >= 1 && b <= 16))].sort((a, b) => a - b),
       map: typeof p.map === 'string' ? p.map : null, x: int(p.x, -999, 9999, 0), y: int(p.y, -999, 9999, 0),
       dir: DIRS.includes(p.dir) ? p.dir : 'down',
       lastHeal: obj(p.lastHeal) && typeof p.lastHeal.map === 'string'
@@ -136,6 +138,8 @@ G.Store = (() => {
     if (p.bike) out.player.bike = 1;
     const r = obj(s.rival) ? s.rival : {};
     out.rival = { name: cleanName(r.name) || 'Blue', starter: Number.isInteger(r.starter) && knownSp(r.starter) ? r.starter : null };
+    const r2 = obj(s.rival2) ? s.rival2 : {};
+    out.rival2 = { name: cleanName(r2.name) || null, starter: Number.isInteger(r2.starter) && knownSp(r2.starter) ? r2.starter : null };
     // Party: at most six; any extra goes to the PC.
     const party = (Array.isArray(s.party) ? s.party : []).map(fixMon).filter(Boolean);
     out.party = party.slice(0, 6);

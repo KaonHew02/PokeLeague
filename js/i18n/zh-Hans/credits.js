@@ -35,5 +35,8 @@ G.I18n.add({
   "Victory Road, the Elite Four and the Champion are waiting: your adventure goes on!": "冠军之路、四天王和冠军正等着你：你的冒险还在继续！",
   "Chapter 10 complete!": "第10章完成！",
   "{player} faced Mewtwo deep in Cerulean Cave.": "{player}在华蓝洞窟深处面对了超梦。",
-  "Thank you for playing! Kanto is complete, and the next region opens in a future update.": "感谢游玩！关都已经全部完成，下一个地区将在之后的更新中开放。"
+  "Thank you for playing! Kanto is complete, and the next region opens in a future update.": "感谢游玩！关都已经全部完成，下一个地区将在之后的更新中开放。",
+  "Chapter 11 complete!": "第11章完成！",
+  "{player} beat Falkner and earned the Zephyr Badge: the first badge of Johto.": "{player}打败了阿速，得到了飞翼徽章：城都的第一枚徽章。",
+  "Thank you for playing! The rest of Johto opens in a future update.": "感谢游玩！城都的其余部分将在之后的更新中开放。"
 }, "zh-Hans");

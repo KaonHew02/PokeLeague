@@ -35,5 +35,8 @@ G.I18n.add({
   "Victory Road, the Elite Four and the Champion are waiting: your adventure goes on!": "A Victory Road, a Elite dos Quatro e o Campeão esperam por você: sua aventura continua!",
   "Chapter 10 complete!": "Capítulo 10 concluído!",
   "{player} faced Mewtwo deep in Cerulean Cave.": "{player} enfrentou Mewtwo no fundo da Cerulean Cave.",
-  "Thank you for playing! Kanto is complete, and the next region opens in a future update.": "Obrigado por jogar! Kanto está completo, e a próxima região chega em uma próxima atualização."
+  "Thank you for playing! Kanto is complete, and the next region opens in a future update.": "Obrigado por jogar! Kanto está completo, e a próxima região chega em uma próxima atualização.",
+  "Chapter 11 complete!": "Capítulo 11 concluído!",
+  "{player} beat Falkner and earned the Zephyr Badge: the first badge of Johto.": "{player} venceu Falkner e ganhou a Insígnia do Zéfiro: a primeira insígnia de Johto.",
+  "Thank you for playing! The rest of Johto opens in a future update.": "Obrigado por jogar! O resto de Johto chega em uma próxima atualização."
 }, "pt-BR");

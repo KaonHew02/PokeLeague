@@ -97,3 +97,28 @@ test('every event of many battles turns into text in every language, with all sl
     }
   }
 });
+
+test('Johto obedience (rules.obeyCap): above the cap a Pokémon sometimes naps, loafs or does its own thing', () => {
+  const count = (lvl, cap) => {
+    const why = {};
+    for (let s = 1; s <= 20; s++) {
+      const { b, events } = duel(G, { me: ['charizard', lvl, ['scratch', 'ember']], foe: ['snorlax', 60, ['splash']], seed: s,
+                                      rules: cap ? { obeyCap: cap } : undefined });
+      for (const e of events.concat(play(b))) if (e.type === 'disobey') why[e.why] = (why[e.why] || 0) + 1;
+    }
+    return why;
+  };
+  const wild = count(60, 20);
+  assert.ok(wild.nap && wild.loaf && wild.other, 'all kinds of disobedience: ' + JSON.stringify(wild));
+  assert.deepEqual(count(60, null), {}, 'no cap: always obeys');
+  assert.deepEqual(count(20, 20), {}, 'at the cap: always obeys');
+  // Every line has text in every language.
+  for (const lang of ['en'].concat(LANGS)) {
+    const L = battleBoot({ lang, dictionaries: true });
+    const { b } = duel(L, { me: ['charizard', 60, null], foe: ['pidgey', 5, null] });
+    for (const e of [{ why: 'nap' }, { why: 'other' }, ...[0, 1, 2, 3].map(n => ({ why: 'loaf', n }))]) {
+      const t = L.BattleText.line(Object.assign({ type: 'disobey', side: 0, uid: b.player.bm.mon.uid }, e), b);
+      assert.ok(t && !/\{\w+\}/.test(t), `${lang}: ${JSON.stringify(e)} -> ${t}`);
+    }
+  }
+});

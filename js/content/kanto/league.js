@@ -31,11 +31,13 @@ G.Maps.def({
     'T################..,...T',
     'T####O###########..,...T',
     'T....,.............,...T',
-    'T....,,,,,,,,,,,,,,,...T',
-    'T..f...............f...T',
-    'T......................T',
-    'TTTTTTTTTTTTTTTTTTTTTTTT'
+    'T....,,,,,,,,,,,,,,,,..T',
+    'T..f...............,,..T',
+    'T..................,,..T',
+    'TTTTTTTTTTTTTTTTTTT,,TTT'
   ],
+  // Chapter 11: south to Route 26 and Johto (johto/newbark.js).
+  connect: { south: { map: 'route26', offset: 10 } },
   warps: [
     { x: 11, y: 7, to: 'indigo-lobby', spot: 'door' },
     { x: 5, y: 12, to: 'victory-2f', spot: 'exit' }

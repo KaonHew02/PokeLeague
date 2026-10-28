@@ -64,6 +64,7 @@ in the same change.
 
 ```
 python tools/fetch_data.py --region kanto            # dex 1-151 (about 1,200 requests the first time)
+python tools/fetch_data.py --region johto            # dex 1-251, Kanto and Johto places (what js/data/ holds now)
 python tools/fetch_data.py --region kanto --offline  # cache only; fails on a miss
 python tools/fetch_data.py --region kanto --refresh  # download again
 ```
@@ -75,11 +76,20 @@ python tools/fetch_data.py --region kanto --refresh  # download again
     `firered-leafgreen`; encounters from the first of firered, leafgreen, red, blue, yellow
     that has data.
   - Flavor text: FRLG first (English only), then Let's Go (the other languages), else the
-    newest entry. For Johto, add a `johto` entry with `dex (1,251)` and HGSS first.
+    newest entry.
+  - Johto: `dex (1,251)`; learnsets FRLG, emerald, HGSS, crystal; TMs still FRLG; text adds HGSS.
+    `regions` lists each region with its own encounter versions (Kanto: FRLG first; Johto:
+    HGSS first); a place with no table there falls back to the other region's versions (Routes 26
+    and 27 are `kanto-route-26/27` in PokeAPI but only HGSS has them). Encounter conditions
+    `morning` / `day` / `night` give a table its `morning` and `night` lists beside `mons` (the
+    day); swarms and the radio are skipped.
 - **Evolutions:**
   - Level-up becomes `{how:'level', level}`; a stone becomes `{how:'item', item}`.
-  - Trades become `{how:'level', level:37, via:'trade'}`; Kadabra uses 36.
-  - Friendship becomes `{how:'friendship', min}`, with `time` and `move` kept for later regions.
+  - Trades become `{how:'level', level:37, via:'trade'}`; Kadabra uses 36. A trade holding an
+    item becomes using that item: `{how:'item', item:'metal-coat', via:'trade'}` (Steelix,
+    Scizor, Slowking, Politoed, Kingdra, Porygon2).
+  - Friendship becomes `{how:'friendship', min}`, with `time` ('day' / 'night': Espeon, Umbreon)
+    and `move` kept. Tyrogue's three evolutions carry `stats` (Attack vs Defense).
 - **Gaps PokeAPI has:**
   - No es, it or Chinese **place names**: the tool's `LOC_NAMES` table adds the official
     ones for Kanto's towns, routes ("Ruta N", "Percorso N", "N号道路") and main dungeons.
@@ -953,10 +963,43 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** the rematches against a team ten levels up as well: Lance ~75%, the Champion
   ~75%. The story test trains the team in Cerulean Cave, beats them all, then Mewtwo.
 
-### After chapter 10
+- **Chapter 11** ✅, Johto part 1: south of the Indigo Plateau, Route 26 (a rest house that
+  heals) and Route 27 (a strait to Surf) lead west to New Bark Town (`region: 'johto'` on every
+  Johto map). Professor Elm explains the rule (flag `elm-intro`) and gives a Johto starter, Lv. 5
+  (to the PC if the party is full; flag `johto-start`; the thief takes the one strong against
+  yours, `save.rival2.starter`). Route 29, Cherrygrove City, Route 30 (three Trainers) and
+  Mr. Pokémon, who gives the Mystery Egg; Professor Oak, visiting, adds Johto to the Pokédex
+  (flag `johto-dex`) and hears that the lab was robbed (flag `johto-theft`; that ball is gone
+  from the lab). The thief waits at Cherrygrove's north exit (flag `rival2-battle`, losing
+  allowed); back at the lab the officer asks his name (`G.NameUI` kind `rival2`, flag
+  `rival2-named`), and Elm gives the Egg back with five Poké Balls (flag `elm-egg`, var
+  `egg-steps` 800: walking hatches Togepi, script `egg.hatch`). Route 31, Violet City (the
+  Academy, a Center, a Mart), Sprout Tower (three floors of Sages and Elder Li, who gives TM27
+  Return) and the Gym: two Trainers and Falkner (Pidgey 7, Pidgeotto 11; the Zephyr Badge,
+  badge 9, and TM40 Aerial Ace; `ending(11)`). Files: `js/content/johto/newbark.js`,
+  `cherrygrove.js`, `violet.js` (translations `johto-newbark`, `johto-cherrygrove`,
+  `johto-violet`).
+- **Engine for chapter 11:** Johto data and sprites 152–251 (from PokéGo); `G.Clock`
+  (`js/core/clock.js`: morning 4-10, day 10-20, night 20-4 from the device; debug `?time=night`)
+  picks a table's `morning` / `night` list and tints Johto's outdoor maps (render `tint`);
+  evolutions by friendship and time, by stats (Tyrogue), and trade items used from the Bag
+  (`item-effects.js`: Metal Coat, King's Rock, Dragon Scale, Up-Grade, Sun Stone). Friendship
+  grows by one every 128 steps (var `walk`). Obedience: on a Johto map after `johto-start`,
+  `G.Field.obeyCap(region)` gives `rules.obeyCap` from the Johto badges (`OBEY` = 20, 25, 30,
+  35, 40, 50, 60, 70; all eight: no cap). Above it the Gen 3 roll (`rand(0,255) * (lvl + cap)
+  / 256 >= cap`) makes a Pokémon use another move, nap, hurt itself or loaf (event `disobey`).
+  Badges 9–16 (the badge case shows a second row); the Town Map draws Johto and switches
+  region; moves Heal Bell, Spider Web, Pain Split, Beat Up; class sage; people elm, silver,
+  sage, falkner.
+- **Balance:** Falkner against a team that never heals: Cyndaquil Lv. 13 ~80%, Totodile 13
+  ~65%, a lone Chikorita 13 never wins (Gust), Chikorita 15 with a Hoothoot 11 ~60%. The wild
+  Pokémon before him are Lv. 2-6, his Trainers up to 10. The story test plays chapter 11 with the
+  Kanto team in the party (it obeys only sometimes) and Cyndaquil leading.
 
-1. **Johto:** `fetch_data.py --region johto` (dex 1–251), plus day and night, friendship
-   evolutions, berries, new palettes and buildings. Kanto teams carry over, but high levels
-   disobey until you earn badges.
+### After chapter 11
+
+1. **Johto, the rest:** Union Cave, Azalea Town and Bugsy, Ilex Forest, Goldenrod City and
+   Whitney, then the other four Gyms, the Lake of Rage, the Johto League; berries, Headbutt,
+   held items and the Day Care along the way.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

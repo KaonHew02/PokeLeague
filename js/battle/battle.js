@@ -358,6 +358,32 @@ G.Battle = (() => {
       }
       if (mon.status === 'par' && this.rng.pct(25)) { stop(); return say('par'); }
       if (bm.vol.attract && this.alive(target) && this.rng.pct(50)) { stop(); return say('attract'); }
+      // rules.obeyCap (Johto): above that level, the player's Pokémon may not obey (the Gen 3 roll).
+      const cap = bm.side === 0 ? this.rules.obeyCap : null;
+      if (cap && mon.lvl > cap && !a.locked && Math.floor(this.rng.int(0, 255) * (mon.lvl + cap) / 256) >= cap) {
+        stop();
+        const roll = this.rng.int(0, 3);
+        const others = mon.moves.filter(m => m.id !== id && m.pp > 0);
+        if (roll === 0 && others.length) {
+          const o = this.rng.pick(others);
+          o.pp = Math.max(0, o.pp - 1);
+          this.emit('disobey', { side: bm.side, uid: mon.uid, why: 'other' });
+          G.BattleFx.useMove(this, bm, target, o.id, {});
+          return;
+        }
+        if (roll === 1 && !mon.status) {
+          mon.status = 'slp'; mon.slp = this.rng.int(1, 3);
+          return this.emit('disobey', { side: bm.side, uid: mon.uid, why: 'nap' });
+        }
+        if (roll === 2) {
+          this.emit('disobey', { side: bm.side, uid: mon.uid, why: 'other' });
+          const dmg = G.Damage.calc({ lvl: mon.lvl, pow: 40, atk: this.stat(bm, 'atk'), def: this.stat(bm, 'def'), roll: this.rng.int(85, 100) });
+          this.emit('hurtSelf', { side: bm.side, uid: mon.uid });
+          this.hurt(bm, dmg, { why: 'confusion' });
+          return;
+        }
+        return this.emit('disobey', { side: bm.side, uid: mon.uid, why: 'loaf', n: this.rng.int(0, 3) });
+      }
       // PP is only used when the move really starts (not on the second turn of a charge or a rampage).
       if (!a.locked && id !== 'struggle') {
         const slot = bm.mon.moves.find(m => m.id === id);

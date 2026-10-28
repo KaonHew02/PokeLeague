@@ -152,8 +152,24 @@ G.SpecialMoves = (() => {
                         const side = b.sideOf(u);
                         for (const m of side.party) if (m.status && m.hp > 0) { m.status = null; m.slp = 0; m.tox = 0; }
                         b.emit('aromatherapy', { side: u.side }); return {}; } },
+    'heal-bell':    { use: (b, u) => {
+                        const side = b.sideOf(u);
+                        for (const m of side.party) if (m.status && m.hp > 0) { m.status = null; m.slp = 0; m.tox = 0; }
+                        b.emit('healBell', { side: u.side }); return {}; } },
     'block':        { use: trapUse },
     'mean-look':    { use: trapUse },
+    'spider-web':   { use: trapUse },
+    // Pain Split: both share their HP evenly (each up to its own maximum).
+    'pain-split':   { use: (b, u, t) => {
+                        const avg = Math.floor((u.mon.hp + t.mon.hp) / 2);
+                        b.emit('painSplit', me(u));
+                        for (const bm of [u, t]) {
+                          if (bm.mon.hp > avg) b.hurt(bm, bm.mon.hp - avg, { why: 'painSplit' });
+                          else if (bm.mon.hp < avg) b.heal(bm, avg - bm.mon.hp, 'painSplit');
+                        }
+                        return {}; } },
+    // Beat Up: one hit of 10 power for every party Pokémon that can still fight (Gen 2-4).
+    'beat-up':      { power: () => 10, hits: (b, u) => Math.max(1, b.sideOf(u).party.filter(m => m.hp > 0 && !m.status).length) },
     'lock-on':      { use: (b, u, t) => { u.vol.lockOn = true; b.emit('lockOn', Object.assign({ target: t.mon.uid }, me(u))); return {}; } },
     'mind-reader':  { use: (b, u, t) => { u.vol.lockOn = true; b.emit('lockOn', Object.assign({ target: t.mon.uid }, me(u))); return {}; } },
     'memento':      { use: (b, u, t) => {
@@ -238,12 +254,13 @@ G.SpecialMoves = (() => {
   }
   function weatherHeal(b) { const w = W(b); return w === 'sun' ? 66.7 : w ? 25 : 50; }
 
-  // Every other move of the Kanto learnsets that is knowingly simplified:
+  // Every other move of the learnsets (Kanto and Johto) that is knowingly simplified:
   // status moves that fail, damaging moves that only deal their damage.
   const FALLBACK = new Set([
     // status: no effect in a single battle without abilities / held items yet
     'baton-pass', 'camouflage', 'conversion-2', 'encore', 'grudge', 'imprison', 'mimic', 'recycle', 'role-play',
     'skill-swap', 'snatch', 'spikes', 'taunt', 'torment', 'transform', 'trick', 'mud-sport', 'water-sport',
+    'sketch', 'wish',
     // damaging: just their damage (no delayed hit, uproar lock, item theft, switch hit)
     'future-sight', 'uproar', 'covet', 'thief', 'knock-off', 'pursuit', 'focus-punch', 'bide', 'present', 'triple-kick'
   ]);

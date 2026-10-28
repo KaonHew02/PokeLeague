@@ -43,5 +43,12 @@ G.I18n.add({
   "Lance": "阿渡",
   "Indigo Plateau. The Pokémon League: where the best Trainers meet the Elite Four.": "石英高原。寶可夢聯盟：最優秀的訓練家在這裡挑戰四天王。",
   "A shelf of records: the names of every Champion of the Pokémon League.": "記錄架：上面寫著寶可夢聯盟歷代冠軍的名字。",
-  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "殿堂。寶可夢聯盟的冠軍和他們的寶可夢將在這裡被永遠銘記。"
+  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "殿堂。寶可夢聯盟的冠軍和他們的寶可夢將在這裡被永遠銘記。",
+  "{player}! You made it through the Elite Four again? Of course you did.": "{player}！你又闖過了四天王？想也知道。",
+  "I've trained every day since you took my title. Today I'm taking it back!": "自從你搶走我的冠軍頭銜，我每天都在訓練。今天我要把它奪回來！",
+  "...Still not enough. You really are the Champion, {player}. Next time, though!": "……還是不夠。你真的是冠軍啊，{player}。不過下次就不一定了！",
+  "Welcome back, Champion. My Ice Pokémon have trained in the cold ever since. This time you will freeze!": "歡迎回來，冠軍。從那以後，我的冰屬性寶可夢一直在嚴寒中訓練。這次你會被凍住的！",
+  "You again, Champion! I have trained every single day since our battle. Hoo hah! Show me how strong you are now!": "又是你啊，冠軍！自從上次對戰之後，我每一天都在修行。嚯哈！讓我看看你現在有多強！",
+  "Back already, Champion? My ghosts have been waiting for you, child. They do not like to lose twice!": "這麼快就回來了，冠軍？我的幽靈們一直在等你呢，孩子。牠們可不喜歡輸兩次！",
+  "So the Champion has come back to face us again. My dragons have grown even stronger. Let us see if you can still master them!": "冠軍又回來挑戰我們了嗎。我的龍變得更強了。看看你還能不能駕馭牠們！"
 }, "zh-Hant");

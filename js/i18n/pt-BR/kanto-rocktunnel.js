@@ -59,5 +59,6 @@ G.I18n.add({
   "Almost there. The ladder up to the exit is just to the west.": "Quase lá. A escada que sobe para a saída fica logo a oeste.",
   "Route 9. West: Cerulean City. East: Route 10 and Rock Tunnel.": "Rota 9. Oeste: Cerulean City. Leste: Rota 10 e Rock Tunnel.",
   "Rock Tunnel ahead. It is pitch-dark inside: a Pokémon that knows Flash will light the way.": "Rock Tunnel à frente. Lá dentro é um breu: um Pokémon que saiba Flash vai iluminar o caminho.",
-  "Route 10. North: Rock Tunnel. South: Lavender Town.": "Rota 10. Norte: Rock Tunnel. Sul: Lavender Town."
+  "Route 10. North: Rock Tunnel. South: Lavender Town.": "Rota 10. Norte: Rock Tunnel. Sul: Lavender Town.",
+  "Kanto Power Plant. Closed. Electric Pokémon have moved in since the staff left.": "Power Plant de Kanto. Fechada. Pokémon Elétricos se mudaram para lá depois que os funcionários foram embora."
 }, "pt-BR");

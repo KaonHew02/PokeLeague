@@ -43,5 +43,12 @@ G.I18n.add({
   "Lance": "Peter",
   "Indigo Plateau. The Pokémon League: where the best Trainers meet the Elite Four.": "Plateau Indigo. La Ligue Pokémon : là où les meilleurs Dresseurs affrontent le Conseil 4.",
   "A shelf of records: the names of every Champion of the Pokémon League.": "Une étagère d'archives : les noms de tous les Maîtres de la Ligue Pokémon.",
-  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "Le Panthéon. Les Maîtres de la Ligue Pokémon et leurs Pokémon y restent à jamais dans les mémoires."
+  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "Le Panthéon. Les Maîtres de la Ligue Pokémon et leurs Pokémon y restent à jamais dans les mémoires.",
+  "{player}! You made it through the Elite Four again? Of course you did.": "{player} ! Tu as encore battu le Conseil 4 ? Évidemment.",
+  "I've trained every day since you took my title. Today I'm taking it back!": "Je me suis entraîné tous les jours depuis que tu m'as pris mon titre. Aujourd'hui, je le reprends !",
+  "...Still not enough. You really are the Champion, {player}. Next time, though!": "... Toujours pas assez. Tu es vraiment le Maître, {player}. Mais la prochaine fois...!",
+  "Welcome back, Champion. My Ice Pokémon have trained in the cold ever since. This time you will freeze!": "Bon retour, Maître. Mes Pokémon Glace se sont entraînés dans le froid depuis. Cette fois, tu vas geler !",
+  "You again, Champion! I have trained every single day since our battle. Hoo hah! Show me how strong you are now!": "Encore toi, Maître ! Je me suis entraîné chaque jour depuis notre combat. Hou-ha ! Montre-moi ta force actuelle !",
+  "Back already, Champion? My ghosts have been waiting for you, child. They do not like to lose twice!": "Déjà de retour, Maître ? Mes spectres t'attendaient, mon petit. Ils n'aiment pas perdre deux fois !",
+  "So the Champion has come back to face us again. My dragons have grown even stronger. Let us see if you can still master them!": "Ainsi, le Maître revient nous affronter. Mes dragons sont devenus encore plus forts. Voyons si tu peux encore les maîtriser !"
 }, "fr");

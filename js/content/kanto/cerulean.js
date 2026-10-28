@@ -25,19 +25,20 @@ G.Maps.def({
     'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,..T',
     'T.......S.......,,...............T',
     'T...............,,...............T',
-    'T...............,,...HHHH.~~~~~~~T',
-    'T...............,,...HHHH.~~~~~~~T',
-    'T.ffffffff......,,...HDHH.~~~~~~~T',
-    'T.ff....ff......,,,,,,,...~~~~~~~T',
-    'T.ff....ff......,,........~~~~~~~T',
-    'T.ff....ff......,,........~~~~~~~T',
-    'T.ffffffff......,,........~~~~~~~T',
+    'T...............,,...HHHH.~~~~~##T',
+    'T...............,,...HHHH.~~~~~##T',
+    'T.ffffffff......,,...HDHH.~~~~~##T',
+    'T.ff....ff......,,,,,,,...~~~~~O#T',
+    'T.ff....ff......,,........~~~~~..T',
+    'T.ff....ff......,,........~~~~~..T',
+    'T.ffffffff......,,........~~~~~..T',
     'T...............,,...............T',
     'T...............,,...............T',
     'TTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTT'
   ],
   connect: { west: { map: 'route4', offset: -4 }, north: { map: 'route24', offset: 8 }, south: { map: 'route5', offset: 8 }, east: { map: 'route9', offset: 3 } },
   warps: [
+    { x: 31, y: 19, to: 'cave-1f', spot: 'entrance' },
     { x: 7, y: 6, to: 'cerulean-gym', spot: 'door' },
     { x: 23, y: 5, to: 'cerulean-center', spot: 'door' },
     { x: 29, y: 11, to: 'cerulean-mart', spot: 'door' },
@@ -45,7 +46,7 @@ G.Maps.def({
     { x: 10, y: 12, to: 'cerulean-house', spot: 'door' },
     { x: 22, y: 18, to: 'cerulean-house2', spot: 'door' }
   ],
-  spots: {
+  spots: { 'cave-door': [31, 20, 'down'],
     west: [1, 7, 'right'], 'gym-door': [7, 7, 'down'], 'center-door': [23, 6, 'down'], 'mart-door': [29, 12, 'down'],
     'bike-door': [5, 13, 'down'], 'house-door': [10, 13, 'down'], 'house2-door': [22, 19, 'down']
   },
@@ -55,6 +56,8 @@ G.Maps.def({
     '8,14': 'Bike Shop: Bicycles for everyone!'
   },
   npcs: [
+    // Cerulean Cave: closed to all but the Champion (cave.js).
+    { id: 'cave-guard', who: 'officer', x: 31, y: 20, dir: 'left', if: '!champion', script: 'cerulean.cave-guard' },
     { id: 'officer', who: 'officer', x: 16, y: 23, dir: 'up', if: '!caught-burglar', script: 'cerulean.officer' },
     { id: 'girl', who: 'lass', x: 25, y: 20, move: 'look',
       say: 'Misty trains her Pokémon in the Gym pool every day. Water types are tough to beat!' },

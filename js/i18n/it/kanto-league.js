@@ -43,5 +43,12 @@ G.I18n.add({
   "Lance": "Lance",
   "Indigo Plateau. The Pokémon League: where the best Trainers meet the Elite Four.": "Altopiano Blu. La Lega Pokémon: dove i migliori Allenatori sfidano i Superquattro.",
   "A shelf of records: the names of every Champion of the Pokémon League.": "Uno scaffale di registri: i nomi di tutti i Campioni della Lega Pokémon.",
-  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "La Sala d'Onore. Qui si ricordano per sempre i Campioni della Lega Pokémon e i loro Pokémon."
+  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "La Sala d'Onore. Qui si ricordano per sempre i Campioni della Lega Pokémon e i loro Pokémon.",
+  "{player}! You made it through the Elite Four again? Of course you did.": "{player}! Hai superato di nuovo i Superquattro? Ma certo.",
+  "I've trained every day since you took my title. Today I'm taking it back!": "Mi sono allenato ogni giorno da quando mi hai tolto il titolo. Oggi me lo riprendo!",
+  "...Still not enough. You really are the Champion, {player}. Next time, though!": "...Ancora non basta. Sei davvero il Campione, {player}. Ma la prossima volta...!",
+  "Welcome back, Champion. My Ice Pokémon have trained in the cold ever since. This time you will freeze!": "Bentornato, Campione. Da allora i miei Pokémon di tipo Ghiaccio si sono allenati al gelo. Questa volta ti congelerai!",
+  "You again, Champion! I have trained every single day since our battle. Hoo hah! Show me how strong you are now!": "Ancora tu, Campione! Mi sono allenato ogni singolo giorno dalla nostra lotta. Hu-ha! Mostrami quanto sei forte adesso!",
+  "Back already, Champion? My ghosts have been waiting for you, child. They do not like to lose twice!": "Già di ritorno, Campione? I miei spettri ti aspettavano, ragazzino. Non amano perdere due volte!",
+  "So the Champion has come back to face us again. My dragons have grown even stronger. Let us see if you can still master them!": "Dunque il Campione è tornato ad affrontarci. I miei draghi sono diventati ancora più forti. Vediamo se riesci ancora a dominarli!"
 }, "it");

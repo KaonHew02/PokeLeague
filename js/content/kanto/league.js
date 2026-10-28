@@ -9,7 +9,9 @@
  * from Victory Road is large.
  * After the Champion, Professor Oak takes you to the Hall of Fame (the team is written to
  * save.fame, flags champion and hall-of-fame), then you wake up at home and the credits roll
- * (G.CreditsUI.ending(9)).
+ * (G.CreditsUI.ending(9)). Chapter 10: once you are the Champion, the Elite Four and the rival
+ * battle with teams ten levels stronger (the `2` trainers), and a win takes you straight to the
+ * Hall of Fame again.
  */
 G.Maps.def({
   id: 'indigo', loc: 'indigo-plateau', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -106,10 +108,16 @@ G.Maps.def({
     id, who: id, cls: 'elite-four', name, x: 5, y: 4, dir: 'down', sight: 5, leader: true, ai: 'leader', music: 'league',
     team, win: 'league.' + id + '-win'
   }, lines);
+  /** The member's first team, and the one ten levels up for the rematches (once you are the Champion). */
+  const members = (id, name, team, lines, again) => [
+    Object.assign(member(id, name, team, lines), { if: '!champion' }),
+    Object.assign(member(id + '2', name, team.map(([sp, lvl, moves]) => [sp, lvl + 10, moves]), Object.assign({}, lines, again)),
+      { who: id, if: 'champion', win: 'league.' + id + '-win' })
+  ];
 
   room('lorelei-room', 'ice', 'ice', 'bruno-room', 'e4-lorelei', {
     enter: 'league.start',
-    trainers: [member('lorelei', 'Lorelei', [
+    trainers: members('lorelei', 'Lorelei', [
       ['dewgong', 49, ['ice-beam', 'headbutt', 'take-down', 'aurora-beam']],
       ['cloyster', 48, ['spike-cannon', 'ice-beam', 'supersonic', 'clamp']],
       ['slowbro', 49, ['surf', 'psychic', 'headbutt', 'amnesia']],
@@ -118,10 +126,10 @@ G.Maps.def({
       before: 'Welcome to the Pokémon League. I am Lorelei of the Elite Four. My Ice Pokémon have frozen every challenger who came through that door. You will be no different!',
       defeat: 'How could I lose? Your Pokémon burn hotter than my ice is cold...',
       afterScript: [['say', 'Go on. The next room is waiting. But the Elite Four only get stronger from here.', { name: 'Lorelei' }]]
-    })]
+    }, { before: 'Welcome back, Champion. My Ice Pokémon have trained in the cold ever since. This time you will freeze!' })
   });
   room('bruno-room', 'dojo', 'indoor', 'agatha-room', 'e4-bruno', {
-    trainers: [member('bruno', 'Bruno', [
+    trainers: members('bruno', 'Bruno', [
       ['onix', 48, ['rock-tomb', 'rock-throw', 'bind', 'screech']],
       ['hitmonchan', 50, ['sky-uppercut', 'mach-punch', 'thunder-punch', 'ice-punch']],
       ['hitmonlee', 50, ['mega-kick', 'rolling-kick', 'focus-energy', 'brick-break']],
@@ -130,10 +138,10 @@ G.Maps.def({
       before: 'I am Bruno of the Elite Four! I have trained my body and my Pokémon to their limits. Hoo hah! Face our full strength!',
       defeat: 'Defeated? ...My training is still not enough.',
       afterScript: [['say', 'My loss is my lesson. Go, and face the next of the Elite Four.', { name: 'Bruno' }]]
-    })]
+    }, { before: 'You again, Champion! I have trained every single day since our battle. Hoo hah! Show me how strong you are now!' })
   });
   room('agatha-room', 'tower', 'indoor', 'lance-room', 'e4-agatha', {
-    trainers: [member('agatha', 'Agatha', [
+    trainers: members('agatha', 'Agatha', [
       ['gengar', 51, ['shadow-ball', 'confuse-ray', 'hypnosis', 'dream-eater']],
       ['golbat', 51, ['wing-attack', 'bite', 'confuse-ray', 'poison-fang']],
       ['haunter', 50, ['lick', 'night-shade', 'confuse-ray', 'hypnosis']],
@@ -142,10 +150,10 @@ G.Maps.def({
       before: 'I am Agatha of the Elite Four. Hmph! Oak takes an interest in you, does he? That old fool once was a fine Trainer. Now let me show you how a real Trainer battles!',
       defeat: 'Oh my! You are something special, child.',
       afterScript: [['say', 'You win. I see now what Oak sees in you. Go on, the last of us is waiting.', { name: 'Agatha' }]]
-    })]
+    }, { before: 'Back already, Champion? My ghosts have been waiting for you, child. They do not like to lose twice!' })
   });
   room('lance-room', 'dragon', 'indoor', 'champion-room', 'e4-lance', {
-    trainers: [member('lance', 'Lance', [
+    trainers: members('lance', 'Lance', [
       ['gyarados', 52, ['hydro-pump', 'bite', 'dragon-rage', 'thrash']],
       ['dragonair', 50, ['dragon-rage', 'slam', 'wrap', 'thunder-wave']],
       ['dragonair', 50, ['dragon-rage', 'slam', 'twister', 'agility']],
@@ -154,7 +162,7 @@ G.Maps.def({
       before: 'Ah, you have made it this far. I am Lance, the leader of the Elite Four. Dragons are mythical Pokémon, hard to raise and harder still to master. Their power is unmatched!',
       defeat: 'That is it... I hate to admit it, but you are a Pokémon master.',
       afterScript: [['say', 'You beat all four of us. But there is one more Trainer you must face: the Champion. Go!', { name: 'Lance' }]]
-    })]
+    }, { before: 'So the Champion has come back to face us again. My dragons have grown even stronger. Let us see if you can still master them!' })
   });
   room('champion-room', 'champion', 'indoor', 'hall-of-fame', 'e4-champion', {
     npcs: [
@@ -198,16 +206,19 @@ G.Maps.def({
   const mon = (sp, lvl) => [sp, lvl, MV[sp]];
   const FINAL = { 1: 'venusaur', 4: 'charizard', 7: 'blastoise' };
   const MIDDLE = { 1: ['gyarados', 'arcanine'], 4: ['exeggutor', 'gyarados'], 7: ['arcanine', 'exeggutor'] };
-  /** The Champion's team (exported for the balance test). */
-  const championTeam = st => [mon('pidgeot', 53), mon('alakazam', 51), mon('rhydon', 53),
-    ...(MIDDLE[st] || MIDDLE[1]).map(sp => mon(sp, 53)), mon(FINAL[st] || 'venusaur', 57)];
+  /** The Champion's team (exported for the balance test); ten levels up in the rematches. */
+  const championTeam = (st, again) => {
+    const up = again ? 10 : 0;
+    return [mon('pidgeot', 53 + up), mon('alakazam', 51 + up), mon('rhydon', 53 + up),
+      ...(MIDDLE[st] || MIDDLE[1]).map(sp => mon(sp, 53 + up)), mon(FINAL[st] || 'venusaur', 57 + up)];
+  };
   G.League = { championTeam };
   const RUN = ['lorelei', 'bruno', 'agatha', 'lance'];
 
   /** A new run through the Elite Four: everybody battles again. */
   function start() {
     const F = G.Field;
-    for (const n of RUN) { F.clearFlag('e4-' + n); delete F.save.done[n + '-room:' + n]; }
+    for (const n of RUN) { F.clearFlag('e4-' + n); delete F.save.done[n + '-room:' + n]; delete F.save.done[n + '-room:' + n + '2']; }
     F.clearFlag('e4-champion');
   }
 
@@ -215,6 +226,7 @@ G.Maps.def({
   async function champion(h) {
     const F = G.Field, S = F.save, me = G.World.player;
     h.face('player', 'up');
+    if (F.flag('champion')) { await rematch(h); return; }
     await h.say(T('Hey, {player}! I was hoping you would make it this far.'), RIVAL);
     await h.say(T("While you were working on your Pokédex, I beat the Elite Four. That's right: I'm the Champion of the Pokémon League now!"), RIVAL);
     await h.say(T('I trained my team to be the strongest in the world. And now I get to prove it. Against you!'), RIVAL);
@@ -240,6 +252,26 @@ G.Maps.def({
     await h.say(T('{player}, come with me. It is time to enter you and your Pokémon in the Hall of Fame.'), OAK);
     await h.warp('hall-of-fame', 'door');
     await hallOfFame(h);
+  }
+
+  /** Once you are the Champion: the rival wants the title back. A win: the Hall of Fame again. */
+  async function rematch(h) {
+    const F = G.Field, S = F.save, me = G.World.player;
+    await h.say(T("{player}! You made it through the Elite Four again? Of course you did."), RIVAL);
+    await h.say(T("I've trained every day since you took my title. Today I'm taking it back!"), RIVAL);
+    await h.walkTo('rival', me.x, me.y - 1);
+    h.face('rival', 'player'); h.face('player', 'rival');
+    const out = await h.battle({ id: 'rival-champion2', who: 'rival', cls: 'champion', name: S.rival.name, leader: true, ai: 'leader', music: 'league',
+      team: championTeam(S.rival.starter, true) }, {});
+    if (out === 'lose') return;
+    F.setFlag('e4-champion');
+    await h.say(T("...Still not enough. You really are the Champion, {player}. Next time, though!"), RIVAL);
+    await h.warp('hall-of-fame', 'door');
+    await h.move('player', ['up', 'up', 'up']);
+    S.fame.push({ at: Date.now(), party: S.party.map(m => ({ sp: m.sp, lvl: m.lvl, nick: m.nick || null, shiny: !!m.shiny })) });
+    await h.jingle('fame');
+    await h.say(T("{player}'s team has entered the Hall of Fame!"));
+    await h.warp('player-2f', 'start');
   }
 
   /** The Hall of Fame: the team is remembered, then home and the credits. */

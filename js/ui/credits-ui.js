@@ -32,6 +32,8 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 10) return { title: T('Chapter 10 complete!'), done: fmt('{player} faced Mewtwo deep in Cerulean Cave.', { player }),
+                           next: T('Thank you for playing! Kanto is complete, and the next region opens in a future update.') };
     if (n === 9) return { title: T('Congratulations, Champion!'), done: fmt('{player} beat the Elite Four and the Champion, and entered the Hall of Fame!', { player }),
                           next: T('Thank you for playing! The story of Kanto is complete. More adventures come in a future update.') };
     if (n === 8) return { title: T('Chapter 8 complete!'), done: fmt('{player} beat Giovanni and earned the Earth Badge: all eight badges!', { player }),

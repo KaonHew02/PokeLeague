@@ -67,9 +67,18 @@ G.I18n.add({
   "I'll borrow a Town Map from my sister. Don't bother asking her for one, {player}!": "Le pediré un Mapa a mi hermana. ¡Ni te molestes en pedirle uno, {player}!",
   "You can't catch wild Pokémon without Poké Balls. Take these!": "Sin Poké Balls no puedes atrapar Pokémon salvajes. ¡Toma!",
   "Weaken a wild Pokémon first, then throw a Poké Ball. Good luck, {player}!": "Primero debilita al Pokémon salvaje y luego lanza la Poké Ball. ¡Suerte, {player}!",
-  "Fill that Pokédex, {player}! There are so many Pokémon waiting out there.": "¡Completa esa Pokédex, {player}! Ahí fuera te esperan muchísimos Pokémon.",
   "Grandpa asked you to help with his Pokédex? That's wonderful!": "¿El abuelo te ha pedido ayuda con su Pokédex? ¡Qué maravilla!",
   "Here, take this Town Map. It'll help you find your way.": "Toma este Mapa. Te ayudará a orientarte.",
   "Good luck with Grandpa's research, {player}. Don't let my brother get too far ahead!": "Suerte con la investigación del abuelo, {player}. ¡No dejes que mi hermano se te adelante!",
-  "Oh, {player}! The whole town is talking about the new Champion. I'm so proud of you!": "¡Oh, {player}! Todo el pueblo habla del nuevo Campeón. ¡Estoy muy orgullosa de ti!"
+  "Oh, {player}! The whole town is talking about the new Champion. I'm so proud of you!": "¡Oh, {player}! Todo el pueblo habla del nuevo Campeón. ¡Estoy muy orgullosa de ti!",
+  "Let me see your Pokédex, {player}. You have caught {n} kinds of Pokémon.": "Déjame ver tu Pokédex, {player}. Has atrapado {n} especies de Pokémon.",
+  "A fine start! Wild Pokémon live in the tall grass everywhere. Weaken them first, then throw a Poké Ball.": "¡Buen comienzo! Hay Pokémon salvajes en la hierba alta de todas partes. Debilítalos primero y luego lanza una Poké Ball.",
+  "Good work! Every route and cave has Pokémon of its own. Keep exploring!": "¡Buen trabajo! Cada ruta y cada cueva tiene sus propios Pokémon. ¡Sigue explorando!",
+  "Very good! Remember that some Pokémon only evolve with a special stone.": "¡Muy bien! Recuerda que algunos Pokémon solo evolucionan con una piedra especial.",
+  "Impressive! With a fishing rod or Surf you will find Pokémon you have never seen.": "¡Impresionante! Con una caña de pescar o con Surf encontrarás Pokémon que nunca has visto.",
+  "Outstanding! You are becoming a true Pokémon researcher.": "¡Extraordinario! Te estás convirtiendo en un auténtico investigador Pokémon.",
+  "Amazing! Only a few left. The rarest ones hide deep in caves and far out at sea.": "¡Asombroso! Solo te faltan unos pocos. Los más raros se esconden en lo más hondo de las cuevas y en alta mar.",
+  "You did it! Every Pokémon of Kanto! I never thought I would live to see a complete Pokédex.": "¡Lo has conseguido! ¡Todos los Pokémon de Kanto! Nunca pensé que vería una Pokédex completa.",
+  "{player} received the Pokédex Diploma from Professor Oak!": "¡{player} ha recibido el Diploma de la Pokédex del Profesor Oak!",
+  "Thank you, {player}. Your Pokédex will help researchers for years to come.": "Gracias, {player}. Tu Pokédex ayudará a los investigadores durante muchos años."
 }, "es");

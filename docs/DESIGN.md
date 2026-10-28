@@ -935,11 +935,28 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   The auto-player neither switches nor uses items; in the League a player heals between the rooms.
   The story test raises the rest of its team on Routes 18 and 23 and beats them all.
 
-### After chapter 9
+- **Chapter 10** ✅, Kanto after the League: Cerulean City's pond now has a rocky shore with a
+  cave mouth (Surf); a guard stands in front of it until you are the Champion (flag `champion`).
+  Cerulean Cave (`cave`, the games' tables, Lv. 46-67): 1F, a river to Surf across to the ladder
+  up; 2F, a winding way to the ladder down into a closed part of 1F; B1F, an underground lake and
+  Mewtwo (Lv. 70, flag `cave-mewtwo`; meeting it ends the chapter, `ending(10)`). Route 10 gains a
+  river down its east side to the old Power Plant (Surf): wild electric Pokémon on every step
+  (`cave` on an indoor map), three Poké Balls that are Voltorb or Electrode (a ball with a
+  `script` that marks itself collected, then a wild battle), items (TM25 Thunder, a Thunder Stone)
+  and Zapdos (Lv. 50, flag `plant-zapdos`). Once you are the Champion the Elite Four battle with
+  teams ten levels stronger (trainers `lorelei2`… beside the first ones, `if: 'champion'`) and
+  new opening lines; the rival too (`championTeam(starter, true)`), and a win takes you straight
+  to the Hall of Fame again (no credits). Professor Oak rates the Pokédex in his lab (seven
+  steps by the number caught); all 150 of Kanto earn the Diploma (flag `diploma`). Files:
+  `cave.js`, `plant.js`, `league.js`, `pallet.js`, `rocktunnel.js`, `cerulean.js` (translations
+  `kanto-cave`, `kanto-plant`).
+- **Balance:** the rematches against a team ten levels up as well: Lance ~75%, the Champion
+  ~75%. The story test trains the team in Cerulean Cave, beats them all, then Mewtwo.
 
-1. **Kanto after the League:** Cerulean Cave and Mewtwo, Zapdos and the Power Plant, rematches.
-   Engine features: more TMs, abilities, held items, weather, Exp. Share, Repel steps.
-2. **Johto:** `fetch_data.py --region johto` (dex 1–251), plus day and night, friendship
+### After chapter 10
+
+1. **Johto:** `fetch_data.py --region johto` (dex 1–251), plus day and night, friendship
    evolutions, berries, new palettes and buildings. Kanto teams carry over, but high levels
    disobey until you earn badges.
-3. **Hoenn:** abilities, double battles, weather.
+2. **Hoenn:** abilities, double battles, weather.
+3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

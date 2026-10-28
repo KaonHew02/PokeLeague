@@ -67,9 +67,18 @@ G.I18n.add({
   "I'll borrow a Town Map from my sister. Don't bother asking her for one, {player}!": "我去找姊姊借城鎮地圖。{player}，你就別去找她要了！",
   "You can't catch wild Pokémon without Poké Balls. Take these!": "沒有精靈球就抓不到野生寶可夢。拿去吧！",
   "Weaken a wild Pokémon first, then throw a Poké Ball. Good luck, {player}!": "先削弱野生寶可夢，再扔出精靈球。加油，{player}！",
-  "Fill that Pokédex, {player}! There are so many Pokémon waiting out there.": "把圖鑑填滿吧，{player}！外面有好多寶可夢在等著你。",
   "Grandpa asked you to help with his Pokédex? That's wonderful!": "爺爺請你幫他完成圖鑑？太好了！",
   "Here, take this Town Map. It'll help you find your way.": "給，這張城鎮地圖送你。它能幫你認路。",
   "Good luck with Grandpa's research, {player}. Don't let my brother get too far ahead!": "爺爺的研究就拜託你了，{player}。可別讓我弟弟領先太多哦！",
-  "Oh, {player}! The whole town is talking about the new Champion. I'm so proud of you!": "哎呀，{player}！鎮上的人都在談論新的冠軍呢。我真為你驕傲！"
+  "Oh, {player}! The whole town is talking about the new Champion. I'm so proud of you!": "哎呀，{player}！鎮上的人都在談論新的冠軍呢。我真為你驕傲！",
+  "Let me see your Pokédex, {player}. You have caught {n} kinds of Pokémon.": "讓我看看你的圖鑑，{player}。你已經捕捉了{n}種寶可夢。",
+  "A fine start! Wild Pokémon live in the tall grass everywhere. Weaken them first, then throw a Poké Ball.": "開了個好頭！到處的草叢裡都有野生寶可夢。先削弱牠們，再丟精靈球。",
+  "Good work! Every route and cave has Pokémon of its own. Keep exploring!": "做得好！每條道路、每個洞窟都有各自的寶可夢。繼續探索吧！",
+  "Very good! Remember that some Pokémon only evolve with a special stone.": "很好！別忘了，有些寶可夢要用特殊的石頭才能進化。",
+  "Impressive! With a fishing rod or Surf you will find Pokémon you have never seen.": "了不起！用釣竿或者衝浪，你會找到從沒見過的寶可夢。",
+  "Outstanding! You are becoming a true Pokémon researcher.": "太出色了！你快成為真正的寶可夢研究者了。",
+  "Amazing! Only a few left. The rarest ones hide deep in caves and far out at sea.": "太驚人了！只剩下幾種了。最稀有的寶可夢藏在洞窟深處和遠海。",
+  "You did it! Every Pokémon of Kanto! I never thought I would live to see a complete Pokédex.": "你做到了！關都的所有寶可夢！我從沒想過有生之年能看到完整的圖鑑。",
+  "{player} received the Pokédex Diploma from Professor Oak!": "{player}從大木博士那裡得到了圖鑑畢業證書！",
+  "Thank you, {player}. Your Pokédex will help researchers for years to come.": "謝謝你，{player}。你的圖鑑將會幫助研究者很多年。"
 }, "zh-Hant");

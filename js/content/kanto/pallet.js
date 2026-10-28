@@ -320,12 +320,30 @@ G.Maps.def({
       ]]
     ],
     'lab.parcel': [['js', parcel]],
+    // Professor Oak rates the Pokédex: how many kinds are caught (chapter 10). All 150 of Kanto (Mew is
+    // a myth) earn the Diploma (flag diploma).
+    'lab.rating': [['js', async h => {
+      const n = Object.keys(G.Field.save.dex.caught).length, P = { name: 'Prof. Oak', vars: { n } };
+      await h.say(T('Let me see your Pokédex, {player}. You have caught {n} kinds of Pokémon.'), P);
+      if (n < 10) await h.say(T('A fine start! Wild Pokémon live in the tall grass everywhere. Weaken them first, then throw a Poké Ball.'), P);
+      else if (n < 30) await h.say(T('Good work! Every route and cave has Pokémon of its own. Keep exploring!'), P);
+      else if (n < 60) await h.say(T('Very good! Remember that some Pokémon only evolve with a special stone.'), P);
+      else if (n < 90) await h.say(T('Impressive! With a fishing rod or Surf you will find Pokémon you have never seen.'), P);
+      else if (n < 120) await h.say(T('Outstanding! You are becoming a true Pokémon researcher.'), P);
+      else if (n < 150) await h.say(T('Amazing! Only a few left. The rarest ones hide deep in caves and far out at sea.'), P);
+      else {
+        await h.say(T('You did it! Every Pokémon of Kanto! I never thought I would live to see a complete Pokédex.'), P);
+        if (!G.Field.flag('diploma')) {
+          G.Field.setFlag('diploma');
+          await h.jingle('badge');
+          await h.say(T('{player} received the Pokédex Diploma from Professor Oak!'));
+        }
+        await h.say(T('Thank you, {player}. Your Pokédex will help researchers for years to come.'), P);
+      }
+    }]],
     'lab.oak': [
       ['if', 'has:oaks-parcel', [['call', 'lab.parcel'], ['end']]],
-      ['if', 'has-pokedex', [
-        ['say', 'Fill that Pokédex, {player}! There are so many Pokémon waiting out there.', { name: 'Prof. Oak' }],
-        ['end']
-      ]],
+      ['if', 'has-pokedex', [['call', 'lab.rating'], ['end']]],
       ['if', 'got-starter', [
         ['say', 'When a wild Pokémon jumps out, let your Pokémon battle it. Every win makes it stronger.', { name: 'Prof. Oak' }],
         ['say', 'Route 1, north of town, leads to Viridian City. Off you go!', { name: 'Prof. Oak' }]

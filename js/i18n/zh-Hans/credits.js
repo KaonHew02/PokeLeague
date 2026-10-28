@@ -32,5 +32,8 @@ G.I18n.add({
   "Congratulations, Champion!": "恭喜你，冠军！",
   "{player} beat the Elite Four and the Champion, and entered the Hall of Fame!": "{player}打败了四天王和冠军，登录了殿堂！",
   "Thank you for playing! The story of Kanto is complete. More adventures come in a future update.": "感谢游玩！关都的故事到此完结。更多冒险将在之后的更新中推出。",
-  "Victory Road, the Elite Four and the Champion are waiting: your adventure goes on!": "冠军之路、四天王和冠军正等着你：你的冒险还在继续！"
+  "Victory Road, the Elite Four and the Champion are waiting: your adventure goes on!": "冠军之路、四天王和冠军正等着你：你的冒险还在继续！",
+  "Chapter 10 complete!": "第10章完成！",
+  "{player} faced Mewtwo deep in Cerulean Cave.": "{player}在华蓝洞窟深处面对了超梦。",
+  "Thank you for playing! Kanto is complete, and the next region opens in a future update.": "感谢游玩！关都已经全部完成，下一个地区将在之后的更新中开放。"
 }, "zh-Hans");

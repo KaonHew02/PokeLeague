@@ -32,5 +32,8 @@ G.I18n.add({
   "Congratulations, Champion!": "¡Enhorabuena, Campeón!",
   "{player} beat the Elite Four and the Champion, and entered the Hall of Fame!": "¡{player} ha vencido al Alto Mando y al Campeón, y ha entrado en el Salón de la Fama!",
   "Thank you for playing! The story of Kanto is complete. More adventures come in a future update.": "¡Gracias por jugar! La historia de Kanto está completa. Llegarán más aventuras en próximas actualizaciones.",
-  "Victory Road, the Elite Four and the Champion are waiting: your adventure goes on!": "La Calle Victoria, el Alto Mando y el Campeón te esperan: ¡tu aventura continúa!"
+  "Victory Road, the Elite Four and the Champion are waiting: your adventure goes on!": "La Calle Victoria, el Alto Mando y el Campeón te esperan: ¡tu aventura continúa!",
+  "Chapter 10 complete!": "¡Capítulo 10 completado!",
+  "{player} faced Mewtwo deep in Cerulean Cave.": "{player} se ha enfrentado a Mewtwo en lo más hondo de la Cueva Celeste.",
+  "Thank you for playing! Kanto is complete, and the next region opens in a future update.": "¡Gracias por jugar! Kanto está completo, y la próxima región llegará en una futura actualización."
 }, "es");

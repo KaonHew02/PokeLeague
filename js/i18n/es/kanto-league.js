@@ -43,5 +43,12 @@ G.I18n.add({
   "Lance": "Lance",
   "Indigo Plateau. The Pokémon League: where the best Trainers meet the Elite Four.": "Meseta Añil. La Liga Pokémon: donde los mejores Entrenadores se enfrentan al Alto Mando.",
   "A shelf of records: the names of every Champion of the Pokémon League.": "Una estantería de registros: los nombres de todos los Campeones de la Liga Pokémon.",
-  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "El Salón de la Fama. Aquí se recuerda para siempre a los Campeones de la Liga Pokémon y a sus Pokémon."
+  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "El Salón de la Fama. Aquí se recuerda para siempre a los Campeones de la Liga Pokémon y a sus Pokémon.",
+  "{player}! You made it through the Elite Four again? Of course you did.": "¡{player}! ¿Has vuelto a superar al Alto Mando? Claro que sí.",
+  "I've trained every day since you took my title. Today I'm taking it back!": "He entrenado cada día desde que me quitaste el título. ¡Hoy lo recupero!",
+  "...Still not enough. You really are the Champion, {player}. Next time, though!": "...Todavía no es suficiente. De verdad eres el Campeón, {player}. ¡Pero la próxima vez...!",
+  "Welcome back, Champion. My Ice Pokémon have trained in the cold ever since. This time you will freeze!": "Bienvenido de nuevo, Campeón. Mis Pokémon de tipo Hielo han entrenado en el frío desde entonces. ¡Esta vez te congelarás!",
+  "You again, Champion! I have trained every single day since our battle. Hoo hah! Show me how strong you are now!": "¡Otra vez tú, Campeón! He entrenado cada día desde nuestro combate. ¡Ju-ja! ¡Muéstrame lo fuerte que eres ahora!",
+  "Back already, Champion? My ghosts have been waiting for you, child. They do not like to lose twice!": "¿Ya de vuelta, Campeón? Mis fantasmas te esperaban, pequeño. ¡No les gusta perder dos veces!",
+  "So the Champion has come back to face us again. My dragons have grown even stronger. Let us see if you can still master them!": "Así que el Campeón ha vuelto a enfrentarse a nosotros. Mis dragones se han hecho aún más fuertes. ¡Veamos si todavía puedes con ellos!"
 }, "es");

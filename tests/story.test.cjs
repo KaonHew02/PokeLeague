@@ -1,4 +1,4 @@
-// The story without a screen, chapter by chapter: from the bedroom to the Hall of Fame.
+// The story without a screen, chapter by chapter: from the bedroom to the Hall of Fame and Mewtwo.
 // The real scripts, maps, save and battle engine run in the node sandbox; a stand-in
 // host answers the dialog (Yes, no nickname) and an auto-player fights every battle
 // with its strongest move. Wild battles in the tall grass raise the party on the way,
@@ -610,6 +610,14 @@ test('balance: the Elite Four and the Champion (chapter 9), win rates of typical
   assert.ok(table.lance['charizard team 55'] >= 0.5, 'Lance');
   assert.ok(table['champion (Venusaur)']['charizard team 58'] >= 0.6 && table['champion (Blastoise)']['charizard team 58'] >= 0.6, 'the Champion');
   assert.ok(table['champion (Venusaur)']['charizard team 55'] < table['champion (Venusaur)']['charizard team 58'], 'levels matter');
+  // The rematches (chapter 10): every team ten levels up, against a team of the same ten levels more.
+  const again = {
+    lance: fight(member('lance-room', 'lance2'), CHARIZARD(65)),
+    'champion (Venusaur)': fight(G.League.championTeam(1, true), CHARIZARD(68)),
+    'champion (Blastoise)': fight(G.League.championTeam(7, true), CHARIZARD(68))
+  };
+  console.log('[balance] the rematches:', JSON.stringify(again));
+  assert.ok(again.lance >= 0.5 && again['champion (Venusaur)'] >= 0.5 && again['champion (Blastoise)'] >= 0.5, 'the rematches');
 });
 
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
@@ -1111,6 +1119,59 @@ async function chapter9(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 10 after chapter 9: Oak's rating, the Power Plant, the Elite Four again, Cerulean Cave and Mewtwo. */
+async function chapter10(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // Professor Oak rates the Pokédex.
+  await run(st, 'oak-lab', 'lab.oak');
+  const caught = Object.keys(S.dex.caught).length;
+  assert.ok(st.log.some(l => l.includes(String(caught)) && /kinds of Pokémon/.test(l)), 'Oak counts the Pokédex');
+  assert.ok(!F.flag('diploma'));
+  // Cerulean Cave opens for the Champion.
+  assert.ok(!F.test(G.Maps.get('cerulean').npcs.find(n => n.id === 'cave-guard').if), 'the guard has stepped aside');
+  // The Power Plant: an "item" that is a Voltorb, then Zapdos.
+  await run(st, 'power-plant', 'plant.voltorb', [], { item: { key: 'power-plant:trap-1' } });
+  assert.ok(F.isDone('power-plant:trap-1') && last().key === 'wild:voltorb', 'the trap jumped out');
+  F.healAll();
+  await run(st, 'power-plant', 'plant.zapdos');
+  assert.ok(F.flag('plant-zapdos'), 'Zapdos was battled');
+  // The Elite Four again: ten levels stronger now that you are the Champion. The team trains in
+  // Cerulean Cave first, as a player would.
+  for (const sp of [9, 136, 115, 51]) { lead(st, sp); grind(st, 'cave-1f', 64, 400); }
+  console.log('[story] before the rematches:', S.party.map(m => G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
+  await run(st, 'lorelei-room', 'league.start');
+  const lorelei = G.Maps.get('lorelei-room').trainers;
+  assert.ok(F.test(lorelei.find(t => t.id === 'lorelei2').if) && !F.test(lorelei.find(t => t.id === 'lorelei').if), 'the rematch team battles now');
+  const LEADS = { lorelei: 136, bruno: 47, agatha: 51, lance: 47 };
+  for (const id of ['lorelei', 'bruno', 'agatha', 'lance']) {
+    lead(st, LEADS[id]);
+    F.healAll();
+    await run(st, id + '-room', [['battle', id + '-room:' + id + '2']]);
+    won();
+    assert.ok(F.flag('e4-' + id));
+  }
+  lead(st, 136);
+  F.healAll();
+  const fame = S.fame.length;
+  await run(st, 'champion-room', 'league.champion');
+  assert.equal(last().key, 'champion-room:rival-champion2');
+  won();
+  assert.equal(S.fame.length, fame + 1, 'the Hall of Fame again');
+  assert.equal(st.W.map, 'player-2f');
+  // Mewtwo, deep in Cerulean Cave: the end of the chapter.
+  F.healAll();
+  await run(st, 'cave-b1f', 'cave.mewtwo');
+  assert.ok(F.flag('cave-mewtwo') && F.flag('chapter-10-done'), 'Mewtwo was battled at levels ' + last().levels);
+  // A complete Pokédex earns the Diploma.
+  for (let sp = 1; sp <= 150; sp++) S.dex.caught[sp] = 1;
+  await run(st, 'oak-lab', 'lab.oak');
+  assert.ok(F.flag('diploma'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1176,4 +1237,18 @@ test('chapter 9: Victory Road, the Elite Four, the Champion and the Hall of Fame
   await chapter8(st);
   console.log('[story] after chapter 8:', st.S.party.map(m => st.G.Maps.species(m.sp) + ' ' + m.lvl).join(', '));
   await chapter9(st);
+});
+
+test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtwo', async () => {
+  const st = world(3);
+  await chapter1(st);
+  await chapter2(st);
+  await chapter3(st);
+  await chapter4(st);
+  await chapter5(st);
+  await chapter6(st);
+  await chapter7(st);
+  await chapter8(st);
+  await chapter9(st);
+  await chapter10(st);
 });

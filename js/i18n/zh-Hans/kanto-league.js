@@ -43,5 +43,12 @@ G.I18n.add({
   "Lance": "阿渡",
   "Indigo Plateau. The Pokémon League: where the best Trainers meet the Elite Four.": "石英高原。宝可梦联盟：最优秀的训练家在这里挑战四天王。",
   "A shelf of records: the names of every Champion of the Pokémon League.": "记录架：上面写着宝可梦联盟历代冠军的名字。",
-  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "殿堂。宝可梦联盟的冠军和他们的宝可梦将在这里被永远铭记。"
+  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "殿堂。宝可梦联盟的冠军和他们的宝可梦将在这里被永远铭记。",
+  "{player}! You made it through the Elite Four again? Of course you did.": "{player}！你又闯过了四天王？想也知道。",
+  "I've trained every day since you took my title. Today I'm taking it back!": "自从你抢走我的冠军头衔，我每天都在训练。今天我要把它夺回来！",
+  "...Still not enough. You really are the Champion, {player}. Next time, though!": "……还是不够。你真的是冠军啊，{player}。不过下次就不一定了！",
+  "Welcome back, Champion. My Ice Pokémon have trained in the cold ever since. This time you will freeze!": "欢迎回来，冠军。从那以后，我的冰属性宝可梦一直在严寒中训练。这次你会被冻住的！",
+  "You again, Champion! I have trained every single day since our battle. Hoo hah! Show me how strong you are now!": "又是你啊，冠军！自从上次对战之后，我每一天都在修行。嚯哈！让我看看你现在有多强！",
+  "Back already, Champion? My ghosts have been waiting for you, child. They do not like to lose twice!": "这么快就回来了，冠军？我的幽灵们一直在等你呢，孩子。它们可不喜欢输两次！",
+  "So the Champion has come back to face us again. My dragons have grown even stronger. Let us see if you can still master them!": "冠军又回来挑战我们了吗。我的龙变得更强了。看看你还能不能驾驭它们！"
 }, "zh-Hans");

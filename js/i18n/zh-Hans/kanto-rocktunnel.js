@@ -59,5 +59,6 @@ G.I18n.add({
   "Almost there. The ladder up to the exit is just to the west.": "快到了。通往出口的梯子就在西边。",
   "Route 9. West: Cerulean City. East: Route 10 and Rock Tunnel.": "9号道路。西：华蓝市。东：10号道路和岩山隧道。",
   "Rock Tunnel ahead. It is pitch-dark inside: a Pokémon that knows Flash will light the way.": "前方是岩山隧道。里面漆黑一片：会闪光的宝可梦能照亮道路。",
-  "Route 10. North: Rock Tunnel. South: Lavender Town.": "10号道路。北：岩山隧道。南：紫苑镇。"
+  "Route 10. North: Rock Tunnel. South: Lavender Town.": "10号道路。北：岩山隧道。南：紫苑镇。",
+  "Kanto Power Plant. Closed. Electric Pokémon have moved in since the staff left.": "关都无人发电厂。已关闭。员工离开后，电属性的宝可梦就住了进去。"
 }, "zh-Hans");

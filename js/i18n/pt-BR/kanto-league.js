@@ -43,5 +43,12 @@ G.I18n.add({
   "Lance": "Lance",
   "Indigo Plateau. The Pokémon League: where the best Trainers meet the Elite Four.": "Indigo Plateau. A Liga Pokémon: onde os melhores Treinadores enfrentam a Elite dos Quatro.",
   "A shelf of records: the names of every Champion of the Pokémon League.": "Uma estante de registros: os nomes de todos os Campeões da Liga Pokémon.",
-  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "O Hall da Fama. Os Campeões da Liga Pokémon e seus Pokémon são lembrados aqui para sempre."
+  "The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.": "O Hall da Fama. Os Campeões da Liga Pokémon e seus Pokémon são lembrados aqui para sempre.",
+  "{player}! You made it through the Elite Four again? Of course you did.": "{player}! Você passou pela Elite dos Quatro de novo? Claro que passou.",
+  "I've trained every day since you took my title. Today I'm taking it back!": "Treinei todos os dias desde que você tomou meu título. Hoje eu vou recuperá-lo!",
+  "...Still not enough. You really are the Champion, {player}. Next time, though!": "...Ainda não foi suficiente. Você é mesmo o Campeão, {player}. Mas da próxima vez...!",
+  "Welcome back, Champion. My Ice Pokémon have trained in the cold ever since. This time you will freeze!": "Bem-vindo de volta, Campeão. Meus Pokémon de Gelo treinaram no frio desde então. Desta vez você vai congelar!",
+  "You again, Champion! I have trained every single day since our battle. Hoo hah! Show me how strong you are now!": "Você de novo, Campeão! Treinei todos os dias desde a nossa batalha. Ru-rá! Mostre o quanto você está forte agora!",
+  "Back already, Champion? My ghosts have been waiting for you, child. They do not like to lose twice!": "Já de volta, Campeão? Meus fantasmas estavam esperando por você, criança. Eles não gostam de perder duas vezes!",
+  "So the Champion has come back to face us again. My dragons have grown even stronger. Let us see if you can still master them!": "Então o Campeão voltou para nos enfrentar de novo. Meus dragões ficaram ainda mais fortes. Vamos ver se você ainda consegue dominá-los!"
 }, "pt-BR");

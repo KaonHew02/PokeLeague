@@ -42,5 +42,7 @@ G.I18n.add({
   "Chapter 12 complete!": "Capítulo 12 concluído!",
   "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} expulsou a Equipe Rocket do Slowpoke Well e ganhou a Insígnia da Colmeia do Bugsy.",
   "Chapter 13 complete!": "Capítulo 13 concluído!",
-  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} encontrou o Farfetch’d perdido na Ilex Forest e, depois de algumas lágrimas, ganhou a Insígnia Planície da Whitney."
+  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} encontrou o Farfetch’d perdido na Ilex Forest e, depois de algumas lágrimas, ganhou a Insígnia Planície da Whitney.",
+  "Chapter 14 complete!": "Capítulo 14 concluído!",
+  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player} despertou os três Pokémon lendários sob a Burned Tower e ganhou a Insígnia da Névoa do Morty."
 }, "pt-BR");

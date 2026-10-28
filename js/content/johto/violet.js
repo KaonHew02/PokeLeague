@@ -23,8 +23,8 @@ G.Maps.def({
     'T...GGGGGGHDHH....,.....CCCCC.MMMM.T',
     'T...GGDGGG.,......,.....CCDCC.MDMM.T',
     'T.....,.S..,......,..S....,....,...T',
-    'T..,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
-    'T..,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
     'T.....................,,...........T',
     'T.....................,,...........T',
     'T..ff.................,,...........T',
@@ -39,7 +39,7 @@ G.Maps.def({
     'T.....................,,...........T',
     'TTTTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTT'
   ],
-  connect: { east: { map: 'route31', offset: 7 }, south: { map: 'route32', offset: 12 } },
+  connect: { east: { map: 'route31', offset: 7 }, south: { map: 'route32', offset: 12 }, west: { map: 'route36', offset: 3 } },
   warps: [
     { x: 18, y: 6, to: 'sprout-1f', spot: 'door' },
     { x: 6, y: 11, to: 'violet-gym', spot: 'door' },
@@ -59,7 +59,7 @@ G.Maps.def({
     { id: 'kid', who: 'youngster', x: 14, y: 16, move: 'wander', r: 2,
       say: 'Falkner uses bird Pokémon. Electric and Rock moves hit them hard. Do you have any?' },
     { id: 'lass', who: 'lass', x: 29, y: 16, move: 'look',
-      say: 'A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.' }
+      say: 'West of the city, a strange tree blocks the road north on Route 36. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.' }
   ],
   encounters: { water: '@violet-city-area' }
 });

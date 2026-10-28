@@ -42,5 +42,7 @@ G.I18n.add({
   "Chapter 12 complete!": "¡Capítulo 12 completado!",
   "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} ha echado al Team Rocket del Pozo Slowpoke y ha ganado la Medalla Colmena de Antón.",
   "Chapter 13 complete!": "¡Capítulo 13 completado!",
-  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} encontró al Farfetch’d perdido en el Encinar y, tras unas cuantas lágrimas, consiguió la Medalla Planicie de Blanca."
+  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} encontró al Farfetch’d perdido en el Encinar y, tras unas cuantas lágrimas, consiguió la Medalla Planicie de Blanca.",
+  "Chapter 14 complete!": "¡Capítulo 14 completado!",
+  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player} despertó a los tres Pokémon legendarios bajo la Torre Quemada y consiguió la Medalla Niebla de Morty."
 }, "es");

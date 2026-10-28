@@ -50,5 +50,5 @@ G.I18n.add({
   "Violet City. An old town of quiet scents, with Sprout Tower at its heart.": "Violapoli. Un'antica città dai profumi tranquilli, con la Torre Sprout nel cuore.",
   "Violet City Pokémon Gym. Leader: Falkner, who soars with Flying-type Pokémon!": "Palestra Pokémon di Violapoli. Capopalestra: Valerio, che vola alto con i Pokémon di tipo Volante!",
   "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "Il grande pilastro oscilla dolcemente, ma non cade mai. Si dice che sia il fusto di un Bellsprout gigante.",
-  "A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "Uno strano albero blocca la strada a ovest della città. Si dimena quando nessuno lo guarda! A sud, il Percorso 32 porta alla Grotta di Mezzo."
+  "West of the city, a strange tree blocks the road north on Route 36. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "A ovest della città, sul Percorso 36, uno strano albero blocca la strada verso nord. Si dimena quando nessuno lo guarda! A sud, il Percorso 32 porta alla Grotta di Mezzo."
 }, "it");

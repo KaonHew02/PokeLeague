@@ -1,0 +1,27 @@
+/* Italian — johto-route36: Routes 36 and 37 and the strange tree (js/content/johto/route36.js). */
+G.I18n.add({
+  "A strange tree blocks the way. Water it with the Squirt Bottle?": "Uno strano albero blocca la strada. Lo annaffi con l'Annaffiatoio?",
+  "{player} watered the strange tree with the Squirt Bottle.": "{player} annaffia lo strano albero con l'Annaffiatoio.",
+  "The tree did not like that at all! It shook itself and attacked!": "All'albero non è piaciuto per niente! Si è scrollato ed è passato all'attacco!",
+  "A strange tree blocks the way. When you touch it, it shivers... Is it really a tree?": "Uno strano albero blocca la strada. Quando lo tocchi, rabbrividisce... È davvero un albero?",
+  "That tree up there... I am sure it moved when I looked away! And it is not even windy.": "Quell'albero lassù... Sono sicura che si è mosso quando ho distolto lo sguardo! E non c'è nemmeno vento.",
+  "So the tree was a Pokémon all along! Sudowoodo hate water, I heard. Strange, for a tree.": "Allora l'albero era un Pokémon! Ho sentito che i Sudowoodo odiano l'acqua. Strano, per un albero.",
+  "I already know how this battle ends. Shall we find out if I am right?": "So già come finirà questa lotta. Vediamo se ho ragione?",
+  "I did not see that coming...": "Non me l'aspettavo...",
+  "Psychic Pokémon read minds. Dark and Ghost moves are what they fear.": "I Pokémon Psico leggono nel pensiero. Temono le mosse Buio e Spettro.",
+  "Alan": "Alan",
+  "Tangela is a mystery! Nobody has ever seen what is under all those vines. Battle!": "Tangela è un mistero! Nessuno ha mai visto cosa c'è sotto tutte quelle liane. Lotta!",
+  "Still a mystery...": "Ancora un mistero...",
+  "I like Pokémon that are hard to understand. Like that walking tree!": "Mi piacciono i Pokémon difficili da capire. Come quell'albero che cammina!",
+  "Drowzee eats dreams. I wonder what yours taste like?": "Drowzee mangia i sogni. Chissà che sapore hanno i tuoi?",
+  "A bad dream...": "Un brutto sogno...",
+  "Ecruteak has two towers. One burned down long ago, and the other still stands.": "Amarantopoli ha due torri. Una è bruciata tanto tempo fa, l'altra è ancora in piedi.",
+  "Clefairy and Jigglypuff are best friends. Just like me and my sister!": "Clefairy e Jigglypuff sono migliori amici. Proprio come me e mia sorella!",
+  "We lost together...": "Abbiamo perso insieme...",
+  "My sister is in Ecruteak watching the Kimono Girls dance. I want to go too!": "Mia sorella è ad Amarantopoli a guardare le Ragazze Kimono ballare. Ci voglio andare anch'io!",
+  "Route 36. North: Route 37 and Ecruteak City.": "Percorso 36. Nord: Percorso 37 e Amarantopoli.",
+  "The National Park is to the west.": "Il Parco Nazionale è a ovest.",
+  "Violet City is to the east.": "Violapoli è a est.",
+  "Ruins of Alph. Closed while the scientists study the ruins. Thank you for understanding.": "Rovine d'Alfa. Chiuse mentre gli scienziati studiano le rovine. Grazie per la comprensione.",
+  "Route 37. Ecruteak City is just to the north.": "Percorso 37. Amarantopoli è subito a nord."
+}, "it");

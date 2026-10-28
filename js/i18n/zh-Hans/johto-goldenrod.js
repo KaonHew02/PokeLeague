@@ -23,7 +23,6 @@ G.I18n.add({
   "Here we have the strongest medicine in Johto.": "我们这里有城都最有效的药。",
   "Technical Machines! One disc, and your Pokémon learns a new move.": "招式学习器！只要一张光盘，你的宝可梦就能学会新招式。",
   "Battle items and vitamins! Make your Pokémon stronger, for a battle or for good.": "对战道具和营养剂！让你的宝可梦变强，可以只在一场对战中，也可以是永久的。",
-  "The gate is closed. A sign reads: \"Road work on Route 35. Sorry for the trouble!\"": "关卡关闭着。告示上写着：“35号道路施工中，敬请谅解！”",
   "The station is closed. A note on the door reads: \"The Magnet Train is not running. We are sorry!\"": "车站关闭着。门上的告示写着：“磁浮列车暂停运行，非常抱歉！”",
   "Staff only beyond this point.": "前方仅限工作人员进入。",
   "Yo, Champion! Whitney uses Normal types. Fighting moves hit them hard!": "哟，冠军！小茜用的是一般属性的宝可梦。格斗属性的招式对它们很有效！",
@@ -71,9 +70,12 @@ G.I18n.add({
   "No way... I lost...": "不会吧……我输了……",
   "Name Rater": "姓名鉴定师",
   "Goldenrod City. Johto's great city, busy and bright from morning to night.": "满金市。城都的大城市，从早到晚都热闹又明亮。",
-  "North: Route 35. The gate is closed while the road to the National Park is being repaired.": "北：35号道路。通往自然公园的道路正在维修，关卡暂时关闭。",
   "Goldenrod City Pokémon Gym. Leader: Whitney, the cheerful queen of Normal types!": "满金市宝可梦道馆。馆主：小茜，开朗的一般属性女王！",
   "The Goldenrod Department Store, the biggest shop in Johto, is on the west side of the city.": "城都最大的商店——满金百货，就在城市的西边。",
   "Magnet Train Station. The fastest way to Kanto, once it runs again.": "磁浮列车站。等它恢复运行，就是去关都最快的方式。",
-  "Floor guide. 1F: Information. 2F: Trainer's Market. 3F: TMs, battle items and vitamins.": "楼层导览。1楼：服务台。2楼：训练家市场。3楼：招式学习器、对战道具和营养剂。"
+  "Floor guide. 1F: Information. 2F: Trainer's Market. 3F: TMs, battle items and vitamins.": "楼层导览。1楼：服务台。2楼：训练家市场。3楼：招式学习器、对战道具和营养剂。",
+  "Oh, you have the Plain Badge! Then you are strong enough to deal with that strange tree on Route 36.": "哦，你拿到常规徽章了！那你应该有本事对付36号道路上那棵奇怪的树了。",
+  "Take this Squirt Bottle. If you water the tree, I bet something will happen!": "这个杰尼龟喷壶给你。要是给那棵树浇浇水，肯定会发生什么事！",
+  "That strange tree on Route 36... I would water it myself, but only a strong Trainer should go near it. Win a badge from Whitney first!": "36号道路上那棵奇怪的树……我本想自己去浇水，但只有厉害的训练家才该靠近它。先从小茜那里赢一枚徽章吧！",
+  "North: Route 35 and the National Park.": "北：35号道路和自然公园。"
 }, "zh-Hans");

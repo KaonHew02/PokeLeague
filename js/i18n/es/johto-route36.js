@@ -1,0 +1,27 @@
+/* Spanish — johto-route36: Routes 36 and 37 and the strange tree (js/content/johto/route36.js). */
+G.I18n.add({
+  "A strange tree blocks the way. Water it with the Squirt Bottle?": "Un árbol raro bloquea el camino. ¿Lo riegas con la Regadera?",
+  "{player} watered the strange tree with the Squirt Bottle.": "{player} regó el árbol raro con la Regadera.",
+  "The tree did not like that at all! It shook itself and attacked!": "¡Al árbol no le gustó nada! ¡Se sacudió y atacó!",
+  "A strange tree blocks the way. When you touch it, it shivers... Is it really a tree?": "Un árbol raro bloquea el camino. Cuando lo tocas, tiembla... ¿De verdad es un árbol?",
+  "That tree up there... I am sure it moved when I looked away! And it is not even windy.": "Ese árbol de ahí arriba... ¡Estoy segura de que se movió cuando aparté la vista! Y ni siquiera hace viento.",
+  "So the tree was a Pokémon all along! Sudowoodo hate water, I heard. Strange, for a tree.": "¡Así que el árbol era un Pokémon! He oído que los Sudowoodo odian el agua. Qué raro, para un árbol.",
+  "I already know how this battle ends. Shall we find out if I am right?": "Ya sé cómo acaba este combate. ¿Comprobamos si tengo razón?",
+  "I did not see that coming...": "No lo vi venir...",
+  "Psychic Pokémon read minds. Dark and Ghost moves are what they fear.": "Los Pokémon Psíquico leen la mente. Lo que temen son los movimientos Siniestro y Fantasma.",
+  "Alan": "Alan",
+  "Tangela is a mystery! Nobody has ever seen what is under all those vines. Battle!": "¡Tangela es un misterio! Nadie ha visto nunca lo que hay bajo todas esas lianas. ¡A combatir!",
+  "Still a mystery...": "Sigue siendo un misterio...",
+  "I like Pokémon that are hard to understand. Like that walking tree!": "Me gustan los Pokémon difíciles de entender. ¡Como ese árbol que anda!",
+  "Drowzee eats dreams. I wonder what yours taste like?": "Drowzee come sueños. ¿A qué sabrán los tuyos?",
+  "A bad dream...": "Una pesadilla...",
+  "Ecruteak has two towers. One burned down long ago, and the other still stands.": "Ciudad Iris tiene dos torres. Una se quemó hace mucho, y la otra sigue en pie.",
+  "Clefairy and Jigglypuff are best friends. Just like me and my sister!": "Clefairy y Jigglypuff son mejores amigos. ¡Como mi hermana y yo!",
+  "We lost together...": "Hemos perdido juntos...",
+  "My sister is in Ecruteak watching the Kimono Girls dance. I want to go too!": "Mi hermana está en Ciudad Iris viendo bailar a las Chicas Kimono. ¡Yo también quiero ir!",
+  "Route 36. North: Route 37 and Ecruteak City.": "Ruta 36. Norte: Ruta 37 y Ciudad Iris.",
+  "The National Park is to the west.": "El Parque Nacional está al oeste.",
+  "Violet City is to the east.": "Ciudad Malva está al este.",
+  "Ruins of Alph. Closed while the scientists study the ruins. Thank you for understanding.": "Ruinas Alfa. Cerradas mientras los científicos estudian las ruinas. Gracias por su comprensión.",
+  "Route 37. Ecruteak City is just to the north.": "Ruta 37. Ciudad Iris está justo al norte."
+}, "es");

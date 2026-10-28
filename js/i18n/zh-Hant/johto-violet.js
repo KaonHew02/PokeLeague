@@ -50,5 +50,5 @@ G.I18n.add({
   "Violet City. An old town of quiet scents, with Sprout Tower at its heart.": "桔梗市。飄著淡淡清香的古老城市，喇叭芽之塔就在它的中心。",
   "Violet City Pokémon Gym. Leader: Falkner, who soars with Flying-type Pokémon!": "桔梗市寶可夢道館。館主：阿速，與飛行屬性寶可夢一同翱翔！",
   "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "大柱子輕輕搖晃著，卻從來不會倒下。據說那是一隻巨大喇叭芽的身體。",
-  "A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "城市西邊的路被一棵奇怪的樹擋住了。沒人看的時候它還會扭來扭去！往南走，32號道路通往互連洞。"
+  "West of the city, a strange tree blocks the road north on Route 36. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "城市西邊的36號道路上，有一棵奇怪的樹擋住了往北的路。沒人看的時候它還會扭來扭去！往南走，32號道路通往互連洞。"
 }, "zh-Hant");

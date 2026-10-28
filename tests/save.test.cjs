@@ -23,9 +23,20 @@ test('the Day Care keeps at most two Pokémon, each with the level it was left a
   assert.equal(G.Store.sanitize({}).daycare.length, 0);
 });
 
+test('a Bug-Catching Contest saved halfway keeps its entrant, balls, steps and catch', () => {
+  const mon = G.Mon.create(123, 14, { rng: G.RNG(2) });
+  const s = G.Store.sanitize({ contest: { uid: 'abc', balls: 300, steps: 120, mon } });
+  assert.equal(s.contest.uid, 'abc');
+  assert.equal(s.contest.balls, 99);
+  assert.equal(s.contest.steps, 120);
+  assert.equal(s.contest.mon.sp, 123);
+  assert.equal(G.Store.sanitize({ contest: { balls: 3 } }).contest, null);
+  assert.equal(G.Store.newSave().contest, null);
+});
+
 test('a new save has the documented shape', () => {
   const s = G.Store.newSave({ name: 'Ash', gender: 'f', rival: 'Gary', id: 70000 });
-  assert.deepEqual(Object.keys(s).sort(), ['app', 'bag', 'box', 'boxes', 'created', 'daycare', 'dex', 'done', 'fame', 'flags', 'party', 'player', 'playTime',
+  assert.deepEqual(Object.keys(s).sort(), ['app', 'bag', 'box', 'boxes', 'contest', 'created', 'daycare', 'dex', 'done', 'fame', 'flags', 'party', 'player', 'playTime',
     'repel', 'rival', 'rival2', 'savedAt', 'v', 'vars'].sort());
   assert.equal(s.app, 'PokeLeague');
   assert.equal(s.player.name, 'Ash');

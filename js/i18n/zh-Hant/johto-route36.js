@@ -1,0 +1,27 @@
+/* Traditional Chinese — johto-route36: Routes 36 and 37 and the strange tree (js/content/johto/route36.js). */
+G.I18n.add({
+  "A strange tree blocks the way. Water it with the Squirt Bottle?": "一棵奇怪的樹擋住了去路。要用傑尼龜噴壺給它澆水嗎？",
+  "{player} watered the strange tree with the Squirt Bottle.": "{player}用傑尼龜噴壺給奇怪的樹澆了水。",
+  "The tree did not like that at all! It shook itself and attacked!": "那棵樹一點都不喜歡這樣！它抖了抖身體，撲了過來！",
+  "A strange tree blocks the way. When you touch it, it shivers... Is it really a tree?": "一棵奇怪的樹擋住了去路。一碰它，它就抖了一下……這真的是樹嗎？",
+  "That tree up there... I am sure it moved when I looked away! And it is not even windy.": "上面那棵樹……我剛一轉頭，它肯定動了！明明一點風都沒有。",
+  "So the tree was a Pokémon all along! Sudowoodo hate water, I heard. Strange, for a tree.": "原來那棵樹是寶可夢啊！聽說樹才怪討厭水。作為一棵樹還真奇怪。",
+  "I already know how this battle ends. Shall we find out if I am right?": "我早就知道這場對戰的結局了。來看看我說得對不對吧？",
+  "I did not see that coming...": "這我可沒預料到……",
+  "Psychic Pokémon read minds. Dark and Ghost moves are what they fear.": "超能力寶可夢能讀懂人心。牠們害怕的是惡屬性和幽靈屬性的招式。",
+  "Alan": "阿倫",
+  "Tangela is a mystery! Nobody has ever seen what is under all those vines. Battle!": "蔓藤怪是個謎！從來沒人見過那堆藤蔓下面是什麼。對戰吧！",
+  "Still a mystery...": "還是個謎……",
+  "I like Pokémon that are hard to understand. Like that walking tree!": "我喜歡讓人捉摸不透的寶可夢。比如那棵會走路的樹！",
+  "Drowzee eats dreams. I wonder what yours taste like?": "催眠貘會吃掉夢。不知道你的夢是什麼味道？",
+  "A bad dream...": "一場噩夢……",
+  "Ecruteak has two towers. One burned down long ago, and the other still stands.": "圓朱市有兩座塔。一座很久以前燒毀了，另一座至今仍然矗立著。",
+  "Clefairy and Jigglypuff are best friends. Just like me and my sister!": "皮皮和胖丁是最好的朋友。就像我和我妹妹一樣！",
+  "We lost together...": "我們一起輸了……",
+  "My sister is in Ecruteak watching the Kimono Girls dance. I want to go too!": "我妹妹在圓朱市看舞子跳舞。我也想去！",
+  "Route 36. North: Route 37 and Ecruteak City.": "36號道路。北：37號道路和圓朱市。",
+  "The National Park is to the west.": "西邊是自然公園。",
+  "Violet City is to the east.": "東邊是桔梗市。",
+  "Ruins of Alph. Closed while the scientists study the ruins. Thank you for understanding.": "阿露福遺跡。學者們正在研究遺跡，暫停開放。感謝理解。",
+  "Route 37. Ecruteak City is just to the north.": "37號道路。北邊就是圓朱市。"
+}, "zh-Hant");

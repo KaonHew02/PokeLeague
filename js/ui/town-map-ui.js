@@ -38,7 +38,8 @@ G.TownMapUI = (() => {
       'new-bark-town': [17, 11], 'cherrygrove-city': [12, 11], 'violet-city': [9, 5], 'azalea-town': [5, 12],
       'goldenrod-city': [5, 8], 'ecruteak-city': [7, 3], 'olivine-city': [2.5, 4], 'cianwood-city': [0.6, 9],
       'mahogany-town': [13, 3], 'blackthorn-city': [17, 3], 'sprout-tower': [9, 3.9], 'dark-cave': [11, 5],
-      'union-cave': [8.3, 12], 'slowpoke-well': [4.4, 12.6], 'ilex-forest': [4.2, 11], 'radio-tower': [5.6, 7.6]
+      'union-cave': [8.3, 12], 'slowpoke-well': [4.4, 12.6], 'ilex-forest': [4.2, 11], 'radio-tower': [5.6, 7.6],
+      'national-park': [4.6, 5.6], 'burned-tower': [6.5, 2.7], 'bell-tower': [7.6, 2.6], 'ruins-of-alph': [7.2, 6.4]
     },
     ROADS: {
       29: [[17, 11], [12, 11]], 30: [[12, 11], [12, 6]], 31: [[12, 6], [9, 6], [9, 5]], 32: [[9, 5], [9, 12]],

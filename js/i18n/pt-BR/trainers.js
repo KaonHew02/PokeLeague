@@ -34,5 +34,7 @@ G.I18n.add({
   "Elite Four": "Elite dos Quatro",
   "Champion": "Campeão",
   "Sage": "Sábio",
-  "Pokéfan": "Pokéfan"
+  "Pokéfan": "Pokéfan",
+  "Kimono Girl": "Garota de Quimono",
+  "Medium": "Médium"
 }, "pt-BR");

@@ -42,5 +42,7 @@ G.I18n.add({
   "Chapter 12 complete!": "第12章完成！",
   "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player}把火箭隊趕出了呆呆獸之井，並從阿筆那裡得到了昆蟲徽章。",
   "Chapter 13 complete!": "第13章完成！",
-  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player}在櫟樹林找回了走失的大蔥鴨，又在一番眼淚之後，從小茜那裡得到了常規徽章。"
+  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player}在櫟樹林找回了走失的大蔥鴨，又在一番眼淚之後，從小茜那裡得到了常規徽章。",
+  "Chapter 14 complete!": "第14章完成！",
+  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player}喚醒了沉睡在燒焦塔下的三隻傳說中的寶可夢，並從松葉那裡得到了幻影徽章。"
 }, "zh-Hant");

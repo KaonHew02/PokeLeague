@@ -62,5 +62,6 @@ G.I18n.add({
   "A big tree. Something might fall out if a Pokémon gave it a good Headbutt.": "一棵大树。如果让宝可梦用力头锤一下，说不定会掉下什么来。",
   "A big tree. Would you like to use Headbutt?": "一棵大树。要使用头锤吗？",
   "{mon} did a Headbutt!": "{mon}使出了头锤！",
-  "Nothing happened...": "什么也没发生……"
+  "Nothing happened...": "什么也没发生……",
+  "{ball} ×{n} · Steps {s}": "{ball} ×{n} · 步数 {s}"
 }, "zh-Hans");

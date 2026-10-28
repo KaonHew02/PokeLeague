@@ -10,7 +10,7 @@ const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 const dev = source('dev.html');
 const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/script/script.js'], CONTENT);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/script/script.js'], CONTENT);
 
 function world(seed = 1) {
   const ctx = boot(FILES);
@@ -707,6 +707,27 @@ test('balance: Whitney in Goldenrod (chapter 13), win rates of typical teams are
   assert.ok(table['quilava 22 + geodude 18'] >= 0.35, 'Quilava with a Geodude');
   assert.ok(table['bayleef 24 + geodude 20'] >= 0.6, 'Bayleef with a Geodude');
   assert.ok(table['croconaw 24 + geodude 20'] >= 0.4, 'Croconaw with a Geodude');
+});
+
+test('balance: Morty in Ecruteak (chapter 14), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'ecruteak-gym', 'morty');
+  const table = {
+    'quilava 28': rate([[156, 28]]),
+    'croconaw 28': rate([[159, 28]]),
+    'bayleef 28': rate([[153, 28]]),
+    'quilava 28 + eevee 24 + geodude 24': rate([[156, 28], [133, 24], [74, 24]]),
+    'bayleef 28 + eevee 24 + pidgeotto 26': rate([[153, 28], [133, 24], [17, 26]]),
+    'croconaw 28 + umbreon 24 + flaaffy 24': rate([[159, 28], [197, 24], [180, 24]]),
+    'bayleef 28 + espeon 24': rate([[153, 28], [196, 24]])
+  };
+  console.log('[balance] vs Morty:', JSON.stringify(table));
+  // Four Ghost types that put you to sleep, confuse and curse you: one Pokémon alone rarely gets
+  // through all four without healing. Grass moves do little to Ghost and Poison (Bayleef).
+  assert.ok(table['quilava 28 + eevee 24 + geodude 24'] >= 0.35, 'Quilava, Eevee and Geodude');
+  assert.ok(table['bayleef 28 + eevee 24 + pidgeotto 26'] >= 0.5, 'Bayleef, Eevee and Pidgeotto');
+  assert.ok(table['croconaw 28 + umbreon 24 + flaaffy 24'] >= 0.6, 'Croconaw, Umbreon and Flaaffy');
+  assert.ok(table['bayleef 28 + espeon 24'] >= 0.5, 'Bayleef and Espeon');
 });
 
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
@@ -1432,6 +1453,73 @@ async function chapter13(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 14 after chapter 13: Route 35, the Bug-Catching Contest, Routes 36 and 37, Ecruteak City and Morty. */
+async function chapter14(st) {
+  const { G, S } = st;
+  const F = G.Field, C = G.Contest;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // Goldenrod's road north, the park, Route 36 to Violet City, Route 37 to Ecruteak.
+  assert.equal(G.Maps.get('goldenrod').def.connect.north.map, 'route35');
+  assert.equal(G.Maps.get('national-park').def.connect.east.map, 'route36');
+  assert.equal(G.Maps.get('route36').def.connect.east.map, 'violet');
+  assert.equal(G.Maps.get('route37').def.connect.north.map, 'ecruteak');
+  const starter = S.party.find(m => m.sp >= 155 && m.sp <= 157);
+  lead(st, starter.sp);
+  // The Flower Shop gives the Squirt Bottle (after the Plain Badge).
+  await run(st, 'flower-shop', npc(st, 'flower-shop', 'florist'));
+  assert.ok(F.count('squirt-bottle') === 1 && F.flag('got-squirt-bottle'));
+  grind(st, 'route35', 26, 400);
+  await all('route35');
+  won();
+  // The Bug-Catching Contest: join, catch a Scyther, and the time runs out.
+  await run(st, 'national-park', npc(st, 'national-park', 'officer'), [0]);
+  assert.ok(C.on() && st.W.map === 'contest-park', 'in the contest');
+  assert.equal(C.entrant(), S.party[0]);
+  const bug = G.Mon.create(123, 14, { rng: G.RNG(5), wild: true });
+  await run(st, 'contest-park', 'contest.caught', [], { mon: bug });
+  assert.equal(C.kept(), bug);
+  const n = S.party.length + S.boxes.flat().filter(Boolean).length;
+  await run(st, 'contest-park', 'contest.timeup');
+  assert.ok(!C.on() && st.W.map === 'national-park', 'the contest is over');
+  assert.equal(S.party.length + S.boxes.flat().filter(Boolean).length, n + 1, 'the Scyther is yours');
+  assert.ok(F.count('sun-stone') + F.count('moon-stone') + F.count('hyper-potion') + F.count('super-potion') > 0, 'a prize');
+  await run(st, 'national-park', npc(st, 'national-park', 'officer'), [0]);
+  assert.ok(!C.on(), 'once a day');
+  // Route 36: the strange tree is a Sudowoodo.
+  await all('route36');
+  won();
+  await run(st, 'route36', npc(st, 'route36', 'sudowoodo'), [0]);
+  assert.ok(F.flag('sudowoodo-gone'), 'the way north is open');
+  await all('route37');
+  won();
+  // Ecruteak: the Gym is empty until the Burned Tower.
+  assert.ok(!F.test('beasts-awake'));
+  await run(st, 'burned-tower-1f', 'burned.rival');
+  assert.equal(last().key, 'burned-tower-1f:rival2-burned');
+  assert.ok(F.flag('burned-rival'));
+  await run(st, 'burned-tower-b1f', 'burned.beasts');
+  assert.ok(F.flag('beasts-awake'), 'Raikou, Entei and Suicune ran off');
+  // The Dance Theater: five Kimono Girls, then the old man's present.
+  grind(st, 'route37', 28, 600);
+  await all('dance-theater');
+  won();
+  await run(st, 'dance-theater', npc(st, 'dance-theater', 'gentleman'));
+  assert.ok(F.flag('kimono-gift') && F.count('rare-candy') >= 1);
+  // Morty's Gym.
+  await all('ecruteak-gym');
+  won();
+  F.healAll();
+  await run(st, 'ecruteak-gym', [['battle', 'ecruteak-gym:morty']]);
+  assert.equal(last().outcome, 'win', 'Morty beaten at levels ' + last().levels);
+  assert.ok(S.player.badges.includes(12) && F.count('tm30') >= 1 && F.flag('morty-beaten'));
+  assert.equal(F.obeyCap('johto'), 40, 'the Fog Badge: up to Lv. 40');
+  assert.ok(F.flag('chapter-14-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1513,7 +1601,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test('chapters 11 to 13: Johto, from Professor Elm to Falkner, Bugsy and Whitney', async () => {
+test('chapters 11 to 14: Johto, from Professor Elm to Falkner, Bugsy, Whitney and Morty', async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -1528,4 +1616,5 @@ test('chapters 11 to 13: Johto, from Professor Elm to Falkner, Bugsy and Whitney
   await chapter11(st);
   await chapter12(st);
   await chapter13(st);
+  await chapter14(st);
 });

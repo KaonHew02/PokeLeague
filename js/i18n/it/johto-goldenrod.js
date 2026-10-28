@@ -23,7 +23,6 @@ G.I18n.add({
   "Here we have the strongest medicine in Johto.": "Qui abbiamo le medicine più potenti di Johto.",
   "Technical Machines! One disc, and your Pokémon learns a new move.": "Macchine Tecniche! Un disco, e il tuo Pokémon impara una nuova mossa.",
   "Battle items and vitamins! Make your Pokémon stronger, for a battle or for good.": "Strumenti per la lotta e vitamine! Rendi più forte il tuo Pokémon, per una lotta o per sempre.",
-  "The gate is closed. A sign reads: \"Road work on Route 35. Sorry for the trouble!\"": "Il casello è chiuso. Un cartello dice: \"Lavori sul Percorso 35. Ci scusiamo per il disagio!\"",
   "The station is closed. A note on the door reads: \"The Magnet Train is not running. We are sorry!\"": "La stazione è chiusa. Un biglietto sulla porta dice: \"Il Magnetreno non è in servizio. Ci scusiamo!\"",
   "Staff only beyond this point.": "Oltre questo punto, solo personale autorizzato.",
   "Yo, Champion! Whitney uses Normal types. Fighting moves hit them hard!": "Ehilà, Campione! Chiara usa Pokémon di tipo Normale. Le mosse Lotta li colpiscono duramente!",
@@ -71,9 +70,12 @@ G.I18n.add({
   "No way... I lost...": "Non ci credo... Ho perso...",
   "Name Rater": "Esperto di Nomi",
   "Goldenrod City. Johto's great city, busy and bright from morning to night.": "Fiordoropoli. La grande città di Johto, viva e luminosa dalla mattina alla sera.",
-  "North: Route 35. The gate is closed while the road to the National Park is being repaired.": "Nord: Percorso 35. Il casello è chiuso mentre riparano la strada per il Parco Nazionale.",
   "Goldenrod City Pokémon Gym. Leader: Whitney, the cheerful queen of Normal types!": "Palestra Pokémon di Fiordoropoli. Capopalestra: Chiara, l'allegra regina del tipo Normale!",
   "The Goldenrod Department Store, the biggest shop in Johto, is on the west side of the city.": "Il Centro Commerciale di Fiordoropoli, il negozio più grande di Johto, è nella parte ovest della città.",
   "Magnet Train Station. The fastest way to Kanto, once it runs again.": "Stazione del Magnetreno. Il modo più veloce per andare a Kanto, appena tornerà in servizio.",
-  "Floor guide. 1F: Information. 2F: Trainer's Market. 3F: TMs, battle items and vitamins.": "Guida ai piani. 1° piano: Informazioni. 2° piano: Mercato dell'Allenatore. 3° piano: MT, strumenti per la lotta e vitamine."
+  "Floor guide. 1F: Information. 2F: Trainer's Market. 3F: TMs, battle items and vitamins.": "Guida ai piani. 1° piano: Informazioni. 2° piano: Mercato dell'Allenatore. 3° piano: MT, strumenti per la lotta e vitamine.",
+  "Oh, you have the Plain Badge! Then you are strong enough to deal with that strange tree on Route 36.": "Oh, hai la Medaglia Piana! Allora sei abbastanza forte da occuparti di quello strano albero sul Percorso 36.",
+  "Take this Squirt Bottle. If you water the tree, I bet something will happen!": "Prendi questo Annaffiatoio. Se annaffi l'albero, scommetto che succederà qualcosa!",
+  "That strange tree on Route 36... I would water it myself, but only a strong Trainer should go near it. Win a badge from Whitney first!": "Quello strano albero sul Percorso 36... Lo annaffierei io, ma solo un Allenatore forte dovrebbe avvicinarsi. Prima vinci una medaglia contro Chiara!",
+  "North: Route 35 and the National Park.": "Nord: Percorso 35 e il Parco Nazionale."
 }, "it");

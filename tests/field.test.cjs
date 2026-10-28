@@ -1,12 +1,13 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
-// water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt and the Day Care. Test maps are defined here; the drawing,
+// water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt, the Day Care,
+// the Bug-Catching Contest and Morty's floor of darkness. Test maps are defined here; the drawing,
 // the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { boot, plain, CORE, DATA, BATTLE } = require('./helpers.cjs');
 
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/player.js', 'js/world/field.js', 'js/world/daycare.js', 'js/script/script.js']);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/player.js', 'js/world/field.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/script/script.js']);
 
 function el() {
   return { classList: { add() {}, remove() {}, toggle() {} }, setAttribute() {}, addEventListener() {}, appendChild() {}, style: {}, offsetWidth: 0 };
@@ -385,4 +386,73 @@ test('the Day Care: up to two Pokémon grow by the step and learn their moves; t
   assert.equal(D.list()[0].mon, rattata);
   while (F.party().length < 6) F.giveMon('rattata', 2);
   assert.equal(D.withdraw(0), 'party-full');
+});
+
+test('the Bug-Catching Contest: the entrant alone with the Sport Balls, steps that run out, a catch kept, the judging', async () => {
+  const { G, W } = world();
+  const F = G.Field, C = G.Contest;
+  const ran = [];
+  G.Script.def({ 'contest.timeup': [['js', () => { ran.push('timeup'); }]], 'contest.caught': [['js', h => { ran.push('caught'); C.keep(h.ctx.mon); }]],
+                 'contest.out-of-balls': [['js', () => { ran.push('balls'); }]], 'contest.fainted': [['js', () => { ran.push('fainted'); }]] });
+  G.Maps.def({ id: 't-contest', region: 'johto', tileset: 'outdoor', palette: 'kanto', contest: true,
+    rows: ['TTTTTTTTT', 'T"""""""T', 'TTTTTTTTT'], spots: { start: [1, 1, 'right'] },
+    encounters: { walk: { rate: 180, mons: [[123, 14, 14, 100]] } } });
+  assert.deepEqual(plain(G.Maps.validate('t-contest')), []);
+  F.giveMon('quilava', 25);
+  F.giveMon('geodude', 20);
+  assert.ok(C.begin() && C.on());
+  assert.equal(C.balls(), 20);
+  // A battle in the contest: only the entrant, only the Sport Balls; the catch goes to the script.
+  const rng = G.RNG(4);
+  let seen = null;
+  W.onEncounter = async (sp, lvl, area, info) => {
+    seen = info;
+    info.player.bag['sport-ball'] -= 2;
+    return { outcome: 'caught', mon: G.Mon.create(sp, lvl, { rng, wild: true }), toBox: false, seen: [sp] };
+  };
+  W.load('t-contest', 'start');
+  await pump(W, (async () => { step(W, 'right'); await tick(); })());
+  await pump(W, (async () => { for (let i = 0; i < 20 && !ran.length; i++) await tick(); })());
+  assert.ok(seen && seen.contest, 'a contest battle');
+  assert.equal(seen.player.party.length, 1, 'the entrant alone');
+  assert.deepEqual(Object.keys(seen.player.bag), ['sport-ball']);
+  assert.deepEqual(ran.slice(), ['caught']);
+  assert.equal(C.balls(), 18, 'the balls thrown are gone');
+  assert.equal(C.kept().sp, 123);
+  assert.equal(F.party().length, 2, 'the catch is not in the party yet');
+  // The steps: the last one ends it.
+  W.onEncounter = null;
+  G.Maps.get('t-contest').def.encounters.walk.rate = 0;
+  F.save.contest.steps = 2;
+  W.load('t-contest', 'start');
+  step(W, 'right'); step(W, 'right');
+  await pump(W, tick());
+  assert.equal(C.steps(), 0);
+  assert.ok(ran.includes('timeup'));
+  // Judging: three others from the same table; a Scyther at Lv. 14 with full HP scores well.
+  const res = C.judge(G.RNG(9), ['A', 'B', 'C'], [[10, 7, 8, 100]]);
+  assert.equal(res.all.length, 4);
+  assert.equal(res.place, 1, 'a Scyther beats three Caterpie');
+  assert.ok(C.score(C.kept()) > 14 * 4);
+  const mon = C.finish();
+  assert.equal(mon.sp, 123);
+  assert.ok(!C.on() && !F.save.contest && !F.flag('contest-on'));
+});
+
+test("Morty's Gym: off the path is darkness, and you land back at the door", async () => {
+  const { G, W } = world();
+  G.Maps.def({ id: 't-dark', tileset: 'indoor', palette: 'ghost',
+    rows: ['WWWWW', 'WWWWW', 'aa+aa', 'a+++a', 'aaXaa'], fall: { to: 't-dark', spot: 'door' },
+    warps: [{ x: 2, y: 4, to: 't-dark', spot: 'door' }], spots: { door: [2, 4, 'up'] } });
+  assert.deepEqual(plain(G.Maps.validate('t-dark')), []);
+  G.Maps.def({ id: 't-dark2', tileset: 'indoor', palette: 'ghost', rows: ['WWW', 'WWW', 'a+a'], spots: { s: [1, 2, 'up'] } });
+  assert.ok(plain(G.Maps.validate('t-dark2')).some(e => /fall/.test(e)), 'an abyss needs a place to land');
+  G.Field.giveMon('quilava', 25);
+  W.load('t-dark', 'door');
+  assert.equal(step(W, 'up'), 'moved');
+  assert.deepEqual([W.player.x, W.player.y], [2, 3]);
+  assert.equal(step(W, 'right'), 'moved');
+  assert.equal(step(W, 'right'), 'moved', 'the darkness is not a wall');
+  await pump(W, (async () => { for (let i = 0; i < 30 && W.player.x !== 2; i++) await tick(); })());
+  assert.deepEqual([W.player.x, W.player.y], [2, 4], 'back at the door');
 });

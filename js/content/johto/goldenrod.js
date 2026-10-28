@@ -2,8 +2,9 @@
  * Chapter 13, the end of the chapter. Johto's big city: a Pokémon Center, the Department Store
  * (three floors), the Radio Tower (only the lobby: staff only upstairs), the Bike Shop, the Flower
  * Shop, the Name Rater (a new nickname for a Pokémon you raised from the start), Bill's family
- * (Bill, home for a visit, gives you an Eevee: flag bill-eevee) and a house. The gate north to
- * Route 35 and the Magnet Train are closed for now.
+ * (Bill, home for a visit, gives you an Eevee: flag bill-eevee) and a house. The Magnet Train is
+ * closed for now; the road north is Route 35 (chapter 14). After the Plain Badge the Flower Shop
+ * gives the Squirt Bottle (flag got-squirt-bottle), for the strange tree on Route 36.
  * Whitney's Gym (palette `pink`, hedges): two Lasses, two Beauties, then Whitney (Clefairy 16,
  * Miltank 17 with Rollout, Attract and Milk Drink). Beaten, she bursts into tears (flag whitney-cried) and
  * only gives the badge when you talk to her again: badge 11, the Plain Badge (Pokémon up to
@@ -13,11 +14,11 @@ G.Maps.def({
   id: 'goldenrod', loc: 'goldenrod-city', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
   fly: { spot: 'center-door' },
   rows: [
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-    'TTTTTTTTTTTTTTTTTTBBBBBBTTTTTTTTTTTTTTTTTTTT',
-    'TTTTTTT...........BBBBBB..............TTTTTT',
-    'TTTTTTT...........BBBBBB......YYYYYYYYTTTTTT',
-    'TTTTTTT...........BBDBBB......YYYYYYYYTTTTTT',
+    'TTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTTTTTTTT',
+    'TTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTTTTTTTT',
+    'TTTTTTT.............,,................TTTTTT',
+    'TTTTTTT.............,,........YYYYYYYYTTTTTT',
+    'TTTTTTT.............,,........YYYYYYYYTTTTTT',
     'TTTTTTT.............,,........YYYYYYYYTTTTTT',
     'TTTTTTT.EEEEEEEE...S,,........YYYYYYYYTTTTTT',
     'TTTTTTT.EEEEEEEE....,,........YYYYYYYYTTTTTT',
@@ -50,9 +51,8 @@ G.Maps.def({
     'TTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTTTTTTTT',
     'TTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTTTTTTTT'
   ],
-  connect: { south: { map: 'route34', offset: 10 } },
+  connect: { south: { map: 'route34', offset: 10 }, north: { map: 'route35', offset: 10 } },
   warps: [
-    { x: 20, y: 4, to: 'goldenrod', spot: 'gate-door', if: 'route35-open', locked: 'goldenrod.gate-closed' },
     { x: 33, y: 8, to: 'radio-tower-1f', spot: 'door' },
     { x: 11, y: 10, to: 'goldenrod-dept-1f', spot: 'door' },
     { x: 26, y: 15, to: 'goldenrod-center', spot: 'door' },
@@ -65,13 +65,13 @@ G.Maps.def({
     { x: 32, y: 30, to: 'goldenrod', spot: 'magnet-door', if: 'magnet-train', locked: 'goldenrod.magnet-closed' }
   ],
   spots: {
-    'gate-door': [20, 5, 'down'], 'radio-door': [33, 9, 'down'], 'dept-door': [11, 11, 'down'], 'center-door': [26, 16, 'down'],
+    'radio-door': [33, 9, 'down'], 'dept-door': [11, 11, 'down'], 'center-door': [26, 16, 'down'],
     'bill-door': [37, 15, 'down'], 'bike-door': [13, 24, 'down'], 'flower-door': [26, 24, 'down'], 'rater-door': [33, 24, 'down'],
     'gym-door': [6, 32, 'down'], 'house-door': [13, 31, 'down'], 'magnet-door': [32, 31, 'down']
   },
   signs: {
     '22,32': 'Goldenrod City. Johto\'s great city, busy and bright from morning to night.',
-    '19,6': 'North: Route 35. The gate is closed while the road to the National Park is being repaired.',
+    '19,6': 'North: Route 35 and the National Park.',
     '8,32': 'Goldenrod City Pokémon Gym. Leader: Whitney, the cheerful queen of Normal types!',
     '27,16': 'The Goldenrod Department Store, the biggest shop in Johto, is on the west side of the city.',
     '29,26': 'Magnet Train Station. The fastest way to Kanto, once it runs again.'
@@ -179,8 +179,7 @@ ghouse('bike-shop', 'bike-door', {
 
 ghouse('flower-shop', 'flower-door', {
   npcs: [
-    { id: 'florist', who: 'lass', x: 7, y: 4, dir: 'left',
-      say: 'Welcome! Our flowers come from every corner of Johto.' },
+    { id: 'florist', who: 'lass', x: 7, y: 4, dir: 'left', script: 'goldenrod.florist' },
     { id: 'sister', who: 'beauty', x: 2, y: 5, dir: 'right',
       say: 'Have you heard about the strange tree west of Violet City? They say it wiggles when you water it. A tree that moves... how odd!' }
   ]
@@ -332,7 +331,15 @@ G.Maps.def({
   }
 
   G.Script.def({
-    'goldenrod.gate-closed': [['say', 'The gate is closed. A sign reads: "Road work on Route 35. Sorry for the trouble!"']],
+    'goldenrod.florist': [
+      ['say', 'Welcome! Our flowers come from every corner of Johto.'],
+      ['if', ['whitney-beaten', '!got-squirt-bottle'], [
+        ['say', 'Oh, you have the Plain Badge! Then you are strong enough to deal with that strange tree on Route 36.'],
+        ['say', 'Take this Squirt Bottle. If you water the tree, I bet something will happen!'],
+        ['giveItem', 'squirt-bottle', 1],
+        ['setFlag', 'got-squirt-bottle']
+      ], [['if', '!whitney-beaten', [['say', 'That strange tree on Route 36... I would water it myself, but only a strong Trainer should go near it. Win a badge from Whitney first!']]]]]
+    ],
     'goldenrod.magnet-closed': [['say', 'The station is closed. A note on the door reads: "The Magnet Train is not running. We are sorry!"']],
     'radio.staff-only': [['say', 'Staff only beyond this point.']],
     'goldenrod.gym-guide': [

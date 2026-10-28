@@ -34,5 +34,7 @@ G.I18n.add({
   "Elite Four": "四天王",
   "Champion": "冠军",
   "Sage": "和尚",
-  "Pokéfan": "发烧友俱乐部"
+  "Pokéfan": "发烧友俱乐部",
+  "Kimono Girl": "舞子",
+  "Medium": "灵媒"
 }, "zh-Hans");

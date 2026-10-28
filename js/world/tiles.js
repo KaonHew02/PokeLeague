@@ -104,6 +104,11 @@ G.Tiles = (() => {
     wood: ['#d8a868', '#cc9a5c', '#e2b478'], woodLine: '#a07040', tile: ['#f8dce8', '#f0ccdc'], grout: '#dcaec2',
     rug: ['#e05a96', '#f282b4', '#b03c72'], counter: ['#fdf4f8', '#ecd0dc', '#c49aae'],
     mat: ['#e05a96', '#f282b4'], screen: '#68d0f8' };
+  // Morty's Gym (Ecruteak): a dim path over darkness.
+  PALETTES.ghost = { floor: 'tile', wallTop: ['#1c1824', '#24202e'], paper: ['#3e3450', '#362c46'], trim: '#5c4c78', base: '#241c30',
+    wood: ['#4a3e5a', '#42364e', '#524664'], woodLine: '#2a2236', tile: ['#3c3250', '#352c48'], grout: '#2a2238',
+    rug: ['#5a3a7a', '#7a5a9a', '#3a2458'], counter: ['#5a5070', '#463c5a', '#2e2640'],
+    mat: ['#5a3a7a', '#7a5a9a'], screen: '#68d0f8' };
   // The Rocket Hideout: cold grey metal.
   PALETTES.hideout = { floor: 'tile', wallTop: ['#262a32', '#30343e'], paper: ['#7a8292', '#707888'], trim: '#a2aab8', base: '#3a404c',
     wood: ['#8a8e98', '#7a7e88', '#9a9ea8'], woodLine: '#5a5e68', tile: ['#b2bac6', '#a6aeba'], grout: '#8a92a0',
@@ -766,6 +771,30 @@ G.Tiles = (() => {
   }
 
   /** A metal trash can (Lt. Surge's Gym). */
+  // Rubble: charred beams and stones (the Burned Tower).
+  const RUBBLE = [
+    '................',
+    '................',
+    '..........oo....',
+    '.........oLLo...',
+    '...ooo..oLwLo...',
+    '..oLLLo.oLLgo...',
+    '..oLwLLooggo....',
+    '.oLLLLggbbbbbo..',
+    '.oLLLgobBBBBBbo.',
+    '..ogggobbbbbbbo.',
+    '.oooooobbbbbbo..',
+    'oLLLLgoooooooo..',
+    'oLwLLLgo.ooo....',
+    '.oggggo.oLLgo...',
+    '..oooo..oggo....',
+    '.........oo.....'
+  ];
+  function rubble(P, C, ox, oy, tx, ty) {
+    floor(P, C, ox, oy, tx, ty, C.floor);
+    ascii(P, ox, oy, RUBBLE, { o: pack('#1c1612'), L: pack('#7a7068'), w: pack('#9a9088'), g: pack('#4e463e'), b: pack('#3a2a20'), B: pack('#5a4232') });
+  }
+
   function can(P, C, ox, oy, tx, ty) {
     floor(P, C, ox, oy, tx, ty, C.floor);
     ascii(P, ox, oy, CAN, { o: pack('#202830'), L: pack('#a8b4c0'), w: pack('#d8e0e8'), g: pack('#8894a0'), G: pack('#b8c4d0'), d: pack('#5c6874') });
@@ -1230,6 +1259,7 @@ G.Tiles = (() => {
       case 'cuttree': grass(P, C, ox, oy, tx, ty); break;   // the tree itself is a prop (render.js)
       case 'headtree': grass(P, C, ox, oy, tx, ty); break;  // a tree to Headbutt: baked like the others
       case 'can': can(P, C, ox, oy, tx, ty); break;
+      case 'rubble': rubble(P, C, ox, oy, tx, ty); break;
       case 'grave': grave(P, C, ox, oy, tx, ty); break;
       case 'hedge': hedge(P, C, ox, oy, tx, ty); break;
       case 'hole': hole(P, C, ox, oy, tx, ty, at); break;
@@ -1241,6 +1271,7 @@ G.Tiles = (() => {
       case 'invisible': case 'keydoor': floor(P, C, ox, oy, tx, ty, C.floor); break;   // a closed key door: a prop (render.js)
       case 'pad': pad(P, C, ox, oy, tx, ty); break;
       case 'pit': pit(P, C, ox, oy, tx, ty); break;
+      case 'abyss': P.rect(ox, oy, T, T, C.black); break;   // nothing to stand on (Morty's Gym)
       case 'rapids': water(P, C, ox, oy, tx, ty, at, frame); break;   // its foam streaks: render.js
       case 'bars': if (C.floor) floor(P, C, ox, oy, tx, ty, C.floor); else grass(P, C, ox, oy, tx, ty); break;   // closed: a prop (render.js)
       case 'plate': plate(P, C, ox, oy, tx, ty); break;

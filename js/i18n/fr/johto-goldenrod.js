@@ -23,7 +23,6 @@ G.I18n.add({
   "Here we have the strongest medicine in Johto.": "Ici, nous avons les remèdes les plus puissants de Johto.",
   "Technical Machines! One disc, and your Pokémon learns a new move.": "Des Capsules Techniques ! Un disque, et ton Pokémon apprend une nouvelle capacité.",
   "Battle items and vitamins! Make your Pokémon stronger, for a battle or for good.": "Objets de combat et vitamines ! Rends ton Pokémon plus fort, le temps d'un combat ou pour de bon.",
-  "The gate is closed. A sign reads: \"Road work on Route 35. Sorry for the trouble!\"": "Le poste de garde est fermé. Un panneau indique : « Travaux sur la Route 35. Désolés pour la gêne ! »",
   "The station is closed. A note on the door reads: \"The Magnet Train is not running. We are sorry!\"": "La gare est fermée. Une note sur la porte indique : « Le Magnétrain ne circule pas. Toutes nos excuses ! »",
   "Staff only beyond this point.": "Réservé au personnel au-delà de ce point.",
   "Yo, Champion! Whitney uses Normal types. Fighting moves hit them hard!": "Salut, Maître ! Blanche utilise des Pokémon de type Normal. Les capacités Combat leur font très mal !",
@@ -71,9 +70,12 @@ G.I18n.add({
   "No way... I lost...": "C'est pas vrai... J'ai perdu...",
   "Name Rater": "Expert en Noms",
   "Goldenrod City. Johto's great city, busy and bright from morning to night.": "Doublonville. La grande ville de Johto, animée et brillante du matin au soir.",
-  "North: Route 35. The gate is closed while the road to the National Park is being repaired.": "Nord : Route 35. Le poste de garde est fermé pendant les travaux de la route du Parc Naturel.",
   "Goldenrod City Pokémon Gym. Leader: Whitney, the cheerful queen of Normal types!": "Arène Pokémon de Doublonville. Championne : Blanche, la joyeuse reine du type Normal !",
   "The Goldenrod Department Store, the biggest shop in Johto, is on the west side of the city.": "Le Centre Commercial de Doublonville, le plus grand magasin de Johto, est à l'ouest de la ville.",
   "Magnet Train Station. The fastest way to Kanto, once it runs again.": "Gare du Magnétrain. Le moyen le plus rapide d'aller à Kanto, dès qu'il roulera de nouveau.",
-  "Floor guide. 1F: Information. 2F: Trainer's Market. 3F: TMs, battle items and vitamins.": "Plan des étages. RDC : Accueil. 1er : Marché du Dresseur. 2e : CT, objets de combat et vitamines."
+  "Floor guide. 1F: Information. 2F: Trainer's Market. 3F: TMs, battle items and vitamins.": "Plan des étages. RDC : Accueil. 1er : Marché du Dresseur. 2e : CT, objets de combat et vitamines.",
+  "Oh, you have the Plain Badge! Then you are strong enough to deal with that strange tree on Route 36.": "Oh, tu as le Badge Plaine ! Alors tu es assez fort pour t'occuper de cet arbre bizarre sur la Route 36.",
+  "Take this Squirt Bottle. If you water the tree, I bet something will happen!": "Prends ce Carapuce à O. Si tu arroses l'arbre, je parie qu'il va se passer quelque chose !",
+  "That strange tree on Route 36... I would water it myself, but only a strong Trainer should go near it. Win a badge from Whitney first!": "Cet arbre bizarre sur la Route 36... Je l'arroserais bien moi-même, mais seul un Dresseur fort devrait s'en approcher. Gagne d'abord un badge contre Blanche !",
+  "North: Route 35 and the National Park.": "Nord : Route 35 et le Parc Naturel."
 }, "fr");

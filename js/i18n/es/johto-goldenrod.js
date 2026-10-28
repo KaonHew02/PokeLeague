@@ -23,7 +23,6 @@ G.I18n.add({
   "Here we have the strongest medicine in Johto.": "Aquí tenemos las medicinas más potentes de Johto.",
   "Technical Machines! One disc, and your Pokémon learns a new move.": "¡Máquinas Técnicas! Un disco, y tu Pokémon aprende un movimiento nuevo.",
   "Battle items and vitamins! Make your Pokémon stronger, for a battle or for good.": "¡Objetos de combate y vitaminas! Haz más fuerte a tu Pokémon, para un combate o para siempre.",
-  "The gate is closed. A sign reads: \"Road work on Route 35. Sorry for the trouble!\"": "La garita está cerrada. Un cartel dice: \"Obras en la Ruta 35. ¡Disculpen las molestias!\"",
   "The station is closed. A note on the door reads: \"The Magnet Train is not running. We are sorry!\"": "La estación está cerrada. Una nota en la puerta dice: \"El Magnetotrén no funciona. ¡Lo sentimos!\"",
   "Staff only beyond this point.": "Solo personal autorizado a partir de aquí.",
   "Yo, Champion! Whitney uses Normal types. Fighting moves hit them hard!": "¡Eh, Campeón! Blanca usa Pokémon de tipo Normal. ¡Los movimientos de Lucha les hacen mucho daño!",
@@ -71,9 +70,12 @@ G.I18n.add({
   "No way... I lost...": "No puede ser... He perdido...",
   "Name Rater": "Experto en Nombres",
   "Goldenrod City. Johto's great city, busy and bright from morning to night.": "Ciudad Trigal. La gran ciudad de Johto, llena de vida y de luz de la mañana a la noche.",
-  "North: Route 35. The gate is closed while the road to the National Park is being repaired.": "Norte: Ruta 35. La garita está cerrada mientras reparan el camino al Parque Nacional.",
   "Goldenrod City Pokémon Gym. Leader: Whitney, the cheerful queen of Normal types!": "Gimnasio Pokémon de Ciudad Trigal. Líder: Blanca, ¡la alegre reina del tipo Normal!",
   "The Goldenrod Department Store, the biggest shop in Johto, is on the west side of the city.": "El Centro Comercial de Ciudad Trigal, la tienda más grande de Johto, está en el lado oeste de la ciudad.",
   "Magnet Train Station. The fastest way to Kanto, once it runs again.": "Estación del Magnetotrén. La forma más rápida de ir a Kanto, cuando vuelva a funcionar.",
-  "Floor guide. 1F: Information. 2F: Trainer's Market. 3F: TMs, battle items and vitamins.": "Guía de plantas. 1.ª: Información. 2.ª: Mercado del Entrenador. 3.ª: MT, objetos de combate y vitaminas."
+  "Floor guide. 1F: Information. 2F: Trainer's Market. 3F: TMs, battle items and vitamins.": "Guía de plantas. 1.ª: Información. 2.ª: Mercado del Entrenador. 3.ª: MT, objetos de combate y vitaminas.",
+  "Oh, you have the Plain Badge! Then you are strong enough to deal with that strange tree on Route 36.": "¡Vaya, tienes la Medalla Planicie! Entonces eres lo bastante fuerte para encargarte de ese árbol raro de la Ruta 36.",
+  "Take this Squirt Bottle. If you water the tree, I bet something will happen!": "Toma esta Regadera. Si riegas el árbol, ¡seguro que pasa algo!",
+  "That strange tree on Route 36... I would water it myself, but only a strong Trainer should go near it. Win a badge from Whitney first!": "Ese árbol raro de la Ruta 36... Lo regaría yo misma, pero solo un Entrenador fuerte debería acercarse. ¡Gana antes una medalla de Blanca!",
+  "North: Route 35 and the National Park.": "Norte: Ruta 35 y el Parque Nacional."
 }, "es");

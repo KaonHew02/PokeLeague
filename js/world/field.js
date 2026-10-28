@@ -52,6 +52,11 @@
  * Chapter 13: trees to Headbutt (`h`: a Pokémon that knows Headbutt may shake down a wild one from
  * the area's 'headbutt' table, half the time), and every step raises the Day Care's Pokémon
  * (G.DayCare, daycare.js).
+ * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
+ * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
+ * Balls only and never black out, and scripts contest.caught / contest.timeup /
+ * contest.out-of-balls / contest.fainted take over. A floor of `abyss` tiles (Morty's Gym) drops
+ * you back to the map's `fall: { to, spot }`.
  */
 G.Field = (() => {
   function fresh() {
@@ -526,6 +531,19 @@ G.World = (() => {
       // A hole in the floor: you fall to the floor below (a filled one is just floor).
       if (!pitFilled(me.x, me.y)) { G.Player.walk(null); warp(w.to, w.spot, { sfx: 'fall' }); return; }
     } else if (w && (k !== 'mat' || me.dir === 'down')) { warp(w.to, w.spot); return; }
+    // A floor that is not there (Morty's Gym): back to the start.
+    if (k === 'abyss') {
+      const f = map.def.fall || {};
+      G.Player.walk(null);
+      warp(f.to || map.id, f.spot || 'door', { sfx: 'fall' });
+      return;
+    }
+    // The Bug-Catching Contest: every step counts too.
+    if (contestOn()) {
+      const left = G.Contest.step();
+      safariHud();
+      if (left <= 0) { G.Player.walk(null); runScript('contest.timeup', {}); return; }
+    }
     // The Safari Zone: every step counts.
     if (map.def.safari && G.Field.flag('safari-on')) {
       const left = (+G.Field.getVar('safari-steps') || 0) - 1;
@@ -623,22 +641,33 @@ G.World = (() => {
 
   async function wildBattle(wild) {
     locks++;
-    let out;
+    let out, caught = null;
+    const contest = contestOn();
     try {
       G.Field.save.dex.seen[wild.sp] = 1;
       let r;
-      if (api.onEncounter) r = await api.onEncounter(wild.sp, wild.lvl, wild.area, wild);
+      if (api.onEncounter) r = await api.onEncounter(wild.sp, wild.lvl, wild.area, Object.assign({ contest, player: contest ? G.Contest.battler() : battler() }, wild));
       else if (G.BattleUI && G.BattleUI.safari && safariOn()) r = await G.BattleUI.safari(battler(), wild.sp, wild.lvl, battleOpts(false));
       else if (G.BattleUI && G.BattleUI.wild) {
-        const o = battleOpts(false);
+        // In the Bug-Catching Contest: the entrant alone, the Sport Balls only, no black-out.
+        const o = battleOpts(contest);
         if (wild.noCatch) o.rules.noCatch = true;
-        r = await G.BattleUI.wild(battler(), wild.sp, wild.lvl, o);
+        if (wild.moves) o.moves = wild.moves;
+        r = await G.BattleUI.wild(contest ? G.Contest.battler() : battler(), wild.sp, wild.lvl, o);
       }
       else r = await fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) }));
+      if (contest) caught = G.Contest.after(r);
       out = settle(r);
     } finally { locks--; }
     G.Field.lastBattle = out;
-    if (out === 'lose') await blackout();
+    if (contest) {
+      safariHud();
+      const m = G.Contest.entrant();
+      if (caught) await runScript('contest.caught', { mon: caught });
+      if (!G.Contest.balls()) await runScript('contest.out-of-balls', {});
+      else if (!m || m.hp <= 0) await runScript('contest.fainted', {});
+    }
+    else if (out === 'lose') await blackout();
     else if (safariOn()) { safariHud(); if (!G.Field.count('safari-ball')) await runScript('safari.out-of-balls', {}); }
     return out;
   }
@@ -1069,20 +1098,23 @@ G.World = (() => {
   }
 
   const safariOn = () => !!(map && map.def.safari && G.Field.flag('safari-on'));
-  /** Safari Balls and steps left, in a corner, while a Safari Game is on. */
+  const contestOn = () => !!(map && map.def.contest && G.Contest && G.Contest.on());
+  /** Safari Balls (or the contest's Sport Balls) and steps left, in a corner, while a game is on. */
   function safariHud() {
     if (typeof document === 'undefined') return;
     const frame = document.getElementById('frame');
     if (!frame) return;
     let el = document.getElementById('safari-hud');
-    if (!safariOn()) { if (el) el.classList.add('hidden'); return; }
+    if (!safariOn() && !contestOn()) { if (el) el.classList.add('hidden'); return; }
     if (!el) {
       el = document.createElement('div');
       el.id = 'safari-hud'; el.className = 'safari-hud';
       el.setAttribute('translate', 'no');
       frame.appendChild(el);
     }
-    el.textContent = G.I18n.fmt('Safari Balls ×{n} · Steps {s}', { n: G.Field.count('safari-ball'), s: +G.Field.getVar('safari-steps') || 0 });
+    el.textContent = contestOn()
+      ? G.I18n.fmt('{ball} ×{n} · Steps {s}', { ball: G.Names.item(G.Contest.BALL), n: G.Contest.balls(), s: G.Contest.steps() })
+      : G.I18n.fmt('Safari Balls ×{n} · Steps {s}', { n: G.Field.count('safari-ball'), s: +G.Field.getVar('safari-steps') || 0 });
     el.classList.remove('hidden');
   }
 
@@ -1192,7 +1224,7 @@ G.World = (() => {
       fade: (dir, secs) => fadeTo(dir === 'in' ? 0 : 1, secs || 0.3),
       wait,
       battle: (ref, o) => battle(ref, o),
-      wild: (sp, lvl, o = {}) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null, noCatch: !!o.noCatch }),
+      wild: (sp, lvl, o = {}) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null, noCatch: !!o.noCatch, moves: o.moves }),
       heal: () => G.Field.healAll(),
       /** Offers a nickname for a Pokémon just received (starter, gifts). */
       async nickname(mon) {

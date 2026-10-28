@@ -5,7 +5,8 @@ const { load } = require('../tools/map_check.js');
 const { plain } = require('./helpers.cjs');
 
 const G = load();
-const kanto = G.Maps.all().filter(id => !id.startsWith('sandbox') && !/^t\d+$/.test(id));
+// (The contest park is entered through the contest officer's script, not a door.)
+const kanto = G.Maps.all().filter(id => !id.startsWith('sandbox') && !/^t\d+$/.test(id) && !G.Maps.get(id).def.contest);
 
 /** Maps a locked door's script warps to (the hideout's lift: ['warp', map, spot]). */
 const scriptWarps = name => [...JSON.stringify(G.Script.get(name) || []).matchAll(/\["warp","([\w-]+)"/g)].map(m => m[1]);

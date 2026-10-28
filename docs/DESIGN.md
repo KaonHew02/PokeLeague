@@ -619,7 +619,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   rival:{ name, starter }, party:[mon], boxes:[[mon|null ×30] ×8], box:0, bag:{ potion:2 }, repel:0,
   dex:{ seen:{16:1}, caught:{4:1} }, flags:{}, vars:{}, done:{ 'route2:rick':1 },
   fame:[{ at, party:[{ sp, lvl, nick, shiny }] }],       // the Hall of Fame (chapter 9)
-  daycare:[{ mon, lvl }] }                                // the Day Care (chapter 13): at most two, lvl = level when left
+  daycare:[{ mon, lvl }],                                 // the Day Care (chapter 13): at most two, lvl = level when left
+  contest:null | { uid, balls, steps, mon } }             // a Bug-Catching Contest under way (chapter 14)
 ```
 - `migrate(s)` runs `while (s.v < V) MIG[s.v++](s)`, then sanitises the shapes.
 - Export writes `{ app:'PokeLeague', kind:'save', v, at, save }` to a JSON file. Import
@@ -1053,11 +1054,48 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   test plays chapter 13 with the Johto starter leading (it learns Headbutt; one Pokémon goes to
   the Day Care and back).
 
-### After chapter 13
+- **Chapter 14** ✅, Johto part 4: Goldenrod's road north (the gate is gone) is Route 35 (five
+  Trainers, a pond) to the National Park. Its officer runs the Bug-Catching Contest once a day
+  (var `contest-day`, the device's date): only the first Pokémon able to battle goes in, with 20
+  Sport Balls and 500 steps, into `contest-park` (the same ground, `contest: true`, Bug Pokémon
+  only: Caterpie and Weedle up to Scyther and Pinsir). A catch is kept (a new one may replace
+  it); at the end (time, balls, a fainted entrant, or asking the officer) the judge ranks it
+  against three others who catch from the same table: Sun Stone, Moon Stone, Hyper Potion, else
+  a Super Potion, and you keep the Pokémon. After the Plain Badge the Flower Shop gives the
+  Squirt Bottle (flag `got-squirt-bottle`). Route 36 (two Trainers) runs from the park to
+  Violet City (whose west road now opens); the strange tree at the foot of Route 37 is a
+  Sudowoodo (a wild battle, Lv. 20; flag `sudowoodo-gone` unless you lose). Route 37 (two
+  Trainers) to Ecruteak City: a Center, a Mart, the elder's story of the two towers, the Dance
+  Theater (five Kimono Girls with Eevee's evolutions, Lv. 20; beat them all for a Rare Candy,
+  flag `kimono-gift`), the Bell Tower (closed: a Sage) and the Burned Tower. Morty's Gym is
+  locked until the Burned Tower: on 1F Morty, and the thief battles you (Haunter, Magnemite,
+  Zubat, his starter evolved at 22; losing allowed; flag `burned-rival`); a hole drops you to
+  B1F, where Raikou, Entei and Suicune wake and run off (flag `beasts-awake`) and Eusine tells
+  the legend. The Gym: a dim path over darkness, two Sages, two Mediums, then Morty (Gastly 19,
+  Haunter 19, Haunter 21, Gengar 23): badge 12, the Fog Badge (obedience up to Lv. 40), TM30
+  Shadow Ball (flag `morty-beaten`), `ending(14)`. Files: `js/content/johto/park.js`,
+  `route36.js`, `ecruteak.js` (translations `johto-park`, `johto-route36`, `johto-ecruteak`).
+- **Engine for chapter 14:** the Bug-Catching Contest (`js/world/contest.js`, G.Contest;
+  `save.contest`; field.js: a contest map counts steps, its wild battles get the entrant and the
+  Sport Balls only and never black out, scripts `contest.caught` / `contest.timeup` /
+  `contest.out-of-balls` / `contest.fainted`; the HUD shows balls and steps). The indoor tile `a`
+  (kind `abyss`, drawn black): stepping on it drops you to the map's `fall: { to, spot }`
+  (validated); the indoor tile `c` (kind `rubble`: charred beams and stones, solid).
+  `['wild', sp, lvl, { moves }]`; `G.Clock.day()`; item Sport Ball (×1.5), the
+  Squirt Bottle; people morty, kimono, eusine; classes kimono-girl, medium; palette ghost; Town
+  Map points for the park and the towers.
+- **Balance:** Morty against a team that never heals or switches: one starter at Lv. 28 alone
+  rarely beats all four (Hypnosis, Confuse Ray, Curse, Night Shade wear it down; Bayleef's Grass
+  moves do little to Ghost and Poison); with an Eevee evolution and one more Pokémon 50-100%. His
+  levels are two below the games. The story test plays the contest (a Scyther), the Sudowoodo,
+  the Burned Tower, the Kimono Girls and Morty.
 
-1. **Johto, the rest:** Route 35, the National Park and the Bug-Catching Contest, Route 36 (the
-   strange tree: the Flower Shop's Squirt Bottle), Ecruteak City and Morty, then the other three
-   Gyms, the Lake of Rage, the Radio Tower, the Johto League; Kurt's Apricorn Balls, berries,
-   breeding at the Day Care (Eggs) and held items along the way.
+### After chapter 14
+
+1. **Johto, the rest:** Route 38 and 39 (Moomoo Farm), Olivine City and the sick Ampharos at the
+   Lighthouse, Cianwood City and Chuck, Jasmine, Mahogany Town, the Lake of Rage and the Rocket
+   hideout, Pryce, the Radio Tower, Blackthorn City and Clair, the Johto League; the roaming
+   beasts, the Ruins of Alph, Kurt's Apricorn Balls, berries, breeding at the Day Care (Eggs) and
+   held items along the way.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

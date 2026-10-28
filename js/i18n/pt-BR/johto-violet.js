@@ -50,5 +50,5 @@ G.I18n.add({
   "Violet City. An old town of quiet scents, with Sprout Tower at its heart.": "Violet City. Uma cidade antiga de aromas tranquilos, com a Sprout Tower no centro.",
   "Violet City Pokémon Gym. Leader: Falkner, who soars with Flying-type Pokémon!": "Ginásio Pokémon de Violet City. Líder: Falkner, que voa alto com Pokémon do tipo Voador!",
   "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "O grande pilar balança devagar, mas nunca cai. Dizem que é o caule de um Bellsprout gigante.",
-  "A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "Uma árvore estranha bloqueia a estrada a oeste da cidade. Ela se mexe quando ninguém está olhando! Ao sul, a Rota 32 leva à Union Cave."
+  "West of the city, a strange tree blocks the road north on Route 36. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "A oeste da cidade, na Rota 36, uma árvore estranha bloqueia a estrada para o norte. Ela se mexe quando ninguém está olhando! Ao sul, a Rota 32 leva à Union Cave."
 }, "pt-BR");

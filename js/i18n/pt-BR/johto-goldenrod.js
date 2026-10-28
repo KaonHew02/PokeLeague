@@ -23,7 +23,6 @@ G.I18n.add({
   "Here we have the strongest medicine in Johto.": "Aqui temos os remédios mais fortes de Johto.",
   "Technical Machines! One disc, and your Pokémon learns a new move.": "Máquinas Técnicas! Um disco, e seu Pokémon aprende um golpe novo.",
   "Battle items and vitamins! Make your Pokémon stronger, for a battle or for good.": "Itens de batalha e vitaminas! Deixe seu Pokémon mais forte, numa batalha ou para sempre.",
-  "The gate is closed. A sign reads: \"Road work on Route 35. Sorry for the trouble!\"": "O portão está fechado. Uma placa diz: \"Obras na Rota 35. Desculpe o transtorno!\"",
   "The station is closed. A note on the door reads: \"The Magnet Train is not running. We are sorry!\"": "A estação está fechada. Um bilhete na porta diz: \"O Magnet Train não está funcionando. Desculpe!\"",
   "Staff only beyond this point.": "Daqui em diante, somente funcionários.",
   "Yo, Champion! Whitney uses Normal types. Fighting moves hit them hard!": "E aí, Campeão! A Whitney usa Pokémon do tipo Normal. Golpes de Lutador acertam forte neles!",
@@ -71,9 +70,12 @@ G.I18n.add({
   "No way... I lost...": "Não pode ser... Eu perdi...",
   "Name Rater": "Avaliador de Nomes",
   "Goldenrod City. Johto's great city, busy and bright from morning to night.": "Goldenrod City. A grande cidade de Johto, movimentada e iluminada de manhã à noite.",
-  "North: Route 35. The gate is closed while the road to the National Park is being repaired.": "Norte: Rota 35. O portão está fechado enquanto a estrada para o National Park está em obras.",
   "Goldenrod City Pokémon Gym. Leader: Whitney, the cheerful queen of Normal types!": "Ginásio Pokémon de Goldenrod City. Líder: Whitney, a alegre rainha do tipo Normal!",
   "The Goldenrod Department Store, the biggest shop in Johto, is on the west side of the city.": "A Loja de Departamentos de Goldenrod, a maior de Johto, fica no lado oeste da cidade.",
   "Magnet Train Station. The fastest way to Kanto, once it runs again.": "Estação do Magnet Train. O jeito mais rápido de ir para Kanto, quando voltar a funcionar.",
-  "Floor guide. 1F: Information. 2F: Trainer's Market. 3F: TMs, battle items and vitamins.": "Guia dos andares. 1º: Informações. 2º: Mercado do Treinador. 3º: TMs, itens de batalha e vitaminas."
+  "Floor guide. 1F: Information. 2F: Trainer's Market. 3F: TMs, battle items and vitamins.": "Guia dos andares. 1º: Informações. 2º: Mercado do Treinador. 3º: TMs, itens de batalha e vitaminas.",
+  "Oh, you have the Plain Badge! Then you are strong enough to deal with that strange tree on Route 36.": "Ah, você tem a Insígnia Planície! Então é forte o bastante para lidar com aquela árvore estranha na Rota 36.",
+  "Take this Squirt Bottle. If you water the tree, I bet something will happen!": "Pegue este Squirt Bottle. Se você regar a árvore, aposto que algo vai acontecer!",
+  "That strange tree on Route 36... I would water it myself, but only a strong Trainer should go near it. Win a badge from Whitney first!": "Aquela árvore estranha na Rota 36... Eu mesma a regaria, mas só um Treinador forte deveria chegar perto. Ganhe primeiro uma insígnia da Whitney!",
+  "North: Route 35 and the National Park.": "Norte: Rota 35 e o National Park."
 }, "pt-BR");

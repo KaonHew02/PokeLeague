@@ -88,6 +88,8 @@ G.ITEMS = {
   "kings-rock": {"id":198,"pocket":"items","cat":"held-items"},
   "dragon-scale": {"id":212,"pocket":"items","cat":"evolution"},
   "up-grade": {"id":229,"pocket":"items","cat":"evolution"},
+  "sport-ball": {"id":457,"pocket":"balls","cat":"standard-balls"},
+  "squirt-bottle": {"id":448,"pocket":"key","cat":"plot-advancement"},
   hm01: {"id":397,"pocket":"tms","cat":"all-machines","move":"cut"},
   hm02: {"id":398,"pocket":"tms","cat":"all-machines","move":"fly"},
   hm03: {"id":399,"pocket":"tms","cat":"all-machines","move":"surf"},

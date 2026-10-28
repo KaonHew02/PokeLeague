@@ -42,5 +42,7 @@ G.I18n.add({
   "Chapter 12 complete!": "Chapitre 12 terminé !",
   "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} a chassé la Team Rocket du Puits Ramoloss et obtenu le Badge Essaim d'Hector.",
   "Chapter 13 complete!": "Chapitre 13 terminé !",
-  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} a retrouvé le Canarticho perdu au Bois aux Chênes et, après quelques larmes, a obtenu le Badge Plaine de Blanche."
+  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} a retrouvé le Canarticho perdu au Bois aux Chênes et, après quelques larmes, a obtenu le Badge Plaine de Blanche.",
+  "Chapter 14 complete!": "Chapitre 14 terminé !",
+  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player} a réveillé les trois Pokémon légendaires sous la Tour Cendrée et a obtenu le Badge Brume de Mortimer."
 }, "fr");

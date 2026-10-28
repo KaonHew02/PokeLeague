@@ -102,6 +102,7 @@ REGIONS['johto'] = dict(REGIONS['kanto'], **{
     'text_vgs': ['firered-leafgreen', 'heartgold-soulsilver', 'lets-go-pikachu-lets-go-eevee'],
     'items': REGIONS['kanto']['items'] + [
         'mystery-egg', 'sun-stone', 'metal-coat', 'kings-rock', 'dragon-scale', 'up-grade',
+        'sport-ball', 'squirt-bottle',
     ],
     'regions': [('kanto', ['firered', 'leafgreen', 'red', 'blue', 'yellow']),
                 ('johto', ['heartgold', 'soulsilver', 'crystal', 'gold', 'silver'])],
@@ -152,6 +153,8 @@ LOC_NAMES = {
     'ruins-of-alph':     ('Ruinas Alfa',        "Rovine d'Alfa",       '阿露福遗迹', '阿露福遺跡'),
     'radio-tower':       ('Torre Radio',        'Torre Radio',         '广播塔',     '廣播塔'),
     'national-park':     ('Parque Nacional',    'Parco Nazionale',     '自然公园',   '自然公園'),
+    'burned-tower':      ('Torre Quemada',      'Torre Bruciata',      '烧焦塔',     '燒焦塔'),
+    'bell-tower':        ('Torre Campana',      'Torre Campana',       '铃铛塔',     '鈴鐺塔'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

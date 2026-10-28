@@ -53,7 +53,8 @@ G.Store = (() => {
       rival2: { name: null, starter: null },              // Johto's rival (named when you meet him)
       party: [], boxes: emptyBoxes(), box: 0, bag: {}, repel: 0,
       dex: { seen: {}, caught: {} }, flags: {}, vars: {}, done: {}, fame: [],
-      daycare: []                                         // the Day Care's Pokémon: [{ mon, lvl }] (daycare.js)
+      daycare: [],                                        // the Day Care's Pokémon: [{ mon, lvl }] (daycare.js)
+      contest: null                                       // a Bug-Catching Contest under way (contest.js)
     };
   }
 
@@ -166,6 +167,10 @@ G.Store = (() => {
     // The Day Care: at most two, each with the level it was left at.
     out.daycare = (Array.isArray(s.daycare) ? s.daycare : []).filter(obj).map(e => ({ mon: fixMon(e.mon), lvl: e.lvl }))
       .filter(e => e.mon).slice(0, 2).map(e => ({ mon: e.mon, lvl: int(e.lvl, 1, e.mon.lvl, e.mon.lvl) }));
+    // A Bug-Catching Contest saved halfway: the entrant, the balls and steps left, the catch kept.
+    const c = s.contest;
+    out.contest = obj(c) && typeof c.uid === 'string'
+      ? { uid: c.uid.slice(0, 24), balls: int(c.balls, 0, 99, 0), steps: int(c.steps, 0, 9999, 0), mon: fixMon(c.mon) } : null;
     // The Hall of Fame: each entry is the team that beat the Champion (at most 50 kept).
     out.fame = (Array.isArray(s.fame) ? s.fame : []).filter(obj).slice(-50).map(e => ({
       at: int(e.at, 0, 1e15, 0),

@@ -50,5 +50,5 @@ G.I18n.add({
   "Violet City. An old town of quiet scents, with Sprout Tower at its heart.": "Mauville. Une vieille ville aux parfums paisibles, avec la Tour Chétiflor en son cœur.",
   "Violet City Pokémon Gym. Leader: Falkner, who soars with Flying-type Pokémon!": "Arène Pokémon de Mauville. Champion : Albert, qui s'envole avec ses Pokémon de type Vol !",
   "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "Le grand pilier oscille doucement, mais il ne tombe jamais. On dit que c'est la tige d'un Chétiflor géant.",
-  "A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "Un arbre bizarre bloque la route à l'ouest de la ville. Il se trémousse quand personne ne regarde ! Au sud, la Route 32 mène aux Caves Jumelles."
+  "West of the city, a strange tree blocks the road north on Route 36. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "À l'ouest de la ville, sur la Route 36, un arbre bizarre bloque la route du nord. Il se trémousse quand personne ne regarde ! Au sud, la Route 32 mène aux Caves Jumelles."
 }, "fr");

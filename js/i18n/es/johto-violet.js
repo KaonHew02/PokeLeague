@@ -50,5 +50,5 @@ G.I18n.add({
   "Violet City. An old town of quiet scents, with Sprout Tower at its heart.": "Ciudad Malva. Una ciudad antigua de aromas tranquilos, con la Torre Bellsprout en su corazón.",
   "Violet City Pokémon Gym. Leader: Falkner, who soars with Flying-type Pokémon!": "Gimnasio Pokémon de Ciudad Malva. Líder: Pegaso, ¡que surca los cielos con Pokémon de tipo Volador!",
   "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "El gran pilar se balancea suavemente, pero nunca cae. Dicen que es el tronco de un Bellsprout gigante.",
-  "A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "Un árbol muy raro bloquea el camino al oeste de la ciudad. ¡Se menea cuando nadie lo mira! Al sur, la Ruta 32 lleva a la Cueva Unión."
+  "West of the city, a strange tree blocks the road north on Route 36. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "Al oeste de la ciudad, en la Ruta 36, un árbol muy raro bloquea el camino al norte. ¡Se menea cuando nadie lo mira! Al sur, la Ruta 32 lleva a la Cueva Unión."
 }, "es");

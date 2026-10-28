@@ -28,6 +28,7 @@ G.ITEM_FX = {
   'ultra-ball':    { ball: 2,   battle: 1, price: 1200 },
   'master-ball':   { ball: 255, battle: 1 },
   'safari-ball':   { ball: 1.5, battle: 1 },
+  'sport-ball':    { ball: 1.5, battle: 1 },
 
   // ---- medicine ----
   'potion':        { heal: 20,     field: 1, battle: 1, price: 300 },
@@ -111,6 +112,7 @@ G.ITEM_FX = {
 
   // ---- key items ----
   'oaks-parcel':   { key: 1 },
+  'squirt-bottle': { key: 1 },
   'town-map':      { key: 1, field: 1 },
   'bicycle':       { key: 1, field: 1 },
   'old-rod':       { key: 1, field: 1, rod: 1 },

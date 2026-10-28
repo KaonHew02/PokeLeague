@@ -62,5 +62,6 @@ G.I18n.add({
   "A big tree. Something might fall out if a Pokémon gave it a good Headbutt.": "Un árbol grande. Si un Pokémon le diera un buen Golpe Cabeza, quizá caería algo.",
   "A big tree. Would you like to use Headbutt?": "Un árbol grande. ¿Quieres usar Golpe Cabeza?",
   "{mon} did a Headbutt!": "¡{mon} usó Golpe Cabeza!",
-  "Nothing happened...": "No pasó nada..."
+  "Nothing happened...": "No pasó nada...",
+  "{ball} ×{n} · Steps {s}": "{ball} ×{n} · Pasos {s}"
 }, "es");

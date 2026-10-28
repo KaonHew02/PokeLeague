@@ -29,6 +29,8 @@ G.TRAINER_CLASSES = {
   biker:         { title: 'Biker', who: 'biker', prize: 20 },
   cooltrainer:   { title: 'Cool Trainer', who: 'cooltrainer', prize: 48 },
   pokefan:       { title: 'Pokéfan', who: 'pokefan', prize: 60 },
+  'kimono-girl': { title: 'Kimono Girl', who: 'kimono', prize: 40 },
+  medium:        { title: 'Medium', who: 'channeler', prize: 32 },
   scientist:     { title: 'Scientist', who: 'scientist', prize: 48 },
   fisherman:     { title: 'Fisherman', who: 'fisherman', prize: 36 },
   rocker:        { title: 'Rocker', who: 'rocker', prize: 24 },

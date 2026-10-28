@@ -42,5 +42,7 @@ G.I18n.add({
   "Chapter 12 complete!": "Capitolo 12 completato!",
   "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} ha cacciato il Team Rocket dal Pozzo Slowpoke e ottenuto la Medaglia Alveare da Raffaello.",
   "Chapter 13 complete!": "Capitolo 13 completato!",
-  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} ha ritrovato il Farfetch’d smarrito nel Bosco di Lecci e, dopo qualche lacrima, ha ottenuto la Medaglia Piana da Chiara."
+  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} ha ritrovato il Farfetch’d smarrito nel Bosco di Lecci e, dopo qualche lacrima, ha ottenuto la Medaglia Piana da Chiara.",
+  "Chapter 14 complete!": "Capitolo 14 completato!",
+  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player} ha risvegliato i tre Pokémon leggendari sotto la Torre Bruciata e ha ottenuto la Medaglia Nebbia da Angelo."
 }, "it");

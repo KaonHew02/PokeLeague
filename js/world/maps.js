@@ -58,7 +58,9 @@ G.Maps = (() => {
     // Chapter 9: a floor switch a boulder can be pushed onto (Victory Road).
     plate: {},
     // Chapter 13: a tree that Headbutt can shake (Johto); its wild Pokémon are the area's 'headbutt' table.
-    headtree: { solid: 1 }
+    headtree: { solid: 1 },
+    // Chapter 14: a floor that is not there (Morty's Gym): you fall back to the map's `fall` spot.
+    abyss: { fall: 1 }, rubble: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -82,7 +84,8 @@ G.Maps = (() => {
       Q: 'secret', q: 'poster', s: 'slots', e: 'lift',
       U: 'spin-up', D: 'spin-down', L: 'spin-left', R: 'spin-right', o: 'spin-stop', i: 'invisible',
       n: 'keydoor', w: 'pad',
-      O: 'pit', y: 'bars', j: 'statue', z: 'quiz'
+      O: 'pit', y: 'bars', j: 'statue', z: 'quiz',
+      a: 'abyss', c: 'rubble'
     }
   };
   /** Buildings drawn as stamps: footprint in tiles (stamps.js paints them). */
@@ -325,9 +328,15 @@ G.Maps = (() => {
       const s = t.spots[w.spot];
       if (!s) E.push(`warp ${at} goes to ${w.to}, which has no spot "${w.spot}"`);
     }
+    let fallChecked = false;
     for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w; x++) {
       const k = kindAt(m, x, y);
       if (info(k).warp && !m.warpAt.has(key(x, y))) E.push(`${k} at ${where(x, y)} has no warp`);
+      if (info(k).fall && !fallChecked) {
+        fallChecked = true;
+        const f = d.fall, t = f && get(f.to || id);
+        if (!t || !t.spots[f.spot]) E.push(`an abyss needs fall: { to, spot } (a spot to land on)`);
+      }
     }
 
     // Connections: the other map exists and connects back.

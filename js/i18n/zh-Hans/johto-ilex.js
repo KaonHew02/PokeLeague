@@ -1,0 +1,28 @@
+/* Simplified Chinese — johto-ilex: Ilex Forest (js/content/johto/ilex.js). */
+G.I18n.add({
+  "I teach Headbutt. Knock it into a tree, and sleeping Pokémon come tumbling down!": "我会教头锤。往树上一撞，睡在树上的宝可梦就会滚下来！",
+  "Shall I teach Headbutt to one of your Pokémon?": "要我教你的宝可梦头锤吗？",
+  "Teach which Pokémon?": "教哪只宝可梦？",
+  "That Pokémon cannot learn it. Sorry!": "那只宝可梦学不会。抱歉啦！",
+  "Now try it on a tree. Look for the ones with lighter leaves.": "现在去找棵树试试吧。找叶子颜色比较浅的那种。",
+  "Oh no, oh no... I was cutting wood with our Farfetch'd, and it ran off into the forest!": "糟了糟了……我正和我们的大葱鸭砍柴，它却跑进森林里去了！",
+  "My master will be so angry. If you see a Farfetch'd, could you chase it back this way?": "师傅一定会大发雷霆的。要是你看到了大葱鸭，能把它往这边赶回来吗？",
+  "Kwaa! Farfetch'd hopped away into the trees!": "嘎——！大葱鸭蹦蹦跳跳地跑进树丛里了！",
+  "Kwaa! Farfetch'd ran off... back toward the forest entrance!": "嘎——！大葱鸭跑走了……朝着森林入口的方向！",
+  "So this is where my apprentice ran off to... and our Farfetch'd is back, too. You found it for him?": "原来我的徒弟跑到这里来了……我们的大葱鸭也回来了。是你帮他找到的吗？",
+  "Thank you, young Trainer. Please, take this. It is the heat of my kiln, packed into a disc.": "谢谢你，年轻的训练家。请收下这个。这是把我窑里的火候装进了光盘。",
+  "That is TM35, Flamethrower. Fire moves are tough on bugs and grass, and a strong fire never goes out!": "那是招式学习器35，喷射火焰。火属性的招式对虫和草很有效，旺盛的火是永远不会熄灭的！",
+  "Come on, you two. Back to the kiln!": "走吧，你们两个。回窑里去！",
+  "A small wooden shrine. It honours the guardian of the forest, said to travel through time.": "一座小小的木制祠堂。供奉着森林的守护神，据说它能穿越时间。",
+  "Someone has left fresh berries in front of it.": "有人在祠堂前供上了新鲜的树果。",
+  "Farfetch'd, you are back! I am never letting go of you again. Thank you so much!": "大葱鸭，你回来啦！我再也不放开你了。真是太谢谢你了！",
+  "Farfetch'd is hugging its leek. It looks tired from all that running.": "大葱鸭紧紧抱着它的葱。跑了这么久，它看起来累坏了。",
+  "Some Pokémon sleep up in the trees. Give a tree a good knock, and one might fall right on your head!": "有些宝可梦睡在树上。用力撞一撞树，说不定就有一只掉到你头上！",
+  "Wayne": "阿伟",
+  "This forest is the best place in Johto for bugs. Let me show you mine!": "这片森林是城都最适合虫宝可梦的地方。让你看看我的！",
+  "My bugs crawled away...": "我的虫子都爬走了……",
+  "Paras like the damp ground by the pond. You can find them there at night.": "派拉斯喜欢池塘边潮湿的地面。晚上可以在那里找到它们。",
+  "Apprentice": "徒弟",
+  "Charcoal Maker": "烧炭师傅",
+  "Ilex Forest. The trees grow so close together that it is dim here even at noon.": "栎树林。树木长得太密，就连正午这里也很昏暗。"
+}, "zh-Hans");

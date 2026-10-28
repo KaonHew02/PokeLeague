@@ -164,5 +164,7 @@ G.I18n.add({
   "{mon} is loafing around!": "{mon}在偷懶！",
   "{mon} turned away!": "{mon}把頭扭了過去！",
   "{mon} pretended not to notice!": "{mon}裝作沒聽見！",
-  "A bell chimed!": "鈴聲響起了！"
+  "A bell chimed!": "鈴聲響起了！",
+  "{mon} received an encore!": "{mon}受到了再來一次！",
+  "{mon}'s encore ended!": "{mon}的再來一次狀態解除了！"
 }, "zh-Hant");

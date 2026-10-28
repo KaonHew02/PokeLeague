@@ -164,5 +164,7 @@ G.I18n.add({
   "{mon} is loafing around!": "¡{mon} está holgazaneando!",
   "{mon} turned away!": "¡{mon} se dio la vuelta!",
   "{mon} pretended not to notice!": "¡{mon} hizo como si no oyera!",
-  "A bell chimed!": "¡Sonó una campana!"
+  "A bell chimed!": "¡Sonó una campana!",
+  "{mon} received an encore!": "¡{mon} sufre los efectos de Otra Vez!",
+  "{mon}'s encore ended!": "¡{mon} ya no sufre los efectos de Otra Vez!"
 }, "es");

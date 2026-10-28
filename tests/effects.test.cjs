@@ -145,6 +145,40 @@ test('two-turn moves charge first; Hyper Beam must recharge', () => {
   }
 });
 
+test('Rollout rolls on by itself for five turns, doubling each hit; Defense Curl doubles it', () => {
+  const { b } = duel(G, { me: ['geodude', 30, ['rollout', 'tackle']], foe: ['blissey', 100, ['splash']], seed: 2 });
+  // Like a charge, the locked turns need no choice: one act() plays all five.
+  const ev = act(b, 0);
+  const rolls = ev.filter(e => e.type === 'move' && e.side === 0).map(e => e.move);
+  const dmg = ev.filter(e => e.type === 'damage' && e.side === 1).map(e => e.amt);
+  assert.equal(rolls.join(), 'rollout,rollout,rollout,rollout,rollout');
+  for (let i = 1; i < 5; i++) assert.ok(dmg[i] > dmg[i - 1] * 1.6 && dmg[i] < dmg[i - 1] * 2.5, dmg.join(','));
+  assert.equal(act(b, 1).find(e => e.type === 'move' && e.side === 0).move, 'tackle', 'free again after five');
+  // A miss stops it at once (seed 1 misses the first one).
+  const m = duel(G, { me: ['geodude', 30, ['rollout', 'tackle']], foe: ['blissey', 100, ['splash']], seed: 1 });
+  assert.equal(act(m.b, 0).filter(e => e.type === 'move' && e.side === 0).length, 1);
+  const c = duel(G, { me: ['geodude', 30, ['defense-curl', 'rollout']], foe: ['blissey', 100, ['splash']], seed: 2 });
+  act(c.b, 0);
+  assert.ok(c.b.player.bm.vol.curl, 'Defense Curl marks the user');
+  const first = act(c.b, 1).find(e => e.type === 'damage' && e.side === 1).amt;
+  assert.ok(first > dmg[0] * 1.5, 'curled: ' + first + ' vs ' + dmg[0]);
+});
+
+test('Encore makes the target repeat its last move for three turns', () => {
+  const { b } = duel(G, { me: ['rattata', 30, ['growl', 'tackle']], foe: ['clefairy', 30, ['encore', 'splash']], kind: 'trainer' });
+  const me = b.player.bm;
+  // The foe sees Growl used, then answers with Encore.
+  for (let i = 0; i < 4 && !me.vol.encore; i++) act(b, 0);
+  assert.ok(me.vol.encore, 'the foe used Encore');
+  assert.equal(me.vol.encore.move, 'growl');
+  assert.deepEqual(b.options().moves.map(m => m.usable), [true, false], 'only Growl can be chosen');
+  assert.match(G.BattleText.line({ type: 'encore', side: 0, uid: me.mon.uid }, b), /encore/);
+  let ended = false;
+  for (let i = 0; i < 4 && !ended; i++) ended = act(b, 0).some(e => e.type === 'encoreEnd');
+  assert.ok(ended, 'the encore ends');
+  assert.deepEqual(b.options().moves.map(m => m.usable), [true, true]);
+});
+
 test('every move is generic, special-cased or a deliberate fallback', () => {
   const GENERIC_STATUS = new Set(['ailment', 'net-good-stats', 'heal', 'swagger', 'force-switch']);
   const SUPPORTED_AIL = new Set(['paralysis', 'sleep', 'poison', 'burn', 'freeze', 'confusion', 'leech-seed', 'infatuation',

@@ -33,5 +33,6 @@ G.I18n.add({
   "Cue Ball": "Loubard",
   "Elite Four": "Conseil 4",
   "Champion": "Maître",
-  "Sage": "Sage"
+  "Sage": "Sage",
+  "Pokéfan": "Pokéfan"
 }, "fr");

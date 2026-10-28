@@ -58,5 +58,9 @@ G.I18n.add({
   "The water is a deep blue. What would you like to do?": "El agua es de un azul intenso. ¿Qué quieres hacer?",
   "Fish": "Pescar",
   "Would you like to fish with the {item}?": "¿Quieres pescar con la {item}?",
-  "The current is much too strong to Surf against!": "¡La corriente es demasiado fuerte para hacer Surf!"
+  "The current is much too strong to Surf against!": "¡La corriente es demasiado fuerte para hacer Surf!",
+  "A big tree. Something might fall out if a Pokémon gave it a good Headbutt.": "Un árbol grande. Si un Pokémon le diera un buen Golpe Cabeza, quizá caería algo.",
+  "A big tree. Would you like to use Headbutt?": "Un árbol grande. ¿Quieres usar Golpe Cabeza?",
+  "{mon} did a Headbutt!": "¡{mon} usó Golpe Cabeza!",
+  "Nothing happened...": "No pasó nada..."
 }, "es");

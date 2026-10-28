@@ -32,8 +32,6 @@ G.I18n.add({
   "Union Cave is full of Zubat. Repels sell well in this town!": "La Cueva Unión está llena de Zubat. ¡Los Repelentes se venden muy bien en este pueblo!",
   "Grandpa ran off to the well... I hope he is all right.": "El abuelo se fue corriendo al pozo... Espero que esté bien.",
   "A Slowpoke's tail grows back, Grandpa says. But it must still hurt. Thank you for saving them!": "El abuelo dice que la cola de los Slowpoke vuelve a crecer. Pero aun así debe de doler. ¡Gracias por salvarlos!",
-  "I make charcoal in the kiln out back. My apprentice went to Ilex Forest for wood, but the path is blocked by fallen trees.": "Hago carbón en el horno de atrás. Mi aprendiz fue al Encinar a por leña, pero el camino está bloqueado por árboles caídos.",
-  "Farfetch'd live in Ilex Forest. They carry leeks around like swords. Funny, right?": "En el Encinar viven Farfetch'd. Llevan puerros como si fueran espadas. Gracioso, ¿no?",
   "A Slowpoke. Its tail has been cut short, but it only yawns.": "Un Slowpoke. Le han cortado la cola, pero solo bosteza.",
   "A Slowpoke, dozing. It does not seem to know anything is wrong.": "Un Slowpoke dormitando. No parece saber que algo va mal.",
   "Who let a kid down here? Get lost!": "¿Quién ha dejado bajar a un crío? ¡Lárgate!",
@@ -67,5 +65,9 @@ G.I18n.add({
   "Slowpoke Well. Long ago, they say, the yawn of a Slowpoke ended a terrible drought here.": "Pozo Slowpoke. Dicen que hace mucho tiempo el bostezo de un Slowpoke acabó con una terrible sequía.",
   "West: Ilex Forest. Fallen trees block the path for now.": "Oeste: Encinar. Por ahora, unos árboles caídos bloquean el camino.",
   "Apricorns of every colour, sorted by size.": "Bonguris de todos los colores, ordenados por tamaño.",
-  "Tools for making Poké Balls by hand.": "Herramientas para fabricar Poké Balls a mano."
+  "Tools for making Poké Balls by hand.": "Herramientas para fabricar Poké Balls a mano.",
+  "I make charcoal in the kiln out back. My apprentice took our Farfetch'd to Ilex Forest to cut wood. He should be back by now...": "Hago carbón en el horno de atrás. Mi aprendiz se llevó a nuestro Farfetch’d al Encinar a cortar leña. Ya debería haber vuelto...",
+  "Our Farfetch'd cuts the wood for the kiln with its leek. Without it, there would be no charcoal. Thank you again!": "Nuestro Farfetch’d corta la leña para el horno con su puerro. Sin él no habría carbón. ¡Gracias otra vez!",
+  "I will never let go of Farfetch'd again. Well... I will try.": "Nunca volveré a soltar a Farfetch’d. Bueno... lo intentaré.",
+  "Farfetch'd waves its leek proudly.": "Farfetch’d agita su puerro con orgullo."
 }, "es");

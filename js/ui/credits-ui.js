@@ -32,6 +32,8 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 13) return { title: T('Chapter 13 complete!'), done: fmt("{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.", { player }),
+                           next: T("Thank you for playing! The rest of Johto opens in a future update.") };
     if (n === 12) return { title: T('Chapter 12 complete!'), done: fmt('{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.', { player }),
                            next: T("Thank you for playing! The rest of Johto opens in a future update.") };
     if (n === 11) return { title: T('Chapter 11 complete!'), done: fmt('{player} beat Falkner and earned the Zephyr Badge: the first badge of Johto.', { player }),

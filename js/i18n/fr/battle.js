@@ -164,5 +164,7 @@ G.I18n.add({
   "{mon} is loafing around!": "{mon} se tourne les pouces !",
   "{mon} turned away!": "{mon} se détourne !",
   "{mon} pretended not to notice!": "{mon} fait semblant de ne rien entendre !",
-  "A bell chimed!": "Une cloche a sonné !"
+  "A bell chimed!": "Une cloche a sonné !",
+  "{mon} received an encore!": "{mon} subit un Encore !",
+  "{mon}'s encore ended!": "L'Encore de {mon} prend fin !"
 }, "fr");

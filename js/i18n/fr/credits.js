@@ -40,5 +40,7 @@ G.I18n.add({
   "{player} beat Falkner and earned the Zephyr Badge: the first badge of Johto.": "{player} a battu Albert et obtenu le Badge Zéphyr : le premier badge de Johto.",
   "Thank you for playing! The rest of Johto opens in a future update.": "Merci d'avoir joué ! La suite de Johto arrivera dans une prochaine mise à jour.",
   "Chapter 12 complete!": "Chapitre 12 terminé !",
-  "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} a chassé la Team Rocket du Puits Ramoloss et obtenu le Badge Essaim d'Hector."
+  "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} a chassé la Team Rocket du Puits Ramoloss et obtenu le Badge Essaim d'Hector.",
+  "Chapter 13 complete!": "Chapitre 13 terminé !",
+  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} a retrouvé le Canarticho perdu au Bois aux Chênes et, après quelques larmes, a obtenu le Badge Plaine de Blanche."
 }, "fr");

@@ -10,7 +10,7 @@ const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 const dev = source('dev.html');
 const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/script/script.js'], CONTENT);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/script/script.js'], CONTENT);
 
 function world(seed = 1) {
   const ctx = boot(FILES);
@@ -24,7 +24,7 @@ function world(seed = 1) {
   const save = G.Store.newSave({ name: 'Red', rival: 'Blue', id: 4242 });
   save.player.lastHeal = { map: 'player-1f', spot: 'mom' };
   G.Field.bind(save);
-  return { G, W, S: save, errors, log: [], answers: [], battles: [] };
+  return { G, W, S: save, errors, log: [], answers: [], picks: [], battles: [] };
 }
 
 // ---------------- the auto-player ----------------
@@ -173,6 +173,7 @@ function host(st) {
     wild: (sp, lvl, o) => wildFight(st, sp, lvl, o), heal: () => G.Field.healAll(), healAnim: P,
     lastHeal(spot) { G.Field.save.player.lastHeal = { map: W.map, spot }; },
     shop: P, pc: P, music() {}, sfx() {}, jingle: P, nickname: P,
+    pickMon: () => Promise.resolve(st.picks.length ? st.picks.shift() : null),
     itemName: id => G.Names.item(id), monName: sp => G.Names.mon(G.Maps.species(sp))
   };
   return h;
@@ -685,6 +686,27 @@ test('balance: Bugsy and the thief in Azalea (chapter 12), win rates of typical 
   // He took the starter strong against yours: alone it rarely wins (losing is allowed), with a
   // friend caught on the way it does.
   for (const k of Object.keys(rival).filter(k => k.includes('+'))) assert.ok(rival[k] >= 0.5, k);
+});
+
+test('balance: Whitney in Goldenrod (chapter 13), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'goldenrod-gym', 'whitney');
+  const table = {
+    'quilava 24': rate([[156, 24]]),
+    'bayleef 24': rate([[153, 24]]),
+    'croconaw 24': rate([[159, 24]]),
+    'quilava 22 + geodude 18': rate([[156, 22], [74, 18]]),
+    'bayleef 24 + geodude 20': rate([[153, 24], [74, 20]]),
+    'croconaw 24 + geodude 20': rate([[159, 24], [74, 20]]),
+    'bayleef 24 + pidgeotto 20 + geodude 20': rate([[153, 24], [17, 20], [74, 20]])
+  };
+  console.log('[balance] vs Whitney:', JSON.stringify(table));
+  // Miltank is the wall: Rollout rolls on and doubles, Attract stops a Pokémon of the other gender,
+  // Milk Drink heals. A Rock type (Geodude from Union Cave) takes Rollout and Stomp well.
+  assert.ok(table['quilava 24'] >= 0.4, 'Quilava');
+  assert.ok(table['quilava 22 + geodude 18'] >= 0.35, 'Quilava with a Geodude');
+  assert.ok(table['bayleef 24 + geodude 20'] >= 0.6, 'Bayleef with a Geodude');
+  assert.ok(table['croconaw 24 + geodude 20'] >= 0.4, 'Croconaw with a Geodude');
 });
 
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
@@ -1345,6 +1367,71 @@ async function chapter12(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 13 after chapter 12: Ilex Forest, Route 34 and the Day Care, Goldenrod City and Whitney. */
+async function chapter13(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // Azalea Town's road west: Ilex Forest, Route 34 north to Goldenrod City.
+  assert.equal(G.Maps.get('azalea').def.connect.west.map, 'ilex-forest');
+  assert.equal(G.Maps.get('ilex-forest').def.connect.north.map, 'route34');
+  assert.equal(G.Maps.get('route34').def.connect.north.map, 'goldenrod');
+  const starter = S.party.find(m => m.sp >= 155 && m.sp <= 157);
+  lead(st, starter.sp);
+  // Ilex Forest: the lost Farfetch'd hops from place to place, the fourth time back to the apprentice.
+  await run(st, 'ilex-forest', npc(st, 'ilex-forest', 'apprentice'));
+  for (let i = 0; i < 3; i++) {
+    assert.equal(+F.getVar('farfetchd') || 0, i);
+    await run(st, 'ilex-forest', npc(st, 'ilex-forest', 'farfetchd' + i));
+  }
+  await run(st, 'ilex-forest', npc(st, 'ilex-forest', 'farfetchd3'));
+  assert.equal(F.getVar('farfetchd'), 4, 'Farfetch\'d ran back');
+  await run(st, 'ilex-forest', npc(st, 'ilex-forest', 'maker'));
+  assert.ok(F.flag('charcoal-gift') && F.count('tm35') === 1, 'the charcoal maker gives TM35');
+  // The tutor teaches Headbutt to the starter.
+  st.picks.push(0);
+  await run(st, 'ilex-forest', npc(st, 'ilex-forest', 'tutor'), [0]);
+  assert.ok(G.Mon.knows(S.party[0], 'headbutt'), 'learned Headbutt');
+  await all('ilex-forest');
+  won();
+  // Route 34: its Trainers, and the Day Care (leave one, walk, take it back).
+  grind(st, 'route34', 21, 400);
+  await all('route34');
+  won();
+  const n = S.party.length, left = S.party[n - 1];
+  st.picks.push(n - 1);
+  await run(st, 'daycare', npc(st, 'daycare', 'lady'), [0]);
+  assert.equal(S.party.length, n - 1);
+  assert.equal(G.DayCare.list()[0].mon, left);
+  G.DayCare.step(300);
+  const money = S.player.money, price = G.DayCare.price(0);
+  await run(st, 'daycare', npc(st, 'daycare', 'lady'), [1, 0]);
+  assert.equal(S.party.length, n, 'taken back');
+  assert.equal(S.player.money, money - price, 'paid');
+  // Goldenrod City: Bill gives an Eevee; the Name Rater looks at the starter's name.
+  await run(st, 'bill-family', npc(st, 'bill-family', 'bill'), [0]);
+  assert.ok(F.flag('bill-eevee') && S.dex.caught[133], 'Eevee from Bill');
+  st.picks.push(0);
+  await run(st, 'name-rater', npc(st, 'name-rater', 'rater'), [0, 0]);
+  // Whitney's Gym.
+  grind(st, 'route34', 24, 400);
+  await all('goldenrod-gym');
+  won();
+  F.healAll();
+  const tms = F.count('tm45');
+  await run(st, 'goldenrod-gym', [['battle', 'goldenrod-gym:whitney']]);
+  assert.equal(last().outcome, 'win', 'Whitney beaten at levels ' + last().levels);
+  assert.ok(F.flag('whitney-cried') && !S.player.badges.includes(11), 'she cries before she gives the badge');
+  await run(st, 'goldenrod-gym', G.Maps.get('goldenrod-gym').trainers.find(t => t.id === 'whitney').afterScript);
+  assert.ok(S.player.badges.includes(11) && F.count('tm45') === tms + 1 && F.flag('whitney-beaten'));
+  assert.equal(F.obeyCap('johto'), 35, 'the Plain Badge: up to Lv. 35');
+  assert.ok(F.flag('chapter-13-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1426,7 +1513,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test('chapters 11 and 12: Johto, from Professor Elm to Falkner, the Slowpoke Well and Bugsy', async () => {
+test('chapters 11 to 13: Johto, from Professor Elm to Falkner, Bugsy and Whitney', async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -1440,4 +1527,5 @@ test('chapters 11 and 12: Johto, from Professor Elm to Falkner, the Slowpoke Wel
   await chapter10(st);
   await chapter11(st);
   await chapter12(st);
+  await chapter13(st);
 });

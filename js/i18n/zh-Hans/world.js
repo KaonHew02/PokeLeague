@@ -58,5 +58,9 @@ G.I18n.add({
   "The water is a deep blue. What would you like to do?": "水是深蓝色的。要做什么呢？",
   "Fish": "钓鱼",
   "Would you like to fish with the {item}?": "要用{item}钓鱼吗？",
-  "The current is much too strong to Surf against!": "水流太急了，没法冲浪！"
+  "The current is much too strong to Surf against!": "水流太急了，没法冲浪！",
+  "A big tree. Something might fall out if a Pokémon gave it a good Headbutt.": "一棵大树。如果让宝可梦用力头锤一下，说不定会掉下什么来。",
+  "A big tree. Would you like to use Headbutt?": "一棵大树。要使用头锤吗？",
+  "{mon} did a Headbutt!": "{mon}使出了头锤！",
+  "Nothing happened...": "什么也没发生……"
 }, "zh-Hans");

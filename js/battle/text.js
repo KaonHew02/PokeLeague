@@ -171,6 +171,8 @@ G.BattleText = (() => {
       case 'typeChange': return fmt("{mon}'s type changed to {type}!", { mon, type: G.Names.type(e.to) });
       case 'disabled': return fmt("{mon}'s {move} was disabled!", { mon, move: G.Names.move(e.move) });
       case 'disableEnd': return fmt('{mon} is no longer disabled!', { mon });
+      case 'encore': return fmt('{mon} received an encore!', { mon });
+      case 'encoreEnd': return fmt("{mon}'s encore ended!", { mon });
       case 'bellyDrum': return fmt('{mon} cut its own HP and maximized its Attack!', { mon });
       case 'psychUp': return fmt("{mon} copied its opponent's stat changes!", { mon });
       case 'spite': return fmt("It reduced the PP of {mon}'s {move} by {n}!", { mon, move: G.Names.move(e.move), n: e.n });

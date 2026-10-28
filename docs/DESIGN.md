@@ -80,7 +80,8 @@ python tools/fetch_data.py --region kanto --refresh  # download again
   - Johto: `dex (1,251)`; learnsets FRLG first for 1-151, HGSS first for 152-251
     (`learnset_vg_from`; Emerald's lists for Johto Pokémon are older and slower); TMs still FRLG;
     text adds HGSS. The Generation 4 moves this brings are special-cased (Gyro Ball, Punishment,
-    Wring Out) or in FALLBACK.
+    Wring Out) or in FALLBACK. Move tutors: `TUTOR_MOVES` (Headbutt) from HGSS's tutor lists give a
+    species its `tu` list (only the species that can learn one).
     `regions` lists each region with its own encounter versions (Kanto: FRLG first; Johto:
     HGSS first); a place with no table there falls back to the other region's versions (Routes 26
     and 27 are `kanto-route-26/27` in PokeAPI but only HGSS has them). Encounter conditions
@@ -108,7 +109,7 @@ G.SPECIES = { 1: { slug:'bulbasaur', types:['grass','poison'], base:[45,49,49,65
   ev:[0,0,0,1,0,0], cr:45 /* catch rate */, bx:64 /* base EXP */, gr:'medium-slow', gf:1 /* females in eighths, -1 genderless */,
   fr:70 /* base friendship */, h:7, w:69, leg:1 /* only legendaries and Mew */,
   evo:[{ to:2, how:'level', level:16 }], learn:[[1,'tackle'],[4,'growl'],[7,'leech-seed'], …] /* sorted; can repeat a move */,
-  tm:['hm01','tm06', …] } }
+  tm:['hm01','tm06', …], tu:['headbutt'] /* move tutors (chapter 13); absent when none */ } }
 G.MOVES = { ember: { id:52, type:'fire', cat:'special' /* physical|special|status */, pow:40 /* null for status */,
   acc:100 /* null = never misses */, pp:25, pri:0, tgt:'selected-pokemon', eff:10 /* effect chance */,
   meta:{ k:'damage-ailment', ail:'burn', ailP:10, crit:0, drain:0, heal:0, flinch:0, statP:0, hits:null, turns:null },
@@ -617,7 +618,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   player:{ name, gender, id, money, badges:[], map, x, y, dir, lastHeal:{ map, spot }, surf?:1, bike?:1 },
   rival:{ name, starter }, party:[mon], boxes:[[mon|null ×30] ×8], box:0, bag:{ potion:2 }, repel:0,
   dex:{ seen:{16:1}, caught:{4:1} }, flags:{}, vars:{}, done:{ 'route2:rick':1 },
-  fame:[{ at, party:[{ sp, lvl, nick, shiny }] }] }      // the Hall of Fame (chapter 9)
+  fame:[{ at, party:[{ sp, lvl, nick, shiny }] }],       // the Hall of Fame (chapter 9)
+  daycare:[{ mon, lvl }] }                                // the Day Care (chapter 13): at most two, lvl = level when left
 ```
 - `migrate(s)` runs `while (s.v < V) MIG[s.v++](s)`, then sanitises the shapes.
 - Export writes `{ app:'PokeLeague', kind:'save', v, at, save }` to a JSON file. Import
@@ -1019,10 +1021,43 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   strong against yours: one starter alone rarely beats him, with a friend from the way (Flaaffy,
   Pidgeotto, Geodude) 70-100%. The story test plays chapter 12 with the Johto starter leading.
 
-### After chapter 12
+- **Chapter 13** ✅, Johto part 3: Azalea Town's road west opens into Ilex Forest (palette
+  `forest`; wild Pokémon in the grass more often than the games' table says, `rate` 20, and in
+  the trees). The charcoal maker's apprentice has lost his Farfetch'd: it hops away each time you
+  reach it (var `farfetchd` 0-3, four places), the fourth time back to him (4); the charcoal maker
+  then gives TM35 Flamethrower (flag `charcoal-gift`; they go home to the kiln). A man by the
+  shrine teaches Headbutt (the species' `tu`); a small tree (Cut) blocks the way north. Route 34
+  (five Trainers) and the Day Care; Goldenrod City: a Pokémon Center, the Department Store (three
+  floors: market, medicine, TMs, battle items and vitamins), the Radio Tower lobby (staff only
+  upstairs), the Bike Shop, the Flower Shop (the strange tree that wiggles when watered: chapter
+  14), the Name Rater (a new nickname for a Pokémon whose first Trainer is you), Bill's family
+  (Bill gives an Eevee, Lv. 20, flag `bill-eevee`) and a house; the gate to Route 35 and the
+  Magnet Train are closed. Whitney's Gym (palette `pink`, hedges): two Lasses, two Beauties, then
+  Whitney (Clefairy 16 with Encore and Metronome, Miltank 17 with Rollout, Attract, Stomp and
+  Milk Drink). Beaten, she cries (flag `whitney-cried`) and gives the badge only when you talk to
+  her again: badge 11, the Plain Badge (obedience up to Lv. 35), TM45 Attract (flag
+  `whitney-beaten`), and the chapter ends (`ending(13)`). Files: `js/content/johto/ilex.js`,
+  `route34.js`, `goldenrod.js` (translations `johto-ilex`, `johto-route34`, `johto-goldenrod`).
+- **Engine for chapter 13:** trees to Headbutt (outdoor tile `h`, kind `headtree`, drawn with
+  lighter leaves: a Pokémon that knows Headbutt shakes one, and half the time a wild Pokémon of
+  the area's `headbutt` table falls out; a map finds that table in its walking area). The Day
+  Care (`js/world/daycare.js`, G.DayCare): up to two Pokémon, 1 Exp. point per step each, the
+  moves of each new level (the oldest forgotten), no evolution; ₽100 + ₽100 a level to take one
+  back (healed); `save.daycare`. Rollout now rolls on by itself for five turns, doubling, stopped
+  by a miss or anything that stops a move (Defense Curl doubles it); Encore works (three turns
+  of the same move: `options()` and the AI allow only that one). People whitney, pokefan,
+  granny; class pokefan; palette pink.
+- **Balance:** Whitney against a team that never heals or switches (Rollout and Attract hurt it
+  most): Quilava Lv. 24 alone ~60%, Bayleef 24 ~50%, Croconaw 24 ~30%; with a Geodude from
+  Union Cave 75-100%. Her levels are two below the games, as for Falkner and Bugsy. The story
+  test plays chapter 13 with the Johto starter leading (it learns Headbutt; one Pokémon goes to
+  the Day Care and back).
 
-1. **Johto, the rest:** Ilex Forest (Farfetch'd, the shrine), Route 34 and the Day Care,
-   Goldenrod City and Whitney, then the other four Gyms, the Lake of Rage, the Johto League;
-   Kurt's Apricorn Balls, berries, Headbutt and held items along the way.
+### After chapter 13
+
+1. **Johto, the rest:** Route 35, the National Park and the Bug-Catching Contest, Route 36 (the
+   strange tree: the Flower Shop's Squirt Bottle), Ecruteak City and Morty, then the other three
+   Gyms, the Lake of Rage, the Radio Tower, the Johto League; Kurt's Apricorn Balls, berries,
+   breeding at the Day Care (Eggs) and held items along the way.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

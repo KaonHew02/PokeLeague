@@ -32,8 +32,6 @@ G.I18n.add({
   "Union Cave is full of Zubat. Repels sell well in this town!": "互连洞里全是超音蝠。所以除虫喷雾在这个镇上很好卖！",
   "Grandpa ran off to the well... I hope he is all right.": "爷爷跑去井那边了……希望他没事。",
   "A Slowpoke's tail grows back, Grandpa says. But it must still hurt. Thank you for saving them!": "爷爷说呆呆兽的尾巴还会再长出来。但一定还是很痛吧。谢谢你救了它们！",
-  "I make charcoal in the kiln out back. My apprentice went to Ilex Forest for wood, but the path is blocked by fallen trees.": "我在后面的窑里烧木炭。我的徒弟去栎树林砍柴，可是路被倒下的树挡住了。",
-  "Farfetch'd live in Ilex Forest. They carry leeks around like swords. Funny, right?": "栎树林里住着大葱鸭。它们拿着大葱当剑挥。很好笑吧？",
   "A Slowpoke. Its tail has been cut short, but it only yawns.": "一只呆呆兽。它的尾巴被割短了，可它只是打了个哈欠。",
   "A Slowpoke, dozing. It does not seem to know anything is wrong.": "一只在打瞌睡的呆呆兽。它好像完全不知道出了什么事。",
   "Who let a kid down here? Get lost!": "谁让小鬼下来的？滚开！",
@@ -67,5 +65,9 @@ G.I18n.add({
   "Slowpoke Well. Long ago, they say, the yawn of a Slowpoke ended a terrible drought here.": "呆呆兽之井。据说很久以前，一只呆呆兽打了个哈欠，就结束了这里的大旱灾。",
   "West: Ilex Forest. Fallen trees block the path for now.": "西：栎树林。道路暂时被倒下的树挡住了。",
   "Apricorns of every colour, sorted by size.": "各种颜色的球果，按大小排得整整齐齐。",
-  "Tools for making Poké Balls by hand.": "手工制作精灵球的工具。"
+  "Tools for making Poké Balls by hand.": "手工制作精灵球的工具。",
+  "I make charcoal in the kiln out back. My apprentice took our Farfetch'd to Ilex Forest to cut wood. He should be back by now...": "我在屋后的窑里烧炭。我的徒弟带着我们的大葱鸭去栎树林砍柴了。他早该回来了啊……",
+  "Our Farfetch'd cuts the wood for the kiln with its leek. Without it, there would be no charcoal. Thank you again!": "我们的大葱鸭用它的葱帮窑砍柴。没有它，就烧不出炭来。再次谢谢你！",
+  "I will never let go of Farfetch'd again. Well... I will try.": "我再也不会让大葱鸭离开我身边了。嗯……我会努力的。",
+  "Farfetch'd waves its leek proudly.": "大葱鸭得意地挥舞着它的葱。"
 }, "zh-Hans");

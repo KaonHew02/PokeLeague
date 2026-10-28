@@ -32,8 +32,6 @@ G.I18n.add({
   "Union Cave is full of Zubat. Repels sell well in this town!": "Les Caves Jumelles sont pleines de Nosferapti. Les Repousse se vendent bien ici !",
   "Grandpa ran off to the well... I hope he is all right.": "Grand-père est parti en courant au puits... J'espère qu'il va bien.",
   "A Slowpoke's tail grows back, Grandpa says. But it must still hurt. Thank you for saving them!": "Grand-père dit que la queue des Ramoloss repousse. Mais ça doit quand même faire mal. Merci de les avoir sauvés !",
-  "I make charcoal in the kiln out back. My apprentice went to Ilex Forest for wood, but the path is blocked by fallen trees.": "Je fais du charbon dans le four derrière la maison. Mon apprenti est allé chercher du bois au Bois aux Chênes, mais le chemin est bloqué par des arbres tombés.",
-  "Farfetch'd live in Ilex Forest. They carry leeks around like swords. Funny, right?": "Des Canarticho vivent au Bois aux Chênes. Ils portent des poireaux comme des épées. Drôle, non ?",
   "A Slowpoke. Its tail has been cut short, but it only yawns.": "Un Ramoloss. Sa queue a été coupée, mais il se contente de bâiller.",
   "A Slowpoke, dozing. It does not seem to know anything is wrong.": "Un Ramoloss qui somnole. Il n'a pas l'air de savoir que quelque chose ne va pas.",
   "Who let a kid down here? Get lost!": "Qui a laissé descendre un gamin ici ? Dégage !",
@@ -67,5 +65,9 @@ G.I18n.add({
   "Slowpoke Well. Long ago, they say, the yawn of a Slowpoke ended a terrible drought here.": "Puits Ramoloss. On raconte qu'il y a bien longtemps, le bâillement d'un Ramoloss a mis fin à une terrible sécheresse.",
   "West: Ilex Forest. Fallen trees block the path for now.": "Ouest : Bois aux Chênes. Des arbres tombés bloquent le chemin pour l'instant.",
   "Apricorns of every colour, sorted by size.": "Des Noigrumes de toutes les couleurs, triées par taille.",
-  "Tools for making Poké Balls by hand.": "Des outils pour fabriquer des Poké Balls à la main."
+  "Tools for making Poké Balls by hand.": "Des outils pour fabriquer des Poké Balls à la main.",
+  "I make charcoal in the kiln out back. My apprentice took our Farfetch'd to Ilex Forest to cut wood. He should be back by now...": "Je fabrique du charbon dans le four derrière la maison. Mon apprenti est parti couper du bois au Bois aux Chênes avec notre Canarticho. Il devrait déjà être rentré...",
+  "Our Farfetch'd cuts the wood for the kiln with its leek. Without it, there would be no charcoal. Thank you again!": "Notre Canarticho coupe le bois du four avec son poireau. Sans lui, pas de charbon. Merci encore !",
+  "I will never let go of Farfetch'd again. Well... I will try.": "Je ne lâcherai plus jamais Canarticho. Enfin... j'essaierai.",
+  "Farfetch'd waves its leek proudly.": "Canarticho agite fièrement son poireau."
 }, "fr");

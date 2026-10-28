@@ -12,9 +12,20 @@ function fresh(storage) {
 const { G } = fresh();
 const mon = (sp, lvl, o) => G.Mon.create(sp, lvl, Object.assign({ rng: G.RNG(7), nature: 'hardy' }, o));
 
+test('the Day Care keeps at most two Pokémon, each with the level it was left at', () => {
+  const rng = G.RNG(5);
+  const a = G.Mon.create(25, 12, { rng }), b = G.Mon.create(16, 9, { rng }), c = G.Mon.create(19, 4, { rng });
+  const s = G.Store.sanitize({ daycare: [{ mon: a, lvl: 10 }, { mon: b, lvl: 30 }, { mon: c, lvl: 4 }, { mon: { sp: 9999 }, lvl: 3 }, 'x'] });
+  assert.equal(s.daycare.length, 2);
+  assert.equal(s.daycare[0].mon.sp, 25);
+  assert.equal(s.daycare[0].lvl, 10);
+  assert.equal(s.daycare[1].lvl, 9, 'never above its level now');
+  assert.equal(G.Store.sanitize({}).daycare.length, 0);
+});
+
 test('a new save has the documented shape', () => {
   const s = G.Store.newSave({ name: 'Ash', gender: 'f', rival: 'Gary', id: 70000 });
-  assert.deepEqual(Object.keys(s).sort(), ['app', 'bag', 'box', 'boxes', 'created', 'dex', 'done', 'fame', 'flags', 'party', 'player', 'playTime',
+  assert.deepEqual(Object.keys(s).sort(), ['app', 'bag', 'box', 'boxes', 'created', 'daycare', 'dex', 'done', 'fame', 'flags', 'party', 'player', 'playTime',
     'repel', 'rival', 'rival2', 'savedAt', 'v', 'vars'].sort());
   assert.equal(s.app, 'PokeLeague');
   assert.equal(s.player.name, 'Ash');

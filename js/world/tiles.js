@@ -99,6 +99,11 @@ G.Tiles = (() => {
     wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#d8e8c8', '#c8dcb8'], grout: '#b0c8a0',
     rug: ['#e070a0', '#f094bc', '#b04c7c'], counter: ['#e8f0e0', '#c4d4b8', '#8aa080'],
     mat: ['#5aa04a', '#7cc06c'], screen: '#68d0f8' };
+  // Whitney's Gym (Goldenrod): soft pink tiles.
+  PALETTES.pink = { floor: 'tile', wallTop: ['#6a4a5a', '#7a5668'], paper: ['#fbe4ee', '#f4d4e2'], trim: '#e890b4', base: '#b85a84',
+    wood: ['#d8a868', '#cc9a5c', '#e2b478'], woodLine: '#a07040', tile: ['#f8dce8', '#f0ccdc'], grout: '#dcaec2',
+    rug: ['#e05a96', '#f282b4', '#b03c72'], counter: ['#fdf4f8', '#ecd0dc', '#c49aae'],
+    mat: ['#e05a96', '#f282b4'], screen: '#68d0f8' };
   // The Rocket Hideout: cold grey metal.
   PALETTES.hideout = { floor: 'tile', wallTop: ['#262a32', '#30343e'], paper: ['#7a8292', '#707888'], trim: '#a2aab8', base: '#3a404c',
     wood: ['#8a8e98', '#7a7e88', '#9a9ea8'], woodLine: '#5a5e68', tile: ['#b2bac6', '#a6aeba'], grout: '#8a92a0',
@@ -1076,25 +1081,30 @@ G.Tiles = (() => {
     return sprites[k];
   }
 
+  /** The round tree, 16×28; `lift` lightens its leaves by that many shades (a Headbutt tree). */
+  function roundTree(C, lift) {
+    const P = Pix(T, 28);
+    const L = C.leaf, Tr = C.trunk;
+    for (let y = 19; y < 27; y++) for (let x = 6; x < 10; x++) P.set(x, y, Tr[x === 6 ? 0 : 1]);
+    P.set(5, 26, Tr[0]); P.set(10, 26, Tr[0]);
+    const blobs = [[7.5, 9, 6.6], [4.4, 13.5, 4], [10.6, 13.5, 4], [7.5, 15.5, 4.6], [7.5, 5.5, 4.5]];
+    for (const [bx, by, br] of blobs) {
+      disc(P, bx, by, br, (x, y) => {
+        if (x < 1 || x > 14 || y < 1) return null;
+        const lit = ((x - 7.5) * -0.55 + (y - 9) * -0.85) / 7;
+        const idx = Math.min(3, (lit > 0.42 ? 3 : lit > 0.02 ? 2 : lit > -0.5 ? 1 : 0) + lift);
+        return (H(x, y, 41) < 0.1 && idx > 0) ? L[idx - 1] : L[idx];
+      });
+    }
+    outline(P, C.treeEdge);
+    return P.canvas();
+  }
+
   const PROPS = {
     /** A round tree: 16×28, the canopy reaches 12 px into the tile above. */
-    tree(C) {
-      const P = Pix(T, 28);
-      const L = C.leaf, Tr = C.trunk;
-      for (let y = 19; y < 27; y++) for (let x = 6; x < 10; x++) P.set(x, y, Tr[x === 6 ? 0 : 1]);
-      P.set(5, 26, Tr[0]); P.set(10, 26, Tr[0]);
-      const blobs = [[7.5, 9, 6.6], [4.4, 13.5, 4], [10.6, 13.5, 4], [7.5, 15.5, 4.6], [7.5, 5.5, 4.5]];
-      for (const [bx, by, br] of blobs) {
-        disc(P, bx, by, br, (x, y) => {
-          if (x < 1 || x > 14 || y < 1) return null;
-          const lit = ((x - 7.5) * -0.55 + (y - 9) * -0.85) / 7;
-          const idx = lit > 0.42 ? 3 : lit > 0.02 ? 2 : lit > -0.5 ? 1 : 0;
-          return (H(x, y, 41) < 0.1 && idx > 0) ? L[idx - 1] : L[idx];
-        });
-      }
-      outline(P, C.treeEdge);
-      return P.canvas();
-    },
+    tree(C) { return roundTree(C, 0); },
+    /** A tree Headbutt can shake (Johto): the same tree, lighter leaves. */
+    htree(C) { return roundTree(C, 1); },
     /** The front of the tall grass: the bottom row of tufts, drawn over feet. */
     tuft(C) {
       const P = Pix(T, 8);
@@ -1218,6 +1228,7 @@ G.Tiles = (() => {
       case 'stairs': stairs(P, C, ox, oy); break;
       case 'ladder': ladder(P, C, ox, oy, tx, ty); break;
       case 'cuttree': grass(P, C, ox, oy, tx, ty); break;   // the tree itself is a prop (render.js)
+      case 'headtree': grass(P, C, ox, oy, tx, ty); break;  // a tree to Headbutt: baked like the others
       case 'can': can(P, C, ox, oy, tx, ty); break;
       case 'grave': grave(P, C, ox, oy, tx, ty); break;
       case 'hedge': hedge(P, C, ox, oy, tx, ty); break;
@@ -1265,9 +1276,12 @@ G.Tiles = (() => {
       if (s && s.up >= up) return s;
       return (strips[row] = { up, items: (s && s.items) || [] });
     };
-    const tree = sprite('tree', m.palette in PALETTES && !PALETTES[m.palette].floor ? m.palette : OUT);
+    const pal = m.palette in PALETTES && !PALETTES[m.palette].floor ? m.palette : OUT;
+    const tree = sprite('tree', pal), htree = sprite('htree', pal);
     for (let ty = 0; ty < m.h; ty++) for (let tx = 0; tx < m.w; tx++) {
-      if (m.kind[ty * m.w + tx] === 'tree') add(ty, tree.height - T).items.push({ img: tree, x: tx * T, bottom: 0 });
+      const k = m.kind[ty * m.w + tx];
+      if (k === 'tree') add(ty, tree.height - T).items.push({ img: tree, x: tx * T, bottom: 0 });
+      else if (k === 'headtree') add(ty, htree.height - T).items.push({ img: htree, x: tx * T, bottom: 0 });
     }
     for (const st of m.stamps) {
       const s = G.Stamps.get(st.type, st.door ? st.door[0] : 0, { x: st.x, y: st.y, palette: m.palette });

@@ -40,5 +40,7 @@ G.I18n.add({
   "{player} beat Falkner and earned the Zephyr Badge: the first badge of Johto.": "{player} venceu Falkner e ganhou a Insígnia do Zéfiro: a primeira insígnia de Johto.",
   "Thank you for playing! The rest of Johto opens in a future update.": "Obrigado por jogar! O resto de Johto chega em uma próxima atualização.",
   "Chapter 12 complete!": "Capítulo 12 concluído!",
-  "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} expulsou a Equipe Rocket do Slowpoke Well e ganhou a Insígnia da Colmeia do Bugsy."
+  "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} expulsou a Equipe Rocket do Slowpoke Well e ganhou a Insígnia da Colmeia do Bugsy.",
+  "Chapter 13 complete!": "Capítulo 13 concluído!",
+  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} encontrou o Farfetch’d perdido na Ilex Forest e, depois de algumas lágrimas, ganhou a Insígnia Planície da Whitney."
 }, "pt-BR");

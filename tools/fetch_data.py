@@ -47,6 +47,8 @@ API_LANG = {'en': 'en', 'es': 'es', 'fr': 'fr', 'it': 'it', 'zh-Hans': 'zh-hans'
 STAT = {'hp': 'hp', 'attack': 'atk', 'defense': 'def', 'special-attack': 'spa',
         'special-defense': 'spd', 'speed': 'spe', 'accuracy': 'acc', 'evasion': 'eva'}
 STAT_ORDER = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed']
+# Moves taught by a move tutor in the game (Ilex Forest: Headbutt), from HeartGold / SoulSilver.
+TUTOR_MOVES = {'headbutt'}
 TYPES = ['normal', 'fire', 'water', 'electric', 'grass', 'ice', 'fighting', 'poison', 'ground',
          'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy']
 
@@ -148,6 +150,8 @@ LOC_NAMES = {
     'slowpoke-well':     ('Pozo Slowpoke',      'Pozzo Slowpoke',      '呆呆兽之井', '呆呆獸之井'),
     'ilex-forest':       ('Encinar',            'Bosco di Lecci',      '栎树林',     '櫟樹林'),
     'ruins-of-alph':     ('Ruinas Alfa',        "Rovine d'Alfa",       '阿露福遗迹', '阿露福遺跡'),
+    'radio-tower':       ('Torre Radio',        'Torre Radio',         '广播塔',     '廣播塔'),
+    'national-park':     ('Parque Nacional',    'Parco Nazionale',     '自然公园',   '自然公園'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}
@@ -320,7 +324,7 @@ def build(region):
     species = dict(zip(dexes, pmap(lambda d: get('pokemon-species', d), dexes)))
 
     # ---- learnsets and TM moves ----
-    learn, tm_moves, move_names = {}, {}, {'struggle'}
+    learn, tm_moves, tutor, move_names = {}, {}, {}, {'struggle'}
     for d in dexes:
         p = pokemon[d]
         rows = []
@@ -339,8 +343,13 @@ def build(region):
         learn[d] = [[lvl, name] for lvl, _, name in rows]
         tm_moves[d] = sorted({m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
                               if vd['version_group']['name'] == cfg['tm_vg'] and vd['move_learn_method']['name'] == 'machine'})
+        # Move tutors the game has (HeartGold / SoulSilver): species field 'tu'.
+        tutor[d] = sorted({m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
+                           if vd['version_group']['name'] == 'heartgold-soulsilver' and vd['move_learn_method']['name'] == 'tutor'
+                           and m['move']['name'] in TUTOR_MOVES})
         move_names.update(n for _, n in learn[d])
         move_names.update(tm_moves[d])
+        move_names.update(tutor[d])
 
     # ---- moves ----
     move_list = sorted(move_names)
@@ -408,6 +417,8 @@ def build(region):
             'evo': evo[d], 'learn': learn[d],
             'tm': sorted(move_tm[n] for n in tm_moves[d] if n in move_tm),
         }
+        if tutor[d]:
+            rec['tu'] = tutor[d]
         if s.get('is_legendary') or s.get('is_mythical'):
             rec['leg'] = 1
         SPECIES[d] = rec

@@ -56,7 +56,9 @@ G.Maps = (() => {
     // statues (switches in the Pokémon Mansion) and quiz machines (Blaine's Gym).
     pit: { warp: 1 }, rapids: { solid: 1 }, bars: { solid: 1 }, statue: { solid: 1 }, quiz: { solid: 1 },
     // Chapter 9: a floor switch a boulder can be pushed onto (Victory Road).
-    plate: {}
+    plate: {},
+    // Chapter 13: a tree that Headbutt can shake (Johto); its wild Pokémon are the area's 'headbutt' table.
+    headtree: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -70,7 +72,8 @@ G.Maps = (() => {
       R: 'stamp',                                    // the burnt Pokémon Mansion
       o: 'pit', r: 'rapids',                         // a hole in a cave floor, fast water (the Seafoam Islands)
       x: 'plate', b: 'bars',                         // a floor switch, a rock barrier (Victory Road)
-      I: 'stamp'                                     // the Pokémon League
+      I: 'stamp',                                    // the Pokémon League
+      h: 'headtree'                                  // a tree to Headbutt (Johto)
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',
@@ -270,10 +273,12 @@ G.Maps = (() => {
 
   /** Methods on the water: a map's `water` area gives them all (and so does the area of its grass). */
   const WATERY = ['surf', 'old-rod', 'good-rod', 'super-rod'];
+  /** Tables a map finds in its walking area when it names none of its own. */
+  const FROM_AREA = WATERY.concat(['headbutt']);
   /** Encounter table { rate, mons } of one method ('walk', 'surf', 'old-rod'...), or null. */
   function encounters(m, method = 'walk') {
     let e = m.encounters && m.encounters[method];
-    if (!e && WATERY.includes(method) && m.encounters) {
+    if (!e && FROM_AREA.includes(method) && m.encounters) {
       const area = [m.encounters.water, m.encounters.walk].find(a => typeof a === 'string' && G.ENCOUNTERS && G.ENCOUNTERS[a.slice(1)] && G.ENCOUNTERS[a.slice(1)][method]);
       e = area || null;
     }

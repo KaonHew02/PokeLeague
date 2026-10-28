@@ -32,8 +32,6 @@ G.I18n.add({
   "Union Cave is full of Zubat. Repels sell well in this town!": "La Grotta di Mezzo è piena di Zubat. I Repellenti vanno a ruba in questo paese!",
   "Grandpa ran off to the well... I hope he is all right.": "Il nonno è corso al pozzo... Spero che stia bene.",
   "A Slowpoke's tail grows back, Grandpa says. But it must still hurt. Thank you for saving them!": "Il nonno dice che la coda degli Slowpoke ricresce. Ma deve comunque far male. Grazie per averli salvati!",
-  "I make charcoal in the kiln out back. My apprentice went to Ilex Forest for wood, but the path is blocked by fallen trees.": "Faccio carbone nella fornace qui dietro. Il mio apprendista è andato al Bosco di Lecci a prendere legna, ma il sentiero è bloccato da alberi caduti.",
-  "Farfetch'd live in Ilex Forest. They carry leeks around like swords. Funny, right?": "Nel Bosco di Lecci vivono i Farfetch'd. Si portano dietro dei porri come spade. Buffo, vero?",
   "A Slowpoke. Its tail has been cut short, but it only yawns.": "Uno Slowpoke. Gli hanno tagliato la coda, ma si limita a sbadigliare.",
   "A Slowpoke, dozing. It does not seem to know anything is wrong.": "Uno Slowpoke che sonnecchia. Non sembra accorgersi che qualcosa non va.",
   "Who let a kid down here? Get lost!": "Chi ha fatto scendere un ragazzino quaggiù? Sparisci!",
@@ -67,5 +65,9 @@ G.I18n.add({
   "Slowpoke Well. Long ago, they say, the yawn of a Slowpoke ended a terrible drought here.": "Pozzo Slowpoke. Si dice che tanto tempo fa lo sbadiglio di uno Slowpoke pose fine a una terribile siccità.",
   "West: Ilex Forest. Fallen trees block the path for now.": "Ovest: Bosco di Lecci. Per ora il sentiero è bloccato da alberi caduti.",
   "Apricorns of every colour, sorted by size.": "Ghicocche di ogni colore, ordinate per grandezza.",
-  "Tools for making Poké Balls by hand.": "Attrezzi per fabbricare Poké Ball a mano."
+  "Tools for making Poké Balls by hand.": "Attrezzi per fabbricare Poké Ball a mano.",
+  "I make charcoal in the kiln out back. My apprentice took our Farfetch'd to Ilex Forest to cut wood. He should be back by now...": "Faccio carbone nella fornace qui dietro. Il mio apprendista ha portato il nostro Farfetch’d al Bosco di Lecci a tagliare legna. Dovrebbe già essere tornato...",
+  "Our Farfetch'd cuts the wood for the kiln with its leek. Without it, there would be no charcoal. Thank you again!": "Il nostro Farfetch’d taglia la legna per la fornace con il suo porro. Senza di lui niente carbone. Grazie ancora!",
+  "I will never let go of Farfetch'd again. Well... I will try.": "Non lascerò mai più andare Farfetch’d. Beh... ci proverò.",
+  "Farfetch'd waves its leek proudly.": "Farfetch’d agita fiero il suo porro."
 }, "it");

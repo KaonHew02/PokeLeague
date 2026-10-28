@@ -33,5 +33,6 @@ G.I18n.add({
   "Cue Ball": "光头男",
   "Elite Four": "四天王",
   "Champion": "冠军",
-  "Sage": "和尚"
+  "Sage": "和尚",
+  "Pokéfan": "发烧友俱乐部"
 }, "zh-Hans");

@@ -164,5 +164,7 @@ G.I18n.add({
   "{mon} is loafing around!": "{mon} está fazendo corpo mole!",
   "{mon} turned away!": "{mon} virou as costas!",
   "{mon} pretended not to notice!": "{mon} fingiu que não ouviu!",
-  "A bell chimed!": "Um sino tocou!"
+  "A bell chimed!": "Um sino tocou!",
+  "{mon} received an encore!": "{mon} recebeu um Encore!",
+  "{mon}'s encore ended!": "O Encore de {mon} acabou!"
 }, "pt-BR");

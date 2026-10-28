@@ -40,5 +40,7 @@ G.I18n.add({
   "{player} beat Falkner and earned the Zephyr Badge: the first badge of Johto.": "{player} ha battuto Valerio e ottenuto la Medaglia Zefiro: la prima medaglia di Johto.",
   "Thank you for playing! The rest of Johto opens in a future update.": "Grazie per aver giocato! Il resto di Johto arriverà in un prossimo aggiornamento.",
   "Chapter 12 complete!": "Capitolo 12 completato!",
-  "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} ha cacciato il Team Rocket dal Pozzo Slowpoke e ottenuto la Medaglia Alveare da Raffaello."
+  "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} ha cacciato il Team Rocket dal Pozzo Slowpoke e ottenuto la Medaglia Alveare da Raffaello.",
+  "Chapter 13 complete!": "Capitolo 13 completato!",
+  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} ha ritrovato il Farfetch’d smarrito nel Bosco di Lecci e, dopo qualche lacrima, ha ottenuto la Medaglia Piana da Chiara."
 }, "it");

@@ -9,6 +9,8 @@ G.SpecialMoves = (() => {
   const fail = b => { b.emit('fail', {}); return false; };
   const hpPct = bm => bm.mon.hp / G.Mon.maxHp(bm.mon);
   const W = b => b.weather && b.weather.w;
+  /** How many times a rolling move (Rollout) already hit in a row. */
+  const rolls = (u, id) => (u.vol.rampage && u.vol.rampage.move === id ? u.vol.rampage.n : 0);
 
   const S = {
     // ---------- two-turn moves ----------
@@ -73,8 +75,9 @@ G.SpecialMoves = (() => {
     'hidden-power': { power: (b, u) => hiddenPower(u.mon).pow, moveType: (b, u) => hiddenPower(u.mon).type },
     'facade':       { power: (b, u, t, M) => (['psn', 'tox', 'par', 'brn'].includes(u.mon.status) ? M.pow * 2 : M.pow) },
     'revenge':      { power: (b, u, t, M) => (u.lastHit && u.lastHit.from !== u.side ? M.pow * 2 : M.pow) },
-    'rollout':      { power: (b, u, t, M) => { u.vol.rollout = u.lastMoveHit === 'rollout' ? Math.min(4, (u.vol.rollout || 0) + 1) : 0; return M.pow * 2 ** u.vol.rollout; },
-                      after: (b, u) => { u.lastMoveHit = 'rollout'; }, onMiss: (b, u) => { u.lastMoveHit = null; } },
+    // Rollout rolls on for five turns (a miss stops it), doubling each time; twice as hard after Defense Curl.
+    'rollout':      { roll: true, power: (b, u, t, M) => M.pow * 2 ** rolls(u, 'rollout') * (u.vol.curl ? 2 : 1) },
+    'defense-curl': { after: (b, u) => { u.vol.curl = true; } },
     // Fury Cutter doubles with each hit in a row, up to 160 (40, 80, 160: Generation 6 on).
     'fury-cutter':  { power: (b, u, t, M) => { u.vol.cutter = u.lastMoveHit === 'fury-cutter' ? Math.min(3, (u.vol.cutter || 0) + 1) : 0; return Math.min(160, M.pow * 2 ** u.vol.cutter); },
                       after: (b, u) => { u.lastMoveHit = 'fury-cutter'; }, onMiss: (b, u) => { u.lastMoveHit = null; } },
@@ -130,6 +133,13 @@ G.SpecialMoves = (() => {
                         const t = u.mon.moves.map(m => G.MOVES[m.id].type).find(ty => !u.types.includes(ty) && ty !== 'unknown');
                         if (!t) return fail(b);
                         u.types = [t]; b.emit('typeChange', Object.assign({ to: t }, me(u))); return {}; } },
+    // Encore: for three turns the target can only repeat the move it used last.
+    'encore':       { use: (b, u, t) => {
+                        const m = t.lastMove;
+                        if (!m || t.vol.encore || ['encore', 'mimic', 'transform', 'mirror-move', 'struggle'].includes(m)
+                            || !t.mon.moves.some(x => x.id === m && x.pp > 0)) return fail(b);
+                        t.vol.encore = { move: m, turns: 3 };
+                        b.emit('encore', Object.assign({ move: m }, me(t))); return {}; } },
     'disable':      { use: (b, u, t) => {
                         const m = t.lastMove;
                         if (!m || t.vol.disable || m === 'struggle' || !t.mon.moves.some(x => x.id === m && x.pp > 0)) return fail(b);
@@ -263,7 +273,7 @@ G.SpecialMoves = (() => {
   // status moves that fail, damaging moves that only deal their damage.
   const FALLBACK = new Set([
     // status: no effect in a single battle without abilities / held items yet
-    'baton-pass', 'camouflage', 'conversion-2', 'encore', 'grudge', 'imprison', 'mimic', 'recycle', 'role-play',
+    'baton-pass', 'camouflage', 'conversion-2', 'grudge', 'imprison', 'mimic', 'recycle', 'role-play',
     'skill-swap', 'snatch', 'spikes', 'taunt', 'torment', 'transform', 'trick', 'mud-sport', 'water-sport',
     'sketch', 'wish',
     'aqua-ring', 'copycat', 'embargo', 'gastro-acid', 'guard-swap', 'heal-block', 'healing-wish', 'lucky-chant',

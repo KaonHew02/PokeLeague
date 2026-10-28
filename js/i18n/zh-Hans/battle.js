@@ -164,5 +164,7 @@ G.I18n.add({
   "{mon} is loafing around!": "{mon}在偷懒！",
   "{mon} turned away!": "{mon}把头扭了过去！",
   "{mon} pretended not to notice!": "{mon}装作没听见！",
-  "A bell chimed!": "铃声响起了！"
+  "A bell chimed!": "铃声响起了！",
+  "{mon} received an encore!": "{mon}受到了再来一次！",
+  "{mon}'s encore ended!": "{mon}的再来一次状态解除了！"
 }, "zh-Hans");

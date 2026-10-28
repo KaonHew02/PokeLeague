@@ -1,12 +1,12 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
-// water, fishing, trainers who see across water, and Johto's clock, obedience and Egg. Test maps are defined here; the drawing,
+// water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt and the Day Care. Test maps are defined here; the drawing,
 // the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { boot, plain, CORE, DATA, BATTLE } = require('./helpers.cjs');
 
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/player.js', 'js/world/field.js', 'js/script/script.js']);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/player.js', 'js/world/field.js', 'js/world/daycare.js', 'js/script/script.js']);
 
 function el() {
   return { classList: { add() {}, remove() {}, toggle() {} }, setAttribute() {}, addEventListener() {}, appendChild() {}, style: {}, offsetWidth: 0 };
@@ -323,4 +323,66 @@ test("Johto: the clock picks the wild Pokémon, the badges set who obeys, walkin
   assert.equal(hatched, 1, 'the Egg hatched once');
   step(W, 'right');
   assert.equal(hatched, 1);
+});
+
+test('Headbutt: a Pokémon that knows it shakes a tree, and sometimes a wild Pokémon falls out', async () => {
+  const { G, W } = world();
+  const F = G.Field;
+  G.Maps.def({ id: 't-head', region: 'johto', tileset: 'outdoor', palette: 'kanto',
+    rows: ['TTTTT', 'T.h.T', 'TTTTT'], spots: { start: [1, 1, 'right'] },
+    encounters: { walk: { rate: 1, mons: [[16, 3, 3, 100]] }, headbutt: { rate: 1, mons: [[163, 5, 5, 60], [204, 6, 6, 40]] } } });
+  assert.deepEqual(plain(G.Maps.validate('t-head')), []);
+  assert.equal(G.Maps.get('t-head').kind[1 * 5 + 2], 'headtree');
+  // A real area: Route 34 finds its trees' table in its walking area.
+  assert.ok(G.Maps.encounters({ encounters: { walk: '@johto-route-34-area' } }, 'headbutt').mons.length > 0);
+  const got = [];
+  W.onEncounter = async (sp, lvl, area, info) => { got.push([G.Maps.species(sp), info.method]); return 'run'; };
+  F.giveMon('rattata', 10, { moves: ['tackle'] });
+  W.load('t-head', 'start');
+  await pump(W, W.interact());
+  assert.equal(got.length, 0, 'no Headbutt, nothing happens');
+  F.party()[0].moves.push({ id: 'headbutt', pp: 15, ppUp: 0 });
+  for (let i = 0; i < 12; i++) await pump(W, W.interact());
+  assert.ok(got.length > 0 && got.length < 12, 'about half the time: ' + got.length);
+  assert.ok(got.every(([sp, m]) => (sp === 163 || sp === 204) && m === 'headbutt'));
+  // The tutor's list: the species that can learn Headbutt.
+  assert.ok(G.SPECIES[155].tu.includes('headbutt') && !G.SPECIES[129].tu);
+});
+
+test('the Day Care: up to two Pokémon grow by the step and learn their moves; taking one back costs money', async () => {
+  const { G, W } = world();
+  const F = G.Field, S = F.save, D = G.DayCare;
+  G.Maps.def({ id: 't-walk', region: 'johto', tileset: 'outdoor', palette: 'kanto',
+    rows: ['TTTTTTTTT', 'T.......T', 'TTTTTTTTT'], spots: { start: [1, 1, 'right'] } });
+  F.giveMon('cyndaquil', 5);
+  assert.ok(!D.canLeave(0), 'not the last Pokémon that can fight');
+  assert.equal(D.deposit(0), false);
+  F.giveMon('pidgey', 5);
+  F.giveMon('rattata', 3);
+  assert.ok(D.deposit(1) && D.deposit(1));
+  assert.ok(D.full() && !D.deposit(0), 'two at most');
+  assert.equal(F.party().map(m => m.sp).join(), '155');
+  const [pidgey, rattata] = D.list().map(e => e.mon);
+  // Walking: 1 Exp. point per step for each.
+  W.load('t-walk', 'start');
+  const e0 = pidgey.exp;
+  for (let i = 0; i < 6; i++) step(W, i % 2 ? 'left' : 'right');
+  assert.equal(pidgey.exp, e0 + 6);
+  // Levels and their moves (the oldest is forgotten when it knows four).
+  D.gain(pidgey, G.Stats.expAt(G.SPECIES[16].gr, 13) - pidgey.exp);
+  assert.equal(pidgey.lvl, 13);
+  assert.ok(G.Mon.knows(pidgey, 'quick-attack') || G.Mon.knows(pidgey, 'gust'), 'learned on the way');
+  assert.ok(pidgey.moves.length <= 4);
+  assert.equal(D.grown(0), 8);
+  assert.equal(D.price(0), 900);
+  S.player.money = 500;
+  assert.equal(D.withdraw(0), 'money');
+  S.player.money = 5000;
+  assert.equal(D.withdraw(0), pidgey);
+  assert.equal(S.player.money, 4100);
+  assert.equal(pidgey.hp, G.Mon.maxHp(pidgey), 'healed');
+  assert.equal(D.list().length, 1);
+  assert.equal(D.list()[0].mon, rattata);
+  while (F.party().length < 6) F.giveMon('rattata', 2);
+  assert.equal(D.withdraw(0), 'party-full');
 });

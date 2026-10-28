@@ -49,6 +49,9 @@
  * the level cap of the Johto badges may not obey (G.Field.obeyCap(), rules.obeyCap). Walking
  * raises friendship (one point every 128 steps), and var egg-steps counts down to script
  * egg.hatch (the Mystery Egg).
+ * Chapter 13: trees to Headbutt (`h`: a Pokémon that knows Headbutt may shake down a wild one from
+ * the area's 'headbutt' table, half the time), and every step raises the Day Care's Pokémon
+ * (G.DayCare, daycare.js).
  */
 G.Field = (() => {
   function fresh() {
@@ -571,9 +574,10 @@ G.World = (() => {
     return true;
   }
 
-  /** Every step: friendship (one point every 128 steps) and the Mystery Egg. -> a script began */
+  /** Every step: friendship (one point every 128 steps), the Day Care and the Mystery Egg. -> a script began */
   function walked() {
     const V = G.Field.save.vars;
+    if (G.DayCare) G.DayCare.step(1);
     V.walk = ((+V.walk || 0) + 1) % 128;
     if (!V.walk) for (const m of G.Field.party()) if (m.hp > 0) m.friendship = Math.min(255, (m.friendship || 0) + 1);
     if (V['egg-steps'] > 0 && --V['egg-steps'] === 0 && G.Script.get('egg.hatch')) {
@@ -803,6 +807,7 @@ G.World = (() => {
     if (sign && typeof sign === 'object' && !Array.isArray(sign)) return runScript(sign.script, { x: tx, y: ty });
     if (sign) return runScript([['say', sign]], {});
     if (k === 'cuttree' && !cut.has(M().key(tx, ty))) return runScript([['js', h => cutTree(h, tx, ty)]], {});
+    if (k === 'headtree') return runScript([['js', h => headbutt(h)]], {});
     if (k === 'rapids' && !isWater(tx, ty)) return runScript([['say', "The current is much too strong to Surf against!"]], {});
     if (isWater(tx, ty) && !occupant(tx, ty, me) && (!surfing || bestRod())) return runScript([['js', h => atWater(h, me.dir)]], {});
     if (k === 'keydoor' && !keyOpen(tx, ty)) return runScript([['js', h => cardKey(h, tx, ty)]], {});
@@ -849,6 +854,21 @@ G.World = (() => {
     await h.say(G.T('{mon} used Cut!'), { vars: { mon: G.Mon.name(mon) } });
     sfx('cut', 'hit');
     cut.add(M().key(x, y));
+  }
+
+  /** A tree to Headbutt (Johto): a Pokémon that knows it may shake down a wild one (the area's 'headbutt' table). */
+  async function headbutt(h) {
+    const mon = G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'headbutt'));
+    if (!mon) { await h.say(G.T('A big tree. Something might fall out if a Pokémon gave it a good Headbutt.')); return; }
+    if (await h.choice(G.T('A big tree. Would you like to use Headbutt?'), {}) !== 0) return;
+    await h.say(G.T('{mon} did a Headbutt!'), { vars: { mon: G.Mon.name(mon) } });
+    sfx('strength', 'hit');
+    const table = M().encounters(map, 'headbutt');
+    const total = table && table.mons ? table.mons.reduce((n, r) => n + r[3], 0) : 0;
+    if (!total || !(rng.next() < 0.5)) { await h.say(G.T('Nothing happened...')); return; }
+    let r = rng.next() * total, pick = table.mons[table.mons.length - 1];
+    for (const row of table.mons) { if ((r -= row[3]) < 0) { pick = row; break; } }
+    await wildBattle({ sp: M().species(pick[0]), lvl: rng.int(pick[1], pick[2]), method: 'headbutt', map: map.id, area: null });
   }
 
   /** A locked door: the Card Key opens it for good. */
@@ -1246,6 +1266,7 @@ G.World = (() => {
     if (itemAt(tx, ty)) return { item: true };
     if (map.signs[M().key(tx, ty)] || M().kindAt(map, tx, ty) === 'pc') return { sign: true };
     if (M().kindAt(map, tx, ty) === 'cuttree' && !cut.has(M().key(tx, ty))) return { sign: true };
+    if (M().kindAt(map, tx, ty) === 'headtree') return { sign: true };
     if (rockAt(tx, ty)) return { sign: true };
     return null;
   }

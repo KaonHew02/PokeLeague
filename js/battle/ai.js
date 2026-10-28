@@ -10,7 +10,8 @@
  */
 G.BattleAI = (() => {
   function usable(bm) {
-    return bm.mon.moves.map((m, slot) => ({ m, slot })).filter(({ m }) => m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id));
+    return bm.mon.moves.map((m, slot) => ({ m, slot }))
+      .filter(({ m }) => m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id));
   }
 
   function choose(b, side) {
@@ -68,6 +69,10 @@ G.BattleAI = (() => {
       }
       if (ail === 'confusion') return target.vol.confusion ? 0 : 22;
       if (ail === 'leech-seed') return target.vol.seeded || target.types.includes('grass') ? 0 : 26;
+      if (ail === 'infatuation') {
+        const g = user.mon.gender, h = target.mon.gender;
+        return !g || !h || g === h || target.vol.attract ? 0 : 24;
+      }
       return 8;
     }
     if (k === 'net-good-stats') {
@@ -78,6 +83,11 @@ G.BattleAI = (() => {
     }
     if (k === 'heal') return user.mon.hp / G.Mon.maxHp(user.mon) < 0.5 ? 45 : 0;
     if (k === 'swagger') return target.vol.confusion ? 0 : 12;
+    // Encore pays off when the foe just used a move that does no damage.
+    if (id === 'encore') {
+      const last = target.lastMove && G.MOVES[target.lastMove];
+      return !last || target.vol.encore ? 0 : last.cat === 'status' ? 30 : 4;
+    }
     if (k === 'field-effect') return b.sideOf(user).field[{ 'light-screen': 'lightScreen' }[id] || id] ? 0 : 15;
     return S.use ? 6 : 0;
   }

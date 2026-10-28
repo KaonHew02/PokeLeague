@@ -7,7 +7,7 @@
  * was locked till then). Bugsy's Gym: three Bug Catchers, then Bugsy (Metapod, Kakuna, Scyther):
  * badge 10, the Hive Badge (Pokémon up to Lv. 30 obey), TM17 Protect (flag bugsy-beaten). Leaving
  * the Gym, the thief is waiting (Gastly, Zubat and his evolved starter; losing is allowed), and
- * the chapter ends. The way west to Ilex Forest is still closed.
+ * the chapter ends. West of town lies Ilex Forest (chapter 13, ilex.js).
  */
 G.Maps.def({
   id: 'azalea', loc: 'azalea-town', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -24,8 +24,8 @@ G.Maps.def({
     'TTT.HHHH....GGGGGG.HHHH.CCCCC.MMMM.T',
     'TTT.HDHH....GGDGGG.HDHH.CCDCC.MDMM.T',
     'TTTS.,.....S..,.....,.....,....,...T',
-    'TTT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
-    'TTT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
     'TTT......,..................S......T',
     'TTT......,..S......................T',
     'TTT.....#O##...ff..................T',
@@ -38,7 +38,7 @@ G.Maps.def({
     'TTT................................T',
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
-  connect: { east: { map: 'route33', offset: 4 } },
+  connect: { east: { map: 'route33', offset: 4 }, west: { map: 'ilex-forest', offset: -13 } },
   warps: [
     { x: 5, y: 9, to: 'kurt-house', spot: 'door' },
     { x: 14, y: 9, to: 'azalea-gym', spot: 'door', if: 'well-cleared', locked: 'azalea.gym-closed' },
@@ -111,10 +111,14 @@ G.Maps.def({
   warps: [{ x: 4, y: 7, to: 'azalea', spot: 'kiln-door' }],
   spots: { door: [4, 7, 'up'] },
   npcs: [
-    { id: 'maker', who: 'gentleman', x: 7, y: 4, dir: 'left',
-      say: 'I make charcoal in the kiln out back. My apprentice went to Ilex Forest for wood, but the path is blocked by fallen trees.' },
-    { id: 'apprentice', who: 'youngster', x: 2, y: 5, dir: 'right',
-      say: 'Farfetch\'d live in Ilex Forest. They carry leeks around like swords. Funny, right?' }
+    { id: 'maker', who: 'gentleman', x: 7, y: 4, dir: 'left', if: '!charcoal-gift',
+      say: 'I make charcoal in the kiln out back. My apprentice took our Farfetch\'d to Ilex Forest to cut wood. He should be back by now...' },
+    { id: 'maker2', who: 'gentleman', x: 7, y: 4, dir: 'left', if: 'charcoal-gift',
+      say: 'Our Farfetch\'d cuts the wood for the kiln with its leek. Without it, there would be no charcoal. Thank you again!' },
+    { id: 'apprentice', who: 'youngster', x: 2, y: 5, dir: 'right', if: 'charcoal-gift',
+      say: 'I will never let go of Farfetch\'d again. Well... I will try.' },
+    { id: 'farfetchd', who: 'farfetchd', mon: 'farfetchd', x: 3, y: 6, dir: 'up', fixed: true, if: 'charcoal-gift',
+      say: 'Farfetch\'d waves its leek proudly.' }
   ]
 });
 

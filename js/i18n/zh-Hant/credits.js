@@ -40,5 +40,7 @@ G.I18n.add({
   "{player} beat Falkner and earned the Zephyr Badge: the first badge of Johto.": "{player}打敗了阿速，得到了飛翼徽章：城都的第一枚徽章。",
   "Thank you for playing! The rest of Johto opens in a future update.": "感謝遊玩！城都的其餘部分將在之後的更新中開放。",
   "Chapter 12 complete!": "第12章完成！",
-  "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player}把火箭隊趕出了呆呆獸之井，並從阿筆那裡得到了昆蟲徽章。"
+  "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player}把火箭隊趕出了呆呆獸之井，並從阿筆那裡得到了昆蟲徽章。",
+  "Chapter 13 complete!": "第13章完成！",
+  "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player}在櫟樹林找回了走失的大蔥鴨，又在一番眼淚之後，從小茜那裡得到了常規徽章。"
 }, "zh-Hant");

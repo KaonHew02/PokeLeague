@@ -53,7 +53,7 @@ G.Battle = (() => {
     options() {
       const bm = this.player.bm;
       const moves = bm.mon.moves.map((m, slot) => ({ slot, id: m.id, pp: m.pp, max: G.Mon.ppMax(m.id, m.ppUp),
-        usable: m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) }));
+        usable: m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id) }));
       const trapped = this.trapped(bm);
       return {
         moves, struggle: !moves.some(m => m.usable),
@@ -327,7 +327,9 @@ G.Battle = (() => {
       // An interrupted move ends its charge, its time in the sky / underground and its rampage.
       const stop = () => { bm.vol.charging = null; bm.vol.invuln = null; bm.vol.rampage = null; };
       if (bm.vol.recharge) { bm.vol.recharge = false; return say('recharge'); }
-      const id = a.id || bm.mon.moves[a.slot].id;
+      let id = a.id || bm.mon.moves[a.slot].id;
+      // Encored after choosing this turn: it repeats the encored move instead.
+      if (bm.vol.encore && id !== bm.vol.encore.move && id !== 'struggle' && !a.locked) id = bm.vol.encore.move;
       const sp = G.SpecialMoves[id] || {};
       const mon = bm.mon;
       if (mon.status === 'slp') {
@@ -484,6 +486,10 @@ G.Battle = (() => {
           if (bm.vol.perish <= 0) { bm.mon.hp = 0; this.emit('damage', { side: bm.side, uid, amt: 0, hp: 0, max, why: 'perish' }); }
         }
         if (bm.vol.disable && --bm.vol.disable.turns <= 0) { bm.vol.disable = null; this.emit('disableEnd', { side: bm.side, uid }); }
+        if (bm.vol.encore && (--bm.vol.encore.turns <= 0 || !bm.mon.moves.some(m => m.id === bm.vol.encore.move && m.pp > 0))) {
+          bm.vol.encore = null;
+          this.emit('encoreEnd', { side: bm.side, uid });
+        }
         bm.turns++;
       }
       // Reflect, Light Screen, Mist, Safeguard

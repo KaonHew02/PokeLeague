@@ -72,6 +72,15 @@ G.BattleFx = (() => {
     if (S.after && res !== false) S.after(b, user, target, M, res || {});
     if (S.recharge && res && res.total > 0) user.vol.recharge = true;
     if (S.rampage) rampage(b, user, id);
+    if (S.roll && res !== false) roll(b, user, id);
+  }
+
+  /** Rollout: locked in for five hits; `n` counts the hits so far. */
+  function roll(b, user, id) {
+    const r = user.vol.rampage;
+    if (!r || r.move !== id) user.vol.rampage = { move: id, turns: 4, n: 1, roll: true };
+    else if (--r.turns <= 0) user.vol.rampage = null;
+    else r.n++;
   }
 
   function rampage(b, user, id) {
@@ -81,7 +90,7 @@ G.BattleFx = (() => {
       b.confuse(user, { why: 'fatigue', silent: false });
     }
   }
-  function endRampage(b, user, S) { if (S.rampage) user.vol.rampage = null; user.vol.charging = null; user.vol.invuln = null; return false; }
+  function endRampage(b, user, S) { if (S.rampage || S.roll) user.vol.rampage = null; user.vol.charging = null; user.vol.invuln = null; return false; }
 
   function accuracy(b, user, target, M, S) {
     if (target.vol.invuln && !(S.hitsInvuln && S.hitsInvuln.includes(target.vol.invuln)) && !user.vol.lockOn) return false;

@@ -1,0 +1,28 @@
+/* French — johto-ilex: Ilex Forest (js/content/johto/ilex.js). */
+G.I18n.add({
+  "I teach Headbutt. Knock it into a tree, and sleeping Pokémon come tumbling down!": "J'enseigne Coup d’Boule. Cogne un arbre, et les Pokémon qui y dorment tombent en roulant !",
+  "Shall I teach Headbutt to one of your Pokémon?": "Veux-tu que j'apprenne Coup d’Boule à l'un de tes Pokémon ?",
+  "Teach which Pokémon?": "Quel Pokémon ?",
+  "That Pokémon cannot learn it. Sorry!": "Ce Pokémon ne peut pas l'apprendre. Désolé !",
+  "Now try it on a tree. Look for the ones with lighter leaves.": "Maintenant, essaie sur un arbre. Cherche ceux aux feuilles plus claires.",
+  "Oh no, oh no... I was cutting wood with our Farfetch'd, and it ran off into the forest!": "Oh non, oh non... Je coupais du bois avec notre Canarticho, et il s'est enfui dans la forêt !",
+  "My master will be so angry. If you see a Farfetch'd, could you chase it back this way?": "Mon maître va être furieux. Si tu vois un Canarticho, tu pourrais le renvoyer par ici ?",
+  "Kwaa! Farfetch'd hopped away into the trees!": "Couaa ! Canarticho s'est éloigné en sautillant entre les arbres !",
+  "Kwaa! Farfetch'd ran off... back toward the forest entrance!": "Couaa ! Canarticho s'est enfui... vers l'entrée de la forêt !",
+  "So this is where my apprentice ran off to... and our Farfetch'd is back, too. You found it for him?": "Voilà donc où s'était sauvé mon apprenti... et notre Canarticho est revenu aussi. C'est toi qui l'as retrouvé ?",
+  "Thank you, young Trainer. Please, take this. It is the heat of my kiln, packed into a disc.": "Merci, jeune Dresseur. Prends ceci, je t'en prie. C'est la chaleur de mon four, enfermée dans un disque.",
+  "That is TM35, Flamethrower. Fire moves are tough on bugs and grass, and a strong fire never goes out!": "C'est la CT35, Lance-Flammes. Les capacités Feu sont redoutables contre les Insecte et les Plante, et un bon feu ne s'éteint jamais !",
+  "Come on, you two. Back to the kiln!": "Allez, vous deux. On rentre au four !",
+  "A small wooden shrine. It honours the guardian of the forest, said to travel through time.": "Un petit autel en bois. Il honore le gardien de la forêt, qui voyagerait à travers le temps.",
+  "Someone has left fresh berries in front of it.": "Quelqu'un a déposé des baies fraîches devant.",
+  "Farfetch'd, you are back! I am never letting go of you again. Thank you so much!": "Canarticho, tu es revenu ! Je ne te lâche plus jamais. Merci mille fois !",
+  "Farfetch'd is hugging its leek. It looks tired from all that running.": "Canarticho serre son poireau contre lui. Il a l'air épuisé d'avoir tant couru.",
+  "Some Pokémon sleep up in the trees. Give a tree a good knock, and one might fall right on your head!": "Certains Pokémon dorment dans les arbres. Donne un bon coup dans un arbre, et l'un d'eux pourrait te tomber sur la tête !",
+  "Wayne": "Wayne",
+  "This forest is the best place in Johto for bugs. Let me show you mine!": "Cette forêt est le meilleur endroit de Johto pour les insectes. Je vais te montrer les miens !",
+  "My bugs crawled away...": "Mes insectes ont filé en rampant...",
+  "Paras like the damp ground by the pond. You can find them there at night.": "Les Paras aiment le sol humide près de l'étang. On peut les y trouver la nuit.",
+  "Apprentice": "Apprenti",
+  "Charcoal Maker": "Charbonnier",
+  "Ilex Forest. The trees grow so close together that it is dim here even at noon.": "Bois aux Chênes. Les arbres poussent si serrés qu'il fait sombre même à midi."
+}, "fr");

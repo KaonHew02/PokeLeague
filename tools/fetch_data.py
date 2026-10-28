@@ -103,6 +103,7 @@ REGIONS['johto'] = dict(REGIONS['kanto'], **{
     'items': REGIONS['kanto']['items'] + [
         'mystery-egg', 'sun-stone', 'metal-coat', 'kings-rock', 'dragon-scale', 'up-grade',
         'sport-ball', 'squirt-bottle',
+        'secret-potion', 'oran-berry', 'sitrus-berry', 'pecha-berry', 'cheri-berry', 'chesto-berry', 'rawst-berry', 'aspear-berry',
     ],
     'regions': [('kanto', ['firered', 'leafgreen', 'red', 'blue', 'yellow']),
                 ('johto', ['heartgold', 'soulsilver', 'crystal', 'gold', 'silver'])],
@@ -155,6 +156,8 @@ LOC_NAMES = {
     'national-park':     ('Parque Nacional',    'Parco Nazionale',     '自然公园',   '自然公園'),
     'burned-tower':      ('Torre Quemada',      'Torre Bruciata',      '烧焦塔',     '燒焦塔'),
     'bell-tower':        ('Torre Campana',      'Torre Campana',       '铃铛塔',     '鈴鐺塔'),
+    'johto-lighthouse':  ('Faro Olivo',         'Faro di Olivinopoli', '浅葱灯塔',   '淺蔥燈塔'),
+    'whirl-islands':     ('Islas Remolino',     'Isole Vorticose',     '漩涡列岛',   '漩渦列島'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}
@@ -172,7 +175,7 @@ def loc_extra(slug):
     if m:
         n = m.group(1)
         return (f'Ruta {n}', f'Percorso {n}', f'{n}号道路', f'{n}號道路')
-    m = re.fullmatch(r'kanto-sea-route-(\d+)', slug)
+    m = re.fullmatch(r'(?:kanto|johto)-sea-route-(\d+)', slug)
     if m:
         n = m.group(1)
         return (f'Ruta {n}', f'Percorso {n}', f'{n}号水路', f'{n}號水路')

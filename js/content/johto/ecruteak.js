@@ -33,8 +33,8 @@ G.Maps.def({
     'TT..ff.,.....CCDCC..,,..MDMM......,...TT',
     'TT.....,.......,....,,...,,.......,...TT',
     'TT.....,.......,....,,...,,.......,...TT',
-    'TT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,TT',
-    'TT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,TT',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,TT',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,TT',
     'TT..................,,................TT',
     'TT..................,,.........TTTTTTTTT',
     'TT...BBBBBB..HHHH...,,....HHHH.TTTTTTTTT',
@@ -48,7 +48,7 @@ G.Maps.def({
     'TTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTTTT',
     'TTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTTTT'
   ],
-  connect: { south: { map: 'route37', offset: 10 } },
+  connect: { south: { map: 'route37', offset: 10 }, west: { map: 'route38', offset: 10 } },
   warps: [
     { x: 7, y: 8, to: 'burned-tower-1f', spot: 'door' },
     { x: 26, y: 7, to: 'ecruteak-gym', spot: 'door', if: 'beasts-awake', locked: 'ecruteak.gym-closed' },

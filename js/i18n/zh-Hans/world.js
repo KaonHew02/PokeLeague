@@ -63,5 +63,7 @@ G.I18n.add({
   "A big tree. Would you like to use Headbutt?": "一棵大树。要使用头锤吗？",
   "{mon} did a Headbutt!": "{mon}使出了头锤！",
   "Nothing happened...": "什么也没发生……",
-  "{ball} ×{n} · Steps {s}": "{ball} ×{n} · 步数 {s}"
+  "{ball} ×{n} · Steps {s}": "{ball} ×{n} · 步数 {s}",
+  "A berry tree. There are no ripe berries left today. Come back tomorrow!": "一棵树果树。今天已经没有成熟的树果了。明天再来吧！",
+  "A berry tree! {player} picked {item} ×{n}.": "是树果树！{player}摘到了{item}×{n}。"
 }, "zh-Hans");

@@ -60,7 +60,9 @@ G.Maps = (() => {
     // Chapter 13: a tree that Headbutt can shake (Johto); its wild Pokémon are the area's 'headbutt' table.
     headtree: { solid: 1 },
     // Chapter 14: a floor that is not there (Morty's Gym): you fall back to the map's `fall` spot.
-    abyss: { fall: 1 }, rubble: { solid: 1 }
+    abyss: { fall: 1 }, rubble: { solid: 1 },
+    // Chapter 15: a berry tree (a berry or more once a day; map `berries: [[x, y, item]]`, else Oran).
+    berrytree: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -75,7 +77,8 @@ G.Maps = (() => {
       o: 'pit', r: 'rapids',                         // a hole in a cave floor, fast water (the Seafoam Islands)
       x: 'plate', b: 'bars',                         // a floor switch, a rock barrier (Victory Road)
       I: 'stamp',                                    // the Pokémon League
-      h: 'headtree'                                  // a tree to Headbutt (Johto)
+      h: 'headtree',                                 // a tree to Headbutt (Johto)
+      y: 'berrytree'                                 // a berry tree (Johto)
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',

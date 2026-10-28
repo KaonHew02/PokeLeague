@@ -44,5 +44,7 @@ G.I18n.add({
   "Chapter 13 complete!": "¡Capítulo 13 completado!",
   "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} encontró al Farfetch’d perdido en el Encinar y, tras unas cuantas lágrimas, consiguió la Medalla Planicie de Blanca.",
   "Chapter 14 complete!": "¡Capítulo 14 completado!",
-  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player} despertó a los tres Pokémon legendarios bajo la Torre Quemada y consiguió la Medalla Niebla de Morty."
+  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player} despertó a los tres Pokémon legendarios bajo la Torre Quemada y consiguió la Medalla Niebla de Morty.",
+  "Chapter 15 complete!": "¡Capítulo 15 completado!",
+  "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player} cruzó el mar en busca de la Poción Secreta y consiguió la Medalla Tormenta de Aníbal y la Medalla Mineral de Yasmina."
 }, "es");

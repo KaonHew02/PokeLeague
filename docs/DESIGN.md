@@ -1090,12 +1090,39 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   levels are two below the games. The story test plays the contest (a Scyther), the Sudowoodo,
   the Burned Tower, the Kimono Girls and Morty.
 
-### After chapter 14
+- **Chapter 15** ✅, Johto part 5: Ecruteak's road west is Route 38 (four Trainers) and Route
+  39 with Moomoo Farm (three Trainers): the Miltank in the barn is sick; five healing Berries
+  (Oran or Sitrus, var `miltank-fed`) make it well (flag `miltank-healthy`), and the farmer gives
+  TM44 Rest (flag `got-tm44`) and sells Moomoo Milk. Olivine City: a harbour (the S.S. Aqua is
+  in the dock), a Center, a Mart, the café, two houses, the Lighthouse (three floors, four
+  Trainers) and Jasmine's Gym, locked: Jasmine stays at the top with Amphy, her sick Ampharos
+  (flag `amphy-sick`). Sea Routes 40 and 41 (Surf; six Swimmers; the Whirl Islands, closed by
+  whirlpools) lead to Cianwood City: Suicune on the beach runs off over the sea and Eusine
+  follows (flag `cianwood-suicune`); the pharmacy gives the Secret Potion (once Jasmine asked);
+  Chuck's wife gives TM08 Bulk Up (flag `got-tm08`); Chuck's Gym (rocks, three boulders to push
+  with Strength, four Black Belts): Chuck (Primeape 27, Poliwrath 29), badge 13, the Storm Badge
+  (obedience up to Lv. 50), TM01 Focus Punch (flag `chuck-beaten`). Back at the Lighthouse the
+  potion cures Amphy (flag `amphy-cured`) and Jasmine returns to her Gym (no Trainers): Magnemite
+  28 ×2, Steelix 33; badge 14, the Mineral Badge (obedience up to Lv. 60), TM23 Iron Tail (flag
+  `jasmine-beaten`), `ending(15)`. Files: `js/content/johto/route38.js`, `olivine.js`,
+  `cianwood.js` (translations `johto-route38`, `johto-olivine`, `johto-cianwood`).
+- **Engine for chapter 15:** berry trees (outdoor tile `y`, kind `berrytree`, drawn as a bush with
+  red and blue berries): one to three berries once a day (var `berry:<map>:<x>,<y>` = the date),
+  the kind from the map's `berries: [[x, y, item]]` (else Oran). Berries are medicine for now
+  (Oran +10 HP, Sitrus +30, Pecha, Cheri, Chesto, Rawst and Aspear cure; no held items yet).
+  Items Secret Potion, the seven berries; Sea Routes' names (`johto-sea-route-N`), the
+  Lighthouse and the Whirl Islands in `LOC_NAMES`; people jasmine, chuck; Town Map points.
+- **Balance** (a Pokémon's moves as a player would have them: TM35 Flamethrower, HM03 Surf,
+  TM28 Dig): Chuck's Poliwrath (Hypnosis, Mind Reader, Dynamic Punch, Surf) stops a lone
+  Typhlosion at Lv. 32 (0%), Meganium 32 ~75%; with an Espeon or a Pidgeotto 95-100%. Jasmine:
+  Typhlosion 32 100%, Feraligatr 32 ~70%, a lone Meganium never wins (Grass against Steel),
+  with a Flareon ~50%. Both two levels below the games.
 
-1. **Johto, the rest:** Route 38 and 39 (Moomoo Farm), Olivine City and the sick Ampharos at the
-   Lighthouse, Cianwood City and Chuck, Jasmine, Mahogany Town, the Lake of Rage and the Rocket
-   hideout, Pryce, the Radio Tower, Blackthorn City and Clair, the Johto League; the roaming
-   beasts, the Ruins of Alph, Kurt's Apricorn Balls, berries, breeding at the Day Care (Eggs) and
-   held items along the way.
+### After chapter 15
+
+1. **Johto, the rest:** Route 42 and Mt. Mortar, Mahogany Town, the Lake of Rage (the red
+   Gyarados) and the Rocket hideout, Pryce, the Radio Tower, Blackthorn City and Clair, the
+   Johto League; the roaming beasts, the Whirl Islands, the Ruins of Alph, Kurt's Apricorn Balls,
+   breeding at the Day Care (Eggs) and held items (berries held in battle) along the way.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

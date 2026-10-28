@@ -23,7 +23,7 @@ G.People = (() => {
                  'giovanni', 'fuji', 'scientist', 'fisherman', 'rocker', 'birdkeeper', 'juggler', 'tamer', 'koga', 'warden',
                  'blackbelt', 'psychic', 'sabrina', 'swimmerf', 'burglar', 'blaine', 'cueball',
                  'lorelei', 'bruno', 'agatha', 'lance', 'elm', 'silver', 'sage', 'falkner', 'kurt', 'bugsy',
-                 'whitney', 'pokefan', 'granny', 'morty', 'kimono', 'eusine'];
+                 'whitney', 'pokefan', 'granny', 'morty', 'kimono', 'eusine', 'jasmine', 'chuck'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -194,6 +194,8 @@ G.People = (() => {
     morty: { head: 'short', body: 'coat', legs: 'pants', h: '#e8d070', H: '#b89e48', j: '#3a3a52', J: '#26263a', c: '#7a4a9a', C: '#5a3478', p: '#3a3a52', P: '#26263a', k: '#1c1c28' },
     kimono: { head: 'long', body: 'dress', legs: 'bare', h: '#2a2028', H: '#160e14', c: '#e05a7a', C: '#b03c5a', j: '#e05a7a', J: '#b03c5a', k: '#5a2a3a' },
     eusine: { head: 'short', body: 'coat', legs: 'pants', h: '#5a7ab8', H: '#3e5a90', j: '#f0f0f4', J: '#c4c4d0', c: '#4a6ab0', C: '#344e88', p: '#3a4a7a', P: '#26345a', k: '#1c2238' },
+    jasmine: { head: 'long', body: 'dress', legs: 'bare', h: '#8a5a3a', H: '#5e3c24', c: '#f4f4f4', C: '#c8c8d0', j: '#f4f4f4', J: '#c8c8d0', k: '#5a7cd0' },
+    chuck: { head: 'bald', body: 'tee', legs: 'pants', h: '#3a3030', H: '#241c1c', c: '#e8c098', C: '#c49870', p: '#3a3a3a', P: '#262626', k: '#2a2a2a' },
     granny: { head: 'long', body: 'dress', legs: 'bare', h: '#d8d8e0', H: '#a8a8b4', c: '#9a6ab4', C: '#74508a', j: '#9a6ab4', J: '#74508a', k: '#5a4a3a' },
     cueball: { head: 'bald', body: 'jacket', legs: 'pants', h: '#e8b888', H: '#c49064', j: '#2a2a30', J: '#16161c', c: '#e8e8e8', C: '#b8b8c0', p: '#3a4a7a', P: '#283458', k: '#16161c' },
     warden: { head: 'bald', body: 'coat', legs: 'pants', h: '#d8d8dc', H: '#a8a8b0', j: '#a89a6a', J: '#80744c', c: '#e8e0c8', C: '#c0b8a0', p: '#6a5c44', P: '#4c4230', k: '#3a2e22' },

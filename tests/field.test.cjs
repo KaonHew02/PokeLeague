@@ -1,6 +1,6 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
 // water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt, the Day Care,
-// the Bug-Catching Contest and Morty's floor of darkness. Test maps are defined here; the drawing,
+// the Bug-Catching Contest, Morty's floor of darkness and berry trees. Test maps are defined here; the drawing,
 // the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -455,4 +455,28 @@ test("Morty's Gym: off the path is darkness, and you land back at the door", asy
   assert.equal(step(W, 'right'), 'moved', 'the darkness is not a wall');
   await pump(W, (async () => { for (let i = 0; i < 30 && W.player.x !== 2; i++) await tick(); })());
   assert.deepEqual([W.player.x, W.player.y], [2, 4], 'back at the door');
+});
+
+test('berry trees: one to three berries, once a day', async () => {
+  const { G, W } = world();
+  const F = G.Field;
+  G.Maps.def({ id: 't-berry', region: 'johto', tileset: 'outdoor', palette: 'kanto',
+    rows: ['TTTTT', 'T.yyT', 'TTTTT'], spots: { start: [1, 1, 'right'] }, berries: [[3, 1, 'pecha-berry']] });
+  assert.deepEqual(plain(G.Maps.validate('t-berry')), []);
+  assert.equal(G.Maps.get('t-berry').kind[1 * 5 + 2], 'berrytree');
+  F.giveMon('quilava', 25);
+  let day = '2026-01-01';
+  G.Clock.day = () => day;
+  W.load('t-berry', 'start');
+  await pump(W, W.interact());
+  const n = F.count('oran-berry');
+  assert.ok(n >= 1 && n <= 3, 'picked ' + n);
+  await pump(W, W.interact());
+  assert.equal(F.count('oran-berry'), n, 'nothing more today');
+  day = '2026-01-02';
+  await pump(W, W.interact());
+  assert.ok(F.count('oran-berry') > n, 'the next day, more');
+  // Berries heal like medicine (no held items yet).
+  assert.equal(G.ITEM_FX['oran-berry'].heal, 10);
+  assert.deepEqual(plain(G.ITEM_FX['pecha-berry'].cure), ['psn', 'tox']);
 });

@@ -44,5 +44,7 @@ G.I18n.add({
   "Chapter 13 complete!": "Chapitre 13 terminé !",
   "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player} a retrouvé le Canarticho perdu au Bois aux Chênes et, après quelques larmes, a obtenu le Badge Plaine de Blanche.",
   "Chapter 14 complete!": "Chapitre 14 terminé !",
-  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player} a réveillé les trois Pokémon légendaires sous la Tour Cendrée et a obtenu le Badge Brume de Mortimer."
+  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player} a réveillé les trois Pokémon légendaires sous la Tour Cendrée et a obtenu le Badge Brume de Mortimer.",
+  "Chapter 15 complete!": "Chapitre 15 terminé !",
+  "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player} a traversé la mer pour la Potion Secrète, et a obtenu le Badge Choc de Chuck et le Badge Minéral de Jasmine."
 }, "fr");

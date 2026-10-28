@@ -37,7 +37,7 @@ function bestMove(G, b) {
   let best = usable[0].slot, score = -1;
   for (const m of usable) {
     const M = G.MOVES[m.id], sm = G.SpecialMoves[m.id];
-    const pow = sm && typeof sm.power === 'function' ? sm.power(b, b.player.bm, b.foe.bm) || 0 : M.pow || 0;   // Low Kick: by weight
+    const pow = sm && typeof sm.power === 'function' ? sm.power(b, b.player.bm, b.foe.bm, M) || 0 : M.pow || 0;   // Low Kick: by weight
     const s = pow * G.Types.eff(M.type, G.Mon.types(foe)) * (G.Mon.types(me).includes(M.type) ? 1.5 : 1) * ((M.acc || 100) / 100);
     if (s > score) { score = s; best = m.slot; }
   }
@@ -728,6 +728,40 @@ test('balance: Morty in Ecruteak (chapter 14), win rates of typical teams are pr
   assert.ok(table['bayleef 28 + eevee 24 + pidgeotto 26'] >= 0.5, 'Bayleef, Eevee and Pidgeotto');
   assert.ok(table['croconaw 28 + umbreon 24 + flaaffy 24'] >= 0.6, 'Croconaw, Umbreon and Flaaffy');
   assert.ok(table['bayleef 28 + espeon 24'] >= 0.5, 'Bayleef and Espeon');
+});
+
+test('balance: Chuck and Jasmine (chapter 15), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  // Moves a player would have by now (TM35 Flamethrower from Ilex Forest, HM03 Surf, TM28 Dig).
+  const TY = ['flamethrower', 'flame-wheel', 'swift', 'quick-attack'], FE = ['surf', 'crunch', 'ice-fang', 'agility'];
+  const ME = ['razor-leaf', 'body-slam', 'poison-powder', 'reflect'], GR = ['dig', 'rock-throw', 'defense-curl', 'rollout'];
+  const chuck = leaderRate(G, 'cianwood-gym', 'chuck'), jasmine = leaderRate(G, 'olivine-gym', 'jasmine');
+  const c = {
+    'typhlosion 32': chuck([[157, 32, TY]]),
+    'feraligatr 32': chuck([[160, 32, FE]]),
+    'meganium 32': chuck([[154, 32, ME]]),
+    'typhlosion 32 + espeon 28': chuck([[157, 32, TY], [196, 28]]),
+    'feraligatr 32 + umbreon 28': chuck([[160, 32, FE], [197, 28]]),
+    'meganium 32 + pidgeotto 30': chuck([[154, 32, ME], [17, 30]])
+  };
+  const j = {
+    'typhlosion 32': jasmine([[157, 32, TY]]),
+    'feraligatr 32': jasmine([[160, 32, FE]]),
+    'meganium 32': jasmine([[154, 32, ME]]),
+    'feraligatr 32 + graveler 28': jasmine([[160, 32, FE], [75, 28, GR]]),
+    'meganium 32 + flareon 28': jasmine([[154, 32, ME], [136, 28]])
+  };
+  console.log('[balance] vs Chuck:', JSON.stringify(c));
+  console.log('[balance] vs Jasmine:', JSON.stringify(j));
+  // Chuck's Poliwrath (Hypnosis, Surf, Mind Reader and Dynamic Punch) stops a lone Typhlosion;
+  // Psychic and Flying types turn it around. Jasmine's Steel types shrug off Grass moves.
+  assert.ok(c['meganium 32'] >= 0.5, 'Meganium vs Chuck');
+  assert.ok(c['typhlosion 32 + espeon 28'] >= 0.8, 'Typhlosion and Espeon vs Chuck');
+  assert.ok(c['meganium 32 + pidgeotto 30'] >= 0.8, 'Meganium and Pidgeotto vs Chuck');
+  assert.ok(c['feraligatr 32 + umbreon 28'] >= 0.3, 'Feraligatr and Umbreon vs Chuck');
+  assert.ok(j['typhlosion 32'] >= 0.8, 'Typhlosion vs Jasmine');
+  assert.ok(j['feraligatr 32'] >= 0.5, 'Feraligatr vs Jasmine');
+  assert.ok(j['meganium 32 + flareon 28'] >= 0.3, 'Meganium and Flareon vs Jasmine');
 });
 
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
@@ -1520,6 +1554,61 @@ async function chapter14(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 15 after chapter 14: Routes 38 and 39, Moomoo Farm, Olivine, the sea, Cianwood and Chuck, Jasmine. */
+async function chapter15(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // Ecruteak's road west, Route 39 south to Olivine, the sea west to Cianwood.
+  assert.equal(G.Maps.get('ecruteak').def.connect.west.map, 'route38');
+  assert.equal(G.Maps.get('route39').def.connect.south.map, 'olivine');
+  assert.equal(G.Maps.get('olivine').def.connect.west.map, 'route40');
+  assert.equal(G.Maps.get('route41').def.connect.west.map, 'cianwood');
+  const starter = S.party.find(m => m.sp >= 155 && m.sp <= 160);
+  lead(st, starter.sp);
+  grind(st, 'route38', 31, 600);
+  for (const m of ['route38', 'route39']) { await all(m); won(); }
+  // Moomoo Farm: five healing Berries (from the berry trees; field.test.cjs picks them) for the sick Miltank.
+  F.giveItem('oran-berry', 5);
+  for (let i = 0; i < 5; i++) await run(st, 'moomoo-barn', npc(st, 'moomoo-barn', 'miltank'), [0]);
+  assert.ok(F.flag('miltank-healthy') && !F.count('oran-berry'), 'the Miltank is well');
+  await run(st, 'moomoo-house', npc(st, 'moomoo-house', 'farmer'));
+  assert.ok(F.flag('got-tm44') && F.count('tm44') === 1);
+  // Olivine: the Gym is empty; Jasmine is at the top of the Lighthouse with the sick Amphy.
+  for (const m of ['lighthouse-1f', 'lighthouse-2f']) { await all(m); won(); }
+  await run(st, 'lighthouse-3f', npc(st, 'lighthouse-3f', 'jasmine'));
+  assert.ok(F.flag('amphy-sick') && !F.flag('amphy-cured'));
+  // Over the sea to Cianwood.
+  for (const m of ['route40', 'route41']) { await all(m); won(); }
+  await run(st, 'cianwood', 'cianwood.suicune');
+  assert.ok(F.flag('cianwood-suicune'));
+  await run(st, 'pharmacy', npc(st, 'pharmacy', 'pharmacist'));
+  assert.equal(F.count('secret-potion'), 1, 'the Secret Potion');
+  await run(st, 'chuck-house', npc(st, 'chuck-house', 'wife'));
+  assert.ok(F.flag('got-tm08'));
+  grind(st, 'route39', 33, 600);
+  await all('cianwood-gym');
+  won();
+  F.healAll();
+  await run(st, 'cianwood-gym', [['battle', 'cianwood-gym:chuck']]);
+  assert.equal(last().outcome, 'win', 'Chuck beaten at levels ' + last().levels);
+  assert.ok(S.player.badges.includes(13) && F.flag('chuck-beaten'));
+  assert.equal(F.obeyCap('johto'), 50, 'the Storm Badge: up to Lv. 50');
+  // Back to the Lighthouse: Amphy shines again, Jasmine goes back to her Gym.
+  await run(st, 'lighthouse-3f', npc(st, 'lighthouse-3f', 'jasmine'));
+  assert.ok(F.flag('amphy-cured') && !F.count('secret-potion'));
+  F.healAll();
+  await run(st, 'olivine-gym', [['battle', 'olivine-gym:jasmine']]);
+  assert.equal(last().outcome, 'win', 'Jasmine beaten at levels ' + last().levels);
+  assert.ok(S.player.badges.includes(14) && F.count('tm23') >= 1 && F.flag('jasmine-beaten'));
+  assert.equal(F.obeyCap('johto'), 60, 'the Mineral Badge: up to Lv. 60');
+  assert.ok(F.flag('chapter-15-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1601,7 +1690,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test('chapters 11 to 14: Johto, from Professor Elm to Falkner, Bugsy, Whitney and Morty', async () => {
+test('chapters 11 to 15: Johto, from Professor Elm to Falkner, Bugsy, Whitney, Morty, Chuck and Jasmine', async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -1617,4 +1706,5 @@ test('chapters 11 to 14: Johto, from Professor Elm to Falkner, Bugsy, Whitney an
   await chapter12(st);
   await chapter13(st);
   await chapter14(st);
+  await chapter15(st);
 });

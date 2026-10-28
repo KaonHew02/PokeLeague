@@ -44,6 +44,14 @@ G.ITEM_FX = {
   'burn-heal':     { cure: ['brn'], field: 1, battle: 1, price: 250 },
   'ice-heal':      { cure: ['frz'], field: 1, battle: 1, price: 250 },
   'full-heal':     { cure: 'all',   field: 1, battle: 1, price: 600 },
+  // Berries (chapter 15): from berry trees, used like medicine (no held items yet).
+  'oran-berry':    { heal: 10,  field: 1, battle: 1 },
+  'sitrus-berry':  { heal: 30,  field: 1, battle: 1 },
+  'pecha-berry':   { cure: ['psn', 'tox'], field: 1, battle: 1 },
+  'cheri-berry':   { cure: ['par'], field: 1, battle: 1 },
+  'chesto-berry':  { cure: ['slp'], field: 1, battle: 1 },
+  'rawst-berry':   { cure: ['brn'], field: 1, battle: 1 },
+  'aspear-berry':  { cure: ['frz'], field: 1, battle: 1 },
   'ether':         { pp: 10,     field: 1, battle: 1 },
   'max-ether':     { pp: 'full', field: 1, battle: 1 },
   'elixir':        { pp: 10,     ppAll: 1, field: 1, battle: 1 },
@@ -113,6 +121,7 @@ G.ITEM_FX = {
   // ---- key items ----
   'oaks-parcel':   { key: 1 },
   'squirt-bottle': { key: 1 },
+  'secret-potion': { key: 1 },
   'town-map':      { key: 1, field: 1 },
   'bicycle':       { key: 1, field: 1 },
   'old-rod':       { key: 1, field: 1, rod: 1 },

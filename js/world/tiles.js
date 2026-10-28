@@ -1134,6 +1134,26 @@ G.Tiles = (() => {
     tree(C) { return roundTree(C, 0); },
     /** A tree Headbutt can shake (Johto): the same tree, lighter leaves. */
     htree(C) { return roundTree(C, 1); },
+    /** A berry tree: a low round bush hung with berries, 16×20. */
+    btree(C) {
+      const P = Pix(T, 20);
+      const L = C.leaf, Tr = C.trunk;
+      for (let y = 15; y < 19; y++) for (let x = 7; x < 9; x++) P.set(x, y, Tr[x === 7 ? 0 : 1]);
+      for (const [bx, by, br] of [[7.5, 9, 6.4], [4.4, 11.5, 3.8], [10.6, 11.5, 3.8]]) {
+        disc(P, bx, by, br, (x, y) => {
+          if (x < 1 || x > 14 || y < 1) return null;
+          const lit = ((x - 7.5) * -0.55 + (y - 9) * -0.85) / 6;
+          return L[lit > 0.42 ? 3 : lit > 0.02 ? 2 : lit > -0.5 ? 1 : 0];
+        });
+      }
+      outline(P, C.treeEdge);
+      const red = pack('#d83a48'), shine = pack('#ff8a90'), blue = pack('#3a6ad8'), bshine = pack('#8ab0ff');
+      for (const [x, y, c] of [[4, 8, 0], [10, 6, 1], [7, 12, 0], [12, 11, 1], [3, 13, 1], [8, 4, 0]]) {
+        P.set(x, y, c ? blue : red); P.set(x + 1, y, c ? blue : red); P.set(x, y + 1, c ? blue : red); P.set(x + 1, y + 1, c ? blue : red);
+        P.set(x, y, c ? bshine : shine);
+      }
+      return P.canvas();
+    },
     /** The front of the tall grass: the bottom row of tufts, drawn over feet. */
     tuft(C) {
       const P = Pix(T, 8);
@@ -1258,6 +1278,7 @@ G.Tiles = (() => {
       case 'ladder': ladder(P, C, ox, oy, tx, ty); break;
       case 'cuttree': grass(P, C, ox, oy, tx, ty); break;   // the tree itself is a prop (render.js)
       case 'headtree': grass(P, C, ox, oy, tx, ty); break;  // a tree to Headbutt: baked like the others
+      case 'berrytree': grass(P, C, ox, oy, tx, ty); break; // a berry tree: baked as a prop
       case 'can': can(P, C, ox, oy, tx, ty); break;
       case 'rubble': rubble(P, C, ox, oy, tx, ty); break;
       case 'grave': grave(P, C, ox, oy, tx, ty); break;
@@ -1308,11 +1329,12 @@ G.Tiles = (() => {
       return (strips[row] = { up, items: (s && s.items) || [] });
     };
     const pal = m.palette in PALETTES && !PALETTES[m.palette].floor ? m.palette : OUT;
-    const tree = sprite('tree', pal), htree = sprite('htree', pal);
+    const tree = sprite('tree', pal), htree = sprite('htree', pal), btree = sprite('btree', pal);
     for (let ty = 0; ty < m.h; ty++) for (let tx = 0; tx < m.w; tx++) {
       const k = m.kind[ty * m.w + tx];
       if (k === 'tree') add(ty, tree.height - T).items.push({ img: tree, x: tx * T, bottom: 0 });
       else if (k === 'headtree') add(ty, htree.height - T).items.push({ img: htree, x: tx * T, bottom: 0 });
+      else if (k === 'berrytree') add(ty, btree.height - T).items.push({ img: btree, x: tx * T, bottom: 0 });
     }
     for (const st of m.stamps) {
       const s = G.Stamps.get(st.type, st.door ? st.door[0] : 0, { x: st.x, y: st.y, palette: m.palette });

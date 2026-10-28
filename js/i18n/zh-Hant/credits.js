@@ -44,5 +44,7 @@ G.I18n.add({
   "Chapter 13 complete!": "第13章完成！",
   "{player} found the lost Farfetch'd in Ilex Forest and, after a few tears, earned the Plain Badge from Whitney.": "{player}在櫟樹林找回了走失的大蔥鴨，又在一番眼淚之後，從小茜那裡得到了常規徽章。",
   "Chapter 14 complete!": "第14章完成！",
-  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player}喚醒了沉睡在燒焦塔下的三隻傳說中的寶可夢，並從松葉那裡得到了幻影徽章。"
+  "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player}喚醒了沉睡在燒焦塔下的三隻傳說中的寶可夢，並從松葉那裡得到了幻影徽章。",
+  "Chapter 15 complete!": "第15章完成！",
+  "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player}渡海取得了秘傳之藥，並從阿四那裡得到了打擊徽章，從阿蜜那裡得到了鋼鐵徽章。"
 }, "zh-Hant");

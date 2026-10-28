@@ -63,5 +63,7 @@ G.I18n.add({
   "A big tree. Would you like to use Headbutt?": "Un grand arbre. Veux-tu utiliser Coup d’Boule ?",
   "{mon} did a Headbutt!": "{mon} donne un Coup d’Boule !",
   "Nothing happened...": "Il ne se passe rien...",
-  "{ball} ×{n} · Steps {s}": "{ball} ×{n} · Pas {s}"
+  "{ball} ×{n} · Steps {s}": "{ball} ×{n} · Pas {s}",
+  "A berry tree. There are no ripe berries left today. Come back tomorrow!": "Un arbre à baies. Il n'y a plus de baies mûres aujourd'hui. Reviens demain !",
+  "A berry tree! {player} picked {item} ×{n}.": "Un arbre à baies ! {player} cueille {item} ×{n}."
 }, "fr");

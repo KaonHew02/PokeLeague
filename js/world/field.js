@@ -52,6 +52,7 @@
  * Chapter 13: trees to Headbutt (`h`: a Pokémon that knows Headbutt may shake down a wild one from
  * the area's 'headbutt' table, half the time), and every step raises the Day Care's Pokémon
  * (G.DayCare, daycare.js).
+ * Chapter 15: berry trees (`y`): one to three berries once a day (the map's `berries`: [[x, y, item]]).
  * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
  * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
  * Balls only and never black out, and scripts contest.caught / contest.timeup /
@@ -837,6 +838,7 @@ G.World = (() => {
     if (sign) return runScript([['say', sign]], {});
     if (k === 'cuttree' && !cut.has(M().key(tx, ty))) return runScript([['js', h => cutTree(h, tx, ty)]], {});
     if (k === 'headtree') return runScript([['js', h => headbutt(h)]], {});
+    if (k === 'berrytree') return runScript([['js', h => berryTree(h, tx, ty)]], {});
     if (k === 'rapids' && !isWater(tx, ty)) return runScript([['say', "The current is much too strong to Surf against!"]], {});
     if (isWater(tx, ty) && !occupant(tx, ty, me) && (!surfing || bestRod())) return runScript([['js', h => atWater(h, me.dir)]], {});
     if (k === 'keydoor' && !keyOpen(tx, ty)) return runScript([['js', h => cardKey(h, tx, ty)]], {});
@@ -898,6 +900,20 @@ G.World = (() => {
     let r = rng.next() * total, pick = table.mons[table.mons.length - 1];
     for (const row of table.mons) { if ((r -= row[3]) < 0) { pick = row; break; } }
     await wildBattle({ sp: M().species(pick[0]), lvl: rng.int(pick[1], pick[2]), method: 'headbutt', map: map.id, area: null });
+  }
+
+  /** A berry tree: one to three berries, once a day (var berry:<map>:<x>,<y> = the date picked). */
+  async function berryTree(h, x, y) {
+    const key = 'berry:' + map.id + ':' + x + ',' + y, today = G.Clock.day();
+    const b = (map.def.berries || []).find(([bx, by]) => bx === x && by === y);
+    const item = b ? b[2] : 'oran-berry';
+    if (G.Field.getVar(key) === today) { await h.say(G.T('A berry tree. There are no ripe berries left today. Come back tomorrow!')); return; }
+    const n = rng.int(1, 3);
+    G.Field.setVar(key, today);
+    G.Field.giveItem(item, n);
+    const j = h.jingle('item');
+    await h.say(G.T('A berry tree! {player} picked {item} ×{n}.'), { vars: { item: G.Names.item(item), n } });
+    await j;
   }
 
   /** A locked door: the Card Key opens it for good. */
@@ -1298,7 +1314,7 @@ G.World = (() => {
     if (itemAt(tx, ty)) return { item: true };
     if (map.signs[M().key(tx, ty)] || M().kindAt(map, tx, ty) === 'pc') return { sign: true };
     if (M().kindAt(map, tx, ty) === 'cuttree' && !cut.has(M().key(tx, ty))) return { sign: true };
-    if (M().kindAt(map, tx, ty) === 'headtree') return { sign: true };
+    if (M().kindAt(map, tx, ty) === 'headtree' || M().kindAt(map, tx, ty) === 'berrytree') return { sign: true };
     if (rockAt(tx, ty)) return { sign: true };
     return null;
   }

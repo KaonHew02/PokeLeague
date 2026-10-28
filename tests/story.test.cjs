@@ -643,6 +643,50 @@ test('balance: Falkner (chapter 11), win rates of typical teams are printed', ()
   assert.ok(table['chikorita 13'] < 0.3, 'a lone Chikorita should struggle');
 });
 
+test('balance: Bugsy and the thief in Azalea (chapter 12), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'azalea-gym', 'bugsy');
+  const table = {
+    'bayleef 18': rate([[153, 18]]),
+    'quilava 17': rate([[156, 17]]),
+    'croconaw 18': rate([[159, 18]]),
+    'bayleef 18 + geodude 15': rate([[153, 18], [74, 15]]),
+    'croconaw 18 + geodude 15': rate([[159, 18], [74, 15]]),
+    'bayleef 18 + pidgeotto 17': rate([[153, 18], [17, 17]])
+  };
+  console.log('[balance] vs Bugsy:', JSON.stringify(table));
+  // Metapod and Kakuna only stall; Scyther 15 (Fury Cutter doubles up to 160) is the wall. Quilava
+  // burns through; Bayleef and Croconaw need a Rock or Flying type from the way (Union Cave's
+  // Geodude, a Pidgeotto), as in the games.
+  assert.ok(table['quilava 17'] >= 0.8, 'Quilava');
+  assert.ok(table['croconaw 18 + geodude 15'] >= 0.5, 'Croconaw with a Geodude');
+  assert.ok(table['bayleef 18 + geodude 15'] >= 0.7 && table['bayleef 18 + pidgeotto 17'] >= 0.6, 'Bayleef with a friend');
+  assert.ok(table['bayleef 18'] < 0.2, 'a lone Bayleef should struggle');
+  // The thief at the Gym's door: Gastly 12, Zubat 14 and his starter, evolved, at 16.
+  const thief = (mine, his) => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 23);
+      const me = mine.map(([sp, lvl]) => G.Mon.create(sp, lvl, { rng }));
+      const foes = [[92, 12], [41, 14], [his, 16]].map(([sp, lvl]) => G.Mon.create(sp, lvl, { rng }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 'rival2-azalea', name: 'Silver', ai: 'basic', items: {}, prize: 40 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 40;
+  };
+  const rival = {
+    'quilava 18 vs croconaw': thief([[156, 18]], 159), 'quilava 18 + flaaffy 16 vs croconaw': thief([[156, 18], [180, 16]], 159),
+    'croconaw 18 vs bayleef': thief([[159, 18]], 153), 'croconaw 18 + pidgeotto 17 vs bayleef': thief([[159, 18], [17, 17]], 153),
+    'bayleef 18 vs quilava': thief([[153, 18]], 156), 'bayleef 18 + geodude 15 vs quilava': thief([[153, 18], [74, 15]], 156)
+  };
+  console.log('[balance] vs the thief in Azalea:', JSON.stringify(rival));
+  // He took the starter strong against yours: alone it rarely wins (losing is allowed), with a
+  // friend caught on the way it does.
+  for (const k of Object.keys(rival).filter(k => k.includes('+'))) assert.ok(rival[k] >= 0.5, k);
+});
+
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
 async function chapter3(st) {
   const { G, S, W } = st;
@@ -1258,6 +1302,49 @@ async function chapter11(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 12 after chapter 11: Route 32, Union Cave, Azalea Town, the Slowpoke Well, Bugsy and the thief. */
+async function chapter12(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // Violet City's road south: Route 32, Union Cave and Route 33 to Azalea Town.
+  assert.equal(G.Maps.get('violet').def.connect.south.map, 'route32');
+  assert.equal(G.Maps.get('route33').def.connect.west.map, 'azalea');
+  const starter = S.party.find(m => m.sp >= 155 && m.sp <= 157);
+  assert.ok(starter, 'the Johto starter is in the party');
+  lead(st, starter.sp);
+  grind(st, 'route32', 17, 300);
+  for (const m of ['route32', 'union-cave-1f', 'route33']) { await all(m); won(); }
+  // Azalea Town: the Gym is locked, a Grunt guards the well; Kurt goes down himself.
+  assert.ok(!F.test('well-cleared'), 'the Gym is closed');
+  await run(st, 'kurt-house', npc(st, 'kurt-house', 'kurt'));
+  assert.ok(F.flag('kurt-well'));
+  await run(st, 'slowpoke-well', npc(st, 'slowpoke-well', 'kurt'));
+  // The Slowpoke Well: four Grunts, the last one in charge.
+  await all('slowpoke-well');
+  won();
+  assert.ok(F.flag('well-cleared'), 'Team Rocket left the well');
+  await run(st, 'kurt-house', npc(st, 'kurt-house', 'kurt2'));
+  // Bugsy's Gym.
+  grind(st, 'route33', 19, 300);
+  await all('azalea-gym');
+  won();
+  F.healAll();
+  await run(st, 'azalea-gym', [['battle', 'azalea-gym:bugsy']]);
+  assert.equal(last().outcome, 'win', 'Bugsy beaten at levels ' + last().levels);
+  assert.ok(S.player.badges.includes(10) && F.count('tm17') === 1 && F.flag('bugsy-beaten'));
+  assert.equal(F.obeyCap('johto'), 30, 'the Hive Badge: up to Lv. 30');
+  // The thief waits outside, and the chapter ends.
+  F.healAll();
+  await run(st, 'azalea', 'azalea.rival');
+  assert.equal(last().key, 'azalea:rival2-azalea');
+  assert.ok(F.flag('azalea-rival') && F.flag('chapter-12-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1339,7 +1426,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test('chapter 11: to Johto, Professor Elm, the thief, the Mystery Egg and Falkner', async () => {
+test('chapters 11 and 12: Johto, from Professor Elm to Falkner, the Slowpoke Well and Bugsy', async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -1352,4 +1439,5 @@ test('chapter 11: to Johto, Professor Elm, the thief, the Mystery Egg and Falkne
   await chapter9(st);
   await chapter10(st);
   await chapter11(st);
+  await chapter12(st);
 });

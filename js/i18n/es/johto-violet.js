@@ -11,7 +11,6 @@ G.I18n.add({
   "And this: TM40, Aerial Ace. A move that never misses, like a bird diving on its prey.": "Y esto: la MT40, Golpe Aéreo. Un movimiento que nunca falla, como un ave que se lanza sobre su presa.",
   "Sprout Tower was built around a great swaying pillar. It is said to come from a Bellsprout a hundred feet tall!": "La Torre Bellsprout se construyó alrededor de un gran pilar que se balancea. ¡Dicen que viene de un Bellsprout de treinta metros!",
   "Falkner uses bird Pokémon. Electric and Rock moves hit them hard. Do you have any?": "Pegaso usa Pokémon pájaro. Los movimientos Eléctricos y de Roca les hacen mucho daño. ¿Tienes alguno?",
-  "The roads west and south of the city are closed for repairs. Come back later!": "Los caminos al oeste y al sur de la ciudad están cerrados por obras. ¡Vuelve más tarde!",
   "My strong Pokémon from Kanto just would not listen in Falkner's Gym. I had to win with the ones I raised here!": "Mis Pokémon fuertes de Kanto no me hacían caso en el Gimnasio de Pegaso. ¡Tuve que ganar con los que crié aquí!",
   "A Super Potion heals twice as much as a Potion. Worth every coin!": "Una Superpoción cura el doble que una Poción. ¡Vale cada moneda!",
   "Welcome to the Pokémon Academy! Lesson one: a Pokémon that trusts you fights harder. Lesson two: walk with your Pokémon!": "¡Bienvenido a la Academia Pokémon! Lección uno: un Pokémon que confía en ti lucha con más ganas. Lección dos: ¡camina con tus Pokémon!",
@@ -50,5 +49,6 @@ G.I18n.add({
   "...You win. My birds and I still have much to learn.": "...Has ganado. Mis pájaros y yo aún tenemos mucho que aprender.",
   "Violet City. An old town of quiet scents, with Sprout Tower at its heart.": "Ciudad Malva. Una ciudad antigua de aromas tranquilos, con la Torre Bellsprout en su corazón.",
   "Violet City Pokémon Gym. Leader: Falkner, who soars with Flying-type Pokémon!": "Gimnasio Pokémon de Ciudad Malva. Líder: Pegaso, ¡que surca los cielos con Pokémon de tipo Volador!",
-  "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "El gran pilar se balancea suavemente, pero nunca cae. Dicen que es el tronco de un Bellsprout gigante."
+  "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "El gran pilar se balancea suavemente, pero nunca cae. Dicen que es el tronco de un Bellsprout gigante.",
+  "A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "Un árbol muy raro bloquea el camino al oeste de la ciudad. ¡Se menea cuando nadie lo mira! Al sur, la Ruta 32 lleva a la Cueva Unión."
 }, "es");

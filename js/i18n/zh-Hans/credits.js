@@ -38,5 +38,7 @@ G.I18n.add({
   "Thank you for playing! Kanto is complete, and the next region opens in a future update.": "感谢游玩！关都已经全部完成，下一个地区将在之后的更新中开放。",
   "Chapter 11 complete!": "第11章完成！",
   "{player} beat Falkner and earned the Zephyr Badge: the first badge of Johto.": "{player}打败了阿速，得到了飞翼徽章：城都的第一枚徽章。",
-  "Thank you for playing! The rest of Johto opens in a future update.": "感谢游玩！城都的其余部分将在之后的更新中开放。"
+  "Thank you for playing! The rest of Johto opens in a future update.": "感谢游玩！城都的其余部分将在之后的更新中开放。",
+  "Chapter 12 complete!": "第12章完成！",
+  "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player}把火箭队赶出了呆呆兽之井，并从阿笔那里得到了昆虫徽章。"
 }, "zh-Hans");

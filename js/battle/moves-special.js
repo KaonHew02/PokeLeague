@@ -65,13 +65,18 @@ G.SpecialMoves = (() => {
     'low-kick':     { power: (b, u, t) => { const kg = G.SPECIES[t.mon.sp].w / 10;
                         return kg < 10 ? 20 : kg < 25 ? 40 : kg < 50 ? 60 : kg < 100 ? 80 : kg < 200 ? 100 : 120; } },
     'return':       { power: (b, u) => Math.max(1, Math.floor((u.mon.friendship || 0) * 10 / 25)) },
+    // Generation 4 moves of the Johto learnsets (HeartGold / SoulSilver).
+    'gyro-ball':    { power: (b, u, t) => Math.min(150, Math.floor(25 * b.stat(t, 'spe') / Math.max(1, b.stat(u, 'spe'))) + 1) },
+    'punishment':   { power: (b, u, t) => Math.min(200, 60 + 20 * Object.values(t.stages).reduce((n, v) => n + Math.max(0, v), 0)) },
+    'wring-out':    { power: (b, u, t) => Math.max(1, Math.floor(120 * hpPct(t))) },
     'frustration':  { power: (b, u) => Math.max(1, Math.floor((255 - (u.mon.friendship || 0)) * 10 / 25)) },
     'hidden-power': { power: (b, u) => hiddenPower(u.mon).pow, moveType: (b, u) => hiddenPower(u.mon).type },
     'facade':       { power: (b, u, t, M) => (['psn', 'tox', 'par', 'brn'].includes(u.mon.status) ? M.pow * 2 : M.pow) },
     'revenge':      { power: (b, u, t, M) => (u.lastHit && u.lastHit.from !== u.side ? M.pow * 2 : M.pow) },
     'rollout':      { power: (b, u, t, M) => { u.vol.rollout = u.lastMoveHit === 'rollout' ? Math.min(4, (u.vol.rollout || 0) + 1) : 0; return M.pow * 2 ** u.vol.rollout; },
                       after: (b, u) => { u.lastMoveHit = 'rollout'; }, onMiss: (b, u) => { u.lastMoveHit = null; } },
-    'fury-cutter':  { power: (b, u, t, M) => { u.vol.cutter = u.lastMoveHit === 'fury-cutter' ? Math.min(3, (u.vol.cutter || 0) + 1) : 0; return M.pow * 2 ** u.vol.cutter; },
+    // Fury Cutter doubles with each hit in a row, up to 160 (40, 80, 160: Generation 6 on).
+    'fury-cutter':  { power: (b, u, t, M) => { u.vol.cutter = u.lastMoveHit === 'fury-cutter' ? Math.min(3, (u.vol.cutter || 0) + 1) : 0; return Math.min(160, M.pow * 2 ** u.vol.cutter); },
                       after: (b, u) => { u.lastMoveHit = 'fury-cutter'; }, onMiss: (b, u) => { u.lastMoveHit = null; } },
     'spit-up':      { check: (b, u) => (u.vol.stockpile || 0) > 0,
                       power: (b, u) => 100 * u.vol.stockpile, after: (b, u) => { u.vol.stockpile = 0; } },
@@ -261,8 +266,11 @@ G.SpecialMoves = (() => {
     'baton-pass', 'camouflage', 'conversion-2', 'encore', 'grudge', 'imprison', 'mimic', 'recycle', 'role-play',
     'skill-swap', 'snatch', 'spikes', 'taunt', 'torment', 'transform', 'trick', 'mud-sport', 'water-sport',
     'sketch', 'wish',
+    'aqua-ring', 'copycat', 'embargo', 'gastro-acid', 'guard-swap', 'heal-block', 'healing-wish', 'lucky-chant',
+    'magic-coat', 'magnet-rise', 'power-swap', 'power-trick', 'psycho-shift', 'tailwind', 'toxic-spikes', 'worry-seed',
     // damaging: just their damage (no delayed hit, uproar lock, item theft, switch hit)
-    'future-sight', 'uproar', 'covet', 'thief', 'knock-off', 'pursuit', 'focus-punch', 'bide', 'present', 'triple-kick'
+    'future-sight', 'uproar', 'covet', 'thief', 'knock-off', 'pursuit', 'focus-punch', 'bide', 'present', 'triple-kick',
+    'fling', 'natural-gift', 'me-first', 'trump-card'
   ]);
 
   S.FALLBACK = FALLBACK;

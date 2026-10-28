@@ -11,7 +11,6 @@ G.I18n.add({
   "And this: TM40, Aerial Ace. A move that never misses, like a bird diving on its prey.": "Et ceci : la CT40, Aéropique. Une capacité qui ne rate jamais, comme un oiseau qui fond sur sa proie.",
   "Sprout Tower was built around a great swaying pillar. It is said to come from a Bellsprout a hundred feet tall!": "La Tour Chétiflor a été bâtie autour d'un grand pilier qui oscille. On dit qu'il vient d'un Chétiflor de trente mètres de haut !",
   "Falkner uses bird Pokémon. Electric and Rock moves hit them hard. Do you have any?": "Albert utilise des Pokémon oiseaux. Les capacités Électrik et Roche leur font très mal. Tu en as ?",
-  "The roads west and south of the city are closed for repairs. Come back later!": "Les routes à l'ouest et au sud de la ville sont fermées pour travaux. Reviens plus tard !",
   "My strong Pokémon from Kanto just would not listen in Falkner's Gym. I had to win with the ones I raised here!": "Mes Pokémon forts de Kanto refusaient de m'écouter dans l'Arène d'Albert. J'ai dû gagner avec ceux que j'ai élevés ici !",
   "A Super Potion heals twice as much as a Potion. Worth every coin!": "Une Super Potion soigne deux fois plus qu'une Potion. Elle vaut son prix !",
   "Welcome to the Pokémon Academy! Lesson one: a Pokémon that trusts you fights harder. Lesson two: walk with your Pokémon!": "Bienvenue à l'École Pokémon ! Leçon un : un Pokémon qui te fait confiance se bat mieux. Leçon deux : marche avec tes Pokémon !",
@@ -50,5 +49,6 @@ G.I18n.add({
   "...You win. My birds and I still have much to learn.": "... Tu as gagné. Mes oiseaux et moi avons encore beaucoup à apprendre.",
   "Violet City. An old town of quiet scents, with Sprout Tower at its heart.": "Mauville. Une vieille ville aux parfums paisibles, avec la Tour Chétiflor en son cœur.",
   "Violet City Pokémon Gym. Leader: Falkner, who soars with Flying-type Pokémon!": "Arène Pokémon de Mauville. Champion : Albert, qui s'envole avec ses Pokémon de type Vol !",
-  "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "Le grand pilier oscille doucement, mais il ne tombe jamais. On dit que c'est la tige d'un Chétiflor géant."
+  "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "Le grand pilier oscille doucement, mais il ne tombe jamais. On dit que c'est la tige d'un Chétiflor géant.",
+  "A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "Un arbre bizarre bloque la route à l'ouest de la ville. Il se trémousse quand personne ne regarde ! Au sud, la Route 32 mène aux Caves Jumelles."
 }, "fr");

@@ -22,7 +22,7 @@ G.People = (() => {
                  'gambler', 'pokemaniac', 'beauty', 'channeler', 'biker', 'cooltrainer', 'erika',
                  'giovanni', 'fuji', 'scientist', 'fisherman', 'rocker', 'birdkeeper', 'juggler', 'tamer', 'koga', 'warden',
                  'blackbelt', 'psychic', 'sabrina', 'swimmerf', 'burglar', 'blaine', 'cueball',
-                 'lorelei', 'bruno', 'agatha', 'lance', 'elm', 'silver', 'sage', 'falkner'];
+                 'lorelei', 'bruno', 'agatha', 'lance', 'elm', 'silver', 'sage', 'falkner', 'kurt', 'bugsy'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -186,6 +186,8 @@ G.People = (() => {
     silver: { head: 'long', body: 'jacket', legs: 'pants', h: '#c8303a', H: '#8a1e26', j: '#2a2a3a', J: '#16161e', c: '#c8303a', C: '#8a1e26', p: '#3a3a4a', P: '#24242e', k: '#2a2020' },
     sage: { head: 'bald', body: 'coat', legs: 'pants', h: '#3a3a40', H: '#24242a', j: '#5a5a6a', J: '#40404c', c: '#d8c8a0', C: '#b8a880', p: '#4a4a56', P: '#30303a', k: '#2a2a2a' },
     falkner: { head: 'short', body: 'coat', legs: 'pants', h: '#4a5ab8', H: '#323e88', j: '#5a8ad0', J: '#3e66a8', c: '#f4f4f4', C: '#c8c8d0', p: '#2a3a68', P: '#1c284a', k: '#2a2a3a' },
+    kurt: { head: 'short', body: 'coat', legs: 'pants', h: '#a4a4ac', H: '#74747c', j: '#3a3030', J: '#241c1c', c: '#c8b890', C: '#a09068', p: '#3a3030', P: '#241c1c', k: '#1a1414' },
+    bugsy: { head: 'short', body: 'tee', legs: 'bare', h: '#8a5ab0', H: '#64408a', c: '#f4f4f4', C: '#c8c8d0', p: '#4a8a4a', P: '#346834', k: '#3a5a2a' },
     cueball: { head: 'bald', body: 'jacket', legs: 'pants', h: '#e8b888', H: '#c49064', j: '#2a2a30', J: '#16161c', c: '#e8e8e8', C: '#b8b8c0', p: '#3a4a7a', P: '#283458', k: '#16161c' },
     warden: { head: 'bald', body: 'coat', legs: 'pants', h: '#d8d8dc', H: '#a8a8b0', j: '#a89a6a', J: '#80744c', c: '#e8e0c8', C: '#c0b8a0', p: '#6a5c44', P: '#4c4230', k: '#3a2e22' },
     bill: { head: 'short', body: 'tee', legs: 'pants', h: '#7a4a2a', H: '#52301a', c: '#4a8ad8', C: '#2e66b0', p: '#5a4a3a', P: '#3e3226', k: '#3a3030' },

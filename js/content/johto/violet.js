@@ -2,9 +2,9 @@
  * Chapter 11, the end of the chapter. Violet City: Center, Mart, the Pokémon Academy, and Sprout
  * Tower, three floors of Sages around a swaying pillar (wild Pokémon on every step of 2F and 3F);
  * Elder Li at the top gives TM27 Return (stronger the more a Pokémon trusts you). Falkner's Gym:
- * two Bird Keepers, then Falkner (Pidgey 9, Pidgeotto 13, as in the games): badge 9, the Zephyr
- * Badge (the first of Johto: Pokémon up to Lv. 25 obey you now), TM40 Aerial Ace. The roads west
- * and south of the city are closed for now.
+ * two Bird Keepers, then Falkner (Pidgey 7, Pidgeotto 11): badge 9, the Zephyr Badge (the first
+ * of Johto: Pokémon up to Lv. 25 obey you now), TM40 Aerial Ace. The road south leads to Route 32
+ * (chapter 12, route32.js); the one west is still blocked.
  */
 G.Maps.def({
   id: 'violet', loc: 'violet-city', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -25,21 +25,21 @@ G.Maps.def({
     'T.....,.S..,......,..S....,....,...T',
     'T..,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
     'T..,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
-    'T..................................T',
-    'T..................................T',
-    'T..ff..............................T',
-    'T.........~~~~~~~~~~~...ff.........T',
-    'T.........~~~~~~~~~~~...ff.........T',
-    'T.........~~~~~~~~~~~..............T',
-    'T.........~~~~~~~~~~~..............T',
-    'T.TTTTT...~~~~~~~~~~~........ff....T',
-    'T.TTTTT...~~~~~~~~~~~..............T',
-    'T.TTTTT....................TTTTTTT.T',
-    'T.TTTTT....................TTTTTTT.T',
-    'T..................................T',
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
+    'T.....................,,...........T',
+    'T.....................,,...........T',
+    'T..ff.................,,...........T',
+    'T.........~~~~~~~~~~~.,,ff.........T',
+    'T.........~~~~~~~~~~~.,,ff.........T',
+    'T.........~~~~~~~~~~~.,,...........T',
+    'T.........~~~~~~~~~~~.,,...........T',
+    'T.TTTTT...~~~~~~~~~~~.,,.....ff....T',
+    'T.TTTTT...~~~~~~~~~~~.,,...........T',
+    'T.TTTTT...............,,...TTTTTTT.T',
+    'T.TTTTT...............,,...TTTTTTT.T',
+    'T.....................,,...........T',
+    'TTTTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTT'
   ],
-  connect: { east: { map: 'route31', offset: 7 } },
+  connect: { east: { map: 'route31', offset: 7 }, south: { map: 'route32', offset: 12 } },
   warps: [
     { x: 18, y: 6, to: 'sprout-1f', spot: 'door' },
     { x: 6, y: 11, to: 'violet-gym', spot: 'door' },
@@ -59,7 +59,7 @@ G.Maps.def({
     { id: 'kid', who: 'youngster', x: 14, y: 16, move: 'wander', r: 2,
       say: 'Falkner uses bird Pokémon. Electric and Rock moves hit them hard. Do you have any?' },
     { id: 'lass', who: 'lass', x: 29, y: 16, move: 'look',
-      say: 'The roads west and south of the city are closed for repairs. Come back later!' }
+      say: 'A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.' }
   ],
   encounters: { water: '@violet-city-area' }
 });

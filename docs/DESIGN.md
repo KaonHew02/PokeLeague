@@ -77,7 +77,10 @@ python tools/fetch_data.py --region kanto --refresh  # download again
     that has data.
   - Flavor text: FRLG first (English only), then Let's Go (the other languages), else the
     newest entry.
-  - Johto: `dex (1,251)`; learnsets FRLG, emerald, HGSS, crystal; TMs still FRLG; text adds HGSS.
+  - Johto: `dex (1,251)`; learnsets FRLG first for 1-151, HGSS first for 152-251
+    (`learnset_vg_from`; Emerald's lists for Johto Pokémon are older and slower); TMs still FRLG;
+    text adds HGSS. The Generation 4 moves this brings are special-cased (Gyro Ball, Punishment,
+    Wring Out) or in FALLBACK.
     `regions` lists each region with its own encounter versions (Kanto: FRLG first; Johto:
     HGSS first); a place with no table there falls back to the other region's versions (Routes 26
     and 27 are `kanto-route-26/27` in PokeAPI but only HGSS has them). Encounter conditions
@@ -996,10 +999,30 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Pokémon before him are Lv. 2-6, his Trainers up to 10. The story test plays chapter 11 with the
   Kanto team in the party (it obeys only sometimes) and Cyndaquil leading.
 
-### After chapter 11
+- **Chapter 12** ✅, Johto part 2: Violet City's road south opens (the one west is blocked by a
+  strange tree). Route 32 along the sea (six Trainers, a Pokémon Center at the south end) to Union
+  Cave 1F (`cave`, a pool, three Trainers) and Route 33 (a Hiker) to Azalea Town. A Team Rocket
+  Grunt guards the Slowpoke Well and the Gym is locked (a note: Bugsy is out). Kurt hears that
+  Team Rocket cuts the Slowpoke's tails and goes down himself (flag `kurt-well`; the guard
+  leaves); in the well he has hurt his back by the ladder; four Grunts, the last in charge (win
+  script: flag `well-cleared`, the Slowpoke come back to town, Kurt goes home, the Gym opens).
+  Bugsy's Gym (palette `garden`, hedges): three Bug Catchers, then Bugsy (Metapod 14, Kakuna 14,
+  Scyther 15 with Fury Cutter): badge 10, the Hive Badge (obedience up to Lv. 30), TM17 Protect
+  (flag `bugsy-beaten`). Stepping out of the Gym, the thief battles you (Gastly 12, Zubat 14, his
+  starter evolved at 16; losing allowed; flag `azalea-rival`) and the chapter ends (`ending(12)`).
+  Files: `js/content/johto/route32.js`, `azalea.js` (translations `johto-route32`,
+  `johto-azalea`); people kurt, bugsy; official names of Union Cave, the Slowpoke Well, Ilex
+  Forest and the Ruins of Alph in `LOC_NAMES` (and French ones PokeAPI writes in capitals,
+  `LOC_FR`). Fury Cutter now stops doubling at 160, as in Generation 6 on.
+- **Balance:** Bugsy against a team that never heals: Quilava Lv. 17 ~95%, Bayleef 18 with a
+  Geodude ~90% (alone it never wins), Croconaw 18 with a Geodude ~55%. The thief took the starter
+  strong against yours: one starter alone rarely beats him, with a friend from the way (Flaaffy,
+  Pidgeotto, Geodude) 70-100%. The story test plays chapter 12 with the Johto starter leading.
 
-1. **Johto, the rest:** Union Cave, Azalea Town and Bugsy, Ilex Forest, Goldenrod City and
-   Whitney, then the other four Gyms, the Lake of Rage, the Johto League; berries, Headbutt,
-   held items and the Day Care along the way.
+### After chapter 12
+
+1. **Johto, the rest:** Ilex Forest (Farfetch'd, the shrine), Route 34 and the Day Care,
+   Goldenrod City and Whitney, then the other four Gyms, the Lake of Rage, the Johto League;
+   Kurt's Apricorn Balls, berries, Headbutt and held items along the way.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

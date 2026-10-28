@@ -11,7 +11,6 @@ G.I18n.add({
   "And this: TM40, Aerial Ace. A move that never misses, like a bird diving on its prey.": "還有這個：招式學習器40，燕返。就像撲向獵物的鳥一樣，絕對不會落空的招式。",
   "Sprout Tower was built around a great swaying pillar. It is said to come from a Bellsprout a hundred feet tall!": "喇叭芽之塔是圍著一根搖晃的大柱子建起來的。據說那根柱子來自一隻三十公尺高的喇叭芽！",
   "Falkner uses bird Pokémon. Electric and Rock moves hit them hard. Do you have any?": "阿速用的是鳥寶可夢。電屬性和岩石屬性的招式對牠們很有效。你有嗎？",
-  "The roads west and south of the city are closed for repairs. Come back later!": "城市西邊和南邊的道路正在維修，暫時不能通行。以後再來吧！",
   "My strong Pokémon from Kanto just would not listen in Falkner's Gym. I had to win with the ones I raised here!": "我從關都帶來的強力寶可夢在阿速的道館裡就是不聽話。最後只能靠在這裡培養的寶可夢贏下來！",
   "A Super Potion heals twice as much as a Potion. Worth every coin!": "好傷藥的效果是傷藥的兩倍。物有所值！",
   "Welcome to the Pokémon Academy! Lesson one: a Pokémon that trusts you fights harder. Lesson two: walk with your Pokémon!": "歡迎來到寶可夢學校！第一課：信任你的寶可夢會戰鬥得更賣力。第二課：多和你的寶可夢一起走路！",
@@ -50,5 +49,6 @@ G.I18n.add({
   "...You win. My birds and I still have much to learn.": "……你贏了。我和我的鳥寶可夢還有很多要學的。",
   "Violet City. An old town of quiet scents, with Sprout Tower at its heart.": "桔梗市。飄著淡淡清香的古老城市，喇叭芽之塔就在它的中心。",
   "Violet City Pokémon Gym. Leader: Falkner, who soars with Flying-type Pokémon!": "桔梗市寶可夢道館。館主：阿速，與飛行屬性寶可夢一同翱翔！",
-  "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "大柱子輕輕搖晃著，卻從來不會倒下。據說那是一隻巨大喇叭芽的身體。"
+  "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "大柱子輕輕搖晃著，卻從來不會倒下。據說那是一隻巨大喇叭芽的身體。",
+  "A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "城市西邊的路被一棵奇怪的樹擋住了。沒人看的時候它還會扭來扭去！往南走，32號道路通往互連洞。"
 }, "zh-Hant");

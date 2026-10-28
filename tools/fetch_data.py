@@ -93,6 +93,9 @@ REGIONS = {
 REGIONS['johto'] = dict(REGIONS['kanto'], **{
     'dex': (1, 251),
     'learnset_vg': ['firered-leafgreen', 'emerald', 'heartgold-soulsilver', 'crystal'],
+    # Pokémon 152-251 learn as in HeartGold / SoulSilver (FireRed has none of them; Emerald's
+    # lists are older and slower: Totodile's Water Gun at 13, no Bite).
+    'learnset_vg_from': (152, ['heartgold-soulsilver', 'crystal', 'emerald']),
     'text_versions': ['firered', 'leafgreen', 'heartgold', 'soulsilver', 'lets-go-pikachu', 'lets-go-eevee'],
     'text_vgs': ['firered-leafgreen', 'heartgold-soulsilver', 'lets-go-pikachu-lets-go-eevee'],
     'items': REGIONS['kanto']['items'] + [
@@ -141,7 +144,13 @@ LOC_NAMES = {
     'blackthorn-city':   ('Ciudad Endrino',     'Ebanopoli',           '烟墨市',     '煙墨市'),
     'sprout-tower':      ('Torre Bellsprout',   'Torre Sprout',        '喇叭芽之塔', '喇叭芽之塔'),
     'dark-cave':         ('Cueva Oscura',       'Grotta Scura',        '黑暗洞穴',   '黑暗洞穴'),
+    'union-cave':        ('Cueva Unión',        'Grotta di Mezzo',     '互连洞',     '互連洞'),
+    'slowpoke-well':     ('Pozo Slowpoke',      'Pozzo Slowpoke',      '呆呆兽之井', '呆呆獸之井'),
+    'ilex-forest':       ('Encinar',            'Bosco di Lecci',      '栎树林',     '櫟樹林'),
+    'ruins-of-alph':     ('Ruinas Alfa',        "Rovine d'Alfa",       '阿露福遗迹', '阿露福遺跡'),
 }
+# French names PokeAPI writes with a Pokémon's name in capitals.
+LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}
 
 
 def loc_extra(slug):
@@ -315,7 +324,10 @@ def build(region):
     for d in dexes:
         p = pokemon[d]
         rows = []
-        for vg in cfg['learnset_vg']:
+        vgs = cfg['learnset_vg']
+        if cfg.get('learnset_vg_from') and d >= cfg['learnset_vg_from'][0]:
+            vgs = cfg['learnset_vg_from'][1]
+        for vg in vgs:
             rows = [(vd['level_learned_at'], url_id(m['move']['url']), m['move']['name'])
                     for m in p['moves'] for vd in m['version_group_details']
                     if vd['version_group']['name'] == vg and vd['move_learn_method']['name'] == 'level-up']
@@ -467,6 +479,8 @@ def build(region):
             for lang, name in zip(['es', 'it', 'zh-hans', 'zh-hant'], ex):
                 if lang not in have:
                     entries.append({'language': {'name': lang}, 'name': name})
+        if n in LOC_FR:
+            entries = [e for e in entries if e['language']['name'] != 'fr'] + [{'language': {'name': 'fr'}, 'name': LOC_FR[n]}]
         names_loc[n] = names_of(entries, 'loc', fallback=n)
     ENC, dropped, used_versions = {}, set(), {}
     for loc, a in areas:

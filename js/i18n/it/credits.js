@@ -38,5 +38,7 @@ G.I18n.add({
   "Thank you for playing! Kanto is complete, and the next region opens in a future update.": "Grazie per aver giocato! Kanto è completo, e la prossima regione arriverà in un prossimo aggiornamento.",
   "Chapter 11 complete!": "Capitolo 11 completato!",
   "{player} beat Falkner and earned the Zephyr Badge: the first badge of Johto.": "{player} ha battuto Valerio e ottenuto la Medaglia Zefiro: la prima medaglia di Johto.",
-  "Thank you for playing! The rest of Johto opens in a future update.": "Grazie per aver giocato! Il resto di Johto arriverà in un prossimo aggiornamento."
+  "Thank you for playing! The rest of Johto opens in a future update.": "Grazie per aver giocato! Il resto di Johto arriverà in un prossimo aggiornamento.",
+  "Chapter 12 complete!": "Capitolo 12 completato!",
+  "{player} drove Team Rocket out of the Slowpoke Well and earned the Hive Badge from Bugsy.": "{player} ha cacciato il Team Rocket dal Pozzo Slowpoke e ottenuto la Medaglia Alveare da Raffaello."
 }, "it");

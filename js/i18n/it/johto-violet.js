@@ -11,7 +11,6 @@ G.I18n.add({
   "And this: TM40, Aerial Ace. A move that never misses, like a bird diving on its prey.": "E questa: la MT40, Aeroassalto. Una mossa che non manca mai il bersaglio, come un uccello che piomba sulla preda.",
   "Sprout Tower was built around a great swaying pillar. It is said to come from a Bellsprout a hundred feet tall!": "La Torre Sprout è stata costruita attorno a un grande pilastro che oscilla. Si dice che venga da un Bellsprout alto trenta metri!",
   "Falkner uses bird Pokémon. Electric and Rock moves hit them hard. Do you have any?": "Valerio usa Pokémon uccello. Le mosse Elettro e Roccia li colpiscono duramente. Ne hai qualcuna?",
-  "The roads west and south of the city are closed for repairs. Come back later!": "Le strade a ovest e a sud della città sono chiuse per lavori. Torna più tardi!",
   "My strong Pokémon from Kanto just would not listen in Falkner's Gym. I had to win with the ones I raised here!": "I miei forti Pokémon di Kanto non mi ascoltavano nella Palestra di Valerio. Ho dovuto vincere con quelli cresciuti qui!",
   "A Super Potion heals twice as much as a Potion. Worth every coin!": "Una Superpozione cura il doppio di una Pozione. Vale ogni centesimo!",
   "Welcome to the Pokémon Academy! Lesson one: a Pokémon that trusts you fights harder. Lesson two: walk with your Pokémon!": "Benvenuto all'Accademia Pokémon! Lezione uno: un Pokémon che si fida di te lotta meglio. Lezione due: cammina con i tuoi Pokémon!",
@@ -50,5 +49,6 @@ G.I18n.add({
   "...You win. My birds and I still have much to learn.": "...Hai vinto. Io e i miei uccelli abbiamo ancora molto da imparare.",
   "Violet City. An old town of quiet scents, with Sprout Tower at its heart.": "Violapoli. Un'antica città dai profumi tranquilli, con la Torre Sprout nel cuore.",
   "Violet City Pokémon Gym. Leader: Falkner, who soars with Flying-type Pokémon!": "Palestra Pokémon di Violapoli. Capopalestra: Valerio, che vola alto con i Pokémon di tipo Volante!",
-  "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "Il grande pilastro oscilla dolcemente, ma non cade mai. Si dice che sia il fusto di un Bellsprout gigante."
+  "The great pillar sways gently, but it never falls. They say it is the trunk of a giant Bellsprout.": "Il grande pilastro oscilla dolcemente, ma non cade mai. Si dice che sia il fusto di un Bellsprout gigante.",
+  "A strange tree blocks the road west of the city. It wiggles when nobody is looking! South of here, Route 32 leads to Union Cave.": "Uno strano albero blocca la strada a ovest della città. Si dimena quando nessuno lo guarda! A sud, il Percorso 32 porta alla Grotta di Mezzo."
 }, "it");

@@ -163,6 +163,8 @@ LOC_NAMES = {
     'lake-of-rage':      ('Lago de la Furia',   "Lago d'Ira",          '愤怒之湖',   '憤怒之湖'),
     'mt-mortar':         ('Monte Mortero',      'Monte Scodella',      '擂钵山',     '擂缽山'),
     'team-rocket-hq':    ('Guarida del Team Rocket', 'Covo del Team Rocket', '火箭队基地', '火箭隊基地'),
+    'ice-path':          ('Ruta Helada',        'Via Gelata',          '冰之洞',     '冰之洞'),
+    'dragons-den':       ('Guarida Dragón',     'Tana del Drago',      '龙穴',       '龍穴'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

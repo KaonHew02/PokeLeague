@@ -1,7 +1,7 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
 // water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt, the Day Care,
-// the Bug-Catching Contest, Morty's floor of darkness, berry trees and Pryce's ice. Test maps are defined here; the drawing,
-// the dialog box and the camera are stand-ins.
+// the Bug-Catching Contest, Morty's floor of darkness, berry trees, Pryce's ice, and the real Ice Path and Clair's Gym.
+// Test maps are defined here (the last test loads the chapter 18 maps); the drawing, the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { boot, plain, CORE, DATA, BATTLE } = require('./helpers.cjs');
@@ -13,8 +13,8 @@ function el() {
   return { classList: { add() {}, remove() {}, toggle() {} }, setAttribute() {}, addEventListener() {}, appendChild() {}, style: {}, offsetWidth: 0 };
 }
 
-function world() {
-  const ctx = boot(FILES);
+function world(extra = []) {
+  const ctx = boot(FILES.concat(extra));
   const G = ctx.G;
   let now = 0;
   ctx.performance.now = () => now;
@@ -500,4 +500,58 @@ test('ice: you slide the way you went until something is in the way; the first f
   await settle();
   assert.deepEqual([W.player.x, W.player.y], [4, 3], 'the first floor tile stops the slide');
   assert.equal(W.player.dir, 'right', 'no spinning on ice');
+});
+
+/** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
+function shove(W, later, dir, n) {
+  for (let i = 0; i < n; i++) {
+    later(1000);
+    assert.equal(step(W, dir), 'blocked', dir + ' push ' + (i + 1));
+    if (i < n - 1) assert.equal(step(W, dir), 'moved');
+  }
+}
+const walk = (W, dirs) => { for (const d of dirs) assert.equal(step(W, d), 'moved', d); };
+
+test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
+  const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
+  W.debug.noEnc = true;
+  G.Field.save.player.badges = [1, 2, 3, 4, 5, 6, 7, 8];
+  G.Field.giveMon('machop', 40, { moves: ['strength', 'low-kick'] });
+  const settle = async () => { for (let i = 0; i < 80; i++) { W.update(0.05); await tick(); if (!W.player.moving && i > 4) break; } };
+  const slide = async dirs => { for (const d of dirs) { step(W, d); await settle(); } };
+  // 1F: the solver's way down the ice to the ladder.
+  W.load('ice-path-1f', 'west');
+  await slide(['down', 'right', 'down', 'right', 'up', 'right', 'up', 'right', 'right', 'down', 'right', 'up', 'left',
+               'down', 'left', 'down', 'left', 'up', 'left', 'down', 'down']);
+  assert.deepEqual([W.player.x, W.player.y], [2, 14], 'through the gap into the pocket of the ladder');
+  // B1F: each boulder into its hole.
+  const load = (x, y, dir) => { W.load('ice-path-b1f', { x, y, dir }); W.strength = true; };
+  load(4, 4, 'down'); shove(W, later, 'down', 4);
+  load(6, 4, 'right'); shove(W, later, 'right', 3); walk(W, ['up', 'right', 'right']); W.player.face('down'); shove(W, later, 'down', 4);
+  load(13, 3, 'down'); shove(W, later, 'down', 5); walk(W, ['left', 'down', 'down']); W.player.face('right'); shove(W, later, 'right', 1);
+  walk(W, ['up', 'right', 'right']); W.player.face('down'); shove(W, later, 'down', 1);
+  load(2, 11, 'right'); shove(W, later, 'right', 4); walk(W, ['up', 'right', 'right']); W.player.face('down'); shove(W, later, 'down', 1);
+  for (const at of ['4,9', '10,8', '14,10', '7,12']) assert.ok(G.Field.flag('pit:ice-path-b1f:' + at), 'filled ' + at);
+  // B2F: the four boulders have landed on the ice, and they make the way across.
+  W.load('ice-path-b2f', 'from-above');
+  assert.equal(W.rocks.filter(r => r.fixed).length, 4);
+  await slide(['down', 'down', 'right', 'up', 'right', 'down', 'left', 'down', 'right', 'up', 'left', 'up', 'right',
+               'down', 'right', 'up', 'left', 'up', 'left', 'down', 'down']);
+  assert.deepEqual([W.player.x, W.player.y], [9, 14], 'down into the pocket');
+  // Clair's Gym: a boulder never goes over the chasm, only into its hole.
+  const gym = (x, y, dir) => { W.load('blackthorn-gym', { x, y, dir }); W.strength = true; };
+  gym(12, 11, 'up');
+  later(1000);
+  step(W, 'up');
+  assert.equal(W.rocks.find(r => r.id === 'mid').y, 10, 'not over the chasm');
+  gym(3, 16, 'up'); shove(W, later, 'up', 2);
+  gym(13, 10, 'left'); shove(W, later, 'left', 2); walk(W, ['down', 'left', 'left']); W.player.face('up'); shove(W, later, 'up', 1);
+  gym(3, 6, 'right'); shove(W, later, 'right', 3); walk(W, ['down', 'right', 'right']); W.player.face('up'); shove(W, later, 'up', 1);
+  for (const at of ['3,13', '10,9', '7,5']) assert.ok(G.Field.flag('pit:blackthorn-gym:' + at), 'filled ' + at);
+  // From the door to Clair across the three filled holes (her Trainers already beaten).
+  for (const id of ['paul', 'lola', 'mike']) G.Field.markDone('blackthorn-gym:' + id);
+  W.load('blackthorn-gym', 'door');
+  walk(W, ['left', 'left', 'left', 'left', 'up', 'up', 'up', 'up', 'up', 'right', 'right', 'right', 'right', 'right', 'right', 'right',
+           'up', 'up', 'up', 'up', 'left', 'left', 'left', 'up', 'up', 'up', 'up', 'up']);
+  assert.deepEqual([W.player.x, W.player.y], [7, 3], 'in front of Clair');
 });

@@ -1,0 +1,25 @@
+/* Spanish — johto-icepath: Route 44 and the Ice Path (js/content/johto/icepath.js). */
+G.I18n.add({
+  "Vance": "Vance",
+  "My Pidgeotto can fly over the mountains. Can yours?": "Mis Pidgeotto pueden volar por encima de las montañas. ¿Y los tuyos?",
+  "Flying types have it easy on mountain roads. No ice to slip on!": "Los de tipo Volador lo tienen fácil en los caminos de montaña. ¡No hay hielo en el que resbalar!",
+  "I foresaw that you would come this way. I did not foresee who would win, though.": "Preví que vendrías por aquí. Lo que no preví es quién ganaría.",
+  "Even my future sight was clouded...": "Hasta mi visión del futuro estaba nublada...",
+  "The future is never fixed. That is what makes it worth training for.": "El futuro nunca está escrito. Por eso merece la pena entrenar.",
+  "Shh! You are scaring the fish. Fine, a battle it is!": "¡Chist! Vas a espantar a los peces. Vale, ¡pues a combatir!",
+  "Remoraid shoot water like a jet. When they grow up, they latch on to things.": "Los Remoraid disparan agua a chorro. Cuando crecen, se agarran a las cosas.",
+  "Cybil": "Cybil",
+  "Pretty Pokémon can be strong too. Let me show you!": "Los Pokémon bonitos también pueden ser fuertes. ¡Te lo demostraré!",
+  "Beaten, but beautifully.": "Derrotada, pero con estilo.",
+  "Clair of Blackthorn is the strongest Gym Leader in Johto. Are you heading her way?": "Débora, de Ciudad Endrino, es la Líder de Gimnasio más fuerte de Johto. ¿Vas a enfrentarte a ella?",
+  "Zach": "Zach",
+  "My Rhyhorn grew a drill on its head! Want to see what it can do?": "¡A mi Rhyhorn le salió un taladro en la cabeza! ¿Quieres ver lo que puede hacer?",
+  "The drill could not break through...": "El taladro no pudo atravesarlo...",
+  "I would love a Pokémon from the Dragon's Den. Only the dragon clan may go in, though.": "Me encantaría un Pokémon de la Guarida Dragón. Pero solo el clan del dragón puede entrar.",
+  "Allen": "Allen",
+  "A Trainer on the way to Blackthorn? Then you must be good. Prove it!": "¿Un Entrenador camino de Ciudad Endrino? Entonces debes de ser bueno. ¡Demuéstralo!",
+  "You really are good.": "Sí que eres bueno.",
+  "The Ice Path is slippery. Think before every step, or you will slide right past where you wanted to go.": "La Ruta Helada resbala. Piensa antes de cada paso, o te pasarás de largo de donde querías ir.",
+  "Route 44. West: Mahogany Town. East: the Ice Path.": "Ruta 44. Oeste: Pueblo Caoba. Este: la Ruta Helada.",
+  "The Ice Path. Its floors are frozen solid all year round. Blackthorn City lies on the other side.": "La Ruta Helada. Su suelo está congelado todo el año. Al otro lado está Ciudad Endrino."
+}, "es");

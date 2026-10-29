@@ -1,0 +1,25 @@
+/* Brazilian Portuguese — johto-icepath: Route 44 and the Ice Path (js/content/johto/icepath.js). */
+G.I18n.add({
+  "Vance": "Vance",
+  "My Pidgeotto can fly over the mountains. Can yours?": "Meus Pidgeotto conseguem voar sobre as montanhas. E os seus?",
+  "Flying types have it easy on mountain roads. No ice to slip on!": "Os do tipo Voador se viram fácil nas estradas da montanha. Nada de gelo para escorregar!",
+  "I foresaw that you would come this way. I did not foresee who would win, though.": "Eu previ que você viria por aqui. Só não previ quem ia ganhar.",
+  "Even my future sight was clouded...": "Até minha visão do futuro estava nublada...",
+  "The future is never fixed. That is what makes it worth training for.": "O futuro nunca está escrito. É isso que faz valer a pena treinar.",
+  "Shh! You are scaring the fish. Fine, a battle it is!": "Psiu! Você está espantando os peixes. Tá bom, vamos batalhar!",
+  "Remoraid shoot water like a jet. When they grow up, they latch on to things.": "Remoraid atiram água como um jato. Quando crescem, grudam nas coisas.",
+  "Cybil": "Cybil",
+  "Pretty Pokémon can be strong too. Let me show you!": "Pokémon bonitos também podem ser fortes. Vou te mostrar!",
+  "Beaten, but beautifully.": "Derrotada, mas com estilo.",
+  "Clair of Blackthorn is the strongest Gym Leader in Johto. Are you heading her way?": "Clair, de Blackthorn, é a Líder de Ginásio mais forte de Johto. Você está indo enfrentá-la?",
+  "Zach": "Zach",
+  "My Rhyhorn grew a drill on its head! Want to see what it can do?": "Meu Rhyhorn ganhou uma broca na cabeça! Quer ver o que ela faz?",
+  "The drill could not break through...": "A broca não conseguiu furar...",
+  "I would love a Pokémon from the Dragon's Den. Only the dragon clan may go in, though.": "Eu adoraria um Pokémon da Dragon's Den. Mas só o clã dos dragões pode entrar.",
+  "Allen": "Allen",
+  "A Trainer on the way to Blackthorn? Then you must be good. Prove it!": "Um Treinador a caminho de Blackthorn? Então você deve ser bom. Prove!",
+  "You really are good.": "Você é bom mesmo.",
+  "The Ice Path is slippery. Think before every step, or you will slide right past where you wanted to go.": "O Ice Path é escorregadio. Pense antes de cada passo, ou vai deslizar para longe de onde queria ir.",
+  "Route 44. West: Mahogany Town. East: the Ice Path.": "Rota 44. Oeste: Mahogany Town. Leste: o Ice Path.",
+  "The Ice Path. Its floors are frozen solid all year round. Blackthorn City lies on the other side.": "O Ice Path. Seu chão fica congelado o ano todo. Blackthorn City fica do outro lado."
+}, "pt-BR");

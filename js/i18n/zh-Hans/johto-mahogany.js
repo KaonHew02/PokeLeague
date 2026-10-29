@@ -82,9 +82,11 @@ G.I18n.add({
   "Fifty winters I have trained with Ice Pokémon, and every one of them taught me something. I am Pryce. Let us see whether you can endure the cold!": "我与冰属性宝可梦一同修行了五十个冬天，每一个冬天都教会了我一些东西。我是柳伯。让我看看你能不能忍受这份寒冷吧！",
   "Hm... You are stronger than the winter wind. A heart like yours will see you through any hardship.": "嗯……你比冬天的寒风还要强。有这样一颗心，你一定能克服任何困难。",
   "Mahogany Town. Home of the ninja, it is said.": "卡吉镇。据说是忍者的故乡。",
-  "East: Route 44. Closed: a rockfall blocks the way to the Ice Path.": "东：44号道路。山崩挡住了通往冰雪小径的路，暂时封闭。",
   "Mahogany Town Pokémon Gym. Leader: Pryce, the winter master who has trained for fifty years.": "卡吉镇宝可梦道馆。馆主：柳伯，修行了五十年的冬之大师。",
   "Route 43. Mahogany Town to the south, the Lake of Rage to the north.": "43号道路。南边是卡吉镇，北边是愤怒之湖。",
   "The Lake of Rage is just ahead. Mind the Gyarados!": "前方就是愤怒之湖。小心暴鲤龙！",
-  "The Lake of Rage. They say it was made by a Gyarados in a rage, long ago.": "愤怒之湖。据说是很久以前一只暴怒的暴鲤龙造成的。"
+  "The Lake of Rage. They say it was made by a Gyarados in a rage, long ago.": "愤怒之湖。据说是很久以前一只暴怒的暴鲤龙造成的。",
+  "Sorry, the road east is closed. A rockfall buried it, and we are still digging it out.": "抱歉，往东的路封闭了。落石把路埋住了，我们还在挖。",
+  "Men in black keep coming by and telling us to stop working. Who are they to give orders?": "老有穿黑衣服的人跑来叫我们别干了。他们凭什么发号施令？",
+  "East: Route 44, the Ice Path and Blackthorn City.": "东：44号道路、冰之洞、烟墨市。"
 }, "zh-Hans");

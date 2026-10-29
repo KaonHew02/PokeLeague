@@ -1,0 +1,25 @@
+/* Traditional Chinese — johto-icepath: Route 44 and the Ice Path (js/content/johto/icepath.js). */
+G.I18n.add({
+  "Vance": "凡斯",
+  "My Pidgeotto can fly over the mountains. Can yours?": "我的比比鳥能飛越高山。你的呢？",
+  "Flying types have it easy on mountain roads. No ice to slip on!": "飛行屬性在山路上可輕鬆了。不會在冰上滑倒！",
+  "I foresaw that you would come this way. I did not foresee who would win, though.": "我預見到你會走這條路。不過我沒預見到誰會贏。",
+  "Even my future sight was clouded...": "連我的預知能力都蒙上了霧……",
+  "The future is never fixed. That is what makes it worth training for.": "未來從來不是注定的。正因如此，訓練才有意義。",
+  "Shh! You are scaring the fish. Fine, a battle it is!": "噓！你會把魚嚇跑的。好吧，那就對戰！",
+  "Remoraid shoot water like a jet. When they grow up, they latch on to things.": "鐵炮魚會像水槍一樣噴水。長大以後就會吸附在東西上。",
+  "Cybil": "西貝爾",
+  "Pretty Pokémon can be strong too. Let me show you!": "可愛的寶可夢也能很強。我來證明給你看！",
+  "Beaten, but beautifully.": "輸了，但輸得很漂亮。",
+  "Clair of Blackthorn is the strongest Gym Leader in Johto. Are you heading her way?": "煙墨市的小椿是城都最強的道館館主。你要去挑戰她嗎？",
+  "Zach": "扎克",
+  "My Rhyhorn grew a drill on its head! Want to see what it can do?": "我的獨角犀牛頭上長出鑽頭了！想看看牠的厲害嗎？",
+  "The drill could not break through...": "鑽頭也鑽不穿……",
+  "I would love a Pokémon from the Dragon's Den. Only the dragon clan may go in, though.": "好想要龍穴裡的寶可夢啊。不過只有龍之一族才能進去。",
+  "Allen": "艾倫",
+  "A Trainer on the way to Blackthorn? Then you must be good. Prove it!": "要去煙墨市的訓練家？那你一定很厲害。證明給我看！",
+  "You really are good.": "你真的很厲害。",
+  "The Ice Path is slippery. Think before every step, or you will slide right past where you wanted to go.": "冰之洞很滑。每走一步前都要想清楚，不然就會滑過頭。",
+  "Route 44. West: Mahogany Town. East: the Ice Path.": "44號道路。西：卡吉鎮。東：冰之洞。",
+  "The Ice Path. Its floors are frozen solid all year round. Blackthorn City lies on the other side.": "冰之洞。洞裡的地面一年到頭都凍得結結實實。另一頭就是煙墨市。"
+}, "zh-Hant");

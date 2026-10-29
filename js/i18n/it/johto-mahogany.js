@@ -82,9 +82,11 @@ G.I18n.add({
   "Fifty winters I have trained with Ice Pokémon, and every one of them taught me something. I am Pryce. Let us see whether you can endure the cold!": "Da cinquanta inverni mi alleno con i Pokémon di tipo Ghiaccio, e ognuno mi ha insegnato qualcosa. Sono Alfredo. Vediamo se sopporti il freddo!",
   "Hm... You are stronger than the winter wind. A heart like yours will see you through any hardship.": "Hm... Sei più forte del vento d'inverno. Un cuore come il tuo ti farà superare qualsiasi difficoltà.",
   "Mahogany Town. Home of the ninja, it is said.": "Mogania. Si dice che sia la patria dei ninja.",
-  "East: Route 44. Closed: a rockfall blocks the way to the Ice Path.": "Est: Percorso 44. Chiuso: una frana blocca la strada per la Via Gelata.",
   "Mahogany Town Pokémon Gym. Leader: Pryce, the winter master who has trained for fifty years.": "Palestra Pokémon di Mogania. Capopalestra: Alfredo, il maestro dell'inverno che si allena da cinquant'anni.",
   "Route 43. Mahogany Town to the south, the Lake of Rage to the north.": "Percorso 43. A sud Mogania, a nord il Lago d'Ira.",
   "The Lake of Rage is just ahead. Mind the Gyarados!": "Il Lago d'Ira è proprio qui davanti. Attento ai Gyarados!",
-  "The Lake of Rage. They say it was made by a Gyarados in a rage, long ago.": "Lago d'Ira. Si dice che l'abbia creato un Gyarados infuriato, tanto tempo fa."
+  "The Lake of Rage. They say it was made by a Gyarados in a rage, long ago.": "Lago d'Ira. Si dice che l'abbia creato un Gyarados infuriato, tanto tempo fa.",
+  "Sorry, the road east is closed. A rockfall buried it, and we are still digging it out.": "Spiacente, la strada a est è chiusa. Una frana l'ha sepolta e stiamo ancora scavando.",
+  "Men in black keep coming by and telling us to stop working. Who are they to give orders?": "Continuano a venire uomini in nero a dirci di smettere di lavorare. Chi si credono di essere?",
+  "East: Route 44, the Ice Path and Blackthorn City.": "Est: Percorso 44, la Via Gelata ed Ebanopoli."
 }, "it");

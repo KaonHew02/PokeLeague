@@ -50,5 +50,8 @@ G.I18n.add({
   "Chapter 16 complete!": "第16章完成！",
   "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player}平息了愤怒之湖，和阿渡一起捣毁了火箭队的基地，并从柳伯那里得到了冰雪徽章。",
   "Chapter 17 complete!": "第17章完成！",
-  "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player}从火箭队手中夺回了广播塔，火箭队再一次解散了。"
+  "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player}从火箭队手中夺回了广播塔，火箭队再一次解散了。",
+  "Chapter 18 complete!": "第18章完成！",
+  "{player} crossed the Ice Path, passed the dragon clan's test and won the Rising Badge from Clair: all eight Johto badges.": "{player}穿过了冰之洞，通过了龙之一族的考验，从小椿手中赢得了升龙徽章：城都的八枚徽章全部到手。",
+  "Thank you for playing! The road to the Pokémon League opens in a future update.": "感谢游玩！通往宝可梦联盟的道路将在之后的更新中开放。"
 }, "zh-Hans");

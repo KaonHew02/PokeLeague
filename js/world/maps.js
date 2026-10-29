@@ -63,7 +63,7 @@ G.Maps = (() => {
     abyss: { fall: 1 }, rubble: { solid: 1 },
     // Chapter 15: a berry tree (a berry or more once a day; map `berries: [[x, y, item]]`, else Oran).
     berrytree: { solid: 1 },
-    // Chapter 16: ice (Pryce's Gym): you slide on it (field.js).
+    // Chapter 16: ice (Pryce's Gym; in caves too, chapter 18): you slide on it (field.js).
     ice: { ice: 1 }
   };
   const LEGEND = {
@@ -80,7 +80,8 @@ G.Maps = (() => {
       x: 'plate', b: 'bars',                         // a floor switch, a rock barrier (Victory Road)
       I: 'stamp',                                    // the Pokémon League
       h: 'headtree',                                 // a tree to Headbutt (Johto)
-      y: 'berrytree'                                 // a berry tree (Johto)
+      y: 'berrytree',                                // a berry tree (Johto)
+      i: 'ice'                                       // ice on a cave floor (the Ice Path)
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',

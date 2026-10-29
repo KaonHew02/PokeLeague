@@ -1,7 +1,8 @@
 /* ============ mahogany.js — Mahogany Town, the Lake of Rage, the Rocket hideout and Pryce ============
  * Chapter 16, the end of the chapter. Mahogany Town: a Center, a house, the souvenir shop (its
  * clerk never smiles) and Pryce's Gym, locked: strange signals have the town on edge. The road
- * east (Route 44) is closed. Route 43 (four Trainers) leads north to the Lake of Rage, where a red
+ * east (Route 44) is blocked by a rockfall until Team Rocket leaves the Radio Tower (chapter 18:
+ * flag radio-freed). Route 43 (four Trainers) leads north to the Lake of Rage, where a red
  * Gyarados rages on the water: a wild battle, Lv. 30, shiny (flag red-gyarados; it leaves a Red
  * Scale). Lance, on the shore, says a radio signal from Mahogany forced it to evolve (flag
  * lance-mahogany) and goes ahead. In the souvenir shop he has dealt with the clerk, a Grunt; the
@@ -27,8 +28,8 @@ G.Maps.def({
     'T.......MMMM...,,...CCCCC......T',
     'T...ff..MDMM...,,...CCDCC......T',
     'T........,....S,,.....,.....S..T',
-    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.T',
-    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.T',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+    ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
     'T...........S..,,........ff....T',
     'T.......GGGGGG.,,..............T',
     'T.......GGGGGG.,,..............T',
@@ -41,7 +42,7 @@ G.Maps.def({
     'T..........................TTTTT',
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
-  connect: { west: { map: 'route42', offset: 2 }, north: { map: 'route43', offset: 5 } },
+  connect: { west: { map: 'route42', offset: 2 }, north: { map: 'route43', offset: 5 }, east: { map: 'route44', offset: 2 } },
   triggers: [{ x: 1, y: 19, w: 30, h: 4, if: ['pryce-beaten', '!rocket-broadcast'], script: 'radio.broadcast' }],
   warps: [
     { x: 9, y: 9, to: 'souvenir-shop', spot: 'door' },
@@ -52,10 +53,14 @@ G.Maps.def({
   spots: { 'shop-door': [9, 10, 'down'], 'center-door': [22, 10, 'down'], 'gym-door': [10, 19, 'down'], 'house-door': [21, 19, 'down'] },
   signs: {
     '14,10': 'Mahogany Town. Home of the ninja, it is said.',
-    '28,10': 'East: Route 44. Closed: a rockfall blocks the way to the Ice Path.',
+    '28,10': 'East: Route 44, the Ice Path and Blackthorn City.',
     '12,13': 'Mahogany Town Pokémon Gym. Leader: Pryce, the winter master who has trained for fifty years.'
   },
   npcs: [
+    { id: 'worker1', who: 'engineer', x: 30, y: 11, dir: 'left', if: '!radio-freed',
+      say: 'Sorry, the road east is closed. A rockfall buried it, and we are still digging it out.' },
+    { id: 'worker2', who: 'engineer', x: 30, y: 12, dir: 'left', if: '!radio-freed',
+      say: 'Men in black keep coming by and telling us to stop working. Who are they to give orders?' },
     { id: 'kid', who: 'youngster', x: 18, y: 14, move: 'wander', r: 2,
       say: 'Have you heard? A red Gyarados was seen at the Lake of Rage, north of town!' },
     { id: 'man', who: 'gentleman', x: 5, y: 13, move: 'look', if: '!hideout-cleared',

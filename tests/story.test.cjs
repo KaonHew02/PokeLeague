@@ -782,6 +782,28 @@ test('balance: Pryce in Mahogany (chapter 16), win rates of typical teams are pr
   assert.ok(table['meganium 36 + flareon 32'] >= 0.7, 'Meganium and Flareon');
 });
 
+test('balance: Clair in Blackthorn (chapter 18), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const TY = ['flamethrower', 'flame-wheel', 'swift', 'quick-attack'], FE = ['surf', 'crunch', 'ice-fang', 'agility'];
+  const ME = ['razor-leaf', 'body-slam', 'poison-powder', 'reflect'];
+  const JY = [124, 36, ['ice-punch', 'psychic', 'lovely-kiss', 'body-slam']], PI = [221, 38, ['ice-fang', 'earthquake', 'take-down', 'mist']];
+  const AM = [181, 38, ['thunder-punch', 'thunder-wave', 'cotton-spore', 'swift']], PG = [18, 38, ['wing-attack', 'quick-attack', 'mirror-move', 'sand-attack']];
+  const rate = leaderRate(G, 'blackthorn-gym', 'clair');
+  const table = {
+    'typhlosion 42': rate([[157, 42, TY]]),
+    'typhlosion 42 + jynx 36': rate([[157, 42, TY], JY]),
+    'typhlosion 42 + jynx 36 + ampharos 38 + pidgeot 38': rate([[157, 42, TY], JY, AM, PG]),
+    'feraligatr 42 + ampharos 38 + pidgeot 38': rate([[160, 42, FE], AM, PG]),
+    'meganium 42 + piloswine 38 + ampharos 38 + pidgeot 38': rate([[154, 42, ME], PI, AM, PG])
+  };
+  console.log('[balance] vs Clair:', JSON.stringify(table));
+  // The games' first levels (Gold and Silver): no lone starter beats four dragons; a team of four
+  // with an Ice move or two usually does.
+  assert.ok(table['typhlosion 42 + jynx 36 + ampharos 38 + pidgeot 38'] >= 0.6, 'four with Jynx');
+  assert.ok(table['feraligatr 42 + ampharos 38 + pidgeot 38'] >= 0.45, 'Feraligatr and two');
+  assert.ok(table['meganium 42 + piloswine 38 + ampharos 38 + pidgeot 38'] >= 0.3, 'Meganium and three');
+});
+
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
 async function chapter3(st) {
   const { G, S, W } = st;
@@ -1538,7 +1560,7 @@ async function chapter14(st) {
   assert.ok(!C.on() && st.W.map === 'national-park', 'the contest is over');
   assert.equal(S.party.length + S.boxes.flat().filter(Boolean).length, n + 1, 'the Scyther is yours');
   assert.ok(F.count('sun-stone') + F.count('moon-stone') + F.count('hyper-potion') + F.count('super-potion') > 0, 'a prize');
-  await run(st, 'national-park', npc(st, 'national-park', 'officer'), [0]);
+  await run(st, 'national-park', npc(st, 'national-park', 'officer'));
   assert.ok(!C.on(), 'once a day');
   // Route 36: the strange tree is a Sudowoodo.
   await all('route36');
@@ -1721,6 +1743,57 @@ async function chapter17(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 18 after chapter 17: Route 44, the Ice Path, Blackthorn City, Clair, the Dragon's Den and the Elder. */
+async function chapter18(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // With Team Rocket gone, the rockfall east of Mahogany is cleared.
+  const mh = G.Maps.get('mahogany');
+  assert.equal(mh.def.connect.east.map, 'route44');
+  assert.ok(mh.npcs.filter(n => /^worker/.test(n.id)).every(n => !F.test(n.if)), 'the workers have left');
+  const starter = S.party.find(m => m.sp >= 155 && m.sp <= 160);
+  lead(st, starter.sp);
+  grind(st, 'route44', 40, 600);
+  await all('route44');
+  won();
+  // The Ice Path (its ice and boulders are played in field.test.cjs): the B2F boulders come from B1F's holes.
+  const fell = G.Maps.get('ice-path-b2f').def.boulders;
+  assert.deepEqual(fell.map(b => b.if).sort(), G.Maps.get('ice-path-b1f').def.warps.filter(w => /^drop/.test(w.spot))
+    .map(w => 'pit:ice-path-b1f:' + w.x + ',' + w.y).sort());
+  // Clair's Gym: she wins nothing by losing, and keeps her badge until the Elder's test.
+  grind(st, 'route44', 42, 600);
+  await all('blackthorn-gym');
+  won();
+  F.healAll();
+  await run(st, 'blackthorn-gym', [['battle', 'blackthorn-gym:clair']]);
+  assert.equal(last().outcome, 'win', 'Clair beaten at levels ' + last().levels);
+  assert.ok(F.flag('clair-battled') && !S.player.badges.includes(16), 'no badge yet');
+  // The Dragon's Den: the rival, two Cool Trainers; the Elder's four questions.
+  await run(st, 'dragons-den', 'den.rival');
+  assert.ok(F.flag('den-rival'));
+  await all('dragons-den');
+  won();
+  const n = S.party.length;
+  await run(st, 'dragon-shrine', npc(st, 'dragon-shrine', 'elder'), [0, 1, 2, 0]);
+  assert.ok(S.player.badges.includes(16) && F.count('tm02') === 1 && F.flag('clair-beaten'), 'the Rising Badge and TM02');
+  assert.equal(+F.getVar('elder-quiz'), 4);
+  const dratini = n < 6 ? S.party[n] : S.boxes.flat().filter(Boolean).pop();
+  assert.ok(F.flag('got-dratini') && dratini.sp === 147 && dratini.moves.some(m => m.id === 'extreme-speed'), 'Dratini with Extreme Speed');
+  assert.equal(F.obeyCap('johto'), null, 'eight Johto badges: every Pokémon obeys');
+  assert.ok(F.flag('chapter-18-done'));
+  // The Move Deleter takes any move, as long as one is left.
+  if (n < 6) {
+    st.picks.push(n);
+    await run(st, 'move-deleter-house', 'blackthorn.deleter', [0, 3, 0]);
+    assert.deepEqual(S.party[n].moves.map(m => m.id), ['wrap', 'thunder-wave', 'twister']);
+  }
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1802,7 +1875,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test('chapters 11 to 17: Johto, from Professor Elm to Pryce and the Radio Tower', async () => {
+test('chapters 11 to 18: Johto, from Professor Elm to the Radio Tower and Clair', async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -1821,4 +1894,5 @@ test('chapters 11 to 17: Johto, from Professor Elm to Pryce and the Radio Tower'
   await chapter15(st);
   await chapter16(st);
   await chapter17(st);
+  await chapter18(st);
 });

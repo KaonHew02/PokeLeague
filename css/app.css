@@ -250,6 +250,7 @@ input { font: inherit; }
   position: absolute; right: 0; bottom: calc(100% + .45em);
   min-width: 5.5em; padding: .3em .45em;
   font-size: .95em;
+  max-height: 12em;          /* above the dialog box, not as short as it (.box says 100%) */
 }
 .dlg-choices .menu-item { display: block; width: 100%; }
 .dlg-choices .menu-item.sel { background: rgba(255,255,255,.1); }

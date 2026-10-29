@@ -1,0 +1,25 @@
+/* Italian — johto-icepath: Route 44 and the Ice Path (js/content/johto/icepath.js). */
+G.I18n.add({
+  "Vance": "Vance",
+  "My Pidgeotto can fly over the mountains. Can yours?": "I miei Pidgeotto volano sopra le montagne. E i tuoi?",
+  "Flying types have it easy on mountain roads. No ice to slip on!": "I tipi Volante se la cavano bene sulle strade di montagna. Niente ghiaccio su cui scivolare!",
+  "I foresaw that you would come this way. I did not foresee who would win, though.": "Avevo previsto che saresti passato di qui. Non avevo previsto chi avrebbe vinto, però.",
+  "Even my future sight was clouded...": "Persino la mia vista del futuro era annebbiata...",
+  "The future is never fixed. That is what makes it worth training for.": "Il futuro non è mai scritto. È per questo che vale la pena allenarsi.",
+  "Shh! You are scaring the fish. Fine, a battle it is!": "Sst! Spaventi i pesci. E va bene, lotta sia!",
+  "Remoraid shoot water like a jet. When they grow up, they latch on to things.": "I Remoraid sparano acqua a getto. Quando crescono, si attaccano alle cose.",
+  "Cybil": "Cybil",
+  "Pretty Pokémon can be strong too. Let me show you!": "Anche i Pokémon carini possono essere forti. Te lo dimostro!",
+  "Beaten, but beautifully.": "Sconfitta, ma con eleganza.",
+  "Clair of Blackthorn is the strongest Gym Leader in Johto. Are you heading her way?": "Sandra di Ebanopoli è la Capopalestra più forte di Johto. Stai andando da lei?",
+  "Zach": "Zach",
+  "My Rhyhorn grew a drill on its head! Want to see what it can do?": "Al mio Rhyhorn è spuntato un trapano in testa! Vuoi vedere cosa sa fare?",
+  "The drill could not break through...": "Il trapano non ce l'ha fatta...",
+  "I would love a Pokémon from the Dragon's Den. Only the dragon clan may go in, though.": "Mi piacerebbe tanto un Pokémon della Tana del Drago. Però solo il clan dei draghi può entrarci.",
+  "Allen": "Allen",
+  "A Trainer on the way to Blackthorn? Then you must be good. Prove it!": "Un Allenatore diretto a Ebanopoli? Allora devi essere bravo. Dimostralo!",
+  "You really are good.": "Sei davvero bravo.",
+  "The Ice Path is slippery. Think before every step, or you will slide right past where you wanted to go.": "La Via Gelata è scivolosa. Pensa prima di ogni passo, o scivolerai oltre il punto in cui volevi andare.",
+  "Route 44. West: Mahogany Town. East: the Ice Path.": "Percorso 44. Ovest: Mogania. Est: la Via Gelata.",
+  "The Ice Path. Its floors are frozen solid all year round. Blackthorn City lies on the other side.": "La Via Gelata. I suoi pavimenti sono ghiacciati tutto l'anno. Dall'altra parte c'è Ebanopoli."
+}, "it");

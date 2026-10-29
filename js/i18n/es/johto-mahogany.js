@@ -82,9 +82,11 @@ G.I18n.add({
   "Fifty winters I have trained with Ice Pokémon, and every one of them taught me something. I am Pryce. Let us see whether you can endure the cold!": "Llevo cincuenta inviernos entrenando con Pokémon de tipo Hielo, y cada uno me ha enseñado algo. Soy Fredo. ¡Veamos si aguantas el frío!",
   "Hm... You are stronger than the winter wind. A heart like yours will see you through any hardship.": "Hum... Eres más fuerte que el viento del invierno. Un corazón como el tuyo te llevará a superar cualquier dificultad.",
   "Mahogany Town. Home of the ninja, it is said.": "Pueblo Caoba. Dicen que es la tierra de los ninjas.",
-  "East: Route 44. Closed: a rockfall blocks the way to the Ice Path.": "Este: Ruta 44. Cerrada: un desprendimiento bloquea el camino a la Ruta Helada.",
   "Mahogany Town Pokémon Gym. Leader: Pryce, the winter master who has trained for fifty years.": "Gimnasio Pokémon de Pueblo Caoba. Líder: Fredo, el maestro del invierno que lleva cincuenta años entrenando.",
   "Route 43. Mahogany Town to the south, the Lake of Rage to the north.": "Ruta 43. Al sur, Pueblo Caoba. Al norte, el Lago de la Furia.",
   "The Lake of Rage is just ahead. Mind the Gyarados!": "El Lago de la Furia está justo delante. ¡Cuidado con los Gyarados!",
-  "The Lake of Rage. They say it was made by a Gyarados in a rage, long ago.": "Lago de la Furia. Dicen que lo creó un Gyarados furioso hace mucho tiempo."
+  "The Lake of Rage. They say it was made by a Gyarados in a rage, long ago.": "Lago de la Furia. Dicen que lo creó un Gyarados furioso hace mucho tiempo.",
+  "Sorry, the road east is closed. A rockfall buried it, and we are still digging it out.": "Lo siento, el camino al este está cerrado. Un desprendimiento lo enterró y aún lo estamos despejando.",
+  "Men in black keep coming by and telling us to stop working. Who are they to give orders?": "No paran de venir hombres de negro diciéndonos que dejemos de trabajar. ¿Quiénes se creen para dar órdenes?",
+  "East: Route 44, the Ice Path and Blackthorn City.": "Este: Ruta 44, la Ruta Helada y Ciudad Endrino."
 }, "es");

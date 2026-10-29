@@ -41,7 +41,8 @@ G.TownMapUI = (() => {
       'union-cave': [8.3, 12], 'slowpoke-well': [4.4, 12.6], 'ilex-forest': [4.2, 11], 'radio-tower': [5.6, 7.6],
       'national-park': [4.6, 5.6], 'burned-tower': [6.5, 2.7], 'bell-tower': [7.6, 2.6], 'ruins-of-alph': [7.2, 6.4],
       'johto-lighthouse': [2.1, 4.2], 'whirl-islands': [1.6, 7.4],
-      'mt-mortar': [10, 3], 'team-rocket-hq': [13.4, 3.3], 'lake-of-rage': [13, 1.3]
+      'mt-mortar': [10, 3], 'team-rocket-hq': [13.4, 3.3], 'lake-of-rage': [13, 1.3],
+      'ice-path': [15.4, 3], 'dragons-den': [17.6, 2.2]
     },
     ROADS: {
       29: [[17, 11], [12, 11]], 30: [[12, 11], [12, 6]], 31: [[12, 6], [9, 6], [9, 5]], 32: [[9, 5], [9, 12]],

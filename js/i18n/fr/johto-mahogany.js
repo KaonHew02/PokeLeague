@@ -82,9 +82,11 @@ G.I18n.add({
   "Fifty winters I have trained with Ice Pokémon, and every one of them taught me something. I am Pryce. Let us see whether you can endure the cold!": "Voilà cinquante hivers que je m'entraîne avec des Pokémon Glace, et chacun m'a appris quelque chose. Je suis Frédo. Voyons si tu supportes le froid !",
   "Hm... You are stronger than the winter wind. A heart like yours will see you through any hardship.": "Hum... Tu es plus fort que le vent d'hiver. Un cœur comme le tien te fera traverser toutes les épreuves.",
   "Mahogany Town. Home of the ninja, it is said.": "Acajou. On dit que c'est le pays des ninjas.",
-  "East: Route 44. Closed: a rockfall blocks the way to the Ice Path.": "Est : Route 44. Fermée : un éboulement bloque le chemin de la Route de Glace.",
   "Mahogany Town Pokémon Gym. Leader: Pryce, the winter master who has trained for fifty years.": "Arène Pokémon d'Acajou. Champion : Frédo, le maître de l'hiver qui s'entraîne depuis cinquante ans.",
   "Route 43. Mahogany Town to the south, the Lake of Rage to the north.": "Route 43. Acajou au sud, le Lac Colère au nord.",
   "The Lake of Rage is just ahead. Mind the Gyarados!": "Le Lac Colère est juste devant. Attention aux Léviator !",
-  "The Lake of Rage. They say it was made by a Gyarados in a rage, long ago.": "Lac Colère. On dit qu'il a été creusé par un Léviator en colère, il y a longtemps."
+  "The Lake of Rage. They say it was made by a Gyarados in a rage, long ago.": "Lac Colère. On dit qu'il a été creusé par un Léviator en colère, il y a longtemps.",
+  "Sorry, the road east is closed. A rockfall buried it, and we are still digging it out.": "Désolé, la route vers l'est est fermée. Un éboulement l'a ensevelie, et nous sommes encore en train de la dégager.",
+  "Men in black keep coming by and telling us to stop working. Who are they to give orders?": "Des hommes en noir n'arrêtent pas de venir nous dire d'arrêter le travail. Pour qui se prennent-ils ?",
+  "East: Route 44, the Ice Path and Blackthorn City.": "Est : Route 44, la Route de Glace et Ebènelle."
 }, "fr");

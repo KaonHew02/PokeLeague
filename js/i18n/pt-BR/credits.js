@@ -50,5 +50,8 @@ G.I18n.add({
   "Chapter 16 complete!": "Capítulo 16 concluído!",
   "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player} acalmou o Lake of Rage, desmontou o esconderijo Rocket com o Lance e ganhou a Insígnia Glacial do Pryce.",
   "Chapter 17 complete!": "Capítulo 17 concluído!",
-  "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player} retomou a Radio Tower da Equipe Rocket, e a Equipe Rocket se desfez mais uma vez."
+  "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player} retomou a Radio Tower da Equipe Rocket, e a Equipe Rocket se desfez mais uma vez.",
+  "Chapter 18 complete!": "Capítulo 18 concluído!",
+  "{player} crossed the Ice Path, passed the dragon clan's test and won the Rising Badge from Clair: all eight Johto badges.": "{player} atravessou o Ice Path, passou no teste do clã dos dragões e ganhou a Insígnia Ascendente de Clair: as oito insígnias de Johto.",
+  "Thank you for playing! The road to the Pokémon League opens in a future update.": "Obrigado por jogar! O caminho para a Liga Pokémon será aberto em uma próxima atualização."
 }, "pt-BR");

@@ -54,6 +54,8 @@
  * (G.DayCare, daycare.js).
  * Chapter 16: ice (`I` indoors): you slide the way you went until something is in the way, and the
  * first tile that is not ice stops you. A scripted wild Pokémon may be shiny (['wild', sp, lvl, { shiny }]).
+ * Chapter 18: ice in caves too (`i` outdoors, the Ice Path), where boulders stop a slide; a boulder
+ * cannot be pushed over a chasm (`abyss`), only into a hole in it (Clair's Gym).
  * Chapter 15: berry trees (`y`): one to three berries once a day (the map's `berries`: [[x, y, item]]).
  * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
  * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
@@ -957,7 +959,7 @@ G.World = (() => {
     if (!M().inside(map, bx, by) || !openTile(bx, by) || occupant(bx, by)) return false;
     if (follower && follower.visible && follower.x === bx && follower.y === by) return false;
     const k = M().kindAt(map, bx, by), pit = k === 'pit' && !pitFilled(bx, by);
-    if (M().info(k).warp && !pit) return false;
+    if ((M().info(k).warp && !pit) || k === 'abyss') return false;   // no boulders over a chasm (Clair's Gym)
     rk.px = rk.x; rk.py = rk.y; rk.x = bx; rk.y = by; rk.t0 = now;
     sfx('strength', 'bump');
     if (k === 'plate') {

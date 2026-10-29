@@ -1159,11 +1159,42 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** the Rocket teams are Lv. 33–39; the story test grinds the starter to Lv. 38 on
   Route 43 first (the games' Lv. 36–40 at this point).
 
-### After chapter 17
+- **Chapter 18** ✅, Johto part 8: once the Radio Tower is free (`radio-freed`) the two workers
+  digging out the rockfall leave Mahogany's east road. Route 44 (six Trainers, a pond, a berry
+  tree, a Headbutt tree) to the Ice Path (`cave`, palette `seafoam`, battles on ice): 1F, slide
+  across the ice to the ladder down; B1F, four boulders to push into four holes, each one falling
+  to B2F (`pit:ice-path-b1f:x,y`), where it lands on the ice; B2F, ice you can only cross with all
+  four boulders in place (falling through a hole lands you where its boulder would, and the ladder
+  is always in reach from there). The pocket below leads up through the east halves of B1F and
+  1F to Blackthorn City: a Center, a Mart, the Move Deleter (any move, HMs too, as long as one is
+  left), a house; the road south (Route 45) is closed by a landslide. Clair's Gym: three chasms
+  (`a`, back to the door), each crossed where a boulder pushed with Strength fills its hole;
+  three Cool Trainers, then Clair (Gyarados 37, Dragonair 37 ×2, Kingdra 40). She keeps the badge
+  (flag `clair-battled`) until the Elder of the dragon clan has tested you: the Dragon's Den
+  north of the Gym, across the pond (Surf), two Cool Trainers, a Dragon Scale, and the rival, who
+  came to see where Lance trained (flag `den-rival`). In the Dragon Shrine the Elder asks four
+  questions (var `elder-quiz` = the answers from the heart), Clair comes in: badge 16, the Rising
+  Badge (every Pokémon obeys), TM02 Dragon Claw (flag `clair-beaten`); the Elder gives a Dratini
+  (Lv. 15; Extreme Speed for four right answers; flag `got-dratini`), `ending(18)`. Files:
+  `js/content/johto/icepath.js`, `blackthorn.js` (translations `johto-icepath`, `johto-blackthorn`).
+- **Engine for chapter 18:** ice on cave floors (outdoor tile `i`, kind `ice`; boulders stop a
+  slide); a boulder cannot be pushed over a chasm (`abyss`), only into a hole in it. Class
+  `cooltrainer-f` (a woman's title, context `trainer-f`); people clair, cooltrainerm; the Ice
+  Path and the Dragon's Den in `LOC_NAMES` and on the Town Map. The two ice floors were searched by
+  a solver (constructively for B2F: each boulder needed); `tests/field.test.cjs` plays the real
+  maps: the slides of 1F and B2F, the four pushes of B1F, Clair's three boulders and the walk to her.
+  The dialog's choice box may be taller than the dialog box (`.dlg-choices` max-height 12em), so the
+  Elder's three answers (and the Day Care's menus) show without scrolling.
+- **Balance:** Clair at Gold and Silver's levels (one below HeartGold's). No lone starter beats
+  four dragons (Dragon Breath and Surf, Thunder Wave, Kingdra's Hyper Beam); a team of four with
+  an Ice move or two: Typhlosion, Jynx, Ampharos and Pidgeot ~80%, Feraligatr and two ~60%,
+  Meganium, Piloswine and two ~50%.
 
-1. **Johto, the rest:** Route 44 and the Ice Path, Blackthorn City and Clair, the Dragon's Den,
-   Routes 45 and 46, the Johto League (Victory Road, the Elite Four, Lance); the roaming beasts,
-   the Whirl Islands and Lugia, the Ruins of Alph, Kurt's Apricorn Balls, breeding at the Day
-   Care (Eggs) and held items (berries held in battle) along the way.
+### After chapter 18
+
+1. **Johto, the rest:** Routes 45 and 46 and Dark Cave's east half, back to New Bark Town (Elm),
+   Route 27 and Tohjo Falls, Route 26, Victory Road, the Elite Four and the Champion; the roaming
+   beasts, the Whirl Islands and Lugia, the Ruins of Alph, Kurt's Apricorn Balls, breeding at the
+   Day Care (Eggs) and held items (berries held in battle) along the way.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

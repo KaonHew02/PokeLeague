@@ -17,8 +17,8 @@ the map format and which files each milestone owns.
 - `python tools/fetch_data.py --region johto [--offline]` — regenerates js/data/ from PokeAPI (cached).
   Use `johto` (dex 1–251, Kanto and Johto places): `--region kanto` would cut the data back to 151.
 - `node tools/map_check.js <map-id> | --all` — prints a map with its objects and checks it.
-- `tests/story.test.cjs` plays chapters 1 to 17 headless (real scripts and battle engine with an
-  auto-player) and prints `[balance]` win rates against the Gym Leaders (Kanto's eight and Johto's first seven), the Elite Four
+- `tests/story.test.cjs` plays chapters 1 to 18 headless (real scripts and battle engine with an
+  auto-player) and prints `[balance]` win rates against the Gym Leaders (Kanto's eight and Johto's eight), the Elite Four
   and the Champion (and their rematches). `tests/field.test.cjs` runs the overworld rules (field.js) without a screen. The game grows chapter by
   chapter (docs/DESIGN.md section 10); a chapter ends with `G.CreditsUI.ending(n)`.
   Try a map in the browser with `dev.html?debug&map=<id>` (`map=sandbox` is the M3 test town).

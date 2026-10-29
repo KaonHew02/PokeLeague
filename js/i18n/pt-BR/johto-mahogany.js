@@ -82,9 +82,11 @@ G.I18n.add({
   "Fifty winters I have trained with Ice Pokémon, and every one of them taught me something. I am Pryce. Let us see whether you can endure the cold!": "Há cinquenta invernos treino com Pokémon do tipo Gelo, e cada um deles me ensinou algo. Eu sou o Pryce. Vamos ver se você aguenta o frio!",
   "Hm... You are stronger than the winter wind. A heart like yours will see you through any hardship.": "Hum... Você é mais forte que o vento de inverno. Um coração como o seu vai te fazer superar qualquer dificuldade.",
   "Mahogany Town. Home of the ninja, it is said.": "Mahogany Town. Dizem que é a terra dos ninjas.",
-  "East: Route 44. Closed: a rockfall blocks the way to the Ice Path.": "Leste: Rota 44. Fechada: um deslizamento bloqueia o caminho para o Ice Path.",
   "Mahogany Town Pokémon Gym. Leader: Pryce, the winter master who has trained for fifty years.": "Ginásio Pokémon de Mahogany Town. Líder: Pryce, o mestre do inverno que treina há cinquenta anos.",
   "Route 43. Mahogany Town to the south, the Lake of Rage to the north.": "Rota 43. Mahogany Town ao sul, o Lake of Rage ao norte.",
   "The Lake of Rage is just ahead. Mind the Gyarados!": "O Lake of Rage fica logo à frente. Cuidado com os Gyarados!",
-  "The Lake of Rage. They say it was made by a Gyarados in a rage, long ago.": "Lake of Rage. Dizem que foi criado por um Gyarados furioso, há muito tempo."
+  "The Lake of Rage. They say it was made by a Gyarados in a rage, long ago.": "Lake of Rage. Dizem que foi criado por um Gyarados furioso, há muito tempo.",
+  "Sorry, the road east is closed. A rockfall buried it, and we are still digging it out.": "Desculpe, a estrada para o leste está fechada. Um desmoronamento a soterrou, e ainda estamos desenterrando.",
+  "Men in black keep coming by and telling us to stop working. Who are they to give orders?": "Uns homens de preto vivem aparecendo e mandando a gente parar de trabalhar. Quem eles pensam que são?",
+  "East: Route 44, the Ice Path and Blackthorn City.": "Leste: Rota 44, o Ice Path e Blackthorn City."
 }, "pt-BR");

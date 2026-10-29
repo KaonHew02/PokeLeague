@@ -46,5 +46,7 @@ G.I18n.add({
   "Chapter 14 complete!": "Capitolo 14 completato!",
   "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player} ha risvegliato i tre Pokémon leggendari sotto la Torre Bruciata e ha ottenuto la Medaglia Nebbia da Angelo.",
   "Chapter 15 complete!": "Capitolo 15 completato!",
-  "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player} ha attraversato il mare per la Pozione Segreta e ha ottenuto la Medaglia Tempesta da Furio e la Medaglia Minerale da Jasmine."
+  "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player} ha attraversato il mare per la Pozione Segreta e ha ottenuto la Medaglia Tempesta da Furio e la Medaglia Minerale da Jasmine.",
+  "Chapter 16 complete!": "Capitolo 16 completato!",
+  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player} ha calmato il Lago d'Ira, smantellato il covo Rocket con Lance e ottenuto la Medaglia Gelo da Alfredo."
 }, "it");

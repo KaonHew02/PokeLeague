@@ -62,7 +62,9 @@ G.Maps = (() => {
     // Chapter 14: a floor that is not there (Morty's Gym): you fall back to the map's `fall` spot.
     abyss: { fall: 1 }, rubble: { solid: 1 },
     // Chapter 15: a berry tree (a berry or more once a day; map `berries: [[x, y, item]]`, else Oran).
-    berrytree: { solid: 1 }
+    berrytree: { solid: 1 },
+    // Chapter 16: ice (Pryce's Gym): you slide on it (field.js).
+    ice: { ice: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -88,7 +90,7 @@ G.Maps = (() => {
       U: 'spin-up', D: 'spin-down', L: 'spin-left', R: 'spin-right', o: 'spin-stop', i: 'invisible',
       n: 'keydoor', w: 'pad',
       O: 'pit', y: 'bars', j: 'statue', z: 'quiz',
-      a: 'abyss', c: 'rubble'
+      a: 'abyss', c: 'rubble', I: 'ice'
     }
   };
   /** Buildings drawn as stamps: footprint in tiles (stamps.js paints them). */

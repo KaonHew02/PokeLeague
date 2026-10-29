@@ -46,5 +46,7 @@ G.I18n.add({
   "Chapter 14 complete!": "Capítulo 14 concluído!",
   "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player} despertou os três Pokémon lendários sob a Burned Tower e ganhou a Insígnia da Névoa do Morty.",
   "Chapter 15 complete!": "Capítulo 15 concluído!",
-  "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player} atravessou o mar atrás da Poção Secreta e ganhou a Insígnia da Tempestade do Chuck e a Insígnia Mineral da Jasmine."
+  "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player} atravessou o mar atrás da Poção Secreta e ganhou a Insígnia da Tempestade do Chuck e a Insígnia Mineral da Jasmine.",
+  "Chapter 16 complete!": "Capítulo 16 concluído!",
+  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player} acalmou o Lake of Rage, desmontou o esconderijo Rocket com o Lance e ganhou a Insígnia Glacial do Pryce."
 }, "pt-BR");

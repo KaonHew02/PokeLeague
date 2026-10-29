@@ -36,5 +36,8 @@ G.I18n.add({
   "Sage": "Sabio",
   "Pokéfan": "Pokéfan",
   "Kimono Girl": "Chica Kimono",
-  "Medium": "Médium"
+  "Medium": "Médium",
+  "Skier": "Esquiadora",
+  "Boarder": "Snowboarder",
+  "Team Rocket Executive": "Jefe del Team Rocket"
 }, "es");

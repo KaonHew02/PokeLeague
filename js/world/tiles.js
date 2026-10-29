@@ -795,6 +795,29 @@ G.Tiles = (() => {
     ascii(P, ox, oy, RUBBLE, { o: pack('#1c1612'), L: pack('#7a7068'), w: pack('#9a9088'), g: pack('#4e463e'), b: pack('#3a2a20'), B: pack('#5a4232') });
   }
 
+  // Ice: pale blue, with streaks of light (Pryce's Gym).
+  const ICE = [
+    'aaaaaaaaaaaaaaab',
+    'aaaawaaaaaaaaaab',
+    'aaawaaaaaaaaaaab',
+    'aawaaaaaaaaaaaab',
+    'awaaaaaaaaawaaab',
+    'aaaaaaaaaawaaaab',
+    'aaaaaaaaawaaaaab',
+    'aaaaaaaaaaaaaaab',
+    'aaaaaaaaaaaaaaab',
+    'aaaaawaaaaaaaaab',
+    'aaaawaaaaaaaaaab',
+    'aaawaaaaaaawaaab',
+    'aaaaaaaaaawaaaab',
+    'aaaaaaaaaaaaaaab',
+    'aaaaaaaaaaaaaaab',
+    'bbbbbbbbbbbbbbbb'
+  ];
+  function ice(P, C, ox, oy) {
+    ascii(P, ox, oy, ICE, { a: pack('#c6e8f8'), w: pack('#f4fcff'), b: pack('#a8d4ec') });
+  }
+
   function can(P, C, ox, oy, tx, ty) {
     floor(P, C, ox, oy, tx, ty, C.floor);
     ascii(P, ox, oy, CAN, { o: pack('#202830'), L: pack('#a8b4c0'), w: pack('#d8e0e8'), g: pack('#8894a0'), G: pack('#b8c4d0'), d: pack('#5c6874') });
@@ -1281,6 +1304,7 @@ G.Tiles = (() => {
       case 'berrytree': grass(P, C, ox, oy, tx, ty); break; // a berry tree: baked as a prop
       case 'can': can(P, C, ox, oy, tx, ty); break;
       case 'rubble': rubble(P, C, ox, oy, tx, ty); break;
+      case 'ice': ice(P, C, ox, oy); break;
       case 'grave': grave(P, C, ox, oy, tx, ty); break;
       case 'hedge': hedge(P, C, ox, oy, tx, ty); break;
       case 'hole': hole(P, C, ox, oy, tx, ty, at); break;

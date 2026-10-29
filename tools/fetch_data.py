@@ -103,7 +103,7 @@ REGIONS['johto'] = dict(REGIONS['kanto'], **{
     'items': REGIONS['kanto']['items'] + [
         'mystery-egg', 'sun-stone', 'metal-coat', 'kings-rock', 'dragon-scale', 'up-grade',
         'sport-ball', 'squirt-bottle',
-        'secret-potion', 'oran-berry', 'sitrus-berry', 'pecha-berry', 'cheri-berry', 'chesto-berry', 'rawst-berry', 'aspear-berry',
+        'red-scale', 'secret-potion', 'oran-berry', 'sitrus-berry', 'pecha-berry', 'cheri-berry', 'chesto-berry', 'rawst-berry', 'aspear-berry',
     ],
     'regions': [('kanto', ['firered', 'leafgreen', 'red', 'blue', 'yellow']),
                 ('johto', ['heartgold', 'soulsilver', 'crystal', 'gold', 'silver'])],
@@ -158,6 +158,9 @@ LOC_NAMES = {
     'bell-tower':        ('Torre Campana',      'Torre Campana',       '铃铛塔',     '鈴鐺塔'),
     'johto-lighthouse':  ('Faro Olivo',         'Faro di Olivinopoli', '浅葱灯塔',   '淺蔥燈塔'),
     'whirl-islands':     ('Islas Remolino',     'Isole Vorticose',     '漩涡列岛',   '漩渦列島'),
+    'lake-of-rage':      ('Lago de la Furia',   "Lago d'Ira",          '愤怒之湖',   '憤怒之湖'),
+    'mt-mortar':         ('Monte Mortero',      'Monte Scodella',      '擂钵山',     '擂缽山'),
+    'team-rocket-hq':    ('Guarida del Team Rocket', 'Covo del Team Rocket', '火箭队基地', '火箭隊基地'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

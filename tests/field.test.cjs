@@ -1,6 +1,6 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
 // water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt, the Day Care,
-// the Bug-Catching Contest, Morty's floor of darkness and berry trees. Test maps are defined here; the drawing,
+// the Bug-Catching Contest, Morty's floor of darkness, berry trees and Pryce's ice. Test maps are defined here; the drawing,
 // the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -479,4 +479,25 @@ test('berry trees: one to three berries, once a day', async () => {
   // Berries heal like medicine (no held items yet).
   assert.equal(G.ITEM_FX['oran-berry'].heal, 10);
   assert.deepEqual(plain(G.ITEM_FX['pecha-berry'].cure), ['psn', 'tox']);
+});
+
+test('ice: you slide the way you went until something is in the way; the first floor tile stops you', async () => {
+  const { G, W } = world();
+  G.Maps.def({ id: 't-ice', tileset: 'indoor', palette: 'ice',
+    rows: ['WWWWWWW', 'WWWWWWW', '+IIIc++', '+III+++', '+++++++'], spots: { s: [0, 2, 'right'], t: [0, 3, 'right'] } });
+  assert.deepEqual(plain(G.Maps.validate('t-ice')), []);
+  G.Field.giveMon('quilava', 25);
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); if (!W.player.moving && i > 4) break; } };
+  W.load('t-ice', 's');
+  step(W, 'right');
+  await settle();
+  assert.deepEqual([W.player.x, W.player.y], [3, 2], 'stopped by the rock, still on the ice');
+  step(W, 'down');
+  await settle();
+  assert.deepEqual([W.player.x, W.player.y], [3, 4], 'slid off the ice onto the floor and stopped');
+  W.load('t-ice', 't');
+  step(W, 'right');
+  await settle();
+  assert.deepEqual([W.player.x, W.player.y], [4, 3], 'the first floor tile stops the slide');
+  assert.equal(W.player.dir, 'right', 'no spinning on ice');
 });

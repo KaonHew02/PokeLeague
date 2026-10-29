@@ -764,6 +764,24 @@ test('balance: Chuck and Jasmine (chapter 15), win rates of typical teams are pr
   assert.ok(j['meganium 32 + flareon 28'] >= 0.3, 'Meganium and Flareon vs Jasmine');
 });
 
+test('balance: Pryce in Mahogany (chapter 16), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const TY = ['flamethrower', 'flame-wheel', 'swift', 'quick-attack'], FE = ['surf', 'crunch', 'ice-fang', 'agility'];
+  const ME = ['razor-leaf', 'body-slam', 'poison-powder', 'reflect'];
+  const rate = leaderRate(G, 'mahogany-gym', 'pryce');
+  const table = {
+    'typhlosion 36': rate([[157, 36, TY]]),
+    'feraligatr 36': rate([[160, 36, FE]]),
+    'meganium 36': rate([[154, 36, ME]]),
+    'meganium 36 + flareon 32': rate([[154, 36, ME], [136, 32]])
+  };
+  console.log('[balance] vs Pryce:', JSON.stringify(table));
+  // At the games' levels: Ice types fall to Fire and Water starters; Grass needs a friend.
+  assert.ok(table['typhlosion 36'] >= 0.8, 'Typhlosion');
+  assert.ok(table['feraligatr 36'] >= 0.8, 'Feraligatr');
+  assert.ok(table['meganium 36 + flareon 32'] >= 0.7, 'Meganium and Flareon');
+});
+
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
 async function chapter3(st) {
   const { G, S, W } = st;
@@ -1609,6 +1627,63 @@ async function chapter15(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 16 after chapter 15: Route 42, Mt. Mortar, Mahogany, the Lake of Rage, the Rocket hideout and Pryce. */
+async function chapter16(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // Ecruteak's road east, through Mt. Mortar, to Mahogany; Route 43 north to the Lake of Rage.
+  assert.equal(G.Maps.get('ecruteak').def.connect.east.map, 'route42');
+  assert.equal(G.Maps.get('route42').def.connect.east.map, 'mahogany');
+  assert.equal(G.Maps.get('route43').def.connect.north.map, 'lake-of-rage');
+  const starter = S.party.find(m => m.sp >= 155 && m.sp <= 160);
+  lead(st, starter.sp);
+  grind(st, 'route42', 35, 600);
+  for (const m of ['route42', 'mt-mortar-1f']) { await all(m); won(); }
+  // The Karate King gives a Tyrogue.
+  const before = S.dex.caught[236];
+  await fight('mt-mortar-b1f', 'kiyo');
+  won();
+  assert.ok(F.flag('got-tyrogue') && S.dex.caught[236] && !before, 'Tyrogue from Kiyo');
+  // Mahogany: the Gym is locked. The red Gyarados at the lake, and Lance.
+  assert.ok(!F.test('hideout-cleared'));
+  await all('route43');
+  won();
+  await run(st, 'lake-of-rage', npc(st, 'lake-of-rage', 'gyarados'));
+  assert.ok(F.flag('red-gyarados') && F.count('red-scale') === 1, 'the Red Scale');
+  await run(st, 'lake-of-rage', npc(st, 'lake-of-rage', 'lance'));
+  assert.ok(F.flag('lance-mahogany'));
+  // The Rocket hideout under the souvenir shop.
+  await run(st, 'souvenir-shop', 'mahogany.lance-shop');
+  await all('rocket-hq-b1f');
+  won();
+  await fight('rocket-hq-b2f', 'petrel');
+  won();
+  assert.ok(F.flag('petrel-beaten'));
+  await run(st, 'rocket-hq-b2f', 'hideout.lance');
+  for (const id of ['electrode1', 'electrode2', 'electrode3']) {
+    F.healAll();
+    await run(st, 'rocket-hq-b2f', 'hideout.electrode', [], { self: { id } });
+  }
+  assert.ok(F.flag('hideout-cleared'), 'the signal stopped');
+  await run(st, 'rocket-hq-b2f', 'hideout.lance');
+  assert.ok(F.flag('got-hm07') && F.count('hm07') === 1, 'HM07 from Lance');
+  // Pryce's Gym.
+  grind(st, 'route43', 37, 600);
+  await all('mahogany-gym');
+  won();
+  F.healAll();
+  await run(st, 'mahogany-gym', [['battle', 'mahogany-gym:pryce']]);
+  assert.equal(last().outcome, 'win', 'Pryce beaten at levels ' + last().levels);
+  assert.ok(S.player.badges.includes(15) && F.count('tm07') >= 1 && F.flag('pryce-beaten'));
+  assert.equal(F.obeyCap('johto'), 70, 'the Glacier Badge: up to Lv. 70');
+  assert.ok(F.flag('chapter-16-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1690,7 +1765,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test('chapters 11 to 15: Johto, from Professor Elm to Falkner, Bugsy, Whitney, Morty, Chuck and Jasmine', async () => {
+test('chapters 11 to 16: Johto, from Professor Elm to Falkner, Bugsy, Whitney, Morty, Chuck, Jasmine and Pryce', async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -1707,4 +1782,5 @@ test('chapters 11 to 15: Johto, from Professor Elm to Falkner, Bugsy, Whitney, M
   await chapter13(st);
   await chapter14(st);
   await chapter15(st);
+  await chapter16(st);
 });

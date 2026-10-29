@@ -46,5 +46,7 @@ G.I18n.add({
   "Chapter 14 complete!": "第14章完成！",
   "{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.": "{player}喚醒了沉睡在燒焦塔下的三隻傳說中的寶可夢，並從松葉那裡得到了幻影徽章。",
   "Chapter 15 complete!": "第15章完成！",
-  "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player}渡海取得了秘傳之藥，並從阿四那裡得到了打擊徽章，從阿蜜那裡得到了鋼鐵徽章。"
+  "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player}渡海取得了秘傳之藥，並從阿四那裡得到了打擊徽章，從阿蜜那裡得到了鋼鐵徽章。",
+  "Chapter 16 complete!": "第16章完成！",
+  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player}平息了憤怒之湖，和阿渡一起搗毀了火箭隊的基地，並從柳伯那裡得到了冰雪徽章。"
 }, "zh-Hant");

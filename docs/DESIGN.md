@@ -1118,11 +1118,34 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Typhlosion 32 100%, Feraligatr 32 ~70%, a lone Meganium never wins (Grass against Steel),
   with a Flareon ~50%. Both two levels below the games.
 
-### After chapter 15
+- **Chapter 16** ✅, Johto part 6: Ecruteak's road east is Route 42 (two Trainers, a pond,
+  berry trees), cut in two by Mt. Mortar: in by the west mouth, out by the east one (1F, `cave`,
+  two Trainers); on B1F the Karate King, Kiyo, gives a Tyrogue (Lv. 10, flag `got-tyrogue`) once
+  beaten. Mahogany Town: a Center, a house, the souvenir shop (its clerk never smiles) and
+  Pryce's Gym, locked; the road east (Route 44) is closed. Route 43 (four Trainers) to the Lake of
+  Rage: a red Gyarados (a wild battle, Lv. 30, shiny; flag `red-gyarados`, a Red Scale), then
+  Lance on the shore (flag `lance-mahogany`). In the souvenir shop Lance has dealt with the clerk;
+  the stairs behind lead to the Rocket hideout (`rocket-hq-b1f`, three Grunts; `rocket-hq-b2f`,
+  Petrel, flag `petrel-beaten`; Lance heals you), and three Electrode powering the transmitter
+  (wild battles, Lv. 30; flags `hq-electrode1..3`). The signal stops (flag `hideout-cleared`),
+  Lance gives HM07 Waterfall (flag `got-hm07`) and Pryce opens his Gym: ice to slide on, two
+  Skiers, two Boarders, Pryce (Seel 30, Dewgong 32, Piloswine 34): badge 15, the Glacier Badge
+  (obedience up to Lv. 70), TM07 Hail (flag `pryce-beaten`), `ending(16)`. Files:
+  `js/content/johto/mortar.js`, `mahogany.js` (translations `johto-mortar`, `johto-mahogany`).
+- **Engine for chapter 16:** ice (indoor tile `I`, kind `ice`): you slide the way you went until
+  something is in the way, and the first tile that is not ice stops you (field.js `slide(dir,
+  ice)`, no spinning). Pryce's Gym was searched by a solver in the map script (nine slides from
+  the door). A scripted wild battle can be shiny (`['wild', sp, lvl, { shiny }]`), and so can a
+  Pokémon NPC (`shiny`). Item Red Scale; people pryce, skier, boarder; classes skier, boarder,
+  executive; the names of Mt. Mortar, the Lake of Rage and the Rocket hideout in `LOC_NAMES`.
+- **Balance:** Pryce at the games' levels: Typhlosion or Feraligatr at Lv. 36 always win, a lone
+  Meganium ~20% (Ice beats Grass), with a Flareon ~90%.
 
-1. **Johto, the rest:** Route 42 and Mt. Mortar, Mahogany Town, the Lake of Rage (the red
-   Gyarados) and the Rocket hideout, Pryce, the Radio Tower, Blackthorn City and Clair, the
-   Johto League; the roaming beasts, the Whirl Islands, the Ruins of Alph, Kurt's Apricorn Balls,
-   breeding at the Day Care (Eggs) and held items (berries held in battle) along the way.
+### After chapter 16
+
+1. **Johto, the rest:** the Radio Tower taken by Team Rocket (Goldenrod), Route 44 and the Ice
+   Path, Blackthorn City and Clair, the Dragon's Den, the Johto League; the roaming beasts, the
+   Whirl Islands, the Ruins of Alph, Kurt's Apricorn Balls, breeding at the Day Care (Eggs) and
+   held items (berries held in battle) along the way.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

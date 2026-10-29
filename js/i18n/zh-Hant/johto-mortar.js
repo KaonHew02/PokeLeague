@@ -1,0 +1,26 @@
+/* Traditional Chinese — johto-mortar: Route 42 and Mt. Mortar (js/content/johto/mortar.js). */
+G.I18n.add({
+  "I will stay in this mountain until I can beat you. Raise that Tyrogue well!": "我會留在這座山裡，直到能打敗你為止。好好培養那隻無畏小子吧！",
+  "I have trained here for months... and still I lost. You are the real thing.": "我在這裡修行了好幾個月……結果還是輸了。你是真正的高手。",
+  "Take this Pokémon. It is a Tyrogue: it can become a kicker, a puncher or a spinner, depending on how you raise it.": "收下這隻寶可夢吧。這是無畏小子：看你怎麼培養，牠會成為踢腿高手、出拳高手或是旋轉高手。",
+  "Tully": "阿杜",
+  "This pond is full of Goldeen. And so is my team!": "這個池塘裡全是角金魚。我的隊伍也是！",
+  "The big one got away...": "大魚跑掉了……",
+  "Fish bite best in the early morning. Remember that.": "清晨的時候魚最容易上鉤。記住了。",
+  "Shane": "阿夏",
+  "A Nidorina and a Nidorino! Aren't they a perfect pair?": "尼多娜和尼多力諾！是不是完美的一對？",
+  "My perfect pair...": "我完美的一對……",
+  "A Moon Stone makes them evolve. I have been saving up for one.": "用月之石就能讓牠們進化。我正在存錢買一顆。",
+  "Markus": "馬庫斯",
+  "I am studying the rocks of Mt. Mortar. My Slowpoke helps by... sitting.": "我在研究擂缽山的岩石。我的呆呆獸負責幫忙……坐著。",
+  "My research has been interrupted...": "我的研究被打斷了……",
+  "This mountain is hollow inside. Some say it is an old volcano.": "這座山裡面是空的。有人說它是一座古老的火山。",
+  "Benjamin": "阿本",
+  "Mountains are for climbing, and Trainers are for battling!": "山是用來爬的，訓練家是用來對戰的！",
+  "There is a man training alone in the depths of this mountain. He never comes out.": "這座山的深處有個人在獨自修行。他從來不出來。",
+  "Kiyo": "阿清",
+  "Who dares to disturb my training? I am Kiyo, the Karate King! Show me your strength!": "是誰敢打擾我修行？我是空手道大王阿清！讓我看看你的力量！",
+  "Waaargh! I am beaten!": "哇啊啊！我輸了！",
+  "Route 42. Ecruteak City to the west, Mahogany Town to the east, through Mt. Mortar.": "42號道路。西邊是圓朱市，穿過擂缽山，東邊是卡吉鎮。",
+  "Route 42. Mahogany Town is just to the east.": "42號道路。東邊就是卡吉鎮。"
+}, "zh-Hant");

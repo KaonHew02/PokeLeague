@@ -23,7 +23,8 @@ G.People = (() => {
                  'giovanni', 'fuji', 'scientist', 'fisherman', 'rocker', 'birdkeeper', 'juggler', 'tamer', 'koga', 'warden',
                  'blackbelt', 'psychic', 'sabrina', 'swimmerf', 'burglar', 'blaine', 'cueball',
                  'lorelei', 'bruno', 'agatha', 'lance', 'elm', 'silver', 'sage', 'falkner', 'kurt', 'bugsy',
-                 'whitney', 'pokefan', 'granny', 'morty', 'kimono', 'eusine', 'jasmine', 'chuck'];
+                 'whitney', 'pokefan', 'granny', 'morty', 'kimono', 'eusine', 'jasmine', 'chuck',
+                 'pryce', 'skier', 'boarder'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -196,6 +197,9 @@ G.People = (() => {
     eusine: { head: 'short', body: 'coat', legs: 'pants', h: '#5a7ab8', H: '#3e5a90', j: '#f0f0f4', J: '#c4c4d0', c: '#4a6ab0', C: '#344e88', p: '#3a4a7a', P: '#26345a', k: '#1c2238' },
     jasmine: { head: 'long', body: 'dress', legs: 'bare', h: '#8a5a3a', H: '#5e3c24', c: '#f4f4f4', C: '#c8c8d0', j: '#f4f4f4', J: '#c8c8d0', k: '#5a7cd0' },
     chuck: { head: 'bald', body: 'tee', legs: 'pants', h: '#3a3030', H: '#241c1c', c: '#e8c098', C: '#c49870', p: '#3a3a3a', P: '#262626', k: '#2a2a2a' },
+    pryce: { head: 'short', body: 'coat', legs: 'pants', h: '#e8e8f0', H: '#b8b8c4', j: '#5a7ab0', J: '#3e5a8a', c: '#f4f4f4', C: '#c8c8d0', p: '#3a4a6a', P: '#26344e', k: '#1c2438' },
+    skier: { head: 'cap', body: 'coat', legs: 'pants', h: '#e05a5a', H: '#a83a3a', j: '#f0f0f8', J: '#c4c4d4', c: '#5ab0e0', C: '#3a8ac0', p: '#3a6ab0', P: '#26508a', k: '#2a2a3a' },
+    boarder: { head: 'cap', body: 'coat', legs: 'pants', h: '#3a7ad0', H: '#2a5aa0', j: '#f0a03a', J: '#c47a24', c: '#f4f4f4', C: '#c8c8d0', p: '#3a3a4a', P: '#262634', k: '#1c1c28' },
     granny: { head: 'long', body: 'dress', legs: 'bare', h: '#d8d8e0', H: '#a8a8b4', c: '#9a6ab4', C: '#74508a', j: '#9a6ab4', J: '#74508a', k: '#5a4a3a' },
     cueball: { head: 'bald', body: 'jacket', legs: 'pants', h: '#e8b888', H: '#c49064', j: '#2a2a30', J: '#16161c', c: '#e8e8e8', C: '#b8b8c0', p: '#3a4a7a', P: '#283458', k: '#16161c' },
     warden: { head: 'bald', body: 'coat', legs: 'pants', h: '#d8d8dc', H: '#a8a8b0', j: '#a89a6a', J: '#80744c', c: '#e8e0c8', C: '#c0b8a0', p: '#6a5c44', P: '#4c4230', k: '#3a2e22' },

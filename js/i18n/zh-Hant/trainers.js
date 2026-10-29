@@ -36,5 +36,8 @@ G.I18n.add({
   "Sage": "和尚",
   "Pokéfan": "發燒友俱樂部",
   "Kimono Girl": "舞子",
-  "Medium": "靈媒"
+  "Medium": "靈媒",
+  "Skier": "滑雪者",
+  "Boarder": "單板滑雪者",
+  "Team Rocket Executive": "火箭隊幹部"
 }, "zh-Hant");

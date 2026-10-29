@@ -52,6 +52,8 @@
  * Chapter 13: trees to Headbutt (`h`: a Pokémon that knows Headbutt may shake down a wild one from
  * the area's 'headbutt' table, half the time), and every step raises the Day Care's Pokémon
  * (G.DayCare, daycare.js).
+ * Chapter 16: ice (`I` indoors): you slide the way you went until something is in the way, and the
+ * first tile that is not ice stops you. A scripted wild Pokémon may be shiny (['wild', sp, lvl, { shiny }]).
  * Chapter 15: berry trees (`y`): one to three berries once a day (the map's `berries`: [[x, y, item]]).
  * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
  * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
@@ -205,6 +207,7 @@ G.World = (() => {
   let cut = new Set();                   // trees cut on this visit of the map ('x,y'); they grow back
   let lit = false;                       // Flash used: dark caves stay lit until you leave them
   let sliding = null;                    // a spin tile sent the player this way (the Rocket Hideout)
+  let icy = false;                       // ...or it is ice (Pryce's Gym): no spinning, it stops off the ice
   let surfing = false;                   // riding a Pokémon on the water (Surf)
   let biking = false;                    // on the Bicycle
   let strength = false;                  // Strength used: boulders move until you leave the map
@@ -279,7 +282,7 @@ G.World = (() => {
   function makeActors() {
     actors = [];
     const id = map.id;
-    for (const d of map.npcs) actors.push(new G.Actor({ id: d.id, who: d.who, mon: d.mon != null ? M().species(d.mon) : 0, x: d.x, y: d.y, dir: d.dir || 'down', def: d }));
+    for (const d of map.npcs) actors.push(new G.Actor({ id: d.id, who: d.who, mon: d.mon != null ? M().species(d.mon) : 0, shiny: !!d.shiny, x: d.x, y: d.y, dir: d.dir || 'down', def: d }));
     for (const d of map.trainers) {
       const a = new G.Actor({ id: d.id, who: d.who, x: d.x, y: d.y, dir: d.dir || 'down', def: d });
       a.trainer = true; a.key = id + ':' + d.id;
@@ -554,8 +557,12 @@ G.World = (() => {
     }
     // Spin tiles: an arrow sends the player sliding (spinning) until a stop tile or a wall.
     const inf = M().info(k);
-    if (inf.spin || (sliding && !inf.stop)) { if (slide(inf.spin || sliding)) return; }
-    sliding = null;
+    // Ice: you keep sliding the way you went until something is in the way; the first tile that
+    // is not ice stops you.
+    if (inf.ice) { if (slide(icy && sliding ? sliding : me.dir, true)) return; }
+    else if (icy) sliding = null;
+    if (!inf.ice && (inf.spin || (sliding && !inf.stop))) { if (slide(inf.spin || sliding)) return; }
+    sliding = null; icy = false;
     for (const t of map.triggers) {
       if (me.x >= t.x && me.y >= t.y && me.x < t.x + (t.w || 1) && me.y < t.y + (t.h || 1) && G.Field.test(t.if)) {
         G.Player.walk(null);
@@ -578,18 +585,19 @@ G.World = (() => {
 
   const SPIN = ['down', 'left', 'up', 'right'];
   /** One more sliding step; false when something is in the way (the slide ends here). */
-  function slide(dir) {
+  function slide(dir, ice = false) {
     const [dx, dy] = M().DIRS[dir];
     const nx = me.x + dx, ny = me.y + dy;
     if (!M().inside(map, nx, ny) || !openTile(nx, ny) || occupant(nx, ny, me)) { sliding = null; return false; }
     const lw = map.warpAt.get(M().key(nx, ny));
     if (lw && lw.locked && !(lw.to && G.Field.test(lw.if))) { sliding = null; return false; }
-    if (!sliding) { sfx('spin', 'select'); slideN = 0; }
+    if (!sliding) { if (!ice) sfx('spin', 'select'); slideN = 0; }
     if (++slideN > 300) { sliding = null; return false; }      // a loop of arrows: never spin forever
     sliding = dir;
+    icy = ice;
     G.Player.walk(null);
     stepActor(me, dir, G.Player.RUN, false);
-    me.dir = SPIN[spinN++ % 4];
+    me.dir = ice ? dir : SPIN[spinN++ % 4];
     return true;
   }
 
@@ -654,6 +662,7 @@ G.World = (() => {
         const o = battleOpts(contest);
         if (wild.noCatch) o.rules.noCatch = true;
         if (wild.moves) o.moves = wild.moves;
+        if (wild.shiny) o.shinyOdds = 1;
         r = await G.BattleUI.wild(contest ? G.Contest.battler() : battler(), wild.sp, wild.lvl, o);
       }
       else r = await fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) }));
@@ -1240,7 +1249,7 @@ G.World = (() => {
       fade: (dir, secs) => fadeTo(dir === 'in' ? 0 : 1, secs || 0.3),
       wait,
       battle: (ref, o) => battle(ref, o),
-      wild: (sp, lvl, o = {}) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null, noCatch: !!o.noCatch, moves: o.moves }),
+      wild: (sp, lvl, o = {}) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null, noCatch: !!o.noCatch, moves: o.moves, shiny: !!o.shiny }),
       heal: () => G.Field.healAll(),
       /** Offers a nickname for a Pokémon just received (starter, gifts). */
       async nickname(mon) {

@@ -1,0 +1,26 @@
+/* Italian — johto-mortar: Route 42 and Mt. Mortar (js/content/johto/mortar.js). */
+G.I18n.add({
+  "I will stay in this mountain until I can beat you. Raise that Tyrogue well!": "Resterò in questa montagna finché non riuscirò a batterti. Alleva bene quel Tyrogue!",
+  "I have trained here for months... and still I lost. You are the real thing.": "Mi alleno qui da mesi... eppure ho perso. Tu sei quello vero.",
+  "Take this Pokémon. It is a Tyrogue: it can become a kicker, a puncher or a spinner, depending on how you raise it.": "Prendi questo Pokémon. È un Tyrogue: a seconda di come lo allevi, diventerà un esperto di calci, di pugni o di trottole.",
+  "Tully": "Tully",
+  "This pond is full of Goldeen. And so is my team!": "Questo stagno è pieno di Goldeen. E anche la mia squadra!",
+  "The big one got away...": "Il pesce grosso è scappato...",
+  "Fish bite best in the early morning. Remember that.": "I pesci abboccano meglio la mattina presto. Ricordalo.",
+  "Shane": "Shane",
+  "A Nidorina and a Nidorino! Aren't they a perfect pair?": "Una Nidorina e un Nidorino! Non sono una coppia perfetta?",
+  "My perfect pair...": "La mia coppia perfetta...",
+  "A Moon Stone makes them evolve. I have been saving up for one.": "Una Pietralunare li fa evolvere. Sto risparmiando per comprarne una.",
+  "Markus": "Markus",
+  "I am studying the rocks of Mt. Mortar. My Slowpoke helps by... sitting.": "Studio le rocce del Monte Scodella. Il mio Slowpoke mi aiuta... stando seduto.",
+  "My research has been interrupted...": "La mia ricerca è stata interrotta...",
+  "This mountain is hollow inside. Some say it is an old volcano.": "Questa montagna è cava dentro. Qualcuno dice che sia un vecchio vulcano.",
+  "Benjamin": "Beniamino",
+  "Mountains are for climbing, and Trainers are for battling!": "Le montagne sono fatte per essere scalate, e gli Allenatori per lottare!",
+  "There is a man training alone in the depths of this mountain. He never comes out.": "C'è un uomo che si allena da solo nelle profondità di questa montagna. Non esce mai.",
+  "Kiyo": "Kiyo",
+  "Who dares to disturb my training? I am Kiyo, the Karate King! Show me your strength!": "Chi osa disturbare il mio allenamento? Sono Kiyo, il Re del Karate! Mostrami la tua forza!",
+  "Waaargh! I am beaten!": "Uaaargh! Sono sconfitto!",
+  "Route 42. Ecruteak City to the west, Mahogany Town to the east, through Mt. Mortar.": "Percorso 42. Amarantopoli a ovest, Mogania a est, passando per il Monte Scodella.",
+  "Route 42. Mahogany Town is just to the east.": "Percorso 42. Mogania è subito a est."
+}, "it");

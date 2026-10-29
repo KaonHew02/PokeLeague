@@ -32,6 +32,8 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 16) return { title: T('Chapter 16 complete!'), done: fmt('{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.', { player }),
+                           next: T("Thank you for playing! The rest of Johto opens in a future update.") };
     if (n === 15) return { title: T('Chapter 15 complete!'), done: fmt('{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.', { player }),
                            next: T("Thank you for playing! The rest of Johto opens in a future update.") };
     if (n === 14) return { title: T('Chapter 14 complete!'), done: fmt('{player} woke the three legendary Pokémon under the Burned Tower and earned the Fog Badge from Morty.', { player }),

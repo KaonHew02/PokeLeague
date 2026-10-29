@@ -122,6 +122,7 @@ G.ITEM_FX = {
   'oaks-parcel':   { key: 1 },
   'squirt-bottle': { key: 1 },
   'secret-potion': { key: 1 },
+  'red-scale':     { key: 1 },
   'town-map':      { key: 1, field: 1 },
   'bicycle':       { key: 1, field: 1 },
   'old-rod':       { key: 1, field: 1, rod: 1 },

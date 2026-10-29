@@ -778,6 +778,7 @@ G.NAMES = {
     "pink-apricorn": ["Pink Apricorn","Bonguri Rosa","Noigrume Rose","Ghicocca Rosa","粉球果","粉球果"],
     "white-apricorn": ["White Apricorn","Bonguri Blanco","Noigrume Blanc","Ghicocca Bianca","白球果","白球果"],
     "black-apricorn": ["Black Apricorn","Bonguri Negro","Noigrume Noir","Ghicocca Nera","黑球果","黑球果"],
+    "unown-report": ["Unown Report","Bloc Unown","Carnet Zarbi","UnownBloc","未知图腾笔记","未知圖騰筆記"],
     hm01: ["HM01","MO01","CS01","MN01","秘传学习器０１","秘傳學習器０１"],
     hm02: ["HM02","MO02","CS02","MN02","秘传学习器０２","秘傳學習器０２"],
     hm03: ["HM03","MO03","CS03","MN03","秘传学习器０３","秘傳學習器０３"],

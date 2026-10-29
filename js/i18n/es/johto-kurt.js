@@ -17,5 +17,6 @@ G.I18n.add({
   "Bring me Apricorns any time. A Trainer can never have too many good balls!": "Tráeme Bonguris cuando quieras. ¡Un Entrenador nunca tiene demasiadas Balls buenas!",
   "Apricorns! Leave them to me...": "¡Bonguris! Déjamelos a mí...",
   "That makes all seven kinds! I have not made a full set like this since I was a young man.": "¡Con esta ya son los siete tipos! No hacía un juego completo así desde que era joven.",
-  "Use them well, and come back whenever you find more Apricorns.": "Úsalas bien, y vuelve cuando encuentres más Bonguris."
+  "Use them well, and come back whenever you find more Apricorns.": "Úsalas bien, y vuelve cuando encuentres más Bonguris.",
+  "Oh, and the researchers at the Ruins of Alph sent word: the earthquake opened chambers that were sealed for ages. They are asking for a good Trainer to help.": "Ah, y los investigadores de las Ruinas Alfa han mandado aviso: el terremoto abrió cámaras que llevaban siglos selladas. Buscan a un buen Entrenador que les ayude."
 }, "es");

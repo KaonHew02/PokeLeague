@@ -7,7 +7,8 @@
  * Apricorn (field.js), one a day: white in Azalea Town, pink on Route 33, red and blue on Route 37,
  * green and yellow on Route 42, black only in the Dark Cave's hollow (darkcave.js). The first ball
  * of each kind comes with a word on what it is for (flags made:<ball>); once all seven have been
- * made (flag kurt-seven), the chapter ends (`ending(23)`).
+ * made (flag kurt-seven), the chapter ends (`ending(23)`). He then sends you to the Ruins of Alph
+ * (chapter 24, johto/ruins.js).
  */
 (() => {
   const T = s => G.T(s);
@@ -29,6 +30,9 @@
     'heavy-ball': () => T('A Heavy Ball works better the heavier the Pokémon is. On light ones, it is worse than a plain ball.')
   };
 
+  /** Chapter 24: the way to the Ruins of Alph (johto/ruins.js). */
+  const RUINS_HINT = () => T('Oh, and the researchers at the Ruins of Alph sent word: the earthquake opened chambers that were sealed for ages. They are asking for a good Trainer to help.');
+
   async function balls(h) {
     const F = G.Field;
     if (!F.count('apricorn-box')) {
@@ -48,7 +52,10 @@
     if (!have.length) {
       const left = BALLS.filter(b => !F.flag('made:' + b));
       if (left.length) await h.say(T('Bring me Apricorns, and I will make balls out of them. I have not made you a {item} yet!'), Object.assign({ vars: { item: G.Names.item(left[0]) } }, KURT));
-      else await h.say(T('Bring me Apricorns any time. A Trainer can never have too many good balls!'), KURT);
+      else {
+        await h.say(T('Bring me Apricorns any time. A Trainer can never have too many good balls!'), KURT);
+        if (!F.flag('unown-seen')) await h.say(RUINS_HINT(), KURT);
+      }
       return;
     }
     await h.say(T('Apricorns! Leave them to me...'), KURT);
@@ -74,6 +81,7 @@
       F.setFlag('kurt-seven');
       await h.say(T('That makes all seven kinds! I have not made a full set like this since I was a young man.'), KURT);
       await h.say(T('Use them well, and come back whenever you find more Apricorns.'), KURT);
+      await h.say(RUINS_HINT(), KURT);
       if (G.CreditsUI) await G.CreditsUI.ending(23); else F.setFlag('chapter-23-done');
     }
   }

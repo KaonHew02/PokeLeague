@@ -14,6 +14,8 @@
  *       without an argument resumes the world as it was). A game can replace them:
  *       G.World.onEncounter = async (sp, lvl, area, info) => result
  *       G.World.onTrainer   = async (trainerDef, { map, key, canLose }) => result
+ *       G.World.wildForm    = (sp, map, rng) => a form for a wild Pokémon, or null (the letters of
+ *           Unown, chapter 24: johto/ruins.js); a caught one with a form sets flag form:<sp>:<form>.
  *       result: the battle's result ({ outcome, money, seen, caught, toBox, mon }) or just
  *       the outcome 'win' | 'lose' | 'run' | 'caught' | 'fled'. Prize money, the Pokédex and
  *       a caught Pokémon sent to the PC are applied here; 'lose' without canLose blacks out.
@@ -680,6 +682,7 @@ G.World = (() => {
     const contest = contestOn();
     try {
       G.Field.save.dex.seen[wild.sp] = 1;
+      if (api.wildForm && !wild.form) wild.form = api.wildForm(wild.sp, map, rng) || undefined;
       let r;
       if (api.onEncounter) r = await api.onEncounter(wild.sp, wild.lvl, wild.area, Object.assign({ contest, player: contest ? G.Contest.battler() : battler() }, wild));
       else if (G.BattleUI && G.BattleUI.safari && safariOn()) r = await G.BattleUI.safari(battler(), wild.sp, wild.lvl, battleOpts(false));
@@ -688,6 +691,7 @@ G.World = (() => {
         const o = battleOpts(contest);
         if (wild.noCatch) o.rules.noCatch = true;
         if (/-rod$/.test(wild.method)) o.rules.fishing = true;
+        if (wild.form) o.form = wild.form;
         if (wild.moves) o.moves = wild.moves;
         if (wild.shiny) o.shinyOdds = 1;
         r = await G.BattleUI.wild(contest ? G.Contest.battler() : battler(), wild.sp, wild.lvl, o);
@@ -728,6 +732,7 @@ G.World = (() => {
     if (r.outcome === 'win' && r.money > 0) G.Field.money(r.money);
     if (r.outcome === 'caught' && r.mon) {
       S.dex.seen[r.mon.sp] = 1; S.dex.caught[r.mon.sp] = 1;
+      if (r.mon.form) G.Field.setFlag('form:' + r.mon.sp + ':' + r.mon.form);
       if (r.toBox) G.Field.toBox(r.mon);
     }
     return r.outcome || 'win';
@@ -1537,7 +1542,7 @@ G.World = (() => {
   const api = {
     start, warp, load, tryStep, arrived, interact, openMenu, repath, sfx, song, refresh, runScript, battle, blackout, update,
     actor: id => actor(id, {}), host, debug,
-    onEncounter: null, onTrainer: null,
+    onEncounter: null, onTrainer: null, wildForm: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, get surfing() { return surfing; }, keyOpen,
     barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod,
     get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo,

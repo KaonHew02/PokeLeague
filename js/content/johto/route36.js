@@ -24,22 +24,26 @@ G.Maps.def({
     'T...""""""""""".........h.....,,S........h.T',
     'T..."""""""""""...............,,...........T',
     'T..."""""""""""...........TTTT,,TTTT.......T',
-    'T..."""""""""""...........TTTT,,TTTT.......T',
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
+    'T..."""""""""""...........TTTT,TTTTT.......T',
+    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT,TTTTTTTTTTTTT'
   ],
-  connect: { west: { map: 'national-park', offset: -4 }, east: { map: 'violet', offset: -3 }, north: { map: 'route37', offset: 8 } },
+  connect: { west: { map: 'national-park', offset: -4 }, east: { map: 'violet', offset: -3 }, north: { map: 'route37', offset: 8 },
+             south: { map: 'ruins-of-alph', offset: 14 } },
   signs: {
     '16,9': 'Route 36. North: Route 37 and Ecruteak City.',
     '2,9': 'The National Park is to the west.',
     '41,9': 'Violet City is to the east.',
-    '32,13': 'Ruins of Alph. Closed while the scientists study the ruins. Thank you for understanding.'
+    // Chapter 24: closed until Kurt has made his seven balls (johto/ruins.js).
+    '32,13': { script: 'ruins.route36-sign' }
   },
   npcs: [
     { id: 'sudowoodo', who: 'sudowoodo', mon: 'sudowoodo', x: 18, y: 5, dir: 'down', fixed: true, if: '!sudowoodo-gone', script: 'route36.sudowoodo' },
     { id: 'girl', who: 'lass', x: 17, y: 9, dir: 'down', if: '!sudowoodo-gone',
       say: 'That tree up there... I am sure it moved when I looked away! And it is not even windy.' },
     { id: 'girl2', who: 'lass', x: 17, y: 9, dir: 'down', if: 'sudowoodo-gone',
-      say: 'So the tree was a Pokémon all along! Sudowoodo hate water, I heard. Strange, for a tree.' }
+      say: 'So the tree was a Pokémon all along! Sudowoodo hate water, I heard. Strange, for a tree.' },
+    { id: 'researcher', who: 'scientist', x: 30, y: 16, dir: 'up', if: '!kurt-seven',
+      say: 'Sorry, the Ruins of Alph are closed. Since the last earthquake, we have been making sure the chambers are safe.' }
   ],
   trainers: [
     { id: 'mark', who: 'psychic', cls: 'psychic', name: 'Mark', x: 26, y: 9, dir: 'down', sight: 2,

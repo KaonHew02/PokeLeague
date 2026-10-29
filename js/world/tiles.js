@@ -114,6 +114,11 @@ G.Tiles = (() => {
     wood: ['#8a8e98', '#7a7e88', '#9a9ea8'], woodLine: '#5a5e68', tile: ['#b2bac6', '#a6aeba'], grout: '#8a92a0',
     rug: ['#b83a3a', '#d85a5a', '#882626'], counter: ['#d0d4dc', '#a8aeb8', '#7a808c'],
     mat: ['#b83a3a', '#d85a5a'], screen: '#68d0f8' };
+  // The Ruins of Alph (chapter 24): old sandstone.
+  PALETTES.ruins = { floor: 'tile', wallTop: ['#3e3222', '#4a3c28'], paper: ['#a08a62', '#94805a'], trim: '#c8b088', base: '#6e5a3c',
+    wood: ['#b89c70', '#a88c62', '#c8ac80'], woodLine: '#7a6446', tile: ['#c8b48a', '#bca87e'], grout: '#9a865e',
+    rug: ['#8a6a3a', '#a8844e', '#6a4e28'], counter: ['#d8c49a', '#b8a078', '#8a7450'],
+    mat: ['#7a6646', '#8e7a56'], screen: '#68d0f8' };
   // The Game Corner: a loud red carpet and gold.
   PALETTES.corner = { floor: 'tile', wallTop: ['#3c2a3c', '#4a344a'], paper: ['#e8c868', '#dcbc5c'], trim: '#f4e0a0', base: '#8a3c3c',
     wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#c84c4c', '#bc4444'], grout: '#9c3434',
@@ -902,6 +907,30 @@ G.Tiles = (() => {
     ascii(P, ox, oy, POSTER, { o: pack('#201820'), R: pack('#d83838'), w: pack('#f8f0f0'), d: pack('#9a2626') });
   }
 
+  const TABLET = [
+    '................',
+    '.oooooooooooooo.',
+    '.oLLLLLLLLLLLLo.',
+    '.oLssssssssssdo.',
+    '.oLsssddddsssdo.',
+    '.oLssdssssdssdo.',
+    '.oLsdsddsssdsdo.',
+    '.oLsdsdssdsdsdo.',
+    '.oLsdssddssdsdo.',
+    '.oLssdssssdssdo.',
+    '.oLsssddddsssdo.',
+    '.oLssssssssssdo.',
+    '.oLsdsdsdsdssdo.',
+    '.oddddddddddddo.',
+    '.oooooooooooooo.',
+    '................'
+  ];
+  /** A stone panel set in a wall (the Ruins of Alph): a `secret` tile there, open stairs once solved. */
+  function tablet(P, C, ox, oy, tx, ty, at) {
+    wall(P, C, ox, oy, tx, ty, at);
+    ascii(P, ox, oy, TABLET, { o: pack('#3a2e1e'), L: pack('#e6d2aa'), s: pack('#c8b088'), d: pack('#8a7350') });
+  }
+
   const SLOTS = [
     '...oooooooooo...',
     '..oyYYYYYYYYyo..',
@@ -1368,7 +1397,8 @@ G.Tiles = (() => {
       case 'grave': grave(P, C, ox, oy, tx, ty); break;
       case 'hedge': hedge(P, C, ox, oy, tx, ty); break;
       case 'hole': hole(P, C, ox, oy, tx, ty, at); break;
-      case 'secret': case 'poster': poster(P, C, ox, oy, tx, ty, at); break;   // open stairs: a prop (render.js)
+      case 'secret': (m && m.palette === 'ruins' ? tablet : poster)(P, C, ox, oy, tx, ty, at); break;   // open stairs: a prop (render.js)
+      case 'poster': poster(P, C, ox, oy, tx, ty, at); break;
       case 'slots': slots(P, C, ox, oy, tx, ty); break;
       case 'lift': lift(P, C, ox, oy, tx, ty, at); break;
       case 'spin-up': case 'spin-down': case 'spin-left': case 'spin-right': spin(P, C, ox, oy, tx, ty, kind.slice(5)); break;

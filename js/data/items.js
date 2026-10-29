@@ -117,6 +117,7 @@ G.ITEMS = {
   "pink-apricorn": {"id":462,"pocket":"key","cat":"apricorn-box"},
   "white-apricorn": {"id":463,"pocket":"key","cat":"apricorn-box"},
   "black-apricorn": {"id":464,"pocket":"key","cat":"apricorn-box"},
+  "unown-report": {"id":471,"pocket":"key","cat":"gameplay"},
   hm01: {"id":397,"pocket":"tms","cat":"all-machines","move":"cut"},
   hm02: {"id":398,"pocket":"tms","cat":"all-machines","move":"fly"},
   hm03: {"id":399,"pocket":"tms","cat":"all-machines","move":"surf"},

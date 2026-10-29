@@ -23,5 +23,6 @@ G.I18n.add({
   "The National Park is to the west.": "西邊是自然公園。",
   "Violet City is to the east.": "東邊是桔梗市。",
   "Ruins of Alph. Closed while the scientists study the ruins. Thank you for understanding.": "阿露福遺跡。學者們正在研究遺跡，暫停開放。感謝理解。",
-  "Route 37. Ecruteak City is just to the north.": "37號道路。北邊就是圓朱市。"
+  "Route 37. Ecruteak City is just to the north.": "37號道路。北邊就是圓朱市。",
+  "Sorry, the Ruins of Alph are closed. Since the last earthquake, we have been making sure the chambers are safe.": "抱歉，阿露福遺跡暫不開放。上次地震以後，我們一直在確認石室是否安全。"
 }, "zh-Hant");

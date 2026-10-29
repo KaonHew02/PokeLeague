@@ -172,5 +172,6 @@ G.I18n.add({
   "Glacier Badge": "冰雪徽章",
   "Rising Badge": "升龍徽章",
   "Kanto": "關都",
-  "Johto": "城都"
+  "Johto": "城都",
+  "Unown caught: {n} of 26.": "已抓到的未知圖騰：{n}／26。"
 }, "zh-Hant");

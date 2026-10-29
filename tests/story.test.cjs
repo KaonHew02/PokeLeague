@@ -1997,6 +1997,37 @@ async function chapter23(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 24 after chapter 23: the Ruins of Alph, its four stone panels and the Unown. */
+async function chapter24(st) {
+  const { G } = st;
+  const F = G.Field;
+  const route36 = G.Maps.get('route36').def;
+  assert.ok(!F.test(route36.npcs.find(p => p.id === 'researcher').if), 'the way south is open');
+  await run(st, 'ruins-research', npc(st, 'ruins-research', 'researcher'));
+  assert.ok(!F.count('unown-report'), 'no report before a panel is solved');
+  // The Kabuto panel (no puzzle screen here: it is solved at once), a fossil behind it.
+  const fossils = ['dome-fossil', 'helix-fossil', 'old-amber'].map(f => F.count(f));
+  await run(st, 'ruins-kabuto', 'ruins.panel-kabuto', [0]);
+  assert.ok(F.flag('solved:kabuto') && F.count('dome-fossil') === fossils[0] + 1, 'Kabuto: a Dome Fossil');
+  await run(st, 'ruins-inner', 'ruins.inner');
+  assert.ok(F.flag('unown-seen') && !F.flag('ruins-done'), 'Unown, but not the end yet');
+  const letters = () => { const rng = G.RNG(5), s = new Set(); for (let i = 0; i < 400; i++) s.add(G.Ruins.wildForm(201, null, rng)); return [...s].sort().join(''); };
+  assert.equal(letters(), 'ABCDEFGHIJK');
+  await run(st, 'ruins-research', npc(st, 'ruins-research', 'researcher'));
+  assert.equal(F.count('unown-report'), 1, 'the Unown Report');
+  // The Ho-Oh door opens with the other three panels.
+  const door = G.Maps.get('ruins-of-alph').def.warps.find(w => w.to === 'ruins-hooh');
+  await run(st, 'ruins-omanyte', 'ruins.panel-omanyte', [0]);
+  assert.ok(!F.test(door.if), 'still sealed');
+  await run(st, 'ruins-aerodactyl', 'ruins.panel-aerodactyl', [0]);
+  assert.ok(F.test(door.if) && F.count('helix-fossil') === fossils[1] + 1 && F.count('old-amber') === fossils[2] + 1);
+  await run(st, 'ruins-hooh', 'ruins.panel-hooh', [0]);
+  assert.equal(letters(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+  await run(st, 'ruins-inner', 'ruins.inner');
+  assert.ok(F.flag('ruins-done') && F.flag('chapter-24-done'), 'the Unown gather: the end of the chapter');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2078,7 +2109,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 23: Johto, from Professor Elm to Johto's League, the Bell Tower, the Whirl Islands and Kurt's Apricorn Balls", async () => {
+test("chapters 11 to 24: Johto, from Professor Elm to Johto's League, the Bell Tower, the Whirl Islands, Kurt and the Ruins of Alph", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2103,4 +2134,5 @@ test("chapters 11 to 23: Johto, from Professor Elm to Johto's League, the Bell T
   await chapter21(st);
   await chapter22(st);
   await chapter23(st);
+  await chapter24(st);
 });

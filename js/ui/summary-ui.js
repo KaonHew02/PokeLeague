@@ -53,7 +53,7 @@ G.SummaryUI = (() => {
     const S = G.SPECIES[m.sp];
     const met = m.met ? (m.met.map && place(m.met.map) ? fmt('Met at Lv. {n} in {place}.', { n: m.met.lvl, place: place(m.met.map) }) : fmt('Met at Lv. {n}.', { n: m.met.lvl })) : '';
     return row(T('Pokédex No.'), String(m.sp).padStart(3, '0'))
-      + row(T('Species'), esc(G.Names.mon(m.sp)) + ` <small class="sub">${esc(G.Names.genus(m.sp))}</small>`)
+      + row(T('Species'), esc(G.Names.mon(m.sp) + (m.form ? ' ' + m.form : '')) + ` <small class="sub">${esc(G.Names.genus(m.sp))}</small>`)
       + row(T('Type'), G.UI.typeChips(S.types))
       + row(T('Trainer'), esc(m.ot ? `${m.ot.name} · ${String(m.ot.id).padStart(5, '0')}` : '—'))
       + row(T('Nature'), esc(G.Names.nature(m.nature)))

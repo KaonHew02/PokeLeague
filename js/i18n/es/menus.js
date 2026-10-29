@@ -172,5 +172,6 @@ G.I18n.add({
   "Glacier Badge": "Medalla Glaciar",
   "Rising Badge": "Medalla Dragón",
   "Kanto": "Kanto",
-  "Johto": "Johto"
+  "Johto": "Johto",
+  "Unown caught: {n} of 26.": "Unown capturados: {n} de 26."
 }, "es");

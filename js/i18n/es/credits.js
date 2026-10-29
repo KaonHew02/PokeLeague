@@ -67,5 +67,7 @@ G.I18n.add({
   "{player} calmed the whirlpools of the Whirl Islands and met Lugia, the guardian of the sea, in its chamber deep below.": "{player} calmó los remolinos de las Islas Remolino y se encontró con Lugia, el guardián del mar, en su cámara de las profundidades.",
   "Thank you for playing! More of Johto's secrets wait in a future update.": "¡Gracias por jugar! Más secretos de Johto te esperan en una próxima actualización.",
   "Chapter 23 complete!": "¡Capítulo 23 completado!",
-  "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player} encontró el Bonguri negro en lo más hondo de la Cueva Oscura, y Cástor le hizo una de cada una de sus siete Balls de Bonguri."
+  "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player} encontró el Bonguri negro en lo más hondo de la Cueva Oscura, y Cástor le hizo una de cada una de sus siete Balls de Bonguri.",
+  "Chapter 24 complete!": "¡Capítulo 24 completado!",
+  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} volvió a juntar los cuatro paneles de piedra de las Ruinas Alfa y conoció a los Unown en la cámara interior."
 }, "es");

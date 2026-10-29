@@ -1,7 +1,8 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
 // water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt, the Day Care,
 // the Bug-Catching Contest, Morty's floor of darkness, berry trees, Pryce's ice, waterfalls, whirlpools (the Whirl Islands),
-// cracked rocks and Apricorn trees (the Dark Cave, Azalea Town), and the real Ice Path and Clair's Gym.
+// cracked rocks and Apricorn trees (the Dark Cave, Azalea Town), the stone panels and Unown of the Ruins of Alph,
+// and the real Ice Path and Clair's Gym.
 // Test maps are defined here (the last test loads the chapter 18 maps); the drawing, the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -644,6 +645,78 @@ test('the Dark Cave: Rock Smash, with the Marsh Badge, breaks a cracked rock unt
   assert.equal(G.Field.count('white-apricorn'), 1, 'one Apricorn');
   await pump(W, W.interact());
   assert.equal(G.Field.count('white-apricorn'), 1, 'one a day');
+});
+
+test('the stone panels (G.Puzzle): a scramble on the ring, moves and swaps, solved by look-alike pieces too', () => {
+  const { G } = world(['js/world/puzzle.js']);
+  const P = G.Puzzle;
+  const b = P.fresh(7);
+  assert.deepEqual(P.fresh(7), b, 'the same seed, the same scramble');
+  assert.equal(b.filter(p => p >= 0).length, 16);
+  assert.ok(b.every((p, i) => p < 0 || P.RING.includes(i)), 'every piece starts on the outer ring');
+  assert.ok(!P.solved(b));
+  // Put each piece home, one move at a time (into an empty cell, or swapping).
+  let s = b;
+  for (let i = 0; i < 16; i++) {
+    const from = s.indexOf(i);
+    if (from !== P.home(i)) s = P.move(s, from, P.home(i));
+  }
+  assert.ok(P.solved(s), 'solved');
+  assert.equal(P.move(s, P.RING[0], P.RING[1]) === null, s[P.RING[0]] < 0, 'an empty cell has nothing to move');
+  // Two pieces that look the same (class 0) may change places.
+  const same = Array.from({ length: 16 }, (_, i) => (i === 3 || i === 12 ? 0 : i + 1));
+  const sw = P.move(s, P.home(3), P.home(12));
+  assert.ok(!P.solved(sw) && P.solved(sw, same));
+  assert.deepEqual(P.decode(P.encode(b)), b);
+  assert.equal(P.decode('nonsense'), null);
+});
+
+test('the Ruins of Alph: open after chapter 23; a panel slides aside, a fossil, stairs down to Unown with letters', async () => {
+  const { G, W } = world(['js/world/puzzle.js', 'js/content/johto/route36.js', 'js/content/johto/ruins.js']);
+  W.debug.noEnc = true;
+  const got = [];
+  W.onEncounter = async (sp, lvl, area, info) => { got.push([G.Maps.species(sp), info.form]); return 'run'; };
+  G.Field.giveMon('xatu', 40, { moves: ['psychic'] });
+  const settle = async () => { for (let i = 0; i < 80; i++) { W.update(0.05); await tick(); if (!W.player.moving && i > 4) break; } };
+  const until = async ok => { for (let i = 0; i < 200 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const go = async dirs => { for (const d of dirs) { assert.equal(W.tryStep(W.player, d, 4), 'moved', d + ' from ' + W.player.x + ',' + W.player.y); W.player.update(1); W.arrived(W.player); await settle(); } };
+  // Route 36: a researcher keeps the way south closed until Kurt has made his seven balls.
+  W.load('route36', { x: 30, y: 15, dir: 'down' });
+  assert.equal(W.tryStep(W.player, 'down', 4), 'blocked', 'a researcher in the way');
+  G.Field.setFlag('kurt-seven');
+  W.refresh();
+  await go(['down', 'down', 'down']);
+  await until(() => W.map.id === 'ruins-of-alph');
+  assert.deepEqual([W.player.x, W.player.y], [16, 0], 'into the ruins');
+  // The Ho-Oh chamber is sealed.
+  W.load('ruins-of-alph', 'hooh');
+  assert.equal(W.tryStep(W.player, 'up', 4), 'blocked', 'the door of the Ho-Oh chamber');
+  await settle();
+  // The Kabuto chamber: the panel (no puzzle screen here: solved at once), the fossil, the stairs.
+  W.load('ruins-of-alph', 'kabuto');
+  await go(['up']);
+  await until(() => W.map.id === 'ruins-kabuto');
+  await go(['up', 'up', 'up', 'up', 'up']);
+  assert.deepEqual([W.player.x, W.player.y], [4, 2], 'in front of the panel');
+  await pump(W, W.interact());
+  assert.ok(G.Field.flag('solved:kabuto') && G.Field.count('dome-fossil') === 1, 'solved, with a Dome Fossil');
+  await go(['up']);
+  await until(() => W.map.id === 'ruins-inner');
+  await settle();
+  assert.deepEqual([W.player.x, W.player.y], [2, 3], 'down the stairs');
+  assert.equal(W.tryStep(W.player, 'right', 4), 'moved');
+  await settle();
+  W.player.face('up');
+  W.load('ruins-inner', { x: 6, y: 3, dir: 'up' });
+  assert.equal(W.tryStep(W.player, 'up', 4), 'blocked', 'the stairs of an unsolved chamber');
+  await settle();
+  // Unown on every step, with the letters Kabuto's panel set free.
+  W.debug.noEnc = false;
+  W.load('ruins-inner', 'kabuto');
+  W.seed(3);
+  for (let i = 0; i < 300 && got.length < 4; i++) { step(W, i % 2 ? 'left' : 'right'); await settle(); }
+  assert.ok(got.length >= 4, 'met some: ' + got.length);
+  assert.ok(got.every(([sp, f]) => sp === 201 && 'ABCDEFGHIJK'.includes(f)), JSON.stringify(got));
 });
 
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */

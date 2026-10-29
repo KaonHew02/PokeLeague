@@ -137,6 +137,12 @@ G.BagUI = (() => {
     }
     // The Town Map shows Kanto; the Bicycle gets you on or off it (G.World.toggleBike).
     if (id === 'town-map' && G.TownMapUI) { await G.TownMapUI.open(); return; }
+    // The Unown Report: the letters caught so far (flags form:201:<letter>).
+    if (id === 'unown-report') {
+      const got = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'].filter(l => G.Field.flag('form:201:' + l));
+      await G.Popup.say(fmt('Unown caught: {n} of 26.', { n: got.length }) + (got.length ? ' ' + got.join(' ') : ''));
+      return;
+    }
     if (id === 'bicycle' && G.World && G.World.toggleBike) {
       const W = G.World;
       if (!W.biking && (W.surfing || !W.canRide())) { await G.Popup.say(T("You can't ride your Bicycle here.")); return; }

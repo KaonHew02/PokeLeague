@@ -172,5 +172,6 @@ G.I18n.add({
   "Glacier Badge": "Badge Glacier",
   "Rising Badge": "Badge Lever",
   "Kanto": "Kanto",
-  "Johto": "Johto"
+  "Johto": "Johto",
+  "Unown caught: {n} of 26.": "Zarbi attrapés : {n} sur 26."
 }, "fr");

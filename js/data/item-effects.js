@@ -143,6 +143,8 @@ G.ITEM_FX = {
   'pink-apricorn': { key: 1, stack: 1 },
   'white-apricorn': { key: 1, stack: 1 },
   'black-apricorn': { key: 1, stack: 1 },
+  // Chapter 24: which of Unown's letters you have caught (the Bag shows them).
+  'unown-report':  { key: 1, field: 1 },
   'town-map':      { key: 1, field: 1 },
   'bicycle':       { key: 1, field: 1 },
   'old-rod':       { key: 1, field: 1, rod: 1 },

@@ -17,5 +17,6 @@ G.I18n.add({
   "Bring me Apricorns any time. A Trainer can never have too many good balls!": "Apporte-moi des Noigrumes quand tu veux. Un Dresseur n'a jamais trop de bonnes Balls !",
   "Apricorns! Leave them to me...": "Des Noigrumes ! Laisse-moi faire...",
   "That makes all seven kinds! I have not made a full set like this since I was a young man.": "Ça fait les sept sortes ! Je n'avais pas fait une série complète comme ça depuis ma jeunesse.",
-  "Use them well, and come back whenever you find more Apricorns.": "Fais-en bon usage, et reviens dès que tu trouves d'autres Noigrumes."
+  "Use them well, and come back whenever you find more Apricorns.": "Fais-en bon usage, et reviens dès que tu trouves d'autres Noigrumes.",
+  "Oh, and the researchers at the Ruins of Alph sent word: the earthquake opened chambers that were sealed for ages. They are asking for a good Trainer to help.": "Ah, et les chercheurs des Ruines d'Alpha m'ont fait passer un message : le tremblement de terre a ouvert des salles scellées depuis des siècles. Ils cherchent un bon Dresseur pour les aider."
 }, "fr");

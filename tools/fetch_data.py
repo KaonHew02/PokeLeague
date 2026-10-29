@@ -111,7 +111,7 @@ REGIONS['johto'] = dict(REGIONS['kanto'], **{
         'squirt-bottle',
         'red-scale', 'basement-key', 'clear-bell', 'silver-wing', 'secret-potion', 'oran-berry', 'sitrus-berry', 'pecha-berry', 'cheri-berry', 'chesto-berry', 'rawst-berry', 'aspear-berry',
         'apricorn-box', 'red-apricorn', 'blue-apricorn', 'yellow-apricorn', 'green-apricorn', 'pink-apricorn',
-        'white-apricorn', 'black-apricorn',
+        'white-apricorn', 'black-apricorn', 'unown-report',
     ],
     'regions': [('kanto', ['firered', 'leafgreen', 'red', 'blue', 'yellow']),
                 ('johto', ['heartgold', 'soulsilver', 'crystal', 'gold', 'silver'])],

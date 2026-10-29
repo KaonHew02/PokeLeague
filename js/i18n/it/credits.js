@@ -67,5 +67,7 @@ G.I18n.add({
   "{player} calmed the whirlpools of the Whirl Islands and met Lugia, the guardian of the sea, in its chamber deep below.": "{player} ha calmato i vortici delle Isole Vorticose e ha incontrato Lugia, il guardiano del mare, nella sua sala nelle profondità.",
   "Thank you for playing! More of Johto's secrets wait in a future update.": "Grazie per aver giocato! Altri segreti di Johto ti aspettano in un prossimo aggiornamento.",
   "Chapter 23 complete!": "Capitolo 23 completato!",
-  "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player} ha trovato la Ghicocca nera nel profondo della Grotta Scura, e Franz gli ha fatto una di ciascuna delle sue sette Ball di Ghicocca."
+  "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player} ha trovato la Ghicocca nera nel profondo della Grotta Scura, e Franz gli ha fatto una di ciascuna delle sue sette Ball di Ghicocca.",
+  "Chapter 24 complete!": "Capitolo 24 completato!",
+  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} ha rimesso insieme i quattro pannelli di pietra delle Rovine d'Alfa e ha incontrato gli Unown nella camera interna."
 }, "it");

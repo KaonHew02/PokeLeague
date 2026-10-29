@@ -1306,9 +1306,43 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Waterfall reach the ladder; from the ladder you get out without Waterfall; the hollow needs
   Rock Smash and Surf).
 
-### After chapter 23
+- **Chapter 24** ✅, Johto after the League, the Ruins of Alph: once Kurt has made his seven balls
+  he passes on word from the ruins (the earthquake of chapter 23 opened four chambers sealed for
+  ages), and the researcher who blocked Route 36's road south steps aside (`kurt-seven`; Route 36's
+  sign changes with it). Outside (`ruins-of-alph`, the games' tables: Natu and Smeargle in the
+  grass, Geodude under cracked rocks, rods): the Research Center, a Psychic and a Pokémaniac
+  (Lv. 41-43), three items and four chambers: Kabuto's (open), Omanyte's (on an island: Surf),
+  Aerodactyl's (past a cracked rock: Rock Smash) and Ho-Oh's (a locked door until the other three
+  are solved, `ruins.sealed`). In each chamber a stone panel in the north wall is a picture puzzle
+  (`ruins.panel-<chamber>`, walking into it or pressing A): solved (flag `solved:<chamber>`), it
+  slides aside, a fossil was set behind it (Dome Fossil, Helix Fossil, Old Amber; none behind
+  Ho-Oh's), and stairs lead down to the inner chamber (`ruins-inner`, Unown on every step, the
+  games' table). Unown have a letter: A-K once Kabuto's panel is solved, L-R Omanyte's, S-W
+  Aerodactyl's, X-Z Ho-Oh's (as in Gold and Silver); the researcher gives the Unown Report once a
+  panel is solved (from the Bag it lists the letters caught). The inner chamber's stairs to an
+  unsolved chamber are blocked (`ruins.slab`). With all four solved, the Unown gather around you
+  in the inner chamber (`ruins.inner`, flag `ruins-done`), `ending(24)`. Files:
+  `js/content/johto/ruins.js` (translations `johto-ruins`; `G.Ruins.CHAMBERS`, `wildForm`);
+  `route36.js`, `kurt.js`.
+- **Engine for chapter 24:** the stone panels: `G.Puzzle` (`js/world/puzzle.js`, rules only) and
+  `G.PuzzleUI` (`js/ui/puzzle-ui.js`, translations `puzzle`). A 4×4 picture in 16 pieces on a 6×6
+  board: the pieces start scattered on the outer ring (a seeded scramble per chamber) and go back in
+  the middle; a click (or A) picks a piece up, another puts it down or swaps the two, B puts it
+  back or leaves; the board is kept in var `puzzle:<id>`. The picture is a stone carving made from
+  the Pokémon's first idle frame (its shape cut into sandstone in four tones, lit from the top
+  left, inside a carved frame, with small marks scattered around); pieces that still look the same
+  are interchangeable (`G.Puzzle.solved(board, same)`). Indoor palette `ruins` (sandstone); there a
+  `secret` tile is drawn as a stone tablet (tiles.js `tablet`), and open stairs once its warp's `if`
+  holds, as elsewhere. Pokémon forms: `G.World.wildForm(sp, map, rng)` gives a wild Pokémon a form
+  (`mon.form`, Unown's letter; the Summary shows it), and a caught one sets flag
+  `form:<sp>:<form>`. Item: the Unown Report (key item, used from the Bag).
+  `tests/field.test.cjs` checks the puzzle rules and plays the real maps (Route 36's way south
+  before and after `kurt-seven`, the sealed Ho-Oh door, a panel, the stairs, Unown letters A-K);
+  the map generator checks that Omanyte's chamber needs Surf and Aerodactyl's Rock Smash.
 
-1. **More of Johto's post-game:** the Ruins of Alph, breeding at the Day Care (Eggs) and held
-   items (berries held in battle), Mt. Silver.
+### After chapter 24
+
+1. **More of Johto's post-game:** breeding at the Day Care (Eggs) and held items (berries held in
+   battle), Mt. Silver.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

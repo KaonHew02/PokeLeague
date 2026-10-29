@@ -23,5 +23,6 @@ G.I18n.add({
   "The National Park is to the west.": "El Parque Nacional está al oeste.",
   "Violet City is to the east.": "Ciudad Malva está al este.",
   "Ruins of Alph. Closed while the scientists study the ruins. Thank you for understanding.": "Ruinas Alfa. Cerradas mientras los científicos estudian las ruinas. Gracias por su comprensión.",
-  "Route 37. Ecruteak City is just to the north.": "Ruta 37. Ciudad Iris está justo al norte."
+  "Route 37. Ecruteak City is just to the north.": "Ruta 37. Ciudad Iris está justo al norte.",
+  "Sorry, the Ruins of Alph are closed. Since the last earthquake, we have been making sure the chambers are safe.": "Lo siento, las Ruinas Alfa están cerradas. Desde el último terremoto estamos comprobando que las cámaras sean seguras."
 }, "es");

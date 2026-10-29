@@ -232,3 +232,17 @@ kbd {
 .cr-mon small { color: var(--muted); }
 .cr-names { display: flex; flex-wrap: wrap; justify-content: center; gap: .15em .9em; font-size: .9em; }
 .cr-buttons { margin-top: .4em; }
+
+/* A stone panel of the Ruins of Alph (puzzle-ui.js): 6×6 cells, the picture goes in the middle 4×4. */
+.box.pz-box { width: 98%; height: 98%; display: flex; flex-direction: column; padding: .5em .7em; }
+.pz-box .opt-head h3 { margin-right: auto; }
+.pz-main { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 1.2em; }
+.pz-board { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(6, 1fr); gap: 2px;
+  height: 100%; max-height: 17em; aspect-ratio: 1; padding: 4px; background: #3a2e1e; border-radius: .4em; transition: box-shadow .4s; }
+.pz-cell { padding: 0; margin: 0; border: 0; border-radius: 2px; background: #5a4a32; cursor: pointer; min-width: 0; min-height: 0; }
+.pz-cell.mid { background: #241c12; }
+.pz-cell canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+.pz-cell.held { outline: 3px solid #ffe37a; outline-offset: -1px; position: relative; z-index: 1; }
+.pz-cell.pad-focus { outline: 3px solid #fff; outline-offset: -1px; position: relative; z-index: 2; }
+.pz-box.solved .pz-board { box-shadow: 0 0 1.2em #ffe37a; }
+.pz-hint { max-width: 11em; font-size: .9em; margin: 0; }

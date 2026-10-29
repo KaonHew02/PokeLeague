@@ -17,5 +17,6 @@ G.I18n.add({
   "Bring me Apricorns any time. A Trainer can never have too many good balls!": "隨時把球果拿來給我吧。訓練家的好球是永遠不嫌多的！",
   "Apricorns! Leave them to me...": "是球果啊！交給我吧……",
   "That makes all seven kinds! I have not made a full set like this since I was a young man.": "這樣七種就齊了！這麼完整的一套，我從年輕時起就沒再做過了。",
-  "Use them well, and come back whenever you find more Apricorns.": "好好用它們吧。找到更多球果的話，隨時再來。"
+  "Use them well, and come back whenever you find more Apricorns.": "好好用它們吧。找到更多球果的話，隨時再來。",
+  "Oh, and the researchers at the Ruins of Alph sent word: the earthquake opened chambers that were sealed for ages. They are asking for a good Trainer to help.": "對了，阿露福遺跡的研究員捎來了消息：地震讓封閉了不知多少年的石室打開了。他們在找一位厲害的訓練家幫忙。"
 }, "zh-Hant");

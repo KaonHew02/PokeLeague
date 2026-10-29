@@ -2,7 +2,8 @@
  * A Pokémon is a plain object that goes into the save as it is:
  *
  *   { uid, sp, nick, lvl, exp, hp, status, slp, tox, moves:[{id, pp, ppUp}], ivs:[6], evs:[6],
- *     nature, gender, shiny, friendship, ball, ot:{name, id}, met:{map, lvl}, item, ability }
+ *     nature, gender, shiny, friendship, ball, ot:{name, id}, met:{map, lvl}, item, ability,
+ *     form (only some: Unown's letter 'A'..'Z', chapter 24) }
  *
  *   status: null | 'psn' | 'tox' | 'brn' | 'par' | 'slp' | 'frz'   (slp = turns left asleep,
  *   tox = bad-poison counter). Stats are not stored: G.Mon.stats(mon) computes them.

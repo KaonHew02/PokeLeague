@@ -812,6 +812,7 @@ G.BattleUI = (() => {
   function wild(player, sp, lvl, opts = {}) {
     const rng = G.RNG(opts.seed == null ? G.RNG.seed() : opts.seed + 1);
     const mon = G.Mon.create(spId(sp), lvl, { rng, wild: true, moves: opts.moves, shinyOdds: opts.shinyOdds });
+    if (opts.form) mon.form = opts.form;     // Unown's letter (chapter 24)
     return start(Object.assign({ kind: 'wild', player, foe: { party: [mon] } }, opts));
   }
 

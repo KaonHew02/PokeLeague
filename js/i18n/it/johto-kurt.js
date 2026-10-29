@@ -17,5 +17,6 @@ G.I18n.add({
   "Bring me Apricorns any time. A Trainer can never have too many good balls!": "Portami delle Ghicocche quando vuoi. Un Allenatore non ha mai troppe Ball buone!",
   "Apricorns! Leave them to me...": "Delle Ghicocche! Lascia fare a me...",
   "That makes all seven kinds! I have not made a full set like this since I was a young man.": "E con questa sono tutti e sette i tipi! Non facevo una serie completa così da quando ero giovane.",
-  "Use them well, and come back whenever you find more Apricorns.": "Usale bene, e torna ogni volta che trovi altre Ghicocche."
+  "Use them well, and come back whenever you find more Apricorns.": "Usale bene, e torna ogni volta che trovi altre Ghicocche.",
+  "Oh, and the researchers at the Ruins of Alph sent word: the earthquake opened chambers that were sealed for ages. They are asking for a good Trainer to help.": "Ah, e i ricercatori delle Rovine d'Alfa mi hanno mandato a dire che il terremoto ha aperto camere sigillate da secoli. Cercano un bravo Allenatore che li aiuti."
 }, "it");

@@ -23,5 +23,6 @@ G.I18n.add({
   "The National Park is to the west.": "Le Parc Naturel est à l'ouest.",
   "Violet City is to the east.": "Mauville est à l'est.",
   "Ruins of Alph. Closed while the scientists study the ruins. Thank you for understanding.": "Ruines d'Alpha. Fermées pendant que les scientifiques étudient les ruines. Merci de votre compréhension.",
-  "Route 37. Ecruteak City is just to the north.": "Route 37. Rosalia est juste au nord."
+  "Route 37. Ecruteak City is just to the north.": "Route 37. Rosalia est juste au nord.",
+  "Sorry, the Ruins of Alph are closed. Since the last earthquake, we have been making sure the chambers are safe.": "Désolé, les Ruines d'Alpha sont fermées. Depuis le dernier tremblement de terre, nous vérifions que les salles ne sont pas dangereuses."
 }, "fr");

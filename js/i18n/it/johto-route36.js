@@ -23,5 +23,6 @@ G.I18n.add({
   "The National Park is to the west.": "Il Parco Nazionale è a ovest.",
   "Violet City is to the east.": "Violapoli è a est.",
   "Ruins of Alph. Closed while the scientists study the ruins. Thank you for understanding.": "Rovine d'Alfa. Chiuse mentre gli scienziati studiano le rovine. Grazie per la comprensione.",
-  "Route 37. Ecruteak City is just to the north.": "Percorso 37. Amarantopoli è subito a nord."
+  "Route 37. Ecruteak City is just to the north.": "Percorso 37. Amarantopoli è subito a nord.",
+  "Sorry, the Ruins of Alph are closed. Since the last earthquake, we have been making sure the chambers are safe.": "Mi dispiace, le Rovine d'Alfa sono chiuse. Dall'ultimo terremoto stiamo controllando che le camere siano sicure."
 }, "it");

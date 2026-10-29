@@ -67,5 +67,7 @@ G.I18n.add({
   "{player} calmed the whirlpools of the Whirl Islands and met Lugia, the guardian of the sea, in its chamber deep below.": "{player}平息了漩渦列島的漩渦，在深處的洞室裡見到了大海的守護者洛奇亞。",
   "Thank you for playing! More of Johto's secrets wait in a future update.": "感謝遊玩！更多城都的秘密將在之後的更新中等著你。",
   "Chapter 23 complete!": "第二十三章完成！",
-  "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player}在黑暗洞穴深處找到了黑色的球果，鋼鐵把他的七種球果球各做了一個。"
+  "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player}在黑暗洞穴深處找到了黑色的球果，鋼鐵把他的七種球果球各做了一個。",
+  "Chapter 24 complete!": "第二十四章完成！",
+  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player}拼好了阿露福遺跡的四塊石板，在內部大廳見到了未知圖騰。"
 }, "zh-Hant");

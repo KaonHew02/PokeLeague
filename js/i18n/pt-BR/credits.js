@@ -48,5 +48,7 @@ G.I18n.add({
   "Chapter 15 complete!": "Capítulo 15 concluído!",
   "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player} atravessou o mar atrás da Poção Secreta e ganhou a Insígnia da Tempestade do Chuck e a Insígnia Mineral da Jasmine.",
   "Chapter 16 complete!": "Capítulo 16 concluído!",
-  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player} acalmou o Lake of Rage, desmontou o esconderijo Rocket com o Lance e ganhou a Insígnia Glacial do Pryce."
+  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player} acalmou o Lake of Rage, desmontou o esconderijo Rocket com o Lance e ganhou a Insígnia Glacial do Pryce.",
+  "Chapter 17 complete!": "Capítulo 17 concluído!",
+  "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player} retomou a Radio Tower da Equipe Rocket, e a Equipe Rocket se desfez mais uma vez."
 }, "pt-BR");

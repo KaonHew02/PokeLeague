@@ -1684,6 +1684,43 @@ async function chapter16(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 17 after chapter 16: Team Rocket takes the Radio Tower; the Underground, the warehouse, Archer. */
+async function chapter17(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // The radio after the Glacier Badge: Team Rocket holds the tower, its stairs are open.
+  await run(st, 'mahogany', 'radio.broadcast');
+  assert.ok(F.flag('rocket-broadcast'));
+  const up = G.Maps.get('radio-tower-1f').warps.find(w => w.to === 'radio-tower-2f');
+  assert.ok(F.test(up.if), 'the stairs are open');
+  const starter = S.party.find(m => m.sp >= 155 && m.sp <= 160);
+  lead(st, starter.sp);
+  grind(st, 'route43', 38, 600);
+  for (const m of ['radio-tower-1f', 'radio-tower-2f', 'radio-tower-3f']) { await all(m); won(); }
+  assert.equal(F.count('basement-key'), 1, 'Petrel drops the Basement Key');
+  const locked = G.Maps.get('radio-tower-3f').warps.find(w => w.to === 'radio-tower-4f');
+  assert.ok(!F.test(locked.if), '3F stairs are locked');
+  // The Underground: the thief, a Grunt; the warehouse and the real Director.
+  await run(st, 'goldenrod-underground', 'underground.rival');
+  assert.equal(last().key, 'goldenrod-underground:rival2-underground');
+  assert.ok(F.flag('underground-rival'));
+  for (const m of ['goldenrod-underground', 'underground-warehouse']) { await all(m); won(); }
+  await run(st, 'underground-warehouse', npc(st, 'underground-warehouse', 'director'));
+  assert.ok(F.flag('director-saved') && F.test(locked.if), 'the code opens 3F');
+  // 4F: Ariana; 5F: Archer.
+  await all('radio-tower-4f');
+  won();
+  await fight('radio-tower-5f', 'archer');
+  won();
+  assert.ok(F.flag('radio-freed') && F.flag('got-tm24') && F.count('tm24') >= 1, 'the tower is free');
+  assert.ok(F.flag('chapter-17-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1765,7 +1802,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test('chapters 11 to 16: Johto, from Professor Elm to Falkner, Bugsy, Whitney, Morty, Chuck, Jasmine and Pryce', async () => {
+test('chapters 11 to 17: Johto, from Professor Elm to Pryce and the Radio Tower', async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -1783,4 +1820,5 @@ test('chapters 11 to 16: Johto, from Professor Elm to Falkner, Bugsy, Whitney, M
   await chapter14(st);
   await chapter15(st);
   await chapter16(st);
+  await chapter17(st);
 });

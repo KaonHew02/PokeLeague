@@ -91,6 +91,7 @@ G.ITEMS = {
   "sport-ball": {"id":457,"pocket":"balls","cat":"standard-balls"},
   "squirt-bottle": {"id":448,"pocket":"key","cat":"plot-advancement"},
   "red-scale": {"id":477,"pocket":"key","cat":"plot-advancement"},
+  "basement-key": {"id":476,"pocket":"key","cat":"plot-advancement"},
   "secret-potion": {"id":441,"pocket":"key","cat":"plot-advancement"},
   "oran-berry": {"id":132,"pocket":"berries","cat":"medicine"},
   "sitrus-berry": {"id":135,"pocket":"berries","cat":"medicine"},

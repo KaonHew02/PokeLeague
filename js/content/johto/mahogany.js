@@ -42,6 +42,7 @@ G.Maps.def({
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
   connect: { west: { map: 'route42', offset: 2 }, north: { map: 'route43', offset: 5 } },
+  triggers: [{ x: 1, y: 19, w: 30, h: 4, if: ['pryce-beaten', '!rocket-broadcast'], script: 'radio.broadcast' }],
   warps: [
     { x: 9, y: 9, to: 'souvenir-shop', spot: 'door' },
     { x: 22, y: 9, to: 'mahogany-center', spot: 'door' },

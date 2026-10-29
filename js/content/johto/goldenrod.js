@@ -35,9 +35,9 @@ G.Maps.def({
     'TT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,TT',
     'TT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,TT',
     'TT..................,,....................TT',
-    'TT......ff..HHHH....,,...HHHH...HHHH...ff.TT',
-    'TT..........HHHH....,,...HHHH...HHHH...ff.TT',
-    'TT..........HDHH....,,...HDHH...HDHH......TT',
+    'TTHHHH..ff..HHHH....,,...HHHH...HHHH...ff.TT',
+    'TTHHHH......HHHH....,,...HHHH...HHHH...ff.TT',
+    'TTHDHH......HDHH....,,...HDHH...HDHH......TT',
     'TT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,TT',
     'TT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,TT',
     'TT..................,,.......S............TT',
@@ -62,12 +62,13 @@ G.Maps.def({
     { x: 33, y: 23, to: 'name-rater', spot: 'door' },
     { x: 6, y: 31, to: 'goldenrod-gym', spot: 'door' },
     { x: 13, y: 30, to: 'goldenrod-house', spot: 'door' },
+    { x: 3, y: 23, to: 'underground-gate', spot: 'door' },
     { x: 32, y: 30, to: 'goldenrod', spot: 'magnet-door', if: 'magnet-train', locked: 'goldenrod.magnet-closed' }
   ],
   spots: {
     'radio-door': [33, 9, 'down'], 'dept-door': [11, 11, 'down'], 'center-door': [26, 16, 'down'],
     'bill-door': [37, 15, 'down'], 'bike-door': [13, 24, 'down'], 'flower-door': [26, 24, 'down'], 'rater-door': [33, 24, 'down'],
-    'gym-door': [6, 32, 'down'], 'house-door': [13, 31, 'down'], 'magnet-door': [32, 31, 'down']
+    'gym-door': [6, 32, 'down'], 'house-door': [13, 31, 'down'], 'magnet-door': [32, 31, 'down'], 'underground-door': [3, 24, 'down']
   },
   signs: {
     '22,32': 'Goldenrod City. Johto\'s great city, busy and bright from morning to night.',
@@ -79,8 +80,14 @@ G.Maps.def({
   npcs: [
     { id: 'kid', who: 'youngster', x: 24, y: 20, move: 'wander', r: 2,
       say: 'Whitney\'s Miltank knows Rollout. Once it starts rolling, it just keeps going, faster and faster!' },
-    { id: 'beauty', who: 'beauty', x: 16, y: 26, move: 'look',
+    { id: 'beauty', who: 'beauty', x: 16, y: 26, move: 'look', if: '!pryce-beaten',
       say: 'The Radio Tower plays music all day long. My favourite is the lullaby they play at night.' },
+    { id: 'beauty2', who: 'beauty', x: 16, y: 26, move: 'look', if: ['pryce-beaten', '!radio-freed'],
+      say: 'The radio only plays Team Rocket now. They have taken over the whole Radio Tower!' },
+    { id: 'beauty3', who: 'beauty', x: 16, y: 26, move: 'look', if: 'radio-freed',
+      say: 'The lullaby is back on the radio at night. Thank you for chasing Team Rocket away!' },
+    { id: 'grunt', who: 'rocket', x: 34, y: 9, dir: 'down', if: ['pryce-beaten', '!radio-freed'],
+      say: 'The Radio Tower belongs to Team Rocket now. Soon all of Johto will hear our call!' },
     { id: 'man', who: 'gentleman', x: 39, y: 16, move: 'look',
       say: 'Did you know Bill, the man who made the PC storage system, grew up here? His family still lives in that house.' },
     { id: 'girl', who: 'lass', x: 9, y: 15, move: 'wander', r: 2,
@@ -156,15 +163,24 @@ const ghouse = (id, spot, o) => G.Maps.def(Object.assign({
 G.Maps.def({
   id: 'radio-tower-1f', loc: 'radio-tower', region: 'johto', tileset: 'indoor', palette: 'lab', music: 'town', battleBg: 'indoor',
   rows: ['WWWWWWWWWWWWWW', 'WWWWWWWWWWWWWW', 'p+bb+++++++b+^', '++++++++++++++', '++++===+++++++', '++++++++++++++', 'p++++++++++++p', '++++++X+++++++'],
-  warps: [{ x: 6, y: 7, to: 'goldenrod', spot: 'radio-door' }, { x: 13, y: 2, to: 'radio-tower-1f', spot: 'door', if: 'radio-upstairs', locked: 'radio.staff-only' }],
-  spots: { door: [6, 7, 'up'] },
+  warps: [{ x: 6, y: 7, to: 'goldenrod', spot: 'radio-door' }, { x: 13, y: 2, to: 'radio-tower-2f', spot: 'from-below', if: 'pryce-beaten', locked: 'radio.staff-only' }],
+  spots: { door: [6, 7, 'up'], 'from-above': [13, 3, 'down'] },
   npcs: [
-    { id: 'clerk', who: 'clerk', x: 5, y: 3, dir: 'down',
+    { id: 'clerk', who: 'clerk', x: 5, y: 3, dir: 'down', if: '!pryce-beaten',
       say: 'Welcome to the Radio Tower! I am sorry, but the floors upstairs are for staff only.' },
+    { id: 'clerk2', who: 'clerk', x: 5, y: 3, dir: 'down', if: 'radio-freed',
+      say: 'Welcome back! You saved the Radio Tower. Please, look around upstairs as much as you like.' },
     { id: 'man', who: 'gentleman', x: 10, y: 5, move: 'look',
       say: 'Our shows reach every town in Johto. On a clear day, they can even hear us in Kanto!' },
     { id: 'girl', who: 'lass', x: 2, y: 5, move: 'look',
       say: 'I listen to the Pokémon Talk show every day. The host chats with Professor Oak!' }
+  ],
+  trainers: [
+    { id: 'grunt1', who: 'rocket', cls: 'team-rocket', x: 9, y: 4, dir: 'left', sight: 3, if: ['pryce-beaten', '!radio-freed'],
+      team: [['raticate', 34], ['koffing', 34]],
+      before: 'Welcome to Team Rocket Radio! Visitors are not welcome!',
+      defeat: 'You are not a visitor, you are trouble...',
+      after: 'Our executives are upstairs. You will never get to them!' }
   ]
 });
 

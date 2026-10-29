@@ -77,5 +77,12 @@ G.I18n.add({
   "Oh, you have the Plain Badge! Then you are strong enough to deal with that strange tree on Route 36.": "¡Vaya, tienes la Medalla Planicie! Entonces eres lo bastante fuerte para encargarte de ese árbol raro de la Ruta 36.",
   "Take this Squirt Bottle. If you water the tree, I bet something will happen!": "Toma esta Regadera. Si riegas el árbol, ¡seguro que pasa algo!",
   "That strange tree on Route 36... I would water it myself, but only a strong Trainer should go near it. Win a badge from Whitney first!": "Ese árbol raro de la Ruta 36... Lo regaría yo misma, pero solo un Entrenador fuerte debería acercarse. ¡Gana antes una medalla de Blanca!",
-  "North: Route 35 and the National Park.": "Norte: Ruta 35 y el Parque Nacional."
+  "North: Route 35 and the National Park.": "Norte: Ruta 35 y el Parque Nacional.",
+  "The radio only plays Team Rocket now. They have taken over the whole Radio Tower!": "La radio ya solo emite al Team Rocket. ¡Se han apoderado de toda la Torre Radio!",
+  "The lullaby is back on the radio at night. Thank you for chasing Team Rocket away!": "La nana vuelve a sonar en la radio por la noche. ¡Gracias por echar al Team Rocket!",
+  "The Radio Tower belongs to Team Rocket now. Soon all of Johto will hear our call!": "La Torre Radio es del Team Rocket. ¡Pronto todo Johto oirá nuestra llamada!",
+  "Welcome back! You saved the Radio Tower. Please, look around upstairs as much as you like.": "¡Bienvenido de nuevo! Has salvado la Torre Radio. Sube y echa un vistazo cuanto quieras.",
+  "Welcome to Team Rocket Radio! Visitors are not welcome!": "¡Bienvenido a Radio Team Rocket! ¡Aquí no queremos visitas!",
+  "You are not a visitor, you are trouble...": "No eres una visita, eres un problema...",
+  "Our executives are upstairs. You will never get to them!": "Nuestros jefes están arriba. ¡Nunca llegarás hasta ellos!"
 }, "es");

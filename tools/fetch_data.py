@@ -49,6 +49,8 @@ STAT = {'hp': 'hp', 'attack': 'atk', 'defense': 'def', 'special-attack': 'spa',
 STAT_ORDER = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed']
 # Moves taught by a move tutor in the game (Ilex Forest: Headbutt), from HeartGold / SoulSilver.
 TUTOR_MOVES = {'headbutt'}
+# Items whose FireRed / LeafGreen text is about another region: HeartGold / SoulSilver's text instead.
+HGSS_TEXT = {'basement-key'}
 TYPES = ['normal', 'fire', 'water', 'electric', 'grass', 'ice', 'fighting', 'poison', 'ground',
          'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy']
 
@@ -103,7 +105,7 @@ REGIONS['johto'] = dict(REGIONS['kanto'], **{
     'items': REGIONS['kanto']['items'] + [
         'mystery-egg', 'sun-stone', 'metal-coat', 'kings-rock', 'dragon-scale', 'up-grade',
         'sport-ball', 'squirt-bottle',
-        'red-scale', 'secret-potion', 'oran-berry', 'sitrus-berry', 'pecha-berry', 'cheri-berry', 'chesto-berry', 'rawst-berry', 'aspear-berry',
+        'red-scale', 'basement-key', 'secret-potion', 'oran-berry', 'sitrus-berry', 'pecha-berry', 'cheri-berry', 'chesto-berry', 'rawst-berry', 'aspear-berry',
     ],
     'regions': [('kanto', ['firered', 'leafgreen', 'red', 'blue', 'yellow']),
                 ('johto', ['heartgold', 'soulsilver', 'crystal', 'gold', 'silver'])],
@@ -458,7 +460,8 @@ def build(region):
             rec['move'] = tms[n]
         ITEMS[n] = rec
         names_item[n] = names_of(v['names'], 'item', fallback=n)
-        item_txt[n] = texts_of(v.get('flavor_text_entries'), cfg, 'item text', 'text', 'version_group')
+        tcfg = dict(cfg, text_vgs=['heartgold-soulsilver'] + cfg['text_vgs']) if n in HGSS_TEXT else cfg
+        item_txt[n] = texts_of(v.get('flavor_text_entries'), tcfg, 'item text', 'text', 'version_group')
 
     # ---- growth rates, natures, types, stats ----
     GROWTH = {}

@@ -48,5 +48,7 @@ G.I18n.add({
   "Chapter 15 complete!": "Chapitre 15 terminé !",
   "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player} a traversé la mer pour la Potion Secrète, et a obtenu le Badge Choc de Chuck et le Badge Minéral de Jasmine.",
   "Chapter 16 complete!": "Chapitre 16 terminé !",
-  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player} a calmé le Lac Colère, démantelé le repaire Rocket avec Peter et obtenu le Badge Glacier de Frédo."
+  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player} a calmé le Lac Colère, démantelé le repaire Rocket avec Peter et obtenu le Badge Glacier de Frédo.",
+  "Chapter 17 complete!": "Chapitre 17 terminé !",
+  "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player} a repris la Tour Radio à la Team Rocket, et la Team Rocket s'est dissoute une fois de plus."
 }, "fr");

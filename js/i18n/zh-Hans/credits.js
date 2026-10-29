@@ -48,5 +48,7 @@ G.I18n.add({
   "Chapter 15 complete!": "第15章完成！",
   "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player}渡海取得了秘传之药，并从阿四那里得到了打击徽章，从阿蜜那里得到了钢铁徽章。",
   "Chapter 16 complete!": "第16章完成！",
-  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player}平息了愤怒之湖，和阿渡一起捣毁了火箭队的基地，并从柳伯那里得到了冰雪徽章。"
+  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player}平息了愤怒之湖，和阿渡一起捣毁了火箭队的基地，并从柳伯那里得到了冰雪徽章。",
+  "Chapter 17 complete!": "第17章完成！",
+  "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player}从火箭队手中夺回了广播塔，火箭队再一次解散了。"
 }, "zh-Hans");

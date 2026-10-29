@@ -77,5 +77,12 @@ G.I18n.add({
   "Oh, you have the Plain Badge! Then you are strong enough to deal with that strange tree on Route 36.": "哦，你拿到常規徽章了！那你應該有本事對付36號道路上那棵奇怪的樹了。",
   "Take this Squirt Bottle. If you water the tree, I bet something will happen!": "這個傑尼龜噴壺給你。要是給那棵樹澆澆水，肯定會發生什麼事！",
   "That strange tree on Route 36... I would water it myself, but only a strong Trainer should go near it. Win a badge from Whitney first!": "36號道路上那棵奇怪的樹……我本想自己去澆水，但只有厲害的訓練家才該靠近它。先從小茜那裡贏一枚徽章吧！",
-  "North: Route 35 and the National Park.": "北：35號道路和自然公園。"
+  "North: Route 35 and the National Park.": "北：35號道路和自然公園。",
+  "The radio only plays Team Rocket now. They have taken over the whole Radio Tower!": "現在收音機裡只有火箭隊的聲音。他們佔領了整座廣播塔！",
+  "The lullaby is back on the radio at night. Thank you for chasing Team Rocket away!": "晚上收音機裡又播起搖籃曲了。謝謝你趕走了火箭隊！",
+  "The Radio Tower belongs to Team Rocket now. Soon all of Johto will hear our call!": "廣播塔現在是火箭隊的了。很快整個城都都會聽到我們的呼喚！",
+  "Welcome back! You saved the Radio Tower. Please, look around upstairs as much as you like.": "歡迎回來！是你救了廣播塔。樓上請隨便參觀。",
+  "Welcome to Team Rocket Radio! Visitors are not welcome!": "歡迎收聽火箭隊電台！訪客不受歡迎！",
+  "You are not a visitor, you are trouble...": "你不是訪客，你是個麻煩……",
+  "Our executives are upstairs. You will never get to them!": "我們的幹部在樓上。你絕對到不了那裡！"
 }, "zh-Hant");

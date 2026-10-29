@@ -1141,11 +1141,29 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Pryce at the games' levels: Typhlosion or Feraligatr at Lv. 36 always win, a lone
   Meganium ~20% (Ice beats Grass), with a Flareon ~90%.
 
-### After chapter 16
+- **Chapter 17** ✅, Johto part 7: after the Glacier Badge, walking through Mahogany plays
+  Team Rocket's broadcast on the radio (trigger, flag `rocket-broadcast`): they have taken the
+  Radio Tower in Goldenrod and call Giovanni back. In Goldenrod a Grunt stands by the tower and
+  its staff-only stairs are open (`pryce-beaten`; everything Rocket shows while `!radio-freed`).
+  The tower: 1F to 5F (`radio-tower-1f` to `5f`, stairs alternating sides), a Grunt on 1F, two
+  on 2F, one on 3F and Petrel disguised as the Director (Koffing 34 ×3, Weezing 37), who drops the
+  Basement Key (key item). The 3F stairs need a code (`director-saved`). The Underground (new
+  house west of the Bike Shop, door (3,23), `underground-gate` → `goldenrod-underground`): a herb
+  merchant, a Grunt, and the rival (Golbat 34, Magneton 33, Haunter 34, Sneasel 35, the stolen starter's
+  last stage 37; flag `underground-rival`, can be lost); its east door opens with the Basement
+  Key into the warehouse (two Grunts) where the real Director gives the code. 4F: a Grunt and
+  Ariana (Arbok 35, Vileplume 35, Murkrow 37); 5F: Archer (Houndour 36, Koffing 36, Houndoom 39).
+  Archer breaks Team Rocket up (flag `radio-freed`), the Director gives TM24 Thunderbolt (flag
+  `got-tm24`), `ending(17)`. Files: `js/content/johto/radio.js` (translations `johto-radio`);
+  Goldenrod's NPCs change with the flags.
+- **Balance:** the Rocket teams are Lv. 33–39; the story test grinds the starter to Lv. 38 on
+  Route 43 first (the games' Lv. 36–40 at this point).
 
-1. **Johto, the rest:** the Radio Tower taken by Team Rocket (Goldenrod), Route 44 and the Ice
-   Path, Blackthorn City and Clair, the Dragon's Den, the Johto League; the roaming beasts, the
-   Whirl Islands, the Ruins of Alph, Kurt's Apricorn Balls, breeding at the Day Care (Eggs) and
-   held items (berries held in battle) along the way.
+### After chapter 17
+
+1. **Johto, the rest:** Route 44 and the Ice Path, Blackthorn City and Clair, the Dragon's Den,
+   Routes 45 and 46, the Johto League (Victory Road, the Elite Four, Lance); the roaming beasts,
+   the Whirl Islands and Lugia, the Ruins of Alph, Kurt's Apricorn Balls, breeding at the Day
+   Care (Eggs) and held items (berries held in battle) along the way.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

@@ -48,5 +48,7 @@ G.I18n.add({
   "Chapter 15 complete!": "Capitolo 15 completato!",
   "{player} crossed the sea for the Secret Potion, earned the Storm Badge from Chuck and the Mineral Badge from Jasmine.": "{player} ha attraversato il mare per la Pozione Segreta e ha ottenuto la Medaglia Tempesta da Furio e la Medaglia Minerale da Jasmine.",
   "Chapter 16 complete!": "Capitolo 16 completato!",
-  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player} ha calmato il Lago d'Ira, smantellato il covo Rocket con Lance e ottenuto la Medaglia Gelo da Alfredo."
+  "{player} calmed the Lake of Rage, shut down the Rocket hideout with Lance and earned the Glacier Badge from Pryce.": "{player} ha calmato il Lago d'Ira, smantellato il covo Rocket con Lance e ottenuto la Medaglia Gelo da Alfredo.",
+  "Chapter 17 complete!": "Capitolo 17 completato!",
+  "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player} ha strappato la Torre Radio al Team Rocket, e il Team Rocket si è sciolto ancora una volta."
 }, "it");

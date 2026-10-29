@@ -8,16 +8,23 @@ const G = load();
 // (The contest park is entered through the contest officer's script, not a door.)
 const kanto = G.Maps.all().filter(id => !id.startsWith('sandbox') && !/^t\d+$/.test(id) && !G.Maps.get(id).def.contest);
 
-/** Maps a locked door's script warps to (the hideout's lift: ['warp', map, spot]). */
-const scriptWarps = name => [...JSON.stringify(G.Script.get(name) || []).matchAll(/\["warp","([\w-]+)"/g)].map(m => m[1]);
+/** Maps a script warps to (the hideout's lift, the League's guard: ['warp', map, spot]), through the scripts it calls. */
+function scriptWarps(name, seen = new Set()) {
+  if (seen.has(name)) return [];
+  seen.add(name);
+  const json = JSON.stringify(G.Script.get(name) || []);
+  return [...json.matchAll(/\["warp","([\w-]+)"/g)].map(m => m[1])
+    .concat([...json.matchAll(/\["call","([\w.-]+)"/g)].flatMap(m => scriptWarps(m[1], seen)));
+}
 
-/** Maps reachable from one map through doors, mats, stairs and edges (and the warps of locked doors' scripts). */
+/** Maps reachable from one map through doors, mats, stairs and edges (and the warps of locked doors' and people's scripts). */
 function reachable(from) {
   const seen = new Set([from]), todo = [from];
   while (todo.length) {
     const m = G.Maps.get(todo.pop());
     const next = m.warps.filter(w => w.to).map(w => w.to).concat(Object.values(m.def.connect || {}).map(c => c.map),
-      m.warps.filter(w => typeof w.locked === 'string').flatMap(w => scriptWarps(w.locked)));
+      m.warps.filter(w => typeof w.locked === 'string').flatMap(w => scriptWarps(w.locked)),
+      (m.def.npcs || []).filter(p => typeof p.script === 'string').flatMap(p => scriptWarps(p.script)));
     for (const id of next) if (!seen.has(id)) { seen.add(id); todo.push(id); }
   }
   return seen;

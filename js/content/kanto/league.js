@@ -13,6 +13,8 @@
  * battle with teams ten levels stronger (the `2` trainers), and a win takes you straight to the
  * Hall of Fame again. Chapter 19: Johto's Victory Road comes out here too (its mouth east of
  * Kanto's); stepping out of it after the rival's last battle ends the chapter (johto/victoryroad.js).
+ * Chapter 20: with Johto's eight badges the guard also offers Johto's Elite Four and Champion
+ * (johto/league.js), whose Hall of Fame scene is Lance's.
  */
 G.Maps.def({
   id: 'indigo', loc: 'indigo-plateau', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -192,7 +194,7 @@ G.Maps.def({
   ],
   spots: { door: [5, 7, 'up'] },
   signs: { '5,2': 'The Hall of Fame. The Champions of the Pokémon League and their Pokémon are remembered here forever.' },
-  npcs: [{ id: 'oak', who: 'oak', x: 4, y: 7, dir: 'up', if: 'scripted' }]
+  npcs: [{ id: 'oak', who: 'oak', x: 4, y: 7, dir: 'up', if: 'scripted' }, { id: 'lance', who: 'lance', x: 5, y: 7, dir: 'up', if: 'scripted' }]
 });
 
 (() => {
@@ -307,12 +309,14 @@ G.Maps.def({
     'league.door-shut': [['say', 'The door is shut tight. The Trainer of this room must be beaten first.']],
     'league.guard': [
       ['say', 'Beyond this door are the Elite Four. You battle all four in a row, and then the Champion.'],
-      ['say', 'Once you go in, there is no coming back until you win or lose.'],
-      ['choice', 'Are you ready?', [
-        ['say', 'Then go, and good luck!'],
-        ['warp', 'lorelei-room', 'door']
-      ], [
-        ['say', 'Take your time. Heal up and get ready.']
+      ['if', 'clair-beaten', [['call', 'jleague.guard']], [
+        ['say', 'Once you go in, there is no coming back until you win or lose.'],
+        ['choice', 'Are you ready?', [
+          ['say', 'Then go, and good luck!'],
+          ['warp', 'lorelei-room', 'door']
+        ], [
+          ['say', 'Take your time. Heal up and get ready.']
+        ]]
       ]]
     ],
     'league.lorelei-win': [['setFlag', 'e4-lorelei'], ['sfx', 'door'], ['say', 'The door at the back of the room slid open.']],

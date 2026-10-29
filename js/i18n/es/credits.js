@@ -56,5 +56,8 @@ G.I18n.add({
   "Thank you for playing! The road to the Pokémon League opens in a future update.": "¡Gracias por jugar! El camino a la Liga Pokémon se abrirá en una próxima actualización.",
   "Chapter 19 complete!": "¡Capítulo 19 completado!",
   "{player} climbed the falls, crossed Victory Road and beat the thief one last time: the Indigo Plateau, with all eight Johto badges.": "{player} subió la cascada, cruzó la Calle Victoria y venció al ladrón una última vez: la Meseta Añil, con las ocho medallas de Johto.",
-  "Thank you for playing! The Johto League opens in a future update.": "¡Gracias por jugar! La Liga de Johto se abrirá en una próxima actualización."
+  "Thank you for playing! The Johto League opens in a future update.": "¡Gracias por jugar! La Liga de Johto se abrirá en una próxima actualización.",
+  "Chapter 20 complete!": "¡Capítulo 20 completado!",
+  "{player} beat Johto's Elite Four and Lance, and entered the Hall of Fame as Johto's Champion.": "{player} venció al Alto Mando de Johto y a Lance, y entró en el Salón de la Fama como Campeón de Johto.",
+  "Thank you for playing! Your Johto journey is complete. More adventures open in a future update.": "¡Gracias por jugar! Tu viaje por Johto ha terminado. Habrá más aventuras en una próxima actualización."
 }, "es");

@@ -56,5 +56,8 @@ G.I18n.add({
   "Thank you for playing! The road to the Pokémon League opens in a future update.": "感謝遊玩！通往寶可夢聯盟的道路將在之後的更新中開放。",
   "Chapter 19 complete!": "第19章完成！",
   "{player} climbed the falls, crossed Victory Road and beat the thief one last time: the Indigo Plateau, with all eight Johto badges.": "{player}爬上了瀑布，穿過了冠軍之路，最後一次打敗了那個小偷：帶著城都的八枚徽章來到了石英高原。",
-  "Thank you for playing! The Johto League opens in a future update.": "感謝遊玩！城都聯盟將在之後的更新中開放。"
+  "Thank you for playing! The Johto League opens in a future update.": "感謝遊玩！城都聯盟將在之後的更新中開放。",
+  "Chapter 20 complete!": "第20章完成！",
+  "{player} beat Johto's Elite Four and Lance, and entered the Hall of Fame as Johto's Champion.": "{player}打敗了城都的四天王和阿渡，作為城都的冠軍登上了殿堂。",
+  "Thank you for playing! Your Johto journey is complete. More adventures open in a future update.": "感謝遊玩！你的城都之旅圓滿結束。更多冒險將在之後的更新中開放。"
 }, "zh-Hant");

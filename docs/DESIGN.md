@@ -1212,11 +1212,27 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   The map generator checks that Routes 45 and 46 cannot be climbed and that Victory Road is open
   both ways.
 
-### After chapter 19
+- **Chapter 20** ✅, Johto part 10, the end of the Johto journey: with Johto's eight badges the
+  guard in the Indigo Plateau's lobby (`league.guard`) offers two challenges, Kanto's Elite Four
+  as before or Johto's (`jleague.guard`). Johto's run has rooms of its own: Will (Psychic,
+  `will-room`), Koga (Poison, `koga-room`), Bruno (Fighting, `jbruno-room`), Karen (Dark,
+  `karen-room`), then the Champion, Lance (`jchampion-room`: Gyarados, three Dragonite,
+  Aerodactyl, Charizard), who is one of the Elite Four in Kanto's run. Flags `je4-*`, cleared by
+  Will's room (`jleague.start`); losing sends you back to the lobby. Beating Lance: he takes you
+  to the Hall of Fame (a second entry in `save.fame`, flag `johto-champion`), then home and
+  `ending(20)`. Once you are Johto's Champion every member battles ten levels up (the `2`
+  trainers, as in Kanto) and so does Lance (`G.JohtoLeague.lanceTeam(true)`); a win goes straight
+  to the Hall of Fame. Files: `js/content/johto/league.js` (translations `johto-league`);
+  `kanto/league.js` (the guard, Lance in the Hall of Fame); people will, karen.
+- **Balance:** the games' teams (HeartGold and SoulSilver), three levels lower and Lance six, as in
+  Kanto. A Johto team of six (starter Lv. 48, the others 44-45): Will, Koga and Bruno ~100%,
+  Karen ~90%, Lance 60-80% (a team with Ice moves does best); the rematches ten levels up against
+  a team ten levels up: Karen ~90%, Lance ~50%.
 
-1. **The Johto League:** the Elite Four of Johto (Will, Koga, Bruno, Karen) and the Champion,
-   Lance, at the Indigo Plateau; then the roaming beasts, Dark Cave, the Whirl Islands and Lugia,
-   the Ruins of Alph, Kurt's Apricorn Balls, breeding at the Day Care (Eggs) and held items
-   (berries held in battle).
+### After chapter 20
+
+1. **Johto's post-game:** the roaming beasts (Raikou, Entei, Suicune), Dark Cave, the Whirl
+   Islands and Lugia, the Bell Tower and Ho-Oh, the Ruins of Alph, Kurt's Apricorn Balls, breeding
+   at the Day Care (Eggs) and held items (berries held in battle), Mt. Silver.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

@@ -804,6 +804,49 @@ test('balance: Clair in Blackthorn (chapter 18), win rates of typical teams are 
   assert.ok(table['meganium 42 + piloswine 38 + ampharos 38 + pidgeot 38'] >= 0.3, 'Meganium and three');
 });
 
+test("balance: Johto's Elite Four and Lance (chapter 20), win rates of typical teams are printed", () => {
+  const { G } = world(1);
+  // A Johto team: the starter at 48 and Pokémon met along the way a few levels lower.
+  const TY = [157, 48, ['flamethrower', 'thunder-punch', 'swift', 'quick-attack']], FE = [160, 48, ['surf', 'crunch', 'ice-fang', 'slash']];
+  const ME = [154, 48, ['razor-leaf', 'body-slam', 'earthquake', 'reflect']];
+  const AM = [181, 45, ['thunderbolt', 'thunder-wave', 'fire-punch', 'swift']], PG = [18, 45, ['aerial-ace', 'quick-attack', 'wing-attack', 'sand-attack']];
+  const JY = [124, 44, ['ice-punch', 'psychic', 'lovely-kiss', 'body-slam']], PI = [221, 45, ['ice-fang', 'earthquake', 'take-down', 'mist']];
+  const ES = [196, 44, ['psychic', 'bite', 'quick-attack', 'swift']];
+  const TEAMS = { 'typhlosion 48 + 5': [TY, AM, PG, JY, PI, ES], 'feraligatr 48 + 3': [FE, AM, PG, PI], 'meganium 48 + 5': [ME, AM, PG, JY, PI, ES] };
+  const fight = (foe, me) => {
+    let wins = 0;
+    for (let s = 1; s <= 30; s++) {
+      const rng = G.RNG(s * 19);
+      const mine = me.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const foes = foe.map(([x, l, moves]) => G.Mon.create(G.Maps.species(x), l, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: mine, bag: {} },
+        foe: { party: foes, trainer: { id: 'x', name: 'X', ai: 'leader', items: {}, prize: 100 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return Math.round(wins / 30 * 100) / 100;
+  };
+  const member = (room, id) => G.Maps.get(room).trainers.find(t => t.id === id).team;
+  const FOES = { will: member('will-room', 'will'), koga: member('koga-room', 'koga'), bruno: member('jbruno-room', 'bruno'),
+                 karen: member('karen-room', 'karen'), lance: G.JohtoLeague.lanceTeam(false) };
+  const table = {};
+  for (const [name, foe] of Object.entries(FOES)) {
+    table[name] = {};
+    for (const [k, t] of Object.entries(TEAMS)) table[name][k] = fight(foe, t);
+  }
+  console.log("[balance] vs Johto's Elite Four:", JSON.stringify(table));
+  // As in Kanto: three levels below the games (Lance six), each member alone with a fresh team.
+  for (const id of ['will', 'koga', 'bruno']) assert.ok(table[id]['typhlosion 48 + 5'] >= 0.8, id);
+  assert.ok(table.karen['typhlosion 48 + 5'] >= 0.7 && table.karen['meganium 48 + 5'] >= 0.7, 'Karen');
+  assert.ok(table.lance['typhlosion 48 + 5'] >= 0.5 && table.lance['feraligatr 48 + 3'] >= 0.6, 'Lance');
+  // The rematches: ten levels up against a team ten levels up.
+  const up = t => t.map(([sp, l, m]) => [sp, l + 10, m]);
+  const again = { karen: fight(member('karen-room', 'karen2'), up(TEAMS['typhlosion 48 + 5'])),
+                  lance: fight(G.JohtoLeague.lanceTeam(true), up(TEAMS['typhlosion 48 + 5'])) };
+  console.log("[balance] Johto's rematches:", JSON.stringify(again));
+  assert.ok(again.karen >= 0.5 && again.lance >= 0.4, 'the rematches');
+});
+
 /** Chapter 3 after chapter 2: Nugget Bridge, Bill, the thief, the S.S. Anne, Cut, Lt. Surge. */
 async function chapter3(st) {
   const { G, S, W } = st;
@@ -1829,6 +1872,47 @@ async function chapter19(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 20 after chapter 19: Johto's Elite Four, Lance and Johto's Hall of Fame. */
+async function chapter20(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const RUN = [['will-room', 'will'], ['koga-room', 'koga'], ['jbruno-room', 'bruno'], ['karen-room', 'karen']];
+  // The lobby's guard: with Johto's eight badges, Johto's challenge.
+  await run(st, 'indigo-lobby', 'league.guard', [0, 0]);
+  assert.equal(st.W.map, 'will-room');
+  await run(st, 'will-room', 'jleague.start');
+  const starter = S.party.find(m => m.sp >= 155 && m.sp <= 160);
+  lead(st, starter.sp);
+  grind(st, 'johto-victory-2f', 46, 800);
+  for (const [m, id] of RUN) {
+    await fight(m, id);
+    won();
+    assert.ok(F.flag('je4-' + id), id + ' opens the door');
+  }
+  // The Champion: Lance, then the Hall of Fame and home.
+  F.healAll();
+  const fame = (S.fame || []).length;
+  await run(st, 'jchampion-room', 'jleague.champion');
+  assert.equal(last().key, 'jchampion-room:lance-champion');
+  won();
+  assert.ok(F.flag('johto-champion') && S.fame.length === fame + 1, "Johto's Hall of Fame");
+  assert.equal(st.W.map, 'player-2f');
+  assert.ok(F.flag('chapter-20-done'));
+  // Another run: the doors shut again, and every member is ten levels up.
+  await run(st, 'will-room', 'jleague.start');
+  assert.ok(!F.flag('je4-will') && !F.flag('je4-champion'));
+  const will = G.Maps.get('will-room').trainers.filter(t => F.test(t.if));
+  assert.equal(will.map(t => t.id).join(), 'will2');
+  assert.equal(will[0].team[0][1], G.Maps.get('will-room').trainers.find(t => t.id === 'will').team[0][1] + 10);
+  // Kanto's challenge is still there.
+  await run(st, 'indigo-lobby', 'league.guard', [1, 0]);
+  assert.equal(st.W.map, 'lorelei-room');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1910,7 +1994,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test('chapters 11 to 19: Johto, from Professor Elm to Clair and Victory Road', async () => {
+test("chapters 11 to 20: Johto, from Professor Elm to Clair, Victory Road and Johto's League", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -1931,4 +2015,5 @@ test('chapters 11 to 19: Johto, from Professor Elm to Clair and Victory Road', a
   await chapter17(st);
   await chapter18(st);
   await chapter19(st);
+  await chapter20(st);
 });

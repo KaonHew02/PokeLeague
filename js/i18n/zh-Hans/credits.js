@@ -65,5 +65,7 @@ G.I18n.add({
   "Thank you for playing! More of Johto's legends wait in a future update.": "感谢游玩！更多城都的传说将在之后的更新中等着你。",
   "Chapter 22 complete!": "第22章完成！",
   "{player} calmed the whirlpools of the Whirl Islands and met Lugia, the guardian of the sea, in its chamber deep below.": "{player}平息了漩涡列岛的漩涡，在深处的洞室里见到了大海的守护者洛奇亚。",
-  "Thank you for playing! More of Johto's secrets wait in a future update.": "感谢游玩！更多城都的秘密将在之后的更新中等着你。"
+  "Thank you for playing! More of Johto's secrets wait in a future update.": "感谢游玩！更多城都的秘密将在之后的更新中等着你。",
+  "Chapter 23 complete!": "第二十三章完成！",
+  "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player}在黑暗洞穴深处找到了黑色的球果，钢铁把他的七种球果球各做了一个。"
 }, "zh-Hans");

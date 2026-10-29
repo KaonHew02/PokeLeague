@@ -32,6 +32,8 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 23) return { title: T('Chapter 23 complete!'), done: fmt('{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.', { player }),
+      next: T('Thank you for playing! More of Johto\'s secrets wait in a future update.') };
     if (n === 22) return { title: T('Chapter 22 complete!'), done: fmt('{player} calmed the whirlpools of the Whirl Islands and met Lugia, the guardian of the sea, in its chamber deep below.', { player }),
       next: T('Thank you for playing! More of Johto\'s secrets wait in a future update.') };
     if (n === 21) return { title: T('Chapter 21 complete!'), done: fmt('{player} rang the Clear Bell, met Suicune, Raikou and Entei, and climbed the Bell Tower to meet Ho-Oh.', { player }),

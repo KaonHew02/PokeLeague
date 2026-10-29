@@ -168,7 +168,7 @@ It is pure and deterministic, runs in node, and never touches the DOM. **Built**
 | moves-special.js | `G.SpecialMoves` | per-move hooks (see the top of effects.js); `FALLBACK` = deliberately simplified moves |
 | items.js | `G.BattleItems` | `canUse`, `use`: potions, status heals, revives, Ethers, X items, Dire Hit, Guard Spec. |
 | ai.js | `G.BattleAI` | `choose(b, side)`: `random` (wild), `basic` (trainers), `leader` (heals when low) |
-| capture.js | `G.Capture` | `roll({max, hp, rate, ball, status, rng})`, `chance(...)` |
+| capture.js | `G.Capture` | `roll({max, hp, rate, ball, status, rng})`, `chance(...)`, `ballMod(item, {foe, mine, fishing})` |
 | exp.js | `G.Exp` | `gain`, `addEvs`, `prize(base, lastLevel)`, `blackoutLoss(money)` |
 | evolution.js | `G.Evolution` | `candidates(mon, {trigger, item})`, `evolve(mon, to)` → moves to learn now |
 | battle.js | `G.Battle` | the turn engine below |
@@ -250,6 +250,12 @@ What follows is the original spec, still accurate in its rules.
     for the others. `a ≥ 255` always catches.
   - Otherwise `b = floor(1048560/floor(√floor(√floor(16711680/a))))`, then 4 checks of
     `u16 < b`. Shakes shown = min(3, checks passed).
+  - `ballMod(item, { foe, mine, fishing })` gives the `ball` and `rate` of a throw (chapter 23):
+    Kurt's Apricorn Balls as in HeartGold and SoulSilver (Level ×2/×4/×8, Lure ×3 when hooked
+    with a rod (`rules.fishing`), Moon ×4 on Moon Stone evolvers, Fast ×4 at base Speed 100+,
+    Love ×8 on your Pokémon's species of the other gender, Heavy −20 / +20 / +30 / +40 to the
+    rate by weight, Friend: the catch starts at 200 friendship); every other ball its
+    `ITEM_FX` `ball`.
 - **Running away**: always works if your Pokémon is faster; otherwise
   `F = floor(Sp·128/Sf)+30·attempts`.
 - **exp.js**
@@ -1265,9 +1271,44 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   falls and locked ladder; the map generator checks every floor (walking, Surf, Waterfall,
   Whirlpool) and that each strip of sand can only be reached through its whirlpool.
 
-### After chapter 22
+- **Chapter 23** ✅, Johto after the League, Kurt's Apricorn Balls and the Dark Cave: once Lugia
+  has been met, the elder in Ecruteak sends you to Kurt, whose back has healed (`kurt3` in his
+  house, `kurt.balls`): he gives the Apricorn Box (key item) and makes a ball out of every
+  Apricorn you bring, there and then (Red → Level Ball, Blue → Lure, Yellow → Moon, Green →
+  Friend, Pink → Love, White → Fast, Black → Heavy; the first of each kind comes with a word on
+  what it is for, flags `made:<ball>`). Apricorn trees, one a day once you have the box: white in
+  Azalea Town, pink on Route 33, red and blue on Route 37, green and yellow on Route 42, black only
+  in the Dark Cave's hollow. The Dark Cave (`dark`, Flash) has a mouth on Route 31 and one on Route
+  45. Violet side (`dark-cave-violet`, the games' tables): a hiker gives HM06 Rock Smash (flag
+  `got-hm06`), cracked rocks close the passages (Dunsparce under them now and then), and the lake
+  climbs by a waterfall to a ladder up to the Blackthorn side (`dark-cave-blackthorn`: a hall with
+  Hiker Gordon and Black Belt Kaito, Lv. 40-42, the mouth to Route 45, and past another cracked
+  rock an underground river to Surf). The river ends at a hollow open to the sky
+  (`dark-cave-hollow`), with the black Apricorn tree and a Moon Stone. Seven items in the cave.
+  Once Kurt has made all seven kinds (flag `kurt-seven`), `ending(23)`. Files:
+  `js/content/johto/kurt.js`, `darkcave.js` (translations `johto-kurt`, `johto-darkcave`);
+  `azalea.js` (Kurt, a tree), `cherrygrove.js` (Route 31), `route45.js`, `route32.js`
+  (Route 33), `route36.js` (Route 37), `mortar.js` (Route 42), `ecruteak.js` (the elder).
+- **Engine for chapter 23:** cracked rocks (outdoor tile `k`, kind `smashrock`, solid; a prop
+  drawn by render.js): facing one, Rock Smash (a Pokémon that knows it, with the Marsh Badge, as in
+  FireRed) breaks it until you leave the map (field.js `rockSmash`, the `cut` set), and a quarter
+  of the time a wild Pokémon was under it (the area's `rock-smash` table, which a map finds in its
+  walking area like `headbutt`). An Apricorn tree is a berry tree whose item is an Apricorn
+  (`berries: [[x, y, 'red-apricorn']]`): one a day, only with the Apricorn Box, drawn as a round
+  tree hung with fruit of its colour (tiles.js `atree`). The seven Apricorn Balls in
+  `G.Capture.ballMod`; a Pokémon hooked with a rod is a battle with `rules.fishing`. Balls are
+  drawn in their own colours when thrown. Apricorns are key items the Bag counts (`stack: 1`).
+  Data: the Apricorns, the Apricorn Box and the seven balls (`tools/fetch_data.py`).
+  `tests/capture.test.cjs` checks each ball's rule and a Friend Ball and Lure Ball in battle;
+  `tests/field.test.cjs` walks into the real Dark Cave from Route 31 (the rock, the Marsh Badge,
+  the rock back after leaving, a Pokémon under it) and picks a white Apricorn in Azalea Town; the
+  map generator checks each floor (without Rock Smash you stay in the first chamber; Surf and
+  Waterfall reach the ladder; from the ladder you get out without Waterfall; the hollow needs
+  Rock Smash and Surf).
 
-1. **More of Johto's post-game:** Dark Cave, the Ruins of Alph, Kurt's Apricorn Balls, breeding at
-   the Day Care (Eggs) and held items (berries held in battle), Mt. Silver.
+### After chapter 23
+
+1. **More of Johto's post-game:** the Ruins of Alph, breeding at the Day Care (Eggs) and held
+   items (berries held in battle), Mt. Silver.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

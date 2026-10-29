@@ -15,6 +15,7 @@
  * Entei come back to the Burned Tower's basement (flag beasts-return), each a wild battle, Lv. 40.
  * Chapter 22: once Ho-Oh has been met, the elder gives the Silver Wing (flag silver-wing), the way to
  * Lugia under the Whirl Islands (johto/whirl.js).
+ * Chapter 23: once Lugia has been met, he sends you to Kurt in Azalea Town (johto/kurt.js).
  */
 G.Maps.def({
   id: 'ecruteak', loc: 'ecruteak-city', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -361,6 +362,11 @@ G.Maps.def({
     }
     if (F.flag('silver-wing') && !F.flag('lugia-met')) {
       await h.say(T('The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.'));
+      return;
+    }
+    if (F.flag('lugia-met') && !F.count('apricorn-box')) {
+      await h.say(T('So you met the guardian of the sea as well. Ho-Oh and Lugia both... the old stories live again.'));
+      await h.say(T('Kurt of Azalea Town once told me he dreamed of making a ball fit for such Pokémon. Go and tell him what you saw.'));
       return;
     }
     await h.say(T('Long ago, Ecruteak had two towers. In the east, the Bell Tower; in the west, the Brass Tower.'));

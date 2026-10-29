@@ -1152,14 +1152,18 @@ G.Tiles = (() => {
   // ---------------- props (Y-sorted sprites) ----------------
 
   const sprites = {};
+  /** A prop, made once per palette; 'atree:#c03030' passes what follows the colon to it. */
   function sprite(name, palette = OUT) {
     const k = name + '/' + palette;
-    if (!sprites[k]) sprites[k] = PROPS[name](colors(palette));
+    const [base, arg] = name.split(':');
+    if (!sprites[k]) sprites[k] = PROPS[base](colors(palette), arg);
     return sprites[k];
   }
+  /** The colour of each Apricorn on its tree (chapter 23). */
+  const APRICORN = { red: '#d8383a', blue: '#3a5ad8', yellow: '#f0c830', green: '#48a840', pink: '#f088b0', white: '#f0f0e8', black: '#3a3438' };
 
-  /** The round tree, 16×28; `lift` lightens its leaves by that many shades (a Headbutt tree). */
-  function roundTree(C, lift) {
+  /** The round tree, 16×28; `lift` lightens its leaves by that many shades (a Headbutt tree); `more(P)` paints over it. */
+  function roundTree(C, lift, more) {
     const P = Pix(T, 28);
     const L = C.leaf, Tr = C.trunk;
     for (let y = 19; y < 27; y++) for (let x = 6; x < 10; x++) P.set(x, y, Tr[x === 6 ? 0 : 1]);
@@ -1174,6 +1178,7 @@ G.Tiles = (() => {
       });
     }
     outline(P, C.treeEdge);
+    if (more) more(P);
     return P.canvas();
   }
 
@@ -1200,6 +1205,34 @@ G.Tiles = (() => {
         P.set(x, y, c ? blue : red); P.set(x + 1, y, c ? blue : red); P.set(x, y + 1, c ? blue : red); P.set(x + 1, y + 1, c ? blue : red);
         P.set(x, y, c ? bshine : shine);
       }
+      return P.canvas();
+    },
+    /** An Apricorn tree (chapter 23): the round tree, hung with three big Apricorns of one colour. */
+    atree(C, colour) {
+      const hex = APRICORN[colour] || APRICORN.red;
+      const base = pack(hex), dark = pack(shade(hex, -0.35)), shine = pack(shade(hex, 0.5)), stem = pack('#3a2a1a');
+      return roundTree(C, 0, P => {
+        for (const [cx, cy] of [[4.5, 12.5], [10.5, 10.5], [7.5, 16.5]]) {
+          disc(P, cx, cy, 2.3, (x, y) => ((x - cx) * 0.6 + (y - cy) * 0.8 > 0.9 ? dark : base));
+          P.set(Math.floor(cx) - 1, Math.floor(cy) - 1, shine);
+          P.set(Math.round(cx), Math.floor(cy) - 3, stem);
+        }
+      });
+    },
+    /** A cracked rock Rock Smash breaks (chapter 23): a low rock with a crack across it, 16×16. */
+    crag(C) {
+      const P = Pix(T, T);
+      const S = C.src, rock = C.floor ? ['#5e5650', '#7a726a', '#9a928a', '#bab2a8'] : [S.cliffFaceDark, S.cliffFace[0], S.cliffTop[0], S.cliffLight];
+      const cols = rock.map(c => pack(c)), dark = pack('#1e1a18');
+      for (const [bx, by, br] of [[7.5, 9.5, 6], [4.5, 11.5, 3.6], [11, 11.5, 3.6]]) {
+        disc(P, bx, by, br, (x, y) => {
+          if (y > 14) return null;
+          const lit = ((x - 7.5) * -0.5 + (y - 9) * -0.85) / 6;
+          return cols[lit > 0.45 ? 3 : lit > 0.05 ? 2 : lit > -0.45 ? 1 : 0];
+        });
+      }
+      for (const [x, y] of [[7, 4], [7, 5], [8, 6], [8, 7], [7, 8], [6, 9], [6, 10], [7, 11], [9, 8], [10, 9], [4, 10], [5, 10]]) P.set(x, y, dark);
+      outline(P, dark);
       return P.canvas();
     },
     /** The front of the tall grass: the bottom row of tufts, drawn over feet. */
@@ -1328,6 +1361,7 @@ G.Tiles = (() => {
       case 'cuttree': grass(P, C, ox, oy, tx, ty); break;   // the tree itself is a prop (render.js)
       case 'headtree': grass(P, C, ox, oy, tx, ty); break;  // a tree to Headbutt: baked like the others
       case 'berrytree': grass(P, C, ox, oy, tx, ty); break; // a berry tree: baked as a prop
+      case 'smashrock': grass(P, C, ox, oy, tx, ty); break; // a cracked rock: a prop (render.js), gone once smashed
       case 'can': can(P, C, ox, oy, tx, ty); break;
       case 'rubble': rubble(P, C, ox, oy, tx, ty); break;
       case 'ice': ice(P, C, ox, oy); break;
@@ -1385,7 +1419,13 @@ G.Tiles = (() => {
       const k = m.kind[ty * m.w + tx];
       if (k === 'tree') add(ty, tree.height - T).items.push({ img: tree, x: tx * T, bottom: 0 });
       else if (k === 'headtree') add(ty, htree.height - T).items.push({ img: htree, x: tx * T, bottom: 0 });
-      else if (k === 'berrytree') add(ty, btree.height - T).items.push({ img: btree, x: tx * T, bottom: 0 });
+      else if (k === 'berrytree') {
+        // An Apricorn tree is a berry tree whose item is an Apricorn (the map's `berries`).
+        const b = ((m.def && m.def.berries) || []).find(([bx, by]) => bx === tx && by === ty);
+        const ap = b && /^([a-z]+)-apricorn$/.exec(b[2]);
+        const img = ap ? sprite('atree:' + ap[1], pal) : btree;
+        add(ty, img.height - T).items.push({ img, x: tx * T, bottom: 0 });
+      }
     }
     for (const st of m.stamps) {
       const s = G.Stamps.get(st.type, st.door ? st.door[0] : 0, { x: st.x, y: st.y, palette: m.palette });

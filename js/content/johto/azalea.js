@@ -26,7 +26,7 @@ G.Maps.def({
     'TTTS.,.....S..,.....,.....,....,...T',
     ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
     ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
-    'TTT......,..................S......T',
+    'TTT.y....,..................S......T',
     'TTT......,..S......................T',
     'TTT.....#O##...ff..................T',
     'TTT.....####...ff...............ff.T',
@@ -49,6 +49,7 @@ G.Maps.def({
   ],
   spots: { 'kurt-door': [5, 10, 'down'], 'gym-door': [14, 10, 'down'], 'kiln-door': [20, 10, 'down'],
            'center-door': [26, 10, 'down'], 'mart-door': [31, 10, 'down'], 'well-door': [9, 14, 'up'] },
+  berries: [[4, 13, 'white-apricorn']],
   signs: {
     '28,13': 'Azalea Town. A sleepy old town that loves its Slowpoke.',
     '11,10': 'Azalea Town Pokémon Gym. Leader: Bugsy, a young expert on all things Bug-type!',
@@ -97,7 +98,9 @@ G.Maps.def({
            '2,2': 'Tools for making Poké Balls by hand.' },
   npcs: [
     { id: 'kurt', who: 'kurt', x: 7, y: 3, dir: 'down', if: '!kurt-well', script: 'azalea.kurt' },
-    { id: 'kurt2', who: 'kurt', x: 7, y: 3, dir: 'down', if: 'well-cleared', script: 'azalea.kurt-thanks' },
+    { id: 'kurt2', who: 'kurt', x: 7, y: 3, dir: 'down', if: ['well-cleared', '!lugia-met'], script: 'azalea.kurt-thanks' },
+    // Chapter 23: his back has healed, and he makes Apricorn Balls (kurt.js).
+    { id: 'kurt3', who: 'kurt', x: 7, y: 3, dir: 'down', if: 'lugia-met', script: 'kurt.balls' },
     { id: 'granddaughter', who: 'lass', x: 3, y: 5, dir: 'right', if: '!well-cleared',
       say: 'Grandpa ran off to the well... I hope he is all right.' },
     { id: 'granddaughter2', who: 'lass', x: 3, y: 5, dir: 'right', if: 'well-cleared',

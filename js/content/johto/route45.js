@@ -8,7 +8,7 @@ G.Maps.def({
   rows: [
     '##..........,,..........##',
     '##..........,,S.........##',
-    '########....,,..........##',
+    '#####O##....,,..........##',
     '########....,,..y.......##',
     '########....,,....########',
     '########....,,....########',
@@ -64,6 +64,8 @@ G.Maps.def({
     '##.........,,......#######'
   ],
   connect: { north: { map: 'blackthorn', offset: -10 }, south: { map: 'route46', offset: 0 } },
+  warps: [{ x: 5, y: 2, to: 'dark-cave-blackthorn', spot: 'mouth' }],
+  spots: { 'dark-cave': [5, 1, 'up'] },
   berries: [[16, 3, 'sitrus-berry'], [21, 46, 'pecha-berry']],
   signs: {
     '14,1': 'Route 45. A mountain road. Watch your step: the ledges only go down.',

@@ -60,6 +60,10 @@
  * up at one, Waterfall (a Pokémon that knows it, with the Rising Badge) climbs it to the top.
  * Chapter 22: whirlpools (`w`, Sea Route 41): Whirlpool (a Pokémon that knows it, with the Glacier
  * Badge) calms one into plain water until you leave the map, like a tree that Cut clears.
+ * Chapter 23: cracked rocks (`k`, the Dark Cave): Rock Smash (with the Marsh Badge, as in FireRed)
+ * breaks one until you leave the map, and a wild Pokémon may be under it (the area's 'rock-smash'
+ * table). An Apricorn tree is a berry tree whose item is an Apricorn: one a day, once you have
+ * Kurt's Apricorn Box. A Pokémon hooked with a rod is a battle with `rules.fishing` (the Lure Ball).
  * Chapter 15: berry trees (`y`): one to three berries once a day (the map's `berries`: [[x, y, item]]).
  * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
  * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
@@ -210,7 +214,7 @@ G.World = (() => {
   let lastLoc = null;
   let started = false;
   let pendingClick = null;
-  let cut = new Set();                   // trees cut and whirlpools calmed on this visit of the map ('x,y'); they come back
+  let cut = new Set();                   // trees cut, whirlpools calmed and rocks smashed on this visit of the map ('x,y'); they come back
   let lit = false;                       // Flash used: dark caves stay lit until you leave them
   let sliding = null;                    // a spin tile sent the player this way (the Rocket Hideout)
   let icy = false;                       // ...or it is ice (Pryce's Gym): no spinning, it stops off the ice
@@ -341,8 +345,8 @@ G.World = (() => {
     me.who = playerSprite();
     me.place(s.x, s.y, s.dir);
     me.queue.length = 0;
-    // Standing on water is surfing (also in a save loaded there, a calmed whirlpool too).
-    if (M().kindAt(m, me.x, me.y) === 'whirlpool') cut.add(M().key(me.x, me.y));
+    // Standing on water is surfing (also in a save loaded there, a calmed whirlpool too; a smashed rock is gone).
+    if (M().kindAt(m, me.x, me.y) === 'whirlpool' || M().kindAt(m, me.x, me.y) === 'smashrock') cut.add(M().key(me.x, me.y));
     setSurf(isWater(me.x, me.y));
     setBike(!surfing && canRide(m) && (biking || !!G.Field.save.player.bike || mustRide(m)));
     visit(m);
@@ -446,7 +450,7 @@ G.World = (() => {
     if (M().inside(map, x, y)) {
       if (!map.solid[y * map.w + x]) return true;
       const k = M().kindAt(map, x, y);
-      return (k === 'cuttree' && cut.has(M().key(x, y))) || (k === 'keydoor' && keyOpen(x, y)) || (k === 'bars' && barsOpen(x, y));
+      return ((k === 'cuttree' || k === 'smashrock') && cut.has(M().key(x, y))) || (k === 'keydoor' && keyOpen(x, y)) || (k === 'bars' && barsOpen(x, y));
     }
     const a = M().across(map, x, y);
     return !!a && M().open(a.map, a.x, a.y);
@@ -683,6 +687,7 @@ G.World = (() => {
         // In the Bug-Catching Contest: the entrant alone, the Sport Balls only, no black-out.
         const o = battleOpts(contest);
         if (wild.noCatch) o.rules.noCatch = true;
+        if (/-rod$/.test(wild.method)) o.rules.fishing = true;
         if (wild.moves) o.moves = wild.moves;
         if (wild.shiny) o.shinyOdds = 1;
         r = await G.BattleUI.wild(contest ? G.Contest.battler() : battler(), wild.sp, wild.lvl, o);
@@ -873,6 +878,7 @@ G.World = (() => {
     if (k === 'rapids' && !isWater(tx, ty)) return runScript([['say', "The current is much too strong to Surf against!"]], {});
     if (k === 'waterfall') return runScript([['js', h => waterfallAt(h)]], {});
     if (k === 'whirlpool' && !cut.has(M().key(tx, ty))) return runScript([['js', h => whirlpoolAt(h, tx, ty)]], {});
+    if (k === 'smashrock' && !cut.has(M().key(tx, ty))) return runScript([['js', h => rockSmash(h, tx, ty)]], {});
     if (isWater(tx, ty) && !occupant(tx, ty, me) && (!surfing || bestRod())) return runScript([['js', h => atWater(h, me.dir)]], {});
     if (k === 'keydoor' && !keyOpen(tx, ty)) return runScript([['js', h => cardKey(h, tx, ty)]], {});
     if (k === 'pc') return runScript([['sfx', 'pc'], ['say', '{player} turned on the PC.'], ['pc']], {});
@@ -940,12 +946,24 @@ G.World = (() => {
     const key = 'berry:' + map.id + ':' + x + ',' + y, today = G.Clock.day();
     const b = (map.def.berries || []).find(([bx, by]) => bx === x && by === y);
     const item = b ? b[2] : 'oran-berry';
+    if (/-apricorn$/.test(item)) return apricornTree(h, key, today, item);
     if (G.Field.getVar(key) === today) { await h.say(G.T('A berry tree. There are no ripe berries left today. Come back tomorrow!')); return; }
     const n = rng.int(1, 3);
     G.Field.setVar(key, today);
     G.Field.giveItem(item, n);
     const j = h.jingle('item');
     await h.say(G.T('A berry tree! {player} picked {item} ×{n}.'), { vars: { item: G.Names.item(item), n } });
+    await j;
+  }
+
+  /** An Apricorn tree (chapter 23): one Apricorn a day, into Kurt's Apricorn Box. */
+  async function apricornTree(h, key, today, item) {
+    if (!G.Field.count('apricorn-box')) { await h.say(G.T('An Apricorn tree. Its round fruit is much too hard to eat. They say Kurt in Azalea Town makes Poké Balls out of them.')); return; }
+    if (G.Field.getVar(key) === today) { await h.say(G.T('An Apricorn tree. There are no Apricorns left on it today. Come back tomorrow!')); return; }
+    G.Field.setVar(key, today);
+    G.Field.giveItem(item, 1);
+    const j = h.jingle('item');
+    await h.say(G.T('An Apricorn tree! {player} put the {item} in the Apricorn Box.'), { vars: { item: G.Names.item(item) } });
     await j;
   }
 
@@ -983,6 +1001,25 @@ G.World = (() => {
     sfx('surf', 'confirm');
     climbing = true;
     stepActor(me, 'up', G.Player.WALK, false);
+  }
+
+  /**
+   * A cracked rock in front of you: Rock Smash (with the Marsh Badge, as in FireRed) breaks it until
+   * you leave the map. A quarter of the time a wild Pokémon was under it (the area's 'rock-smash' table).
+   */
+  async function rockSmash(h, x, y) {
+    const mon = G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'rock-smash'));
+    if (!mon || !G.Field.save.player.badges.includes(6)) { await h.say(G.T('A cracked rock. A Pokémon could smash it with the right move.')); return; }
+    if (await h.choice(G.T('A cracked rock. Would you like to use Rock Smash?'), {}) !== 0) return;
+    await h.say(G.T('{mon} used Rock Smash!'), { vars: { mon: G.Mon.name(mon) } });
+    sfx('strength', 'hit');
+    cut.add(M().key(x, y));
+    const table = M().encounters(map, 'rock-smash');
+    const total = table && table.mons ? table.mons.reduce((n, r) => n + r[3], 0) : 0;
+    if (!total || !(rng.next() < 0.25)) return;
+    let r = rng.next() * total, pick = table.mons[table.mons.length - 1];
+    for (const row of table.mons) { if ((r -= row[3]) < 0) { pick = row; break; } }
+    await wildBattle({ sp: M().species(pick[0]), lvl: rng.int(pick[1], pick[2]), method: 'rock-smash', map: map.id, area: null });
   }
 
   /** A whirlpool in front of you: Whirlpool (with the Glacier Badge, as in the games) calms it until you leave the map. */
@@ -1373,7 +1410,7 @@ G.World = (() => {
     if (follower && follower.visible && follower.x === tx && follower.y === ty) return follower;
     if (itemAt(tx, ty)) return { item: true };
     if (map.signs[M().key(tx, ty)] || M().kindAt(map, tx, ty) === 'pc') return { sign: true };
-    if ((M().kindAt(map, tx, ty) === 'cuttree' || M().kindAt(map, tx, ty) === 'whirlpool') && !cut.has(M().key(tx, ty))) return { sign: true };
+    if (['cuttree', 'whirlpool', 'smashrock'].includes(M().kindAt(map, tx, ty)) && !cut.has(M().key(tx, ty))) return { sign: true };
     if (M().kindAt(map, tx, ty) === 'headtree' || M().kindAt(map, tx, ty) === 'berrytree') return { sign: true };
     if (rockAt(tx, ty)) return { sign: true };
     return null;

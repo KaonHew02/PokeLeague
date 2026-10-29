@@ -97,5 +97,7 @@ G.I18n.add({
   "This feather was found in the ashes, and my family has kept it ever since. Take it: I think it has been waiting for you.": "Esta pena foi encontrada nas cinzas, e minha família a guarda desde então. Fique com ela: acho que ela estava esperando por você.",
   "They say the silver Pokémon sleeps deep under the Whirl Islands, beyond whirlpools no boat can cross.": "Dizem que o Pokémon prateado dorme bem no fundo das Whirl Islands, além de redemoinhos que nenhum barco consegue atravessar.",
   "An old sailor in Cianwood knows how to calm them. Go and find him.": "Um velho marinheiro de Cianwood sabe como acalmá-los. Vá procurá-lo.",
-  "The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.": "A Silver Wing vai levar você até o guardião do mar, bem no fundo das Whirl Islands."
+  "The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.": "A Silver Wing vai levar você até o guardião do mar, bem no fundo das Whirl Islands.",
+  "So you met the guardian of the sea as well. Ho-Oh and Lugia both... the old stories live again.": "Então você também encontrou o guardião do mar. Ho-Oh e Lugia... as velhas histórias ganham vida outra vez.",
+  "Kurt of Azalea Town once told me he dreamed of making a ball fit for such Pokémon. Go and tell him what you saw.": "O Kurt, de Azalea Town, me contou uma vez que sonhava em fazer uma bola à altura desses Pokémon. Vá contar a ele o que você viu."
 }, "pt-BR");

@@ -97,5 +97,7 @@ G.I18n.add({
   "This feather was found in the ashes, and my family has kept it ever since. Take it: I think it has been waiting for you.": "这根羽毛是在灰烬里找到的，从那以后一直由我家保管。收下吧：我想它一直在等你。",
   "They say the silver Pokémon sleeps deep under the Whirl Islands, beyond whirlpools no boat can cross.": "据说那只银色的宝可梦沉睡在漩涡列岛的深处，被船只无法通过的漩涡挡在后面。",
   "An old sailor in Cianwood knows how to calm them. Go and find him.": "湛蓝市有一位老水手知道怎么让漩涡平静下来。去找他吧。",
-  "The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.": "银色之羽会带你去见大海的守护者，就在漩涡列岛的深处。"
+  "The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.": "银色之羽会带你去见大海的守护者，就在漩涡列岛的深处。",
+  "So you met the guardian of the sea as well. Ho-Oh and Lugia both... the old stories live again.": "原来你连大海的守护者也见到了。凤王和洛奇亚都……古老的传说又活过来了。",
+  "Kurt of Azalea Town once told me he dreamed of making a ball fit for such Pokémon. Go and tell him what you saw.": "桧皮镇的钢铁曾经跟我说过，他梦想做出配得上这些宝可梦的球。去把你看到的告诉他吧。"
 }, "zh-Hans");

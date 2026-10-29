@@ -197,7 +197,7 @@ G.Maps.def({
     ',,,,,,,,,,,,,,,,,,,,,,,,,,...T',
     ',,,,,,,,,,,,,,,,,,,,,,,,,,...T',
     'T............................T',
-    'T..........."""""""""........T',
+    'T..........."""""""""...y....T',
     'T..........."""""""""........T',
     'T............................T',
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
@@ -205,6 +205,7 @@ G.Maps.def({
   connect: { west: { map: 'azalea', offset: -4 } },
   warps: [{ x: 25, y: 4, to: 'union-cave-1f', spot: 'south' }],
   spots: { 'cave-door': [25, 5, 'down'] },
+  berries: [[24, 10, 'pink-apricorn']],
   signs: { '2,6': 'Route 33. West: Azalea Town. East: Union Cave.' },
   trainers: [
     { id: 'anthony', who: 'hiker', cls: 'hiker', name: 'Anthony', x: 12, y: 5, dir: 'down', sight: 2,

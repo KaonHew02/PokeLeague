@@ -18,7 +18,7 @@
  *   escape     back to the last Pokémon Center door (outside towns)
  *   evo        evolution stone (G.SPECIES[..].evo has { how:'item', item })
  *   held       held-item effect id (exp-share) — held items come after the first slice
- *   key        key item (cannot be sold, tossed or used on a Pokémon)
+ *   key        key item (cannot be sold, tossed or used on a Pokémon); stack: 1, the Bag shows how many
  *   fossil     the species a lab brings back from it
  */
 G.ITEM_FX = {
@@ -29,6 +29,14 @@ G.ITEM_FX = {
   'master-ball':   { ball: 255, battle: 1 },
   'safari-ball':   { ball: 1.5, battle: 1 },
   'sport-ball':    { ball: 1.5, battle: 1 },
+  // Kurt's Apricorn Balls (chapter 23): ×1 here; what they are good at is in G.Capture.ballMod.
+  'level-ball':    { ball: 1, battle: 1 },
+  'lure-ball':     { ball: 1, battle: 1 },
+  'moon-ball':     { ball: 1, battle: 1 },
+  'friend-ball':   { ball: 1, battle: 1 },
+  'fast-ball':     { ball: 1, battle: 1 },
+  'heavy-ball':    { ball: 1, battle: 1 },
+  'love-ball':     { ball: 1, battle: 1 },
 
   // ---- medicine ----
   'potion':        { heal: 20,     field: 1, battle: 1, price: 300 },
@@ -126,6 +134,15 @@ G.ITEM_FX = {
   'basement-key':  { key: 1 },
   'clear-bell':    { key: 1 },
   'silver-wing':   { key: 1 },
+  // Chapter 23: the Apricorn Box (from Kurt) and the Apricorns it holds (`stack`: the Bag shows how many).
+  'apricorn-box':  { key: 1 },
+  'red-apricorn':  { key: 1, stack: 1 },
+  'blue-apricorn': { key: 1, stack: 1 },
+  'yellow-apricorn': { key: 1, stack: 1 },
+  'green-apricorn': { key: 1, stack: 1 },
+  'pink-apricorn': { key: 1, stack: 1 },
+  'white-apricorn': { key: 1, stack: 1 },
+  'black-apricorn': { key: 1, stack: 1 },
   'town-map':      { key: 1, field: 1 },
   'bicycle':       { key: 1, field: 1 },
   'old-rod':       { key: 1, field: 1, rod: 1 },

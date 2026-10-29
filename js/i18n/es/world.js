@@ -71,5 +71,11 @@ G.I18n.add({
   "{mon} used Waterfall!": "¡{mon} usó Cascada!",
   "A fierce whirlpool. A Pokémon could calm it with the right move.": "Un remolino feroz. Un Pokémon con el movimiento adecuado podría calmarlo.",
   "A fierce whirlpool. Would you like to use Whirlpool?": "Un remolino feroz. ¿Quieres usar Torbellino?",
-  "{mon} used Whirlpool!": "¡{mon} usó Torbellino!"
+  "{mon} used Whirlpool!": "¡{mon} usó Torbellino!",
+  "An Apricorn tree. Its round fruit is much too hard to eat. They say Kurt in Azalea Town makes Poké Balls out of them.": "Un árbol de Bonguri. Su fruto redondo es demasiado duro para comerlo. Dicen que Cástor, de Pueblo Azalea, hace Poké Balls con ellos.",
+  "An Apricorn tree. There are no Apricorns left on it today. Come back tomorrow!": "Un árbol de Bonguri. Hoy ya no le quedan Bonguris. ¡Vuelve mañana!",
+  "An Apricorn tree! {player} put the {item} in the Apricorn Box.": "¡Un árbol de Bonguri! {player} guardó el {item} en la Caja Bonguri.",
+  "A cracked rock. A Pokémon could smash it with the right move.": "Una roca agrietada. Un Pokémon podría romperla con el movimiento adecuado.",
+  "A cracked rock. Would you like to use Rock Smash?": "Una roca agrietada. ¿Quieres usar Golpe Roca?",
+  "{mon} used Rock Smash!": "¡{mon} usó Golpe Roca!"
 }, "es");

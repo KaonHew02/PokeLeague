@@ -71,5 +71,11 @@ G.I18n.add({
   "{mon} used Waterfall!": "{mon}使用了攀瀑！",
   "A fierce whirlpool. A Pokémon could calm it with the right move.": "一个猛烈的漩涡。会合适招式的宝可梦也许能让它平静下来。",
   "A fierce whirlpool. Would you like to use Whirlpool?": "一个猛烈的漩涡。要使用潮旋吗？",
-  "{mon} used Whirlpool!": "{mon}使用了潮旋！"
+  "{mon} used Whirlpool!": "{mon}使用了潮旋！",
+  "An Apricorn tree. Its round fruit is much too hard to eat. They say Kurt in Azalea Town makes Poké Balls out of them.": "是球果树。圆圆的果实硬得根本没法吃。听说桧皮镇的钢铁会用它们做精灵球。",
+  "An Apricorn tree. There are no Apricorns left on it today. Come back tomorrow!": "是球果树。今天树上已经没有球果了。明天再来吧！",
+  "An Apricorn tree! {player} put the {item} in the Apricorn Box.": "是球果树！{player}把{item}放进了球果盒。",
+  "A cracked rock. A Pokémon could smash it with the right move.": "是一块有裂缝的岩石。用合适的招式，宝可梦就能把它敲碎。",
+  "A cracked rock. Would you like to use Rock Smash?": "是一块有裂缝的岩石。要使用碎岩吗？",
+  "{mon} used Rock Smash!": "{mon}使用了碎岩！"
 }, "zh-Hans");

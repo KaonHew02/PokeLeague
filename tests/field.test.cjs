@@ -1,6 +1,7 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
 // water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt, the Day Care,
-// the Bug-Catching Contest, Morty's floor of darkness, berry trees, Pryce's ice, waterfalls, whirlpools (the Whirl Islands), and the real Ice Path and Clair's Gym.
+// the Bug-Catching Contest, Morty's floor of darkness, berry trees, Pryce's ice, waterfalls, whirlpools (the Whirl Islands),
+// cracked rocks and Apricorn trees (the Dark Cave, Azalea Town), and the real Ice Path and Clair's Gym.
 // Test maps are defined here (the last test loads the chapter 18 maps); the drawing, the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -594,6 +595,55 @@ test('the Whirl Islands: Whirlpool, with the Glacier Badge, calms the whirlpool 
   G.Field.setFlag('silver-wing');
   await go(['right']);
   await until(() => W.map.id === 'whirl-islands-b3f');
+});
+
+test('the Dark Cave: Rock Smash, with the Marsh Badge, breaks a cracked rock until you leave; Apricorn trees need the Apricorn Box', async () => {
+  const { G, W } = world(['js/content/johto/cherrygrove.js', 'js/content/johto/darkcave.js', 'js/content/johto/azalea.js']);
+  W.debug.noEnc = true;
+  const got = [];
+  W.onEncounter = async (sp, lvl, area, info) => { got.push([G.Maps.species(sp), info.method]); return 'run'; };
+  G.Field.giveMon('geodude', 30, { moves: ['rock-smash', 'tackle'] });
+  G.Field.save.player.badges = [1, 2, 3, 4, 5];
+  const settle = async () => { for (let i = 0; i < 80; i++) { W.update(0.05); await tick(); if (!W.player.moving && i > 4) break; } };
+  const until = async ok => { for (let i = 0; i < 200 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const go = async dirs => { for (const d of dirs) { assert.equal(W.tryStep(W.player, d, 4), 'moved', d + ' from ' + W.player.x + ',' + W.player.y); W.player.update(1); W.arrived(W.player); await settle(); } };
+  // Into the cave from Route 31; north, a cracked rock closes the way.
+  W.load('route31', { x: 13, y: 2, dir: 'up' });
+  await go(['up']);
+  await until(() => W.map.id === 'dark-cave-violet');
+  assert.deepEqual([W.player.x, W.player.y], [4, 18], 'inside the mouth');
+  await go(['left', 'left', 'up', 'up', 'up', 'up', 'up']);
+  assert.equal(W.tryStep(W.player, 'up', 4), 'blocked', 'a cracked rock');
+  await pump(W, W.interact());
+  assert.equal(W.tryStep(W.player, 'up', 4), 'blocked', 'not smashed without the Marsh Badge');
+  G.Field.save.player.badges.push(6);
+  await pump(W, W.interact());
+  await settle();
+  await go(['up', 'up']);
+  assert.deepEqual([W.player.x, W.player.y], [2, 11], 'through where the rock was');
+  // Out and back in: the rock is there again.
+  await go(['down', 'down', 'down', 'down', 'down', 'down', 'right', 'right', 'down', 'down']);
+  await until(() => W.map.id === 'route31');
+  await go(['up']);
+  await until(() => W.map.id === 'dark-cave-violet');
+  await go(['left', 'left', 'up', 'up', 'up', 'up', 'up']);
+  assert.equal(W.tryStep(W.player, 'up', 4), 'blocked', 'the rock came back');
+  // Now and then a wild Pokémon was under it (the games' rock-smash table: Dunsparce, Geodude).
+  for (let s = 1; s <= 40 && !got.length; s++) {
+    W.load('dark-cave-violet', { x: 2, y: 13, dir: 'up' });
+    W.seed(s);
+    await pump(W, W.interact());
+  }
+  assert.ok(got.length && got[0][1] === 'rock-smash' && [206, 74].includes(got[0][0]), JSON.stringify(got));
+  // An Apricorn tree in Azalea Town: nothing without the Apricorn Box, then one a day.
+  W.load('azalea', { x: 4, y: 14, dir: 'up' });
+  await pump(W, W.interact());
+  assert.equal(G.Field.count('white-apricorn'), 0, 'no box, no Apricorn');
+  G.Field.giveItem('apricorn-box', 1);
+  await pump(W, W.interact());
+  assert.equal(G.Field.count('white-apricorn'), 1, 'one Apricorn');
+  await pump(W, W.interact());
+  assert.equal(G.Field.count('white-apricorn'), 1, 'one a day');
 });
 
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */

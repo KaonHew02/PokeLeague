@@ -164,7 +164,7 @@ G.Maps.def({
   id: 'route31', loc: 'johto-route-31', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
   rows: [
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-    'T..............TTTT................T',
+    'T...........#O#TTTT................T',
     'T....""""""""..TTTT....."""""""....T',
     'T....""""""""..TTTT....."""""""....T',
     'T....""""""""......................T',
@@ -179,6 +179,8 @@ G.Maps.def({
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
   connect: { east: { map: 'route30', offset: -2 }, west: { map: 'violet', offset: -7 } },
+  warps: [{ x: 13, y: 1, to: 'dark-cave-violet', spot: 'mouth' }],
+  spots: { 'dark-cave': [13, 2, 'down'] },
   signs: { '3,5': 'Route 31. West: Violet City.' },
   trainers: [
     { id: 'wade', who: 'bugcatcher', cls: 'bug-catcher', name: 'Wade', x: 18, y: 4, dir: 'down', sight: 2,

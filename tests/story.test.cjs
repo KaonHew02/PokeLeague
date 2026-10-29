@@ -1967,6 +1967,36 @@ async function chapter22(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 23 after chapter 22: Kurt's Apricorn Balls, the Dark Cave and the black Apricorn. */
+async function chapter23(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  // The elder sends you to Kurt, who gives the Apricorn Box.
+  await run(st, 'elder-house', npc(st, 'elder-house', 'elder'));
+  await run(st, 'kurt-house', npc(st, 'kurt-house', 'kurt3'));
+  assert.ok(F.count('apricorn-box') === 1, 'the Apricorn Box');
+  // Each colour grows on a tree somewhere (berry trees whose item is an Apricorn).
+  const trees = {};
+  for (const id of ['azalea', 'route33', 'route37', 'route42', 'dark-cave-hollow'])
+    for (const [, , item] of G.Maps.get(id).def.berries || []) if (/-apricorn$/.test(item)) trees[item] = id;
+  assert.equal(Object.keys(trees).length, 7, 'seven colours: ' + JSON.stringify(trees));
+  assert.equal(trees['black-apricorn'], 'dark-cave-hollow');
+  // Six colours first (tests/field.test.cjs picks one from a real tree): six kinds of ball, no ending yet.
+  for (const a of Object.keys(trees)) if (a !== 'black-apricorn') F.giveItem(a, a === 'red-apricorn' ? 2 : 1);
+  await run(st, 'kurt-house', npc(st, 'kurt-house', 'kurt3'));
+  assert.equal(F.count('level-ball'), 2, 'two Red Apricorns, two Level Balls');
+  assert.ok(['lure-ball', 'moon-ball', 'friend-ball', 'love-ball', 'fast-ball'].every(b => F.count(b) === 1));
+  assert.ok(!F.count('red-apricorn') && !F.flag('chapter-23-done'), 'no set of seven yet');
+  // The Dark Cave: the hiker gives HM06, Rock Smash; the black Apricorn grows in the hollow past it.
+  await run(st, 'dark-cave-violet', npc(st, 'dark-cave-violet', 'hiker'));
+  assert.ok(F.flag('got-hm06') && F.count('hm06') === 1, 'HM06');
+  await run(st, 'dark-cave-hollow', 'darkcave.hollow');
+  F.giveItem('black-apricorn', 1);
+  await run(st, 'kurt-house', npc(st, 'kurt-house', 'kurt3'));
+  assert.ok(F.count('heavy-ball') === 1 && F.flag('kurt-seven') && F.flag('chapter-23-done'), 'all seven: the end of the chapter');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2048,7 +2078,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 22: Johto, from Professor Elm to Johto's League, the Bell Tower and the Whirl Islands", async () => {
+test("chapters 11 to 23: Johto, from Professor Elm to Johto's League, the Bell Tower, the Whirl Islands and Kurt's Apricorn Balls", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2072,4 +2102,5 @@ test("chapters 11 to 22: Johto, from Professor Elm to Johto's League, the Bell T
   await chapter20(st);
   await chapter21(st);
   await chapter22(st);
+  await chapter23(st);
 });

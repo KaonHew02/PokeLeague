@@ -63,7 +63,7 @@ G.BagUI = (() => {
       const b = document.createElement('button');
       b.className = 'menu-item';
       b.dataset.item = id;
-      const right = st.price ? G.Menus.money(sellPrice(id)) : (st.pocket === 'key' || (G.ITEMS[id].pocket === 'tms' && /^hm/.test(id)) ? '' : '×' + bag()[id]);
+      const right = st.price ? G.Menus.money(sellPrice(id)) : ((st.pocket === 'key' && !(G.ITEM_FX[id] || {}).stack) || (G.ITEMS[id].pocket === 'tms' && /^hm/.test(id)) ? '' : '×' + bag()[id]);
       b.innerHTML = `<span class="grow">${esc(itemLabel(id))}</span><span class="meta">${esc(right)}</span>`;
       b.onclick = () => choose(id);
       b.onmouseenter = b.onfocus = () => describe(id);

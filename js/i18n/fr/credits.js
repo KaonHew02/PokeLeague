@@ -65,5 +65,7 @@ G.I18n.add({
   "Thank you for playing! More of Johto's legends wait in a future update.": "Merci d'avoir joué ! D'autres légendes de Johto t'attendent dans une prochaine mise à jour.",
   "Chapter 22 complete!": "Chapitre 22 terminé !",
   "{player} calmed the whirlpools of the Whirl Islands and met Lugia, the guardian of the sea, in its chamber deep below.": "{player} a calmé les tourbillons des Tourb'Iles et rencontré Lugia, le gardien de la mer, dans sa salle tout au fond.",
-  "Thank you for playing! More of Johto's secrets wait in a future update.": "Merci d'avoir joué ! D'autres secrets de Johto t'attendent dans une prochaine mise à jour."
+  "Thank you for playing! More of Johto's secrets wait in a future update.": "Merci d'avoir joué ! D'autres secrets de Johto t'attendent dans une prochaine mise à jour.",
+  "Chapter 23 complete!": "Chapitre 23 terminé !",
+  "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player} a trouvé le Noigrume noir au fond de l'Antre Noir, et Fargas lui a fabriqué une de chacune de ses sept Balls Noigrume."
 }, "fr");

@@ -65,5 +65,7 @@ G.I18n.add({
   "Thank you for playing! More of Johto's legends wait in a future update.": "Grazie per aver giocato! Altre leggende di Johto ti aspettano in un prossimo aggiornamento.",
   "Chapter 22 complete!": "Capitolo 22 completato!",
   "{player} calmed the whirlpools of the Whirl Islands and met Lugia, the guardian of the sea, in its chamber deep below.": "{player} ha calmato i vortici delle Isole Vorticose e ha incontrato Lugia, il guardiano del mare, nella sua sala nelle profondità.",
-  "Thank you for playing! More of Johto's secrets wait in a future update.": "Grazie per aver giocato! Altri segreti di Johto ti aspettano in un prossimo aggiornamento."
+  "Thank you for playing! More of Johto's secrets wait in a future update.": "Grazie per aver giocato! Altri segreti di Johto ti aspettano in un prossimo aggiornamento.",
+  "Chapter 23 complete!": "Capitolo 23 completato!",
+  "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player} ha trovato la Ghicocca nera nel profondo della Grotta Scura, e Franz gli ha fatto una di ciascuna delle sue sette Ball di Ghicocca."
 }, "it");

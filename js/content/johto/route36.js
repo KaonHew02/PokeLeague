@@ -69,7 +69,7 @@ G.Maps.def({
     'T.""""""".,,...TTTTTTT.T',
     'T.""""""".,,...TTTTTTT.T',
     'T.""""""".,,...........T',
-    'T.""""""".,,.......h...T',
+    'T.""""""".,,.....y.h.y.T',
     'T.""""""".,,...........T',
     'T.""""""".,,...........T',
     'T.""""""".,,.."""""""".T',
@@ -85,6 +85,7 @@ G.Maps.def({
   ],
   connect: { south: { map: 'route36', offset: -8 }, north: { map: 'ecruteak', offset: -10 } },
   signs: { '12,19': 'Route 37. Ecruteak City is just to the north.' },
+  berries: [[17, 9, 'red-apricorn'], [21, 9, 'blue-apricorn']],
   trainers: [
     { id: 'greg', who: 'psychic', cls: 'psychic', name: 'Greg', x: 9, y: 8, dir: 'right', sight: 2,
       team: [['drowzee', 20]],

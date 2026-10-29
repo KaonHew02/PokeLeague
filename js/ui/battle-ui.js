@@ -754,12 +754,19 @@ G.BattleUI = (() => {
     }
   }
 
+  // The top half of each kind of ball (a Poké Ball is red).
+  const BALL_TOP = {
+    'great-ball': '#3a78d8', 'ultra-ball': '#f0c838', 'master-ball': '#8a40c0', 'safari-ball': '#6a9a48', 'sport-ball': '#e8902a',
+    'level-ball': '#e8a828', 'lure-ball': '#3a98d0', 'moon-ball': '#4a5a90', 'friend-ball': '#48a848', 'fast-ball': '#f0d040',
+    'heavy-ball': '#7a8a98', 'love-ball': '#f08ab8'
+  };
   function drawBall(ctx, f, unit) {
     const r = 7 * unit;
     ctx.save();
     ctx.translate(f.x, f.y); ctx.rotate(f.wobble || 0);
-    ctx.fillStyle = f.dark ? '#8a2020' : '#e83a3a';
+    ctx.fillStyle = BALL_TOP[f.item] || '#e83a3a';
     ctx.beginPath(); ctx.arc(0, 0, r, Math.PI, 0); ctx.fill();
+    if (f.dark) { ctx.fillStyle = 'rgba(0,0,0,0.42)'; ctx.fill(); }
     ctx.fillStyle = f.dark ? '#a8a8a8' : '#f8f8f8';
     ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI); ctx.fill();
     ctx.strokeStyle = '#222'; ctx.lineWidth = Math.max(1, unit);

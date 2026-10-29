@@ -6,7 +6,8 @@
  *   const b = G.Battle.create({ kind: 'wild' | 'trainer', seed,
  *     player: { name, id, party, bag },            // live references: the battle changes them
  *     foe:    { party, trainer: { id, name, title, ai: 'basic' | 'leader', items: {potion: 1}, prize: 20 } | null },
- *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', noCatch: false, forceCatch: false (debug) } })
+ *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', noCatch: false, forceCatch: false (debug),
+ *               fishing: false (hooked with a rod: the Lure Ball) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
  *                           | { kind: 'learn', uid, move } | null (battle over)
@@ -572,14 +573,16 @@ G.Battle = (() => {
       bag[item]--;
       if (!bag[item]) delete bag[item];
       const fo = this.foe.bm, mon = fo.mon;
-      // rules.forceCatch: debug only (F7), the next ball catches.
-      const ball = this.rules.forceCatch ? 255 : G.ITEM_FX[item].ball;
+      // rules.forceCatch: debug only (F7), the next ball catches. rules.fishing: a Pokémon hooked with a rod (Lure Ball).
+      const m = G.Capture.ballMod(item, { foe: mon, mine: this.player.bm && this.player.bm.mon, fishing: !!this.rules.fishing });
+      if (this.rules.forceCatch) m.ball = 255;
       this.rules.forceCatch = false;
-      const r = G.Capture.roll({ max: G.Mon.maxHp(mon), hp: mon.hp, rate: G.SPECIES[mon.sp].cr, ball,
+      const r = G.Capture.roll({ max: G.Mon.maxHp(mon), hp: mon.hp, rate: m.rate, ball: m.ball,
                                  status: mon.status, rng: this.rng });
       this.emit('ball', { item, shakes: r.shakes, caught: r.caught, uid: mon.uid });
       if (!r.caught) return;
       mon.ball = item;
+      if (item === 'friend-ball') mon.friendship = Math.max(mon.friendship || 0, 200);
       mon.ot = { name: this.player.name, id: this.player.id };
       mon.met = { map: this.rules.where, lvl: mon.lvl };
       const toBox = this.player.party.length >= 6;

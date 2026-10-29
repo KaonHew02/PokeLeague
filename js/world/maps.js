@@ -68,7 +68,9 @@ G.Maps = (() => {
     // Chapter 19: a waterfall (Route 27): a surfer rides down it, and climbs it with Waterfall (field.js).
     waterfall: { solid: 1 },
     // Chapter 22: a whirlpool (Sea Route 41): Whirlpool calms it into water until you leave the map (field.js).
-    whirlpool: { solid: 1 }
+    whirlpool: { solid: 1 },
+    // Chapter 23: a cracked rock (the Dark Cave): Rock Smash breaks it until you leave the map (field.js).
+    smashrock: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -87,7 +89,8 @@ G.Maps = (() => {
       y: 'berrytree',                                // a berry tree (Johto)
       i: 'ice',                                      // ice on a cave floor (the Ice Path)
       '|': 'waterfall',                              // a waterfall: ride down it, climb it with Waterfall
-      w: 'whirlpool'                                 // a whirlpool: Whirlpool calms it (until you leave the map)
+      w: 'whirlpool',                                // a whirlpool: Whirlpool calms it (until you leave the map)
+      k: 'smashrock'                                 // a cracked rock: Rock Smash breaks it (until you leave the map)
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',
@@ -289,7 +292,7 @@ G.Maps = (() => {
   /** Methods on the water: a map's `water` area gives them all (and so does the area of its grass). */
   const WATERY = ['surf', 'old-rod', 'good-rod', 'super-rod'];
   /** Tables a map finds in its walking area when it names none of its own. */
-  const FROM_AREA = WATERY.concat(['headbutt']);
+  const FROM_AREA = WATERY.concat(['headbutt', 'rock-smash']);
   /** Encounter table { rate, mons } of one method ('walk', 'surf', 'old-rod'...), or null. */
   function encounters(m, method = 'walk') {
     let e = m.encounters && m.encounters[method];

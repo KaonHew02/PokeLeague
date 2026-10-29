@@ -9,7 +9,7 @@ G.Maps.def({
   id: 'route42', loc: 'johto-route-42', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
   rows: [
     'TTTTTTTTTTTTTT####################TTTTTTTTTTTTTT',
-    'T.............####################.............T',
+    'T...........y.####################.y...........T',
     'T."""""""""...####################.."""""""""..T',
     'T.""""""""".h.####################.."""""""""..T',
     'T."""""""""...####################.."""""""""..T',
@@ -30,7 +30,7 @@ G.Maps.def({
   connect: { west: { map: 'ecruteak', offset: -9 }, east: { map: 'mahogany', offset: -2 } },
   warps: [{ x: 16, y: 8, to: 'mt-mortar-1f', spot: 'west' }, { x: 31, y: 8, to: 'mt-mortar-1f', spot: 'east' }],
   spots: { 'mortar-west': [16, 9, 'down'], 'mortar-east': [31, 9, 'down'] },
-  berries: [[12, 13, 'cheri-berry'], [40, 8, 'oran-berry']],
+  berries: [[12, 13, 'cheri-berry'], [40, 8, 'oran-berry'], [12, 1, 'green-apricorn'], [35, 1, 'yellow-apricorn']],
   signs: {
     '2,8': 'Route 42. Ecruteak City to the west, Mahogany Town to the east, through Mt. Mortar.',
     '45,8': 'Route 42. Mahogany Town is just to the east.'

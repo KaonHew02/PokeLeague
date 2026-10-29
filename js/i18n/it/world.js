@@ -71,5 +71,11 @@ G.I18n.add({
   "{mon} used Waterfall!": "{mon} usa Cascata!",
   "A fierce whirlpool. A Pokémon could calm it with the right move.": "Un vortice violento. Un Pokémon con la mossa giusta potrebbe calmarlo.",
   "A fierce whirlpool. Would you like to use Whirlpool?": "Un vortice violento. Vuoi usare Mulinello?",
-  "{mon} used Whirlpool!": "{mon} usa Mulinello!"
+  "{mon} used Whirlpool!": "{mon} usa Mulinello!",
+  "An Apricorn tree. Its round fruit is much too hard to eat. They say Kurt in Azalea Town makes Poké Balls out of them.": "Un albero di Ghicocche. I suoi frutti tondi sono troppo duri da mangiare. Si dice che Franz di Azalina ci faccia delle Poké Ball.",
+  "An Apricorn tree. There are no Apricorns left on it today. Come back tomorrow!": "Un albero di Ghicocche. Oggi non ci sono più Ghicocche. Torna domani!",
+  "An Apricorn tree! {player} put the {item} in the Apricorn Box.": "Un albero di Ghicocche! {player} ha messo la {item} nella Ghicobox.",
+  "A cracked rock. A Pokémon could smash it with the right move.": "Una roccia crepata. Un Pokémon potrebbe spaccarla con la mossa giusta.",
+  "A cracked rock. Would you like to use Rock Smash?": "Una roccia crepata. Vuoi usare Spaccaroccia?",
+  "{mon} used Rock Smash!": "{mon} usa Spaccaroccia!"
 }, "it");

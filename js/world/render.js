@@ -195,9 +195,13 @@ G.WorldRender = (() => {
     }
     // Small trees Cut can clear (drawn here, not baked: they disappear when cut).
     const shrub = G.Tiles.sprite('shrub', G.Tiles.PALETTES[m.palette] && !G.Tiles.PALETTES[m.palette].floor ? m.palette : 'kanto');
+    // And cracked rocks Rock Smash breaks (chapter 23).
+    const crag = G.Tiles.sprite('crag', m.palette);
     for (let ty = Math.max(0, r0); ty <= Math.min(m.h - 1, r1); ty++) for (let tx = 0; tx < m.w; tx++) {
-      if (m.kind[ty * m.w + tx] !== 'cuttree' || (S.cut && S.cut.has(tx + ',' + ty))) continue;
-      list.push({ y: (ty + 0.5) * TS, draw: c => c.drawImage(shrub, tx * TS, (ty + 1) * TS - shrub.height * PX, shrub.width * PX, shrub.height * PX) });
+      const k = m.kind[ty * m.w + tx];
+      if ((k !== 'cuttree' && k !== 'smashrock') || (S.cut && S.cut.has(tx + ',' + ty))) continue;
+      const img = k === 'cuttree' ? shrub : crag;
+      list.push({ y: (ty + 0.5) * TS, draw: c => c.drawImage(img, tx * TS, (ty + 1) * TS - img.height * PX, img.width * PX, img.height * PX) });
     }
     // Boulders (Strength): slide to their new tile; one pushed into a pit sinks out of sight.
     if (S.rocks && S.rocks.length) {

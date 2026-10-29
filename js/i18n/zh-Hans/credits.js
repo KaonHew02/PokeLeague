@@ -73,5 +73,8 @@ G.I18n.add({
   "Chapter 25 complete!": "第二十五章完成！",
   "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player}孵出了培育屋的蛋，让空木博士看到了宝可梦是怎样出生的。",
   "Chapter 26 complete!": "第二十六章完成！",
-  "{player} learned to give Pokémon items to hold, and traded the Red Scale to Mr. Pokémon for the Exp. Share.": "{player}学会了让宝可梦携带道具，还用红色鳞片跟宝可梦爷爷换到了学习装置。"
+  "{player} learned to give Pokémon items to hold, and traded the Red Scale to Mr. Pokémon for the Exp. Share.": "{player}学会了让宝可梦携带道具，还用红色鳞片跟宝可梦爷爷换到了学习装置。",
+  "Chapter 27 complete!": "第二十七章完成！",
+  "{player} climbed Mt. Silver and beat {rival} at the snowy summit: the strongest Trainer in Kanto and Johto.": "{player}登上白银山，在白雪覆盖的山顶打败了{rival}，成为关都和城都最强的训练家。",
+  "Thank you for playing! Your journey through Kanto and Johto is complete. A new region waits in a future update.": "感谢游玩！你在关都和城都的旅程已经完成。新的地区将在之后的更新中等着你。"
 }, "zh-Hans");

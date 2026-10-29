@@ -256,6 +256,18 @@ G.WorldRender = (() => {
       ctx.fillStyle = S.tint;
       ctx.fillRect(L - TS, Tp - TS, W + 2 * TS, H + 2 * TS);
     }
+    // Falling snow (map `snow`: the top of Mt. Silver, chapter 27): the same flakes every time, drifting.
+    if (S.snow) {
+      const t = performance.now() / 1000;
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      for (let i = 0; i < 80; i++) {
+        const a = (i * 0.6180339) % 1, c = (i * 0.4142135 + 0.3) % 1;
+        const x = L - TS + ((a * (W + 2 * TS) + t * (10 + 14 * c) + Math.sin(t * 0.9 + i) * 10) % (W + 2 * TS));
+        const y = Tp - TS + ((c * (H + 2 * TS) + t * (24 + 30 * a)) % (H + 2 * TS));
+        const s = PX * (1 + (i % 3 === 0));
+        ctx.fillRect(Math.round(x), Math.round(y), s, s);
+      }
+    }
     // A dark cave: a small circle of light around the player (Flash lights it all).
     if (S.dark && S.me) {
       const cx = S.me.wx, cy = S.me.wy - TS / 2;

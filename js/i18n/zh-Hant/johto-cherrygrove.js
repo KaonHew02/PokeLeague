@@ -49,5 +49,6 @@ G.I18n.add({
   "Hm? What is that shining in your Bag? A red scale... from the red Gyarados of the Lake of Rage? I have never seen one!": "嗯？你包包裡閃閃發光的是什麼？紅色的鱗片……是憤怒之湖那條紅色暴鯉龍的？我從沒見過！",
   "Would you trade it for the best piece of my collection?": "能用我收藏裡最好的寶貝跟你換嗎？",
   "Ah... If you change your mind, I will be right here.": "啊……要是你改變主意了，我一直都在這裡。",
-  "The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!": "拿著學習裝置的寶可夢，即使不出場戰鬥，也能分到每場對戰的一部分經驗值。用它來培養你的新夥伴吧！"
+  "The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!": "拿著學習裝置的寶可夢，即使不出場戰鬥，也能分到每場對戰的一部分經驗值。用它來培養你的新夥伴吧！",
+  "Oh, and Professor Oak stopped by. Your old rival {rival} went up Mt. Silver to train, and nobody has seen him since. The way is south of the Pokémon League Front Gate, on Route 28.": "對了，大木博士來過。他說你以前的勁敵{rival}上了白銀山修行，之後就再也沒人見過他。路在寶可夢聯盟大門的南邊，28號道路上。"
 }, "zh-Hant");

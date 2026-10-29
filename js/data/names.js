@@ -997,7 +997,7 @@ G.NAMES = {
     "ilex-forest": ["Ilex Forest","Encinar","Bois aux Chênes","Bosco di Lecci","栎树林","櫟樹林"],
     "lake-of-rage": ["Lake of Rage","Lago de la Furia","Lac Colère","Lago d'Ira","愤怒之湖","憤怒之湖"],
     "mt-mortar": ["Mt. Mortar","Monte Mortero","Mont Creuset","Monte Scodella","擂钵山","擂缽山"],
-    "mt-silver": ["Mt. Silver","Mt. Silver","Mont Argenté","Mt. Silver","Mt. Silver","Mt. Silver"],
+    "mt-silver": ["Mt. Silver","Monte Plateado","Mont Argenté","Monte Argento","白银山","白銀山"],
     "national-park": ["National Park","Parque Nacional","Parc Naturel","Parco Nazionale","自然公园","自然公園"],
     "new-bark-town": ["New Bark Town","Pueblo Primavera","Bourg Geon","Borgo Foglianova","若叶镇","若葉鎮"],
     "olivine-city": ["Olivine City","Ciudad Olivo","Oliville","Olivinopoli","浅葱市","淺蔥市"],

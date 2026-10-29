@@ -49,5 +49,6 @@ G.I18n.add({
   "Hm? What is that shining in your Bag? A red scale... from the red Gyarados of the Lake of Rage? I have never seen one!": "Hm? Cos'è che brilla nella tua Borsa? Una squama rossa... del Gyarados rosso del Lago d'Ira? Non ne avevo mai vista una!",
   "Would you trade it for the best piece of my collection?": "Me la scambieresti con il pezzo migliore della mia collezione?",
   "Ah... If you change your mind, I will be right here.": "Ah... Se cambi idea, sarò qui.",
-  "The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!": "Il Pokémon che tiene il Condividi Esp. riceve parte dell'esperienza di ogni lotta, anche se non combatte. Usalo per crescere i tuoi Pokémon più giovani!"
+  "The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!": "Il Pokémon che tiene il Condividi Esp. riceve parte dell'esperienza di ogni lotta, anche se non combatte. Usalo per crescere i tuoi Pokémon più giovani!",
+  "Oh, and Professor Oak stopped by. Your old rival {rival} went up Mt. Silver to train, and nobody has seen him since. The way is south of the Pokémon League Front Gate, on Route 28.": "Ah, ed è passato il Professor Oak. Il tuo vecchio rivale {rival} è salito sul Monte Argento ad allenarsi, e da allora nessuno l'ha più visto. La strada è a sud dell'Ingresso della Lega Pokémon, sul Percorso 28."
 }, "it");

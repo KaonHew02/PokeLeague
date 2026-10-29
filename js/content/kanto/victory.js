@@ -17,10 +17,12 @@ G.Maps.def({
     'p++++++p',
     '++++++++',
     '++++++++',
-    'X++++++X'
+    'X+++X++X'
   ],
-  warps: [{ x: 0, y: 5, to: 'route22', spot: 'gate-door' }, { x: 7, y: 5, to: 'route23', spot: 'gate-door' }],
-  spots: { west: [0, 5, 'up'], east: [7, 5, 'up'] },
+  warps: [{ x: 0, y: 5, to: 'route22', spot: 'gate-door' }, { x: 7, y: 5, to: 'route23', spot: 'gate-door' },
+          // Chapter 27: south to Route 28 and Mt. Silver (kanto/silver.js), once Mr. Pokémon has the Red Scale.
+          { x: 4, y: 5, to: 'route28', spot: 'gate', if: 'got-exp-share', locked: 'silver.closed' }],
+  spots: { west: [0, 5, 'up'], east: [7, 5, 'up'], south: [4, 5, 'up'] },
   npcs: [{ id: 'guard', who: 'officer', x: 4, y: 2, dir: 'down',
            say: 'All eight badges! You may pass. Route 23 and Victory Road lie ahead, and beyond them the Pokémon League.' }]
 });

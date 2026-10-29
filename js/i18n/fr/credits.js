@@ -73,5 +73,8 @@ G.I18n.add({
   "Chapter 25 complete!": "Chapitre 25 terminé !",
   "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player} a fait éclore un Œuf de la Pension et a montré au Professeur Orme comment naissent les Pokémon.",
   "Chapter 26 complete!": "Chapitre 26 terminé !",
-  "{player} learned to give Pokémon items to hold, and traded the Red Scale to Mr. Pokémon for the Exp. Share.": "{player} a appris à faire tenir des objets à ses Pokémon, et a échangé l'Écaille Rouge contre le Multi Exp de M. Pokémon."
+  "{player} learned to give Pokémon items to hold, and traded the Red Scale to Mr. Pokémon for the Exp. Share.": "{player} a appris à faire tenir des objets à ses Pokémon, et a échangé l'Écaille Rouge contre le Multi Exp de M. Pokémon.",
+  "Chapter 27 complete!": "Chapitre 27 terminé !",
+  "{player} climbed Mt. Silver and beat {rival} at the snowy summit: the strongest Trainer in Kanto and Johto.": "{player} a gravi le Mont Argenté et battu {rival} au sommet enneigé : le Dresseur le plus fort de Kanto et de Johto.",
+  "Thank you for playing! Your journey through Kanto and Johto is complete. A new region waits in a future update.": "Merci d'avoir joué ! Ton voyage à travers Kanto et Johto est terminé. Une nouvelle région t'attend dans une prochaine mise à jour."
 }, "fr");

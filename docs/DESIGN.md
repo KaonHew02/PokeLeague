@@ -1391,8 +1391,27 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Summary's Item row; the save keeps a known item that is not a key item. `tests/held.test.cjs`
   checks every effect; the save test giving, swapping and taking.
 
-### After chapter 26
+- **Chapter 27** ✅, the end of the journey through Kanto and Johto, Mt. Silver: after the Red Scale
+  trade, Mr. Pokémon passes on word from Professor Oak: the rival from Kanto went up Mt. Silver
+  to train. The Pokémon League Front Gate (`route22-gate`) has a third door, south to Route 28
+  (`silver.closed` until `got-exp-share`: the rangers check the paths after the earthquake).
+  Route 28 runs west to the foot of Mt. Silver (a Pokémon Center; a river and falls up to the
+  cave: Surf, Waterfall). 1F: cracked rocks (Rock Smash), a boulder (Strength) before a corner;
+  2F: dark (Flash), an underground lake (Surf); 3F: falls (Waterfall) up to the way out. The
+  summit (`mt-silver-summit`): snow, no wild Pokémon, and the rival (flag `silver-met`), who left
+  the League after you beat him: Pidgeot, Alakazam, Tyranitar, the two Pokémon of his starter's
+  League team and its last stage, Lv. 71-76, each holding an item (`G.Silver.silverTeam`). Beating
+  him (flag `silver-beaten`) ends the chapter (`ending(27)`), and he stays for a battle whenever you
+  come back. The games' wild Pokémon all the way (Larvitar among them); eleven items. Files:
+  `js/content/kanto/silver.js` (translations `kanto-silver`); `victory.js` (the gate),
+  `cherrygrove.js` (Mr. Pokémon).
+- **Engine for chapter 27:** a trainer's team may give each Pokémon a held item (`[sp, lvl, moves,
+  item]`); the outdoor palette `snow` and falling snow on a map with `snow: true` (render.js);
+  Mt. Silver's name where PokeAPI lacks it (`LOC_NAMES`). `tests/story.test.cjs` climbs, trains on
+  3F and beats the rival, and prints `[balance]` rates for the summit (a typical six at Lv. 72:
+  ~60%, at Lv. 78: ~80%); `tests/field.test.cjs` the gate's door and the way west.
 
-1. **More of Johto's post-game:** Mt. Silver.
-2. **Hoenn:** abilities, double battles, weather.
-3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.
+### After chapter 27
+
+1. **Hoenn:** abilities, double battles, weather.
+2. Engine features along the way: more TMs, abilities, weather, Repel steps.

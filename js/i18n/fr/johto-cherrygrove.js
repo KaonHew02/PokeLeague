@@ -49,5 +49,6 @@ G.I18n.add({
   "Hm? What is that shining in your Bag? A red scale... from the red Gyarados of the Lake of Rage? I have never seen one!": "Hm ? Qu'est-ce qui brille dans ton Sac ? Une écaille rouge... du Léviator rouge du Lac Colère ? Je n'en ai jamais vu !",
   "Would you trade it for the best piece of my collection?": "Tu veux bien l'échanger contre la plus belle pièce de ma collection ?",
   "Ah... If you change your mind, I will be right here.": "Ah... Si tu changes d'avis, je serai là.",
-  "The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!": "Le Pokémon qui tient le Multi Exp reçoit une part de l'expérience de chaque combat, même s'il ne se bat pas. Élève tes jeunes Pokémon avec !"
+  "The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!": "Le Pokémon qui tient le Multi Exp reçoit une part de l'expérience de chaque combat, même s'il ne se bat pas. Élève tes jeunes Pokémon avec !",
+  "Oh, and Professor Oak stopped by. Your old rival {rival} went up Mt. Silver to train, and nobody has seen him since. The way is south of the Pokémon League Front Gate, on Route 28.": "Ah, et le Professeur Chen est passé. Ton vieux rival {rival} est monté sur le Mont Argenté pour s'entraîner, et personne ne l'a revu depuis. Le chemin est au sud de l'Entrée de la Ligue Pokémon, sur la Route 28."
 }, "fr");

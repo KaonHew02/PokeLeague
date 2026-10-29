@@ -2,6 +2,7 @@
 // water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt, the Day Care,
 // the Bug-Catching Contest, Morty's floor of darkness, berry trees, Pryce's ice, waterfalls, whirlpools (the Whirl Islands),
 // cracked rocks and Apricorn trees (the Dark Cave, Azalea Town), the stone panels and Unown of the Ruins of Alph, breeding and Eggs,
+// the way to Mt. Silver,
 // and the real Ice Path and Clair's Gym.
 // Test maps are defined here (the last test loads the chapter 18 maps); the drawing, the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
@@ -812,6 +813,29 @@ test('the Ruins of Alph: open after chapter 23; a panel slides aside, a fossil, 
   for (let i = 0; i < 300 && got.length < 4; i++) { step(W, i % 2 ? 'left' : 'right'); await settle(); }
   assert.ok(got.length >= 4, 'met some: ' + got.length);
   assert.ok(got.every(([sp, f]) => sp === 201 && 'ABCDEFGHIJK'.includes(f)), JSON.stringify(got));
+});
+
+test("Mt. Silver: the gate's south door opens after chapter 26; Route 28 runs west to the foot of the mountain; snow at the summit", async () => {
+  const { G, W } = world(['js/content/kanto/victory.js', 'js/content/kanto/silver.js']);
+  W.debug.noEnc = true;
+  const settle = async () => { for (let i = 0; i < 80; i++) { W.update(0.05); await tick(); if (!W.player.moving && i > 4) break; } };
+  const until = async ok => { for (let i = 0; i < 200 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  // The gate: pressing down on the middle mat leaves only once Mr. Pokémon has the Red Scale.
+  W.load('route22-gate', { x: 4, y: 5, dir: 'down' });
+  assert.equal(W.tryStep(W.player, 'down', 4), 'blocked', 'closed');
+  await settle();
+  G.Field.setFlag('got-exp-share');
+  assert.equal(W.tryStep(W.player, 'down', 4), 'warped');
+  await until(() => W.map.id === 'route28');
+  assert.deepEqual([W.player.x, W.player.y], [26, 5], 'out of the gate on Route 28');
+  // West along the road: the foot of Mt. Silver.
+  W.load('route28', { x: 0, y: 7, dir: 'left' });
+  assert.equal(W.tryStep(W.player, 'left', 4), 'moved');
+  W.player.update(1); W.arrived(W.player);
+  await until(() => W.map.id === 'mt-silver');
+  assert.deepEqual([W.player.x, W.player.y], [29, 18], 'at the foot of the mountain');
+  W.load('mt-silver-summit', 'mouth');
+  assert.ok(W.map.def.snow && W.map.palette === 'snow', 'snow at the summit');
 });
 
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */

@@ -176,6 +176,7 @@ LOC_NAMES = {
     'mt-mortar':         ('Monte Mortero',      'Monte Scodella',      '擂钵山',     '擂缽山'),
     'team-rocket-hq':    ('Guarida del Team Rocket', 'Covo del Team Rocket', '火箭队基地', '火箭隊基地'),
     'ice-path':          ('Ruta Helada',        'Via Gelata',          '冰之洞',     '冰之洞'),
+    'mt-silver':         ('Monte Plateado',     'Monte Argento',       '白银山',     '白銀山'),
     'dragons-den':       ('Guarida Dragón',     'Tana del Drago',      '龙穴',       '龍穴'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.

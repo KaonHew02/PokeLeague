@@ -49,5 +49,6 @@ G.I18n.add({
   "Hm? What is that shining in your Bag? A red scale... from the red Gyarados of the Lake of Rage? I have never seen one!": "Hm? O que é isso brilhando na sua Mochila? Uma escama vermelha... do Gyarados vermelho do Lake of Rage? Nunca vi uma!",
   "Would you trade it for the best piece of my collection?": "Você trocaria pela melhor peça da minha coleção?",
   "Ah... If you change your mind, I will be right here.": "Ah... Se mudar de ideia, estarei bem aqui.",
-  "The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!": "O Pokémon que segura o Exp. Share recebe parte da experiência de cada batalha, mesmo sem lutar. Crie seus Pokémon mais novos com ele!"
+  "The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!": "O Pokémon que segura o Exp. Share recebe parte da experiência de cada batalha, mesmo sem lutar. Crie seus Pokémon mais novos com ele!",
+  "Oh, and Professor Oak stopped by. Your old rival {rival} went up Mt. Silver to train, and nobody has seen him since. The way is south of the Pokémon League Front Gate, on Route 28.": "Ah, e o Professor Carvalho passou por aqui. Seu velho rival {rival} subiu o Mt. Silver para treinar, e ninguém o viu desde então. O caminho fica ao sul do Portão da Liga Pokémon, na Rota 28."
 }, "pt-BR");

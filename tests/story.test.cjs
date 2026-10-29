@@ -84,7 +84,7 @@ async function fight(st, ref, o, h) {
   } else key = W.map + ':' + d.id;
   const cls = G.TRAINER_CLASSES[d.cls] || {};
   const rng = G.RNG(W.seed * 977 + st.battles.length);
-  const party = d.team.map(([sp, lvl, moves]) => G.Mon.create(G.Maps.species(sp), lvl, { rng, moves }));
+  const party = d.team.map(([sp, lvl, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(sp), lvl, { rng, moves }), item ? { item } : {}));
   const b = G.Battle.create({ kind: 'trainer', seed: W.seed * 31 + st.battles.length,
     player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag },
     foe: { party, trainer: { id: key, name: d.name || '', ai: d.ai || (d.leader ? 'leader' : 'basic'), items: d.items || {}, prize: d.prize != null ? d.prize : cls.prize } },
@@ -443,6 +443,33 @@ function leaderRate(G, mapId, id) {
     return wins / 40;
   };
 }
+
+test('balance: the rival at the summit of Mt. Silver (chapter 27), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = (team, starter) => {
+    let wins = 0;
+    for (let s = 1; s <= 30; s++) {
+      const rng = G.RNG(s * 23);
+      const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const foes = G.Silver.silverTeam(starter).map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), { item }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 'silver', name: 'Blue', ai: 'leader', items: {}, prize: 100 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 30;
+  };
+  const six = lvl => [[157, lvl], [181, lvl], [149, lvl], [248, lvl], [197, lvl], [130, lvl]];
+  const table = {
+    'six of Lv. 66 (Typhlosion, Ampharos, Dragonite, Tyranitar, Umbreon, Gyarados)': rate(six(66), 7),
+    'the same at Lv. 72': rate(six(72), 7),
+    'the same at Lv. 78': rate(six(78), 7),
+    'the same at Lv. 72, against Charizard': rate(six(72), 4),
+    'the same at Lv. 72, against Venusaur': rate(six(72), 1)
+  };
+  console.log('[balance] the rival at the summit:', JSON.stringify(table));
+  assert.ok(table['the same at Lv. 78'] >= table['six of Lv. 66 (Typhlosion, Ampharos, Dragonite, Tyranitar, Umbreon, Gyarados)']);
+});
 
 test('balance: Lt. Surge (chapter 3), win rates of typical teams are printed', () => {
   const { G } = world(1);
@@ -2090,6 +2117,37 @@ async function chapter26(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 27 after chapter 26: Route 28, Mt. Silver and the rival at the summit. */
+async function chapter27(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  // The gate's south door opens once Mr. Pokémon has the Red Scale.
+  const door = G.Maps.get('route22-gate').def.warps.find(w => w.to === 'route28');
+  assert.ok(F.test(door.if), 'the way to Route 28');
+  // Train on the mountain (the Exp. Share on the second Pokémon), then the summit.
+  // The PC: the young Pichu and Pikachu stay there; Blastoise and Kangaskhan from Kanto come along.
+  for (const m of S.party.filter(m => m.lvl < 30)) { S.party.splice(S.party.indexOf(m), 1); F.toBox(m); }
+  for (const slug of ['blastoise', 'kangaskhan']) {
+    for (const box of S.boxes) {
+      const i = box.findIndex(m => m && G.SPECIES[m.sp].slug === slug);
+      if (i >= 0 && S.party.length < 6) { S.party.push(box[i]); box[i] = null; break; }
+    }
+  }
+  G.FieldItems.give(S.party[S.party.length - 2], 'exp-share');
+  grind(st, 'mt-silver-3f', 76, 3000);
+  F.healAll();
+  await run(st, 'mt-silver-summit', 'silver.rival');
+  assert.equal(last().key, 'mt-silver-summit:rival-silver');
+  assert.equal(last().outcome, 'win', 'the summit at levels ' + last().levels);
+  assert.ok(F.flag('silver-met') && F.flag('silver-beaten') && F.flag('chapter-27-done'), 'the end of the journey');
+  // He waits up there for another battle.
+  F.healAll();
+  await run(st, 'mt-silver-summit', 'silver.rival', [0]);
+  assert.equal(last().key, 'mt-silver-summit:rival-silver');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2171,7 +2229,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 26: Johto, from Professor Elm to Johto's League, the Bell Tower, the Whirl Islands, Kurt, the Ruins of Alph, Eggs and held items", async () => {
+test("chapters 11 to 27: Johto, from Professor Elm to Johto's League and its post-game, to the summit of Mt. Silver", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2199,4 +2257,5 @@ test("chapters 11 to 26: Johto, from Professor Elm to Johto's League, the Bell T
   await chapter24(st);
   await chapter25(st);
   await chapter26(st);
+  await chapter27(st);
 });

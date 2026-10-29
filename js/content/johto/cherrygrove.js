@@ -203,6 +203,9 @@ G.Maps.def({
   /** Items made for one Pokémon (chapter 26): show him one, and he gives it the item from his collection. */
   const KEEPSAKES = [[25, 'light-ball'], [104, 'thick-club'], [105, 'thick-club'], [132, 'metal-powder'], [113, 'lucky-punch'], [83, 'stick']];
 
+  /** Chapter 27: where your old rival went (kanto/silver.js). */
+  const SILVER = () => T('Oh, and Professor Oak stopped by. Your old rival {rival} went up Mt. Silver to train, and nobody has seen him since. The way is south of the Pokémon League Front Gate, on Route 28.');
+
   /** Chapter 26, after Elm's Eggs: held items, Mr. Pokémon's keepsakes, the Red Scale for the Exp. Share. */
   async function collection(h) {
     const F = G.Field;
@@ -233,7 +236,8 @@ G.Maps.def({
       return;
     }
     if (F.flag('got-exp-share')) {
-      await h.say(T('My collection grows every year. If you meet a Pokémon I have never seen, bring it to me!'), MR);
+      if (!F.flag('silver-beaten')) await h.say(SILVER(), MR);
+      else await h.say(T('My collection grows every year. If you meet a Pokémon I have never seen, bring it to me!'), MR);
       return;
     }
     if (!party.some(m => m.item)) {
@@ -257,6 +261,7 @@ G.Maps.def({
     await h.say(T('{player} received {item}!'), { vars: { item: G.Names.item('exp-share') } });
     await j;
     await h.say(T('The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!'), MR);
+    await h.say(SILVER(), MR);
     if (G.CreditsUI) await G.CreditsUI.ending(26); else F.setFlag('chapter-26-done');
   }
 

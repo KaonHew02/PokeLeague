@@ -14,7 +14,8 @@
  *
  *   G.BattleUI.wild(player, sp, lvl, opts)       a wild battle against one new Pokémon (sp: dex number or slug)
  *   G.BattleUI.trainer(player, trainer, opts)    trainer = { id, name, title, ai, prize, items, leader,
- *                                                            team: [[sp, lvl, moves?], ...] }
+ *                                                            team: [[sp, lvl, moves?, item?], ...] }
+ *       (item: a held item, chapter 27)
  *   G.BattleUI.safari(player, sp, lvl, opts)     the Safari Zone (safari.js): Ball / Bait / Rock / Run
  *   (the overworld calls these from its encounter / trainer hooks; opts as for start())
  *
@@ -824,7 +825,7 @@ G.BattleUI = (() => {
 
   function trainer(player, t, opts = {}) {
     const rng = G.RNG(opts.seed == null ? G.RNG.seed() : opts.seed + 1);
-    const party = t.team.map(([sp, lvl, moves]) => G.Mon.create(spId(sp), lvl, { rng, moves }));
+    const party = t.team.map(([sp, lvl, moves, item]) => Object.assign(G.Mon.create(spId(sp), lvl, { rng, moves }), item ? { item } : {}));
     return start(Object.assign({ kind: 'trainer', player, foe: { party, trainer: t } }, opts));
   }
 

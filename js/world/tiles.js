@@ -143,6 +143,20 @@ G.Tiles = (() => {
     wood: ['#8a7a6a', '#a89888', '#5e5046'], woodEdge: '#2e2620',
     ledge: ['#8aa4b4', '#6e8a9c', '#526c7e']
   };
+  // The top of Mt. Silver (chapter 27): snow on the ground, grey rock, dark snowy pines.
+  PALETTES.snow = {
+    grass: ['#f2f6fa', '#eaf0f6', '#fafcfe'], speck: '#cad6e2', light: '#ffffff',
+    path: ['#dce4ec', '#d4dce6', '#e4ecf2'], pathEdge: '#a8b6c4', pathSpeck: '#bac6d2',
+    sand: ['#e6eaee', '#dee2e8', '#eef2f4'], sandEdge: '#b4bcc6', sandSpeck: '#c4ccd4',
+    tall: ['#b8c8d6', '#c8d6e2', '#d8e4ee'], tallEdge: '#8a9cae',
+    petals: ['#ffffff', '#e8f0f8'], petalCenter: '#b8d8f0',
+    leaf: ['#1e3a34', '#2c5048', '#e6eef4', '#ffffff'], trunk: ['#3a3430', '#4c4440'], treeEdge: '#142420',
+    cliffTop: ['#8a96a2', '#949fab', '#808c98'], cliffLight: '#e8eef4', cliffEdge: '#2e3640',
+    cliffFace: ['#6c7884', '#64707c'], cliffFaceDark: '#46505a',
+    liq: '#5a8cc8', liqDeep: '#3e70ae', foam: '#f0f8ff', shore: '#cad6e2',
+    wood: ['#8a7a6a', '#a89888', '#5e5046'], woodEdge: '#2e2620',
+    ledge: ['#c8d4e0', '#aebccc', '#94a4b6']
+  };
   // The Whirl Islands (chapter 22): dark, sea-worn rock and green-blue water.
   PALETTES.whirl = {
     grass: ['#9aa6a8', '#929ea0', '#a2aeb0'], speck: '#7a8688', light: '#b6c2c4',

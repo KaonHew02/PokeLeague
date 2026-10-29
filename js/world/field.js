@@ -1540,7 +1540,7 @@ G.World = (() => {
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(),
+      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(), snow: !!map.def.snow,
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }

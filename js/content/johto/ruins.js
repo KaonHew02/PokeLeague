@@ -211,6 +211,8 @@
     const got = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'].filter(l => F.flag('form:201:' + l)).length;
     if (got < 26) await h.say(T('All four panels, whole again! Now, can you catch every letter of the Unown? The report keeps count for you.'), RESEARCHER);
     else await h.say(T('All twenty-six letters of the Unown! Thanks to you, we can finally begin to read the walls of the ruins.'), RESEARCHER);
+    // Chapter 25: Elm's Eggs (newbark.js).
+    if (!F.flag('egg-research')) await h.say(T('Oh, and Professor Elm of New Bark Town called. He has news about Pokémon Eggs, and he would like to see you.'), RESEARCHER);
   }
 
   /** Into the inner chamber: the Unown; with all four panels solved, they gather and the chapter ends. */

@@ -69,5 +69,7 @@ G.I18n.add({
   "Chapter 23 complete!": "Capítulo 23 concluído!",
   "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player} encontrou o Apricorn preto no fundo da Dark Cave, e Kurt fez uma de cada uma das suas sete bolas de Apricorn.",
   "Chapter 24 complete!": "Capítulo 24 concluído!",
-  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} montou de novo os quatro painéis de pedra das Ruins of Alph e encontrou os Unown na câmara interna."
+  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} montou de novo os quatro painéis de pedra das Ruins of Alph e encontrou os Unown na câmara interna.",
+  "Chapter 25 complete!": "Capítulo 25 concluído!",
+  "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player} chocou um Ovo da Creche e mostrou ao Professor Elm como os Pokémon nascem."
 }, "pt-BR");

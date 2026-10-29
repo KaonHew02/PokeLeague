@@ -33,5 +33,6 @@ G.I18n.add({
   "Ruins of Alph. Stone chambers built long ago, by no one knows whom. The Research Center is just to the east.": "Ruines d'Alpha. Des salles de pierre bâties il y a très longtemps, on ne sait par qui. Le Centre de Recherche est juste à l'est.",
   "Books about the ruins, full of drawings of strange letters.": "Des livres sur les ruines, remplis de dessins de lettres étranges.",
   "Rows of strange letters are carved into the wall, worn smooth by time.": "Des rangées de lettres étranges sont gravées dans le mur, polies par le temps.",
-  "Letters cover every wall of this chamber. They look a lot like the Pokémon that drift around in here.": "Des lettres couvrent tous les murs de cette salle. Elles ressemblent beaucoup aux Pokémon qui flottent ici."
+  "Letters cover every wall of this chamber. They look a lot like the Pokémon that drift around in here.": "Des lettres couvrent tous les murs de cette salle. Elles ressemblent beaucoup aux Pokémon qui flottent ici.",
+  "Oh, and Professor Elm of New Bark Town called. He has news about Pokémon Eggs, and he would like to see you.": "Ah, et le Professeur Orme de Bourg Geon a appelé. Il a du nouveau sur les Œufs de Pokémon, et il aimerait te voir."
 }, "fr");

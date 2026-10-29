@@ -173,5 +173,7 @@ G.I18n.add({
   "Rising Badge": "Medaglia Levante",
   "Kanto": "Kanto",
   "Johto": "Johto",
-  "Unown caught: {n} of 26.": "Unown catturati: {n} su 26."
+  "Unown caught: {n} of 26.": "Unown catturati: {n} su 26.",
+  "Eggs": "Uova",
+  "Egg": "Uovo"
 }, "it");

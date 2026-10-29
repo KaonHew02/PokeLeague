@@ -50,7 +50,7 @@
  * (G.Clock), and once the Johto journey has begun (flag johto-start) the player's Pokémon above
  * the level cap of the Johto badges may not obey (G.Field.obeyCap(), rules.obeyCap). Walking
  * raises friendship (one point every 128 steps), and var egg-steps counts down to script
- * egg.hatch (the Mystery Egg).
+ * egg.hatch (the Mystery Egg); the Eggs you carry (chapter 25) hatch by G.DayCare.hatch.
  * Chapter 13: trees to Headbutt (`h`: a Pokémon that knows Headbutt may shake down a wild one from
  * the area's 'headbutt' table, half the time), and every step raises the Day Care's Pokémon
  * (G.DayCare, daycare.js).
@@ -629,7 +629,7 @@ G.World = (() => {
     return true;
   }
 
-  /** Every step: friendship (one point every 128 steps), the Day Care and the Mystery Egg. -> a script began */
+  /** Every step: friendship (one point every 128 steps), the Day Care, the Mystery Egg and the Eggs you carry. -> a script began */
   function walked() {
     const V = G.Field.save.vars;
     if (G.DayCare) G.DayCare.step(1);
@@ -638,6 +638,12 @@ G.World = (() => {
     if (V['egg-steps'] > 0 && --V['egg-steps'] === 0 && G.Script.get('egg.hatch')) {
       G.Player.walk(null);
       runScript('egg.hatch', {});
+      return true;
+    }
+    const due = G.DayCare && G.DayCare.eggSteps ? G.DayCare.eggSteps(1) : -1;
+    if (due >= 0) {
+      G.Player.walk(null);
+      runScript([['js', h => G.DayCare.hatch(h, due)]], {});
       return true;
     }
     return false;

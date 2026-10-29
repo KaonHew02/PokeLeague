@@ -8,6 +8,8 @@
  * Meanwhile a boy steals the starter that is strong against yours (flag johto-theft); back at the
  * lab a police officer asks for the thief's name (save.rival2.name), and Elm hands the Mystery Egg
  * back to you to hatch by walking (var egg-steps, script egg.hatch: Togepi). Route 29 leads west.
+ * Chapter 25: once the Ruins of Alph are done, Elm asks you to hatch an Egg from the Day Care
+ * (flag egg-research); showing him what hatched (flag daycare-hatched) ends the chapter (egg-report).
  * Chapter 19: Route 26 starts at Victory Road's mouth (johto/victoryroad.js; a guard keeps Johto's
  * Trainers out until they hold all eight Johto badges, flag clair-beaten); Route 27 crosses the
  * falls (down them with Surf, up them with Waterfall); Route 29 has a way north to Route 46; with
@@ -263,6 +265,24 @@ G.Maps.def({
       await h.say(T('{player} received {item} ×{n}!'), { vars: { item: G.Names.item('poke-ball'), n: 5 } });
       await j;
       await h.say(T('The nearest Gym is in Violet City: west through Route 29 to Cherrygrove City, then north and west along Routes 30 and 31.'), ELM);
+      return;
+    }
+    // Chapter 25: Eggs from the Day Care (route34.js, daycare.js).
+    if (F.flag('ruins-done') && !F.flag('egg-report')) {
+      if (!F.flag('daycare-hatched')) {
+        if (!F.flag('egg-research')) {
+          await h.say(T('There you are, {player}! I heard about the Ruins of Alph. Pokémon shaped like letters... the world is full of mysteries!'), ELM);
+          await h.say(T('I have a mystery of my own. Remember the Egg Mr. Pokémon found? Since then, the Day Care on Route 34 has been finding Eggs in its yard!'), ELM);
+          await h.say(T('They say an Egg sometimes turns up when two Pokémon there get along. Would you find out for me? Hatch an Egg from the Day Care, and show me what comes out!'), ELM);
+          F.setFlag('egg-research');
+        } else await h.say(T('The Day Care is on Route 34, just south of Goldenrod City. Hatch an Egg from there and bring me the Pokémon!'), ELM);
+        return;
+      }
+      await h.say(T('You hatched an Egg from the Day Care? Let me see...'), ELM);
+      await h.say(T('A Pokémon at the very first stage of its family, only just born! So Pokémon really do come from Eggs, and parents pass things on to their young.'), ELM);
+      await h.say(T('Thank you, {player}. This is a big step for my research. Keep leaving Pokémon at the Day Care: who knows what will hatch next!'), ELM);
+      F.setFlag('egg-report');
+      if (G.CreditsUI) await G.CreditsUI.ending(25); else F.setFlag('chapter-25-done');
       return;
     }
     if (F.flag('clair-beaten')) {

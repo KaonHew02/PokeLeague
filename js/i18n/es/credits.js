@@ -69,5 +69,7 @@ G.I18n.add({
   "Chapter 23 complete!": "¡Capítulo 23 completado!",
   "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player} encontró el Bonguri negro en lo más hondo de la Cueva Oscura, y Cástor le hizo una de cada una de sus siete Balls de Bonguri.",
   "Chapter 24 complete!": "¡Capítulo 24 completado!",
-  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} volvió a juntar los cuatro paneles de piedra de las Ruinas Alfa y conoció a los Unown en la cámara interior."
+  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} volvió a juntar los cuatro paneles de piedra de las Ruinas Alfa y conoció a los Unown en la cámara interior.",
+  "Chapter 25 complete!": "¡Capítulo 25 completado!",
+  "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player} hizo eclosionar un Huevo de la Guardería y le enseñó al Profesor Elm cómo nacen los Pokémon."
 }, "es");

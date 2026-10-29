@@ -77,5 +77,10 @@ G.I18n.add({
   "An Apricorn tree! {player} put the {item} in the Apricorn Box.": "¡Un árbol de Bonguri! {player} guardó el {item} en la Caja Bonguri.",
   "A cracked rock. A Pokémon could smash it with the right move.": "Una roca agrietada. Un Pokémon podría romperla con el movimiento adecuado.",
   "A cracked rock. Would you like to use Rock Smash?": "Una roca agrietada. ¿Quieres usar Golpe Roca?",
-  "{mon} used Rock Smash!": "¡{mon} usó Golpe Roca!"
+  "{mon} used Rock Smash!": "¡{mon} usó Golpe Roca!",
+  "It looks as if it will take a long time to hatch.": "Parece que todavía le falta mucho para eclosionar.",
+  "Something moves inside it now and then. It should hatch before long.": "De vez en cuando algo se mueve dentro. No tardará en eclosionar.",
+  "Sounds are coming from inside! It is about to hatch!": "¡Se oyen ruidos dentro! ¡Está a punto de eclosionar!",
+  "Oh? The Egg is moving!": "¿Eh? ¡El Huevo se está moviendo!",
+  "There is no room in your party, so {mon} was sent to the PC.": "No hay sitio en tu equipo, así que {mon} fue enviado al PC."
 }, "es");

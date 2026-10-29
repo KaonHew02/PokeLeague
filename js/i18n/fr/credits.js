@@ -69,5 +69,7 @@ G.I18n.add({
   "Chapter 23 complete!": "Chapitre 23 terminé !",
   "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player} a trouvé le Noigrume noir au fond de l'Antre Noir, et Fargas lui a fabriqué une de chacune de ses sept Balls Noigrume.",
   "Chapter 24 complete!": "Chapitre 24 terminé !",
-  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} a reconstitué les quatre panneaux de pierre des Ruines d'Alpha et a rencontré les Zarbi dans la salle intérieure."
+  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} a reconstitué les quatre panneaux de pierre des Ruines d'Alpha et a rencontré les Zarbi dans la salle intérieure.",
+  "Chapter 25 complete!": "Chapitre 25 terminé !",
+  "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player} a fait éclore un Œuf de la Pension et a montré au Professeur Orme comment naissent les Pokémon."
 }, "fr");

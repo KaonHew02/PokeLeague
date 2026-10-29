@@ -109,7 +109,9 @@ G.SPECIES = { 1: { slug:'bulbasaur', types:['grass','poison'], base:[45,49,49,65
   ev:[0,0,0,1,0,0], cr:45 /* catch rate */, bx:64 /* base EXP */, gr:'medium-slow', gf:1 /* females in eighths, -1 genderless */,
   fr:70 /* base friendship */, h:7, w:69, leg:1 /* only legendaries and Mew */,
   evo:[{ to:2, how:'level', level:16 }], learn:[[1,'tackle'],[4,'growl'],[7,'leech-seed'], …] /* sorted; can repeat a move */,
-  tm:['hm01','tm06', …], tu:['headbutt'] /* move tutors (chapter 13); absent when none */ } }
+  tm:['hm01','tm06', …], tu:['headbutt'] /* move tutors (chapter 13); absent when none */,
+  eg:['monster','plant'] /* egg groups, PokeAPI's names ('no-eggs': cannot breed) */, hc:20 /* egg cycles */,
+  em:['charm', …] /* egg moves (HeartGold / SoulSilver, else Crystal) the game has; absent when none */ } }
 G.MOVES = { ember: { id:52, type:'fire', cat:'special' /* physical|special|status */, pow:40 /* null for status */,
   acc:100 /* null = never misses */, pp:25, pri:0, tgt:'selected-pokemon', eff:10 /* effect chance */,
   meta:{ k:'damage-ailment', ail:'burn', ailP:10, crit:0, drain:0, heal:0, flinch:0, statP:0, hits:null, turns:null },
@@ -1340,9 +1342,31 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   before and after `kurt-seven`, the sealed Ho-Oh door, a panel, the stairs, Unown letters A-K);
   the map generator checks that Omanyte's chamber needs Surf and Aerodactyl's Rock Smash.
 
-### After chapter 24
+- **Chapter 25** ✅, Johto after the League, Eggs: once the Ruins of Alph are done, their researcher
+  passes on a call from Professor Elm, who studies how Pokémon are born: hatch an Egg from the Day
+  Care and show him (flag `egg-research`). The Day-Care Man on Route 34 gives the Odd Egg (flag
+  `odd-egg`: Pichu, Cleffa, Igglybuff, Smoochum, Elekid, Magby or Tyrogue, shiny one time in
+  eight), keeps the Eggs two Pokémon left at the Day Care leave until you take them, and says how
+  well the two get along. Showing Elm what hatched (flag `daycare-hatched`) ends the chapter
+  (`egg-report`, `ending(25)`). Files: `newbark.js` (Elm), `route34.js` (the Day-Care Man),
+  `ruins.js` (the researcher).
+- **Engine for chapter 25:** breeding in `js/world/daycare.js` (G.DayCare), from flag `ruins-done`:
+  two Pokémon breed with an egg group in common and one of each gender, or one of them Ditto (not
+  two Ditto, never the `no-eggs` group); every 128 steps an Egg turns up with the chance of
+  `compat` (70 / 50 / 20, the games' numbers, by species and Trainer), kept in `save.daycareEgg`.
+  The Egg (`breed`): the mother's species, or with Ditto the other one's, at its first stage among
+  the game's species (`root`: Raichu → Pichu, Marill stays Marill), Nidoran of either gender, Lv. 5,
+  three IVs from the parents, the father's egg moves (species `em`), friendship 120, met at the Day
+  Care. Eggs are carried apart from the party (`save.eggs`, at most six), like the Mystery Egg: the
+  party screen shows them and says how close each one is (`hint`); `G.World` counts their steps
+  (64 per egg cycle, 320 at least) and runs `G.DayCare.hatch` when one is due (to the party, or
+  the PC when it is full). Data: species `eg`, `hc`, `em` (`tools/fetch_data.py`; egg moves only
+  from the moves the game already has). The save keeps `daycareEgg` and `eggs`.
+  `tests/field.test.cjs` checks the rules (who breeds, compat, root, egg moves, IVs, the Odd Egg's
+  shiny rate) and plays an Egg from the Day Care to the party and to the PC.
 
-1. **More of Johto's post-game:** breeding at the Day Care (Eggs) and held items (berries held in
-   battle), Mt. Silver.
+### After chapter 25
+
+1. **More of Johto's post-game:** held items (berries held in battle, the Everstone…), Mt. Silver.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

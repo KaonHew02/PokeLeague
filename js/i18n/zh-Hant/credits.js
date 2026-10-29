@@ -69,5 +69,7 @@ G.I18n.add({
   "Chapter 23 complete!": "第二十三章完成！",
   "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player}在黑暗洞穴深處找到了黑色的球果，鋼鐵把他的七種球果球各做了一個。",
   "Chapter 24 complete!": "第二十四章完成！",
-  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player}拼好了阿露福遺跡的四塊石板，在內部大廳見到了未知圖騰。"
+  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player}拼好了阿露福遺跡的四塊石板，在內部大廳見到了未知圖騰。",
+  "Chapter 25 complete!": "第二十五章完成！",
+  "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player}孵出了培育屋的蛋，讓空木博士看到了寶可夢是怎樣出生的。"
 }, "zh-Hant");

@@ -146,6 +146,13 @@ kbd {
 .pt-note { color: var(--gold); font-weight: 700; }
 .party-foot { display: flex; align-items: center; justify-content: space-between; gap: .5em; margin-top: .35em; }
 .party-hint { margin: 0; font-size: .9em; }
+/* The Eggs you carry (chapter 25): small speckled eggs after the hint. */
+.party-eggs { display: flex; align-items: center; gap: .3em; margin-left: auto; font-size: .85em; }
+.pt-egg { padding: .15em; border: 0; background: transparent; cursor: pointer; border-radius: .3em; }
+.pt-egg i { display: block; width: 1.1em; height: 1.4em; border-radius: 50% 50% 46% 46% / 60% 60% 40% 40%;
+  background: radial-gradient(circle at 30% 35%, #7fc8a0 0 .14em, transparent .16em), radial-gradient(circle at 65% 60%, #7fc8a0 0 .16em, transparent .18em),
+  radial-gradient(circle at 40% 75%, #7fc8a0 0 .1em, transparent .12em), linear-gradient(160deg, #fffdf2, #e8dcc0); box-shadow: inset -2px -2px 0 rgba(0,0,0,.12), 0 0 0 1px #6a5a3a; }
+.pt-egg.pad-focus, .pt-egg:hover { background: rgba(255,255,255,.18); }
 
 /* ---------- summary ---------- */
 .box.sum-box { width: min(30em, 98%); height: 98%; display: flex; flex-direction: column; padding: .5em .7em; }

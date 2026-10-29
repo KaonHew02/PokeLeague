@@ -173,5 +173,7 @@ G.I18n.add({
   "Rising Badge": "Medalla Dragón",
   "Kanto": "Kanto",
   "Johto": "Johto",
-  "Unown caught: {n} of 26.": "Unown capturados: {n} de 26."
+  "Unown caught: {n} of 26.": "Unown capturados: {n} de 26.",
+  "Eggs": "Huevos",
+  "Egg": "Huevo"
 }, "es");

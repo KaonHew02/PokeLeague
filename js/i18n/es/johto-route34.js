@@ -44,5 +44,19 @@ G.I18n.add({
   "Day-Care Man": "Señor de la Guardería",
   "Route 34. Ilex Forest to the south, Goldenrod City to the north.": "Ruta 34. Al sur, el Encinar. Al norte, Ciudad Trigal.",
   "Route 34. Goldenrod City is just ahead.": "Ruta 34. Ciudad Trigal está justo delante.",
-  "The Day Care. Let us raise your Pokémon for you!": "La Guardería. ¡Deja que cuidemos de tus Pokémon!"
+  "The Day Care. Let us raise your Pokémon for you!": "La Guardería. ¡Deja que cuidemos de tus Pokémon!",
+  "The two of them seem to get along very well.": "Parece que esos dos se llevan muy bien.",
+  "The two of them seem to get along.": "Parece que esos dos se llevan bien.",
+  "The two of them do not seem to like each other very much.": "Parece que esos dos no se caen muy bien.",
+  "The two of them would rather play with other Pokémon.": "Esos dos prefieren jugar con otros Pokémon.",
+  "Ah, a Trainer! Something odd happened: a few days ago we found an Egg in our yard, and nobody has come for it.": "¡Ah, un Entrenador! Pasó algo raro: hace unos días encontramos un Huevo en el patio, y nadie ha venido a buscarlo.",
+  "Oh, but you are carrying six Eggs already! Hatch a few first, then come back.": "¡Vaya, pero si ya llevas seis Huevos! Haz eclosionar algunos primero y luego vuelve.",
+  "Would you look after it? Keep it with you as you travel, and it will hatch.": "¿Podrías cuidar de él? Llévalo contigo en tus viajes y eclosionará.",
+  "{player} received the Odd Egg!": "¡{player} recibió el Huevo Raro!",
+  "If you leave two Pokémon that get along with my wife, they may leave an Egg of their own. Come and ask me now and then!": "Si le dejas a mi mujer dos Pokémon que se lleven bien, puede que pongan un Huevo. ¡Ven a preguntarme de vez en cuando!",
+  "Ah, there you are! We were looking after your Pokémon, and, my goodness, we found an Egg! Your Pokémon must have left it.": "¡Ah, aquí estás! Cuidábamos de tus Pokémon y, madre mía, ¡encontramos un Huevo! Seguro que lo pusieron tus Pokémon.",
+  "Do you want the Egg?": "¿Quieres el Huevo?",
+  "Then I will keep it for you for now.": "Entonces te lo guardo por ahora.",
+  "{player} received the Egg!": "¡{player} recibió el Huevo!",
+  "Keep it with you as you travel, and it will hatch.": "Llévalo contigo en tus viajes y eclosionará."
 }, "es");

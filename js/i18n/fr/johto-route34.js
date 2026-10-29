@@ -44,5 +44,19 @@ G.I18n.add({
   "Day-Care Man": "Monsieur de la Pension",
   "Route 34. Ilex Forest to the south, Goldenrod City to the north.": "Route 34. Le Bois aux Chênes au sud, Doublonville au nord.",
   "Route 34. Goldenrod City is just ahead.": "Route 34. Doublonville est juste devant.",
-  "The Day Care. Let us raise your Pokémon for you!": "La Pension. Laissez-nous élever vos Pokémon !"
+  "The Day Care. Let us raise your Pokémon for you!": "La Pension. Laissez-nous élever vos Pokémon !",
+  "The two of them seem to get along very well.": "Ces deux-là ont l'air de très bien s'entendre.",
+  "The two of them seem to get along.": "Ces deux-là ont l'air de bien s'entendre.",
+  "The two of them do not seem to like each other very much.": "Ces deux-là n'ont pas l'air de beaucoup s'apprécier.",
+  "The two of them would rather play with other Pokémon.": "Ces deux-là préfèrent jouer avec d'autres Pokémon.",
+  "Ah, a Trainer! Something odd happened: a few days ago we found an Egg in our yard, and nobody has come for it.": "Ah, un Dresseur ! Il s'est passé quelque chose de bizarre : il y a quelques jours, nous avons trouvé un Œuf dans le jardin, et personne n'est venu le chercher.",
+  "Oh, but you are carrying six Eggs already! Hatch a few first, then come back.": "Oh, mais tu portes déjà six Œufs ! Fais-en éclore quelques-uns d'abord, puis reviens.",
+  "Would you look after it? Keep it with you as you travel, and it will hatch.": "Tu veux bien t'en occuper ? Garde-le avec toi pendant tes voyages, et il éclora.",
+  "{player} received the Odd Egg!": "{player} reçoit l'Œuf Bizarre !",
+  "If you leave two Pokémon that get along with my wife, they may leave an Egg of their own. Come and ask me now and then!": "Si tu confies à ma femme deux Pokémon qui s'entendent bien, ils laisseront peut-être un Œuf. Viens me demander de temps en temps !",
+  "Ah, there you are! We were looking after your Pokémon, and, my goodness, we found an Egg! Your Pokémon must have left it.": "Ah, te voilà ! Nous nous occupions de tes Pokémon et, ma parole, nous avons trouvé un Œuf ! Ce sont sûrement tes Pokémon qui l'ont laissé.",
+  "Do you want the Egg?": "Tu veux l'Œuf ?",
+  "Then I will keep it for you for now.": "Alors je te le garde pour l'instant.",
+  "{player} received the Egg!": "{player} reçoit l'Œuf !",
+  "Keep it with you as you travel, and it will hatch.": "Garde-le avec toi pendant tes voyages, et il éclora."
 }, "fr");

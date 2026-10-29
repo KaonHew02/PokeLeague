@@ -4,7 +4,8 @@
  *   await G.PartyUI.pick({ title, note })     -> index | null   choose one (items, TMs...)
  *       note(mon, i) -> a short label shown on the card instead of the HP ('Able', 'Learned'...)
  *       or null; disabled(mon, i) -> true greys it out.
- * Six cards in two columns: sprite, name, level, HP bar, status.
+ * Six cards in two columns: sprite, name, level, HP bar, status. Below them, the Eggs you carry
+ * (chapter 25, G.DayCare.eggs(): they are not in the party); one picked says how close it is.
  */
 G.PartyUI = (() => {
   const esc = s => G.U.esc(s);
@@ -18,7 +19,7 @@ G.PartyUI = (() => {
     el.className = 'scr dim hidden';
     el.setAttribute('translate', 'no');
     el.innerHTML = '<div class="box party-box"><div class="party-grid"></div>'
-      + '<div class="party-foot"><p class="party-hint"></p><button class="btn small ghost" data-back></button></div></div>';
+      + '<div class="party-foot"><p class="party-hint"></p><span class="party-eggs"></span><button class="btn small ghost" data-back></button></div></div>';
     document.getElementById('frame').appendChild(el);
     el.querySelector('[data-back]').onclick = back;
   }
@@ -56,6 +57,11 @@ G.PartyUI = (() => {
       b.onclick = () => choose(+b.dataset.i);
     });
     el.querySelector('.party-hint').textContent = st.moving != null ? T('Move to where?') : st.title || T('Choose a Pokémon.');
+    // The Eggs you carry (on the menu only): each one says how close it is to hatching.
+    const eggs = st.mode === 'menu' && G.DayCare && G.DayCare.eggs ? G.DayCare.eggs() : [];
+    const box = el.querySelector('.party-eggs');
+    box.innerHTML = eggs.length ? `<span class="sub">${esc(T('Eggs'))}</span>` + eggs.map((e, k) => `<button class="pt-egg" data-egg="${k}" aria-label="${esc(T('Egg'))}"><i></i></button>`).join('') : '';
+    box.querySelectorAll('.pt-egg').forEach(b => { b.onclick = () => G.Popup.say(G.DayCare.hint(eggs[+b.dataset.egg])); });
     el.querySelector('[data-back]').textContent = st.mode === 'pick' ? T('Cancel') : T('Back');
     if (focusIdx != null) { const b = grid.querySelector(`[data-i="${focusIdx}"]`); if (b) G.Nav.focusFirst(b); }
   }

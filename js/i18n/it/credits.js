@@ -69,5 +69,7 @@ G.I18n.add({
   "Chapter 23 complete!": "Capitolo 23 completato!",
   "{player} found the black Apricorn deep in the Dark Cave, and Kurt made one of each of his seven Apricorn Balls.": "{player} ha trovato la Ghicocca nera nel profondo della Grotta Scura, e Franz gli ha fatto una di ciascuna delle sue sette Ball di Ghicocca.",
   "Chapter 24 complete!": "Capitolo 24 completato!",
-  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} ha rimesso insieme i quattro pannelli di pietra delle Rovine d'Alfa e ha incontrato gli Unown nella camera interna."
+  "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} ha rimesso insieme i quattro pannelli di pietra delle Rovine d'Alfa e ha incontrato gli Unown nella camera interna.",
+  "Chapter 25 complete!": "Capitolo 25 completato!",
+  "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player} ha fatto schiudere un Uovo della Pensione e ha mostrato al Professor Elm come nascono i Pokémon."
 }, "it");

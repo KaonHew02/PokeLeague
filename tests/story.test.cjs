@@ -2028,6 +2028,44 @@ async function chapter24(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 25 after chapter 24: Eggs from the Day Care, for Professor Elm. */
+async function chapter25(st) {
+  const { G } = st;
+  const F = G.Field, D = G.DayCare;
+  // The ruins' researcher passes on Elm's call; Elm asks for an Egg from the Day Care.
+  await run(st, 'ruins-research', npc(st, 'ruins-research', 'researcher'));
+  await run(st, 'elm-lab', npc(st, 'elm-lab', 'elm'));
+  assert.ok(F.flag('egg-research'), 'Elm asked');
+  // The Day-Care Man gives the Odd Egg (a baby Pokémon).
+  await run(st, 'route34', npc(st, 'route34', 'oldman'));
+  assert.ok(F.flag('odd-egg') && D.eggs().length === 1 && D.BABIES.includes(D.eggs()[0].mon.sp), 'the Odd Egg');
+  // Two Pokémon that get along leave an Egg: the man keeps it until you take it.
+  while (F.party().length > 4) F.toBox(F.party().pop());
+  const party = F.party().length;
+  const a = F.giveMon('pikachu', 20), b = F.giveMon('pikachu', 20);
+  a.gender = 'f'; b.gender = 'm';
+  st.picks.push(party);
+  await run(st, 'daycare', npc(st, 'daycare', 'lady'), [0]);
+  st.picks.push(party);
+  await run(st, 'daycare', npc(st, 'daycare', 'lady'), [0]);
+  assert.equal(D.list().length, 2, 'both left at the Day Care');
+  D.seed(5);
+  for (let k = 0; k < 40 && !D.waiting(); k++) D.step(128);
+  assert.ok(D.waiting(), 'an Egg turned up');
+  await run(st, 'route34', npc(st, 'route34', 'oldman'), [0]);
+  assert.equal(D.eggs().length, 2, 'two Eggs carried');
+  // Both hatch (G.World would run this when their steps run out).
+  for (let i = 0; i < 4000 && D.eggs().length; i++) {
+    const due = D.eggSteps(1);
+    if (due >= 0) await run(st, 'route34', [['js', h => D.hatch(h, due)]]);
+  }
+  assert.ok(!D.eggs().length && F.flag('daycare-hatched'), 'hatched');
+  // Elm sees what hatched: the end of the chapter.
+  await run(st, 'elm-lab', npc(st, 'elm-lab', 'elm'));
+  assert.ok(F.flag('egg-report') && F.flag('chapter-25-done'), 'Elm: the end of the chapter');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2109,7 +2147,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 24: Johto, from Professor Elm to Johto's League, the Bell Tower, the Whirl Islands, Kurt and the Ruins of Alph", async () => {
+test("chapters 11 to 25: Johto, from Professor Elm to Johto's League, the Bell Tower, the Whirl Islands, Kurt, the Ruins of Alph and Eggs", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2135,4 +2173,5 @@ test("chapters 11 to 24: Johto, from Professor Elm to Johto's League, the Bell T
   await chapter22(st);
   await chapter23(st);
   await chapter24(st);
+  await chapter25(st);
 });

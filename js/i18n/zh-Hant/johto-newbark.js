@@ -51,5 +51,12 @@ G.I18n.add({
   "The Pokémon League is beyond Victory Road: east across Route 27, then north on Route 26. Good luck, {player}!": "寶可夢聯盟就在冠軍之路的另一頭：先往東穿過27號道路，再沿26號道路往北。祝你好運，{player}！",
   "Victory Road leads to the Pokémon League. Trainers from Johto may only go on once they hold all eight of Johto's badges.": "冠軍之路通往寶可夢聯盟。城都的訓練家要集齊城都的八枚徽章才能通過。",
   "All eight Johto badges! Victory Road is open to you. The Pokémon League waits at the other end.": "城都的八枚徽章！冠軍之路為你開放了。寶可夢聯盟就在另一頭等著你。",
-  "A great waterfall pours down from the cliffs. With Waterfall and the Rising Badge, a Pokémon could climb it.": "一道大瀑布從懸崖上傾瀉而下。有了攀瀑和升龍徽章，寶可夢就能爬上去。"
+  "A great waterfall pours down from the cliffs. With Waterfall and the Rising Badge, a Pokémon could climb it.": "一道大瀑布從懸崖上傾瀉而下。有了攀瀑和升龍徽章，寶可夢就能爬上去。",
+  "There you are, {player}! I heard about the Ruins of Alph. Pokémon shaped like letters... the world is full of mysteries!": "你來了，{player}！我聽說阿露福遺跡的事了。形狀像文字的寶可夢……這個世界真是充滿了謎團！",
+  "I have a mystery of my own. Remember the Egg Mr. Pokémon found? Since then, the Day Care on Route 34 has been finding Eggs in its yard!": "我也有一個謎要解。還記得寶可夢爺爺找到的那顆蛋嗎？從那以後，34號道路的培育屋在院子裡發現了好幾顆蛋！",
+  "They say an Egg sometimes turns up when two Pokémon there get along. Would you find out for me? Hatch an Egg from the Day Care, and show me what comes out!": "聽說兩隻寶可夢在那裡處得好的話，有時就會出現蛋。你能幫我查個明白嗎？孵一顆培育屋的蛋，讓我看看會孵出什麼！",
+  "The Day Care is on Route 34, just south of Goldenrod City. Hatch an Egg from there and bring me the Pokémon!": "培育屋在34號道路，就在滿金市南邊。孵一顆那裡的蛋，把寶可夢帶來給我看！",
+  "You hatched an Egg from the Day Care? Let me see...": "你孵出了培育屋的蛋？讓我看看……",
+  "A Pokémon at the very first stage of its family, only just born! So Pokémon really do come from Eggs, and parents pass things on to their young.": "是這一族最初階段的寶可夢，才剛出生！原來寶可夢真的是從蛋裡出生的，而且父母會把一些東西傳給孩子。",
+  "Thank you, {player}. This is a big step for my research. Keep leaving Pokémon at the Day Care: who knows what will hatch next!": "謝謝你，{player}。這對我的研究是一大進展。繼續把寶可夢寄放在培育屋吧：誰知道下次會孵出什麼呢！"
 }, "zh-Hant");

@@ -173,5 +173,7 @@ G.I18n.add({
   "Rising Badge": "Insígnia Ascendente",
   "Kanto": "Kanto",
   "Johto": "Johto",
-  "Unown caught: {n} of 26.": "Unown capturados: {n} de 26."
+  "Unown caught: {n} of 26.": "Unown capturados: {n} de 26.",
+  "Eggs": "Ovos",
+  "Egg": "Ovo"
 }, "pt-BR");

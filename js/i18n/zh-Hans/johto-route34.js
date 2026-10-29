@@ -44,5 +44,19 @@ G.I18n.add({
   "Day-Care Man": "培育屋爷爷",
   "Route 34. Ilex Forest to the south, Goldenrod City to the north.": "34号道路。南边是栎树林，北边是满金市。",
   "Route 34. Goldenrod City is just ahead.": "34号道路。前方就是满金市。",
-  "The Day Care. Let us raise your Pokémon for you!": "培育屋。让我们帮你培育宝可梦吧！"
+  "The Day Care. Let us raise your Pokémon for you!": "培育屋。让我们帮你培育宝可梦吧！",
+  "The two of them seem to get along very well.": "那两只看起来相处得非常好。",
+  "The two of them seem to get along.": "那两只看起来相处得还不错。",
+  "The two of them do not seem to like each other very much.": "那两只好像不太合得来。",
+  "The two of them would rather play with other Pokémon.": "那两只比较想和别的宝可梦玩。",
+  "Ah, a Trainer! Something odd happened: a few days ago we found an Egg in our yard, and nobody has come for it.": "啊，是训练家！发生了一件怪事：前几天我们在院子里捡到一颗蛋，一直没人来领。",
+  "Oh, but you are carrying six Eggs already! Hatch a few first, then come back.": "哎呀，你已经带着六颗蛋了！先孵出几颗再来吧。",
+  "Would you look after it? Keep it with you as you travel, and it will hatch.": "你能帮忙照顾它吗？旅行时一直带在身边，它就会孵化。",
+  "{player} received the Odd Egg!": "{player}得到了奇异的蛋！",
+  "If you leave two Pokémon that get along with my wife, they may leave an Egg of their own. Come and ask me now and then!": "如果你把两只合得来的宝可梦交给我老伴照顾，它们说不定也会留下一颗蛋。时不时来问问我吧！",
+  "Ah, there you are! We were looking after your Pokémon, and, my goodness, we found an Egg! Your Pokémon must have left it.": "啊，你来啦！我们照顾你的宝可梦的时候，哎呀，发现了一颗蛋！一定是你的宝可梦留下的。",
+  "Do you want the Egg?": "你要这颗蛋吗？",
+  "Then I will keep it for you for now.": "那我就先帮你保管着吧。",
+  "{player} received the Egg!": "{player}得到了蛋！",
+  "Keep it with you as you travel, and it will hatch.": "旅行时一直带在身边，它就会孵化。"
 }, "zh-Hans");

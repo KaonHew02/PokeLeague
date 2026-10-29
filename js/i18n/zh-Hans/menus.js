@@ -173,5 +173,7 @@ G.I18n.add({
   "Rising Badge": "升龙徽章",
   "Kanto": "关都",
   "Johto": "城都",
-  "Unown caught: {n} of 26.": "已抓到的未知图腾：{n}／26。"
+  "Unown caught: {n} of 26.": "已抓到的未知图腾：{n}／26。",
+  "Eggs": "蛋",
+  "Egg": "蛋"
 }, "zh-Hans");

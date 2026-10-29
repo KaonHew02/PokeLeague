@@ -1,7 +1,7 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
 // water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt, the Day Care,
 // the Bug-Catching Contest, Morty's floor of darkness, berry trees, Pryce's ice, waterfalls, whirlpools (the Whirl Islands),
-// cracked rocks and Apricorn trees (the Dark Cave, Azalea Town), the stone panels and Unown of the Ruins of Alph,
+// cracked rocks and Apricorn trees (the Dark Cave, Azalea Town), the stone panels and Unown of the Ruins of Alph, breeding and Eggs,
 // and the real Ice Path and Clair's Gym.
 // Test maps are defined here (the last test loads the chapter 18 maps); the drawing, the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
@@ -388,6 +388,93 @@ test('the Day Care: up to two Pokémon grow by the step and learn their moves; t
   assert.equal(D.list()[0].mon, rattata);
   while (F.party().length < 6) F.giveMon('rattata', 2);
   assert.equal(D.withdraw(0), 'party-full');
+});
+
+test('breeding: who can breed and how well, the first stage, egg moves from the father, IVs from both', () => {
+  const { G } = world();
+  const D = G.DayCare;
+  const rng = G.RNG(11);
+  const mk = (sp, gender, o = {}) => Object.assign(G.Mon.create(sp, 30, Object.assign({ rng }, o)), { gender }, o.extra || {});
+  const ot = id => ({ ot: { name: 'X', id } });
+  // Who can breed: one of each gender in an egg group they share, or Ditto with anyone (but Ditto).
+  assert.ok(D.canBreed(mk(25, 'f'), mk(25, 'm')));
+  assert.ok(D.canBreed(mk(25, 'f'), mk(37, 'm')), 'Pikachu and Vulpix: the Field group');
+  assert.ok(!D.canBreed(mk(25, 'f'), mk(25, 'f')), 'two females');
+  assert.ok(!D.canBreed(mk(25, 'f'), mk(7, 'm')), 'no group in common');
+  assert.ok(D.canBreed(mk(81, null), mk(132, null)), 'Magnemite with Ditto');
+  assert.ok(!D.canBreed(mk(132, null), mk(132, null)), 'two Ditto');
+  assert.ok(!D.canBreed(mk(172, 'f'), mk(25, 'm')), 'a baby cannot');
+  assert.ok(!D.canBreed(mk(150, null), mk(132, null)), 'nor a legend');
+  // How well they get along (the games' numbers).
+  assert.equal(D.compat(mk(25, 'f', ot(1)), mk(25, 'm', ot(2))), 70);
+  assert.equal(D.compat(mk(25, 'f', ot(1)), mk(25, 'm', ot(1))), 50);
+  assert.equal(D.compat(mk(25, 'f', ot(1)), mk(37, 'm', ot(2))), 50);
+  assert.equal(D.compat(mk(25, 'f', ot(1)), mk(37, 'm', ot(1))), 20);
+  assert.equal(D.compat(mk(25, 'f'), mk(7, 'm')), 0);
+  // The first stage of the family, among the game's Pokémon.
+  assert.deepEqual([26, 25, 184, 3, 149, 143].map(D.root).join(), '172,172,183,1,147,143');
+  // The mother's species; with Ditto, the other one's; Nidoran of either gender.
+  const vulpix = mk(37, 'f'), pikachu = mk(25, 'm', { moves: ['thunder-shock', 'fake-out', 'encore', 'growl'] });
+  const egg = D.breed(vulpix, pikachu, G.RNG(1));
+  assert.equal(egg.mon.sp, 37, 'a Vulpix');
+  assert.ok(egg.steps > 0 && egg.mon.lvl === 5 && egg.mon.friendship === 120);
+  const pichu = D.breed(mk(26, 'f'), mk(26, 'm', { moves: ['thunder-shock', 'encore', 'fake-out', 'thunderbolt'] }), G.RNG(2)).mon;
+  assert.equal(pichu.sp, 172, 'Raichu make a Pichu');
+  assert.ok(G.Mon.knows(pichu, 'encore') && G.Mon.knows(pichu, 'fake-out'), 'egg moves from the father: ' + pichu.moves.map(m => m.id));
+  assert.ok(!G.Mon.knows(pichu, 'thunderbolt'), 'not a move that is no egg move');
+  assert.equal(D.breed(mk(132, null), mk(81, null), G.RNG(3)).mon.sp, 81, 'with Ditto: Magnemite');
+  const nido = new Set();
+  for (let s = 1; s < 30; s++) nido.add(D.breed(mk(34, 'm'), mk(132, null), G.RNG(s)).mon.sp);
+  assert.deepEqual([...nido].sort().join(), '29,32', 'Nidoran of either gender');
+  // Three IVs come from the parents.
+  const ma = mk(25, 'f', { ivs: [31, 31, 31, 31, 31, 31] }), pa = mk(25, 'm', { ivs: [30, 30, 30, 30, 30, 30] });
+  for (let s = 1; s < 20; s++) {
+    const iv = D.breed(ma, pa, G.RNG(s)).mon.ivs;
+    assert.ok(iv.filter(v => v >= 30).length >= 3, iv.join());
+  }
+  // The Odd Egg: a baby, shiny one time in eight.
+  let shiny = 0;
+  for (let s = 1; s <= 400; s++) { const m = D.odd(G.RNG(s)).mon; assert.ok(D.BABIES.includes(m.sp)); if (m.shiny) shiny++; }
+  assert.ok(shiny > 25 && shiny < 80, 'shiny ' + shiny + ' of 400');
+});
+
+test('Eggs: two Pokémon that get along leave one at the Day Care (after the ruins); carried, it hatches as you walk', async () => {
+  const { G, W } = world();
+  const F = G.Field, S = F.save, D = G.DayCare;
+  G.Maps.def({ id: 't-walk', region: 'johto', tileset: 'outdoor', palette: 'kanto',
+    rows: ['TTTTTTTTT', 'T.......T', 'TTTTTTTTT'], spots: { start: [1, 1, 'right'] } });
+  F.giveMon('cyndaquil', 30);
+  const a = F.giveMon('pikachu', 20), b = F.giveMon('pikachu', 20);
+  a.gender = 'f'; b.gender = 'm';
+  assert.ok(D.deposit(1) && D.deposit(1));
+  D.seed(4);
+  W.load('t-walk', 'start');
+  const walk = n => { for (let i = 0; i < n; i++) step(W, i % 2 ? 'left' : 'right'); };
+  walk(2000);
+  assert.ok(!D.waiting(), 'no Eggs before the Ruins of Alph are done');
+  F.setFlag('ruins-done');
+  for (let k = 0; k < 20 && !D.waiting(); k++) walk(128);
+  assert.ok(D.waiting(), 'an Egg at the Day Care');
+  const egg = D.collect();
+  assert.ok(egg && egg.mon.sp === 172 && D.eggs().length === 1 && !D.waiting(), 'a Pichu Egg, carried');
+  assert.equal(F.party().length, 1, 'not in the party');
+  // Walking hatches it: into the party.
+  egg.steps = 3;
+  for (let i = 0; i < 3; i++) step(W, i % 2 ? 'left' : 'right');
+  await pump(W, (async () => { for (let i = 0; i < 40 && D.eggs().length; i++) await tick(); })());
+  for (let i = 0; i < 60 && F.party().length < 2; i++) { W.update(0.1); await tick(); }
+  assert.equal(D.eggs().length, 0, 'hatched');
+  assert.equal(F.party()[1].sp, 172);
+  assert.ok(F.flag('daycare-hatched') && S.dex.caught[172], 'in the Pokédex');
+  // With a full party, the PC.
+  while (F.party().length < 6) F.giveMon('rattata', 2);
+  D.eggs().push(D.odd(G.RNG(9)));
+  D.eggs()[0].steps = 1;
+  step(W, 'right');
+  for (let i = 0; i < 60 && D.eggs().length; i++) { W.update(0.1); await tick(); }
+  assert.equal(D.eggs().length, 0);
+  assert.equal(F.party().length, 6);
+  assert.ok(S.boxes.some(bx => bx.some(m => m && D.BABIES.includes(m.sp))), 'to the PC');
 });
 
 test('the Bug-Catching Contest: the entrant alone with the Sport Balls, steps that run out, a catch kept, the judging', async () => {

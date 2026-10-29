@@ -173,5 +173,7 @@ G.I18n.add({
   "Rising Badge": "Badge Lever",
   "Kanto": "Kanto",
   "Johto": "Johto",
-  "Unown caught: {n} of 26.": "Zarbi attrapés : {n} sur 26."
+  "Unown caught: {n} of 26.": "Zarbi attrapés : {n} sur 26.",
+  "Eggs": "Œufs",
+  "Egg": "Œuf"
 }, "fr");

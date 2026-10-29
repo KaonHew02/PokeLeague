@@ -343,7 +343,7 @@ def build(region):
     species = dict(zip(dexes, pmap(lambda d: get('pokemon-species', d), dexes)))
 
     # ---- learnsets and TM moves ----
-    learn, tm_moves, tutor, move_names = {}, {}, {}, {'struggle'}
+    learn, tm_moves, tutor, eggm, move_names = {}, {}, {}, {}, {'struggle'}
     for d in dexes:
         p = pokemon[d]
         rows = []
@@ -367,6 +367,13 @@ def build(region):
                            if vd['version_group']['name'] == 'heartgold-soulsilver'
                            and ((vd['move_learn_method']['name'] == 'tutor' and m['move']['name'] in TUTOR_MOVES)
                                 or (vd['move_learn_method']['name'] == 'machine' and m['move']['name'] in TUTOR_FROM_HM))})
+        # Egg moves (chapter 25): HeartGold / SoulSilver's, else Crystal's. Only the moves the game
+        # already has are kept (below): the move list does not grow for them.
+        for vg in ('heartgold-soulsilver', 'crystal'):
+            eggm[d] = sorted({m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
+                              if vd['version_group']['name'] == vg and vd['move_learn_method']['name'] == 'egg'})
+            if eggm[d]:
+                break
         move_names.update(n for _, n in learn[d])
         move_names.update(tm_moves[d])
         move_names.update(tutor[d])
@@ -439,6 +446,12 @@ def build(region):
         }
         if tutor[d]:
             rec['tu'] = tutor[d]
+        # Breeding (chapter 25): egg groups, egg cycles, egg moves.
+        rec['eg'] = [g['name'] for g in s['egg_groups']]
+        rec['hc'] = s['hatch_counter']
+        em = [n for n in eggm[d] if n in move_names]
+        if em:
+            rec['em'] = em
         if s.get('is_legendary') or s.get('is_mythical'):
             rec['leg'] = 1
         SPECIES[d] = rec

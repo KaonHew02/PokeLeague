@@ -44,5 +44,19 @@ G.I18n.add({
   "Day-Care Man": "Signore della Pensione",
   "Route 34. Ilex Forest to the south, Goldenrod City to the north.": "Percorso 34. A sud il Bosco di Lecci, a nord Fiordoropoli.",
   "Route 34. Goldenrod City is just ahead.": "Percorso 34. Fiordoropoli è proprio qui davanti.",
-  "The Day Care. Let us raise your Pokémon for you!": "La Pensione. Lasciateci allevare i vostri Pokémon!"
+  "The Day Care. Let us raise your Pokémon for you!": "La Pensione. Lasciateci allevare i vostri Pokémon!",
+  "The two of them seem to get along very well.": "Quei due sembrano andare molto d'accordo.",
+  "The two of them seem to get along.": "Quei due sembrano andare d'accordo.",
+  "The two of them do not seem to like each other very much.": "Quei due non sembrano piacersi molto.",
+  "The two of them would rather play with other Pokémon.": "Quei due preferiscono giocare con altri Pokémon.",
+  "Ah, a Trainer! Something odd happened: a few days ago we found an Egg in our yard, and nobody has come for it.": "Ah, un Allenatore! È successa una cosa strana: qualche giorno fa abbiamo trovato un Uovo nel cortile, e nessuno è venuto a prenderlo.",
+  "Oh, but you are carrying six Eggs already! Hatch a few first, then come back.": "Oh, ma hai già sei Uova con te! Fanne schiudere qualcuna prima, poi torna.",
+  "Would you look after it? Keep it with you as you travel, and it will hatch.": "Te ne occuperesti tu? Tienilo con te durante i tuoi viaggi e si schiuderà.",
+  "{player} received the Odd Egg!": "{player} ha ricevuto l'Uovo Strano!",
+  "If you leave two Pokémon that get along with my wife, they may leave an Egg of their own. Come and ask me now and then!": "Se lasci a mia moglie due Pokémon che vanno d'accordo, potrebbero lasciare un Uovo. Vieni a chiedermelo ogni tanto!",
+  "Ah, there you are! We were looking after your Pokémon, and, my goodness, we found an Egg! Your Pokémon must have left it.": "Ah, eccoti! Ci stavamo occupando dei tuoi Pokémon e, pensa un po', abbiamo trovato un Uovo! Devono averlo lasciato i tuoi Pokémon.",
+  "Do you want the Egg?": "Vuoi l'Uovo?",
+  "Then I will keep it for you for now.": "Allora te lo tengo da parte per ora.",
+  "{player} received the Egg!": "{player} ha ricevuto l'Uovo!",
+  "Keep it with you as you travel, and it will hatch.": "Tienilo con te durante i tuoi viaggi e si schiuderà."
 }, "it");

@@ -77,5 +77,10 @@ G.I18n.add({
   "An Apricorn tree! {player} put the {item} in the Apricorn Box.": "是球果樹！{player}把{item}放進了球果盒。",
   "A cracked rock. A Pokémon could smash it with the right move.": "是一塊有裂縫的岩石。用合適的招式，寶可夢就能把它敲碎。",
   "A cracked rock. Would you like to use Rock Smash?": "是一塊有裂縫的岩石。要使用碎岩嗎？",
-  "{mon} used Rock Smash!": "{mon}使用了碎岩！"
+  "{mon} used Rock Smash!": "{mon}使用了碎岩！",
+  "It looks as if it will take a long time to hatch.": "看樣子還要過很久才會孵化。",
+  "Something moves inside it now and then. It should hatch before long.": "裡面時不時會動一下。應該很快就會孵化了。",
+  "Sounds are coming from inside! It is about to hatch!": "裡面傳出了聲音！馬上就要孵化了！",
+  "Oh? The Egg is moving!": "咦？蛋在動！",
+  "There is no room in your party, so {mon} was sent to the PC.": "隊伍裡已經沒有位置了，{mon}被送到了電腦裡。"
 }, "zh-Hant");

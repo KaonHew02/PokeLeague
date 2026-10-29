@@ -33,5 +33,6 @@ G.I18n.add({
   "Ruins of Alph. Stone chambers built long ago, by no one knows whom. The Research Center is just to the east.": "阿露福遺跡。很久以前建造的石室，沒人知道是誰建的。研究所就在東邊。",
   "Books about the ruins, full of drawings of strange letters.": "關於遺跡的書，裡面畫滿了奇怪的文字。",
   "Rows of strange letters are carved into the wall, worn smooth by time.": "牆上刻著一排排奇怪的文字，已經被歲月磨得很平滑了。",
-  "Letters cover every wall of this chamber. They look a lot like the Pokémon that drift around in here.": "這間大廳的每面牆上都刻滿了文字。它們和在這裡飄來飄去的寶可夢長得很像。"
+  "Letters cover every wall of this chamber. They look a lot like the Pokémon that drift around in here.": "這間大廳的每面牆上都刻滿了文字。它們和在這裡飄來飄去的寶可夢長得很像。",
+  "Oh, and Professor Elm of New Bark Town called. He has news about Pokémon Eggs, and he would like to see you.": "對了，若葉鎮的空木博士打來電話。他說有關於寶可夢蛋的消息，想見見你。"
 }, "zh-Hant");

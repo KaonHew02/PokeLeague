@@ -54,6 +54,7 @@ G.Store = (() => {
       party: [], boxes: emptyBoxes(), box: 0, bag: {}, repel: 0,
       dex: { seen: {}, caught: {} }, flags: {}, vars: {}, done: {}, fame: [],
       daycare: [],                                        // the Day Care's Pokémon: [{ mon, lvl }] (daycare.js)
+      daycareEgg: false, eggs: [],                        // an Egg found at the Day Care; the Eggs you carry: [{ mon, steps }]
       contest: null                                       // a Bug-Catching Contest under way (contest.js)
     };
   }
@@ -167,6 +168,10 @@ G.Store = (() => {
     // The Day Care: at most two, each with the level it was left at.
     out.daycare = (Array.isArray(s.daycare) ? s.daycare : []).filter(obj).map(e => ({ mon: fixMon(e.mon), lvl: e.lvl }))
       .filter(e => e.mon).slice(0, 2).map(e => ({ mon: e.mon, lvl: int(e.lvl, 1, e.mon.lvl, e.mon.lvl) }));
+    // Breeding (chapter 25): an Egg waiting at the Day Care, and at most six Eggs carried.
+    out.daycareEgg = s.daycareEgg === true;
+    out.eggs = (Array.isArray(s.eggs) ? s.eggs : []).filter(obj).map(e => ({ mon: fixMon(e.mon), steps: int(e.steps, 0, 99999, 0) }))
+      .filter(e => e.mon).slice(0, 6);
     // A Bug-Catching Contest saved halfway: the entrant, the balls and steps left, the catch kept.
     const c = s.contest;
     out.contest = obj(c) && typeof c.uid === 'string'

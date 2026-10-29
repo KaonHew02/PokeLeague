@@ -3,6 +3,8 @@
  * Day Care. The Day-Care Lady raises up to two of your Pokémon while you walk (G.DayCare,
  * daycare.js: 1 Exp. point a step, ₽100 + ₽100 a level to take one back); her husband waits
  * outside by the yard and tells you how they are doing.
+ * Chapter 25 (flag ruins-done): he gives the Odd Egg (flag odd-egg), keeps the Eggs two Pokémon left
+ * there leave until you take them, and says how well the two get along (breeding: daycare.js).
  */
 G.Maps.def({
   id: 'route34', loc: 'johto-route-34', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
@@ -163,10 +165,48 @@ G.Maps.def({
     else await h.say(T('Come again!'), LADY);
   }
 
+  /** How well the two Pokémon left at the Day Care get along (G.DayCare.compat). */
+  const COMPAT = {
+    70: () => T('The two of them seem to get along very well.'),
+    50: () => T('The two of them seem to get along.'),
+    20: () => T('The two of them do not seem to like each other very much.'),
+    0: () => T('The two of them would rather play with other Pokémon.')
+  };
+
+  /** Chapter 25 (once the Ruins of Alph are done): the Odd Egg, then the Eggs your Pokémon leave. -> he said it all */
+  async function eggs(h) {
+    const D = G.DayCare, F = G.Field;
+    if (!F.flag('odd-egg')) {
+      await h.say(T('Ah, a Trainer! Something odd happened: a few days ago we found an Egg in our yard, and nobody has come for it.'), MAN);
+      if (D.eggs().length >= D.MAX_EGGS) { await h.say(T('Oh, but you are carrying six Eggs already! Hatch a few first, then come back.'), MAN); return true; }
+      await h.say(T('Would you look after it? Keep it with you as you travel, and it will hatch.'), MAN);
+      D.eggs().push(D.odd());
+      F.setFlag('odd-egg');
+      const j = h.jingle('item');
+      await h.say(T('{player} received the Odd Egg!'));
+      await j;
+      await h.say(T('If you leave two Pokémon that get along with my wife, they may leave an Egg of their own. Come and ask me now and then!'), MAN);
+      return true;
+    }
+    if (!D.waiting()) return false;
+    await h.say(T('Ah, there you are! We were looking after your Pokémon, and, my goodness, we found an Egg! Your Pokémon must have left it.'), MAN);
+    if (await h.choice(T('Do you want the Egg?'), {}) !== 0) { await h.say(T('Then I will keep it for you for now.'), MAN); return true; }
+    const r = D.collect();
+    if (r === 'full') { await h.say(T('Oh, but you are carrying six Eggs already! Hatch a few first, then come back.'), MAN); return true; }
+    if (!r) return false;
+    const j = h.jingle('item');
+    await h.say(T('{player} received the Egg!'));
+    await j;
+    await h.say(T('Keep it with you as you travel, and it will hatch.'), MAN);
+    return true;
+  }
+
   async function man(h) {
-    const list = G.DayCare.list();
+    const D = G.DayCare, list = D.list();
+    if (D.breeding && D.breeding() && await eggs(h)) return;
     if (!list.length) { await h.say(T('My wife and I raise Pokémon in our yard. Talk to her inside if you want us to look after one.'), MAN); return; }
     for (const e of list) await h.say(T('Your {mon} is doing fine. It has been running all over the yard.'), Object.assign({ vars: { mon: G.Mon.name(e.mon) } }, MAN));
+    if (D.breeding && D.breeding() && list.length === 2) await h.say(COMPAT[D.compat(list[0].mon, list[1].mon)](), MAN);
   }
 
   G.Script.def({

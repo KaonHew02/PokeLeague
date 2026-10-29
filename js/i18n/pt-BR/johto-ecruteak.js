@@ -83,5 +83,13 @@ G.I18n.add({
   "The Burned Tower. It burned down in a great fire long ago. Keep out: it is not safe.": "Burned Tower. Pegou fogo num grande incêndio há muito tempo. Não entre: é perigoso.",
   "Ecruteak City Pokémon Gym. Leader: Morty, the mystic who sees what is yet to come.": "Ginásio Pokémon de Ecruteak City. Líder: Morty, o místico que vê o que ainda está por vir.",
   "The Bell Tower. Only those the tower accepts may climb it.": "Bell Tower. Só podem subir aqueles que a torre aceita.",
-  "The Dance Theater. The Kimono Girls dance every day.": "Teatro de Dança. As Garotas de Quimono dançam todos os dias."
+  "The Dance Theater. The Kimono Girls dance every day.": "Teatro de Dança. As Garotas de Quimono dançam todos os dias.",
+  "So the Champion of Johto has come. Listen: at night the Bell Tower's bell rings by itself, with no one there to ring it.": "Então o Campeão de Johto veio. Escute: à noite o sino da Bell Tower toca sozinho, sem ninguém para tocá-lo.",
+  "The Sages say the rainbow Pokémon is calling for a Trainer. I think that Trainer is you. Take this: the Clear Bell.": "Os Sábios dizem que o Pokémon arco-íris está chamando um Treinador. Acho que esse Treinador é você. Tome: o Clear Bell.",
+  "Show it to the Sage at the Bell Tower. Its ring will open the way.": "Mostre ao Sábio da Bell Tower. O som dele vai abrir o caminho.",
+  "Raikou is back! Thunder crackles all around it.": "Raikou voltou! Raios estalam ao redor dele.",
+  "Raikou is still standing there, watching you.": "Raikou continua ali, observando você.",
+  "Entei is back! The air shimmers with heat around it.": "Entei voltou! O ar tremula de calor ao redor dele.",
+  "Entei is still standing there, watching you.": "Entei continua ali, observando você.",
+  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "O Clear Bell! O som dele é a boas-vindas da torre. Entre: a torre estava esperando por você."
 }, "pt-BR");

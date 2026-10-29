@@ -124,6 +124,7 @@ G.ITEM_FX = {
   'secret-potion': { key: 1 },
   'red-scale':     { key: 1 },
   'basement-key':  { key: 1 },
+  'clear-bell':    { key: 1 },
   'town-map':      { key: 1, field: 1 },
   'bicycle':       { key: 1, field: 1 },
   'old-rod':       { key: 1, field: 1, rod: 1 },

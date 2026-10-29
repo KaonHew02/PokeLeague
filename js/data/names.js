@@ -752,6 +752,7 @@ G.NAMES = {
     "squirt-bottle": ["Squirt Bottle","Regadera","Carapuce à O","Annaffiatoio","杰尼龟喷壶","傑尼龜噴壺"],
     "red-scale": ["Red Scale","Escama Roja","Écaille Rouge","Squama Rossa","红色鳞片","紅色鱗片"],
     "basement-key": ["Basement Key","Llave Sótano","Clé Sous-Sol","Chiave sotterr.","地下钥匙","地下鑰匙"],
+    "clear-bell": ["Clear Bell","Cascabel Claro","Glas Transparent","Campana Chiara","透明铃铛","透明鈴鐺"],
     "secret-potion": ["Secret Potion","Poción Secreta","Potion Secrète","Pozione Segreta","秘传之药","秘傳之藥"],
     "oran-berry": ["Oran Berry","Baya Aranja","Baie Oran","Baccarancia","橙橙果","橙橙果"],
     "sitrus-berry": ["Sitrus Berry","Baya Zidra","Baie Sitrus","Baccacedro","文柚果","文柚果"],

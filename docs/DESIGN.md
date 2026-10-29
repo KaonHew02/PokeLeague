@@ -1229,10 +1229,22 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Karen ~90%, Lance 60-80% (a team with Ice moves does best); the rematches ten levels up against
   a team ten levels up: Karen ~90%, Lance ~50%.
 
-### After chapter 20
+- **Chapter 21** ✅, Johto after the League, the Bell Tower: the elder in Ecruteak gives Johto's
+  Champion the Clear Bell (key item, flag `clear-bell`), and the Sage lets you into the Bell Tower
+  (`bell-tower-1f`). Eusine is waiting there, and so is Suicune (flag `bell-scene`; a wild battle,
+  Lv. 40). Caught or beaten it is gone (`suicune-met`; running or losing keeps it there, as with
+  Kanto's legends), and Raikou and Entei come back to the Burned Tower's basement (flag
+  `beasts-return`; each a wild battle, Lv. 40, `raikou-met`, `entei-met`). With all three met
+  (`beasts-answered`) the stairs open: 2F, 3F (two ways up: one to a closed corner of 4F with a PP
+  Max, one on), 4F, four Sages (Lv. 45-48), then the top (`bell-tower-roof`): the bell rings and
+  Ho-Oh comes down (Lv. 45, `ho-oh-met`), `ending(21)`. No roaming engine: the three beasts wait in
+  fixed places. Files: `js/content/johto/belltower.js` (translations `johto-belltower`);
+  `ecruteak.js` (the elder, the Sage, the Burned Tower's basement).
 
-1. **Johto's post-game:** the roaming beasts (Raikou, Entei, Suicune), Dark Cave, the Whirl
-   Islands and Lugia, the Bell Tower and Ho-Oh, the Ruins of Alph, Kurt's Apricorn Balls, breeding
-   at the Day Care (Eggs) and held items (berries held in battle), Mt. Silver.
+### After chapter 21
+
+1. **More of Johto's post-game:** the Whirl Islands and Lugia (Whirlpool), Dark Cave, the Ruins of
+   Alph, Kurt's Apricorn Balls, breeding at the Day Care (Eggs) and held items (berries held in
+   battle), Mt. Silver.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

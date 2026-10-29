@@ -1913,6 +1913,37 @@ async function chapter20(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 21 after chapter 20: the Clear Bell, Suicune, Raikou and Entei, the Bell Tower and Ho-Oh. */
+async function chapter21(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // Johto's Champion gets the Clear Bell from the elder: the Bell Tower opens.
+  await run(st, 'elder-house', npc(st, 'elder-house', 'elder'));
+  assert.ok(F.flag('clear-bell') && F.count('clear-bell') === 1, 'the Clear Bell');
+  assert.ok(F.test(G.Maps.get('ecruteak').def.warps.find(w => w.to === 'bell-tower-1f').if), 'the Bell Tower is open');
+  const stairs = G.Maps.get('bell-tower-1f').def.warps.find(w => w.to === 'bell-tower-2f');
+  // 1F: Eusine and Suicune; then Raikou and Entei back in the Burned Tower.
+  F.healAll();
+  await run(st, 'bell-tower-1f', 'bell.scene');
+  assert.ok(F.flag('suicune-met') && F.flag('beasts-return'), 'Suicune');
+  assert.ok(!F.test(stairs.if), 'the stairs wait for all three');
+  for (const id of ['raikou2', 'entei2']) {
+    F.healAll();
+    await run(st, 'burned-tower-b1f', npc(st, 'burned-tower-b1f', id));
+  }
+  assert.ok(F.flag('raikou-met') && F.flag('entei-met') && F.flag('beasts-answered') && F.test(stairs.if), 'all three answered');
+  // Up the tower: four Sages; Ho-Oh at the top.
+  for (const m of ['bell-tower-2f', 'bell-tower-3f', 'bell-tower-4f']) { await all(m); won(); }
+  F.healAll();
+  await run(st, 'bell-tower-roof', 'bell.ho-oh');
+  assert.ok(F.flag('ho-oh-met') && F.flag('chapter-21-done'), 'Ho-Oh');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1994,7 +2025,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 20: Johto, from Professor Elm to Clair, Victory Road and Johto's League", async () => {
+test("chapters 11 to 21: Johto, from Professor Elm to Johto's League and the Bell Tower", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2016,4 +2047,5 @@ test("chapters 11 to 20: Johto, from Professor Elm to Clair, Victory Road and Jo
   await chapter18(st);
   await chapter19(st);
   await chapter20(st);
+  await chapter21(st);
 });

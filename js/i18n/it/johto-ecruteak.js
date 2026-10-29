@@ -83,5 +83,13 @@ G.I18n.add({
   "The Burned Tower. It burned down in a great fire long ago. Keep out: it is not safe.": "Torre Bruciata. Bruciò in un grande incendio tanto tempo fa. Vietato entrare: è pericoloso.",
   "Ecruteak City Pokémon Gym. Leader: Morty, the mystic who sees what is yet to come.": "Palestra Pokémon di Amarantopoli. Capopalestra: Angelo, il mistico che vede ciò che deve ancora accadere.",
   "The Bell Tower. Only those the tower accepts may climb it.": "Torre Campana. Possono salirvi solo coloro che la torre accetta.",
-  "The Dance Theater. The Kimono Girls dance every day.": "Teatro di Danza. Le Ragazze Kimono ballano ogni giorno."
+  "The Dance Theater. The Kimono Girls dance every day.": "Teatro di Danza. Le Ragazze Kimono ballano ogni giorno.",
+  "So the Champion of Johto has come. Listen: at night the Bell Tower's bell rings by itself, with no one there to ring it.": "Dunque è arrivato il Campione di Johto. Ascolta: di notte la campana della Torre Campana suona da sola, senza nessuno a suonarla.",
+  "The Sages say the rainbow Pokémon is calling for a Trainer. I think that Trainer is you. Take this: the Clear Bell.": "I Saggi dicono che il Pokémon arcobaleno sta chiamando un Allenatore. Credo che quell'Allenatore sia tu. Prendi: la Campana Chiara.",
+  "Show it to the Sage at the Bell Tower. Its ring will open the way.": "Mostrala al Saggio della Torre Campana. Il suo suono ti aprirà la strada.",
+  "Raikou is back! Thunder crackles all around it.": "Raikou è tornato! Fulmini crepitano tutto intorno a lui.",
+  "Raikou is still standing there, watching you.": "Raikou è ancora lì, e ti osserva.",
+  "Entei is back! The air shimmers with heat around it.": "Entei è tornato! L'aria intorno a lui tremola per il calore.",
+  "Entei is still standing there, watching you.": "Entei è ancora lì, e ti osserva.",
+  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "La Campana Chiara! Il suo suono è il benvenuto della torre. Entra pure: la torre ti stava aspettando."
 }, "it");

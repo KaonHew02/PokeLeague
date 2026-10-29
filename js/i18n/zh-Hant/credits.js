@@ -59,5 +59,8 @@ G.I18n.add({
   "Thank you for playing! The Johto League opens in a future update.": "感謝遊玩！城都聯盟將在之後的更新中開放。",
   "Chapter 20 complete!": "第20章完成！",
   "{player} beat Johto's Elite Four and Lance, and entered the Hall of Fame as Johto's Champion.": "{player}打敗了城都的四天王和阿渡，作為城都的冠軍登上了殿堂。",
-  "Thank you for playing! Your Johto journey is complete. More adventures open in a future update.": "感謝遊玩！你的城都之旅圓滿結束。更多冒險將在之後的更新中開放。"
+  "Thank you for playing! Your Johto journey is complete. More adventures open in a future update.": "感謝遊玩！你的城都之旅圓滿結束。更多冒險將在之後的更新中開放。",
+  "Chapter 21 complete!": "第21章完成！",
+  "{player} rang the Clear Bell, met Suicune, Raikou and Entei, and climbed the Bell Tower to meet Ho-Oh.": "{player}搖響了透明鈴鐺，遇見了水君、雷公和炎帝，登上鈴鐺塔見到了鳳王。",
+  "Thank you for playing! More of Johto's legends wait in a future update.": "感謝遊玩！更多城都的傳說將在之後的更新中等著你。"
 }, "zh-Hant");

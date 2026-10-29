@@ -59,5 +59,8 @@ G.I18n.add({
   "Thank you for playing! The Johto League opens in a future update.": "Obrigado por jogar! A Liga de Johto será aberta em uma próxima atualização.",
   "Chapter 20 complete!": "Capítulo 20 concluído!",
   "{player} beat Johto's Elite Four and Lance, and entered the Hall of Fame as Johto's Champion.": "{player} venceu a Elite dos Quatro de Johto e Lance, e entrou no Hall da Fama como Campeão de Johto.",
-  "Thank you for playing! Your Johto journey is complete. More adventures open in a future update.": "Obrigado por jogar! Sua jornada por Johto está completa. Mais aventuras virão em uma próxima atualização."
+  "Thank you for playing! Your Johto journey is complete. More adventures open in a future update.": "Obrigado por jogar! Sua jornada por Johto está completa. Mais aventuras virão em uma próxima atualização.",
+  "Chapter 21 complete!": "Capítulo 21 concluído!",
+  "{player} rang the Clear Bell, met Suicune, Raikou and Entei, and climbed the Bell Tower to meet Ho-Oh.": "{player} tocou o Clear Bell, encontrou Suicune, Raikou e Entei, e subiu a Bell Tower para encontrar Ho-Oh.",
+  "Thank you for playing! More of Johto's legends wait in a future update.": "Obrigado por jogar! Mais lendas de Johto esperam por você em uma próxima atualização."
 }, "pt-BR");

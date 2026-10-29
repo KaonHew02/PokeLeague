@@ -83,5 +83,13 @@ G.I18n.add({
   "The Burned Tower. It burned down in a great fire long ago. Keep out: it is not safe.": "燒焦塔。很久以前在一場大火中燒毀了。危險，請勿進入。",
   "Ecruteak City Pokémon Gym. Leader: Morty, the mystic who sees what is yet to come.": "圓朱市寶可夢道館。館主：松葉，能看見未來的神祕之人。",
   "The Bell Tower. Only those the tower accepts may climb it.": "鈴鐺塔。只有被塔認可的人才能登上。",
-  "The Dance Theater. The Kimono Girls dance every day.": "歌舞練場。舞子們每天都在這裡跳舞。"
+  "The Dance Theater. The Kimono Girls dance every day.": "歌舞練場。舞子們每天都在這裡跳舞。",
+  "So the Champion of Johto has come. Listen: at night the Bell Tower's bell rings by itself, with no one there to ring it.": "城都的冠軍來了啊。聽我說：到了夜裡，鈴鐺塔的鐘會自己響起來，明明沒有人去敲。",
+  "The Sages say the rainbow Pokémon is calling for a Trainer. I think that Trainer is you. Take this: the Clear Bell.": "賢者們說，彩虹色的寶可夢正在呼喚一位訓練家。我想那就是你。收下這個吧：透明鈴鐺。",
+  "Show it to the Sage at the Bell Tower. Its ring will open the way.": "拿給鈴鐺塔的賢者看吧。它的鈴聲會為你開路。",
+  "Raikou is back! Thunder crackles all around it.": "雷公回來了！牠的周圍雷光劈啪作響。",
+  "Raikou is still standing there, watching you.": "雷公還站在那裡，注視著你。",
+  "Entei is back! The air shimmers with heat around it.": "炎帝回來了！牠周圍的空氣因高溫而扭曲。",
+  "Entei is still standing there, watching you.": "炎帝還站在那裡，注視著你。",
+  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "是透明鈴鐺！它的鈴聲就是塔對你的歡迎。進去吧：塔一直在等你。"
 }, "zh-Hant");

@@ -83,5 +83,13 @@ G.I18n.add({
   "The Burned Tower. It burned down in a great fire long ago. Keep out: it is not safe.": "Tour Cendrée. Elle a brûlé dans un grand incendie il y a longtemps. Entrée interdite : danger.",
   "Ecruteak City Pokémon Gym. Leader: Morty, the mystic who sees what is yet to come.": "Arène Pokémon de Rosalia. Champion : Mortimer, le mystique qui voit l'avenir.",
   "The Bell Tower. Only those the tower accepts may climb it.": "Tour Carillon. Seuls ceux que la tour accepte peuvent y monter.",
-  "The Dance Theater. The Kimono Girls dance every day.": "Théâtre de Danse. Les Kimono Girls dansent tous les jours."
+  "The Dance Theater. The Kimono Girls dance every day.": "Théâtre de Danse. Les Kimono Girls dansent tous les jours.",
+  "So the Champion of Johto has come. Listen: at night the Bell Tower's bell rings by itself, with no one there to ring it.": "Le Maître de Johto est donc venu. Écoute : la nuit, la cloche de la Tour Carillon sonne toute seule, sans personne pour la faire sonner.",
+  "The Sages say the rainbow Pokémon is calling for a Trainer. I think that Trainer is you. Take this: the Clear Bell.": "Les Sages disent que le Pokémon arc-en-ciel appelle un Dresseur. Je crois que ce Dresseur, c'est toi. Prends ceci : le Glas Transparent.",
+  "Show it to the Sage at the Bell Tower. Its ring will open the way.": "Montre-le au Sage de la Tour Carillon. Son tintement t'ouvrira la voie.",
+  "Raikou is back! Thunder crackles all around it.": "Raikou est revenu ! La foudre crépite tout autour de lui.",
+  "Raikou is still standing there, watching you.": "Raikou est toujours là, à t'observer.",
+  "Entei is back! The air shimmers with heat around it.": "Entei est revenu ! L'air ondule de chaleur autour de lui.",
+  "Entei is still standing there, watching you.": "Entei est toujours là, à t'observer.",
+  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "Le Glas Transparent ! Son tintement est l'accueil de la tour. Entre : la tour t'attendait."
 }, "fr");

@@ -10,6 +10,9 @@
  * step off it and you are back at the door, `fall`), two Sages, two Mediums, then Morty
  * (Gastly, Haunter, Haunter, Gengar): badge 12, the Fog Badge (Pokémon up to Lv. 40 obey),
  * TM30 Shadow Ball (flag morty-beaten), and the chapter ends (`ending(14)`).
+ * Chapter 21: Johto's Champion gets the Clear Bell from the elder (flag clear-bell), and the Sage
+ * lets you into the Bell Tower (johto/belltower.js). Once Suicune has been met there, Raikou and
+ * Entei come back to the Burned Tower's basement (flag beasts-return), each a wild battle, Lv. 40.
  */
 G.Maps.def({
   id: 'ecruteak', loc: 'ecruteak-city', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -52,7 +55,7 @@ G.Maps.def({
   warps: [
     { x: 7, y: 8, to: 'burned-tower-1f', spot: 'door' },
     { x: 26, y: 7, to: 'ecruteak-gym', spot: 'door', if: 'beasts-awake', locked: 'ecruteak.gym-closed' },
-    { x: 34, y: 6, to: 'ecruteak', spot: 'bell-door', if: 'clear-bell', locked: 'ecruteak.bell-closed' },
+    { x: 34, y: 6, to: 'bell-tower-1f', spot: 'door', if: 'clear-bell', locked: 'ecruteak.bell-closed' },
     { x: 15, y: 15, to: 'ecruteak-center', spot: 'door' },
     { x: 25, y: 15, to: 'ecruteak-mart', spot: 'door' },
     { x: 7, y: 25, to: 'dance-theater', spot: 'door' },
@@ -71,8 +74,10 @@ G.Maps.def({
     '11,25': 'The Dance Theater. The Kimono Girls dance every day.'
   },
   npcs: [
-    { id: 'sage', who: 'sage', x: 33, y: 8, dir: 'down',
+    { id: 'sage', who: 'sage', x: 33, y: 8, dir: 'down', if: '!clear-bell',
       say: 'Long ago, a rainbow-coloured Pokémon perched on top of the Bell Tower. We still wait for it to come back.' },
+    { id: 'sage2', who: 'sage', x: 33, y: 8, dir: 'down', if: 'clear-bell',
+      say: 'The Clear Bell! Its ring is the tower\'s welcome. Go in: the tower has been waiting for you.' },
     { id: 'kid', who: 'youngster', x: 18, y: 20, move: 'wander', r: 2,
       say: 'The Burned Tower was struck by lightning, and it burned for three days! My grandpa told me.' },
     { id: 'kimono', who: 'kimono', x: 10, y: 27, move: 'look',
@@ -218,6 +223,9 @@ G.Maps.def({
     { id: 'raikou', who: 'raikou', mon: 'raikou', x: 6, y: 5, dir: 'down', fixed: true, if: '!beasts-awake', say: 'A Pokémon is sleeping here.' },
     { id: 'entei', who: 'entei', mon: 'entei', x: 9, y: 4, dir: 'down', fixed: true, if: '!beasts-awake', say: 'A Pokémon is sleeping here.' },
     { id: 'suicune', who: 'suicune', mon: 'suicune', x: 12, y: 5, dir: 'down', fixed: true, if: '!beasts-awake', say: 'A Pokémon is sleeping here.' },
+    // Chapter 21: called back by the Bell Tower's ring.
+    { id: 'raikou2', who: 'raikou', mon: 'raikou', x: 6, y: 5, dir: 'down', fixed: true, if: ['beasts-return', '!raikou-met'], script: 'burned.raikou' },
+    { id: 'entei2', who: 'entei', mon: 'entei', x: 11, y: 4, dir: 'down', fixed: true, if: ['beasts-return', '!entei-met'], script: 'burned.entei' },
     { id: 'eusine', who: 'eusine', x: 9, y: 7, dir: 'down', if: 'beasts-awake', script: 'burned.eusine' }
   ],
   triggers: [{ x: 4, y: 6, w: 10, h: 3, if: '!beasts-awake', script: 'burned.beasts' }],
@@ -324,6 +332,18 @@ G.Maps.def({
   }
 
   async function elder(h) {
+    const F = G.Field;
+    if (F.flag('johto-champion') && !F.flag('clear-bell')) {
+      await h.say(T('So the Champion of Johto has come. Listen: at night the Bell Tower\'s bell rings by itself, with no one there to ring it.'));
+      await h.say(T('The Sages say the rainbow Pokémon is calling for a Trainer. I think that Trainer is you. Take this: the Clear Bell.'));
+      F.giveItem('clear-bell', 1);
+      F.setFlag('clear-bell');
+      const j = h.jingle('item');
+      await h.say(T('{player} received {item}!'), { vars: { item: G.Names.item('clear-bell') } });
+      await j;
+      await h.say(T('Show it to the Sage at the Bell Tower. Its ring will open the way.'));
+      return;
+    }
     await h.say(T('Long ago, Ecruteak had two towers. In the east, the Bell Tower; in the west, the Brass Tower.'));
     await h.say(T('One night, lightning struck the Brass Tower. It burned for three days, until rain from the sky put the fire out.'));
     await h.say(T('Three Pokémon died in the fire. But a great rainbow Pokémon came down from the sky and brought them back to life.'));
@@ -346,6 +366,20 @@ G.Maps.def({
   G.Script.def({
     'burned.rival': [['js', rival]],
     'burned.beasts': [['js', beasts]],
+    'burned.raikou': [
+      ['say', 'Raikou is back! Thunder crackles all around it.'],
+      ['sfx', 'cry'],
+      ['wild', 'raikou', 40],
+      ['if', ['battle!=run', 'battle!=lose'], [['setFlag', 'raikou-met'], ['hide', 'raikou2'], ['call', 'bell.answered']],
+        [['if', 'battle=run', [['say', 'Raikou is still standing there, watching you.']]]]]
+    ],
+    'burned.entei': [
+      ['say', 'Entei is back! The air shimmers with heat around it.'],
+      ['sfx', 'cry'],
+      ['wild', 'entei', 40],
+      ['if', ['battle!=run', 'battle!=lose'], [['setFlag', 'entei-met'], ['hide', 'entei2'], ['call', 'bell.answered']],
+        [['if', 'battle=run', [['say', 'Entei is still standing there, watching you.']]]]]
+    ],
     'burned.eusine': [
       ['say', 'Suicune runs like the north wind and purifies dirty water. I have to see it again!', { name: 'Eusine' }],
       ['say', 'If you meet it before me, tell me everything!', { name: 'Eusine' }]

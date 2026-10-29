@@ -53,5 +53,8 @@ G.I18n.add({
   "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player}从火箭队手中夺回了广播塔，火箭队再一次解散了。",
   "Chapter 18 complete!": "第18章完成！",
   "{player} crossed the Ice Path, passed the dragon clan's test and won the Rising Badge from Clair: all eight Johto badges.": "{player}穿过了冰之洞，通过了龙之一族的考验，从小椿手中赢得了升龙徽章：城都的八枚徽章全部到手。",
-  "Thank you for playing! The road to the Pokémon League opens in a future update.": "感谢游玩！通往宝可梦联盟的道路将在之后的更新中开放。"
+  "Thank you for playing! The road to the Pokémon League opens in a future update.": "感谢游玩！通往宝可梦联盟的道路将在之后的更新中开放。",
+  "Chapter 19 complete!": "第19章完成！",
+  "{player} climbed the falls, crossed Victory Road and beat the thief one last time: the Indigo Plateau, with all eight Johto badges.": "{player}爬上了瀑布，穿过了冠军之路，最后一次打败了那个小偷：带着城都的八枚徽章来到了石英高原。",
+  "Thank you for playing! The Johto League opens in a future update.": "感谢游玩！城都联盟将在之后的更新中开放。"
 }, "zh-Hans");

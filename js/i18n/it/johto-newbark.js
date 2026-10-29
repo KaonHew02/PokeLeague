@@ -44,5 +44,12 @@ G.I18n.add({
   "Route 27. West: New Bark Town, the first town of Johto.": "Percorso 27. Ovest: Borgo Foglianova, il primo paese di Johto.",
   "New Bark Town. A fresh wind for every new start.": "Borgo Foglianova. Un vento fresco per ogni nuovo inizio.",
   "Research notes: \"Some Pokémon evolve when they come to trust their Trainer...\"": "Appunti di ricerca: \"Alcuni Pokémon si evolvono quando arrivano a fidarsi del loro Allenatore...\"",
-  "Route 29. West: Cherrygrove City. East: New Bark Town.": "Percorso 29. Ovest: Fiorpescopoli. Est: Borgo Foglianova."
+  "Route 29. West: Cherrygrove City. East: New Bark Town.": "Percorso 29. Ovest: Fiorpescopoli. Est: Borgo Foglianova.",
+  "{player}! All eight of Johto's badges! I knew you could do it!": "{player}! Tutte e otto le medaglie di Johto! Sapevo che ce l'avresti fatta!",
+  "This is for you. It is the Master Ball, the finest Poké Ball there is: it catches any wild Pokémon without fail.": "Questa è per te. È la Master Ball, la migliore Poké Ball che esista: cattura qualsiasi Pokémon selvatico senza fallire.",
+  "Oh, and the officer called. The boy who stole my Pokémon was seen heading for Victory Road. He seems to have changed...": "Ah, e ha chiamato l'agente. Il ragazzo che ha rubato il mio Pokémon è stato visto andare verso la Via Vittoria. Sembra cambiato...",
+  "The Pokémon League is beyond Victory Road: east across Route 27, then north on Route 26. Good luck, {player}!": "La Lega Pokémon è oltre la Via Vittoria: a est lungo il Percorso 27, poi a nord sul Percorso 26. Buona fortuna, {player}!",
+  "Victory Road leads to the Pokémon League. Trainers from Johto may only go on once they hold all eight of Johto's badges.": "La Via Vittoria porta alla Lega Pokémon. Gli Allenatori di Johto possono proseguire solo con tutte e otto le medaglie di Johto.",
+  "All eight Johto badges! Victory Road is open to you. The Pokémon League waits at the other end.": "Tutte e otto le medaglie di Johto! La Via Vittoria è aperta per te. La Lega Pokémon ti aspetta dall'altra parte.",
+  "A great waterfall pours down from the cliffs. With Waterfall and the Rising Badge, a Pokémon could climb it.": "Una grande cascata scende dalle scogliere. Con Cascata e la Medaglia Levante, un Pokémon potrebbe risalirla."
 }, "it");

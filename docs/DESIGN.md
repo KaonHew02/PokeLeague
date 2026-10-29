@@ -1190,11 +1190,33 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   an Ice move or two: Typhlosion, Jynx, Ampharos and Pidgeot ~80%, Feraligatr and two ~60%,
   Meganium, Piloswine and two ~50%.
 
-### After chapter 18
+- **Chapter 19** ✅, Johto part 9: Blackthorn's road south is Route 45 (six Trainers, berry
+  trees) down the mountains over three ledges, then Route 46 (two Trainers above its lower ledge)
+  over two more to a new opening in Route 29: one way only, so a player starting Johto cannot walk
+  north. With eight Johto badges Elm gives the Master Ball and news of the thief (flag
+  `got-master-ball`). Route 27's strait is now falls: the west bank meets a pool below them, the
+  east bank (high ground) a pool above; Surf rides down them, Waterfall climbs them. Route 26 no
+  longer runs straight to the Plateau: at its top is the mouth of Johto's Victory Road
+  (`johto-victory-1f`, `2f`; the games' wild tables `kanto-victory-road-1-*`), which a guard keeps
+  closed to Johto's Trainers until `clair-beaten` (a locked warp; the way down from the Plateau is
+  always open, so a Champion from Kanto now reaches Johto through it, chapter 11). Near the top the
+  thief battles one last time (Sneasel 39, Golbat 41, Magneton 40, Haunter 40, Kadabra 40, his
+  starter's last stage 43; flag `vr-rival`, losing allowed) and begins to understand; stepping out
+  onto the Plateau (Victory Road's mouth east of Kanto's) ends the chapter (flag `johto-plateau`,
+  `ending(19)`). Files: `js/content/johto/route45.js`, `victoryroad.js` (translations
+  `johto-route45`, `johto-victoryroad`); `newbark.js`, `blackthorn.js`, `kanto/league.js`.
+- **Engine for chapter 19:** waterfalls (outdoor tile `|`, kind `waterfall`, solid to walkers,
+  drawn as water with moving white streaks): a surfer who moves down into one is carried to the
+  bottom; facing up at one, Waterfall (a Pokémon that knows it, with the Rising Badge) climbs it
+  (field.js `climbing`, `waterfallAt`). `tests/field.test.cjs` plays a test fall and Route 27's.
+  The map generator checks that Routes 45 and 46 cannot be climbed and that Victory Road is open
+  both ways.
 
-1. **Johto, the rest:** Routes 45 and 46 and Dark Cave's east half, back to New Bark Town (Elm),
-   Route 27 and Tohjo Falls, Route 26, Victory Road, the Elite Four and the Champion; the roaming
-   beasts, the Whirl Islands and Lugia, the Ruins of Alph, Kurt's Apricorn Balls, breeding at the
-   Day Care (Eggs) and held items (berries held in battle) along the way.
+### After chapter 19
+
+1. **The Johto League:** the Elite Four of Johto (Will, Koga, Bruno, Karen) and the Champion,
+   Lance, at the Indigo Plateau; then the roaming beasts, Dark Cave, the Whirl Islands and Lugia,
+   the Ruins of Alph, Kurt's Apricorn Balls, breeding at the Day Care (Eggs) and held items
+   (berries held in battle).
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

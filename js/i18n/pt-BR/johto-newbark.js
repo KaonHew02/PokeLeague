@@ -44,5 +44,12 @@ G.I18n.add({
   "Route 27. West: New Bark Town, the first town of Johto.": "Rota 27. Oeste: New Bark Town, a primeira cidade de Johto.",
   "New Bark Town. A fresh wind for every new start.": "New Bark Town. Um vento fresco para cada novo começo.",
   "Research notes: \"Some Pokémon evolve when they come to trust their Trainer...\"": "Notas de pesquisa: \"Alguns Pokémon evoluem quando passam a confiar no seu Treinador...\"",
-  "Route 29. West: Cherrygrove City. East: New Bark Town.": "Rota 29. Oeste: Cherrygrove City. Leste: New Bark Town."
+  "Route 29. West: Cherrygrove City. East: New Bark Town.": "Rota 29. Oeste: Cherrygrove City. Leste: New Bark Town.",
+  "{player}! All eight of Johto's badges! I knew you could do it!": "{player}! As oito insígnias de Johto! Eu sabia que você conseguiria!",
+  "This is for you. It is the Master Ball, the finest Poké Ball there is: it catches any wild Pokémon without fail.": "Isto é para você. É a Master Ball, a melhor Poké Ball que existe: ela captura qualquer Pokémon selvagem sem falhar.",
+  "Oh, and the officer called. The boy who stole my Pokémon was seen heading for Victory Road. He seems to have changed...": "Ah, e o policial ligou. O garoto que roubou meu Pokémon foi visto indo para a Victory Road. Parece que ele mudou...",
+  "The Pokémon League is beyond Victory Road: east across Route 27, then north on Route 26. Good luck, {player}!": "A Liga Pokémon fica depois da Victory Road: para o leste pela Rota 27, depois para o norte pela Rota 26. Boa sorte, {player}!",
+  "Victory Road leads to the Pokémon League. Trainers from Johto may only go on once they hold all eight of Johto's badges.": "A Victory Road leva à Liga Pokémon. Treinadores de Johto só podem seguir quando tiverem as oito insígnias de Johto.",
+  "All eight Johto badges! Victory Road is open to you. The Pokémon League waits at the other end.": "As oito insígnias de Johto! A Victory Road está aberta para você. A Liga Pokémon espera do outro lado.",
+  "A great waterfall pours down from the cliffs. With Waterfall and the Rising Badge, a Pokémon could climb it.": "Uma grande cachoeira despenca dos penhascos. Com Waterfall e a Insígnia Ascendente, um Pokémon conseguiria subi-la."
 }, "pt-BR");

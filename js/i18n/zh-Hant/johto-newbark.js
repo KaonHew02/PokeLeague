@@ -44,5 +44,12 @@ G.I18n.add({
   "Route 27. West: New Bark Town, the first town of Johto.": "27號道路。西：若葉鎮，城都的第一個城鎮。",
   "New Bark Town. A fresh wind for every new start.": "若葉鎮。為每一個新的開始吹來清新的風。",
   "Research notes: \"Some Pokémon evolve when they come to trust their Trainer...\"": "研究筆記：「有些寶可夢在信任自己的訓練家之後就會進化……」",
-  "Route 29. West: Cherrygrove City. East: New Bark Town.": "29號道路。西：吉花市。東：若葉鎮。"
+  "Route 29. West: Cherrygrove City. East: New Bark Town.": "29號道路。西：吉花市。東：若葉鎮。",
+  "{player}! All eight of Johto's badges! I knew you could do it!": "{player}！城都的八枚徽章全到手了！我就知道你能行！",
+  "This is for you. It is the Master Ball, the finest Poké Ball there is: it catches any wild Pokémon without fail.": "這個送給你。這是大師球，世界上最好的精靈球：任何野生寶可夢都能百分之百抓到。",
+  "Oh, and the officer called. The boy who stole my Pokémon was seen heading for Victory Road. He seems to have changed...": "對了，警察打電話來了。有人看到偷走我寶可夢的那個少年往冠軍之路去了。他好像變了……",
+  "The Pokémon League is beyond Victory Road: east across Route 27, then north on Route 26. Good luck, {player}!": "寶可夢聯盟就在冠軍之路的另一頭：先往東穿過27號道路，再沿26號道路往北。祝你好運，{player}！",
+  "Victory Road leads to the Pokémon League. Trainers from Johto may only go on once they hold all eight of Johto's badges.": "冠軍之路通往寶可夢聯盟。城都的訓練家要集齊城都的八枚徽章才能通過。",
+  "All eight Johto badges! Victory Road is open to you. The Pokémon League waits at the other end.": "城都的八枚徽章！冠軍之路為你開放了。寶可夢聯盟就在另一頭等著你。",
+  "A great waterfall pours down from the cliffs. With Waterfall and the Rising Badge, a Pokémon could climb it.": "一道大瀑布從懸崖上傾瀉而下。有了攀瀑和升龍徽章，寶可夢就能爬上去。"
 }, "zh-Hant");

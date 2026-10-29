@@ -65,5 +65,8 @@ G.I18n.add({
   "Nothing happened...": "Il ne se passe rien...",
   "{ball} ×{n} · Steps {s}": "{ball} ×{n} · Pas {s}",
   "A berry tree. There are no ripe berries left today. Come back tomorrow!": "Un arbre à baies. Il n'y a plus de baies mûres aujourd'hui. Reviens demain !",
-  "A berry tree! {player} picked {item} ×{n}.": "Un arbre à baies ! {player} cueille {item} ×{n}."
+  "A berry tree! {player} picked {item} ×{n}.": "Un arbre à baies ! {player} cueille {item} ×{n}.",
+  "A huge waterfall. A strong water Pokémon could climb it.": "Une immense chute d'eau. Un Pokémon aquatique puissant pourrait la remonter.",
+  "A huge waterfall. Would you like to use Waterfall?": "Une immense chute d'eau. Voulez-vous utiliser Cascade ?",
+  "{mon} used Waterfall!": "{mon} utilise Cascade !"
 }, "fr");

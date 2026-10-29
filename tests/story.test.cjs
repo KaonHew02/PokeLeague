@@ -1364,8 +1364,9 @@ async function chapter11(st) {
   const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
   const last = () => st.battles[st.battles.length - 1];
   const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
-  // South of the Indigo Plateau, Routes 26 and 27 lead to New Bark Town in Johto.
-  assert.equal(G.Maps.get('indigo').def.connect.south.map, 'route26');
+  // South of the Indigo Plateau, Victory Road and Routes 26 and 27 lead to New Bark Town in Johto.
+  assert.ok(G.Maps.get('indigo').def.warps.some(w => w.to === 'johto-victory-2f'));
+  assert.ok(G.Maps.get('johto-victory-1f').def.warps.some(w => w.to === 'route26'));
   assert.equal(G.Maps.get('route27').def.connect.west.map, 'new-bark');
   assert.equal(F.obeyCap('johto'), null, 'everybody obeys before the Johto journey begins');
   // Professor Elm: Johto's rule, and a starter (the party is full: it goes to the PC, and the
@@ -1794,6 +1795,40 @@ async function chapter18(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 19 after chapter 18: Routes 45 and 46, Elm's Master Ball, Victory Road and the thief's last battle. */
+async function chapter19(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  // Blackthorn's road south: Routes 45 and 46, down to Route 29 (the ledges are one way: map tests).
+  assert.equal(G.Maps.get('blackthorn').def.connect.south.map, 'route45');
+  assert.equal(G.Maps.get('route45').def.connect.south.map, 'route46');
+  assert.equal(G.Maps.get('route29').def.connect.north.map, 'route46');
+  const starter = S.party.find(m => m.sp >= 155 && m.sp <= 160);
+  lead(st, starter.sp);
+  grind(st, 'route45', 43, 600);
+  for (const m of ['route45', 'route46']) { await all(m); won(); }
+  // Elm: the Master Ball, and news of the thief.
+  await run(st, 'elm-lab', npc(st, 'elm-lab', 'elm'));
+  assert.ok(F.flag('got-master-ball') && F.count('master-ball') >= 1, 'the Master Ball');
+  // Route 26: Victory Road opens to eight Johto badges (Route 27's falls are played in field.test.cjs).
+  const mouth = G.Maps.get('route26').def.warps.find(w => w.to === 'johto-victory-1f');
+  assert.ok(F.test(mouth.if), 'Victory Road is open');
+  assert.ok(G.Maps.get('route27').def.rows.some(r => r.includes('|')), 'the falls on Route 27');
+  // Near the top of Victory Road, the thief's last battle; then the Plateau.
+  F.healAll();
+  await run(st, 'johto-victory-2f', 'jvr.rival');
+  assert.equal(last().key, 'johto-victory-2f:rival2-victory');
+  won();
+  assert.ok(F.flag('vr-rival'));
+  await run(st, 'indigo', 'jvr.plateau');
+  assert.ok(F.flag('johto-plateau') && F.flag('chapter-19-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -1875,7 +1910,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test('chapters 11 to 18: Johto, from Professor Elm to the Radio Tower and Clair', async () => {
+test('chapters 11 to 19: Johto, from Professor Elm to Clair and Victory Road', async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -1895,4 +1930,5 @@ test('chapters 11 to 18: Johto, from Professor Elm to the Radio Tower and Clair'
   await chapter16(st);
   await chapter17(st);
   await chapter18(st);
+  await chapter19(st);
 });

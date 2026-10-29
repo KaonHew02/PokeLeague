@@ -56,6 +56,8 @@
  * first tile that is not ice stops you. A scripted wild Pokémon may be shiny (['wild', sp, lvl, { shiny }]).
  * Chapter 18: ice in caves too (`i` outdoors, the Ice Path), where boulders stop a slide; a boulder
  * cannot be pushed over a chasm (`abyss`), only into a hole in it (Clair's Gym).
+ * Chapter 19: waterfalls (`|`, Route 27): surfing down into one carries you to the bottom; facing
+ * up at one, Waterfall (a Pokémon that knows it, with the Rising Badge) climbs it to the top.
  * Chapter 15: berry trees (`y`): one to three berries once a day (the map's `berries`: [[x, y, item]]).
  * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
  * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
@@ -211,6 +213,7 @@ G.World = (() => {
   let sliding = null;                    // a spin tile sent the player this way (the Rocket Hideout)
   let icy = false;                       // ...or it is ice (Pryce's Gym): no spinning, it stops off the ice
   let surfing = false;                   // riding a Pokémon on the water (Surf)
+  let climbing = false;                  // going up a waterfall (Waterfall) rather than down it
   let biking = false;                    // on the Bicycle
   let strength = false;                  // Strength used: boulders move until you leave the map
   let rocks = [];                        // the boulders of this map: { id, x, y, px, py, t0, fixed, fall }
@@ -327,6 +330,7 @@ G.World = (() => {
     map = m;
     cut = new Set();
     sliding = null;
+    climbing = false;
     strength = false;
     if (!m.def.dark) lit = false;
     const s = (where && typeof where === 'object' && !Array.isArray(where)) ? { x: where.x | 0, y: where.y | 0, dir: where.dir || 'down' }
@@ -482,6 +486,12 @@ G.World = (() => {
       }
       return 'blocked';
     }
+    // A waterfall: a surfer rides down it; up only while climbing it (Waterfall, see interact).
+    if (a === me && surfing && M().inside(map, nx, ny) && k === 'waterfall') {
+      if (dir !== 'down' && !(dir === 'up' && climbing)) return 'blocked';
+      stepActor(a, dir, G.Player.WALK, false);
+      return 'moved';
+    }
     // Surfing: water is open (and land too: stepping on it ends the ride).
     if (a === me && surfing && isWater(nx, ny)) {
       if (occupant(nx, ny, a)) return 'blocked';
@@ -527,6 +537,13 @@ G.World = (() => {
       if (c) cross(c);
       return;
     }
+    // On a waterfall: on down it (or up it, climbing) until the water at the other end.
+    if (surfing && M().kindAt(map, me.x, me.y) === 'waterfall') {
+      G.Player.walk(null);
+      stepActor(me, climbing ? 'up' : 'down', G.Player.WALK, false);
+      return;
+    }
+    climbing = false;
     if (surfing && !isWater(me.x, me.y)) { setSurf(false); makeFollower(); }
     savePos();
     countRepel();
@@ -851,6 +868,7 @@ G.World = (() => {
     if (k === 'headtree') return runScript([['js', h => headbutt(h)]], {});
     if (k === 'berrytree') return runScript([['js', h => berryTree(h, tx, ty)]], {});
     if (k === 'rapids' && !isWater(tx, ty)) return runScript([['say', "The current is much too strong to Surf against!"]], {});
+    if (k === 'waterfall') return runScript([['js', h => waterfallAt(h)]], {});
     if (isWater(tx, ty) && !occupant(tx, ty, me) && (!surfing || bestRod())) return runScript([['js', h => atWater(h, me.dir)]], {});
     if (k === 'keydoor' && !keyOpen(tx, ty)) return runScript([['js', h => cardKey(h, tx, ty)]], {});
     if (k === 'pc') return runScript([['sfx', 'pc'], ['say', '{player} turned on the PC.'], ['pc']], {});
@@ -947,6 +965,20 @@ G.World = (() => {
       strength = true;
       await h.say(G.T('{mon} can push boulders around now!'), { vars: { mon: G.Mon.name(mon) } });
     }]], {});
+  }
+
+  /** A waterfall in front of you: surfing up at it, Waterfall (with the Rising Badge, as in the games) climbs it. */
+  async function waterfallAt(h) {
+    const mon = G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'waterfall'));
+    if (!surfing || me.dir !== 'up' || !mon || !G.Field.save.player.badges.includes(16)) {
+      await h.say(G.T('A huge waterfall. A strong water Pokémon could climb it.'));
+      return;
+    }
+    if (await h.choice(G.T('A huge waterfall. Would you like to use Waterfall?'), {}) !== 0) return;
+    await h.say(G.T('{mon} used Waterfall!'), { vars: { mon: G.Mon.name(mon) } });
+    sfx('surf', 'confirm');
+    climbing = true;
+    stepActor(me, 'up', G.Player.WALK, false);
   }
 
   /** Walking into a boulder with Strength on pushes it one tile; into a pit, it falls through. */

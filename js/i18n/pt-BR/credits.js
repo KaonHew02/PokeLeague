@@ -53,5 +53,8 @@ G.I18n.add({
   "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player} retomou a Radio Tower da Equipe Rocket, e a Equipe Rocket se desfez mais uma vez.",
   "Chapter 18 complete!": "Capítulo 18 concluído!",
   "{player} crossed the Ice Path, passed the dragon clan's test and won the Rising Badge from Clair: all eight Johto badges.": "{player} atravessou o Ice Path, passou no teste do clã dos dragões e ganhou a Insígnia Ascendente de Clair: as oito insígnias de Johto.",
-  "Thank you for playing! The road to the Pokémon League opens in a future update.": "Obrigado por jogar! O caminho para a Liga Pokémon será aberto em uma próxima atualização."
+  "Thank you for playing! The road to the Pokémon League opens in a future update.": "Obrigado por jogar! O caminho para a Liga Pokémon será aberto em uma próxima atualização.",
+  "Chapter 19 complete!": "Capítulo 19 concluído!",
+  "{player} climbed the falls, crossed Victory Road and beat the thief one last time: the Indigo Plateau, with all eight Johto badges.": "{player} subiu a cachoeira, atravessou a Victory Road e venceu o ladrão uma última vez: o Indigo Plateau, com as oito insígnias de Johto.",
+  "Thank you for playing! The Johto League opens in a future update.": "Obrigado por jogar! A Liga de Johto será aberta em uma próxima atualização."
 }, "pt-BR");

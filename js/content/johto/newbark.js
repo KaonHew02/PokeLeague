@@ -8,15 +8,19 @@
  * Meanwhile a boy steals the starter that is strong against yours (flag johto-theft); back at the
  * lab a police officer asks for the thief's name (save.rival2.name), and Elm hands the Mystery Egg
  * back to you to hatch by walking (var egg-steps, script egg.hatch: Togepi). Route 29 leads west.
+ * Chapter 19: Route 26 starts at Victory Road's mouth (johto/victoryroad.js; a guard keeps Johto's
+ * Trainers out until they hold all eight Johto badges, flag clair-beaten); Route 27 crosses the
+ * falls (down them with Surf, up them with Waterfall); Route 29 has a way north to Route 46; with
+ * eight Johto badges Elm gives the Master Ball (flag got-master-ball).
  */
 G.Maps.def({
   id: 'route26', loc: 'kanto-route-26', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
   rows: [
-    'TTTTTTTTT,,TTTTTTTTTTT',
-    'TT.......,,.....TTTTTT',
-    'TT.......,,S....~~~~~T',
+    'TT##############TTTTTT',
+    'TT##############TTTTTT',
+    'TT#######O######~~~~~T',
     'TT.......,,.....~~~~~T',
-    'TT.""""".,,.....~~~~~T',
+    'TT.""""S.,,.....~~~~~T',
     'TT.""""".,,.....~~~~~T',
     'TT.""""".,,.....~~~~~T',
     'TT.""""".,,.....~~~~~T',
@@ -53,10 +57,16 @@ G.Maps.def({
     'TTTTTTT.....TTTTTTTTTT',
     'TTTTTTTTTTTTTTTTTTTTTT'
   ],
-  connect: { north: { map: 'indigo', offset: -10 }, west: { map: 'route27', offset: 25 } },
-  warps: [{ x: 4, y: 13, to: 'route26-house', spot: 'door' }],
-  spots: { 'house-door': [4, 14, 'down'] },
-  signs: { '11,2': 'Route 26. North: the Pokémon League. South and then west: Route 27 and New Bark Town in Johto.' },
+  connect: { west: { map: 'route27', offset: 25 } },
+  warps: [{ x: 4, y: 13, to: 'route26-house', spot: 'door' },
+          { x: 9, y: 2, to: 'johto-victory-1f', spot: 'south', if: 'clair-beaten', locked: 'route26.vr-closed' }],
+  spots: { 'house-door': [4, 14, 'down'], 'vr-door': [9, 3, 'down'] },
+  signs: { '7,4': 'Route 26. North: the Pokémon League. South and then west: Route 27 and New Bark Town in Johto.' },
+  npcs: [
+    { id: 'guard', who: 'officer', x: 11, y: 3, dir: 'left', if: '!clair-beaten', script: 'route26.vr-closed' },
+    { id: 'guard2', who: 'officer', x: 11, y: 3, dir: 'left', if: 'clair-beaten',
+      say: 'All eight Johto badges! Victory Road is open to you. The Pokémon League waits at the other end.' }
+  ],
   encounters: { walk: '@kanto-route-26-area', water: '@kanto-route-26-area' }
 });
 
@@ -76,22 +86,25 @@ G.Maps.def({
   id: 'route27', loc: 'kanto-route-27', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
   rows: [
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-    'T.................~~~~~~~~~~.....................T',
-    'T...""""""""".....~~~~~~~~~~......"""""""""""....T',
-    'T...""""""""".....~~~~~~~~~~......"""""""""""....T',
-    'T...""""""""".....~~~~~~~~~~......"""""""""""....T',
-    'T.................~~~~~~~~~~..................S..T',
-    ',,,,,,,,,,,,,,,,,,~~~~~~~~~~,,,,,,,,,,,,,,,,,,,,,,',
-    ',,,,,,,,,,,,,,,,,,~~~~~~~~~~,,,,,,,,,,,,,,,,,,,,,,',
-    'T.................~~~~~~~~~~.....................T',
-    'T...""""""".......~~~~~~~~~~...."""""""""........T',
-    'T...""""""".......~~~~~~~~~~...."""""""""........T',
-    'T...""""""".......~~~~~~~~~~...."""""""""........T',
-    'T.................~~~~~~~~~~.....................T',
+    'T.................##~~~~~~~~.....................T',
+    'T...""""""""".....##~~~~~~~~......"""""""""""....T',
+    'T...""""""""".....####||#####....."""""""""""....T',
+    'T...""""""""".....####||#####....."""""""""""....T',
+    'T...............S.####||#####.................S..T',
+    ',,,,,,,,,,,,,,,,,,~~~~~~~~~~#,,,,,,,,,,,,,,,,,,,,,',
+    ',,,,,,,,,,,,,,,,,,~~~~~~~~~~#,,,,,,,,,,,,,,,,,,,,,',
+    'T.................~~~~~~~~~~#....................T',
+    'T...""""""".......~~~~~~~~~~#..."""""""""........T',
+    'T...""""""".......~~~~~~~~~~#..."""""""""........T',
+    'T...""""""".......~~~~~~~~~~#..."""""""""........T',
+    'T.................~~~~~~~~~~#....................T',
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
   connect: { east: { map: 'route26', offset: -25 }, west: { map: 'new-bark', offset: -2 } },
-  signs: { '46,5': 'Route 27. West: New Bark Town, the first town of Johto.' },
+  signs: {
+    '46,5': 'Route 27. West: New Bark Town, the first town of Johto.',
+    '16,5': 'A great waterfall pours down from the cliffs. With Waterfall and the Rising Badge, a Pokémon could climb it.'
+  },
   encounters: { walk: '@kanto-route-27-area', water: '@kanto-route-27-area' }
 });
 
@@ -186,12 +199,12 @@ G.Maps.def({
 G.Maps.def({
   id: 'route29', loc: 'johto-route-29', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
   rows: [
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-    'T......................................T',
-    'T..""""""".....""""""""....TTTT........T',
-    'T..""""""".....""""""""....TTTT........T',
-    'T..""""""".....""""""""................T',
-    'T....................................S.T',
+    'TTTTTTTTTTTT,,TTTTTTTTTTTTTTTTTTTTTTTTTT',
+    'T...........,,.........................T',
+    'T.."""""""..,,.""""""""....TTTT........T',
+    'T.."""""""..,,.""""""""....TTTT........T',
+    'T.."""""""..,,.""""""""................T',
+    'T...........,,.......................S.T',
     ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
     ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
     'T......................................T',
@@ -201,7 +214,7 @@ G.Maps.def({
     'T......................................T',
     'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
   ],
-  connect: { east: { map: 'new-bark', offset: -2 }, west: { map: 'cherrygrove', offset: -4 } },
+  connect: { east: { map: 'new-bark', offset: -2 }, west: { map: 'cherrygrove', offset: -4 }, north: { map: 'route46', offset: 4 } },
   signs: { '37,5': 'Route 29. West: Cherrygrove City. East: New Bark Town.' },
   npcs: [{ id: 'camper', who: 'camper', x: 24, y: 5, move: 'look',
            say: 'Sentret runs around here by day, and Hoothoot comes out at night. Same grass, different Pokémon!' }],
@@ -252,6 +265,20 @@ G.Maps.def({
       await h.say(T('The nearest Gym is in Violet City: west through Route 29 to Cherrygrove City, then north and west along Routes 30 and 31.'), ELM);
       return;
     }
+    if (F.flag('clair-beaten')) {
+      if (!F.flag('got-master-ball')) {
+        await h.say(T('{player}! All eight of Johto\'s badges! I knew you could do it!'), ELM);
+        await h.say(T('This is for you. It is the Master Ball, the finest Poké Ball there is: it catches any wild Pokémon without fail.'), ELM);
+        F.giveItem('master-ball', 1);
+        F.setFlag('got-master-ball');
+        const j = h.jingle('item');
+        await h.say(T('{player} received {item}!'), { vars: { item: G.Names.item('master-ball') } });
+        await j;
+        await h.say(T('Oh, and the officer called. The boy who stole my Pokémon was seen heading for Victory Road. He seems to have changed...'), ELM);
+      }
+      await h.say(T('The Pokémon League is beyond Victory Road: east across Route 27, then north on Route 26. Good luck, {player}!'), ELM);
+      return;
+    }
     await h.say(T('The Gym in Violet City is waiting. Remember: each badge makes your stronger Pokémon listen a little more.'), ELM);
   }
 
@@ -298,6 +325,7 @@ G.Maps.def({
 
   G.Script.def({
     'elm.elm': [['js', elm]],
+    'route26.vr-closed': [['say', 'Victory Road leads to the Pokémon League. Trainers from Johto may only go on once they hold all eight of Johto\'s badges.']],
     'elm.ball-chikorita': [['js', chooseBall(152)]],
     'elm.ball-cyndaquil': [['js', chooseBall(155)]],
     'elm.ball-totodile': [['js', chooseBall(158)]],

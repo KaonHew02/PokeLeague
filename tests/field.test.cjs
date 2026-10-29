@@ -1,6 +1,6 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
 // water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt, the Day Care,
-// the Bug-Catching Contest, Morty's floor of darkness, berry trees, Pryce's ice, and the real Ice Path and Clair's Gym.
+// the Bug-Catching Contest, Morty's floor of darkness, berry trees, Pryce's ice, waterfalls, and the real Ice Path and Clair's Gym.
 // Test maps are defined here (the last test loads the chapter 18 maps); the drawing, the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -500,6 +500,55 @@ test('ice: you slide the way you went until something is in the way; the first f
   await settle();
   assert.deepEqual([W.player.x, W.player.y], [4, 3], 'the first floor tile stops the slide');
   assert.equal(W.player.dir, 'right', 'no spinning on ice');
+});
+
+test('waterfalls: a surfer rides down one; Waterfall, with the Rising Badge, climbs it', async () => {
+  const { G, W } = world();
+  G.Maps.def({ id: 't-falls', tileset: 'outdoor', palette: 'kanto', border: '#',
+    rows: ['~~~~~', '##|##', '##|##', '~~~~~', '.....'], spots: { shore: [2, 4, 'up'] } });
+  assert.deepEqual(plain(G.Maps.validate('t-falls')), []);
+  G.Field.giveMon('feraligatr', 40, { moves: ['surf', 'waterfall'] });
+  const settle = async () => { for (let i = 0; i < 80; i++) { W.update(0.05); await tick(); if (!W.player.moving && i > 4) break; } };
+  G.Field.save.player.surf = 1;
+  W.load('t-falls', { x: 2, y: 0, dir: 'down' });
+  assert.ok(W.surfing);
+  step(W, 'down');
+  await settle();
+  assert.deepEqual([W.player.x, W.player.y], [2, 3], 'down the waterfall into the pool below');
+  assert.ok(W.surfing, 'still on the water');
+  assert.equal(W.tryStep(W.player, 'up', 4), 'blocked', 'not up it by surfing');
+  W.player.face('up');
+  await pump(W, W.interact());
+  assert.deepEqual([W.player.x, W.player.y], [2, 3], 'not without the Rising Badge');
+  G.Field.save.player.badges.push(16);
+  await pump(W, W.interact());
+  await settle();
+  assert.deepEqual([W.player.x, W.player.y], [2, 0], 'Waterfall climbed it to the top');
+  assert.equal(W.tryStep(W.player, 'left', 4), 'moved', 'surfing on at the top');
+});
+
+test("Route 27's falls: up them with Waterfall to the east bank, back down them by Surf alone", async () => {
+  const { G, W } = world(['js/content/johto/newbark.js']);
+  W.debug.noEnc = true;
+  G.Field.giveMon('feraligatr', 45, { moves: ['surf', 'waterfall'] });
+  G.Field.save.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 16];
+  const settle = async () => { for (let i = 0; i < 80; i++) { W.update(0.05); await tick(); if (!W.player.moving && i > 4) break; } };
+  const go = async dirs => { for (const d of dirs) { assert.equal(W.tryStep(W.player, d, 4), 'moved', d + ' from ' + W.player.x + ',' + W.player.y); W.player.update(1); W.arrived(W.player); await settle(); } };
+  G.Field.save.player.surf = 1;
+  W.load('route27', { x: 22, y: 7, dir: 'up' });
+  assert.ok(W.surfing, 'in the pool below the falls');
+  await go(['up']);
+  assert.deepEqual([W.player.x, W.player.y], [22, 6]);
+  assert.equal(W.tryStep(W.player, 'up', 4), 'blocked', 'the falls stop a surfer');
+  await pump(W, W.interact());
+  await settle();
+  assert.deepEqual([W.player.x, W.player.y], [22, 2], 'at the top of the falls');
+  await go(['right', 'right', 'right', 'right', 'right', 'right']);
+  assert.ok(!W.surfing && W.player.x === 28, 'ashore on the high ground');
+  // Back: from the pool above, down the falls with Surf only.
+  W.load('route27', { x: 23, y: 2, dir: 'down' });
+  await go(['down']);
+  assert.deepEqual([W.player.x, W.player.y], [23, 6], 'down the falls into the pool below');
 });
 
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */

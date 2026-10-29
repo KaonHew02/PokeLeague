@@ -391,7 +391,7 @@ G.Tiles = (() => {
 
   /** Water with shore, foam and a few waves; frame 1 moves the waves. */
   function water(P, C, ox, oy, tx, ty, at, frame) {
-    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge' || k === 'rapids'; };
+    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge' || k === 'rapids' || k === 'waterfall'; };
     const n = same(0, -1), s = same(0, 1), w = same(-1, 0), e = same(1, 0);
     grass(P, C, ox, oy, tx, ty);
     for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
@@ -412,6 +412,17 @@ G.Tiles = (() => {
       if (d >= 3 && H(gx >> 2, gy, 33) < 0.06 && (gx & 3) !== 3) col = C.liqLight;
       if (d >= 3 && H(gx, gy, 34 + frame) < 0.006) col = C.foam;
       P.set(ox + x, oy + y, col);
+    }
+  }
+
+  /** A waterfall: deep water pouring down in white streaks (they move between the two frames). */
+  function waterfall(P, C, ox, oy, tx, ty, at, frame) {
+    water(P, C, ox, oy, tx, ty, at, frame);
+    for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
+      const v = (ty * T + y - frame * 6) & 15, c = (tx * T + x) % 5;
+      if ((c === 1 && v < 11) || (c === 3 && v > 4)) P.set(ox + x, oy + y, C.foam);
+      else if (c === 0 || c === 4) P.set(ox + x, oy + y, C.liqDeep);
+      else if (c === 2 && v > 12) P.set(ox + x, oy + y, C.liqLight);
     }
   }
 
@@ -1285,6 +1296,7 @@ G.Tiles = (() => {
       case 'flowers': flowers(P, C, ox, oy, tx, ty, frame); break;
       case 'cliff': cliff(P, C, ox, oy, tx, ty, at); break;
       case 'water': water(P, C, ox, oy, tx, ty, at, frame); break;
+      case 'waterfall': waterfall(P, C, ox, oy, tx, ty, at, frame); break;
       case 'bridge': bridge(P, C, ox, oy, tx, ty, at, frame); break;
       case 'fence': fence(P, C, ox, oy, tx, ty, at); break;
       case 'sign': sign(P, C, ox, oy, tx, ty); break;
@@ -1343,7 +1355,7 @@ G.Tiles = (() => {
 
   /** The whole map, once: two ground frames and the Y-sorted strips. */
   function bakeMap(m) {
-    const animated = m.kind.some(k => k === 'water' || k === 'flowers' || k === 'rapids');
+    const animated = m.kind.some(k => k === 'water' || k === 'flowers' || k === 'rapids' || k === 'waterfall');
     const g0 = bakeGround(m, 0);
     const ground = [g0, animated ? bakeGround(m, 1) : g0];
     const strips = {};

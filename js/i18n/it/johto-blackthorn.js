@@ -88,5 +88,5 @@ G.I18n.add({
   "Blackthorn City. A quiet town in the mountains, home of the dragon clan.": "Ebanopoli. Una tranquilla città di montagna, dimora del clan dei draghi.",
   "North, across the water: the Dragon's Den. Sacred ground of the dragon clan. Do not disturb.": "A nord, oltre l'acqua: la Tana del Drago. Terra sacra del clan dei draghi. Non disturbare.",
   "Blackthorn City Pokémon Gym. Leader: Clair, the proud Dragon Trainer.": "Palestra Pokémon di Ebanopoli. Capopalestra: Sandra, l'orgogliosa Allenatrice di draghi.",
-  "South: Route 45. Closed: a landslide has buried the mountain road.": "Sud: Percorso 45. Chiuso: una frana ha sepolto la strada di montagna."
+  "South: Route 45, a steep road down the mountains to Route 46.": "Sud: Percorso 45, una ripida strada di montagna che scende al Percorso 46."
 }, "it");

@@ -53,5 +53,8 @@ G.I18n.add({
   "{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.": "{player} a repris la Tour Radio à la Team Rocket, et la Team Rocket s'est dissoute une fois de plus.",
   "Chapter 18 complete!": "Chapitre 18 terminé !",
   "{player} crossed the Ice Path, passed the dragon clan's test and won the Rising Badge from Clair: all eight Johto badges.": "{player} a traversé la Route de Glace, réussi l'épreuve du clan des dragons et gagné le Badge Lever de Sandra : les huit badges de Johto.",
-  "Thank you for playing! The road to the Pokémon League opens in a future update.": "Merci d'avoir joué ! La route de la Ligue Pokémon s'ouvrira dans une prochaine mise à jour."
+  "Thank you for playing! The road to the Pokémon League opens in a future update.": "Merci d'avoir joué ! La route de la Ligue Pokémon s'ouvrira dans une prochaine mise à jour.",
+  "Chapter 19 complete!": "Chapitre 19 terminé !",
+  "{player} climbed the falls, crossed Victory Road and beat the thief one last time: the Indigo Plateau, with all eight Johto badges.": "{player} a remonté la chute d'eau, traversé la Route Victoire et battu le voleur une dernière fois : le Plateau Indigo, avec les huit badges de Johto.",
+  "Thank you for playing! The Johto League opens in a future update.": "Merci d'avoir joué ! La Ligue de Johto ouvrira dans une prochaine mise à jour."
 }, "fr");

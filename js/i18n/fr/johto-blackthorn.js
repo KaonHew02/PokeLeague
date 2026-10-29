@@ -88,5 +88,5 @@ G.I18n.add({
   "Blackthorn City. A quiet town in the mountains, home of the dragon clan.": "Ebènelle. Une ville paisible dans les montagnes, berceau du clan des dragons.",
   "North, across the water: the Dragon's Den. Sacred ground of the dragon clan. Do not disturb.": "Au nord, de l'autre côté de l'eau : l'Antre du Dragon. Terre sacrée du clan des dragons. Ne pas déranger.",
   "Blackthorn City Pokémon Gym. Leader: Clair, the proud Dragon Trainer.": "Arène Pokémon d'Ebènelle. Championne : Sandra, la fière Dresseuse de dragons.",
-  "South: Route 45. Closed: a landslide has buried the mountain road.": "Sud : Route 45. Fermée : un glissement de terrain a enseveli la route de montagne."
+  "South: Route 45, a steep road down the mountains to Route 46.": "Sud : Route 45, une route escarpée qui descend des montagnes jusqu'à la Route 46."
 }, "fr");

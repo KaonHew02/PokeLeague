@@ -88,5 +88,5 @@ G.I18n.add({
   "Blackthorn City. A quiet town in the mountains, home of the dragon clan.": "Ciudad Endrino. Una tranquila ciudad de montaña, hogar del clan del dragón.",
   "North, across the water: the Dragon's Den. Sacred ground of the dragon clan. Do not disturb.": "Al norte, cruzando el agua: la Guarida Dragón. Tierra sagrada del clan del dragón. No molestar.",
   "Blackthorn City Pokémon Gym. Leader: Clair, the proud Dragon Trainer.": "Gimnasio Pokémon de Ciudad Endrino. Líder: Débora, la orgullosa Entrenadora de dragones.",
-  "South: Route 45. Closed: a landslide has buried the mountain road.": "Sur: Ruta 45. Cerrada: un corrimiento de tierra ha sepultado el camino de montaña."
+  "South: Route 45, a steep road down the mountains to Route 46.": "Sur: Ruta 45, un empinado camino de montaña que baja a la Ruta 46."
 }, "es");

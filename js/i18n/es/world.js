@@ -65,5 +65,8 @@ G.I18n.add({
   "Nothing happened...": "No pasó nada...",
   "{ball} ×{n} · Steps {s}": "{ball} ×{n} · Pasos {s}",
   "A berry tree. There are no ripe berries left today. Come back tomorrow!": "Un árbol de bayas. Hoy ya no quedan bayas maduras. ¡Vuelve mañana!",
-  "A berry tree! {player} picked {item} ×{n}.": "¡Un árbol de bayas! {player} recogió {item} ×{n}."
+  "A berry tree! {player} picked {item} ×{n}.": "¡Un árbol de bayas! {player} recogió {item} ×{n}.",
+  "A huge waterfall. A strong water Pokémon could climb it.": "Una enorme cascada. Un Pokémon acuático fuerte podría subirla.",
+  "A huge waterfall. Would you like to use Waterfall?": "Una enorme cascada. ¿Quieres usar Cascada?",
+  "{mon} used Waterfall!": "¡{mon} usó Cascada!"
 }, "es");

@@ -64,7 +64,9 @@ G.Maps = (() => {
     // Chapter 15: a berry tree (a berry or more once a day; map `berries: [[x, y, item]]`, else Oran).
     berrytree: { solid: 1 },
     // Chapter 16: ice (Pryce's Gym; in caves too, chapter 18): you slide on it (field.js).
-    ice: { ice: 1 }
+    ice: { ice: 1 },
+    // Chapter 19: a waterfall (Route 27): a surfer rides down it, and climbs it with Waterfall (field.js).
+    waterfall: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -81,7 +83,8 @@ G.Maps = (() => {
       I: 'stamp',                                    // the Pokémon League
       h: 'headtree',                                 // a tree to Headbutt (Johto)
       y: 'berrytree',                                // a berry tree (Johto)
-      i: 'ice'                                       // ice on a cave floor (the Ice Path)
+      i: 'ice',                                      // ice on a cave floor (the Ice Path)
+      '|': 'waterfall'                               // a waterfall: ride down it, climb it with Waterfall
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',

@@ -44,5 +44,12 @@ G.I18n.add({
   "Route 27. West: New Bark Town, the first town of Johto.": "Route 27. Ouest : Bourg Geon, la première ville de Johto.",
   "New Bark Town. A fresh wind for every new start.": "Bourg Geon. Un vent frais pour chaque nouveau départ.",
   "Research notes: \"Some Pokémon evolve when they come to trust their Trainer...\"": "Notes de recherche : « Certains Pokémon évoluent quand ils finissent par faire confiance à leur Dresseur... »",
-  "Route 29. West: Cherrygrove City. East: New Bark Town.": "Route 29. Ouest : Ville Griotte. Est : Bourg Geon."
+  "Route 29. West: Cherrygrove City. East: New Bark Town.": "Route 29. Ouest : Ville Griotte. Est : Bourg Geon.",
+  "{player}! All eight of Johto's badges! I knew you could do it!": "{player} ! Les huit badges de Johto ! Je savais que tu y arriverais !",
+  "This is for you. It is the Master Ball, the finest Poké Ball there is: it catches any wild Pokémon without fail.": "C'est pour toi. C'est la Master Ball, la meilleure Poké Ball qui soit : elle capture n'importe quel Pokémon sauvage à coup sûr.",
+  "Oh, and the officer called. The boy who stole my Pokémon was seen heading for Victory Road. He seems to have changed...": "Ah, et l'agent a appelé. Le garçon qui a volé mon Pokémon a été vu en route pour la Route Victoire. Il semble avoir changé...",
+  "The Pokémon League is beyond Victory Road: east across Route 27, then north on Route 26. Good luck, {player}!": "La Ligue Pokémon se trouve après la Route Victoire : à l'est par la Route 27, puis au nord par la Route 26. Bonne chance, {player} !",
+  "Victory Road leads to the Pokémon League. Trainers from Johto may only go on once they hold all eight of Johto's badges.": "La Route Victoire mène à la Ligue Pokémon. Les Dresseurs de Johto ne peuvent passer qu'avec les huit badges de Johto.",
+  "All eight Johto badges! Victory Road is open to you. The Pokémon League waits at the other end.": "Les huit badges de Johto ! La Route Victoire t'est ouverte. La Ligue Pokémon t'attend de l'autre côté.",
+  "A great waterfall pours down from the cliffs. With Waterfall and the Rising Badge, a Pokémon could climb it.": "Une grande chute d'eau tombe des falaises. Avec Cascade et le Badge Lever, un Pokémon pourrait la remonter."
 }, "fr");

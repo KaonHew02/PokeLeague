@@ -10,7 +10,7 @@
  * elder-quiz = how many answered from the heart), Clair comes in and gives badge 16, the Rising
  * Badge (every Pokémon obeys), and TM02 Dragon Claw (flag clair-beaten); the Elder gives a Dratini
  * (Lv. 15, Extreme Speed if every answer was right; flag got-dratini), and the chapter ends
- * (`ending(18)`).
+ * (`ending(18)`). Chapter 19: the road south is open (Route 45, johto/route45.js).
  */
 G.Maps.def({
   id: 'blackthorn', loc: 'blackthorn-city', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -41,12 +41,13 @@ G.Maps.def({
     'TTTTT.................,,......TTTTTT',
     'TTTTT.................,,......TTTTTT',
     'TTTTT.................,,S.....TTTTTT',
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-    'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
+    'TTTTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTT',
+    'TTTTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTT',
+    'TTTTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTT',
+    'TTTTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTT',
+    'TTTTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTT'
   ],
+  connect: { south: { map: 'route45', offset: 10 } },
   warps: [
     { x: 5, y: 6, to: 'ice-path-1f', spot: 'east' },
     { x: 17, y: 2, to: 'dragons-den', spot: 'entrance' },
@@ -62,7 +63,7 @@ G.Maps.def({
     '9,8': 'Blackthorn City. A quiet town in the mountains, home of the dragon clan.',
     '11,8': 'North, across the water: the Dragon\'s Den. Sacred ground of the dragon clan. Do not disturb.',
     '14,16': 'Blackthorn City Pokémon Gym. Leader: Clair, the proud Dragon Trainer.',
-    '24,24': 'South: Route 45. Closed: a landslide has buried the mountain road.'
+    '24,24': 'South: Route 45, a steep road down the mountains to Route 46.'
   },
   npcs: [
     { id: 'oldman', who: 'oldman', x: 13, y: 9, move: 'look',

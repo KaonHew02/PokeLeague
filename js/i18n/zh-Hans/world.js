@@ -65,5 +65,8 @@ G.I18n.add({
   "Nothing happened...": "什么也没发生……",
   "{ball} ×{n} · Steps {s}": "{ball} ×{n} · 步数 {s}",
   "A berry tree. There are no ripe berries left today. Come back tomorrow!": "一棵树果树。今天已经没有成熟的树果了。明天再来吧！",
-  "A berry tree! {player} picked {item} ×{n}.": "是树果树！{player}摘到了{item}×{n}。"
+  "A berry tree! {player} picked {item} ×{n}.": "是树果树！{player}摘到了{item}×{n}。",
+  "A huge waterfall. A strong water Pokémon could climb it.": "一道巨大的瀑布。强壮的水系宝可梦也许能爬上去。",
+  "A huge waterfall. Would you like to use Waterfall?": "一道巨大的瀑布。要使用攀瀑吗？",
+  "{mon} used Waterfall!": "{mon}使用了攀瀑！"
 }, "zh-Hans");

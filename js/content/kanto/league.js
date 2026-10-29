@@ -11,7 +11,8 @@
  * save.fame, flags champion and hall-of-fame), then you wake up at home and the credits roll
  * (G.CreditsUI.ending(9)). Chapter 10: once you are the Champion, the Elite Four and the rival
  * battle with teams ten levels stronger (the `2` trainers), and a win takes you straight to the
- * Hall of Fame again.
+ * Hall of Fame again. Chapter 19: Johto's Victory Road comes out here too (its mouth east of
+ * Kanto's); stepping out of it after the rival's last battle ends the chapter (johto/victoryroad.js).
  */
 G.Maps.def({
   id: 'indigo', loc: 'indigo-plateau', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -29,20 +30,21 @@ G.Maps.def({
     'T..........,.S.........T',
     'T..........,,,,,,,,,...T',
     'T################..,...T',
-    'T####O###########..,...T',
-    'T....,.............,...T',
+    'T####O########O##..,...T',
+    'T....,........,....,...T',
     'T....,,,,,,,,,,,,,,,,..T',
-    'T..f...............,,..T',
-    'T..................,,..T',
-    'TTTTTTTTTTTTTTTTTTT,,TTT'
+    'T..f...................T',
+    'T......................T',
+    'TTTTTTTTTTTTTTTTTTTTTTTT'
   ],
-  // Chapter 11: south to Route 26 and Johto (johto/newbark.js).
-  connect: { south: { map: 'route26', offset: 10 } },
+  // Chapter 19: Johto's Victory Road (johto/victoryroad.js) at (14,12), down to Route 26 and Johto.
   warps: [
     { x: 11, y: 7, to: 'indigo-lobby', spot: 'door' },
-    { x: 5, y: 12, to: 'victory-2f', spot: 'exit' }
+    { x: 5, y: 12, to: 'victory-2f', spot: 'exit' },
+    { x: 14, y: 12, to: 'johto-victory-2f', spot: 'north' }
   ],
-  spots: { door: [11, 8, 'down'], 'cave-door': [5, 13, 'down'] },
+  spots: { door: [11, 8, 'down'], 'cave-door': [5, 13, 'down'], 'johto-cave-door': [14, 13, 'down'] },
+  triggers: [{ x: 12, y: 13, w: 5, h: 2, if: ['vr-rival', '!johto-plateau'], script: 'jvr.plateau' }],
   signs: { '13,9': 'Indigo Plateau. The Pokémon League: where the best Trainers meet the Elite Four.' }
 });
 

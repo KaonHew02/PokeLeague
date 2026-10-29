@@ -44,5 +44,12 @@ G.I18n.add({
   "Route 27. West: New Bark Town, the first town of Johto.": "Ruta 27. Oeste: Pueblo Primavera, el primer pueblo de Johto.",
   "New Bark Town. A fresh wind for every new start.": "Pueblo Primavera. Un viento fresco para cada nuevo comienzo.",
   "Research notes: \"Some Pokémon evolve when they come to trust their Trainer...\"": "Notas de investigación: \"Algunos Pokémon evolucionan cuando llegan a confiar en su Entrenador...\"",
-  "Route 29. West: Cherrygrove City. East: New Bark Town.": "Ruta 29. Oeste: Ciudad Cerezo. Este: Pueblo Primavera."
+  "Route 29. West: Cherrygrove City. East: New Bark Town.": "Ruta 29. Oeste: Ciudad Cerezo. Este: Pueblo Primavera.",
+  "{player}! All eight of Johto's badges! I knew you could do it!": "¡{player}! ¡Las ocho medallas de Johto! ¡Sabía que lo conseguirías!",
+  "This is for you. It is the Master Ball, the finest Poké Ball there is: it catches any wild Pokémon without fail.": "Esto es para ti. Es la Master Ball, la mejor Poké Ball que existe: atrapa a cualquier Pokémon salvaje sin fallar.",
+  "Oh, and the officer called. The boy who stole my Pokémon was seen heading for Victory Road. He seems to have changed...": "Ah, y llamó el agente. Han visto al chico que robó mi Pokémon yendo hacia la Calle Victoria. Parece que ha cambiado...",
+  "The Pokémon League is beyond Victory Road: east across Route 27, then north on Route 26. Good luck, {player}!": "La Liga Pokémon está pasada la Calle Victoria: al este por la Ruta 27 y luego al norte por la Ruta 26. ¡Suerte, {player}!",
+  "Victory Road leads to the Pokémon League. Trainers from Johto may only go on once they hold all eight of Johto's badges.": "La Calle Victoria lleva a la Liga Pokémon. Los Entrenadores de Johto solo pueden pasar cuando tengan las ocho medallas de Johto.",
+  "All eight Johto badges! Victory Road is open to you. The Pokémon League waits at the other end.": "¡Las ocho medallas de Johto! La Calle Victoria está abierta para ti. La Liga Pokémon te espera al otro lado.",
+  "A great waterfall pours down from the cliffs. With Waterfall and the Rising Badge, a Pokémon could climb it.": "Una gran cascada cae desde los acantilados. Con Cascada y la Medalla Dragón, un Pokémon podría subirla."
 }, "es");

@@ -88,5 +88,5 @@ G.I18n.add({
   "Blackthorn City. A quiet town in the mountains, home of the dragon clan.": "烟墨市。宁静的山间城镇，龙之一族的故乡。",
   "North, across the water: the Dragon's Den. Sacred ground of the dragon clan. Do not disturb.": "北边，过水即到：龙穴。龙之一族的圣地。请勿打扰。",
   "Blackthorn City Pokémon Gym. Leader: Clair, the proud Dragon Trainer.": "烟墨市宝可梦道馆。馆主：小椿，骄傲的龙使。",
-  "South: Route 45. Closed: a landslide has buried the mountain road.": "南：45号道路。封闭：山体滑坡埋住了山路。"
+  "South: Route 45, a steep road down the mountains to Route 46.": "南：45号道路，一条陡峭的山路，下山通往46号道路。"
 }, "zh-Hans");

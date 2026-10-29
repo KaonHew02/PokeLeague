@@ -32,6 +32,8 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 19) return { title: T('Chapter 19 complete!'), done: fmt('{player} climbed the falls, crossed Victory Road and beat the thief one last time: the Indigo Plateau, with all eight Johto badges.', { player }),
+      next: T('Thank you for playing! The Johto League opens in a future update.') };
     if (n === 18) return { title: T('Chapter 18 complete!'), done: fmt("{player} crossed the Ice Path, passed the dragon clan's test and won the Rising Badge from Clair: all eight Johto badges.", { player }),
       next: T('Thank you for playing! The road to the Pokémon League opens in a future update.') };
     if (n === 17) return { title: T('Chapter 17 complete!'), done: fmt('{player} took the Radio Tower back from Team Rocket, and Team Rocket broke up once again.', { player }),

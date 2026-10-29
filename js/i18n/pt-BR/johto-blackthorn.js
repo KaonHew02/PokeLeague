@@ -88,5 +88,5 @@ G.I18n.add({
   "Blackthorn City. A quiet town in the mountains, home of the dragon clan.": "Blackthorn City. Uma cidade tranquila nas montanhas, lar do clã dos dragões.",
   "North, across the water: the Dragon's Den. Sacred ground of the dragon clan. Do not disturb.": "Ao norte, do outro lado da água: a Dragon's Den. Terra sagrada do clã dos dragões. Não perturbe.",
   "Blackthorn City Pokémon Gym. Leader: Clair, the proud Dragon Trainer.": "Ginásio Pokémon de Blackthorn City. Líder: Clair, a orgulhosa Treinadora de dragões.",
-  "South: Route 45. Closed: a landslide has buried the mountain road.": "Sul: Rota 45. Fechada: um deslizamento de terra soterrou a estrada da montanha."
+  "South: Route 45, a steep road down the mountains to Route 46.": "Sul: Rota 45, uma estrada íngreme que desce as montanhas até a Rota 46."
 }, "pt-BR");

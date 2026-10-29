@@ -67,8 +67,8 @@ G.I18n.add({
   "WAHAHAH! So you came all the way across the sea to battle me? I am Chuck! My Pokémon and I train under the waterfall every day. Come on, let us see your strength!": "UAHAHAH! Então você atravessou o mar para batalhar comigo? Eu sou o Chuck! Meus Pokémon e eu treinamos debaixo da cachoeira todo dia. Vamos, mostre sua força!",
   "Hwaaah! You are strong! I am shocked!": "Uaaah! Você é forte! Estou chocado!",
   "Sea Route 40. Olivine City to the east, Cianwood City far to the west.": "Rota Marítima 40. Olivine City a leste, Cianwood City bem longe a oeste.",
-  "Whirl Islands. Fierce whirlpools swirl around the caves: no boat or Pokémon can get in.": "Whirl Islands. Redemoinhos violentos cercam as cavernas: nenhum barco ou Pokémon consegue entrar.",
   "Cianwood City Pokémon Gym. Leader: Chuck, whose fists do the talking.": "Ginásio Pokémon de Cianwood City. Líder: Chuck, que fala com os punhos.",
   "Cianwood Pharmacy. Our secret recipes have healed Pokémon for five hundred years.": "Farmácia de Cianwood. Nossas receitas secretas curam Pokémon há quinhentos anos.",
-  "Cianwood City. A port town of rough seas and rough rocks.": "Cianwood City. Uma cidade portuária de mar bravo e rochas ásperas."
+  "Cianwood City. A port town of rough seas and rough rocks.": "Cianwood City. Uma cidade portuária de mar bravo e rochas ásperas.",
+  "Whirl Islands. Fierce whirlpools swirl in front of the caves. Only a Pokémon that knows Whirlpool can calm them.": "Whirl Islands. Redemoinhos violentos giram diante das cavernas. Só um Pokémon que sabe Whirlpool pode acalmá-los."
 }, "pt-BR");

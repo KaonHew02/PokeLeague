@@ -1944,6 +1944,29 @@ async function chapter21(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 22 after chapter 21: the Silver Wing, Whirlpool, the Whirl Islands and Lugia. */
+async function chapter22(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  // After Ho-Oh, Eusine sends you to the elder, who gives the Silver Wing.
+  await run(st, 'bell-tower-1f', npc(st, 'bell-tower-1f', 'eusine'));
+  await run(st, 'elder-house', npc(st, 'elder-house', 'elder'));
+  assert.ok(F.flag('silver-wing') && F.count('silver-wing') === 1, 'the Silver Wing');
+  // The old sailor in Cianwood teaches Whirlpool to a Pokémon that can learn it.
+  const i = S.party.findIndex(m => (G.SPECIES[m.sp].tu || []).includes('whirlpool'));
+  assert.ok(i >= 0, 'someone can learn Whirlpool: ' + S.party.map(m => m.sp).join(','));
+  st.picks.push(i);
+  await run(st, 'cianwood', npc(st, 'cianwood', 'sailor'), [0]);
+  assert.ok(G.Mon.knows(S.party[i], 'whirlpool'), 'learned Whirlpool');
+  // The way down to Lugia's chamber opens with the Silver Wing (tests/field.test.cjs plays the islands).
+  const ladder = G.Maps.get('whirl-islands-b2f').def.warps.find(w => w.to === 'whirl-islands-b3f');
+  assert.ok(F.test(ladder.if), 'the chamber is open');
+  F.healAll();
+  await run(st, 'whirl-islands-b3f', 'whirl.lugia');
+  assert.ok(F.flag('lugia-met') && F.flag('chapter-22-done'), 'Lugia');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2025,7 +2048,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 21: Johto, from Professor Elm to Johto's League and the Bell Tower", async () => {
+test("chapters 11 to 22: Johto, from Professor Elm to Johto's League, the Bell Tower and the Whirl Islands", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2048,4 +2071,5 @@ test("chapters 11 to 21: Johto, from Professor Elm to Johto's League and the Bel
   await chapter19(st);
   await chapter20(st);
   await chapter21(st);
+  await chapter22(st);
 });

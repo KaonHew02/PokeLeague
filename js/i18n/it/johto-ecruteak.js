@@ -91,5 +91,11 @@ G.I18n.add({
   "Raikou is still standing there, watching you.": "Raikou è ancora lì, e ti osserva.",
   "Entei is back! The air shimmers with heat around it.": "Entei è tornato! L'aria intorno a lui tremola per il calore.",
   "Entei is still standing there, watching you.": "Entei è ancora lì, e ti osserva.",
-  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "La Campana Chiara! Il suo suono è il benvenuto della torre. Entra pure: la torre ti stava aspettando."
+  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "La Campana Chiara! Il suo suono è il benvenuto della torre. Entra pure: la torre ti stava aspettando.",
+  "Ho-Oh has come back to the Bell Tower! I never thought I would live to see it.": "Ho-Oh è tornato alla Torre Campana! Non avrei mai pensato di vivere abbastanza per vederlo.",
+  "There is more to the story. The Brass Tower had a guardian too, a great silver Pokémon. When the tower burned, it flew off to the sea.": "La storia non finisce qui. Anche la Torre d'Ottone aveva un guardiano, un grande Pokémon argentato. Quando la torre bruciò, volò via verso il mare.",
+  "This feather was found in the ashes, and my family has kept it ever since. Take it: I think it has been waiting for you.": "Questa piuma fu trovata tra le ceneri, e da allora la mia famiglia la custodisce. Prendila: credo che stesse aspettando te.",
+  "They say the silver Pokémon sleeps deep under the Whirl Islands, beyond whirlpools no boat can cross.": "Si dice che il Pokémon argentato dorma nelle profondità delle Isole Vorticose, oltre vortici che nessuna barca può attraversare.",
+  "An old sailor in Cianwood knows how to calm them. Go and find him.": "Un vecchio marinaio di Fiorlisopoli sa come calmarli. Vai a cercarlo.",
+  "The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.": "L'Aladargento ti condurrà dal guardiano del mare, nelle profondità delle Isole Vorticose."
 }, "it");

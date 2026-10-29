@@ -138,6 +138,20 @@ G.Tiles = (() => {
     wood: ['#8a7a6a', '#a89888', '#5e5046'], woodEdge: '#2e2620',
     ledge: ['#8aa4b4', '#6e8a9c', '#526c7e']
   };
+  // The Whirl Islands (chapter 22): dark, sea-worn rock and green-blue water.
+  PALETTES.whirl = {
+    grass: ['#9aa6a8', '#929ea0', '#a2aeb0'], speck: '#7a8688', light: '#b6c2c4',
+    path: ['#aab2b2', '#a2aaaa', '#b2baba'], pathEdge: '#7c8686', pathSpeck: '#8c9696',
+    sand: ['#c6c4b4', '#bebcac', '#cecbbc'], sandEdge: '#9a9888', sandSpeck: '#aaa898',
+    tall: ['#6a7678', '#788486', '#869294'], tallEdge: '#3e4a4c',
+    petals: ['#e0f0ec', '#f8f8f8'], petalCenter: '#88d0c0',
+    leaf: ['#24342e', '#344840', '#486054', '#5e7a6c'], trunk: ['#2c3430', '#3c4642'], treeEdge: '#121a16',
+    cliffTop: ['#56666c', '#5e6e74', '#4e5e64'], cliffLight: '#808e94', cliffEdge: '#1a2428',
+    cliffFace: ['#4a5a60', '#425258'], cliffFaceDark: '#2a363a',
+    liq: '#2e7e96', liqDeep: '#22667e', foam: '#c8ecf0', shore: '#6e7c80',
+    wood: ['#7a7468', '#98907e', '#544e44'], woodEdge: '#2a2620',
+    ledge: ['#7a888c', '#606e72', '#4a565a']
+  };
   // The Pokémon Mansion: scorched wood and old wallpaper.
   PALETTES.mansion = { floor: 'wood', wallTop: ['#3a302c', '#463a34'], paper: ['#cdbd9e', '#c0b090'], trim: '#6e5442', base: '#4a382a',
     wood: ['#9a7654', '#8c6a4a', '#a8825e'], woodLine: '#5e4430', tile: ['#bcae98', '#ae9f88'], grout: '#8e806a',
@@ -261,7 +275,7 @@ G.Tiles = (() => {
   const FAMILY = {
     grass: 'grass', tall: 'grass', flowers: 'grass', tree: 'grass', 'sign': 'grass', fence: 'grass',
     'ledge-down': 'grass', 'ledge-left': 'grass', 'ledge-right': 'grass',
-    path: 'path', door: 'path', stamp: 'path', sand: 'sand', water: 'water', rapids: 'water', cliff: 'cliff'
+    path: 'path', door: 'path', stamp: 'path', sand: 'sand', water: 'water', rapids: 'water', whirlpool: 'water', cliff: 'cliff'
   };
   const fam = k => FAMILY[k] || k;
 
@@ -391,7 +405,7 @@ G.Tiles = (() => {
 
   /** Water with shore, foam and a few waves; frame 1 moves the waves. */
   function water(P, C, ox, oy, tx, ty, at, frame) {
-    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge' || k === 'rapids' || k === 'waterfall'; };
+    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge' || k === 'rapids' || k === 'waterfall' || k === 'whirlpool'; };
     const n = same(0, -1), s = same(0, 1), w = same(-1, 0), e = same(1, 0);
     grass(P, C, ox, oy, tx, ty);
     for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
@@ -1330,6 +1344,7 @@ G.Tiles = (() => {
       case 'pit': pit(P, C, ox, oy, tx, ty); break;
       case 'abyss': P.rect(ox, oy, T, T, C.black); break;   // nothing to stand on (Morty's Gym)
       case 'rapids': water(P, C, ox, oy, tx, ty, at, frame); break;   // its foam streaks: render.js
+      case 'whirlpool': water(P, C, ox, oy, tx, ty, at, frame); break;   // its swirl: render.js (gone while calmed)
       case 'bars': if (C.floor) floor(P, C, ox, oy, tx, ty, C.floor); else grass(P, C, ox, oy, tx, ty); break;   // closed: a prop (render.js)
       case 'plate': plate(P, C, ox, oy, tx, ty); break;
       case 'statue': statue(P, C, ox, oy, tx, ty); break;
@@ -1355,7 +1370,7 @@ G.Tiles = (() => {
 
   /** The whole map, once: two ground frames and the Y-sorted strips. */
   function bakeMap(m) {
-    const animated = m.kind.some(k => k === 'water' || k === 'flowers' || k === 'rapids' || k === 'waterfall');
+    const animated = m.kind.some(k => k === 'water' || k === 'flowers' || k === 'rapids' || k === 'waterfall' || k === 'whirlpool');
     const g0 = bakeGround(m, 0);
     const ground = [g0, animated ? bakeGround(m, 1) : g0];
     const strips = {};

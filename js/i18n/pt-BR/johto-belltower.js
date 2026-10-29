@@ -33,5 +33,6 @@ G.I18n.add({
   "Sohei": "Sohei",
   "My Xatu sees the past and the future. In both, I see myself winning!": "Meu Xatu vê o passado e o futuro. Nos dois, eu me vejo vencendo!",
   "I saw it wrong...": "Eu vi errado...",
-  "The top is just above. Be still, and the rainbow Pokémon may come to you.": "O topo fica logo acima. Fique calmo, e o Pokémon arco-íris pode vir até você."
+  "The top is just above. Be still, and the rainbow Pokémon may come to you.": "O topo fica logo acima. Fique calmo, e o Pokémon arco-íris pode vir até você.",
+  "The elder of Ecruteak must hear about this. Go and tell him what you saw!": "O ancião de Ecruteak precisa saber disso. Vá contar a ele o que você viu!"
 }, "pt-BR");

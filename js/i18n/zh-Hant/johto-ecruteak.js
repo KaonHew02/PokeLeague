@@ -91,5 +91,11 @@ G.I18n.add({
   "Raikou is still standing there, watching you.": "雷公還站在那裡，注視著你。",
   "Entei is back! The air shimmers with heat around it.": "炎帝回來了！牠周圍的空氣因高溫而扭曲。",
   "Entei is still standing there, watching you.": "炎帝還站在那裡，注視著你。",
-  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "是透明鈴鐺！它的鈴聲就是塔對你的歡迎。進去吧：塔一直在等你。"
+  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "是透明鈴鐺！它的鈴聲就是塔對你的歡迎。進去吧：塔一直在等你。",
+  "Ho-Oh has come back to the Bell Tower! I never thought I would live to see it.": "鳳王回到鈴鐺塔了！我從沒想過這輩子能親眼看到。",
+  "There is more to the story. The Brass Tower had a guardian too, a great silver Pokémon. When the tower burned, it flew off to the sea.": "故事還沒完。黃銅塔也有一位守護者，是一隻巨大的銀色寶可夢。塔燒起來的時候，牠飛向了大海。",
+  "This feather was found in the ashes, and my family has kept it ever since. Take it: I think it has been waiting for you.": "這根羽毛是在灰燼裡找到的，從那以後一直由我家保管。收下吧：我想它一直在等你。",
+  "They say the silver Pokémon sleeps deep under the Whirl Islands, beyond whirlpools no boat can cross.": "據說那隻銀色的寶可夢沉睡在漩渦列島的深處，被船隻無法通過的漩渦擋在後面。",
+  "An old sailor in Cianwood knows how to calm them. Go and find him.": "湛藍市有一位老水手知道怎麼讓漩渦平靜下來。去找他吧。",
+  "The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.": "銀色之羽會帶你去見大海的守護者，就在漩渦列島的深處。"
 }, "zh-Hant");

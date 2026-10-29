@@ -49,8 +49,11 @@ STAT = {'hp': 'hp', 'attack': 'atk', 'defense': 'def', 'special-attack': 'spa',
 STAT_ORDER = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed']
 # Moves taught by a move tutor in the game (Ilex Forest: Headbutt), from HeartGold / SoulSilver.
 TUTOR_MOVES = {'headbutt'}
+# HeartGold / SoulSilver's HMs that FireRed / LeafGreen's machines lack (HM06 there is Rock Smash):
+# a tutor teaches them, to the species that learn them from a machine in HeartGold / SoulSilver.
+TUTOR_FROM_HM = {'whirlpool'}
 # Items whose FireRed / LeafGreen text is about another region: HeartGold / SoulSilver's text instead.
-HGSS_TEXT = {'basement-key', 'clear-bell'}
+HGSS_TEXT = {'basement-key', 'clear-bell', 'silver-wing'}
 TYPES = ['normal', 'fire', 'water', 'electric', 'grass', 'ice', 'fighting', 'poison', 'ground',
          'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy']
 
@@ -105,7 +108,7 @@ REGIONS['johto'] = dict(REGIONS['kanto'], **{
     'items': REGIONS['kanto']['items'] + [
         'mystery-egg', 'sun-stone', 'metal-coat', 'kings-rock', 'dragon-scale', 'up-grade',
         'sport-ball', 'squirt-bottle',
-        'red-scale', 'basement-key', 'clear-bell', 'secret-potion', 'oran-berry', 'sitrus-berry', 'pecha-berry', 'cheri-berry', 'chesto-berry', 'rawst-berry', 'aspear-berry',
+        'red-scale', 'basement-key', 'clear-bell', 'silver-wing', 'secret-potion', 'oran-berry', 'sitrus-berry', 'pecha-berry', 'cheri-berry', 'chesto-berry', 'rawst-berry', 'aspear-berry',
     ],
     'regions': [('kanto', ['firered', 'leafgreen', 'red', 'blue', 'yellow']),
                 ('johto', ['heartgold', 'soulsilver', 'crystal', 'gold', 'silver'])],
@@ -356,10 +359,11 @@ def build(region):
         learn[d] = [[lvl, name] for lvl, _, name in rows]
         tm_moves[d] = sorted({m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
                               if vd['version_group']['name'] == cfg['tm_vg'] and vd['move_learn_method']['name'] == 'machine'})
-        # Move tutors the game has (HeartGold / SoulSilver): species field 'tu'.
+        # Move tutors the game has (HeartGold / SoulSilver's, and its HMs FireRed lacks): species field 'tu'.
         tutor[d] = sorted({m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
-                           if vd['version_group']['name'] == 'heartgold-soulsilver' and vd['move_learn_method']['name'] == 'tutor'
-                           and m['move']['name'] in TUTOR_MOVES})
+                           if vd['version_group']['name'] == 'heartgold-soulsilver'
+                           and ((vd['move_learn_method']['name'] == 'tutor' and m['move']['name'] in TUTOR_MOVES)
+                                or (vd['move_learn_method']['name'] == 'machine' and m['move']['name'] in TUTOR_FROM_HM))})
         move_names.update(n for _, n in learn[d])
         move_names.update(tm_moves[d])
         move_names.update(tutor[d])

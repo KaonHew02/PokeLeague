@@ -85,6 +85,20 @@ G.WorldRender = (() => {
     list.push({ y: after + 0.02, draw: c => c.drawImage(tuft, x * TS, (y + 1) * TS - tuft.height * G.Sprites.PX, TS, tuft.height * G.Sprites.PX) });
   }
 
+  /** A whirlpool: a dark eye and two white arms turning around it, in art pixels. */
+  function whirl(ctx, cx, cy, t) {
+    const PX = G.Sprites.PX;
+    ctx.fillStyle = 'rgba(16,44,72,.45)';
+    ctx.beginPath(); ctx.arc(cx, cy, 7 * PX, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'rgba(10,30,52,.6)';
+    ctx.beginPath(); ctx.arc(cx, cy, 2.5 * PX, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'rgba(236,250,255,.85)';
+    for (let arm = 0; arm < 2; arm++) for (let j = 0; j < 14; j++) {
+      const a = -t * 3 + arm * Math.PI + j * 0.45, r = (1.5 + j * 0.4) * PX;
+      ctx.fillRect(Math.round(cx + Math.cos(a) * r - PX / 2), Math.round(cy + Math.sin(a) * r - PX / 2), PX, PX);
+    }
+  }
+
   function draw(ctx, view, S) {
     const m = S.map, PX = G.Sprites.PX;
     const g = gfx(m);
@@ -144,6 +158,14 @@ G.WorldRender = (() => {
           const px = flow[0] ? along * flow[0] + (flow[0] < 0 ? TS : 0) : across, py = flow[1] ? along * flow[1] + (flow[1] < 0 ? TS : 0) : across;
           ctx.fillRect(x * TS + px - (flow[0] ? 5 : 1), y * TS + py - (flow[1] ? 5 : 1), flow[0] ? 10 : 2, flow[1] ? 10 : 2);
         }
+      });
+    }
+    // Whirlpools (Sea Route 41): a turning swirl, gone while Whirlpool has calmed one.
+    if (m.kind.includes('whirlpool')) {
+      const t = performance.now() / 1000;
+      m.kind.forEach((k, i) => {
+        const x = i % m.w, y = (i / m.w) | 0;
+        if (k === 'whirlpool' && !(S.cut && S.cut.has(x + ',' + y))) whirl(ctx, x * TS + TS / 2, y * TS + TS / 2, t);
       });
     }
     // Stairs behind a poster (`secret` tiles): drawn once their warp is open.

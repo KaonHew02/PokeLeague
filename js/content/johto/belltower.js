@@ -6,6 +6,7 @@
  * three have answered the bell (flags suicune-met, raikou-met, entei-met → beasts-answered) the
  * stairs open: 2F, 3F (two ways up: one to a closed corner of 4F, one on), 4F, with four Sages,
  * then the top, where Ho-Oh comes down (Lv. 45, flag ho-oh-met) and the chapter ends (`ending(21)`).
+ * Chapter 22: Eusine then sends you to the elder in Ecruteak (the Silver Wing, johto/whirl.js).
  */
 (() => {
   const T = s => G.T(s);
@@ -213,6 +214,7 @@
     if (!F.flag('suicune-met')) { await h.say(T('Suicune is waiting for you. Go on, I will watch from here.'), EUSINE); return; }
     if (!F.flag('beasts-answered')) { await h.say(T('Raikou and Entei went back to the Burned Tower, where they were reborn. They are waiting too.'), EUSINE); return; }
     if (!F.flag('ho-oh-met')) { await h.say(T('All three have answered. Now climb! I have a feeling the rainbow Pokémon is close.'), EUSINE); return; }
+    if (!F.flag('silver-wing')) { await h.say(T('The elder of Ecruteak must hear about this. Go and tell him what you saw!'), EUSINE); return; }
     await h.say(T('Ho-Oh, Suicune, Raikou, Entei... I will remember this tower for the rest of my life.'), EUSINE);
   }
 

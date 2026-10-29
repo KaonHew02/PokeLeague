@@ -67,8 +67,8 @@ G.I18n.add({
   "WAHAHAH! So you came all the way across the sea to battle me? I am Chuck! My Pokémon and I train under the waterfall every day. Come on, let us see your strength!": "哇哈哈哈！你是特地渡海来跟我对战的吗？我就是阿四！我和我的宝可梦每天都在瀑布底下修行。来吧，让我看看你的力量！",
   "Hwaaah! You are strong! I am shocked!": "哇啊——！你好强！我太震惊了！",
   "Sea Route 40. Olivine City to the east, Cianwood City far to the west.": "40号水路。东边是浅葱市，往西很远是湛蓝市。",
-  "Whirl Islands. Fierce whirlpools swirl around the caves: no boat or Pokémon can get in.": "漩涡列岛。洞窟周围都是猛烈的漩涡：船和宝可梦都进不去。",
   "Cianwood City Pokémon Gym. Leader: Chuck, whose fists do the talking.": "湛蓝市宝可梦道馆。馆主：阿四，用拳头说话的男人。",
   "Cianwood Pharmacy. Our secret recipes have healed Pokémon for five hundred years.": "湛蓝药店。我们的秘方治疗宝可梦已有五百年历史。",
-  "Cianwood City. A port town of rough seas and rough rocks.": "湛蓝市。海浪汹涌、岩石嶙峋的港口城市。"
+  "Cianwood City. A port town of rough seas and rough rocks.": "湛蓝市。海浪汹涌、岩石嶙峋的港口城市。",
+  "Whirl Islands. Fierce whirlpools swirl in front of the caves. Only a Pokémon that knows Whirlpool can calm them.": "漩涡列岛。洞窟前卷着猛烈的漩涡。只有会潮旋的宝可梦才能让它们平静下来。"
 }, "zh-Hans");

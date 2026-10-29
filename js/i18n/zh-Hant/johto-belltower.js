@@ -33,5 +33,6 @@ G.I18n.add({
   "Sohei": "宗平",
   "My Xatu sees the past and the future. In both, I see myself winning!": "我的天然鳥能看見過去和未來。兩邊都是我贏！",
   "I saw it wrong...": "我看錯了……",
-  "The top is just above. Be still, and the rainbow Pokémon may come to you.": "塔頂就在上面。靜下心來，彩虹色的寶可夢也許會來到你身邊。"
+  "The top is just above. Be still, and the rainbow Pokémon may come to you.": "塔頂就在上面。靜下心來，彩虹色的寶可夢也許會來到你身邊。",
+  "The elder of Ecruteak must hear about this. Go and tell him what you saw!": "得讓圓朱市的長老知道這件事。快去告訴他你看到了什麼！"
 }, "zh-Hant");

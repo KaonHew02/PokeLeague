@@ -67,8 +67,8 @@ G.I18n.add({
   "WAHAHAH! So you came all the way across the sea to battle me? I am Chuck! My Pokémon and I train under the waterfall every day. Come on, let us see your strength!": "UAHAHAH! Hai attraversato il mare per sfidarmi? Sono Furio! Io e i miei Pokémon ci alleniamo sotto la cascata ogni giorno. Forza, fammi vedere la tua forza!",
   "Hwaaah! You are strong! I am shocked!": "Uaaah! Sei forte! Sono sconvolto!",
   "Sea Route 40. Olivine City to the east, Cianwood City far to the west.": "Percorso 40. Olivinopoli a est, Fiorlisopoli lontano a ovest.",
-  "Whirl Islands. Fierce whirlpools swirl around the caves: no boat or Pokémon can get in.": "Isole Vorticose. Violenti mulinelli circondano le grotte: nessuna barca o Pokémon può entrarci.",
   "Cianwood City Pokémon Gym. Leader: Chuck, whose fists do the talking.": "Palestra Pokémon di Fiorlisopoli. Capopalestra: Furio, che parla con i pugni.",
   "Cianwood Pharmacy. Our secret recipes have healed Pokémon for five hundred years.": "Farmacia di Fiorlisopoli. Le nostre ricette segrete curano i Pokémon da cinquecento anni.",
-  "Cianwood City. A port town of rough seas and rough rocks.": "Fiorlisopoli. Una città portuale di mare mosso e rocce aspre."
+  "Cianwood City. A port town of rough seas and rough rocks.": "Fiorlisopoli. Una città portuale di mare mosso e rocce aspre.",
+  "Whirl Islands. Fierce whirlpools swirl in front of the caves. Only a Pokémon that knows Whirlpool can calm them.": "Isole Vorticose. Violenti vortici turbinano davanti alle grotte. Solo un Pokémon che conosce Mulinello può calmarli."
 }, "it");

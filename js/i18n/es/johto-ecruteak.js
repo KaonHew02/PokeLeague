@@ -91,5 +91,11 @@ G.I18n.add({
   "Raikou is still standing there, watching you.": "Raikou sigue ahí, observándote.",
   "Entei is back! The air shimmers with heat around it.": "¡Entei ha vuelto! El aire tiembla de calor a su alrededor.",
   "Entei is still standing there, watching you.": "Entei sigue ahí, observándote.",
-  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "¡El Cascabel Claro! Su sonido es la bienvenida de la torre. Entra: la torre te estaba esperando."
+  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "¡El Cascabel Claro! Su sonido es la bienvenida de la torre. Entra: la torre te estaba esperando.",
+  "Ho-Oh has come back to the Bell Tower! I never thought I would live to see it.": "¡Ho-Oh ha vuelto a la Torre Campana! Nunca pensé que viviría para verlo.",
+  "There is more to the story. The Brass Tower had a guardian too, a great silver Pokémon. When the tower burned, it flew off to the sea.": "La historia no acaba ahí. La Torre de Latón también tenía un guardián, un gran Pokémon plateado. Cuando la torre ardió, se fue volando hacia el mar.",
+  "This feather was found in the ashes, and my family has kept it ever since. Take it: I think it has been waiting for you.": "Esta pluma se encontró entre las cenizas, y mi familia la ha guardado desde entonces. Tómala: creo que te estaba esperando.",
+  "They say the silver Pokémon sleeps deep under the Whirl Islands, beyond whirlpools no boat can cross.": "Dicen que el Pokémon plateado duerme en lo más hondo de las Islas Remolino, tras unos remolinos que ningún barco puede cruzar.",
+  "An old sailor in Cianwood knows how to calm them. Go and find him.": "Un viejo marinero de Ciudad Orquídea sabe cómo calmarlos. Ve a buscarlo.",
+  "The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.": "El Ala Plateada te llevará hasta el guardián del mar, en lo más hondo de las Islas Remolino."
 }, "es");

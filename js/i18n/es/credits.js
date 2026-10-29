@@ -62,5 +62,8 @@ G.I18n.add({
   "Thank you for playing! Your Johto journey is complete. More adventures open in a future update.": "¡Gracias por jugar! Tu viaje por Johto ha terminado. Habrá más aventuras en una próxima actualización.",
   "Chapter 21 complete!": "¡Capítulo 21 completado!",
   "{player} rang the Clear Bell, met Suicune, Raikou and Entei, and climbed the Bell Tower to meet Ho-Oh.": "{player} hizo sonar el Cascabel Claro, se encontró con Suicune, Raikou y Entei, y subió a la Torre Campana para conocer a Ho-Oh.",
-  "Thank you for playing! More of Johto's legends wait in a future update.": "¡Gracias por jugar! Más leyendas de Johto te esperan en una próxima actualización."
+  "Thank you for playing! More of Johto's legends wait in a future update.": "¡Gracias por jugar! Más leyendas de Johto te esperan en una próxima actualización.",
+  "Chapter 22 complete!": "¡Capítulo 22 completado!",
+  "{player} calmed the whirlpools of the Whirl Islands and met Lugia, the guardian of the sea, in its chamber deep below.": "{player} calmó los remolinos de las Islas Remolino y se encontró con Lugia, el guardián del mar, en su cámara de las profundidades.",
+  "Thank you for playing! More of Johto's secrets wait in a future update.": "¡Gracias por jugar! Más secretos de Johto te esperan en una próxima actualización."
 }, "es");

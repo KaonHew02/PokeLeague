@@ -67,8 +67,8 @@ G.I18n.add({
   "WAHAHAH! So you came all the way across the sea to battle me? I am Chuck! My Pokémon and I train under the waterfall every day. Come on, let us see your strength!": "WAHAHAH ! Tu as traversé la mer pour m'affronter ? Je suis Chuck ! Mes Pokémon et moi nous entraînons sous la cascade tous les jours. Allez, montre-moi ta force !",
   "Hwaaah! You are strong! I am shocked!": "Hwaaah ! Tu es fort ! Je suis sous le choc !",
   "Sea Route 40. Olivine City to the east, Cianwood City far to the west.": "Chenal 40. Oliville à l'est, Irisia loin à l'ouest.",
-  "Whirl Islands. Fierce whirlpools swirl around the caves: no boat or Pokémon can get in.": "Tourb'Iles. De violents tourbillons entourent les grottes : aucun bateau ni Pokémon ne peut y entrer.",
   "Cianwood City Pokémon Gym. Leader: Chuck, whose fists do the talking.": "Arène Pokémon d'Irisia. Champion : Chuck, qui parle avec ses poings.",
   "Cianwood Pharmacy. Our secret recipes have healed Pokémon for five hundred years.": "Pharmacie d'Irisia. Nos recettes secrètes soignent les Pokémon depuis cinq cents ans.",
-  "Cianwood City. A port town of rough seas and rough rocks.": "Irisia. Une ville portuaire aux mers agitées et aux rochers rudes."
+  "Cianwood City. A port town of rough seas and rough rocks.": "Irisia. Une ville portuaire aux mers agitées et aux rochers rudes.",
+  "Whirl Islands. Fierce whirlpools swirl in front of the caves. Only a Pokémon that knows Whirlpool can calm them.": "Tourb'Iles. De violents tourbillons tournoient devant les grottes. Seul un Pokémon qui connaît Siphon peut les calmer."
 }, "fr");

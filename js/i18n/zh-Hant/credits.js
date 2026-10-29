@@ -62,5 +62,8 @@ G.I18n.add({
   "Thank you for playing! Your Johto journey is complete. More adventures open in a future update.": "感謝遊玩！你的城都之旅圓滿結束。更多冒險將在之後的更新中開放。",
   "Chapter 21 complete!": "第21章完成！",
   "{player} rang the Clear Bell, met Suicune, Raikou and Entei, and climbed the Bell Tower to meet Ho-Oh.": "{player}搖響了透明鈴鐺，遇見了水君、雷公和炎帝，登上鈴鐺塔見到了鳳王。",
-  "Thank you for playing! More of Johto's legends wait in a future update.": "感謝遊玩！更多城都的傳說將在之後的更新中等著你。"
+  "Thank you for playing! More of Johto's legends wait in a future update.": "感謝遊玩！更多城都的傳說將在之後的更新中等著你。",
+  "Chapter 22 complete!": "第22章完成！",
+  "{player} calmed the whirlpools of the Whirl Islands and met Lugia, the guardian of the sea, in its chamber deep below.": "{player}平息了漩渦列島的漩渦，在深處的洞室裡見到了大海的守護者洛奇亞。",
+  "Thank you for playing! More of Johto's secrets wait in a future update.": "感謝遊玩！更多城都的秘密將在之後的更新中等著你。"
 }, "zh-Hant");

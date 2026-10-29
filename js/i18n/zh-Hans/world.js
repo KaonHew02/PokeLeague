@@ -68,5 +68,8 @@ G.I18n.add({
   "A berry tree! {player} picked {item} ×{n}.": "是树果树！{player}摘到了{item}×{n}。",
   "A huge waterfall. A strong water Pokémon could climb it.": "一道巨大的瀑布。强壮的水系宝可梦也许能爬上去。",
   "A huge waterfall. Would you like to use Waterfall?": "一道巨大的瀑布。要使用攀瀑吗？",
-  "{mon} used Waterfall!": "{mon}使用了攀瀑！"
+  "{mon} used Waterfall!": "{mon}使用了攀瀑！",
+  "A fierce whirlpool. A Pokémon could calm it with the right move.": "一个猛烈的漩涡。会合适招式的宝可梦也许能让它平静下来。",
+  "A fierce whirlpool. Would you like to use Whirlpool?": "一个猛烈的漩涡。要使用潮旋吗？",
+  "{mon} used Whirlpool!": "{mon}使用了潮旋！"
 }, "zh-Hans");

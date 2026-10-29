@@ -68,5 +68,8 @@ G.I18n.add({
   "A berry tree! {player} picked {item} ×{n}.": "Un albero di bacche! {player} raccoglie {item} ×{n}.",
   "A huge waterfall. A strong water Pokémon could climb it.": "Un'enorme cascata. Un Pokémon acquatico forte potrebbe risalirla.",
   "A huge waterfall. Would you like to use Waterfall?": "Un'enorme cascata. Vuoi usare Cascata?",
-  "{mon} used Waterfall!": "{mon} usa Cascata!"
+  "{mon} used Waterfall!": "{mon} usa Cascata!",
+  "A fierce whirlpool. A Pokémon could calm it with the right move.": "Un vortice violento. Un Pokémon con la mossa giusta potrebbe calmarlo.",
+  "A fierce whirlpool. Would you like to use Whirlpool?": "Un vortice violento. Vuoi usare Mulinello?",
+  "{mon} used Whirlpool!": "{mon} usa Mulinello!"
 }, "it");

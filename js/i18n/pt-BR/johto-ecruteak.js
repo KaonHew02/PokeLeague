@@ -91,5 +91,11 @@ G.I18n.add({
   "Raikou is still standing there, watching you.": "Raikou continua ali, observando você.",
   "Entei is back! The air shimmers with heat around it.": "Entei voltou! O ar tremula de calor ao redor dele.",
   "Entei is still standing there, watching you.": "Entei continua ali, observando você.",
-  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "O Clear Bell! O som dele é a boas-vindas da torre. Entre: a torre estava esperando por você."
+  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "O Clear Bell! O som dele é a boas-vindas da torre. Entre: a torre estava esperando por você.",
+  "Ho-Oh has come back to the Bell Tower! I never thought I would live to see it.": "Ho-Oh voltou à Bell Tower! Nunca pensei que viveria para ver isso.",
+  "There is more to the story. The Brass Tower had a guardian too, a great silver Pokémon. When the tower burned, it flew off to the sea.": "A história não acaba aí. A Torre de Latão também tinha um guardião, um grande Pokémon prateado. Quando a torre queimou, ele voou para o mar.",
+  "This feather was found in the ashes, and my family has kept it ever since. Take it: I think it has been waiting for you.": "Esta pena foi encontrada nas cinzas, e minha família a guarda desde então. Fique com ela: acho que ela estava esperando por você.",
+  "They say the silver Pokémon sleeps deep under the Whirl Islands, beyond whirlpools no boat can cross.": "Dizem que o Pokémon prateado dorme bem no fundo das Whirl Islands, além de redemoinhos que nenhum barco consegue atravessar.",
+  "An old sailor in Cianwood knows how to calm them. Go and find him.": "Um velho marinheiro de Cianwood sabe como acalmá-los. Vá procurá-lo.",
+  "The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.": "A Silver Wing vai levar você até o guardião do mar, bem no fundo das Whirl Islands."
 }, "pt-BR");

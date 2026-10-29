@@ -1241,10 +1241,33 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   fixed places. Files: `js/content/johto/belltower.js` (translations `johto-belltower`);
   `ecruteak.js` (the elder, the Sage, the Burned Tower's basement).
 
-### After chapter 21
+- **Chapter 22** ✅, Johto after the League, the Whirl Islands: once Ho-Oh has been met, Eusine
+  sends you to the elder, who gives the Silver Wing (key item, flag `silver-wing`), a feather of the
+  Brass Tower's guardian, which flew off to the sea when the tower burned. An old sailor on
+  Cianwood's beach teaches Whirlpool (`whirl.sailor`), and with the Glacier Badge it calms the
+  whirlpools in front of the four caves on Sea Route 41 (each island: a mouth, a strip of sand, a
+  whirlpool). Each cave (`whirl-islands-nw`, `-ne`, `-sw`, `-se`) has a ladder down to B1F: the
+  north-east and south-west ones lead into its main cave, the other two into closed corners with
+  items. B1F's ladder goes down to B2F, an underground lake (Surf, the games' surf and rod
+  tables): Waterfall climbs its falls to a ledge whose ladder, open with the Silver Wing
+  (`whirl.closed` otherwise), goes down to Lugia's chamber (`whirl-islands-b3f`, no wild
+  Pokémon). Lugia: a wild battle, Lv. 45 (`lugia-met`; running or losing keeps it there), then
+  `ending(22)`. Nine items in all. Files: `js/content/johto/whirl.js` (translations `johto-whirl`);
+  `cianwood.js` (Route 41, the sailor), `ecruteak.js` (the elder), `belltower.js` (Eusine).
+- **Engine for chapter 22:** whirlpools (outdoor tile `w`, kind `whirlpool`, solid; water drawn
+  under a turning swirl, render.js): facing one, Whirlpool (a Pokémon that knows it, with the
+  Glacier Badge) calms it into water until you leave the map, like a tree Cut clears (field.js
+  `whirlpoolAt`, the `cut` set; a save made on a calmed one calms it again on loading). Whirlpool
+  is taught by a tutor, not an HM: FireRed's HM06 is Rock Smash. `tools/fetch_data.py`
+  `TUTOR_FROM_HM` adds HeartGold and SoulSilver's machine moves to the species field `tu` (66
+  species learn Whirlpool). Palette `whirl` (dark sea-worn rock); item Silver Wing.
+  `tests/field.test.cjs` plays the real Route 41 (the whirlpool, the cave and back out) and B2F's
+  falls and locked ladder; the map generator checks every floor (walking, Surf, Waterfall,
+  Whirlpool) and that each strip of sand can only be reached through its whirlpool.
 
-1. **More of Johto's post-game:** the Whirl Islands and Lugia (Whirlpool), Dark Cave, the Ruins of
-   Alph, Kurt's Apricorn Balls, breeding at the Day Care (Eggs) and held items (berries held in
-   battle), Mt. Silver.
+### After chapter 22
+
+1. **More of Johto's post-game:** Dark Cave, the Ruins of Alph, Kurt's Apricorn Balls, breeding at
+   the Day Care (Eggs) and held items (berries held in battle), Mt. Silver.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

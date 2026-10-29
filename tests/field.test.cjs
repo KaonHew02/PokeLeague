@@ -1,6 +1,6 @@
 // The overworld's rules without a screen (field.js): boulders and Strength, pits, gates, fast
 // water, fishing, trainers who see across water, Johto's clock, obedience and Egg, Headbutt, the Day Care,
-// the Bug-Catching Contest, Morty's floor of darkness, berry trees, Pryce's ice, waterfalls, and the real Ice Path and Clair's Gym.
+// the Bug-Catching Contest, Morty's floor of darkness, berry trees, Pryce's ice, waterfalls, whirlpools (the Whirl Islands), and the real Ice Path and Clair's Gym.
 // Test maps are defined here (the last test loads the chapter 18 maps); the drawing, the dialog box and the camera are stand-ins.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -549,6 +549,51 @@ test("Route 27's falls: up them with Waterfall to the east bank, back down them 
   W.load('route27', { x: 23, y: 2, dir: 'down' });
   await go(['down']);
   assert.deepEqual([W.player.x, W.player.y], [23, 6], 'down the falls into the pool below');
+});
+
+test('the Whirl Islands: Whirlpool, with the Glacier Badge, calms the whirlpool before a cave until you leave; Waterfall climbs to the chamber', async () => {
+  const { G, W } = world(['js/content/johto/cianwood.js', 'js/content/johto/whirl.js']);
+  W.debug.noEnc = true;
+  G.Field.giveMon('lapras', 40, { moves: ['surf', 'whirlpool', 'waterfall'] });
+  G.Field.save.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+  const settle = async () => { for (let i = 0; i < 80; i++) { W.update(0.05); await tick(); if (!W.player.moving && i > 4) break; } };
+  const until = async ok => { for (let i = 0; i < 200 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const go = async dirs => { for (const d of dirs) { assert.equal(W.tryStep(W.player, d, 4), 'moved', d + ' from ' + W.player.x + ',' + W.player.y); W.player.update(1); W.arrived(W.player); await settle(); } };
+  G.Field.save.player.surf = 1;
+  W.load('route41', { x: 10, y: 8, dir: 'up' });
+  assert.ok(W.surfing);
+  assert.equal(W.tryStep(W.player, 'up', 4), 'blocked', 'the whirlpool is in the way');
+  await pump(W, W.interact());
+  assert.equal(W.tryStep(W.player, 'up', 4), 'blocked', 'not calmed without the Glacier Badge');
+  G.Field.save.player.badges.push(15);
+  await pump(W, W.interact());
+  await go(['up', 'up']);
+  assert.ok(!W.surfing && W.player.y === 6, 'ashore in front of the cave');
+  await go(['up']);
+  await until(() => W.map.id === 'whirl-islands-nw');
+  // Out again: the whirlpool is back; calmed from the sand, Surf goes on from there.
+  await go(['down']);
+  await until(() => W.map.id === 'route41');
+  assert.deepEqual([W.player.x, W.player.y], [10, 6], 'on the sand outside');
+  assert.equal(W.tryStep(W.player, 'down', 4), 'blocked', 'the whirlpool came back');
+  await pump(W, W.interact());
+  await pump(W, W.interact());
+  await settle();
+  assert.ok(W.surfing && W.player.y === 7, 'surfing on the calmed whirlpool');
+  // B2F: up the falls with Waterfall to the ledge, whose ladder needs the Silver Wing.
+  G.Field.save.player.badges.push(16);
+  W.load('whirl-islands-b2f', { x: 19, y: 6, dir: 'up' });
+  assert.ok(W.surfing);
+  await pump(W, W.interact());
+  await settle();
+  assert.deepEqual([W.player.x, W.player.y], [19, 3], 'at the top of the falls');
+  await go(['right', 'right', 'right', 'right', 'up', 'right']);
+  assert.ok(!W.surfing && W.player.x === 24 && W.player.y === 2, 'on the ledge');
+  assert.equal(W.tryStep(W.player, 'right', 4), 'blocked', 'closed without the Silver Wing');
+  await settle();
+  G.Field.setFlag('silver-wing');
+  await go(['right']);
+  await until(() => W.map.id === 'whirl-islands-b3f');
 });
 
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */

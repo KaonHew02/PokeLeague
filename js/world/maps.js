@@ -66,7 +66,9 @@ G.Maps = (() => {
     // Chapter 16: ice (Pryce's Gym; in caves too, chapter 18): you slide on it (field.js).
     ice: { ice: 1 },
     // Chapter 19: a waterfall (Route 27): a surfer rides down it, and climbs it with Waterfall (field.js).
-    waterfall: { solid: 1 }
+    waterfall: { solid: 1 },
+    // Chapter 22: a whirlpool (Sea Route 41): Whirlpool calms it into water until you leave the map (field.js).
+    whirlpool: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -84,7 +86,8 @@ G.Maps = (() => {
       h: 'headtree',                                 // a tree to Headbutt (Johto)
       y: 'berrytree',                                // a berry tree (Johto)
       i: 'ice',                                      // ice on a cave floor (the Ice Path)
-      '|': 'waterfall'                               // a waterfall: ride down it, climb it with Waterfall
+      '|': 'waterfall',                              // a waterfall: ride down it, climb it with Waterfall
+      w: 'whirlpool'                                 // a whirlpool: Whirlpool calms it (until you leave the map)
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',

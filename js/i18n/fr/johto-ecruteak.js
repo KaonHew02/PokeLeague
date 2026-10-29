@@ -91,5 +91,11 @@ G.I18n.add({
   "Raikou is still standing there, watching you.": "Raikou est toujours là, à t'observer.",
   "Entei is back! The air shimmers with heat around it.": "Entei est revenu ! L'air ondule de chaleur autour de lui.",
   "Entei is still standing there, watching you.": "Entei est toujours là, à t'observer.",
-  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "Le Glas Transparent ! Son tintement est l'accueil de la tour. Entre : la tour t'attendait."
+  "The Clear Bell! Its ring is the tower's welcome. Go in: the tower has been waiting for you.": "Le Glas Transparent ! Son tintement est l'accueil de la tour. Entre : la tour t'attendait.",
+  "Ho-Oh has come back to the Bell Tower! I never thought I would live to see it.": "Ho-Oh est revenu à la Tour Carillon ! Je n'aurais jamais cru vivre assez longtemps pour voir ça.",
+  "There is more to the story. The Brass Tower had a guardian too, a great silver Pokémon. When the tower burned, it flew off to the sea.": "L'histoire ne s'arrête pas là. La Tour de Cuivre avait elle aussi un gardien, un grand Pokémon argenté. Quand la tour a brûlé, il s'est envolé vers la mer.",
+  "This feather was found in the ashes, and my family has kept it ever since. Take it: I think it has been waiting for you.": "Cette plume a été trouvée dans les cendres, et ma famille la garde depuis. Prends-la : je crois qu'elle t'attendait.",
+  "They say the silver Pokémon sleeps deep under the Whirl Islands, beyond whirlpools no boat can cross.": "On dit que le Pokémon argenté dort tout au fond des Tourb'Iles, derrière des tourbillons qu'aucun bateau ne peut franchir.",
+  "An old sailor in Cianwood knows how to calm them. Go and find him.": "Un vieux marin d'Irisia sait comment les calmer. Va le trouver.",
+  "The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.": "L'Argent'Aile te mènera jusqu'au gardien de la mer, tout au fond des Tourb'Iles."
 }, "fr");

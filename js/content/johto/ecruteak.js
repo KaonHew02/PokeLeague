@@ -13,6 +13,8 @@
  * Chapter 21: Johto's Champion gets the Clear Bell from the elder (flag clear-bell), and the Sage
  * lets you into the Bell Tower (johto/belltower.js). Once Suicune has been met there, Raikou and
  * Entei come back to the Burned Tower's basement (flag beasts-return), each a wild battle, Lv. 40.
+ * Chapter 22: once Ho-Oh has been met, the elder gives the Silver Wing (flag silver-wing), the way to
+ * Lugia under the Whirl Islands (johto/whirl.js).
  */
 G.Maps.def({
   id: 'ecruteak', loc: 'ecruteak-city', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -342,6 +344,23 @@ G.Maps.def({
       await h.say(T('{player} received {item}!'), { vars: { item: G.Names.item('clear-bell') } });
       await j;
       await h.say(T('Show it to the Sage at the Bell Tower. Its ring will open the way.'));
+      return;
+    }
+    if (F.flag('ho-oh-met') && !F.flag('silver-wing')) {
+      await h.say(T('Ho-Oh has come back to the Bell Tower! I never thought I would live to see it.'));
+      await h.say(T('There is more to the story. The Brass Tower had a guardian too, a great silver Pokémon. When the tower burned, it flew off to the sea.'));
+      await h.say(T('This feather was found in the ashes, and my family has kept it ever since. Take it: I think it has been waiting for you.'));
+      F.giveItem('silver-wing', 1);
+      F.setFlag('silver-wing');
+      const j = h.jingle('item');
+      await h.say(T('{player} received {item}!'), { vars: { item: G.Names.item('silver-wing') } });
+      await j;
+      await h.say(T('They say the silver Pokémon sleeps deep under the Whirl Islands, beyond whirlpools no boat can cross.'));
+      await h.say(T('An old sailor in Cianwood knows how to calm them. Go and find him.'));
+      return;
+    }
+    if (F.flag('silver-wing') && !F.flag('lugia-met')) {
+      await h.say(T('The Silver Wing will lead you to the guardian of the sea, deep under the Whirl Islands.'));
       return;
     }
     await h.say(T('Long ago, Ecruteak had two towers. In the east, the Bell Tower; in the west, the Brass Tower.'));

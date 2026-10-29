@@ -33,5 +33,6 @@ G.I18n.add({
   "Sohei": "Sohei",
   "My Xatu sees the past and the future. In both, I see myself winning!": "Il mio Xatu vede il passato e il futuro. In entrambi mi vedo vincere!",
   "I saw it wrong...": "Ho visto male...",
-  "The top is just above. Be still, and the rainbow Pokémon may come to you.": "La cima è proprio qui sopra. Resta calmo, e il Pokémon arcobaleno potrebbe venire da te."
+  "The top is just above. Be still, and the rainbow Pokémon may come to you.": "La cima è proprio qui sopra. Resta calmo, e il Pokémon arcobaleno potrebbe venire da te.",
+  "The elder of Ecruteak must hear about this. Go and tell him what you saw!": "L'anziano di Amarantopoli deve saperlo. Vai a raccontargli quello che hai visto!"
 }, "it");

@@ -1,12 +1,14 @@
 /* ============ cianwood.js — Sea Routes 40 and 41, Cianwood City and Chuck ============
  * Chapter 15. West of Olivine, Sea Route 40 (a sandbank, three Swimmers) and Sea Route 41 with
- * the Whirl Islands (their caves are closed by whirlpools for now; three Swimmers) lead to
+ * the Whirl Islands (their caves are behind whirlpools: chapter 22, whirl.js; three Swimmers) lead to
  * Cianwood City. On its beach Suicune appears and runs off over the sea (flag
  * cianwood-suicune; Eusine comes after it). The pharmacy gives the Secret Potion for Jasmine's
  * Amphy once she has asked for it (flag amphy-sick). Chuck's wife gives TM08 Bulk Up (flag
  * got-tm08). Chuck's Gym: rocks, three boulders (Strength), four Black Belts, then Chuck
  * (Primeape, Poliwrath): badge 13, the Storm Badge (Pokémon up to Lv. 50 obey), TM01 Focus Punch
  * (flag chuck-beaten).
+ * Chapter 22: an old sailor on the beach teaches Whirlpool (script whirl.sailor), which calms the
+ * whirlpools in front of the Whirl Islands' four caves.
  */
 G.Maps.def({
   id: 'route40', loc: 'johto-sea-route-40', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'sea', border: '~',
@@ -64,9 +66,9 @@ G.Maps.def({
     '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
     '~~~~~~~~#####~~~~~~~~~~~~~#####~~~~~~~~~',
     '~~~~~~~~#####~~~~~~~~~~~~~#####~~~~~~~~~',
-    '~~~~~~~~#####~~~~~~~~~~~~~#####~~~~~~~~~',
-    '~~~~~~~~#####~~~~~~~~~~~~~#####~~~~~~~~~',
-    '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+    '~~~~~~~~##O##~~~~~~~~~~~~~##O##~~~~~~~~~',
+    '~~~~~~~~##:##~~~~~~~~~~~~~##:##~~~~~~~~~',
+    '~~~~~~~~~~w~~~~~~~~~~~~~~~~~w~~~~~~~~~~~',
     '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
     '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
     '~~~~~~~~~~~~~~~~~::S:::~~~~~~~~~~~~~~~~~',
@@ -74,9 +76,9 @@ G.Maps.def({
     '~~~~~~~~~~~~~~~~~::::::~~~~~~~~~~~~~~~~~',
     '~~~~~~~~~~~~~~~~~::::::~~~~~~~~~~~~~~~~~',
     '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-    '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-    '~~~~~~~~#####~~~~~~~~~~~~~#####~~~~~~~~~',
-    '~~~~~~~~#####~~~~~~~~~~~~~#####~~~~~~~~~',
+    '~~~~~~~~~~w~~~~~~~~~~~~~~~~~w~~~~~~~~~~~',
+    '~~~~~~~~##:##~~~~~~~~~~~~~##:##~~~~~~~~~',
+    '~~~~~~~~##O##~~~~~~~~~~~~~##O##~~~~~~~~~',
     '~~~~~~~~#####~~~~~~~~~~~~~#####~~~~~~~~~',
     '~~~~~~~~#####~~~~~~~~~~~~~#####~~~~~~~~~',
     '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
@@ -85,7 +87,14 @@ G.Maps.def({
     '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
   ],
   connect: { east: { map: 'route40', offset: 2 }, west: { map: 'cianwood', offset: -4 } },
-  signs: { '19,10': 'Whirl Islands. Fierce whirlpools swirl around the caves: no boat or Pokémon can get in.' },
+  warps: [
+    { x: 10, y: 5, to: 'whirl-islands-nw', spot: 'mouth' },
+    { x: 28, y: 5, to: 'whirl-islands-ne', spot: 'mouth' },
+    { x: 10, y: 17, to: 'whirl-islands-sw', spot: 'mouth' },
+    { x: 28, y: 17, to: 'whirl-islands-se', spot: 'mouth' }
+  ],
+  spots: { 'whirl-nw': [10, 6, 'down'], 'whirl-ne': [28, 6, 'down'], 'whirl-sw': [10, 16, 'up'], 'whirl-se': [28, 16, 'up'] },
+  signs: { '19,10': 'Whirl Islands. Fierce whirlpools swirl in front of the caves. Only a Pokémon that knows Whirlpool can calm them.' },
   trainers: [
     { id: 'randall', who: 'swimmer', cls: 'swimmer', name: 'Randall', x: 15, y: 6, dir: 'down', sight: 4, swim: true,
       team: [['shellder', 27], ['wartortle', 28]],
@@ -162,6 +171,7 @@ G.Maps.def({
     { id: 'suicune', who: 'suicune', mon: 'suicune', x: 22, y: 12, dir: 'left', fixed: true, if: 'scripted' },
     { id: 'eusine', who: 'eusine', x: 18, y: 13, dir: 'right', if: 'cianwood-suicune',
       say: 'Suicune was right here! It ran off over the waves before I could get close. But I will catch up with it, you will see!' },
+    { id: 'sailor', who: 'sailor', x: 19, y: 14, dir: 'right', script: 'whirl.sailor' },
     { id: 'kid', who: 'youngster', x: 8, y: 20, move: 'wander', r: 2,
       say: 'Chuck trains under a waterfall every morning. He shouts so loud you can hear him across town!' },
     { id: 'man', who: 'hiker', x: 16, y: 23, move: 'look',

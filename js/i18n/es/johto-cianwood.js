@@ -67,8 +67,8 @@ G.I18n.add({
   "WAHAHAH! So you came all the way across the sea to battle me? I am Chuck! My Pokémon and I train under the waterfall every day. Come on, let us see your strength!": "¡JUAJUAJUA! ¿Así que has cruzado el mar para combatir conmigo? ¡Soy Aníbal! Mis Pokémon y yo entrenamos bajo la cascada cada día. ¡Vamos, enséñame tu fuerza!",
   "Hwaaah! You are strong! I am shocked!": "¡Uaaah! ¡Eres fuerte! ¡Estoy impresionado!",
   "Sea Route 40. Olivine City to the east, Cianwood City far to the west.": "Ruta 40. Ciudad Olivo al este; Ciudad Orquídea, lejos al oeste.",
-  "Whirl Islands. Fierce whirlpools swirl around the caves: no boat or Pokémon can get in.": "Islas Remolino. Feroces remolinos rodean las cuevas: ni barcos ni Pokémon pueden entrar.",
   "Cianwood City Pokémon Gym. Leader: Chuck, whose fists do the talking.": "Gimnasio Pokémon de Ciudad Orquídea. Líder: Aníbal, que habla con los puños.",
   "Cianwood Pharmacy. Our secret recipes have healed Pokémon for five hundred years.": "Farmacia de Ciudad Orquídea. Nuestras recetas secretas curan Pokémon desde hace quinientos años.",
-  "Cianwood City. A port town of rough seas and rough rocks.": "Ciudad Orquídea. Un pueblo portuario de mar bravo y rocas ásperas."
+  "Cianwood City. A port town of rough seas and rough rocks.": "Ciudad Orquídea. Un pueblo portuario de mar bravo y rocas ásperas.",
+  "Whirl Islands. Fierce whirlpools swirl in front of the caves. Only a Pokémon that knows Whirlpool can calm them.": "Islas Remolino. Fuertes remolinos giran frente a las cuevas. Solo un Pokémon que sepa Torbellino puede calmarlos."
 }, "es");

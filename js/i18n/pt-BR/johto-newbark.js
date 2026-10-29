@@ -58,5 +58,6 @@ G.I18n.add({
   "The Day Care is on Route 34, just south of Goldenrod City. Hatch an Egg from there and bring me the Pokémon!": "A Creche fica na Rota 34, logo ao sul de Goldenrod City. Choque um Ovo de lá e me traga o Pokémon!",
   "You hatched an Egg from the Day Care? Let me see...": "Você chocou um Ovo da Creche? Deixe-me ver...",
   "A Pokémon at the very first stage of its family, only just born! So Pokémon really do come from Eggs, and parents pass things on to their young.": "Um Pokémon no primeiro estágio da sua família, recém-nascido! Então os Pokémon nascem mesmo de Ovos, e os pais passam coisas para os filhotes.",
-  "Thank you, {player}. This is a big step for my research. Keep leaving Pokémon at the Day Care: who knows what will hatch next!": "Obrigado, {player}. É um grande passo para a minha pesquisa. Continue deixando Pokémon na Creche: quem sabe o que vai nascer da próxima vez!"
+  "Thank you, {player}. This is a big step for my research. Keep leaving Pokémon at the Day Care: who knows what will hatch next!": "Obrigado, {player}. É um grande passo para a minha pesquisa. Continue deixando Pokémon na Creche: quem sabe o que vai nascer da próxima vez!",
+  "Mr. Pokémon called. He heard about your Egg, and he would like to show you something from his collection. His house is at the end of Route 30.": "O Mr. Pokémon ligou. Ele soube do seu Ovo e gostaria de mostrar algo da coleção dele. A casa dele fica no fim da Rota 30."
 }, "pt-BR");

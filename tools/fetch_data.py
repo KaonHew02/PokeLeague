@@ -112,6 +112,12 @@ REGIONS['johto'] = dict(REGIONS['kanto'], **{
         'red-scale', 'basement-key', 'clear-bell', 'silver-wing', 'secret-potion', 'oran-berry', 'sitrus-berry', 'pecha-berry', 'cheri-berry', 'chesto-berry', 'rawst-berry', 'aspear-berry',
         'apricorn-box', 'red-apricorn', 'blue-apricorn', 'yellow-apricorn', 'green-apricorn', 'pink-apricorn',
         'white-apricorn', 'black-apricorn', 'unown-report',
+        # Held items (chapter 26).
+        'leftovers', 'quick-claw', 'focus-band', 'scope-lens', 'bright-powder', 'lucky-egg', 'amulet-coin',
+        'everstone', 'smoke-ball', 'shell-bell', 'light-ball', 'thick-club', 'metal-powder', 'lucky-punch', 'stick',
+        'charcoal', 'mystic-water', 'miracle-seed', 'magnet', 'never-melt-ice', 'black-belt', 'poison-barb',
+        'soft-sand', 'sharp-beak', 'twisted-spoon', 'silver-powder', 'hard-stone', 'spell-tag', 'dragon-fang',
+        'black-glasses', 'silk-scarf',
     ],
     'regions': [('kanto', ['firered', 'leafgreen', 'red', 'blue', 'yellow']),
                 ('johto', ['heartgold', 'soulsilver', 'crystal', 'gold', 'silver'])],

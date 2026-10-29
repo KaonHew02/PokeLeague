@@ -10,11 +10,13 @@
  *       Changes the species and recalculates stats (HP rises with max HP).
  *       The returned moves go through the usual "learn a new move" prompt.
  * Cancelling (B during the animation) simply means not calling evolve().
+ * A Pokémon holding an Everstone (chapter 26) does not evolve, but by an item used on it.
  */
 G.Evolution = (() => {
   function candidates(mon, o = {}) {
     const S = G.SPECIES[mon.sp];
     const out = [];
+    if (mon.item === 'everstone' && o.trigger !== 'item') return out;
     const time = o.time || (G.Clock ? G.Clock.period() : 'day');
     const timeOk = e => !e.time || (e.time === 'night' ? time === 'night' : time !== 'night');
     for (const e of S.evo || []) {

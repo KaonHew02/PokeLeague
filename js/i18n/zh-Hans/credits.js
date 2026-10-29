@@ -71,5 +71,7 @@ G.I18n.add({
   "Chapter 24 complete!": "第二十四章完成！",
   "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player}拼好了阿露福遗迹的四块石板，在内部大厅见到了未知图腾。",
   "Chapter 25 complete!": "第二十五章完成！",
-  "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player}孵出了培育屋的蛋，让空木博士看到了宝可梦是怎样出生的。"
+  "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player}孵出了培育屋的蛋，让空木博士看到了宝可梦是怎样出生的。",
+  "Chapter 26 complete!": "第二十六章完成！",
+  "{player} learned to give Pokémon items to hold, and traded the Red Scale to Mr. Pokémon for the Exp. Share.": "{player}学会了让宝可梦携带道具，还用红色鳞片跟宝可梦爷爷换到了学习装置。"
 }, "zh-Hans");

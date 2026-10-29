@@ -432,6 +432,14 @@ test('breeding: who can breed and how well, the first stage, egg moves from the 
     const iv = D.breed(ma, pa, G.RNG(s)).mon.ivs;
     assert.ok(iv.filter(v => v >= 30).length >= 3, iv.join());
   }
+  // An Everstone held by the mother passes on her nature about half the time (chapter 26).
+  let same = 0;
+  for (let s = 1; s <= 200; s++) {
+    const mom = mk(37, 'f', { nature: 'modest' }), dad = mk(37, 'm', { nature: 'adamant' });
+    mom.item = 'everstone';
+    if (D.breed(mom, dad, G.RNG(s)).mon.nature === 'modest') same++;
+  }
+  assert.ok(same > 85 && same < 130, 'Everstone ' + same + ' of 200');
   // The Odd Egg: a baby, shiny one time in eight.
   let shiny = 0;
   for (let s = 1; s <= 400; s++) { const m = D.odd(G.RNG(s)).mon; assert.ok(D.BABIES.includes(m.sp)); if (m.shiny) shiny++; }

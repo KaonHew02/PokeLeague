@@ -107,12 +107,19 @@ G.Maps.center('goldenrod-center', {
 const GDEPT = { loc: 'goldenrod-city', region: 'johto', tileset: 'indoor', palette: 'mart', music: 'mart', battleBg: 'indoor' };
 G.Maps.def(Object.assign({
   id: 'goldenrod-dept-1f',
-  rows: ['WWWWWWWWWWWWWW', 'WWWWWWWWWWWWWW', 'b+b+b++++++^+p', '++++++++++++++', '+===++++++++++', '++++++++++++++', 'p++++++++++++p', '++++++X+++++++'],
+  rows: ['WWWWWWWWWWWWWW', 'WWWWWWWWWWWWWW', 'b+b+b++++++^+p', '++++++++++++++', '+===+++++===++', '++++++++++++++', 'p++++++++++++p', '++++++X+++++++'],
   warps: [{ x: 6, y: 7, to: 'goldenrod', spot: 'dept-door' }, { x: 11, y: 2, to: 'goldenrod-dept-2f', spot: 'from-below' }],
   spots: { door: [6, 7, 'up'], 'from-above': [11, 3, 'down'] },
   signs: { '0,2': 'Floor guide. 1F: Information. 2F: Trainer\'s Market. 3F: TMs, battle items and vitamins.' },
   npcs: [{ id: 'clerk', who: 'clerk', x: 2, y: 3, dir: 'down',
-           say: 'Welcome to the Goldenrod Department Store! The stairs to the upper floors are on the right.' }]
+           say: 'Welcome to the Goldenrod Department Store! The stairs to the upper floors are on the right.' },
+         // Chapter 26: held items (once Mr. Pokémon has told you about them).
+         { id: 'clerk2', who: 'clerk', x: 10, y: 3, dir: 'down', if: 'held-items', script: [
+           ['say', 'Welcome to our new counter for held items! Give one to a Pokémon, and it will use it in battle all by itself.'],
+           ['shop', ['silk-scarf', 'charcoal', 'mystic-water', 'miracle-seed', 'magnet', 'never-melt-ice', 'black-belt', 'poison-barb',
+                     'soft-sand', 'sharp-beak', 'twisted-spoon', 'silver-powder', 'hard-stone', 'spell-tag', 'dragon-fang', 'black-glasses',
+                     'everstone', 'smoke-ball', 'bright-powder', 'scope-lens', 'focus-band', 'shell-bell', 'lucky-egg', 'amulet-coin']]
+         ] }]
 }, GDEPT));
 
 G.Maps.def(Object.assign({

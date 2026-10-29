@@ -13,7 +13,7 @@ const FILES = ['js/core/locales.js', 'js/core/util.js', 'js/core/rng.js', 'js/co
   'js/data/types.js', 'js/data/species.js', 'js/data/moves.js', 'js/data/items.js', 'js/data/growth.js', 'js/data/names.js',
   'js/data/natures.js', 'js/data/item-effects.js',
   'js/battle/stats.js', 'js/battle/mon.js', 'js/battle/damage.js', 'js/battle/effects.js', 'js/battle/moves-special.js',
-  'js/battle/ai.js', 'js/battle/capture.js', 'js/battle/exp.js', 'js/battle/evolution.js', 'js/battle/items.js',
+  'js/battle/ai.js', 'js/battle/capture.js', 'js/battle/exp.js', 'js/battle/evolution.js', 'js/battle/items.js', 'js/battle/held.js',
   'js/battle/battle.js', 'js/battle/text.js'];
 
 function load(lang = 'en') {

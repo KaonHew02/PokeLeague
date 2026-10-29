@@ -557,6 +557,9 @@ kbd {
 .pt-note { color: var(--gold); font-weight: 700; }
 .party-foot { display: flex; align-items: center; justify-content: space-between; gap: .5em; margin-top: .35em; }
 .party-hint { margin: 0; font-size: .9em; }
+/* A Pokémon holding an item (chapter 26): a small tag after its name. */
+.pt-held { display: inline-block; width: .55em; height: .55em; margin-left: .35em; vertical-align: middle; transform: rotate(45deg);
+  background: #ffd84a; border: 1px solid #8a6a10; border-radius: 1px; }
 /* The Eggs you carry (chapter 25): small speckled eggs after the hint. */
 .party-eggs { display: flex; align-items: center; gap: .3em; margin-left: auto; font-size: .85em; }
 .pt-egg { padding: .15em; border: 0; background: transparent; cursor: pointer; border-radius: .3em; }

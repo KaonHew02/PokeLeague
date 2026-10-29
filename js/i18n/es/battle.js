@@ -166,5 +166,9 @@ G.I18n.add({
   "{mon} pretended not to notice!": "¡{mon} hizo como si no oyera!",
   "A bell chimed!": "¡Sonó una campana!",
   "{mon} received an encore!": "¡{mon} sufre los efectos de Otra Vez!",
-  "{mon}'s encore ended!": "¡{mon} ya no sufre los efectos de Otra Vez!"
+  "{mon}'s encore ended!": "¡{mon} ya no sufre los efectos de Otra Vez!",
+  "{mon} restored its HP using its {item}!": "¡{mon} recuperó PS con su {item}!",
+  "{mon} restored a little HP using its {item}!": "¡{mon} recuperó unos pocos PS con su {item}!",
+  "{mon} ate its {item} and was cured!": "¡{mon} se comió su {item} y se curó!",
+  "{mon} hung on using its {item}!": "¡{mon} resistió gracias a su {item}!"
 }, "es");

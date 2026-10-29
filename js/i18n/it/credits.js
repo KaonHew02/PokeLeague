@@ -71,5 +71,7 @@ G.I18n.add({
   "Chapter 24 complete!": "Capitolo 24 completato!",
   "{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.": "{player} ha rimesso insieme i quattro pannelli di pietra delle Rovine d'Alfa e ha incontrato gli Unown nella camera interna.",
   "Chapter 25 complete!": "Capitolo 25 completato!",
-  "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player} ha fatto schiudere un Uovo della Pensione e ha mostrato al Professor Elm come nascono i Pokémon."
+  "{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.": "{player} ha fatto schiudere un Uovo della Pensione e ha mostrato al Professor Elm come nascono i Pokémon.",
+  "Chapter 26 complete!": "Capitolo 26 completato!",
+  "{player} learned to give Pokémon items to hold, and traded the Red Scale to Mr. Pokémon for the Exp. Share.": "{player} ha imparato a far tenere strumenti ai Pokémon e ha scambiato la Squama Rossa con il Condividi Esp. di Mr. Pokémon."
 }, "it");

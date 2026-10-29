@@ -175,5 +175,15 @@ G.I18n.add({
   "Johto": "城都",
   "Unown caught: {n} of 26.": "已抓到的未知圖騰：{n}／26。",
   "Eggs": "蛋",
-  "Egg": "蛋"
+  "Egg": "蛋",
+  "Give": "交給",
+  "Give {item} to which Pokémon?": "要把{item}交給哪隻寶可夢？",
+  "{mon} is already holding {item}. Swap the items?": "{mon}已經拿著{item}了。要交換道具嗎？",
+  "{player} took {old} from {mon} and gave it {item}.": "{player}從{mon}那裡取回了{old}，讓牠拿著{item}。",
+  "{mon} is now holding {item}.": "{mon}拿著{item}了。",
+  "Item": "道具",
+  "Take": "取回",
+  "Took {item} from {mon}.": "從{mon}那裡取回了{item}。",
+  "Give {mon} which item?": "要交給{mon}什麼道具？",
+  "None": "無"
 }, "zh-Hant");

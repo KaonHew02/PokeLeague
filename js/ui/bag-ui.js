@@ -105,12 +105,26 @@ G.BagUI = (() => {
     const opts = [];
     if (k === 'tm') opts.push({ label: T('Teach'), value: 'use' });
     else if (k === 'mon' || k === 'field' || (k === 'key' && fx.field)) opts.push({ label: T('Use'), value: 'use' });
+    if (FI().canHold(id)) opts.push({ label: T('Give'), value: 'give' });
     if (k !== 'key' && !/^hm/.test(id)) opts.push({ label: T('Toss'), value: 'toss' });
     opts.push({ label: T('Cancel'), value: null, back: true });
     const v = await G.Popup.choose(itemLabel(id), opts);
     if (v === 'use') await use(id);
+    else if (v === 'give') await give(id);
     else if (v === 'toss') await toss(id);
     if (st) render(true);
+  }
+
+  /** Give: a Pokémon holds the item (chapter 26); one already holding something swaps. */
+  async function give(id) {
+    const i = await G.PartyUI.pick({ title: fmt('Give {item} to which Pokémon?', { item: G.Names.item(id) }),
+                                     note: m => (m.item ? G.Names.item(m.item) : null) });
+    const mon = i == null ? null : G.Field.party()[i];
+    if (!mon) return;
+    if (mon.item && !(await G.Popup.confirm(fmt('{mon} is already holding {item}. Swap the items?', { mon: G.Mon.name(mon), item: G.Names.item(mon.item) })))) return;
+    const old = FI().give(mon, id);
+    if (old) await G.Popup.say(fmt('{player} took {old} from {mon} and gave it {item}.', { player: G.Field.save.player.name, old: G.Names.item(old), mon: G.Mon.name(mon), item: G.Names.item(id) }));
+    else await G.Popup.say(fmt('{mon} is now holding {item}.', { mon: G.Mon.name(mon), item: G.Names.item(id) }));
   }
 
   async function toss(id) {

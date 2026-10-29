@@ -175,5 +175,15 @@ G.I18n.add({
   "Johto": "Johto",
   "Unown caught: {n} of 26.": "Zarbi attrapés : {n} sur 26.",
   "Eggs": "Œufs",
-  "Egg": "Œuf"
+  "Egg": "Œuf",
+  "Give": "Donner",
+  "Give {item} to which Pokémon?": "Donner {item} à quel Pokémon ?",
+  "{mon} is already holding {item}. Swap the items?": "{mon} tient déjà {item}. Échanger les objets ?",
+  "{player} took {old} from {mon} and gave it {item}.": "{player} reprend {old} à {mon} et lui donne {item}.",
+  "{mon} is now holding {item}.": "{mon} tient maintenant {item}.",
+  "Item": "Objet",
+  "Take": "Prendre",
+  "Took {item} from {mon}.": "{item} a été repris à {mon}.",
+  "Give {mon} which item?": "Quel objet donner à {mon} ?",
+  "None": "Aucun"
 }, "fr");

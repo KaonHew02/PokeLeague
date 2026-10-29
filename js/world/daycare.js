@@ -14,7 +14,8 @@
  * by how well they get along (compat: 70 same species from other Trainers, 50 same species or
  * other Trainers, 20 otherwise, as in the games). The Day-Care Man keeps it (save.daycareEgg)
  * until you take it: the mother's species (with Ditto, the other one's) at its first stage, Lv. 5,
- * with three IVs from the parents, the egg moves the father knows, and Nidoran of either gender.
+ * with three IVs from the parents, the egg moves the father knows, and Nidoran of either gender;
+ * an Everstone held by the mother (or by a Ditto) passes on its nature half the time (chapter 26).
  * You carry Eggs apart from the party (save.eggs, at most six; the party screen shows them), like
  * the Mystery Egg: each step brings them closer, and one that is due hatches (hatch: to the party,
  * or the PC when it is full; flag daycare-hatched). The Day-Care Man's Odd Egg holds a baby
@@ -144,6 +145,9 @@ G.DayCare = (() => {
       const st = stats.splice(r.int(0, stats.length - 1), 1)[0];
       mon.ivs[st] = (r.int(0, 1) ? mother : father).ivs[st];
     }
+    // An Everstone held by the mother, or by a Ditto, passes on its nature half the time (as in Emerald).
+    const stone = [mother, father].find(p => p.item === 'everstone' && (p === mother || p.sp === DITTO));
+    if (stone && r.int(0, 1)) mon.nature = stone.nature;
     // The egg moves the father knows (a Ditto teaches none), after the moves of its level.
     const em = G.SPECIES[sp].em || [];
     for (const m of father.sp === DITTO ? [] : father.moves) {

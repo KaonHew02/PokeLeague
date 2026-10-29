@@ -17,6 +17,10 @@
  *   b.answer(answer)     -> events[]   { switchTo: i | -1 } | { learnSlot: 0..3 | -1 }
  *   b.result             -> { outcome: 'win' | 'lose' | 'run' | 'caught' | 'fled', money, caught, toBox, leveled: [uid], evolve: [uid], seen: [sp] }
  *
+ * Held items (chapter 26, G.Held in held.js): stats, Quick Claw in the turn order, Focus Band in
+ * hurt(), berries after every action, Leftovers at the end of the turn, Lucky Egg and Exp. Share
+ * in the experience, Amulet Coin in the prize money, Smoke Ball when running.
+ *
  * Events are plain objects { type, ... } that the battle screen plays in order
  * (text: G.BattleText.line(event, battle)). side 0 = the player, 1 = the foe.
  * Internally the turn is a queue of steps; a step that needs the player's
@@ -152,7 +156,7 @@ G.Battle = (() => {
       let st = bm.stages[key];
       if (opts.crit && opts.attacking) st = Math.max(0, st);
       if (opts.crit && opts.defending) st = Math.min(0, st);
-      let v = Math.floor(raw * G.Stats.stage(st));
+      let v = Math.floor(Math.floor(raw * G.Held.statMult(bm.mon, key)) * G.Stats.stage(st));
       if (key === 'spe' && bm.mon.status === 'par') v = Math.floor(v / 2);
       return Math.max(1, v);
     }
@@ -182,13 +186,16 @@ G.Battle = (() => {
         return d;
       }
       let amt = Math.min(dmg, target.mon.hp);
-      if (amt >= target.mon.hp && (target.vol.endure || o.leaveOne)) {
+      // A Focus Band may hold on against a foe's hit that would knock it out.
+      const band = amt >= target.mon.hp && !target.vol.endure && !o.leaveOne && !!o.user && o.user !== target && G.Held.survives(this, target);
+      if (amt >= target.mon.hp && (target.vol.endure || o.leaveOne || band)) {
         amt = target.mon.hp - 1;
         if (target.vol.endure) this.emit('endured', { side: target.side, uid: target.mon.uid });
       }
       target.mon.hp -= amt;
       this.emit('damage', { side: target.side, uid: target.mon.uid, amt, hp: target.mon.hp, max: this.maxHp(target),
                             crit: !!o.crit, eff: o.eff == null ? 1 : o.eff, why: o.why || 'hit', src: o.src || null });
+      if (band) this.emit('held', { side: target.side, uid: target.mon.uid, item: target.mon.item, why: 'focus-band' });
       if (o.user && o.user !== target && o.move) {
         target.lastHit = { cat: o.move.cat, amt, from: o.user.side };
         if (target.vol.rage && target.mon.hp > 0) this.stage(target, 'atk', 1, { source: target, rage: true });
@@ -302,10 +309,12 @@ G.Battle = (() => {
         return Object.assign(x, {
           bracket: x.a.type === 'move' ? 0 : 1,
           pri: id && G.MOVES[id] ? G.MOVES[id].pri : 0,
+          quick: x.a.type === 'move' && G.Held.quick(this, bm) ? 1 : 0,          // Quick Claw
           spe: this.stat(bm, 'spe'), tie: this.rng.next()
         });
       });
-      acts.sort((p, q) => (q.bracket - p.bracket) || (q.bracket ? p.n - q.n : 0) || (q.pri - p.pri) || (q.spe - p.spe) || (p.tie - q.tie));
+      acts.sort((p, q) => (q.bracket - p.bracket) || (q.bracket ? p.n - q.n : 0) || (q.pri - p.pri) || (q.quick - p.quick)
+                          || (q.spe - p.spe) || (p.tie - q.tie));
       this.insert(...acts.map(x => () => this.doAction(x.side, x.a)), () => this.endOfTurn());
     }
 
@@ -399,8 +408,9 @@ G.Battle = (() => {
       G.BattleFx.useMove(this, bm, target, id, { locked: a.locked || null });
     }
 
-    /** After every action: faints, experience, and whether the battle is over. */
+    /** After every action: berries, faints, experience, and whether the battle is over. */
     afterAction() {
+      for (const s of this.sides) if (s.bm) G.Held.berry(this, s.bm);
       const steps = [];
       for (const s of this.sides) {
         const bm = s.bm;
@@ -429,7 +439,7 @@ G.Battle = (() => {
         if (this.kind === 'trainer') {
           const t = this.foe.trainer || {};
           const last = this.foe.party[this.foe.party.length - 1];
-          money = G.Exp.prize(t.prize == null ? 20 : t.prize, last.lvl);
+          money = G.Exp.prize(t.prize == null ? 20 : t.prize, last.lvl) * (this.amulet ? 2 : 1);   // Amulet Coin
           this.emit('defeated', { trainer: t.id || null });
         }
         return this.finish('win', { money });
@@ -462,6 +472,7 @@ G.Battle = (() => {
           if (this.alive(foe)) this.heal(foe, d, 'leech');
         }
         if (this.alive(bm) && bm.vol.ingrain) this.heal(bm, max / 16, 'ingrain');
+        G.Held.endOfTurn(this, bm);
         const st = bm.mon.status;
         if (this.alive(bm) && (st === 'psn' || st === 'brn')) this.hurt(bm, Math.max(1, Math.floor(max / (st === 'psn' ? 8 : 16))), { why: st });
         if (this.alive(bm) && st === 'tox') { bm.mon.tox = Math.min(15, bm.mon.tox + 1); this.hurt(bm, Math.max(1, Math.floor(max * bm.mon.tox / 16)), { why: 'tox' }); }
@@ -536,6 +547,7 @@ G.Battle = (() => {
       const mon = side.party[i];
       side.bm = this.makeBM(side, mon);
       if (side.side === 1) this.seen.add(mon.sp);
+      if (side.side === 0 && G.Held.is(mon, 'amulet-coin')) this.amulet = true;
       this.emit('send', { side: side.side, uid: mon.uid, sp: mon.sp, lvl: mon.lvl, hp: mon.hp, max: G.Mon.maxHp(mon),
                           shiny: !!mon.shiny, gender: mon.gender, status: mon.status });
       const pl = this.player.bm, fo = this.foe.bm;
@@ -559,7 +571,7 @@ G.Battle = (() => {
     tryRun() {
       this.runs++;
       const ps = G.Mon.stats(this.player.bm.mon)[5], fs = G.Mon.stats(this.foe.bm.mon)[5];
-      let ok = ps >= fs;
+      let ok = ps >= fs || G.Held.is(this.player.bm.mon, 'smoke-ball');
       if (!ok) {
         const f = Math.floor(ps * 128 / Math.max(1, fs)) + 30 * (this.runs - 1);
         ok = f > 255 || this.rng.int(0, 255) < f;
@@ -592,12 +604,21 @@ G.Battle = (() => {
 
     // ================= experience =================
 
+    /** Experience for a fainted foe: those who fought share it; with Exp. Share holders, they get half
+     *  and the holders the other half (Generation 2-4). A Lucky Egg gives its holder 1.5×. */
     expSteps(foeBm) {
-      const parts = this.player.party.filter(m => m.hp > 0 && foeBm.participants.has(m.uid));
+      const party = this.player.party;
+      const parts = party.filter(m => m.hp > 0 && foeBm.participants.has(m.uid));
       if (!parts.length) return [];
-      const S = G.SPECIES[foeBm.mon.sp];
-      const amt = G.Exp.gain(S.bx, foeBm.mon.lvl, this.kind === 'trainer', parts.length);
-      return parts.map(m => () => this.giveExp(m, amt, S.ev));
+      const sharers = party.filter(m => m.hp > 0 && G.Held.is(m, 'exp-share'));
+      const S = G.SPECIES[foeBm.mon.sp], gain = n => G.Exp.gain(S.bx, foeBm.mon.lvl, this.kind === 'trainer', n);
+      const amt = new Map();
+      if (!sharers.length) for (const m of parts) amt.set(m, gain(parts.length));
+      else {
+        for (const m of parts) amt.set(m, Math.max(1, Math.floor(gain(parts.length) / 2)));
+        for (const m of sharers) amt.set(m, (amt.get(m) || 0) + Math.max(1, Math.floor(gain(sharers.length) / 2)));
+      }
+      return party.filter(m => amt.has(m)).map(m => () => this.giveExp(m, Math.floor(amt.get(m) * G.Held.expMult(m)), S.ev));
     }
 
     giveExp(mon, amt, evs) {

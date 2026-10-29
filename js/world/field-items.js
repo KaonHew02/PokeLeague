@@ -10,6 +10,10 @@
  *   G.FieldItems.tm(item)            -> the move a TM / HM teaches, or null
  *   G.FieldItems.tmFor(mon, item)    -> 'able' | 'unable' | 'learned'
  *   G.FieldItems.repel(save, item)   -> 'ok' | 'active'   (sets save.repel)
+ *   G.FieldItems.canHold(item)       a Pokémon may hold it (chapter 26, once Mr. Pokémon has told you
+ *                                    about it, flag held-items): any item but key items, TMs and HMs
+ *   G.FieldItems.give(mon, item)     from the bag to the Pokémon -> the item it held before (back in the bag), or null
+ *   G.FieldItems.take(mon)           its item back into the bag -> that item, or null
  */
 G.FieldItems = (() => {
   const fmt = (k, v) => G.I18n.fmt(k, v);
@@ -135,5 +139,27 @@ G.FieldItems = (() => {
     return 'ok';
   }
 
-  return { kind, needsMove, canUse, use, tm, tmFor, repel };
+  // ---------------- held items (chapter 26) ----------------
+
+  function canHold(item) {
+    const it = G.ITEMS[item];
+    return !!it && it.pocket !== 'key' && it.pocket !== 'tms' && !fxOf(item).key && G.Field.flag('held-items');
+  }
+  function give(mon, item) {
+    if (!mon || !canHold(item) || !(G.Field.count(item) > 0)) return null;
+    const old = mon.item || null;
+    G.Field.takeItem(item, 1);
+    if (old) G.Field.giveItem(old, 1);
+    mon.item = item;
+    return old;
+  }
+  function take(mon) {
+    const it = mon && mon.item;
+    if (!it) return null;
+    G.Field.giveItem(it, 1);
+    mon.item = null;
+    return it;
+  }
+
+  return { kind, needsMove, canUse, use, tm, tmFor, repel, canHold, give, take };
 })();

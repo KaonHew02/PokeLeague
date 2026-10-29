@@ -17,7 +17,8 @@
  *   repel      steps without wild encounters (weaker than your lead)
  *   escape     back to the last Pokémon Center door (outside towns)
  *   evo        evolution stone (G.SPECIES[..].evo has { how:'item', item })
- *   held       held-item effect id (exp-share) — held items come after the first slice
+ *   held       what it does when a Pokémon holds it (chapter 26, js/battle/held.js): 'boost' (+ type),
+ *              'berry' (its heal / cure, eaten when needed), 'leftovers', 'quick-claw', 'everstone'…
  *   key        key item (cannot be sold, tossed or used on a Pokémon); stack: 1, the Bag shows how many
  *   fossil     the species a lab brings back from it
  */
@@ -52,14 +53,14 @@ G.ITEM_FX = {
   'burn-heal':     { cure: ['brn'], field: 1, battle: 1, price: 250 },
   'ice-heal':      { cure: ['frz'], field: 1, battle: 1, price: 250 },
   'full-heal':     { cure: 'all',   field: 1, battle: 1, price: 600 },
-  // Berries (chapter 15): from berry trees, used like medicine (no held items yet).
-  'oran-berry':    { heal: 10,  field: 1, battle: 1 },
-  'sitrus-berry':  { heal: 30,  field: 1, battle: 1 },
-  'pecha-berry':   { cure: ['psn', 'tox'], field: 1, battle: 1 },
-  'cheri-berry':   { cure: ['par'], field: 1, battle: 1 },
-  'chesto-berry':  { cure: ['slp'], field: 1, battle: 1 },
-  'rawst-berry':   { cure: ['brn'], field: 1, battle: 1 },
-  'aspear-berry':  { cure: ['frz'], field: 1, battle: 1 },
+  // Berries (chapter 15): from berry trees, used like medicine; held (chapter 26), eaten when needed.
+  'oran-berry':    { heal: 10,  field: 1, battle: 1, held: 'berry' },
+  'sitrus-berry':  { heal: 30,  field: 1, battle: 1, held: 'berry' },
+  'pecha-berry':   { cure: ['psn', 'tox'], field: 1, battle: 1, held: 'berry' },
+  'cheri-berry':   { cure: ['par'], field: 1, battle: 1, held: 'berry' },
+  'chesto-berry':  { cure: ['slp'], field: 1, battle: 1, held: 'berry' },
+  'rawst-berry':   { cure: ['brn'], field: 1, battle: 1, held: 'berry' },
+  'aspear-berry':  { cure: ['frz'], field: 1, battle: 1, held: 'berry' },
   'ether':         { pp: 10,     field: 1, battle: 1 },
   'max-ether':     { pp: 'full', field: 1, battle: 1 },
   'elixir':        { pp: 10,     ppAll: 1, field: 1, battle: 1 },
@@ -101,8 +102,8 @@ G.ITEM_FX = {
   'moon-stone':    { evo: 1, field: 1, price: 2100 },
   'sun-stone':     { evo: 1, field: 1, price: 2100 },
   // Items that make a Pokémon evolve when it is traded holding them: used like a stone here.
-  'metal-coat':    { evo: 1, field: 1, price: 2100 },
-  'kings-rock':    { evo: 1, field: 1, price: 2100 },
+  'metal-coat':    { evo: 1, field: 1, price: 2100, held: 'boost', type: 'steel' },
+  'kings-rock':    { evo: 1, field: 1, price: 2100, held: 'kings-rock' },
   'dragon-scale':  { evo: 1, field: 1, price: 2100 },
   'up-grade':      { evo: 1, field: 1, price: 2100 },
 
@@ -123,8 +124,40 @@ G.ITEM_FX = {
   'stardust':      { price: 2000 },
   'star-piece':    { price: 9800 },
 
-  // ---- held ----
+  // ---- held (chapter 26; G.Held, js/battle/held.js) ----
   'exp-share':     { held: 'exp-share' },
+  'leftovers':     { held: 'leftovers' },
+  'quick-claw':    { held: 'quick-claw' },
+  'focus-band':    { held: 'focus-band', price: 8000 },
+  'scope-lens':    { held: 'scope-lens', price: 8000 },
+  'bright-powder': { held: 'bright-powder', price: 8000 },
+  'shell-bell':    { held: 'shell-bell', price: 8000 },
+  'lucky-egg':     { held: 'lucky-egg', price: 10000 },
+  'amulet-coin':   { held: 'amulet-coin', price: 10000 },
+  'everstone':     { held: 'everstone', price: 3000 },
+  'smoke-ball':    { held: 'smoke-ball', price: 3000 },
+  'light-ball':    { held: 'light-ball' },
+  'thick-club':    { held: 'thick-club' },
+  'metal-powder':  { held: 'metal-powder' },
+  'lucky-punch':   { held: 'lucky-punch' },
+  'stick':         { held: 'stick' },
+  // 1.2× the power of one type's moves (and Metal Coat above).
+  'silk-scarf':    { held: 'boost', type: 'normal',   price: 2000 },
+  'charcoal':      { held: 'boost', type: 'fire',     price: 2000 },
+  'mystic-water':  { held: 'boost', type: 'water',    price: 2000 },
+  'miracle-seed':  { held: 'boost', type: 'grass',    price: 2000 },
+  'magnet':        { held: 'boost', type: 'electric', price: 2000 },
+  'never-melt-ice': { held: 'boost', type: 'ice',     price: 2000 },
+  'black-belt':    { held: 'boost', type: 'fighting', price: 2000 },
+  'poison-barb':   { held: 'boost', type: 'poison',   price: 2000 },
+  'soft-sand':     { held: 'boost', type: 'ground',   price: 2000 },
+  'sharp-beak':    { held: 'boost', type: 'flying',   price: 2000 },
+  'twisted-spoon': { held: 'boost', type: 'psychic',  price: 2000 },
+  'silver-powder': { held: 'boost', type: 'bug',      price: 2000 },
+  'hard-stone':    { held: 'boost', type: 'rock',     price: 2000 },
+  'spell-tag':     { held: 'boost', type: 'ghost',    price: 2000 },
+  'dragon-fang':   { held: 'boost', type: 'dragon',   price: 2000 },
+  'black-glasses': { held: 'boost', type: 'dark',     price: 2000 },
 
   // ---- key items ----
   'oaks-parcel':   { key: 1 },

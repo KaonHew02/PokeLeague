@@ -41,7 +41,7 @@ G.PartyUI = (() => {
     const dis = st.disabled && st.disabled(m, i);
     const cls = ['pt-card', i === 0 ? 'lead' : '', m.hp <= 0 ? 'fainted' : '', st.moving === i ? 'moving' : ''].filter(Boolean).join(' ');
     return `<button class="${cls}" data-i="${i}"${dis ? ' disabled' : ''}><canvas width="64" height="64"></canvas>`
-      + `<span class="pt-txt"><span class="pt-name">${esc(G.Mon.name(m))}${genderMark(m)}</span>`
+      + `<span class="pt-txt"><span class="pt-name">${esc(G.Mon.name(m))}${genderMark(m)}${m.item ? '<i class="pt-held" aria-hidden="true"></i>' : ''}</span>`
       + `<span class="pt-lv">${esc(fmt('Lv. {n}', { n: m.lvl }))} ${statusChip(m)}</span>`
       + (note != null ? `<span class="pt-note">${esc(note)}</span>`
         : `<span class="hpbar"><i class="${barClass(f)}" style="width:${(f * 100).toFixed(0)}%"></i></span><span class="pt-hp">${m.hp}/${max}</span>`)
@@ -81,10 +81,32 @@ G.PartyUI = (() => {
       ...(flies ? [{ label: G.Names.move('fly'), value: 'fly' }] : []),
       { label: T('Summary'), value: 'summary' },
       { label: T('Switch'), value: 'switch', disabled: party().length < 2 },
+      ...(G.Field.flag('held-items') ? [{ label: T('Item'), value: 'item' }] : []),
       { label: T('Cancel'), value: null, back: true }]);
     if (v === 'summary') G.SummaryUI.open(party(), i, () => render());
     else if (v === 'switch') { st.moving = i; render(i); }
     else if (v === 'fly') await fly(m);
+    else if (v === 'item') { await item(m); render(i); }
+  }
+
+  /** Item (chapter 26): give it something to hold from the Bag, or take back what it holds. */
+  async function item(m) {
+    const FI = G.FieldItems;
+    const v = await G.Popup.choose(G.Mon.name(m), [
+      { label: T('Give'), value: 'give' },
+      { label: T('Take'), value: 'take', disabled: !m.item },
+      { label: T('Cancel'), value: null, back: true }]);
+    if (v === 'take') {
+      const it = FI.take(m);
+      if (it) await G.Popup.say(fmt('Took {item} from {mon}.', { item: G.Names.item(it), mon: G.Mon.name(m) }));
+      return;
+    }
+    if (v !== 'give' || !G.BagUI) return;
+    const id = await G.BagUI.pick({ title: fmt('Give {mon} which item?', { mon: G.Mon.name(m) }), filter: x => FI.canHold(x) });
+    if (!id) return;
+    const old = FI.give(m, id);
+    if (old) await G.Popup.say(fmt('{player} took {old} from {mon} and gave it {item}.', { player: G.Field.save.player.name, old: G.Names.item(old), mon: G.Mon.name(m), item: G.Names.item(id) }));
+    else await G.Popup.say(fmt('{mon} is now holding {item}.', { mon: G.Mon.name(m), item: G.Names.item(id) }));
   }
 
   /** Fly (with the Thunder Badge, outdoors): pick a visited town on the Town Map, then off you go. */

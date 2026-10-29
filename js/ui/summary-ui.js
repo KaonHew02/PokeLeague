@@ -57,6 +57,7 @@ G.SummaryUI = (() => {
       + row(T('Type'), G.UI.typeChips(S.types))
       + row(T('Trainer'), esc(m.ot ? `${m.ot.name} · ${String(m.ot.id).padStart(5, '0')}` : '—'))
       + row(T('Nature'), esc(G.Names.nature(m.nature)))
+      + row(T('Item'), esc(m.item ? G.Names.item(m.item) : T('None')))
       + (met ? `<p class="sub sum-memo">${esc(met)}</p>` : '');
   }
 

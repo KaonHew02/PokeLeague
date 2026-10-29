@@ -58,5 +58,6 @@ G.I18n.add({
   "The Day Care is on Route 34, just south of Goldenrod City. Hatch an Egg from there and bring me the Pokémon!": "培育屋在34號道路，就在滿金市南邊。孵一顆那裡的蛋，把寶可夢帶來給我看！",
   "You hatched an Egg from the Day Care? Let me see...": "你孵出了培育屋的蛋？讓我看看……",
   "A Pokémon at the very first stage of its family, only just born! So Pokémon really do come from Eggs, and parents pass things on to their young.": "是這一族最初階段的寶可夢，才剛出生！原來寶可夢真的是從蛋裡出生的，而且父母會把一些東西傳給孩子。",
-  "Thank you, {player}. This is a big step for my research. Keep leaving Pokémon at the Day Care: who knows what will hatch next!": "謝謝你，{player}。這對我的研究是一大進展。繼續把寶可夢寄放在培育屋吧：誰知道下次會孵出什麼呢！"
+  "Thank you, {player}. This is a big step for my research. Keep leaving Pokémon at the Day Care: who knows what will hatch next!": "謝謝你，{player}。這對我的研究是一大進展。繼續把寶可夢寄放在培育屋吧：誰知道下次會孵出什麼呢！",
+  "Mr. Pokémon called. He heard about your Egg, and he would like to show you something from his collection. His house is at the end of Route 30.": "寶可夢爺爺打來電話了。他聽說了你那顆蛋的事，想給你看看他收藏的東西。他家在30號道路的盡頭。"
 }, "zh-Hant");

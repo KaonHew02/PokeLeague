@@ -166,5 +166,9 @@ G.I18n.add({
   "{mon} pretended not to notice!": "{mon} fait semblant de ne rien entendre !",
   "A bell chimed!": "Une cloche a sonné !",
   "{mon} received an encore!": "{mon} subit un Encore !",
-  "{mon}'s encore ended!": "L'Encore de {mon} prend fin !"
+  "{mon}'s encore ended!": "L'Encore de {mon} prend fin !",
+  "{mon} restored its HP using its {item}!": "{mon} récupère des PV grâce à sa {item} !",
+  "{mon} restored a little HP using its {item}!": "{mon} récupère un peu de PV grâce à {item} !",
+  "{mon} ate its {item} and was cured!": "{mon} mange sa {item} et guérit !",
+  "{mon} hung on using its {item}!": "{mon} tient bon grâce à {item} !"
 }, "fr");

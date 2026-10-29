@@ -166,5 +166,9 @@ G.I18n.add({
   "{mon} pretended not to notice!": "{mon}裝作沒聽見！",
   "A bell chimed!": "鈴聲響起了！",
   "{mon} received an encore!": "{mon}受到了再來一次！",
-  "{mon}'s encore ended!": "{mon}的再來一次狀態解除了！"
+  "{mon}'s encore ended!": "{mon}的再來一次狀態解除了！",
+  "{mon} restored its HP using its {item}!": "{mon}用{item}回復了體力！",
+  "{mon} restored a little HP using its {item}!": "{mon}用{item}回復了一點體力！",
+  "{mon} ate its {item} and was cured!": "{mon}吃掉了{item}，治好了狀態！",
+  "{mon} hung on using its {item}!": "{mon}靠{item}撐住了！"
 }, "zh-Hant");

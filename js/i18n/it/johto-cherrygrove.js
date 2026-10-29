@@ -36,5 +36,18 @@ G.I18n.add({
   "Cherrygrove City. Sweet-smelling flowers on every street.": "Fiorpescopoli. Fiori profumati in ogni strada.",
   "Route 30. North: Mr. Pokémon's house. West: Route 31 to Violet City.": "Percorso 30. Nord: casa di Mr. Pokémon. Ovest: Percorso 31 per Violapoli.",
   "Shelves full of curiosities from all over the world.": "Scaffali pieni di curiosità da tutto il mondo.",
-  "Route 31. West: Violet City.": "Percorso 31. Ovest: Violapoli."
+  "Route 31. West: Violet City.": "Percorso 31. Ovest: Violapoli.",
+  "Ah, {player}! Elm told me about your Egg. Splendid! Now let me show you something from my collection.": "Ah, {player}! Elm mi ha raccontato del tuo Uovo. Splendido! Ora lascia che ti mostri qualcosa della mia collezione.",
+  "Did you know a Pokémon can hold an item? Not one you use from your Bag: the Pokémon keeps it, and uses it by itself in battle.": "Lo sapevi che un Pokémon può tenere uno strumento? Non uno che usi dalla Borsa: il Pokémon lo tiene con sé e lo usa da solo in lotta.",
+  "A Berry it eats when it is hurt, a charm that makes its moves stronger... Here, try these two.": "Una Bacca che mangia quando è ferito, un amuleto che rafforza le sue mosse... Ecco, prova questi due.",
+  "Give one to a Pokémon from your party or your Bag, then come and show me. The Goldenrod Department Store has a new counter for held items too!": "Danne uno a un Pokémon dalla squadra o dalla Borsa, poi vieni a mostrarmelo. Anche il Centro Commerciale di Fiordoropoli ha un nuovo banco di strumenti da tenere!",
+  "Oh! Your {mon}! I have something in my collection that was made for it alone. Here, it should have it.": "Oh! Il tuo {mon}! Nella mia collezione ho qualcosa fatto apposta per lui. Ecco, dovrebbe averlo.",
+  "My collection grows every year. If you meet a Pokémon I have never seen, bring it to me!": "La mia collezione cresce ogni anno. Se incontri un Pokémon che non ho mai visto, portamelo!",
+  "Give an item to one of your Pokémon, then show me. Choose it in your party, or give it from your Bag.": "Dai uno strumento a uno dei tuoi Pokémon, poi mostramelo. Sceglilo nella squadra, o daglielo dalla Borsa.",
+  "Yes, just like that! It will use its item without you saying a word.": "Sì, proprio così! Userà il suo strumento senza che tu debba dire una parola.",
+  "If you ever find something truly rare, do show it to me. I would trade you the best piece of my collection for it.": "Se mai trovi qualcosa di davvero raro, mostramelo. Te lo scambierei con il pezzo migliore della mia collezione.",
+  "Hm? What is that shining in your Bag? A red scale... from the red Gyarados of the Lake of Rage? I have never seen one!": "Hm? Cos'è che brilla nella tua Borsa? Una squama rossa... del Gyarados rosso del Lago d'Ira? Non ne avevo mai vista una!",
+  "Would you trade it for the best piece of my collection?": "Me la scambieresti con il pezzo migliore della mia collezione?",
+  "Ah... If you change your mind, I will be right here.": "Ah... Se cambi idea, sarò qui.",
+  "The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!": "Il Pokémon che tiene il Condividi Esp. riceve parte dell'esperienza di ogni lotta, anche se non combatte. Usalo per crescere i tuoi Pokémon più giovani!"
 }, "it");

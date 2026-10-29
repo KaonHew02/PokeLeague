@@ -84,5 +84,6 @@ G.I18n.add({
   "Welcome back! You saved the Radio Tower. Please, look around upstairs as much as you like.": "Bem-vindo de volta! Você salvou a Radio Tower. Fique à vontade para visitar os andares de cima.",
   "Welcome to Team Rocket Radio! Visitors are not welcome!": "Bem-vindo à Rádio Equipe Rocket! Visitantes não são bem-vindos!",
   "You are not a visitor, you are trouble...": "Você não é visitante, você é encrenca...",
-  "Our executives are upstairs. You will never get to them!": "Nossos executivos estão lá em cima. Você nunca vai chegar até eles!"
+  "Our executives are upstairs. You will never get to them!": "Nossos executivos estão lá em cima. Você nunca vai chegar até eles!",
+  "Welcome to our new counter for held items! Give one to a Pokémon, and it will use it in battle all by itself.": "Bem-vindo ao nosso balcão novo de itens para segurar! Dê um a um Pokémon, e ele vai usá-lo sozinho na batalha."
 }, "pt-BR");

@@ -175,5 +175,15 @@ G.I18n.add({
   "Johto": "Johto",
   "Unown caught: {n} of 26.": "Unown capturados: {n} de 26.",
   "Eggs": "Ovos",
-  "Egg": "Ovo"
+  "Egg": "Ovo",
+  "Give": "Dar",
+  "Give {item} to which Pokémon?": "Dar {item} a qual Pokémon?",
+  "{mon} is already holding {item}. Swap the items?": "{mon} já está segurando {item}. Trocar os itens?",
+  "{player} took {old} from {mon} and gave it {item}.": "{player} pegou {old} de {mon} e deu {item} a ele.",
+  "{mon} is now holding {item}.": "{mon} agora está segurando {item}.",
+  "Item": "Item",
+  "Take": "Pegar",
+  "Took {item} from {mon}.": "Você pegou {item} de {mon}.",
+  "Give {mon} which item?": "Qual item dar a {mon}?",
+  "None": "Nenhum"
 }, "pt-BR");

@@ -100,7 +100,9 @@ G.Store = (() => {
       status: STATUS.includes(m.status) ? m.status : null,
       slp: int(m.slp, 0, 7, 0), tox: int(m.tox, 0, 15, 0),
       shiny: !!m.shiny, friendship: int(m.friendship, 0, 255, 70),
-      gender: m.gender === 'm' || m.gender === 'f' ? m.gender : null
+      gender: m.gender === 'm' || m.gender === 'f' ? m.gender : null,
+      // A held item (chapter 26): any item the game knows that is not a key item.
+      item: typeof m.item === 'string' && (!G.ITEMS || (G.ITEMS[m.item] && G.ITEMS[m.item].pocket !== 'key')) ? m.item : null
     });
     if (G.NATURES && !G.NATURES[out.nature]) out.nature = 'hardy';
     if (G.Mon && G.Stats && G.GROWTH) {

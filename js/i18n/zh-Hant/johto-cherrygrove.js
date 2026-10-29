@@ -36,5 +36,18 @@ G.I18n.add({
   "Cherrygrove City. Sweet-smelling flowers on every street.": "吉花市。每條街上都開著芬芳的花。",
   "Route 30. North: Mr. Pokémon's house. West: Route 31 to Violet City.": "30號道路。北：寶可夢爺爺的家。西：31號道路，通往桔梗市。",
   "Shelves full of curiosities from all over the world.": "架子上擺滿了世界各地的稀奇玩意兒。",
-  "Route 31. West: Violet City.": "31號道路。西：桔梗市。"
+  "Route 31. West: Violet City.": "31號道路。西：桔梗市。",
+  "Ah, {player}! Elm told me about your Egg. Splendid! Now let me show you something from my collection.": "啊，{player}！空木跟我說了你那顆蛋的事。太棒了！現在讓我給你看看我的收藏吧。",
+  "Did you know a Pokémon can hold an item? Not one you use from your Bag: the Pokémon keeps it, and uses it by itself in battle.": "你知道寶可夢可以攜帶道具嗎？不是從包包裡使用的那種：寶可夢會自己拿著，在對戰中自己使用。",
+  "A Berry it eats when it is hurt, a charm that makes its moves stronger... Here, try these two.": "受傷時吃的樹果、讓招式變強的護身符……來，你試試這兩樣。",
+  "Give one to a Pokémon from your party or your Bag, then come and show me. The Goldenrod Department Store has a new counter for held items too!": "從隊伍或包包裡把道具交給寶可夢拿著，然後拿來給我看看。滿金百貨也新開了一個攜帶道具的櫃台哦！",
+  "Oh! Your {mon}! I have something in my collection that was made for it alone. Here, it should have it.": "哦！你的{mon}！我的收藏裡有一樣專門為牠準備的東西。來，就該給牠。",
+  "My collection grows every year. If you meet a Pokémon I have never seen, bring it to me!": "我的收藏每年都在增加。要是你遇到了我沒見過的寶可夢，就帶來給我看吧！",
+  "Give an item to one of your Pokémon, then show me. Choose it in your party, or give it from your Bag.": "把道具交給你的寶可夢拿著，再拿來給我看看。可以在隊伍裡選，也可以從包包裡給。",
+  "Yes, just like that! It will use its item without you saying a word.": "對，就是這樣！牠會自己使用道具，不用你說一句話。",
+  "If you ever find something truly rare, do show it to me. I would trade you the best piece of my collection for it.": "要是你找到了真正稀有的東西，一定要給我看看。我願意用收藏裡最好的寶貝跟你換。",
+  "Hm? What is that shining in your Bag? A red scale... from the red Gyarados of the Lake of Rage? I have never seen one!": "嗯？你包包裡閃閃發光的是什麼？紅色的鱗片……是憤怒之湖那條紅色暴鯉龍的？我從沒見過！",
+  "Would you trade it for the best piece of my collection?": "能用我收藏裡最好的寶貝跟你換嗎？",
+  "Ah... If you change your mind, I will be right here.": "啊……要是你改變主意了，我一直都在這裡。",
+  "The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!": "拿著學習裝置的寶可夢，即使不出場戰鬥，也能分到每場對戰的一部分經驗值。用它來培養你的新夥伴吧！"
 }, "zh-Hant");

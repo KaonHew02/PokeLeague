@@ -278,3 +278,23 @@ test('stones, TMs and Repel', () => {
   assert.equal(s.repel, 200);
   assert.equal(FI.repel(s, 'repel'), 'active');
 });
+
+test('held items (chapter 26): given from the bag once Mr. Pokémon told you, swapped, taken back, kept in the save', () => {
+  const { G } = fresh();
+  const F = G.Field, FI = G.FieldItems;
+  const mon = F.giveMon('pikachu', 20);
+  F.giveItem('charcoal', 2); F.giveItem('leftovers', 1); F.giveItem('red-scale', 1); F.giveItem('tm10', 1);
+  assert.ok(!FI.canHold('charcoal'), 'not before Mr. Pokémon explains it');
+  F.setFlag('held-items');
+  assert.ok(FI.canHold('charcoal') && FI.canHold('oran-berry'));
+  assert.ok(!FI.canHold('red-scale') && !FI.canHold('tm10'), 'no key items, no TMs');
+  assert.equal(FI.give(mon, 'charcoal'), null);
+  assert.ok(mon.item === 'charcoal' && F.count('charcoal') === 1);
+  assert.equal(FI.give(mon, 'leftovers'), 'charcoal', 'swapped');
+  assert.ok(mon.item === 'leftovers' && F.count('charcoal') === 2 && F.count('leftovers') === 0);
+  assert.equal(FI.take(mon), 'leftovers');
+  assert.ok(mon.item === null && F.count('leftovers') === 1);
+  mon.item = 'charcoal';
+  const s = G.Store.sanitize({ party: [mon, Object.assign({}, mon, { uid: 'b', item: 'red-scale' }), Object.assign({}, mon, { uid: 'c', item: 'nonsense' })] });
+  assert.deepEqual(s.party.map(m => m.item).join(), 'charcoal,,', 'only real items that are not key items');
+});

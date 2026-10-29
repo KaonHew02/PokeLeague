@@ -58,5 +58,6 @@ G.I18n.add({
   "The Day Care is on Route 34, just south of Goldenrod City. Hatch an Egg from there and bring me the Pokémon!": "La Pension se trouve sur la Route 34, juste au sud de Doublonville. Fais éclore un Œuf de là-bas et apporte-moi le Pokémon !",
   "You hatched an Egg from the Day Care? Let me see...": "Tu as fait éclore un Œuf de la Pension ? Montre-moi...",
   "A Pokémon at the very first stage of its family, only just born! So Pokémon really do come from Eggs, and parents pass things on to their young.": "Un Pokémon au tout premier stade de sa famille, qui vient de naître ! Les Pokémon naissent donc bien dans des Œufs, et les parents transmettent des choses à leurs petits.",
-  "Thank you, {player}. This is a big step for my research. Keep leaving Pokémon at the Day Care: who knows what will hatch next!": "Merci, {player}. C'est un grand pas pour mes recherches. Continue de confier des Pokémon à la Pension : qui sait ce qui éclora la prochaine fois !"
+  "Thank you, {player}. This is a big step for my research. Keep leaving Pokémon at the Day Care: who knows what will hatch next!": "Merci, {player}. C'est un grand pas pour mes recherches. Continue de confier des Pokémon à la Pension : qui sait ce qui éclora la prochaine fois !",
+  "Mr. Pokémon called. He heard about your Egg, and he would like to show you something from his collection. His house is at the end of Route 30.": "M. Pokémon a appelé. Il a entendu parler de ton Œuf, et il aimerait te montrer quelque chose de sa collection. Sa maison est au bout de la Route 30."
 }, "fr");

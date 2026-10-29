@@ -5,6 +5,9 @@
  * johto-theft; the stolen starter's ball is gone). On the way back the thief ambushes you at
  * Cherrygrove's north entrance (flag rival2-battle; losing is allowed). Route 31 leads west to
  * Violet City (violet.js).
+ * Chapter 26: after Elm's Eggs, Mr. Pokémon shows you held items (flag held-items: Leftovers and a
+ * Quick Claw), gives an item made for each of six Pokémon you show him (flags keepsake:<item>) and
+ * trades the Red Scale for the Exp. Share (flag got-exp-share), which ends the chapter.
  */
 G.Maps.def({
   id: 'cherrygrove', loc: 'cherrygrove-city', region: 'johto', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
@@ -197,8 +200,69 @@ G.Maps.def({
   const T = s => G.T(s);
   const OAK = { name: 'Prof. Oak' }, MR = { name: 'Mr. Pokémon' }, RIVAL2 = { name: '???' };
 
+  /** Items made for one Pokémon (chapter 26): show him one, and he gives it the item from his collection. */
+  const KEEPSAKES = [[25, 'light-ball'], [104, 'thick-club'], [105, 'thick-club'], [132, 'metal-powder'], [113, 'lucky-punch'], [83, 'stick']];
+
+  /** Chapter 26, after Elm's Eggs: held items, Mr. Pokémon's keepsakes, the Red Scale for the Exp. Share. */
+  async function collection(h) {
+    const F = G.Field;
+    if (!F.flag('held-items')) {
+      await h.say(T('Ah, {player}! Elm told me about your Egg. Splendid! Now let me show you something from my collection.'), MR);
+      await h.say(T('Did you know a Pokémon can hold an item? Not one you use from your Bag: the Pokémon keeps it, and uses it by itself in battle.'), MR);
+      await h.say(T('A Berry it eats when it is hurt, a charm that makes its moves stronger... Here, try these two.'), MR);
+      for (const item of ['leftovers', 'quick-claw']) {
+        F.giveItem(item, 1);
+        const j = h.jingle('item');
+        await h.say(T('{player} received {item}!'), { vars: { item: G.Names.item(item) } });
+        await j;
+      }
+      F.setFlag('held-items');
+      await h.say(T('Give one to a Pokémon from your party or your Bag, then come and show me. The Goldenrod Department Store has a new counter for held items too!'), MR);
+      return;
+    }
+    const party = F.party();
+    const keep = KEEPSAKES.find(([sp, item]) => party.some(m => m.sp === sp) && !F.flag('keepsake:' + item));
+    if (keep) {
+      const [sp, item] = keep;
+      await h.say(T('Oh! Your {mon}! I have something in my collection that was made for it alone. Here, it should have it.'), Object.assign({ vars: { mon: G.Names.mon(sp) } }, MR));
+      F.giveItem(item, 1);
+      F.setFlag('keepsake:' + item);
+      const j = h.jingle('item');
+      await h.say(T('{player} received {item}!'), { vars: { item: G.Names.item(item) } });
+      await j;
+      return;
+    }
+    if (F.flag('got-exp-share')) {
+      await h.say(T('My collection grows every year. If you meet a Pokémon I have never seen, bring it to me!'), MR);
+      return;
+    }
+    if (!party.some(m => m.item)) {
+      await h.say(T('Give an item to one of your Pokémon, then show me. Choose it in your party, or give it from your Bag.'), MR);
+      return;
+    }
+    await h.say(T('Yes, just like that! It will use its item without you saying a word.'), MR);
+    if (!F.count('red-scale')) {
+      await h.say(T('If you ever find something truly rare, do show it to me. I would trade you the best piece of my collection for it.'), MR);
+      return;
+    }
+    await h.say(T('Hm? What is that shining in your Bag? A red scale... from the red Gyarados of the Lake of Rage? I have never seen one!'), MR);
+    if (await h.choice(T('Would you trade it for the best piece of my collection?'), {}) !== 0) {
+      await h.say(T('Ah... If you change your mind, I will be right here.'), MR);
+      return;
+    }
+    F.takeItem('red-scale', 1);
+    F.giveItem('exp-share', 1);
+    F.setFlag('got-exp-share');
+    const j = h.jingle('item');
+    await h.say(T('{player} received {item}!'), { vars: { item: G.Names.item('exp-share') } });
+    await j;
+    await h.say(T('The Pokémon that holds the Exp. Share gets part of the Exp. from every battle, even if it never fights. Raise your young ones with it!'), MR);
+    if (G.CreditsUI) await G.CreditsUI.ending(26); else F.setFlag('chapter-26-done');
+  }
+
   async function mrPokemon(h) {
     const F = G.Field;
+    if (F.flag('egg-report')) return collection(h);
     if (F.flag('got-mystery-egg')) {
       await h.say(T('Eggs are a mystery. Some say Pokémon find them, others that they appear by themselves. What do you think?'), MR);
       return;

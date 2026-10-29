@@ -32,6 +32,8 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 26) return { title: T('Chapter 26 complete!'), done: fmt('{player} learned to give Pokémon items to hold, and traded the Red Scale to Mr. Pokémon for the Exp. Share.', { player }),
+      next: T('Thank you for playing! More of Johto\'s secrets wait in a future update.') };
     if (n === 25) return { title: T('Chapter 25 complete!'), done: fmt('{player} hatched an Egg from the Day Care and showed Professor Elm how Pokémon are born.', { player }),
       next: T('Thank you for playing! More of Johto\'s secrets wait in a future update.') };
     if (n === 24) return { title: T('Chapter 24 complete!'), done: fmt('{player} put the four stone panels of the Ruins of Alph back together and met the Unown in the inner chamber.', { player }),

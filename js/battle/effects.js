@@ -100,19 +100,19 @@ G.BattleFx = (() => {
     if (acc == null) return true;
     const eva = target.vol.foresight ? Math.min(0, target.stages.eva) : target.stages.eva;
     const st = Math.max(-6, Math.min(6, user.stages.acc - eva));
-    return b.rng.int(1, 100) <= Math.floor(acc * G.Stats.accStage(st));
+    return b.rng.int(1, 100) <= Math.floor(acc * G.Stats.accStage(st) * G.Held.accMult(target.mon));   // Bright Powder
   }
 
   /** One hit's damage: { dmg, crit } (power already known). */
   function hitDamage(b, user, target, M, S, pow, eff, type) {
-    const stage = (M.meta.crit || 0) + (user.vol.focusEnergy ? 2 : 0);
+    const stage = (M.meta.crit || 0) + (user.vol.focusEnergy ? 2 : 0) + G.Held.critBonus(user.mon);
     const crit = b.rng.int(1, CRIT[Math.min(3, stage)]) === 1;
     const phys = M.cat === 'physical';
     const atk = b.stat(user, phys ? 'atk' : 'spa', { crit, attacking: true });
     const def = b.stat(target, phys ? 'def' : 'spd', { crit, defending: true });
     const field = b.sideOf(target).field;
     const dmg = G.Damage.calc({
-      lvl: user.mon.lvl, pow, atk, def, eff, crit, roll: b.rng.int(85, 100),
+      lvl: user.mon.lvl, pow: Math.floor(pow * G.Held.power(user.mon, type)), atk, def, eff, crit, roll: b.rng.int(85, 100),
       stab: !S.typeless && user.types.includes(type),
       burn: phys && user.mon.status === 'brn',
       screen: !crit && (phys ? field.reflect : field.lightScreen) > 0,
@@ -180,6 +180,7 @@ G.BattleFx = (() => {
       if (k === 'damage-lower' && b.rng.pct(M.meta.statP || 100)) for (const [s, d] of M.stats) b.stage(target, s, d, { source: user });
     }
     if (M.meta.k === 'damage-raise' && total > 0 && b.alive(user) && b.rng.pct(M.meta.statP || 100)) for (const [s, d] of M.stats) b.stage(user, s, d, { source: user });
+    G.Held.afterHit(b, user, target, M, total);          // King's Rock, Shell Bell
     return { total, hits: done };
   }
 

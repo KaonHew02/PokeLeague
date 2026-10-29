@@ -84,5 +84,6 @@ G.I18n.add({
   "Welcome back! You saved the Radio Tower. Please, look around upstairs as much as you like.": "欢迎回来！是你救了广播塔。楼上请随便参观。",
   "Welcome to Team Rocket Radio! Visitors are not welcome!": "欢迎收听火箭队电台！访客不受欢迎！",
   "You are not a visitor, you are trouble...": "你不是访客，你是个麻烦……",
-  "Our executives are upstairs. You will never get to them!": "我们的干部在楼上。你绝对到不了那里！"
+  "Our executives are upstairs. You will never get to them!": "我们的干部在楼上。你绝对到不了那里！",
+  "Welcome to our new counter for held items! Give one to a Pokémon, and it will use it in battle all by itself.": "欢迎光临新开的携带道具柜台！把道具交给宝可梦拿着，它在对战中就会自己使用。"
 }, "zh-Hans");

@@ -285,6 +285,11 @@ G.Maps.def({
       if (G.CreditsUI) await G.CreditsUI.ending(25); else F.setFlag('chapter-25-done');
       return;
     }
+    // Chapter 26: held items, at Mr. Pokémon's (cherrygrove.js).
+    if (F.flag('egg-report') && !F.flag('held-items')) {
+      await h.say(T('Mr. Pokémon called. He heard about your Egg, and he would like to show you something from his collection. His house is at the end of Route 30.'), ELM);
+      return;
+    }
     if (F.flag('clair-beaten')) {
       if (!F.flag('got-master-ball')) {
         await h.say(T('{player}! All eight of Johto\'s badges! I knew you could do it!'), ELM);

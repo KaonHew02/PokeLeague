@@ -169,6 +169,7 @@ It is pure and deterministic, runs in node, and never touches the DOM. **Built**
 | effects.js | `G.BattleFx` | `useMove(b, user, target, id, {locked, called})`: the generic interpreter |
 | moves-special.js | `G.SpecialMoves` | per-move hooks (see the top of effects.js); `FALLBACK` = deliberately simplified moves |
 | items.js | `G.BattleItems` | `canUse`, `use`: potions, status heals, revives, Ethers, X items, Dire Hit, Guard Spec. |
+| held.js | `G.Held` | held items (chapter 26): `power`, `statMult`, `critBonus`, `accMult`, `quick`, `afterHit`, `survives`, `berry`, `endOfTurn`, `expMult` |
 | ai.js | `G.BattleAI` | `choose(b, side)`: `random` (wild), `basic` (trainers), `leader` (heals when low) |
 | capture.js | `G.Capture` | `roll({max, hp, rate, ball, status, rng})`, `chance(...)`, `ballMod(item, {foe, mine, fishing})` |
 | exp.js | `G.Exp` | `gain`, `addEvs`, `prize(base, lastLevel)`, `blackoutLoss(money)` |
@@ -1365,8 +1366,33 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   `tests/field.test.cjs` checks the rules (who breeds, compat, root, egg moves, IVs, the Odd Egg's
   shiny rate) and plays an Egg from the Day Care to the party and to the PC.
 
-### After chapter 25
+- **Chapter 26** ✅, Johto after the League, held items: once Elm has seen your Egg, he passes on a
+  call from Mr. Pokémon (Route 30), who shows you held items (flag `held-items`: Leftovers and a
+  Quick Claw) and asks to see a Pokémon holding one. Shown one of six Pokémon, he gives the item
+  made for it (Light Ball, Thick Club ×2, Metal Powder, Lucky Punch, Leek; flags
+  `keepsake:<item>`). Shown a Pokémon holding an item, he notices the Red Scale from the Lake of
+  Rage and trades it for the Exp. Share (flag `got-exp-share`, `ending(26)`). The Goldenrod
+  Department Store opens a counter for held items on 1F (`if: 'held-items'`): the 17 type items,
+  Everstone, Smoke Ball, Bright Powder, Scope Lens, Focus Band, Shell Bell, Lucky Egg, Amulet Coin.
+  Files: `cherrygrove.js` (Mr. Pokémon), `goldenrod.js`, `newbark.js` (Elm).
+- **Engine for chapter 26:** held items (`mon.item`): `G.Held` (`js/battle/held.js`) with each
+  item's `held` in item-effects.js: type items 1.2× (Gen 4), berries eaten when HP is at half or
+  less or for the status they cure (then gone), Leftovers 1/16 a turn, Shell Bell 1/8 of the damage,
+  Quick Claw 20% first in its priority, King's Rock 10% flinch, Focus Band 10% at 1 HP, Scope Lens +1
+  crit stage (Lucky Punch, Leek +2 for Chansey, Farfetch'd), Bright Powder ×0.9 accuracy, Light Ball /
+  Thick Club / Metal Powder ×2 for their Pokémon, Lucky Egg ×1.5 Exp., Exp. Share (half to those who
+  fought, half to the holders), Amulet Coin ×2 prize, Smoke Ball always escapes, Everstone no
+  evolution but by an item (evolution.js) and its nature passed on half the time at the Day Care.
+  Hooks in battle.js (stat, hurt, runTurn, afterAction, endOfTurn, expSteps, sendOut, tryRun) and
+  effects.js (accuracy, crit, power, after the hit); random rolls only for holders, so battles
+  without held items are unchanged. Events: `heal` with `why: 'held'`, `cure` with `item`, `held`
+  (Focus Band). Giving: `G.FieldItems.canHold` / `give` / `take` (not key items, TMs or HMs; only
+  once `held-items`), the party's Item (Give / Take, a tag on the card), the Bag's Give, the
+  Summary's Item row; the save keeps a known item that is not a key item. `tests/held.test.cjs`
+  checks every effect; the save test giving, swapping and taking.
 
-1. **More of Johto's post-game:** held items (berries held in battle, the Everstone…), Mt. Silver.
+### After chapter 26
+
+1. **More of Johto's post-game:** Mt. Silver.
 2. **Hoenn:** abilities, double battles, weather.
 3. Engine features along the way: more TMs, abilities, held items, weather, Exp. Share, Repel steps.

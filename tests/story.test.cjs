@@ -2066,6 +2066,30 @@ async function chapter25(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 26 after chapter 25: held items at Mr. Pokémon's, and the Red Scale for the Exp. Share. */
+async function chapter26(st) {
+  const { G } = st;
+  const F = G.Field, MR = () => npc(st, 'mr-pokemon-house', 'mrpokemon');
+  await run(st, 'elm-lab', npc(st, 'elm-lab', 'elm'));
+  assert.ok(!F.flag('held-items') && F.count('red-scale') === 1, 'Elm sends you on, the Red Scale from the Lake of Rage in the Bag');
+  // Mr. Pokémon: held items, Leftovers and a Quick Claw.
+  await run(st, 'mr-pokemon-house', MR());
+  assert.ok(F.flag('held-items') && F.count('leftovers') === 1 && F.count('quick-claw') === 1, 'held items explained');
+  // Show him a Pikachu: the Light Ball.
+  while (F.party().length > 5) F.toBox(F.party().pop());
+  F.giveMon('pikachu', 20);
+  await run(st, 'mr-pokemon-house', MR());
+  assert.equal(F.count('light-ball'), 1, 'the Light Ball');
+  // He wants to see a Pokémon holding something; then the trade.
+  await run(st, 'mr-pokemon-house', MR());
+  assert.ok(!F.flag('got-exp-share'), 'nothing held yet');
+  assert.equal(G.FieldItems.give(F.party()[0], 'leftovers'), null);
+  await run(st, 'mr-pokemon-house', MR(), [0]);
+  assert.ok(F.flag('got-exp-share') && F.count('exp-share') === 1 && !F.count('red-scale'), 'the Exp. Share for the Red Scale');
+  assert.ok(F.flag('chapter-26-done'), 'the end of the chapter');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2147,7 +2171,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 25: Johto, from Professor Elm to Johto's League, the Bell Tower, the Whirl Islands, Kurt, the Ruins of Alph and Eggs", async () => {
+test("chapters 11 to 26: Johto, from Professor Elm to Johto's League, the Bell Tower, the Whirl Islands, Kurt, the Ruins of Alph, Eggs and held items", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2174,4 +2198,5 @@ test("chapters 11 to 25: Johto, from Professor Elm to Johto's League, the Bell T
   await chapter23(st);
   await chapter24(st);
   await chapter25(st);
+  await chapter26(st);
 });

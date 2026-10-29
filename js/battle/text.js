@@ -117,9 +117,14 @@ G.BattleText = (() => {
         if (e.why === 'drain') return fmt('{mon} had its energy drained!', { mon: who(b, e.from, e.fromSide) });
         if (e.why === 'leech' || e.why === 'rest' || e.why === 'item' || e.why === 'painSplit') return e.why === 'item' ? fmt("{mon}'s HP was restored.", { mon }) : null;
         if (e.why === 'ingrain') return fmt('{mon} absorbed nutrients with its roots!', { mon });
+        // Held items (chapter 26): a berry, Leftovers, Shell Bell.
+        if (e.why === 'held' && e.held === 'berry') return fmt('{mon} restored its HP using its {item}!', { mon, item: G.Names.item(e.item) });
+        if (e.why === 'held') return fmt('{mon} restored a little HP using its {item}!', { mon, item: G.Names.item(e.item) });
         return fmt('{mon} regained health!', { mon });
       case 'status': return statusLine(mon, e.s);
-      case 'cure': return fmt("{mon}'s status returned to normal!", { mon });
+      case 'cure': return e.item ? fmt('{mon} ate its {item} and was cured!', { mon, item: G.Names.item(e.item) })
+                                 : fmt("{mon}'s status returned to normal!", { mon });
+      case 'held': return fmt('{mon} hung on using its {item}!', { mon, item: G.Names.item(e.item) });
       case 'noEffect': return fmt("It doesn't affect {mon}...", { mon });
       case 'fail': return fmt('But it failed!', {});
       case 'miss': return fmt("{mon}'s attack missed!", { mon });

@@ -14,7 +14,7 @@ const FILES = ['js/core/locales.js', 'js/core/util.js', 'js/core/rng.js', 'js/co
   'js/data/natures.js', 'js/data/item-effects.js',
   'js/battle/stats.js', 'js/battle/mon.js', 'js/battle/damage.js', 'js/battle/effects.js', 'js/battle/moves-special.js',
   'js/battle/ai.js', 'js/battle/capture.js', 'js/battle/exp.js', 'js/battle/evolution.js', 'js/battle/items.js', 'js/battle/held.js',
-  'js/battle/battle.js', 'js/battle/text.js'];
+  'js/battle/abilities.js', 'js/battle/battle.js', 'js/battle/text.js'];
 
 function load(lang = 'en') {
   const store = new Map(lang !== 'en' ? [['pl.lang', lang]] : []);

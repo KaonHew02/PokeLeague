@@ -697,6 +697,8 @@ G.Audio = (() => {
     buy:     () => { SFX.coin(); arp('triangle', [659, 784, 1047], 0.05, 0.12, 0.06); },
     // Overworld
     bump:    () => { tone('triangle', 120, 55, 0.1, 0.08); hiss(0.06, 0.03, 'lowpass', 420); },
+    // The ship's horn (chapter 28: the S.S. Aqua).
+    horn:    () => { tone('sawtooth', 196, 190, 0.9, 0.05); tone('square', 147, 143, 0.9, 0.03); },
     door:    () => { hiss(0.2, 0.05, 'bandpass', 500, 1600, 0, 1.2); tone('triangle', 150, 80, 0.08, 0.09, 0.15); },
     warp:    () => hiss(0.3, 0.12, 'bandpass', 2200, 400, 0, 1.4),          // stairs, exit mats
     ledge:   () => {

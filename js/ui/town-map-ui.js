@@ -4,8 +4,8 @@
  * A small drawing of a region (land, sea, the routes and the towns) beside a list of its towns.
  * The place under the cursor blinks; visited towns are red, the others grey. The towns are
  * the maps with a `fly` landing spot (G.World.flyTargets); a click on the drawing picks one too.
- * It shows the region you are in (map `region`, Kanto by default); once you have been to both,
- * a button switches to the other one (Fly crosses between them).
+ * It shows the region you are in (map `region`, Kanto by default); once you have been to another
+ * one, a button goes round the regions you have seen (Fly crosses between them).
  */
 G.TownMapUI = (() => {
   const esc = s => G.U.esc(s);
@@ -53,8 +53,26 @@ G.TownMapUI = (() => {
     SEA: { 40: [[2.5, 4], [2.5, 7]], 41: [[2.5, 7], [0.6, 9]] },
     LAND: [[1.6, -0.5, 18.9, 12.8], [-0.5, 8, 1.8, 2.2], [3, 12, 7.5, 2]]
   };
-  const MAPS = { kanto: { AT, ROADS, SEA, LAND }, johto: JOHTO };
-  const REGION_NAME = { kanto: () => T('Kanto'), johto: () => T('Johto') };
+  // Hoenn (chapter 28): Littleroot Town in the south-west; the towns of later chapters are already
+  // placed, their roads come with them.
+  const HOENN = {
+    AT: {
+      'littleroot-town': [4, 12], 'oldale-town': [4, 9.5], 'petalburg-city': [1.2, 9.5], 'rustboro-city': [1.2, 4.5],
+      'dewford-town': [1.2, 13.8], 'slateport-city': [9, 12], 'mauville-city': [9, 6], 'verdanturf-town': [6, 6],
+      'fallarbor-town': [3.5, 1.2], 'lavaridge-town': [6, 3.5], 'fortree-city': [11.5, 1.2], 'lilycove-city': [16, 3],
+      'mossdeep-city': [18.6, 4.5], 'sootopolis-city': [16.4, 8], 'pacifidlog-town': [14.5, 12.4], 'ever-grande-city': [19, 11]
+    },
+    ROADS: { 101: [[4, 12], [4, 9.5]], 102: [[4, 9.5], [1.2, 9.5]], 103: [[4, 9.5], [4, 8], [8, 8]] },
+    SEA: {},
+    LAND: [[-0.5, -0.5, 13, 13.2], [0.4, 13.2, 1.6, 1.2], [9.5, 0.2, 7.6, 4.2], [17.8, 3.6, 1.8, 1.8], [15.6, 7.2, 1.6, 1.6],
+           [18.2, 9.8, 2.3, 2.6]]
+  };
+  const MAPS = { kanto: { AT, ROADS, SEA, LAND }, johto: JOHTO, hoenn: HOENN };
+  const REGION_NAME = { kanto: () => T('Kanto'), johto: () => T('Johto'), hoenn: () => T('Hoenn') };
+  /** The regions you have seen, in order. */
+  const seenRegions = () => Object.keys(MAPS).filter(r => r === st.region || st.towns.some(t => t.visited && regionOf(t.loc) === r));
+  /** The next region on the button (null when you have seen only this one). */
+  const nextRegion = () => { const all = seenRegions(); return all.length > 1 ? all[(all.indexOf(st.region) + 1) % all.length] : null; };
   /** The drawing being shown. */
   const R = () => MAPS[st.region];
   /** The region of a location id (by the drawing it is on). */
@@ -88,7 +106,7 @@ G.TownMapUI = (() => {
     });
     el.querySelector('[data-back]').onclick = () => finish(null);
     el.querySelector('[data-region]').onclick = () => {
-      st.region = st.region === 'kanto' ? 'johto' : 'kanto';
+      st.region = nextRegion() || st.region;
       const first = shown().find(t => t.visited) || shown()[0];
       st.sel = first ? first.id : null;
       render(); label();
@@ -172,11 +190,11 @@ G.TownMapUI = (() => {
   function render() {
     el.querySelector('h3').textContent = st.fly ? T('Where would you like to fly?') : G.Names.item('town-map');
     el.querySelector('[data-back]').textContent = st.fly ? T('Cancel') : T('Back');
-    // The other region's drawing, once you have been there.
-    const other = st.region === 'kanto' ? 'johto' : 'kanto';
+    // The next region's drawing, once you have been there.
+    const other = nextRegion();
     const rb = el.querySelector('[data-region]');
-    rb.textContent = REGION_NAME[other]();
-    rb.classList.toggle('hidden', !st.towns.some(t => t.visited && regionOf(t.loc) === other));
+    rb.textContent = other ? REGION_NAME[other]() : '';
+    rb.classList.toggle('hidden', !other);
     const list = el.querySelector('.tm-list');
     list.innerHTML = shown().map(t => `<button class="menu-item${t.visited ? '' : ' unseen'}" data-id="${esc(t.id)}"${st.fly && !t.visited ? ' disabled' : ''}>`
       + `${esc(t.visited || !st.fly ? G.Names.loc(t.loc) : '-----')}</button>`).join('');
@@ -198,7 +216,7 @@ G.TownMapUI = (() => {
   function open(o = {}) {
     if (!el) build();
     return new Promise(res => {
-      const ORDER = [...Object.keys(AT), ...Object.keys(JOHTO.AT)];
+      const ORDER = [...Object.keys(AT), ...Object.keys(JOHTO.AT), ...Object.keys(HOENN.AT)];
       const towns = (G.World && G.World.flyTargets ? G.World.flyTargets() : [])
         .filter(t => regionOf(t.loc)).sort((a, b) => ORDER.indexOf(a.loc) - ORDER.indexOf(b.loc));
       const m = G.World && G.World.map;
@@ -224,5 +242,5 @@ G.TownMapUI = (() => {
     });
   }
 
-  return { open, AT, ROADS, JOHTO };
+  return { open, AT, ROADS, JOHTO, HOENN };
 })();

@@ -51,5 +51,6 @@ G.I18n.add({
   "Olivine City. A port town that smells of the sea breeze.": "浅葱市。飘着海风气息的港口城市。",
   "Olivine Lighthouse. Its light guides the ships at night.": "浅葱灯塔。它的光在夜里为船只引路。",
   "Olivine City Pokémon Gym. Leader: Jasmine, the girl of steel and gentle heart.": "浅葱市宝可梦道馆。馆主：阿蜜，钢铁般坚强又心地温柔的女孩。",
-  "Olivine Port. The S.S. Aqua is in the dock for repairs. Sailings will resume soon.": "浅葱港。S.S.水神号正在船坞维修，不久就会恢复航行。"
+  "Olivine Port. The S.S. Aqua is in the dock for repairs. Sailings will resume soon.": "浅葱港。S.S.水神号正在船坞维修，不久就会恢复航行。",
+  "Olivine Port. The S.S. Aqua sails south from here to the Hoenn region.": "浅葱港。S.S.水神号从这里向南开往丰缘地区。"
 }, "zh-Hans");

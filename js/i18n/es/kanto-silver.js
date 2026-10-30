@@ -11,5 +11,6 @@ G.I18n.add({
   "I am staying up here a while longer. Come back whenever you want a real battle.": "Me quedaré aquí arriba un tiempo más. Vuelve cuando quieras un combate de verdad.",
   "The way to Route 28 and Mt. Silver. Closed while the rangers check the mountain paths after the earthquake.": "Camino a la Ruta 28 y al Monte Plateado. Cerrado mientras los guardas revisan los senderos tras el terremoto.",
   "Only the strongest Trainers come this far. They say someone has been living at the top of the mountain for months.": "Solo los Entrenadores más fuertes llegan hasta aquí. Dicen que alguien lleva meses viviendo en la cima de la montaña.",
-  "Route 28. West: Mt. Silver. Only Trainers who have proven themselves may climb it.": "Ruta 28. Oeste: Monte Plateado. Solo los Entrenadores que han demostrado su valía pueden escalarlo."
+  "Route 28. West: Mt. Silver. Only Trainers who have proven themselves may climb it.": "Ruta 28. Oeste: Monte Plateado. Solo los Entrenadores que han demostrado su valía pueden escalarlo.",
+  "Oh, and Gramps wants to see you in Pallet Town. Something about a letter from a faraway region.": "Ah, y el abuelo quiere verte en Pueblo Paleta. Algo de una carta de una región lejana."
 }, "es");

@@ -64,7 +64,8 @@ in the same change.
 
 ```
 python tools/fetch_data.py --region kanto            # dex 1-151 (about 1,200 requests the first time)
-python tools/fetch_data.py --region johto            # dex 1-251, Kanto and Johto places (what js/data/ holds now)
+python tools/fetch_data.py --region johto            # dex 1-251, Kanto and Johto places
+python tools/fetch_data.py --region hoenn            # dex 1-386, and Hoenn's places and abilities (what js/data/ holds now)
 python tools/fetch_data.py --region kanto --offline  # cache only; fails on a miss
 python tools/fetch_data.py --region kanto --refresh  # download again
 ```
@@ -87,6 +88,12 @@ python tools/fetch_data.py --region kanto --refresh  # download again
     and 27 are `kanto-route-26/27` in PokeAPI but only HGSS has them). Encounter conditions
     `morning` / `day` / `night` give a table its `morning` and `night` lists beside `mons` (the
     day); swarms and the radio are skipped.
+  - Hoenn (chapter 28): `dex (1,386)`; `learnset_vg_from` is a list of ranges (152+ HGSS first,
+    252+ Emerald, then Ruby / Sapphire, FRLG); TMs FRLG, else Emerald (`tm_vg_fallback`, the same
+    Generation 3 TMs); text adds Emerald and Ruby / Sapphire; encounters Emerald first. Each species
+    gets its Generation 3 **abilities** (`ab`: no hidden ability; PokeAPI's `past_abilities` undo
+    later changes, so Gengar has Levitate) and `/ability` gives their names (`G.NAMES.ability`) and
+    texts (`G.DEX_TEXT.ability`). Feebas evolves at Lv. 35 (`via:'beauty'`: there are no Pokéblocks).
 - **Evolutions:**
   - Level-up becomes `{how:'level', level}`; a stone becomes `{how:'item', item}`.
   - Trades become `{how:'level', level:37, via:'trade'}`; Kadabra uses 36. A trade holding an
@@ -111,7 +118,8 @@ G.SPECIES = { 1: { slug:'bulbasaur', types:['grass','poison'], base:[45,49,49,65
   evo:[{ to:2, how:'level', level:16 }], learn:[[1,'tackle'],[4,'growl'],[7,'leech-seed'], …] /* sorted; can repeat a move */,
   tm:['hm01','tm06', …], tu:['headbutt'] /* move tutors (chapter 13); absent when none */,
   eg:['monster','plant'] /* egg groups, PokeAPI's names ('no-eggs': cannot breed) */, hc:20 /* egg cycles */,
-  em:['charm', …] /* egg moves (HeartGold / SoulSilver, else Crystal) the game has; absent when none */ } }
+  em:['charm', …] /* egg moves (HeartGold / SoulSilver, else Crystal) the game has; absent when none */,
+  ab:['overgrow'] /* its one or two Generation 3 abilities (chapter 28) */ } }
 G.MOVES = { ember: { id:52, type:'fire', cat:'special' /* physical|special|status */, pow:40 /* null for status */,
   acc:100 /* null = never misses */, pp:25, pri:0, tgt:'selected-pokemon', eff:10 /* effect chance */,
   meta:{ k:'damage-ailment', ail:'burn', ailP:10, crit:0, drain:0, heal:0, flinch:0, statP:0, hits:null, turns:null },
@@ -170,6 +178,7 @@ It is pure and deterministic, runs in node, and never touches the DOM. **Built**
 | moves-special.js | `G.SpecialMoves` | per-move hooks (see the top of effects.js); `FALLBACK` = deliberately simplified moves |
 | items.js | `G.BattleItems` | `canUse`, `use`: potions, status heals, revives, Ethers, X items, Dire Hit, Guard Spec. |
 | held.js | `G.Held` | held items (chapter 26): `power`, `statMult`, `critBonus`, `accMult`, `quick`, `afterHit`, `survives`, `berry`, `endOfTurn`, `expMult` |
+| abilities.js | `G.Abilities` | abilities (chapter 28): `of(mon)`, `weather(b)`, `statMult`, `powerMult`, `accMult`, `stops` / `immune` (absorbing, Wonder Guard, Soundproof), `blocksStatus` / `blocksDrop` …, `contact`, `switchIn` / `switchOut`, `endOfTurn`, `traps`; `KNOWN` (all 76) and `NO_EFFECT` |
 | ai.js | `G.BattleAI` | `choose(b, side)`: `random` (wild), `basic` (trainers), `leader` (heals when low) |
 | capture.js | `G.Capture` | `roll({max, hp, rate, ball, status, rng})`, `chance(...)`, `ballMod(item, {foe, mine, fishing})` |
 | exp.js | `G.Exp` | `gain`, `addEvs`, `prize(base, lastLevel)`, `blackoutLoss(money)` |
@@ -1411,7 +1420,80 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   3F and beats the rival, and prints `[balance]` rates for the summit (a typical six at Lv. 72:
   ~60%, at Lv. 78: ~80%); `tests/field.test.cjs` the gate's door and the way west.
 
-### After chapter 27
+- **Chapter 28** ✅, the start of Hoenn: after Mt. Silver the rival says his grandfather wants to
+  see you, and Professor Oak has a letter from Professor Birch, who studies Pokémon in the wild in
+  Hoenn (flag `hoenn-invite`; `lab.oak` calls `oak.hoenn`). The S.S. Aqua now sails from a sailor at
+  the end of Olivine City's pier (`hoenn.ferry-olivine`; the port sign follows the flag) to a pier
+  south of Littleroot Town and back (`hoenn.ferry-littleroot`; flag `hoenn-arrived` the first time).
+  Littleroot: Birch's lab (the aide heals; Birch is out), his house (his wife welcomes you, heals
+  you once the journey begins, and you stay upstairs next to their child's room), two houses. On
+  Route 101 (a trigger across the road) Birch is chased by a wild Zigzagoon: you pick Treecko,
+  Torchic or Mudkip (Lv. 5) from his bag and battle the Zigzagoon (Lv. 2) with it alone (`h.wild`
+  with `party`, flag `birch-saved`); at the lab he explains that Pokémon from other regions obey
+  only up to the level of your Hoenn badges (flag `hoenn-start`: `G.Field.obeyCap('hoenn')`, badges
+  17–24, the same `OBEY` levels) and gives it to you (the PC when the party is full). The rival is
+  Birch's child: May for a boy, Brendan for a girl (var `rival3` = `may` | `brendan`, text `{rival3}`
+  translated), with the starter strong against yours (`save.rival3.starter`, `G.Hoenn.COUNTER`).
+  Oldale Town: a Pokémon Center, a Mart, a house; a man sketching footprints blocks the way west
+  to Route 102 (it opens in chapter 29). Route 103: grass, a pond (Surf), and the rival (Lv. 5,
+  losing allowed, flag `rival3-met`); back at the lab Birch upgrades the Pokédex for Hoenn and the
+  rival gives five Poké Balls (flag `hoenn-dex`), then `ending(28)`. Emerald's wild Pokémon. Files:
+  `js/content/hoenn/littleroot.js` (`G.Hoenn`: `giveStarter`, `dex`, `COUNTER`; translations
+  `hoenn-littleroot`), `js/content/hoenn/route101.js` (`hoenn-route101`); `pallet.js` (Oak),
+  `silver.js` (the rival's hint), `olivine.js` (the pier).
+- **Engine for chapter 28:**
+  - **Data:** Pokémon 252–386 with sprites from PokéGo (and their artists in the credits);
+    `--region hoenn`; abilities (`ab`, `G.Names.ability`, `G.Names.desc('ability', id)`);
+    Clamperl's Deep Sea Tooth / Scale; Eruption, Water Spout, Smelling Salts, Ice Ball; the incense
+    babies (Azurill, Wynaut) are not hatched without an incense: Marill's Egg is a Marill.
+  - **Abilities** (`G.Abilities`, `js/battle/abilities.js`), all 76 of Generation 3, for every
+    Pokémon in every region. A Pokémon's ability is one of its species' `ab`, chosen by a hash of
+    its uid (no random draw, old saves need nothing); `mon.ability` forces one. A battler carries its
+    own (`bm.ability`, set in `makeBM`), which Trace changes. The battle asks the module like
+    `G.Held`: stats (Huge Power, Guts, Swift Swim…), power (Blaze at a third of its HP, Thick Fat,
+    Flash Fire), accuracy (Compound Eyes, Hustle, Sand Veil), critical hits (Battle Armor), moves
+    it stops (Levitate in `b.eff`, Water / Volt Absorb heal a quarter, Wonder Guard, Soundproof),
+    statuses and stat drops it prevents (Limber, Insomnia also against Rest, Own Tempo, Oblivious,
+    Clear Body, Hyper Cutter, Keen Eye), Synchronize, contact (Static, Flame Body, Poison Point,
+    Effect Spore and Cute Charm 30% / 10%, Rough Skin), Color Change, entry (Intimidate, Trace,
+    Drizzle / Drought / Sand Stream with weather that lasts until replaced, Pressure; once both
+    Pokémon are out at the start, the faster first, then on every switch), Natural Cure, the end of
+    the turn (Speed Boost, Shed Skin, Rain Dish), Truant, Early Bird, Inner Focus, Damp, Suction
+    Cups, Liquid Ooze, Rock Head, Sturdy (one-hit KOs, as in Generation 3), Shield Dust, Serene
+    Grace, trapping (Shadow Tag, Arena Trap, Magnet Pull) and Run Away. The weather that counts is
+    `b.weatherNow()` (none while Cloud Nine or Air Lock is out). Random rolls only when an ability
+    is at work, so battles without one play as before. Events: `ability` { why: `show` | `protect`
+    | `trace` | `flash-fire` | `type` | `truant` | `pressure` | `damp` } and heal / damage with
+    `why: 'ability'` (Liquid Ooze: `ooze`). The AI and the story test's auto-player skip moves an
+    ability stops; the summary's Info page shows the ability and what it does.
+  - **What abilities changed** in the `[balance]` tables (the assertions follow them): Koga's
+    Koffing and Weezing float (Levitate), so his Gym guide now says Psychic, and the story leads
+    with an Abra grown on Route 24 (a team of three with a Dugtrio: 0.95 → 0.15, with a Kadabra instead: 1.0); Agatha's Gengar
+    and Haunter float too (her rooms: Kangaskhan leads; the charizard team 1.0 → 0.63); the
+    Gyarados in front of Clair's and Lance's teams (and the rival's at Silph Co., the League and
+    Mt. Silver) cut the Attack of the Pokémon facing it (Feraligatr and two vs Clair 0.6 → 0.35,
+    Lance about a fifth fewer wins); Whitney's Miltank has Thick Fat (a lone Quilava 0.53 → 0) and
+    Clefairy Cute Charm. Some got easier (Blaze, Torrent and Overgrow at low HP: a lone Bulbasaur
+    against Brock at Lv. 12, 0.23 → 0.45). Where the story fell to a seed's luck it now brings what a
+    player would: the Alakazam from the PC against the Silph Co. rival, Blastoise's Surf against
+    the Champion, six Pokémon trained to 74 for the summit.
+  - **Hoenn as a region:** maps with `region: 'hoenn'` (obedience by badges 17–24, the time of
+    day's tint); `save.rival3` (`{ starter }`, kept by `G.Store.sanitize`); the badge case's third row
+    (Stone to Rain Badge); the Town Map's Hoenn drawing (every town of later chapters is placed; the
+    region button goes round the regions you have seen); people `birch`, `may`, `brendan` (heads
+    `birch`, `bandana`, `knit`); the ship's `horn` sound; `h.wild(sp, lvl, { party })`.
+  - Tests: `tests/abilities.test.cjs` (every ability family, the species data, no change without an
+    ability, the texts in English and Chinese); `tests/story.test.cjs` plays chapter 28 and prints
+    `[balance]` for the rival on Route 103 (each starter at Lv. 5 / 7 / 9 against the one strong
+    against it: Lv. 7 wins 93–100%); `tests/field.test.cjs` the ship, the Route 101 trigger with the
+    bag's Pokémon alone, Oldale's closed west road; `tests/maps.test.cjs` checks that every map's
+    palette exists and suits its tileset.
 
-1. **Hoenn:** abilities, double battles, weather.
-2. Engine features along the way: more TMs, abilities, weather, Repel steps.
+### After chapter 28
+
+1. **Hoenn, chapter 29:** the footprint man leaves; Route 102 → Petalburg City (Norman's Gym, closed
+   until later; Wally's catching lesson) → Route 104 and Petalburg Woods → Rustboro City and
+   Roxanne's Gym (the Stone Badge, badge 17).
+2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
+   abilities outside battle (Pickup, Synchronize and the others on wild encounters), Dive and
+   the other Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.

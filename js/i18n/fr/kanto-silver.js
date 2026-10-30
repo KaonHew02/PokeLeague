@@ -11,5 +11,6 @@ G.I18n.add({
   "I am staying up here a while longer. Come back whenever you want a real battle.": "Je vais rester ici encore un moment. Reviens quand tu veux un vrai combat.",
   "The way to Route 28 and Mt. Silver. Closed while the rangers check the mountain paths after the earthquake.": "Le chemin de la Route 28 et du Mont Argenté. Fermé pendant que les gardes vérifient les sentiers après le tremblement de terre.",
   "Only the strongest Trainers come this far. They say someone has been living at the top of the mountain for months.": "Seuls les Dresseurs les plus forts viennent jusqu'ici. On dit que quelqu'un vit au sommet de la montagne depuis des mois.",
-  "Route 28. West: Mt. Silver. Only Trainers who have proven themselves may climb it.": "Route 28. Ouest : Mont Argenté. Seuls les Dresseurs qui ont fait leurs preuves peuvent l'escalader."
+  "Route 28. West: Mt. Silver. Only Trainers who have proven themselves may climb it.": "Route 28. Ouest : Mont Argenté. Seuls les Dresseurs qui ont fait leurs preuves peuvent l'escalader.",
+  "Oh, and Gramps wants to see you in Pallet Town. Something about a letter from a faraway region.": "Ah, et Papy veut te voir à Bourg Palette. Une histoire de lettre venue d'une région lointaine."
 }, "fr");

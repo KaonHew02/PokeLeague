@@ -170,5 +170,15 @@ G.I18n.add({
   "{mon} restored its HP using its {item}!": "{mon}用{item}回復了體力！",
   "{mon} restored a little HP using its {item}!": "{mon}用{item}回復了一點體力！",
   "{mon} ate its {item} and was cured!": "{mon}吃掉了{item}，治好了狀態！",
-  "{mon} hung on using its {item}!": "{mon}靠{item}撐住了！"
+  "{mon} hung on using its {item}!": "{mon}靠{item}撐住了！",
+  "{mon} sucked up the liquid ooze!": "{mon}吸到了污泥漿！",
+  "{mon} was hurt!": "{mon}受到了傷害！",
+  "{mon} is protected by its {ability}!": "{mon}受到了{ability}的保護！",
+  "{mon} traced {target}'s {ability}!": "{mon}複製了{target}的{ability}！",
+  "{mon}'s {ability} raised the power of its Fire-type moves!": "{mon}的{ability}提高了火屬性招式的威力！",
+  "{mon}'s {ability} made it the {type} type!": "{mon}的{ability}讓牠變成了{type}屬性！",
+  "{mon} is exerting its {ability}!": "{mon}正在釋放{ability}！",
+  "{mon}'s {ability} prevents {move} from working!": "{mon}的{ability}讓{move}無法使出！",
+  "{mon}'s {ability}!": "{mon}的{ability}！",
+  "{mon}'s {ability} restored its HP!": "{mon}的{ability}讓牠回復了HP！"
 }, "zh-Hant");

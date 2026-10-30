@@ -1,6 +1,6 @@
 /* ============ summary-ui.js — one Pokémon in detail ============
  *   G.SummaryUI.open(list, index, onClose)    list: the party or a PC box (nulls are skipped)
- * Pages: Info (Pokédex number, types, trainer, nature, where it was met) ·
+ * Pages: Info (Pokédex number, types, trainer, nature, ability and what it does, item, where it was met) ·
  * Stats (HP, the five stats with the nature's ▲▼, EXP) · Moves (type, PP, power,
  * accuracy, description). Left / right change the page; ◀ ▶ the Pokémon.
  */
@@ -51,12 +51,14 @@ G.SummaryUI = (() => {
 
   function info(m) {
     const S = G.SPECIES[m.sp];
+    const ab = G.Abilities.of(m);
     const met = m.met ? (m.met.map && place(m.met.map) ? fmt('Met at Lv. {n} in {place}.', { n: m.met.lvl, place: place(m.met.map) }) : fmt('Met at Lv. {n}.', { n: m.met.lvl })) : '';
     return row(T('Pokédex No.'), String(m.sp).padStart(3, '0'))
       + row(T('Species'), esc(G.Names.mon(m.sp) + (m.form ? ' ' + m.form : '')) + ` <small class="sub">${esc(G.Names.genus(m.sp))}</small>`)
       + row(T('Type'), G.UI.typeChips(S.types))
       + row(T('Trainer'), esc(m.ot ? `${m.ot.name} · ${String(m.ot.id).padStart(5, '0')}` : '—'))
       + row(T('Nature'), esc(G.Names.nature(m.nature)))
+      + (ab ? row(T('Ability'), esc(G.Names.ability(ab))) + `<p class="sub sum-memo">${esc(G.Names.desc('ability', ab))}</p>` : '')
       + row(T('Item'), esc(m.item ? G.Names.item(m.item) : T('None')))
       + (met ? `<p class="sub sum-memo">${esc(met)}</p>` : '');
   }

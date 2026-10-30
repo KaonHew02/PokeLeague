@@ -6,6 +6,7 @@ After that the game never touches the internet: everything is local.
 
     python tools/fetch_data.py --region kanto            # dex 1-151
     python tools/fetch_data.py --region johto            # dex 1-251: Kanto (FireRed) and Johto (HeartGold)
+    python tools/fetch_data.py --region hoenn            # dex 1-386: and Hoenn (Emerald), with abilities
     python tools/fetch_data.py --region kanto --offline  # cache only; fails on a miss
     python tools/fetch_data.py --region kanto --refresh  # download everything again
 
@@ -102,7 +103,7 @@ REGIONS['johto'] = dict(REGIONS['kanto'], **{
     'learnset_vg': ['firered-leafgreen', 'emerald', 'heartgold-soulsilver', 'crystal'],
     # Pokémon 152-251 learn as in HeartGold / SoulSilver (FireRed has none of them; Emerald's
     # lists are older and slower: Totodile's Water Gun at 13, no Bite).
-    'learnset_vg_from': (152, ['heartgold-soulsilver', 'crystal', 'emerald']),
+    'learnset_vg_from': [(152, ['heartgold-soulsilver', 'crystal', 'emerald'])],
     'text_versions': ['firered', 'leafgreen', 'heartgold', 'soulsilver', 'lets-go-pikachu', 'lets-go-eevee'],
     'text_vgs': ['firered-leafgreen', 'heartgold-soulsilver', 'lets-go-pikachu-lets-go-eevee'],
     'items': REGIONS['kanto']['items'] + [
@@ -121,6 +122,20 @@ REGIONS['johto'] = dict(REGIONS['kanto'], **{
     ],
     'regions': [('kanto', ['firered', 'leafgreen', 'red', 'blue', 'yellow']),
                 ('johto', ['heartgold', 'soulsilver', 'crystal', 'gold', 'silver'])],
+})
+
+# Hoenn (chapter 28) adds Pokémon 252-386 and its places (Emerald's tables, else Ruby / Sapphire);
+# Pokémon 252-386 learn as in Emerald. The Gen 3 TMs are the same in FireRed and Emerald.
+REGIONS['hoenn'] = dict(REGIONS['johto'], **{
+    'dex': (1, 386),
+    'learnset_vg_from': [(152, ['heartgold-soulsilver', 'crystal', 'emerald']),
+                         (252, ['emerald', 'ruby-sapphire', 'firered-leafgreen'])],
+    'tm_vg_fallback': 'emerald',
+    'text_versions': ['firered', 'leafgreen', 'heartgold', 'soulsilver', 'emerald', 'ruby', 'sapphire',
+                      'lets-go-pikachu', 'lets-go-eevee'],
+    'text_vgs': ['firered-leafgreen', 'heartgold-soulsilver', 'emerald', 'ruby-sapphire', 'lets-go-pikachu-lets-go-eevee'],
+    'items': REGIONS['johto']['items'] + ['deep-sea-tooth', 'deep-sea-scale'],
+    'regions': REGIONS['johto']['regions'] + [('hoenn', ['emerald', 'ruby', 'sapphire'])],
 })
 
 # Official place names PokeAPI lacks (it has en and fr, not es, it or Chinese).
@@ -178,6 +193,23 @@ LOC_NAMES = {
     'ice-path':          ('Ruta Helada',        'Via Gelata',          '冰之洞',     '冰之洞'),
     'mt-silver':         ('Monte Plateado',     'Monte Argento',       '白银山',     '白銀山'),
     'dragons-den':       ('Guarida Dragón',     'Tana del Drago',      '龙穴',       '龍穴'),
+    # Hoenn (chapter 28): PokeAPI has es and it, not Chinese.
+    'littleroot-town':   ('Villa Raíz',         'Albanova',            '未白镇',     '未白鎮'),
+    'oldale-town':       ('Pueblo Escaso',      'Solarosa',            '古辰镇',     '古辰鎮'),
+    'petalburg-city':    ('Ciudad Petalia',     'Petalipoli',          '橙华市',     '橙華市'),
+    'rustboro-city':     ('Ciudad Férrica',     'Ferrugipoli',         '卡那兹市',   '卡那茲市'),
+    'dewford-town':      ('Pueblo Azuliza',     'Bluruvia',            '武斗镇',     '武鬥鎮'),
+    'slateport-city':    ('Ciudad Portual',     'Porto Selcepoli',     '凯那市',     '凱那市'),
+    'mauville-city':     ('Ciudad Malvalona',   'Ciclamipoli',         '紫堇市',     '紫堇市'),
+    'verdanturf-town':   ('Pueblo Verdegal',    'Mentania',            '绿荫镇',     '綠蔭鎮'),
+    'fallarbor-town':    ('Pueblo Pardal',      'Brunifoglia',         '釜炎镇',     '釜炎鎮'),
+    'lavaridge-town':    ('Pueblo Lavacalda',   'Cuordilava',          '秋叶镇',     '秋葉鎮'),
+    'fortree-city':      ('Ciudad Arborada',    'Forestopoli',         '茵郁市',     '茵鬱市'),
+    'lilycove-city':     ('Ciudad Calagua',     'Porto Alghepoli',     '水静市',     '水靜市'),
+    'mossdeep-city':     ('Ciudad Algaria',     'Verdeazzupoli',       '绿岭市',     '綠嶺市'),
+    'sootopolis-city':   ('Arrecípolis',        'Ceneride',            '琉璃市',     '琉璃市'),
+    'pacifidlog-town':   ('Pueblo Oromar',      'Orocea',              '暮水镇',     '暮水鎮'),
+    'ever-grande-city':  ('Ciudad Colosalia',   'Iridopoli',           '彩幽市',     '彩幽市'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}
@@ -191,7 +223,7 @@ def loc_extra(slug):
     if m:
         n = m.group(1)
         return (f'Ruta {n}', f'Percorso {n}', f'{n}号道路', f'{n}號道路')
-    m = re.fullmatch(r'johto-route-(\d+)', slug)
+    m = re.fullmatch(r'(?:johto|hoenn)-route-(\d+)', slug)
     if m:
         n = m.group(1)
         return (f'Ruta {n}', f'Percorso {n}', f'{n}号道路', f'{n}號道路')
@@ -209,6 +241,24 @@ TIMES = ['morning', 'day', 'night']
 # Trade evolutions become level evolutions (there is no trading).
 TRADE_LEVEL = 37
 TRADE_LEVEL_OVERRIDE = {64: 36}          # Kadabra -> Alakazam
+BEAUTY_LEVEL = 35                        # Feebas -> Milotic (beauty needs Pokéblocks, not in this game)
+
+
+def ability_slots(p):
+    """The ability in each normal slot (no hidden one) in Generation 3: PokeAPI's past abilities undo the
+    later changes (Gengar's Levitate). -> [slot 1, slot 2] (slot 2 may be None)"""
+    order = ['generation-i', 'generation-ii', 'generation-iii', 'generation-iv', 'generation-v', 'generation-vi',
+             'generation-vii', 'generation-viii', 'generation-ix']
+    slots = {a['slot']: a['ability']['name'] for a in p['abilities'] if not a['is_hidden']}
+    # Each past entry gives the abilities up to its generation: apply the latest first, the earliest last.
+    for past in sorted(p.get('past_abilities', []), key=lambda x: -order.index(x['generation']['name'])):
+        if order.index(past['generation']['name']) < order.index('generation-iii'):
+            continue
+        for a in past['abilities']:
+            if a.get('is_hidden'):
+                continue
+            slots[a['slot']] = a['ability']['name'] if a.get('ability') else None
+    return [slots.get(1), slots.get(2)]
 
 OFFLINE = False
 REFRESH = False
@@ -355,8 +405,9 @@ def build(region):
         p = pokemon[d]
         rows = []
         vgs = cfg['learnset_vg']
-        if cfg.get('learnset_vg_from') and d >= cfg['learnset_vg_from'][0]:
-            vgs = cfg['learnset_vg_from'][1]
+        for start, later in cfg.get('learnset_vg_from', []):
+            if d >= start:
+                vgs = later
         for vg in vgs:
             rows = [(vd['level_learned_at'], url_id(m['move']['url']), m['move']['name'])
                     for m in p['moves'] for vd in m['version_group_details']
@@ -367,8 +418,11 @@ def build(region):
             print(f'  ! {d} has no level-up learnset in {cfg["learnset_vg"]}')
         rows.sort()
         learn[d] = [[lvl, name] for lvl, _, name in rows]
-        tm_moves[d] = sorted({m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
-                              if vd['version_group']['name'] == cfg['tm_vg'] and vd['move_learn_method']['name'] == 'machine'})
+        for tvg in [cfg['tm_vg']] + ([cfg['tm_vg_fallback']] if cfg.get('tm_vg_fallback') else []):
+            tm_moves[d] = sorted({m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
+                                  if vd['version_group']['name'] == tvg and vd['move_learn_method']['name'] == 'machine'})
+            if tm_moves[d]:
+                break
         # Move tutors the game has (HeartGold / SoulSilver's, and its HMs FireRed lacks): species field 'tu'.
         tutor[d] = sorted({m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
                            if vd['version_group']['name'] == 'heartgold-soulsilver'
@@ -436,6 +490,18 @@ def build(region):
     for c in chains:
         walk(c['chain'])
 
+    # ---- abilities (chapter 28): as in Generation 3 ----
+    gen3_ab, ab_slugs = {}, set()
+    for d in dexes:
+        ab_slugs.update(a for a in ability_slots(pokemon[d]) if a)
+    ab_raw = dict(zip(sorted(ab_slugs), pmap(lambda n: get('ability', n), sorted(ab_slugs))))
+    GEN3 = {'generation-i', 'generation-ii', 'generation-iii'}
+    for d in dexes:
+        gen3_ab[d] = [a for a in ability_slots(pokemon[d]) if a and ab_raw.get(a) and ab_raw[a]['generation']['name'] in GEN3]
+    used_ab = sorted({a for v in gen3_ab.values() for a in v})
+    names_ability = {a: names_of(ab_raw[a]['names'], 'ability', fallback=a) for a in used_ab}
+    ab_txt = {a: texts_of(ab_raw[a].get('flavor_text_entries'), cfg, 'ability text', 'flavor_text', 'version_group') for a in used_ab}
+
     # ---- species ----
     SPECIES, names_mon, names_genus, dex_txt = {}, {}, {}, {}
     for d in dexes:
@@ -461,6 +527,9 @@ def build(region):
             rec['em'] = em
         if s.get('is_legendary') or s.get('is_mythical'):
             rec['leg'] = 1
+        # Abilities (chapter 28): the one or two it had in Generation 3.
+        if gen3_ab.get(d):
+            rec['ab'] = gen3_ab[d]
         SPECIES[d] = rec
         names_mon[d] = names_of(s['names'], 'mon', fallback=p['name'])
         names_genus[d] = names_of(s['genera'], 'genus', key='genus')
@@ -590,7 +659,7 @@ def build(region):
                          f' * {what}\n * Data: PokeAPI (https://pokeapi.co/). See docs/DESIGN.md section 2 for the schema.\n */\n')
     write('species.js', head('Species: base stats [hp atk def spa spd spe], EV yield, catch rate (cr), base EXP (bx),\n'
                              ' * growth rate (gr), females in eighths (gf, -1 genderless), base friendship (fr), height/weight,\n'
-                             ' * evolutions, level-up learnset [[level, move]] and TM/HM items.')
+                             ' * evolutions, level-up learnset [[level, move]], TM/HM items and abilities (ab, Generation 3).')
           + obj('G.SPECIES', SPECIES))
     write('moves.js', head('Moves (cat: physical | special | status; acc null = never misses; meta.k = PokeAPI move category)\n'
                            ' * and G.TMS: TM/HM item -> move, for this region\'s games.')
@@ -604,7 +673,7 @@ def build(region):
     write('natures.js', head('Natures: the stat raised by 10 % and the one lowered (null for neutral natures).')
           + obj('G.NATURES', NATURES))
     names = {'langs': LANGS, 'mon': names_mon, 'move': names_move, 'item': names_item, 'type': names_type,
-             'loc': names_loc, 'nature': names_nature, 'genus': names_genus, 'stat': names_stat}
+             'loc': names_loc, 'nature': names_nature, 'genus': names_genus, 'stat': names_stat, 'ability': names_ability}
     write('names.js', head('Official names, one column per language in the order of `langs`.\n'
                            ' * Brazilian Portuguese uses the English column. Read them through G.Names (core/names.js).')
           + nested('G.NAMES', names))
@@ -613,7 +682,7 @@ def build(region):
                                 ' * Johto tables may add `morning` and `night` slot lists (`mons` is the daytime one).')
           + obj('G.ENCOUNTERS', dict(sorted(ENC.items()))))
     write('dex-text.js', head('Pokédex entries and move / item descriptions, one column per language (G.NAMES.langs order).')
-          + nested('G.DEX_TEXT', {'mon': dex_txt, 'move': move_txt, 'item': item_txt}))
+          + nested('G.DEX_TEXT', {'mon': dex_txt, 'move': move_txt, 'item': item_txt, 'ability': ab_txt}))
 
     print(f'  {len(SPECIES)} species · {len(MOVES)} moves · {len(tms)} TMs/HMs · {len(ITEMS)} items · '
           f'{len(ENC)} encounter areas · {len(names_loc)} locations')
@@ -638,6 +707,8 @@ def evo_rule(frm, to, details):
                 rec['move'] = d['known_move']['name']
             if d.get('location'):
                 continue                       # place-based evolutions: not in Gen 1
+            if d.get('min_beauty'):
+                rec = {'to': to, 'how': 'level', 'level': BEAUTY_LEVEL, 'via': 'beauty'}   # Feebas: no beauty here
             return rec
         if trig == 'use-item' and d.get('item'):
             return {'to': to, 'how': 'item', 'item': d['item']['name']}

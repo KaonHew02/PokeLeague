@@ -185,5 +185,15 @@ G.I18n.add({
   "Take": "取回",
   "Took {item} from {mon}.": "从{mon}那里取回了{item}。",
   "Give {mon} which item?": "要交给{mon}什么道具？",
-  "None": "无"
+  "None": "无",
+  "Stone Badge": "原石徽章",
+  "Knuckle Badge": "拳头徽章",
+  "Dynamo Badge": "紫电徽章",
+  "Heat Badge": "火热徽章",
+  "Balance Badge": "平衡徽章",
+  "Feather Badge": "羽翼徽章",
+  "Mind Badge": "心灵徽章",
+  "Rain Badge": "雨滴徽章",
+  "Ability": "特性",
+  "Hoenn": "丰缘"
 }, "zh-Hans");

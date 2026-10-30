@@ -6,7 +6,8 @@
  *                               target's HP, useful status moves) and usually takes
  *                               the best one, sometimes the second best
  *   gym leaders etc.  'leader'  'basic', and heals with their items when low
- * Randomness comes from the battle's RNG, so battles stay reproducible.
+ * Randomness comes from the battle's RNG, so battles stay reproducible. It knows the target's
+ * ability (Levitate through b.eff, Water Absorb, Wonder Guard, Limber...) and does not waste moves on it.
  */
 G.BattleAI = (() => {
   function usable(bm) {
@@ -36,15 +37,17 @@ G.BattleAI = (() => {
     if (M.cat !== 'status') {
       const type = S.moveType ? S.moveType(b, user) : M.type;
       const eff = S.typeless ? 1 : b.eff(type, target);
-      if (eff === 0) return 0;
+      if (eff === 0 || (!S.typeless && G.Abilities.immune(user, target, M, type, eff))) return 0;
+      if (M.meta.k === 'ohko' && G.Abilities.noOhko(target)) return 0;
       let est;
       if (S.fixed) est = Math.max(0, S.fixed(b, user, target, M) || 0);
       else {
         const pow = S.power ? (S.check && S.check(b, user, target, M) === false ? 0 : guessPower(b, user, target, M, S, id)) : M.pow;
         if (!pow) return 0;
         const phys = M.cat === 'physical';
-        est = G.Damage.calc({ lvl: user.mon.lvl, pow, atk: b.stat(user, phys ? 'atk' : 'spa'), def: b.stat(target, phys ? 'def' : 'spd'),
-                              eff, stab: user.types.includes(type), roll: 92, burn: phys && user.mon.status === 'brn' });
+        est = G.Damage.calc({ lvl: user.mon.lvl, pow: Math.floor(pow * G.Abilities.powerMult(b, user, target, type)),
+                              atk: b.stat(user, phys ? 'atk' : 'spa'), def: b.stat(target, phys ? 'def' : 'spd'),
+                              eff, stab: user.types.includes(type), roll: 92, burn: phys && user.mon.status === 'brn' && user.ability !== 'guts' });
         const h = M.meta.hits; if (h) est *= (h[0] + h[1]) / 2;
       }
       if (S.charge || S.recharge) est *= 0.6;
@@ -56,6 +59,7 @@ G.BattleAI = (() => {
     }
     // status moves
     const k = M.meta.k, ail = M.meta.ail;
+    if (!G.BattleFx.isSelf(M) && G.Abilities.immune(user, target, M, M.type, null)) return 0;
     if (k === 'ailment') {
       if (G.BattleFx.AIL[ail]) {
         if (target.mon.status || (G.BattleFx.POWDER.has(id) && target.types.includes('grass'))) return 0;
@@ -64,25 +68,26 @@ G.BattleAI = (() => {
         const s = id === 'toxic' ? 'tox' : G.BattleFx.AIL[ail], ty = target.types;
         if ((s === 'brn' && ty.includes('fire')) || (s === 'par' && ty.includes('electric')) || (s === 'frz' && ty.includes('ice'))
             || ((s === 'psn' || s === 'tox') && (ty.includes('poison') || ty.includes('steel')))) return 0;
-        if (b.sideOf(target).field.safeguard) return 0;
+        if (b.sideOf(target).field.safeguard || G.Abilities.blocksStatus(target, s)) return 0;
         return { slp: 40, par: 32, psn: 24, brn: 28, frz: 30 }[G.BattleFx.AIL[ail]] || 20;
       }
-      if (ail === 'confusion') return target.vol.confusion ? 0 : 22;
+      if (ail === 'confusion') return target.vol.confusion || G.Abilities.blocksConfusion(target) ? 0 : 22;
       if (ail === 'leech-seed') return target.vol.seeded || target.types.includes('grass') ? 0 : 26;
       if (ail === 'infatuation') {
         const g = user.mon.gender, h = target.mon.gender;
-        return !g || !h || g === h || target.vol.attract ? 0 : 24;
+        return !g || !h || g === h || target.vol.attract || G.Abilities.blocksAttract(target) ? 0 : 24;
       }
       return 8;
     }
     if (k === 'net-good-stats') {
       const self = G.BattleFx.isSelf(M);
       const t = self ? user : target;
-      const useful = M.stats.some(([s, d]) => (d > 0 ? t.stages[s] < 6 : t.stages[s] > -6) && (self ? t.stages[s] < 2 : t.stages[s] > -2));
+      const useful = M.stats.some(([s, d]) => (d > 0 ? t.stages[s] < 6 : t.stages[s] > -6) && (self ? t.stages[s] < 2 : t.stages[s] > -2)
+                                                && (self || d > 0 || !G.Abilities.blocksDrop(t, s)));
       return useful ? 14 : 1;
     }
     if (k === 'heal') return user.mon.hp / G.Mon.maxHp(user.mon) < 0.5 ? 45 : 0;
-    if (k === 'swagger') return target.vol.confusion ? 0 : 12;
+    if (k === 'swagger') return target.vol.confusion || G.Abilities.blocksConfusion(target) ? 0 : 12;
     // Encore pays off when the foe just used a move that does no damage.
     if (id === 'encore') {
       const last = target.lastMove && G.MOVES[target.lastMove];

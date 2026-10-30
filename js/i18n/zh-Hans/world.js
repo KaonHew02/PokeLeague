@@ -82,5 +82,7 @@ G.I18n.add({
   "Something moves inside it now and then. It should hatch before long.": "里面时不时会动一下。应该很快就会孵化了。",
   "Sounds are coming from inside! It is about to hatch!": "里面传出了声音！马上就要孵化了！",
   "Oh? The Egg is moving!": "咦？蛋在动！",
-  "There is no room in your party, so {mon} was sent to the PC.": "队伍里已经没有位置了，{mon}被送到了电脑里。"
+  "There is no room in your party, so {mon} was sent to the PC.": "队伍里已经没有位置了，{mon}被送到了电脑里。",
+  "Brendan": "小悠",
+  "May": "小遥"
 }, "zh-Hans");

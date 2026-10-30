@@ -4,7 +4,6 @@ G.I18n.add({
   "They say the leader in Saffron City reads minds. Be ready for anything.": "On dit que la Championne de Safrania lit dans les pensées. Sois prêt à tout.",
   "You beat Koga! Five badges. Only three more to go!": "Tu as battu Koga ! Cinq badges. Plus que trois !",
   "Hey, future Champion! Koga's Gym is full of walls you cannot see. Walk slowly and feel your way.": "Hé, futur Maître ! L'Arène de Koga est pleine de murs invisibles. Avance lentement et tâtonne.",
-  "Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.": "Koga utilise des Pokémon Poison. Les capacités Sol et Psy sont très efficaces contre eux.",
   "His Pokémon hide behind Smokescreen and poison yours. Bring Antidotes and an X Accuracy if you have one!": "Ses Pokémon se cachent derrière Brouillard et empoisonnent les tiens. Prends des Antidotes et un Précision + si tu en as !",
   "You have earned the Soul Badge. Take it, and wear it with pride.": "Tu as mérité le Badge Âme. Prends-le, et porte-le avec fierté.",
   "{player} received the Soul Badge from Koga!": "{player} reçoit le Badge Âme de la part de Koga !",
@@ -60,5 +59,6 @@ G.I18n.add({
   "The Good Rod pulls up better Pokémon than the Old Rod. Try it in the sea south of town!": "La Super Canne attrape de meilleurs Pokémon que la Canne. Essaie-la dans la mer au sud de la ville !",
   "Say, do you like fishing?": "Dis, tu aimes la pêche ?",
   "I knew it! You have the look of an angler. Take this Good Rod and catch something big!": "Je le savais ! Tu as une tête de pêcheur. Prends cette Super Canne et attrape quelque chose de gros !",
-  "No? Well, the fish will wait for you.": "Non ? Eh bien, les poissons t'attendront."
+  "No? Well, the fish will wait for you.": "Non ? Eh bien, les poissons t'attendront.",
+  "Koga uses Poison-type Pokémon. Psychic moves work great against them. But watch out: his Koffing float, so Ground moves never reach them!": "Koga utilise des Pokémon Poison. Les capacités Psy sont très efficaces contre eux. Mais attention : ses Smogo flottent, alors les capacités Sol ne les touchent jamais !"
 }, "fr");

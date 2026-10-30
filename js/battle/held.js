@@ -12,7 +12,8 @@
  *   'scope-lens'      one more critical-hit stage; 'lucky-punch' (Chansey) and 'stick' (Farfetch'd) two
  *   'bright-powder'   moves against it are a tenth less accurate
  *   'light-ball'      Pikachu's Attack and Sp. Atk ×2 · 'thick-club' Cubone's and Marowak's Attack ×2
- *                     · 'metal-powder' Ditto's Defense ×2
+ *                     · 'metal-powder' Ditto's Defense ×2 · 'deep-sea-tooth' / 'deep-sea-scale' Clamperl's
+ *                     Sp. Atk / Sp. Def ×2 (chapter 28)
  *   'lucky-egg'       its Exp. ×1.5 · 'exp-share' it shares the Exp. without fighting (battle.js)
  *   'amulet-coin'     double prize money once it has been in the battle (battle.js)
  *   'smoke-ball'      it always gets away from wild Pokémon (battle.js)
@@ -39,6 +40,8 @@ G.Held = (() => {
     if (k === 'light-ball' && sp === 25 && (key === 'atk' || key === 'spa')) return 2;
     if (k === 'thick-club' && (sp === 104 || sp === 105) && key === 'atk') return 2;
     if (k === 'metal-powder' && sp === 132 && key === 'def') return 2;
+    if (k === 'deep-sea-tooth' && sp === 366 && key === 'spa') return 2;
+    if (k === 'deep-sea-scale' && sp === 366 && key === 'spd') return 2;
     return 1;
   }
 

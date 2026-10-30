@@ -17,6 +17,8 @@
  *   onBlocked(b, user, target, M)      the target protected itself or is immune (Explosion still faints)
  *   after(b, user, target, M, res)     after the move hits      onMiss(b, user, target, M)
  *   recharge · rampage · leaveOne · whileAsleep · thawsUser   flags
+ * Abilities (abilities.js) are asked for accuracy, critical hits, power, immunities (Water Absorb,
+ * Wonder Guard...), contact (Static...), secondary effects (Shield Dust, Serene Grace) and recoil.
  * A move with no handler and no generic meaning fails ("But it failed!"): those are
  * listed in G.SpecialMoves.FALLBACK so it is a deliberate choice (tests check it).
  */
@@ -48,6 +50,9 @@ G.BattleFx = (() => {
     b.emit('move', Object.assign({ move: id }, who));
     user.lastMove = id;
     const self = isSelf(M);
+    // Damp: no Self-Destruct or Explosion while it is out.
+    const damp = G.Abilities.damp(b, id);
+    if (damp) { G.Abilities.say(b, damp, 'damp', { move: id }); return; }
 
     if (!self) {
       if (!b.alive(target)) { b.emit('noTarget', {}); return endRampage(b, user, S); }
@@ -100,21 +105,23 @@ G.BattleFx = (() => {
     if (acc == null) return true;
     const eva = target.vol.foresight ? Math.min(0, target.stages.eva) : target.stages.eva;
     const st = Math.max(-6, Math.min(6, user.stages.acc - eva));
-    return b.rng.int(1, 100) <= Math.floor(acc * G.Stats.accStage(st) * G.Held.accMult(target.mon));   // Bright Powder
+    // Bright Powder; Compound Eyes, Hustle, Sand Veil
+    return b.rng.int(1, 100) <= Math.floor(acc * G.Stats.accStage(st) * G.Held.accMult(target.mon) * G.Abilities.accMult(b, user, target, M));
   }
 
   /** One hit's damage: { dmg, crit } (power already known). */
   function hitDamage(b, user, target, M, S, pow, eff, type) {
     const stage = (M.meta.crit || 0) + (user.vol.focusEnergy ? 2 : 0) + G.Held.critBonus(user.mon);
-    const crit = b.rng.int(1, CRIT[Math.min(3, stage)]) === 1;
+    const crit = b.rng.int(1, CRIT[Math.min(3, stage)]) === 1 && !G.Abilities.noCrit(target);     // Battle Armor, Shell Armor
     const phys = M.cat === 'physical';
     const atk = b.stat(user, phys ? 'atk' : 'spa', { crit, attacking: true });
     const def = b.stat(target, phys ? 'def' : 'spd', { crit, defending: true });
     const field = b.sideOf(target).field;
     const dmg = G.Damage.calc({
-      lvl: user.mon.lvl, pow: Math.floor(pow * G.Held.power(user.mon, type)), atk, def, eff, crit, roll: b.rng.int(85, 100),
+      lvl: user.mon.lvl, pow: Math.floor(pow * G.Held.power(user.mon, type) * (S.typeless ? 1 : G.Abilities.powerMult(b, user, target, type))),
+      atk, def, eff, crit, roll: b.rng.int(85, 100),
       stab: !S.typeless && user.types.includes(type),
-      burn: phys && user.mon.status === 'brn',
+      burn: phys && user.mon.status === 'brn' && user.ability !== 'guts',
       screen: !crit && (phys ? field.reflect : field.lightScreen) > 0,
       weather: S.typeless ? 1 : b.weatherMult(type)
     });
@@ -138,7 +145,13 @@ G.BattleFx = (() => {
       if (S.onBlocked) S.onBlocked(b, user, target, M);
       return { total: 0 };
     }
+    // Water Absorb, Volt Absorb, Flash Fire, Wonder Guard, Soundproof
+    if (!S.typeless && G.Abilities.stops(b, user, target, M, type, eff)) {
+      if (S.onBlocked) S.onBlocked(b, user, target, M);
+      return { total: 0 };
+    }
     if (S.beforeHit) S.beforeHit(b, user, target, M);
+    if (M.meta.k === 'ohko' && G.Abilities.noOhko(target)) { G.Abilities.say(b, target, 'protect'); return { total: 0 }; }   // Sturdy
     if (M.meta.k === 'ohko') {
       const d = b.hurt(target, target.mon.hp, { user, move: M, eff: 1 });
       if (target.mon.hp <= 0) b.emit('ohko', {});
@@ -148,7 +161,7 @@ G.BattleFx = (() => {
     const n = hitCount(b, user, M, S);
     let total = 0, done = 0;
     for (let i = 0; i < n; i++) {
-      if (!b.alive(target)) break;
+      if (!b.alive(target) || !b.alive(user)) break;
       let dmg, crit = false;
       if (S.fixed) {
         dmg = S.fixed(b, user, target, M);
@@ -159,27 +172,35 @@ G.BattleFx = (() => {
         if (S.doubleVsInvuln && target.vol.invuln && S.hitsInvuln.includes(target.vol.invuln)) pow *= 2;
         ({ dmg, crit } = hitDamage(b, user, target, M, S, pow, eff, type));
       }
+      const sub = target.vol.substitute > 0;
       total += b.hurt(target, dmg, { user, move: M, crit, eff: S.fixed ? 1 : eff, leaveOne: S.leaveOne });
       done++;
+      if (!sub) G.Abilities.contact(b, user, target, M);          // Static, Rough Skin...
     }
     if (done > 1) b.emit('hits', { n: done });
     if (!S.fixed && !S.typeless && eff !== 1) b.emit('effective', { side: target.side, eff });
 
     // Drain and recoil
-    if (M.meta.drain > 0 && total > 0 && b.alive(user)) b.heal(user, Math.max(1, Math.floor(total * M.meta.drain / 100)), 'drain', { from: target.mon.uid, fromSide: target.side });
-    if (M.meta.drain < 0 && total > 0 && b.alive(user)) b.hurt(user, Math.max(1, Math.floor(total * -M.meta.drain / 100)), { why: 'recoil' });
+    if (M.meta.drain > 0 && total > 0 && b.alive(user)) {
+      const amt = Math.max(1, Math.floor(total * M.meta.drain / 100));
+      if (G.Abilities.liquidOoze(target)) b.hurt(user, amt, { why: 'ooze' });      // Liquid Ooze
+      else b.heal(user, amt, 'drain', { from: target.mon.uid, fromSide: target.side });
+    }
+    if (M.meta.drain < 0 && total > 0 && b.alive(user) && !G.Abilities.noRecoil(user)) b.hurt(user, Math.max(1, Math.floor(total * -M.meta.drain / 100)), { why: 'recoil' });
 
     // A frozen target is thawed by a fire move.
     if (type === 'fire' && target.mon.status === 'frz' && total > 0 && b.alive(target)) { target.mon.status = null; b.emit('thaw', { side: target.side, uid: target.mon.uid }); }
 
-    // Secondary effects (not through a substitute).
-    if (!subBefore && total > 0 && b.alive(target)) {
+    // Secondary effects (not through a substitute, nor on Shield Dust); Serene Grace doubles their chance.
+    const pct = p => G.Abilities.chance(user, p);
+    if (!subBefore && total > 0 && b.alive(target) && !G.Abilities.shieldDust(target)) {
       const k = M.meta.k, ail = M.meta.ail;
-      if (k === 'damage-ailment' && ail && b.rng.pct(M.meta.ailP || M.eff || 100)) secondaryAilment(b, user, target, M, ail);
-      if (M.meta.flinch && !target.moved && b.rng.pct(M.meta.flinch)) target.vol.flinch = true;
-      if (k === 'damage-lower' && b.rng.pct(M.meta.statP || 100)) for (const [s, d] of M.stats) b.stage(target, s, d, { source: user });
+      if (k === 'damage-ailment' && ail && b.rng.pct(pct(M.meta.ailP || M.eff || 100))) secondaryAilment(b, user, target, M, ail);
+      if (M.meta.flinch && !target.moved && b.rng.pct(pct(M.meta.flinch))) target.vol.flinch = true;
+      if (k === 'damage-lower' && b.rng.pct(pct(M.meta.statP || 100))) for (const [s, d] of M.stats) b.stage(target, s, d, { source: user });
     }
-    if (M.meta.k === 'damage-raise' && total > 0 && b.alive(user) && b.rng.pct(M.meta.statP || 100)) for (const [s, d] of M.stats) b.stage(user, s, d, { source: user });
+    if (M.meta.k === 'damage-raise' && total > 0 && b.alive(user) && b.rng.pct(pct(M.meta.statP || 100))) for (const [s, d] of M.stats) b.stage(user, s, d, { source: user });
+    if (total > 0 && !S.typeless) G.Abilities.afterHit(b, user, target, type);    // Color Change
     G.Held.afterHit(b, user, target, M, total);          // King's Rock, Shell Bell
     return { total, hits: done };
   }
@@ -198,6 +219,7 @@ G.BattleFx = (() => {
 
   function statusMove(b, user, target, M, S) {
     const k = M.meta.k, id = idOf(M);
+    if (!isSelf(M) && G.Abilities.stops(b, user, target, M, M.type, null)) return false;    // Soundproof, Volt Absorb, Flash Fire
     if (k === 'ailment') return ailmentMove(b, user, target, M, id);
     if (k === 'net-good-stats') {
       const t = isSelf(M) ? user : target;
@@ -239,6 +261,7 @@ G.BattleFx = (() => {
         if (target.vol.seeded || subBlocks) { b.emit('fail', {}); return false; }
         target.vol.seeded = true; b.emit('seeded', tid); return {};
       case 'infatuation':
+        if (G.Abilities.blocksAttract(target)) { G.Abilities.say(b, target, 'protect'); return false; }      // Oblivious
         if (!user.mon.gender || !target.mon.gender || user.mon.gender === target.mon.gender || target.vol.attract || subBlocks) { b.emit('fail', {}); return false; }
         target.vol.attract = true; b.emit('attract', tid); return {};
       case 'yawn':
@@ -262,6 +285,7 @@ G.BattleFx = (() => {
 
   function forceSwitch(b, user, target) {
     if (target.vol.ingrain) { b.emit('fail', {}); return false; }
+    if (G.Abilities.suctionCups(target)) { G.Abilities.say(b, target, 'protect'); return false; }
     if (b.kind === 'wild') {
       b.emit('blownAway', { side: target.side, uid: target.mon.uid });
       b.finish(target.side === 1 ? 'fled' : 'run');
@@ -271,8 +295,10 @@ G.BattleFx = (() => {
     const opts = side.party.map((m, i) => i).filter(i => i !== side.active && side.party[i].hp > 0);
     if (!opts.length) { b.emit('fail', {}); return false; }
     b.emit('blownAway', { side: target.side, uid: target.mon.uid });
-    b.sendOut(side, opts[b.rng.int(0, opts.length - 1)]);
+    G.Abilities.switchOut(b, target);                                // Natural Cure
+    b.sendOut(side, opts[b.rng.int(0, opts.length - 1)], { noEntry: true });
     b.emit('draggedOut', { side: target.side, uid: side.bm.mon.uid });
+    G.Abilities.switchIn(b, side.bm);
     return {};
   }
 

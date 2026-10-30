@@ -33,6 +33,8 @@ G.Names = (() => {
       'ss-anne': ['S.S. Anne', 'S.S. Anne', "L'Océane", 'S.S. Anne', '圣特安努号', '聖特安努號'],
       'rock-tunnel': ['Rock Tunnel', 'Túnel Roca', 'Grotte', 'Tunnel Roccioso', '岩山隧道', '岩山隧道']
     },
+    // Minun: PokeAPI has a traditional character in its Simplified Chinese name.
+    mon: { 312: ['Minun', 'Minun', 'Négapi', 'Minun', '负电拍拍', '負電拍拍'] },
     item: {
       bicycle: ['Bicycle', 'Bici', 'Bicyclette', 'Bicicletta', '自行车', '自行車'],
       'bike-voucher': ['Bike Voucher', 'Bono Bici', 'Bon Commande', 'Buono Bici', '自行车兑换券', '自行車兌換券']
@@ -56,6 +58,6 @@ G.Names = (() => {
   }
 
   const api = { get, pretty, desc };
-  for (const k of ['mon', 'move', 'item', 'type', 'loc', 'nature', 'genus', 'stat']) api[k] = id => get(k, id);
+  for (const k of ['mon', 'move', 'item', 'type', 'loc', 'nature', 'genus', 'stat', 'ability']) api[k] = id => get(k, id);
   return api;
 })();

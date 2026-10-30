@@ -234,7 +234,7 @@ G.Script.def({
       ['say', 'You beat Koga! Five badges. Only three more to go!']
     ], [
       ['say', 'Hey, future Champion! Koga\'s Gym is full of walls you cannot see. Walk slowly and feel your way.'],
-      ['say', 'Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.'],
+      ['say', 'Koga uses Poison-type Pokémon. Psychic moves work great against them. But watch out: his Koffing float, so Ground moves never reach them!'],
       ['say', 'His Pokémon hide behind Smokescreen and poison yours. Bring Antidotes and an X Accuracy if you have one!']
     ]]
   ],

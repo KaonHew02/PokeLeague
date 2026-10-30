@@ -11,5 +11,6 @@ G.I18n.add({
   "I am staying up here a while longer. Come back whenever you want a real battle.": "我還要在這裡再待一陣子。想來場真正的對戰，隨時回來找我。",
   "The way to Route 28 and Mt. Silver. Closed while the rangers check the mountain paths after the earthquake.": "通往28號道路和白銀山的路。地震之後，巡山員正在檢查山路，暫時關閉。",
   "Only the strongest Trainers come this far. They say someone has been living at the top of the mountain for months.": "只有最強的訓練家才會來到這裡。聽說有人在山頂住了好幾個月了。",
-  "Route 28. West: Mt. Silver. Only Trainers who have proven themselves may climb it.": "28號道路。西：白銀山。只有證明了自己實力的訓練家才能攀登。"
+  "Route 28. West: Mt. Silver. Only Trainers who have proven themselves may climb it.": "28號道路。西：白銀山。只有證明了自己實力的訓練家才能攀登。",
+  "Oh, and Gramps wants to see you in Pallet Town. Something about a letter from a faraway region.": "對了，爺爺想在真新鎮見你。好像是關於一封從遙遠地區寄來的信。"
 }, "zh-Hant");

@@ -76,5 +76,8 @@ G.I18n.add({
   "{player} learned to give Pokémon items to hold, and traded the Red Scale to Mr. Pokémon for the Exp. Share.": "{player} ha imparato a far tenere strumenti ai Pokémon e ha scambiato la Squama Rossa con il Condividi Esp. di Mr. Pokémon.",
   "Chapter 27 complete!": "Capitolo 27 completato!",
   "{player} climbed Mt. Silver and beat {rival} at the snowy summit: the strongest Trainer in Kanto and Johto.": "{player} ha scalato il Monte Argento e ha battuto {rival} sulla cima innevata: l'Allenatore più forte di Kanto e di Johto.",
-  "Thank you for playing! Your journey through Kanto and Johto is complete. A new region waits in a future update.": "Grazie per aver giocato! Il tuo viaggio attraverso Kanto e Johto è concluso. Una nuova regione ti aspetta in un prossimo aggiornamento."
+  "Chapter 28 complete!": "Capitolo 28 completato!",
+  "{player} sailed to Hoenn, saved Professor Birch from a wild Zigzagoon on Route 101 and got a Pokédex for Hoenn: a new journey begins.": "{player} ha navigato fino a Hoenn, ha salvato il Professor Birch da uno Zigzagoon selvatico sul Percorso 101 e ha ottenuto un Pokédex per Hoenn: comincia un nuovo viaggio.",
+  "Thank you for playing! The road west to Petalburg City and Hoenn's first Gym opens in a future update.": "Grazie per aver giocato! La strada a ovest verso Petalipoli e la prima Palestra di Hoenn si aprirà in un prossimo aggiornamento.",
+  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "Grazie per aver giocato! Il tuo viaggio attraverso Kanto e Johto è concluso. Il Professor Oak ha notizie da una regione lontana: vai a trovarlo a Biancavilla."
 }, "it");

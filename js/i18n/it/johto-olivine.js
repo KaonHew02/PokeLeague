@@ -51,5 +51,6 @@ G.I18n.add({
   "Olivine City. A port town that smells of the sea breeze.": "Olivinopoli. Una città portuale che profuma di brezza marina.",
   "Olivine Lighthouse. Its light guides the ships at night.": "Faro di Olivinopoli. La sua luce guida le navi di notte.",
   "Olivine City Pokémon Gym. Leader: Jasmine, the girl of steel and gentle heart.": "Palestra Pokémon di Olivinopoli. Capopalestra: Jasmine, la ragazza d'acciaio dal cuore gentile.",
-  "Olivine Port. The S.S. Aqua is in the dock for repairs. Sailings will resume soon.": "Porto di Olivinopoli. La M/N Acquamarina è in bacino per riparazioni. Le partenze riprenderanno presto."
+  "Olivine Port. The S.S. Aqua is in the dock for repairs. Sailings will resume soon.": "Porto di Olivinopoli. La M/N Acquamarina è in bacino per riparazioni. Le partenze riprenderanno presto.",
+  "Olivine Port. The S.S. Aqua sails south from here to the Hoenn region.": "Porto di Olivinopoli. La M/N Acquamarina parte da qui verso sud, per la regione di Hoenn."
 }, "it");

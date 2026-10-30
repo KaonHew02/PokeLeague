@@ -4,7 +4,6 @@ G.I18n.add({
   "They say the leader in Saffron City reads minds. Be ready for anything.": "Dicen que la líder de Ciudad Azafrán lee la mente. Prepárate para cualquier cosa.",
   "You beat Koga! Five badges. Only three more to go!": "¡Has vencido a Koga! Cinco medallas. ¡Solo te quedan tres!",
   "Hey, future Champion! Koga's Gym is full of walls you cannot see. Walk slowly and feel your way.": "¡Eh, futuro Campeón! El Gimnasio de Koga está lleno de paredes invisibles. Camina despacio y ve tanteando.",
-  "Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.": "Koga usa Pokémon de tipo Veneno. Los movimientos de tipo Tierra y Psíquico son muy eficaces contra ellos.",
   "His Pokémon hide behind Smokescreen and poison yours. Bring Antidotes and an X Accuracy if you have one!": "Sus Pokémon se esconden tras Pantalla de Humo y envenenan a los tuyos. ¡Lleva Antídotos y una Precisión X si tienes!",
   "You have earned the Soul Badge. Take it, and wear it with pride.": "Te has ganado la Medalla Alma. Tómala y llévala con orgullo.",
   "{player} received the Soul Badge from Koga!": "¡{player} ha recibido la Medalla Alma de Koga!",
@@ -60,5 +59,6 @@ G.I18n.add({
   "The Good Rod pulls up better Pokémon than the Old Rod. Try it in the sea south of town!": "Con la Caña Buena pescas mejores Pokémon que con la Caña Vieja. ¡Pruébala en el mar al sur del pueblo!",
   "Say, do you like fishing?": "Oye, ¿te gusta pescar?",
   "I knew it! You have the look of an angler. Take this Good Rod and catch something big!": "¡Lo sabía! Tienes cara de pescador. ¡Toma esta Caña Buena y pesca algo grande!",
-  "No? Well, the fish will wait for you.": "¿No? Bueno, los peces te esperarán."
+  "No? Well, the fish will wait for you.": "¿No? Bueno, los peces te esperarán.",
+  "Koga uses Poison-type Pokémon. Psychic moves work great against them. But watch out: his Koffing float, so Ground moves never reach them!": "Koga usa Pokémon de tipo Veneno. Los movimientos de tipo Psíquico son muy eficaces contra ellos. Pero cuidado: sus Koffing flotan, ¡así que los movimientos de tipo Tierra no les alcanzan!"
 }, "es");

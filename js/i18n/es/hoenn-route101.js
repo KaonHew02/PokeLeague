@@ -1,0 +1,26 @@
+/* Spanish — hoenn-route101: Route 101, Oldale Town and Route 103 (js/content/hoenn/route101.js). */
+G.I18n.add({
+  "H-help! Somebody, help me!": "¡S-socorro! ¡Que alguien me ayude!",
+  "You there! This Zigzagoon will not leave me alone! My bag, there on the ground: take a Poké Ball and send out the Pokémon in it!": "¡Tú! ¡Este Zigzagoon no me deja en paz! Mi mochila, ahí en el suelo: ¡coge una Poké Ball y saca al Pokémon que hay dentro!",
+  "Which Pokémon will you send out?": "¿Qué Pokémon vas a sacar?",
+  "Whew... You saved me! Thank you so much.": "Uf... ¡Me has salvado! Muchísimas gracias.",
+  "Whew... It ran off. Thank you for standing up to it!": "Uf... Se ha ido corriendo. ¡Gracias por plantarle cara!",
+  "I am Professor Birch. And you must be {player}, the Trainer Professor Oak wrote to me about! Come to my lab: we can talk there.": "Soy el Profesor Abedul. ¡Y tú debes de ser {player}, el Entrenador del que me escribió el Profesor Oak! Ven a mi laboratorio: allí podremos hablar.",
+  "Oh! You must be {player}! Dad told me all about you. I am {rival3}.": "¡Oh! ¡Tú debes de ser {player}! Papá me lo ha contado todo de ti. Soy {rival3}.",
+  "I am helping my dad keep track of Hoenn's Pokémon. You are the Champion from far away, right?": "Ayudo a mi padre a llevar un registro de los Pokémon de Hoenn. Tú eres el Campeón que viene de lejos, ¿verdad?",
+  "Then let me see how you battle! My Pokémon and I will not go easy on you!": "¡Entonces déjame ver cómo combates! ¡Mi Pokémon y yo no te lo pondremos fácil!",
+  "Wow... You really are strong! Now I see why Dad wanted your help.": "Vaya... ¡Eres muy fuerte de verdad! Ahora entiendo por qué papá quería tu ayuda.",
+  "I won? Your Pokémon from home did not want to listen, did they? Hoenn's badges will fix that!": "¿He ganado? Tus Pokémon de casa no querían hacerte caso, ¿eh? ¡Las medallas de Hoenn lo arreglarán!",
+  "Let's head back to the lab. Dad will want to hear about this!": "Volvamos al laboratorio. ¡Papá querrá saberlo!",
+  "Shh! Do not step there! I am sketching the footprints of a rare Pokémon.": "¡Chist! ¡No pises ahí! Estoy dibujando las huellas de un Pokémon raro.",
+  "Route 102 and Petalburg City are that way, but you will have to wait until I am done. It may take a while...": "La Ruta 102 y Ciudad Petalia están por ahí, pero tendrás que esperar a que termine. Puede que tarde un rato...",
+  "Professor Birch says Hoenn has more water than land. Pokémon that swim must love it here!": "El Profesor Abedul dice que en Hoenn hay más agua que tierra. ¡A los Pokémon que nadan les debe de encantar!",
+  "The Pokémon Center heals your Pokémon for free. Pokémon Centers are the same in every region!": "El Centro Pokémon cura a tus Pokémon gratis. ¡Los Centros Pokémon son iguales en todas las regiones!",
+  "Route 103 is north of here. Its pond is full of Pokémon, if you can cross the water.": "La Ruta 103 está al norte. Su estanque está lleno de Pokémon, si puedes cruzar el agua.",
+  "The PC here connects to the same storage system as the ones in Kanto and Johto. Handy, isn't it?": "El PC de aquí se conecta al mismo sistema de almacenamiento que los de Kanto y Johto. Práctico, ¿verdad?",
+  "Potions and Poké Balls: that is all a new Trainer needs. Well, and a little courage!": "Pociones y Poké Balls: es todo lo que necesita un Entrenador novato. ¡Bueno, y un poco de valor!",
+  "Zigzagoon zigzag through the grass, picking things up as they go. Sometimes they bring back something nice!": "Los Zigzagoon zigzaguean por la hierba y recogen cosas a su paso. ¡A veces traen algo bonito!",
+  "Route 101. North: Oldale Town. South: Littleroot Town.": "Ruta 101. Norte: Pueblo Escaso. Sur: Villa Raíz.",
+  "Oldale Town. A town where things begin, and where they come back to.": "Pueblo Escaso. Un pueblo donde las cosas empiezan, y adonde vuelven.",
+  "Route 103. South: Oldale Town.": "Ruta 103. Sur: Pueblo Escaso."
+}, "es");

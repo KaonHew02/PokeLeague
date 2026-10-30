@@ -82,5 +82,7 @@ G.I18n.add({
   "Something moves inside it now and then. It should hatch before long.": "De vez en cuando algo se mueve dentro. No tardará en eclosionar.",
   "Sounds are coming from inside! It is about to hatch!": "¡Se oyen ruidos dentro! ¡Está a punto de eclosionar!",
   "Oh? The Egg is moving!": "¿Eh? ¡El Huevo se está moviendo!",
-  "There is no room in your party, so {mon} was sent to the PC.": "No hay sitio en tu equipo, así que {mon} fue enviado al PC."
+  "There is no room in your party, so {mon} was sent to the PC.": "No hay sitio en tu equipo, así que {mon} fue enviado al PC.",
+  "Brendan": "Bruno",
+  "May": "Aura"
 }, "es");

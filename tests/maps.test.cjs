@@ -211,3 +211,12 @@ test('trainer and NPC sprites: every archetype has well-formed templates', () =>
   for (const who of ['player-boy', 'player-girl', 'rival', 'oak', 'mom', 'nurse', 'clerk', 'youngster', 'lass', 'bugcatcher', 'camper', 'brock', 'guide', 'oldman'])
     assert.ok(G.People.TYPES.includes(who), who);
 });
+
+test('every map has a palette of its kind: indoor maps one that paints walls, outdoor maps one that paints grass', () => {
+  const P = boot(['js/core/util.js', 'js/world/tiles.js']).G.Tiles.PALETTES;
+  for (const id of G.Maps.all()) {
+    const m = G.Maps.get(id);
+    assert.ok(P[m.palette], `${id}: no palette ${m.palette}`);
+    assert.equal(!!P[m.palette].wallTop, m.tileset === 'indoor', `${id}: a ${m.tileset} map with the palette ${m.palette}`);
+  }
+});

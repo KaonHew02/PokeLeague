@@ -51,5 +51,6 @@ G.I18n.add({
   "Olivine City. A port town that smells of the sea breeze.": "Ciudad Olivo. Un pueblo portuario que huele a brisa marina.",
   "Olivine Lighthouse. Its light guides the ships at night.": "Faro Olivo. Su luz guía a los barcos por la noche.",
   "Olivine City Pokémon Gym. Leader: Jasmine, the girl of steel and gentle heart.": "Gimnasio Pokémon de Ciudad Olivo. Líder: Yasmina, la chica de acero y corazón tierno.",
-  "Olivine Port. The S.S. Aqua is in the dock for repairs. Sailings will resume soon.": "Puerto de Ciudad Olivo. El S.S. Aqua está en el dique para reparaciones. Los viajes se reanudarán pronto."
+  "Olivine Port. The S.S. Aqua is in the dock for repairs. Sailings will resume soon.": "Puerto de Ciudad Olivo. El S.S. Aqua está en el dique para reparaciones. Los viajes se reanudarán pronto.",
+  "Olivine Port. The S.S. Aqua sails south from here to the Hoenn region.": "Puerto de Ciudad Olivo. El S.S. Aqua zarpa desde aquí rumbo al sur, a la región de Hoenn."
 }, "es");

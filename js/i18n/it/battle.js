@@ -170,5 +170,15 @@ G.I18n.add({
   "{mon} restored its HP using its {item}!": "{mon} recupera PS grazie a {item}!",
   "{mon} restored a little HP using its {item}!": "{mon} recupera un po' di PS grazie a {item}!",
   "{mon} ate its {item} and was cured!": "{mon} ha mangiato {item} ed è guarito!",
-  "{mon} hung on using its {item}!": "{mon} ha resistito grazie a {item}!"
+  "{mon} hung on using its {item}!": "{mon} ha resistito grazie a {item}!",
+  "{mon} sucked up the liquid ooze!": "{mon} ha assorbito la melma liquida!",
+  "{mon} was hurt!": "{mon} si è fatto male!",
+  "{mon} is protected by its {ability}!": "{mon} è protetto dall'abilità {ability}!",
+  "{mon} traced {target}'s {ability}!": "{mon} ha copiato l'abilità {ability} di {target}!",
+  "{mon}'s {ability} raised the power of its Fire-type moves!": "L'abilità {ability} di {mon} ha potenziato le sue mosse di tipo Fuoco!",
+  "{mon}'s {ability} made it the {type} type!": "L'abilità {ability} di {mon} lo ha reso di tipo {type}!",
+  "{mon} is exerting its {ability}!": "{mon} esercita la sua {ability}!",
+  "{mon}'s {ability} prevents {move} from working!": "L'abilità {ability} di {mon} impedisce a {move} di funzionare!",
+  "{mon}'s {ability}!": "Abilità {ability} di {mon}!",
+  "{mon}'s {ability} restored its HP!": "L'abilità {ability} di {mon} gli ha fatto recuperare PS!"
 }, "it");

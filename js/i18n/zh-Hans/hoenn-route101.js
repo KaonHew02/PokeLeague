@@ -1,0 +1,26 @@
+/* Simplified Chinese — hoenn-route101: Route 101, Oldale Town and Route 103 (js/content/hoenn/route101.js). */
+G.I18n.add({
+  "H-help! Somebody, help me!": "救、救命啊！谁来救救我！",
+  "You there! This Zigzagoon will not leave me alone! My bag, there on the ground: take a Poké Ball and send out the Pokémon in it!": "你！这只蛇纹熊一直缠着我！我的包就掉在地上：拿出一个精灵球，派出里面的宝可梦！",
+  "Which Pokémon will you send out?": "要派出哪只宝可梦？",
+  "Whew... You saved me! Thank you so much.": "呼……你救了我！太感谢了。",
+  "Whew... It ran off. Thank you for standing up to it!": "呼……它跑掉了。谢谢你挺身而出！",
+  "I am Professor Birch. And you must be {player}, the Trainer Professor Oak wrote to me about! Come to my lab: we can talk there.": "我是小田卷博士。你就是大木博士信里提到的训练家{player}吧！到我的研究所来，我们在那里聊。",
+  "Oh! You must be {player}! Dad told me all about you. I am {rival3}.": "哦！你就是{player}吧！爸爸跟我说过你的事了。我是{rival3}。",
+  "I am helping my dad keep track of Hoenn's Pokémon. You are the Champion from far away, right?": "我在帮爸爸记录丰缘的宝可梦。你就是那位从远方来的冠军，对吧？",
+  "Then let me see how you battle! My Pokémon and I will not go easy on you!": "那就让我看看你是怎么对战的！我和我的宝可梦可不会手下留情哦！",
+  "Wow... You really are strong! Now I see why Dad wanted your help.": "哇……你真的好强！我终于明白爸爸为什么想找你帮忙了。",
+  "I won? Your Pokémon from home did not want to listen, did they? Hoenn's badges will fix that!": "我赢了？你从家乡带来的宝可梦不太听话吧？拿到丰缘的徽章就好了！",
+  "Let's head back to the lab. Dad will want to hear about this!": "我们回研究所吧。爸爸一定很想知道！",
+  "Shh! Do not step there! I am sketching the footprints of a rare Pokémon.": "嘘！别踩那里！我正在描一只稀有宝可梦的脚印。",
+  "Route 102 and Petalburg City are that way, but you will have to wait until I am done. It may take a while...": "102号道路和橙华市在那边，不过你得等我画完。可能还要好一阵子……",
+  "Professor Birch says Hoenn has more water than land. Pokémon that swim must love it here!": "小田卷博士说丰缘的水比陆地还多。会游泳的宝可梦一定很喜欢这里！",
+  "The Pokémon Center heals your Pokémon for free. Pokémon Centers are the same in every region!": "宝可梦中心会免费治疗你的宝可梦。每个地区的宝可梦中心都一样！",
+  "Route 103 is north of here. Its pond is full of Pokémon, if you can cross the water.": "103号道路在这里的北边。如果能渡过水面，池塘里有好多宝可梦。",
+  "The PC here connects to the same storage system as the ones in Kanto and Johto. Handy, isn't it?": "这里的电脑和关都、城都的电脑连着同一个保管系统。很方便吧？",
+  "Potions and Poké Balls: that is all a new Trainer needs. Well, and a little courage!": "伤药和精灵球：新手训练家需要的就这些。嗯，再加上一点勇气！",
+  "Zigzagoon zigzag through the grass, picking things up as they go. Sometimes they bring back something nice!": "蛇纹熊会在草丛里歪歪扭扭地跑来跑去，一路捡东西。有时还会带回好东西呢！",
+  "Route 101. North: Oldale Town. South: Littleroot Town.": "101号道路。北：古辰镇。南：未白镇。",
+  "Oldale Town. A town where things begin, and where they come back to.": "古辰镇。一切从这里开始，也会回到这里。",
+  "Route 103. South: Oldale Town.": "103号道路。南：古辰镇。"
+}, "zh-Hans");

@@ -24,7 +24,7 @@ G.People = (() => {
                  'blackbelt', 'psychic', 'sabrina', 'swimmerf', 'burglar', 'blaine', 'cueball',
                  'lorelei', 'bruno', 'agatha', 'lance', 'elm', 'silver', 'sage', 'falkner', 'kurt', 'bugsy',
                  'whitney', 'pokefan', 'granny', 'morty', 'kimono', 'eusine', 'jasmine', 'chuck',
-                 'pryce', 'skier', 'boarder', 'clair', 'cooltrainerm', 'will', 'karen'];
+                 'pryce', 'skier', 'boarder', 'clair', 'cooltrainerm', 'will', 'karen', 'birch', 'may', 'brendan'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -91,6 +91,23 @@ G.People = (() => {
       down: ['........', '...hhhhh', '..hhhhhh', '.hhhHhhh', '.hhHHhhh', '..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'],
       up: ['........', '...hhhhh', '..hhhhhh', '.hhhhhhh', '.hhhhhhh', '..hhhhhh', '..hhhhhh', '..hhhhhh', '..hHhhhh', '...HHhhh', '....SSss'],
       left: ['................', '....hhhhhhh.....', '...hhhhhhhhhh...', '..hHHhhhhhhhhh..', '...hhhhhhhhhhh..', ...FACE_SIDE]
+    },
+    // Chapter 28: Brendan's knit hat, May's bandana, Professor Birch's untidy hair and beard.
+    knit: {
+      down: ['....aaaa', '..aaaaaa', '.aaaaaaa', '.aaaaaaa', '.bbbbbbb', ...FACE],
+      up: ['....aaaa', '..aaaaaa', '.aaaaaaa', '.aaaaaaa', '.bbbbbbb', ...BACK],
+      left: ['......aaaaa.....', '....aaaaaaaaa...', '...aaaaaaaaaaa..', '...aaaaaaaaaaaa.', '...bbbbbbbbbbbb.', ...FACE_SIDE]
+    },
+    bandana: {
+      down: ['........', '...aaaaa', '..aaaaaa', '.aaAaaaa', '.hhhhhhh', '.hhsssss', '.hhssess', '.hhssess', '.hhSssss', '.h.Sssss', '.h..SSss'],
+      up: ['........', '...aaaaa', '..aaaaaa', '.aaaaaaa', '.hhhhhhh', ...BACK],
+      left: ['................', '.....aaaaaa.....', '....aaaaaaaaa...', '...aaaaaaaaaaaa.', '...hhhhhhhhhhh..', ...FACE_SIDE]
+    },
+    birch: {
+      down: ['..h.h.hh', '.hhhhhhh', '.hhhhhhh', '..hhhhhh', '..hhhHhh', '..hsssss', '..hssess', '..hssess', '..hhssss', '...hhhss', '....hhhh'],
+      up: ['..h.h.hh', '.hhhhhhh', '.hhhhhhh', '..hhhhhh', '..hhhhhh', ...BACK],
+      left: ['......h.h.......', '....hhhhhhhh....', '...hhhhhhhhhhh..', '...hhhhhhhhhhhh.', '...hhhhhhhhhhh..',
+             '...sssssshhhhh..', '..ssessssshhhh..', '..ssessssshhhh..', '..hhssssshhhh...', '...hhhhhhhhh....', '....hhhhhh......']
     },
     bald: {
       down: ['........', '....ssss', '..ssssss', '..ssssss', '..hsssss', '..hsssss', '..hssess', '..hSsSss', '..hSssss', '...Shhhh', '....hhhh'],
@@ -184,6 +201,10 @@ G.People = (() => {
     bruno: { head: 'short', body: 'tee', legs: 'pants', h: '#1e1a18', H: '#0e0c0a', s: '#b07850', S: '#8a5a38', c: '#b07850', C: '#8a5a38', p: '#2a2a2e', P: '#16161a', k: '#2a2018' },
     agatha: { head: 'long', body: 'dress', legs: 'bare', h: '#d8d8dc', H: '#a8a8b0', c: '#6a4a8a', C: '#4c3268', j: '#6a4a8a', J: '#4c3268', k: '#3a2a3a' },
     lance: { head: 'spiky', body: 'coat', legs: 'pants', h: '#c83030', H: '#922020', j: '#2a2a34', J: '#16161e', c: '#3a6a8a', C: '#2a4c66', p: '#3a3a48', P: '#24242e', k: '#1a1a22' },
+    birch: { head: 'birch', body: 'coat', legs: 'bare', h: '#7a5030', H: '#553820', j: '#f4f4f4', J: '#c4c8d0', c: '#3c78c0', C: '#2a5a98', k: '#5a4434' },
+    may: { head: 'bandana', body: 'tee', legs: 'bare', a: '#e03838', A: '#a82828', h: '#8a5030', H: '#5e3418', c: '#e04040', C: '#a82c2c', k: '#3a3a48' },
+    brendan: { head: 'knit', body: 'jacket', legs: 'pants', a: '#f4f4f4', A: '#c8c8d0', b: '#2a2a32', h: '#3c2c24', H: '#24180f', j: '#e05a30', J: '#b04420',
+               c: '#2a2a32', C: '#16161c', p: '#2a2a32', P: '#16161c', k: '#e05a30' },
     elm: { head: 'short', body: 'coat', legs: 'pants', h: '#6a4a2a', H: '#4a3018', j: '#f4f4f4', J: '#c4c8d0', c: '#3a8a5a', C: '#28683e', p: '#4a4a5a', P: '#30303e', k: '#3a3030' },
     silver: { head: 'long', body: 'jacket', legs: 'pants', h: '#c8303a', H: '#8a1e26', j: '#2a2a3a', J: '#16161e', c: '#c8303a', C: '#8a1e26', p: '#3a3a4a', P: '#24242e', k: '#2a2020' },
     sage: { head: 'bald', body: 'coat', legs: 'pants', h: '#3a3a40', H: '#24242a', j: '#5a5a6a', J: '#40404c', c: '#d8c8a0', C: '#b8a880', p: '#4a4a56', P: '#30303a', k: '#2a2a2a' },

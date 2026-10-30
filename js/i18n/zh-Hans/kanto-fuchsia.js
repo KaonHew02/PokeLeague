@@ -4,7 +4,6 @@ G.I18n.add({
   "They say the leader in Saffron City reads minds. Be ready for anything.": "听说金黄市的馆主能读心。做好万全的准备吧。",
   "You beat Koga! Five badges. Only three more to go!": "你打败阿桔了！五枚徽章。只差三枚了！",
   "Hey, future Champion! Koga's Gym is full of walls you cannot see. Walk slowly and feel your way.": "嘿，未来的冠军！阿桔的道馆里到处都是看不见的墙。慢慢走，一点点摸索吧。",
-  "Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.": "阿桔用毒属性的宝可梦。地面和超能力属性的招式对它们效果拔群。",
   "His Pokémon hide behind Smokescreen and poison yours. Bring Antidotes and an X Accuracy if you have one!": "他的宝可梦会躲在烟幕后面，还会让你的宝可梦中毒。带上解毒药，有命中强化的话也带上！",
   "You have earned the Soul Badge. Take it, and wear it with pride.": "你赢得了粉红徽章。收下吧，好好地以它为傲。",
   "{player} received the Soul Badge from Koga!": "{player}从阿桔那里得到了粉红徽章！",
@@ -60,5 +59,6 @@ G.I18n.add({
   "The Good Rod pulls up better Pokémon than the Old Rod. Try it in the sea south of town!": "好钓竿能钓到比破旧钓竿更好的宝可梦。去镇子南边的海里试试吧！",
   "Say, do you like fishing?": "喂，你喜欢钓鱼吗？",
   "I knew it! You have the look of an angler. Take this Good Rod and catch something big!": "我就知道！你一看就是钓鱼的料。这根好钓竿给你，去钓条大的吧！",
-  "No? Well, the fish will wait for you.": "不喜欢？没关系，鱼儿会等你的。"
+  "No? Well, the fish will wait for you.": "不喜欢？没关系，鱼儿会等你的。",
+  "Koga uses Poison-type Pokémon. Psychic moves work great against them. But watch out: his Koffing float, so Ground moves never reach them!": "阿桔用毒属性的宝可梦。超能力属性的招式对它们效果拔群。不过要小心：他的瓦斯弹浮在空中，地面属性的招式根本打不到！"
 }, "zh-Hans");

@@ -4,7 +4,6 @@ G.I18n.add({
   "They say the leader in Saffron City reads minds. Be ready for anything.": "Dicono che la Capopalestra di Zafferanopoli legga nel pensiero. Preparati a tutto.",
   "You beat Koga! Five badges. Only three more to go!": "Hai battuto Koga! Cinque medaglie. Ne mancano solo tre!",
   "Hey, future Champion! Koga's Gym is full of walls you cannot see. Walk slowly and feel your way.": "Ehi, futuro Campione! La Palestra di Koga è piena di muri invisibili. Cammina piano e procedi a tentoni.",
-  "Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.": "Koga usa Pokémon di tipo Veleno. Le mosse di tipo Terra e Psico sono efficacissime contro di loro.",
   "His Pokémon hide behind Smokescreen and poison yours. Bring Antidotes and an X Accuracy if you have one!": "I suoi Pokémon si nascondono dietro Muro di Fumo e avvelenano i tuoi. Porta degli Antidoti e un Precisione X, se ce l'hai!",
   "You have earned the Soul Badge. Take it, and wear it with pride.": "Ti sei guadagnato la Medaglia Anima. Prendila e portala con orgoglio.",
   "{player} received the Soul Badge from Koga!": "{player} ha ricevuto la Medaglia Anima da Koga!",
@@ -60,5 +59,6 @@ G.I18n.add({
   "The Good Rod pulls up better Pokémon than the Old Rod. Try it in the sea south of town!": "Con l'Amo Buono si pescano Pokémon migliori che con l'Amo Vecchio. Provalo nel mare a sud della città!",
   "Say, do you like fishing?": "Senti, ti piace pescare?",
   "I knew it! You have the look of an angler. Take this Good Rod and catch something big!": "Lo sapevo! Hai proprio l'aria da pescatore. Prendi questo Amo Buono e pesca qualcosa di grosso!",
-  "No? Well, the fish will wait for you.": "No? Be', i pesci ti aspetteranno."
+  "No? Well, the fish will wait for you.": "No? Be', i pesci ti aspetteranno.",
+  "Koga uses Poison-type Pokémon. Psychic moves work great against them. But watch out: his Koffing float, so Ground moves never reach them!": "Koga usa Pokémon di tipo Veleno. Le mosse di tipo Psico sono efficacissime contro di loro. Ma attenzione: i suoi Koffing levitano, quindi le mosse di tipo Terra non li raggiungono mai!"
 }, "it");

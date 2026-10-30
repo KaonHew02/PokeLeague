@@ -76,5 +76,8 @@ G.I18n.add({
   "{player} learned to give Pokémon items to hold, and traded the Red Scale to Mr. Pokémon for the Exp. Share.": "{player} aprendeu a dar itens para os Pokémon segurarem e trocou a Red Scale com o Mr. Pokémon pelo Exp. Share.",
   "Chapter 27 complete!": "Capítulo 27 concluído!",
   "{player} climbed Mt. Silver and beat {rival} at the snowy summit: the strongest Trainer in Kanto and Johto.": "{player} escalou o Mt. Silver e venceu {rival} no topo nevado: o Treinador mais forte de Kanto e Johto.",
-  "Thank you for playing! Your journey through Kanto and Johto is complete. A new region waits in a future update.": "Obrigado por jogar! Sua jornada por Kanto e Johto está completa. Uma nova região espera por você em uma próxima atualização."
+  "Chapter 28 complete!": "Capítulo 28 concluído!",
+  "{player} sailed to Hoenn, saved Professor Birch from a wild Zigzagoon on Route 101 and got a Pokédex for Hoenn: a new journey begins.": "{player} navegou até Hoenn, salvou o Professor Birch de um Zigzagoon selvagem na Rota 101 e ganhou uma Pokédex para Hoenn: uma nova jornada começa.",
+  "Thank you for playing! The road west to Petalburg City and Hoenn's first Gym opens in a future update.": "Obrigado por jogar! O caminho a oeste até Petalburg e o primeiro Ginásio de Hoenn abrem em uma próxima atualização.",
+  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "Obrigado por jogar! Sua jornada por Kanto e Johto está completa. O Professor Carvalho tem notícias de uma região distante: vá vê-lo em Pallet."
 }, "pt-BR");

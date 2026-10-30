@@ -20,6 +20,9 @@
  * Held items (chapter 26, G.Held in held.js): stats, Quick Claw in the turn order, Focus Band in
  * hurt(), berries after every action, Leftovers at the end of the turn, Lucky Egg and Exp. Share
  * in the experience, Amulet Coin in the prize money, Smoke Ball when running.
+ * Abilities (chapter 28, G.Abilities in abilities.js): each battler has `ability`; the weather that
+ * counts is weatherNow() (Cloud Nine, Air Lock); abilities that act on entry (Intimidate, Drizzle...)
+ * act once both Pokémon are out, then whenever one comes in.
  *
  * Events are plain objects { type, ... } that the battle screen plays in order
  * (text: G.BattleText.line(event, battle)). side 0 = the player, 1 = the foe.
@@ -51,6 +54,9 @@ G.Battle = (() => {
       this.emit('start', { kind: this.kind, trainer: this.foe.trainer ? this.foe.trainer.id : null });
       this.sendOut(this.foe, this.firstHealthy(this.foe));
       this.sendOut(this.player, this.firstHealthy(this.player));
+      // Abilities on entry, the faster first (the player's on a tie).
+      this.started = true;
+      for (const bm of [this.player.bm, this.foe.bm].sort((p, q) => this.stat(q, 'spe') - this.stat(p, 'spe'))) G.Abilities.switchIn(this, bm);
       this.process();
       return this.events;
     }
@@ -59,11 +65,12 @@ G.Battle = (() => {
       const bm = this.player.bm;
       const moves = bm.mon.moves.map((m, slot) => ({ slot, id: m.id, pp: m.pp, max: G.Mon.ppMax(m.id, m.ppUp),
         usable: m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id) }));
-      const trapped = this.trapped(bm);
+      const trapped = this.trapped(bm) || G.Abilities.traps(this, bm);     // Shadow Tag, Arena Trap, Magnet Pull
       return {
         moves, struggle: !moves.some(m => m.usable),
         switchable: this.player.party.map((m, i) => i).filter(i => i !== this.player.active && this.player.party[i].hp > 0),
-        canSwitch: !trapped, canRun: this.kind === 'wild' && !trapped, canBall: this.kind === 'wild' && !this.rules.noCatch, trapped
+        canSwitch: !trapped, canRun: this.kind === 'wild' && (!trapped || G.Abilities.runAway(bm)),
+        canBall: this.kind === 'wild' && !this.rules.noCatch, trapped
       };
     }
 
@@ -133,7 +140,7 @@ G.Battle = (() => {
         return m && m.hp > 0 && G.Evolution.candidates(m, { trigger: 'level' }).length > 0;
       });
       this.result = Object.assign({ outcome, money, leveled, evolve, seen: [...this.seen], caught: null, toBox: false }, extra, { money });
-      for (const s of this.sides) if (s.bm) { s.bm.mon.tox = 0; }
+      for (const s of this.sides) if (s.bm) { s.bm.mon.tox = 0; if (!s.bm.fainted) G.Abilities.switchOut(this, s.bm); }   // Natural Cure
       this.emit('end', { outcome });
     }
 
@@ -156,20 +163,24 @@ G.Battle = (() => {
       let st = bm.stages[key];
       if (opts.crit && opts.attacking) st = Math.max(0, st);
       if (opts.crit && opts.defending) st = Math.min(0, st);
-      let v = Math.floor(Math.floor(raw * G.Held.statMult(bm.mon, key)) * G.Stats.stage(st));
+      let v = Math.floor(Math.floor(raw * G.Held.statMult(bm.mon, key) * G.Abilities.statMult(this, bm, key)) * G.Stats.stage(st));
       if (key === 'spe' && bm.mon.status === 'par') v = Math.floor(v / 2);
       return Math.max(1, v);
     }
 
-    /** Type effectiveness against this battler (Foresight lets Normal and Fighting hit Ghosts). */
+    /** Type effectiveness against this battler (Foresight lets Normal and Fighting hit Ghosts; Levitate). */
     eff(type, bm) {
+      if (type === 'ground' && bm.ability === 'levitate') return 0;
       let types = bm.types;
       if (bm.vol.foresight && (type === 'normal' || type === 'fighting')) types = types.filter(t => t !== 'ghost');
       return G.Types.eff(type, types);
     }
 
+    /** The weather that counts now: none while Cloud Nine or Air Lock is out. */
+    weatherNow() { return G.Abilities.weather(this); }
+
     weatherMult(type) {
-      const w = this.weather && this.weather.w;
+      const w = this.weatherNow();
       if (w === 'sun') return type === 'fire' ? 1.5 : type === 'water' ? 0.5 : 1;
       if (w === 'rain') return type === 'water' ? 1.5 : type === 'fire' ? 0.5 : 1;
       return 1;
@@ -225,7 +236,8 @@ G.Battle = (() => {
       const t = target.types;
       if ((s === 'brn' && t.includes('fire')) || (s === 'par' && t.includes('electric')) || (s === 'frz' && t.includes('ice'))
           || ((s === 'psn' || s === 'tox') && (t.includes('poison') || t.includes('steel')))) return fail('immune');
-      if (s === 'frz' && this.weather && this.weather.w === 'sun') return fail('already');
+      if (s === 'frz' && this.weatherNow() === 'sun') return fail('already');
+      if (G.Abilities.blocksStatus(target, s)) { if (!o.silent) G.Abilities.say(this, target, 'protect'); return false; }
       const foeSource = o.source && o.source.side !== target.side;
       if (foeSource && this.sideOf(target).field.safeguard) return fail('safeguard');
       if (foeSource && o.statusMove && target.vol.substitute) return fail('sub');
@@ -233,11 +245,13 @@ G.Battle = (() => {
       if (s === 'slp') target.mon.slp = o.sleepTurns || this.rng.int(1, 3);
       if (s === 'tox') target.mon.tox = 0;
       this.emit('status', { side: target.side, uid: target.mon.uid, s });
+      G.Abilities.afterStatus(this, target, s, o.source);         // Synchronize
       return true;
     }
 
     confuse(target, o = {}) {
       if (!this.alive(target)) return false;
+      if (G.Abilities.blocksConfusion(target)) { if (!o.silent) G.Abilities.say(this, target, 'protect'); return false; }   // Own Tempo
       const foeSource = o.source && o.source.side !== target.side;
       if (target.vol.confusion || (foeSource && this.sideOf(target).field.safeguard) || (foeSource && o.statusMove && target.vol.substitute)) {
         if (!o.silent) this.emit('fail', {});
@@ -256,6 +270,8 @@ G.Battle = (() => {
         if (!o.silent) this.emit(this.sideOf(target).field.mist ? 'mistBlock' : 'fail', { side: target.side, uid: target.mon.uid });
         return false;
       }
+      // Clear Body, White Smoke, Hyper Cutter, Keen Eye
+      if (delta < 0 && foeSource && G.Abilities.blocksDrop(target, stat)) { if (!o.silent) G.Abilities.say(this, target, 'protect'); return false; }
       const before = target.stages[stat];
       const after = Math.max(-6, Math.min(6, before + delta));
       if (after === before) { if (!o.silent) this.emit('stage', { side: target.side, uid: target.mon.uid, stat, delta, capped: true }); return false; }
@@ -337,6 +353,7 @@ G.Battle = (() => {
       // An interrupted move ends its charge, its time in the sky / underground and its rampage.
       const stop = () => { bm.vol.charging = null; bm.vol.invuln = null; bm.vol.rampage = null; };
       if (bm.vol.recharge) { bm.vol.recharge = false; return say('recharge'); }
+      if (G.Abilities.truant(this, bm)) { stop(); return; }
       let id = a.id || bm.mon.moves[a.slot].id;
       // Encored after choosing this turn: it repeats the encored move instead.
       if (bm.vol.encore && id !== bm.vol.encore.move && id !== 'struggle' && !a.locked) id = bm.vol.encore.move;
@@ -344,7 +361,7 @@ G.Battle = (() => {
       const mon = bm.mon;
       if (mon.status === 'slp') {
         if (mon.slp > 0) {
-          mon.slp--;
+          mon.slp = Math.max(0, mon.slp - (G.Abilities.earlyBird(bm) ? 2 : 1));      // Early Bird wakes twice as fast
           if (!sp.whileAsleep) { say('slp'); stop(); return; }
         } else { mon.status = null; this.emit('wake', { side: bm.side, uid: mon.uid }); }
       }
@@ -353,7 +370,7 @@ G.Battle = (() => {
         else { stop(); return say('frz'); }
       }
       if (bm.vol.disable && bm.vol.disable.move === id && !a.locked) { stop(); return say('disabled'); }
-      if (bm.vol.flinch) { stop(); return say('flinch'); }
+      if (bm.vol.flinch && !G.Abilities.blocksFlinch(bm)) { stop(); return say('flinch'); }        // Inner Focus
       if (bm.vol.confusion) {
         bm.vol.confusion--;
         if (bm.vol.confusion <= 0) { bm.vol.confusion = 0; this.emit('confusionEnd', { side: bm.side, uid: mon.uid }); }
@@ -399,7 +416,9 @@ G.Battle = (() => {
       // PP is only used when the move really starts (not on the second turn of a charge or a rampage).
       if (!a.locked && id !== 'struggle') {
         const slot = bm.mon.moves.find(m => m.id === id);
-        if (slot) slot.pp = Math.max(0, slot.pp - 1);
+        // Pressure: a move aimed at it uses two PP.
+        const ppCost = G.Abilities.pressure(target) && this.alive(target) && G.MOVES[id] && !G.BattleFx.isSelf(G.MOVES[id]) ? 2 : 1;
+        if (slot) slot.pp = Math.max(0, slot.pp - ppCost);
       }
       if (id !== 'rage') bm.vol.rage = false;
       if (id !== 'destiny-bond') bm.vol.destinyBond = false;
@@ -453,8 +472,8 @@ G.Battle = (() => {
       // Weather
       if (this.weather) {
         this.weather.turns--;
-        if (this.weather.turns <= 0) { this.emit('weatherEnd', { w: this.weather.w }); this.weather = null; }
-        else if (this.weather.w === 'sand' || this.weather.w === 'hail') {
+        if (this.weather.turns <= 0) { this.emit('weatherEnd', { w: this.weather.w }); this.weather = null; G.Abilities.forecast(this); }
+        else if (this.weatherNow() === 'sand' || this.weatherNow() === 'hail') {
           this.emit('weatherTick', { w: this.weather.w });
           for (const bm of order) {
             const safe = this.weather.w === 'sand' ? ['rock', 'ground', 'steel'] : ['ice'];
@@ -469,10 +488,12 @@ G.Battle = (() => {
         if (bm.vol.seeded) {
           const foe = this.other(bm);
           const d = this.hurt(bm, Math.max(1, Math.floor(max / 8)), { why: 'seed' });
-          if (this.alive(foe)) this.heal(foe, d, 'leech');
+          if (this.alive(foe) && G.Abilities.liquidOoze(bm)) this.hurt(foe, d, { why: 'ooze' });
+          else if (this.alive(foe)) this.heal(foe, d, 'leech');
         }
         if (this.alive(bm) && bm.vol.ingrain) this.heal(bm, max / 16, 'ingrain');
         G.Held.endOfTurn(this, bm);
+        G.Abilities.endOfTurn(this, bm);
         const st = bm.mon.status;
         if (this.alive(bm) && (st === 'psn' || st === 'brn')) this.hurt(bm, Math.max(1, Math.floor(max / (st === 'psn' ? 8 : 16))), { why: st });
         if (this.alive(bm) && st === 'tox') { bm.mon.tox = Math.min(15, bm.mon.tox + 1); this.hurt(bm, Math.max(1, Math.floor(max * bm.mon.tox / 16)), { why: 'tox' }); }
@@ -539,10 +560,11 @@ G.Battle = (() => {
     makeBM(side, mon) {
       return { mon, side: side.side, stages: { atk: 0, def: 0, spa: 0, spd: 0, spe: 0, acc: 0, eva: 0 }, vol: {},
                types: G.SPECIES[mon.sp].types.slice(), moved: false, turns: 0, lastMove: null, lastHit: null,
-               fainted: false, participants: new Set() };
+               fainted: false, participants: new Set(), ability: G.Abilities.of(mon), entered: this.turn };
     }
 
-    sendOut(side, i) {
+    /** o.noEntry: its entry ability waits (the caller runs it after its own line). */
+    sendOut(side, i, o = {}) {
       side.active = i;
       const mon = side.party[i];
       side.bm = this.makeBM(side, mon);
@@ -552,12 +574,14 @@ G.Battle = (() => {
                           shiny: !!mon.shiny, gender: mon.gender, status: mon.status });
       const pl = this.player.bm, fo = this.foe.bm;
       if (pl && fo && this.alive(pl) && this.alive(fo)) fo.participants.add(pl.mon.uid);
+      if (this.started && !o.noEntry) G.Abilities.switchIn(this, side.bm);
     }
 
     switchIn(side, i) {
       const old = side.bm;
       if (old && !old.fainted) {
         old.mon.tox = 0;
+        G.Abilities.switchOut(this, old);                   // Natural Cure
         this.emit('withdraw', { side: side.side, uid: old.mon.uid });
         // The foe's trap and seeds on it stay with the battler that leaves.
         const foe = this.other(old);
@@ -571,7 +595,7 @@ G.Battle = (() => {
     tryRun() {
       this.runs++;
       const ps = G.Mon.stats(this.player.bm.mon)[5], fs = G.Mon.stats(this.foe.bm.mon)[5];
-      let ok = ps >= fs || G.Held.is(this.player.bm.mon, 'smoke-ball');
+      let ok = ps >= fs || G.Held.is(this.player.bm.mon, 'smoke-ball') || G.Abilities.runAway(this.player.bm);
       if (!ok) {
         const f = Math.floor(ps * 128 / Math.max(1, fs)) + 30 * (this.runs - 1);
         ok = f > 255 || this.rng.int(0, 255) < f;

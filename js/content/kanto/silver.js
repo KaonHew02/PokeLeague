@@ -238,6 +238,7 @@
     h.face('rival', 'down');
     if (F.flag('silver-beaten')) {
       await h.say(T('{player}. I have trained every day since our last battle. Ready for another one?'), RIVAL);
+      if (!F.flag('hoenn-invite')) await h.say(T('Oh, and Gramps wants to see you in Pallet Town. Something about a letter from a faraway region.'), RIVAL);
       if (await h.choice(T('Battle {rival} again?'), {}) !== 0) return;
       if (await battle(h, S) === 'win') await h.say(T('Still you, huh? Next time, then.'), RIVAL);
       return;
@@ -254,6 +255,7 @@
     F.setFlag('silver-beaten');
     await h.say(T('...Ha. You beat me again. But it was close this time. I could feel it.'), RIVAL);
     await h.say(T('I am staying up here a while longer. Come back whenever you want a real battle.'), RIVAL);
+    await h.say(T('Oh, and Gramps wants to see you in Pallet Town. Something about a letter from a faraway region.'), RIVAL);
     if (G.CreditsUI) await G.CreditsUI.ending(27); else F.setFlag('chapter-27-done');
   }
 

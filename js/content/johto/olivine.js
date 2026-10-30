@@ -57,18 +57,20 @@ G.Maps.def({
   ],
   spots: {
     'lighthouse-door': [12, 8, 'down'], 'gym-door': [26, 8, 'down'], 'center-door': [32, 17, 'down'], 'mart-door': [25, 17, 'down'],
-    'cafe-door': [14, 17, 'down'], 'house-door': [14, 24, 'down'], 'house2-door': [29, 24, 'down']
+    'cafe-door': [14, 17, 'down'], 'house-door': [14, 24, 'down'], 'house2-door': [29, 24, 'down'], pier: [18, 29, 'up']
   },
   berries: [[35, 21, 'sitrus-berry']],
   signs: {
     '22,2': 'Olivine City. A port town that smells of the sea breeze.',
     '13,8': 'Olivine Lighthouse. Its light guides the ships at night.',
     '27,8': 'Olivine City Pokémon Gym. Leader: Jasmine, the girl of steel and gentle heart.',
-    '22,25': 'Olivine Port. The S.S. Aqua is in the dock for repairs. Sailings will resume soon.'
+    '22,25': { script: 'olivine.port-sign' }
   },
   npcs: [
     { id: 'sailor', who: 'sailor', x: 17, y: 26, move: 'look',
       say: 'The sea west of here leads to Cianwood City. You will need a Pokémon that can Surf.' },
+    // Chapter 28: the S.S. Aqua's pier, to Hoenn (hoenn/littleroot.js).
+    { id: 'ferry', who: 'sailor', x: 19, y: 30, dir: 'up', script: 'hoenn.ferry-olivine' },
     { id: 'kid', who: 'youngster', x: 23, y: 9, move: 'wander', r: 2, if: '!amphy-cured',
       say: 'Jasmine, our Gym Leader, has not left the Lighthouse for days. Her Pokémon up there is sick.' },
     { id: 'kid2', who: 'youngster', x: 23, y: 9, move: 'wander', r: 2, if: 'amphy-cured',
@@ -263,6 +265,9 @@ G.Maps.def({
 
   G.Script.def({
     'lighthouse.jasmine': [['js', jasmine]],
+    // The S.S. Aqua sails to Hoenn once Professor Oak has put you on her list (chapter 28).
+    'olivine.port-sign': [['if', 'hoenn-invite', [['say', 'Olivine Port. The S.S. Aqua sails south from here to the Hoenn region.']],
+                           [['say', 'Olivine Port. The S.S. Aqua is in the dock for repairs. Sailings will resume soon.']]]],
     'olivine.gym-closed': [['say', 'The Gym is empty. A sign on the door reads: "Jasmine is at the Lighthouse, caring for a sick Pokémon."']],
     'olivine.gym-guide': [
       ['say', 'Yo, Champion! Jasmine uses Steel types. They resist almost everything: hit them with Fire, Fighting or Ground moves.'],

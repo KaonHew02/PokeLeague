@@ -51,5 +51,6 @@ G.I18n.add({
   "Olivine City. A port town that smells of the sea breeze.": "Oliville. Une ville portuaire qui sent la brise marine.",
   "Olivine Lighthouse. Its light guides the ships at night.": "Phare d'Oliville. Sa lumière guide les bateaux la nuit.",
   "Olivine City Pokémon Gym. Leader: Jasmine, the girl of steel and gentle heart.": "Arène Pokémon d'Oliville. Championne : Jasmine, la fille d'acier au cœur tendre.",
-  "Olivine Port. The S.S. Aqua is in the dock for repairs. Sailings will resume soon.": "Port d'Oliville. L'Aquaria est en cale sèche pour réparation. Les traversées reprendront bientôt."
+  "Olivine Port. The S.S. Aqua is in the dock for repairs. Sailings will resume soon.": "Port d'Oliville. L'Aquaria est en cale sèche pour réparation. Les traversées reprendront bientôt.",
+  "Olivine Port. The S.S. Aqua sails south from here to the Hoenn region.": "Port d'Oliville. L'Aquaria part d'ici vers le sud, pour la région de Hoenn."
 }, "fr");

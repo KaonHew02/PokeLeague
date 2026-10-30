@@ -343,6 +343,8 @@ G.Maps.def({
       }
     }]],
     'lab.oak': [
+      // Chapter 28: after Mt. Silver, a letter from Professor Birch in Hoenn (hoenn/littleroot.js).
+      ['if', ['silver-beaten', '!hoenn-start'], [['call', 'oak.hoenn'], ['end']]],
       ['if', 'has:oaks-parcel', [['call', 'lab.parcel'], ['end']]],
       ['if', 'has-pokedex', [['call', 'lab.rating'], ['end']]],
       ['if', 'got-starter', [

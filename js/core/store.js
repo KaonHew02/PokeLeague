@@ -51,6 +51,7 @@ G.Store = (() => {
                 money: 3000, badges: [], map: null, x: 0, y: 0, dir: 'down', lastHeal: null },
       rival: { name: cleanName(o.rival) || 'Blue', starter: null },
       rival2: { name: null, starter: null },              // Johto's rival (named when you meet him)
+      rival3: { starter: null },                          // Hoenn's: Professor Birch's child (chapter 28; {rival3})
       party: [], boxes: emptyBoxes(), box: 0, bag: {}, repel: 0,
       dex: { seen: {}, caught: {} }, flags: {}, vars: {}, done: {}, fame: [],
       daycare: [],                                        // the Day Care's Pokémon: [{ mon, lvl }] (daycare.js)
@@ -145,6 +146,8 @@ G.Store = (() => {
     out.rival = { name: cleanName(r.name) || 'Blue', starter: Number.isInteger(r.starter) && knownSp(r.starter) ? r.starter : null };
     const r2 = obj(s.rival2) ? s.rival2 : {};
     out.rival2 = { name: cleanName(r2.name) || null, starter: Number.isInteger(r2.starter) && knownSp(r2.starter) ? r2.starter : null };
+    const r3 = obj(s.rival3) ? s.rival3 : {};
+    out.rival3 = { starter: Number.isInteger(r3.starter) && knownSp(r3.starter) ? r3.starter : null };
     // Party: at most six; any extra goes to the PC.
     const party = (Array.isArray(s.party) ? s.party : []).map(fixMon).filter(Boolean);
     out.party = party.slice(0, 6);

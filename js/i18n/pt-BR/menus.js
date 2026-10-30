@@ -185,5 +185,15 @@ G.I18n.add({
   "Take": "Pegar",
   "Took {item} from {mon}.": "Você pegou {item} de {mon}.",
   "Give {mon} which item?": "Qual item dar a {mon}?",
-  "None": "Nenhum"
+  "None": "Nenhum",
+  "Stone Badge": "Insígnia Pedra",
+  "Knuckle Badge": "Insígnia Punho",
+  "Dynamo Badge": "Insígnia Dínamo",
+  "Heat Badge": "Insígnia Calor",
+  "Balance Badge": "Insígnia Equilíbrio",
+  "Feather Badge": "Insígnia Pena",
+  "Mind Badge": "Insígnia Mente",
+  "Rain Badge": "Insígnia Chuva",
+  "Ability": "Habilidade",
+  "Hoenn": "Hoenn"
 }, "pt-BR");

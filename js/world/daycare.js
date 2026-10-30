@@ -112,13 +112,15 @@ G.DayCare = (() => {
   }
 
   let prevo = null;
+  // Babies hatched only with an incense (Generation 3): Azurill, Wynaut. Without it, their family's second stage.
+  const INCENSE = new Set([298, 360]);
   /** The first stage of a species' family, among the game's species (Pikachu -> Pichu, Marill -> Marill). */
   function root(sp) {
     if (!prevo) {
       prevo = {};
       for (const d of Object.keys(G.SPECIES)) for (const e of G.SPECIES[d].evo || []) prevo[e.to] = +d;
     }
-    while (prevo[sp]) sp = prevo[sp];
+    while (prevo[sp] && !INCENSE.has(prevo[sp])) sp = prevo[sp];
     return sp;
   }
   const stepsFor = sp => Math.max(320, (G.SPECIES[sp].hc || 20) * 64);

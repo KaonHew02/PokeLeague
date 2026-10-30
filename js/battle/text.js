@@ -78,8 +78,25 @@ G.BattleText = (() => {
       case 'nightmare': return fmt('{mon} is locked in a nightmare!', { mon });
       case 'sand': return fmt('{mon} is buffeted by the sandstorm!', { mon });
       case 'hail': return fmt('{mon} is pelted by hail!', { mon });
+      case 'ooze': return fmt('{mon} sucked up the liquid ooze!', { mon });
+      case 'ability': return fmt('{mon} was hurt!', { mon });
       case 'crash': return null;
       default: return null;                       // ordinary hits: only the HP bar moves
+    }
+  }
+
+  /** An ability at work (chapter 28). */
+  function abilityLine(b, e, mon) {
+    const ability = G.Names.ability(e.ability);
+    switch (e.why) {
+      case 'protect': return fmt('{mon} is protected by its {ability}!', { mon, ability });
+      case 'trace': return fmt("{mon} traced {target}'s {ability}!", { mon, target: who(b, e.target, e.tside), ability });
+      case 'flash-fire': return fmt("{mon}'s {ability} raised the power of its Fire-type moves!", { mon, ability });
+      case 'type': return fmt("{mon}'s {ability} made it the {type} type!", { mon, ability, type: G.Names.type(e.to) });
+      case 'truant': return fmt('{mon} is loafing around!', { mon });
+      case 'pressure': return fmt('{mon} is exerting its {ability}!', { mon, ability });
+      case 'damp': return fmt("{mon}'s {ability} prevents {move} from working!", { mon, ability, move: G.Names.move(e.move) });
+      default: return fmt("{mon}'s {ability}!", { mon, ability });
     }
   }
 
@@ -117,6 +134,7 @@ G.BattleText = (() => {
         if (e.why === 'drain') return fmt('{mon} had its energy drained!', { mon: who(b, e.from, e.fromSide) });
         if (e.why === 'leech' || e.why === 'rest' || e.why === 'item' || e.why === 'painSplit') return e.why === 'item' ? fmt("{mon}'s HP was restored.", { mon }) : null;
         if (e.why === 'ingrain') return fmt('{mon} absorbed nutrients with its roots!', { mon });
+        if (e.why === 'ability') return fmt("{mon}'s {ability} restored its HP!", { mon, ability: G.Names.ability(e.ability) });
         // Held items (chapter 26): a berry, Leftovers, Shell Bell.
         if (e.why === 'held' && e.held === 'berry') return fmt('{mon} restored its HP using its {item}!', { mon, item: G.Names.item(e.item) });
         if (e.why === 'held') return fmt('{mon} restored a little HP using its {item}!', { mon, item: G.Names.item(e.item) });
@@ -125,6 +143,7 @@ G.BattleText = (() => {
       case 'cure': return e.item ? fmt('{mon} ate its {item} and was cured!', { mon, item: G.Names.item(e.item) })
                                  : fmt("{mon}'s status returned to normal!", { mon });
       case 'held': return fmt('{mon} hung on using its {item}!', { mon, item: G.Names.item(e.item) });
+      case 'ability': return abilityLine(b, e, mon);
       case 'noEffect': return fmt("It doesn't affect {mon}...", { mon });
       case 'fail': return fmt('But it failed!', {});
       case 'miss': return fmt("{mon}'s attack missed!", { mon });

@@ -48,7 +48,8 @@
  * plate:<map>:<x>,<y>, var boulder:<map>:<id> = 'x,y'): rock barriers (`bars`) can open with it.
  * Johto (chapter 11, maps with `region: 'johto'`): wild Pokémon follow the time of day
  * (G.Clock), and once the Johto journey has begun (flag johto-start) the player's Pokémon above
- * the level cap of the Johto badges may not obey (G.Field.obeyCap(), rules.obeyCap). Walking
+ * the level cap of the Johto badges may not obey (G.Field.obeyCap(), rules.obeyCap). Hoenn
+ * (chapter 28, `region: 'hoenn'`): the same rule with Hoenn's badges 17-24 (flag hoenn-start). Walking
  * raises friendship (one point every 128 steps), and var egg-steps counts down to script
  * egg.hatch (the Mystery Egg); the Eggs you carry (chapter 25) hatch by G.DayCare.hatch.
  * Chapter 13: trees to Headbutt (`h`: a Pokémon that knows Headbutt may shake down a wild one from
@@ -149,13 +150,16 @@ G.Field = (() => {
     }
   }
   function badge(n) { if (!S.player.badges.includes(n)) S.player.badges.push(n); S.player.badges.sort((a, b) => a - b); }
-  /** Johto's badges are 9-16: the level up to which every Pokémon obeys, by how many you hold. */
+  /** Johto's badges are 9-16, Hoenn's 17-24: the level up to which every Pokémon obeys, by how many you hold. */
   const OBEY = [20, 25, 30, 35, 40, 50, 60, 70];
-  const johtoBadges = () => S.player.badges.filter(b => b >= 9 && b <= 16).length;
-  /** The level cap while in Johto (null: everybody obeys). */
+  const REGIONS = { johto: { first: 9, start: 'johto-start' }, hoenn: { first: 17, start: 'hoenn-start' } };
+  const regionBadges = first => S.player.badges.filter(b => b >= first && b < first + 8).length;
+  const johtoBadges = () => regionBadges(9), hoennBadges = () => regionBadges(17);
+  /** The level cap in that region (null: everybody obeys; Kanto has no such rule). */
   function obeyCap(region) {
-    if (region !== 'johto' || !flag('johto-start')) return null;
-    const n = johtoBadges();
+    const r = REGIONS[region];
+    if (!r || !flag(r.start)) return null;
+    const n = regionBadges(r.first);
     return n >= OBEY.length ? null : OBEY[n];
   }
 
@@ -192,13 +196,15 @@ G.Field = (() => {
     return false;
   }
 
-  const vars = () => ({ player: S.player.name, rival: S.rival.name, rival2: (S.rival2 && S.rival2.name) || '???' });
+  // {rival3}: Professor Birch's child (chapter 28), May for a boy and Brendan for a girl.
+  const rival3 = () => (S.player.gender === 'f' ? G.T('Brendan') : G.T('May'));
+  const vars = () => ({ player: S.player.name, rival: S.rival.name, rival2: (S.rival2 && S.rival2.name) || '???', rival3: rival3() });
   /** The outcome of the last battle ('win', 'lose', 'run', 'caught'): scripts test it with 'battle=win'. */
   let last = null;
 
   return { get save() { return S; }, get fake() { return fake; }, bind, reset,
            flag, setFlag, clearFlag, getVar, setVar, isDone, markDone,
-           party, lead, makeMon, giveMon, toBox, count, giveItem, takeItem, money, healAll, badge, johtoBadges, obeyCap, OBEY, test, vars,
+           party, lead, makeMon, giveMon, toBox, count, giveItem, takeItem, money, healAll, badge, johtoBadges, hoennBadges, obeyCap, OBEY, test, vars,
            get lastBattle() { return last; }, set lastBattle(v) { last = v; } };
 })();
 
@@ -690,7 +696,9 @@ G.World = (() => {
       G.Field.save.dex.seen[wild.sp] = 1;
       if (api.wildForm && !wild.form) wild.form = api.wildForm(wild.sp, map, rng) || undefined;
       let r;
-      if (api.onEncounter) r = await api.onEncounter(wild.sp, wild.lvl, wild.area, Object.assign({ contest, player: contest ? G.Contest.battler() : battler() }, wild));
+      // o.party: a scripted battle with only those Pokémon (Professor Birch's bag, chapter 28).
+      const me = contest ? G.Contest.battler() : wild.party ? Object.assign(battler(), { party: wild.party }) : battler();
+      if (api.onEncounter) r = await api.onEncounter(wild.sp, wild.lvl, wild.area, Object.assign({ contest, player: me }, wild));
       else if (G.BattleUI && G.BattleUI.safari && safariOn()) r = await G.BattleUI.safari(battler(), wild.sp, wild.lvl, battleOpts(false));
       else if (G.BattleUI && G.BattleUI.wild) {
         // In the Bug-Catching Contest: the entrant alone, the Sport Balls only, no black-out.
@@ -700,7 +708,7 @@ G.World = (() => {
         if (wild.form) o.form = wild.form;
         if (wild.moves) o.moves = wild.moves;
         if (wild.shiny) o.shinyOdds = 1;
-        r = await G.BattleUI.wild(contest ? G.Contest.battler() : battler(), wild.sp, wild.lvl, o);
+        r = await G.BattleUI.wild(me, wild.sp, wild.lvl, o);
       }
       else r = await fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) }));
       if (contest) caught = G.Contest.after(r);
@@ -1348,7 +1356,8 @@ G.World = (() => {
       fade: (dir, secs) => fadeTo(dir === 'in' ? 0 : 1, secs || 0.3),
       wait,
       battle: (ref, o) => battle(ref, o),
-      wild: (sp, lvl, o = {}) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null, noCatch: !!o.noCatch, moves: o.moves, shiny: !!o.shiny }),
+      wild: (sp, lvl, o = {}) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null, noCatch: !!o.noCatch, moves: o.moves, shiny: !!o.shiny,
+                                              party: o.party || null }),
       heal: () => G.Field.healAll(),
       /** Offers a nickname for a Pokémon just received (starter, gifts). */
       async nickname(mon) {
@@ -1533,9 +1542,10 @@ G.World = (() => {
     snapCamera();
   }
 
-  /** The light of the time of day over Johto's outdoor maps (none indoors, in caves or in Kanto). */
+  /** The light of the time of day over Johto's and Hoenn's outdoor maps (none indoors, in caves or in Kanto). */
   const TINT = { morning: 'rgba(255,176,96,0.10)', day: null, night: 'rgba(14,22,70,0.40)' };
-  const tint = () => (map.def.region === 'johto' && map.tileset === 'outdoor' && !map.def.cave && G.Clock ? TINT[G.Clock.period()] : null);
+  const tint = () => ((map.def.region === 'johto' || map.def.region === 'hoenn') && map.tileset === 'outdoor' && !map.def.cave && G.Clock
+    ? TINT[G.Clock.period()] : null);
 
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }

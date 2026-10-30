@@ -4,7 +4,6 @@ G.I18n.add({
   "They say the leader in Saffron City reads minds. Be ready for anything.": "Dizem que a líder de Saffron City lê mentes. Esteja pronto para tudo.",
   "You beat Koga! Five badges. Only three more to go!": "Você venceu o Koga! Cinco insígnias. Só faltam três!",
   "Hey, future Champion! Koga's Gym is full of walls you cannot see. Walk slowly and feel your way.": "Ei, futuro Campeão! O Ginásio do Koga está cheio de paredes invisíveis. Ande devagar e vá tateando.",
-  "Koga uses Poison-type Pokémon. Ground and Psychic moves work great against them.": "Koga usa Pokémon do tipo Venenoso. Golpes Terrestres e Psíquicos funcionam muito bem contra eles.",
   "His Pokémon hide behind Smokescreen and poison yours. Bring Antidotes and an X Accuracy if you have one!": "Os Pokémon dele se escondem atrás de Smokescreen e envenenam os seus. Leve Antidotes e um X Accuracy se tiver!",
   "You have earned the Soul Badge. Take it, and wear it with pride.": "Você conquistou a Insígnia da Alma. Pegue-a e use-a com orgulho.",
   "{player} received the Soul Badge from Koga!": "{player} recebeu a Insígnia da Alma de Koga!",
@@ -60,5 +59,6 @@ G.I18n.add({
   "The Good Rod pulls up better Pokémon than the Old Rod. Try it in the sea south of town!": "A Good Rod pesca Pokémon melhores que a Old Rod. Experimente no mar ao sul da cidade!",
   "Say, do you like fishing?": "Diga, você gosta de pescar?",
   "I knew it! You have the look of an angler. Take this Good Rod and catch something big!": "Eu sabia! Você tem cara de pescador. Pegue esta Good Rod e pesque algo grande!",
-  "No? Well, the fish will wait for you.": "Não? Bom, os peixes vão esperar por você."
+  "No? Well, the fish will wait for you.": "Não? Bom, os peixes vão esperar por você.",
+  "Koga uses Poison-type Pokémon. Psychic moves work great against them. But watch out: his Koffing float, so Ground moves never reach them!": "Koga usa Pokémon do tipo Venenoso. Golpes Psíquicos funcionam muito bem contra eles. Mas cuidado: os Koffing dele flutuam, então golpes Terrestres nunca os atingem!"
 }, "pt-BR");

@@ -76,5 +76,8 @@ G.I18n.add({
   "{player} learned to give Pokémon items to hold, and traded the Red Scale to Mr. Pokémon for the Exp. Share.": "{player}學會了讓寶可夢攜帶道具，還用紅色鱗片跟寶可夢爺爺換到了學習裝置。",
   "Chapter 27 complete!": "第二十七章完成！",
   "{player} climbed Mt. Silver and beat {rival} at the snowy summit: the strongest Trainer in Kanto and Johto.": "{player}登上白銀山，在白雪覆蓋的山頂打敗了{rival}，成為關都和城都最強的訓練家。",
-  "Thank you for playing! Your journey through Kanto and Johto is complete. A new region waits in a future update.": "感謝遊玩！你在關都和城都的旅程已經完成。新的地區將在之後的更新中等著你。"
+  "Chapter 28 complete!": "第二十八章完成！",
+  "{player} sailed to Hoenn, saved Professor Birch from a wild Zigzagoon on Route 101 and got a Pokédex for Hoenn: a new journey begins.": "{player}坐船來到豐緣，在101號道路從野生的蛇紋熊手中救下了小田卷博士，拿到了豐緣的圖鑑：新的旅程開始了。",
+  "Thank you for playing! The road west to Petalburg City and Hoenn's first Gym opens in a future update.": "感謝遊玩！向西前往橙華市的道路和豐緣的第一座道館，將在之後的更新中開放。",
+  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "感謝遊玩！你在關都和城都的旅程已經完成。大木博士收到了來自遙遠地區的消息：去真新鎮找他吧。"
 }, "zh-Hant");

@@ -9,10 +9,10 @@ const DATA = ['js/data/types.js', 'js/data/species.js', 'js/data/moves.js', 'js/
 const { G } = boot(CORE.concat(DATA));
 const STATS6 = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 
-test('all 251 species of Kanto and Johto, with six base stats, valid types and a known growth rate', () => {
+test('all 386 species of Kanto, Johto and Hoenn, with six base stats, valid types and a known growth rate', () => {
   const dex = Object.keys(G.SPECIES).map(Number).sort((a, b) => a - b);
-  assert.equal(dex.length, 251);
-  assert.equal(dex[0], 1); assert.equal(dex[250], 251);
+  assert.equal(dex.length, 386);
+  assert.equal(dex[0], 1); assert.equal(dex[385], 386);
   for (const [d, s] of Object.entries(G.SPECIES)) {
     assert.equal(s.base.length, 6, d);
     assert.ok(s.base.every(v => Number.isInteger(v) && v > 0), d);

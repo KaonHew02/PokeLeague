@@ -104,6 +104,9 @@ G.ITEM_FX = {
   // Items that make a Pokémon evolve when it is traded holding them: used like a stone here.
   'metal-coat':    { evo: 1, field: 1, price: 2100, held: 'boost', type: 'steel' },
   'kings-rock':    { evo: 1, field: 1, price: 2100, held: 'kings-rock' },
+  // Clamperl's (chapter 28): its evolution, or held, its Sp. Atk / Sp. Def ×2.
+  'deep-sea-tooth': { evo: 1, field: 1, price: 2100, held: 'deep-sea-tooth' },
+  'deep-sea-scale': { evo: 1, field: 1, price: 2100, held: 'deep-sea-scale' },
   'dragon-scale':  { evo: 1, field: 1, price: 2100 },
   'up-grade':      { evo: 1, field: 1, price: 2100 },
 

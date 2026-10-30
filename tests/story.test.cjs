@@ -33,12 +33,14 @@ function bestMove(G, b) {
   const o = b.options();
   const usable = o.moves.filter(m => m.usable);
   if (o.struggle || !usable.length) return { type: 'move', slot: 0 };
-  const me = b.player.bm.mon, foe = b.foe.bm.mon;
+  const pb = b.player.bm, fb = b.foe.bm, me = pb.mon;
   let best = usable[0].slot, score = -1;
   for (const m of usable) {
     const M = G.MOVES[m.id], sm = G.SpecialMoves[m.id];
-    const pow = sm && typeof sm.power === 'function' ? sm.power(b, b.player.bm, b.foe.bm, M) || 0 : M.pow || 0;   // Low Kick: by weight
-    const s = pow * G.Types.eff(M.type, G.Mon.types(foe)) * (G.Mon.types(me).includes(M.type) ? 1.5 : 1) * ((M.acc || 100) / 100);
+    const pow = sm && typeof sm.power === 'function' ? sm.power(b, pb, fb, M) || 0 : M.pow || 0;   // Low Kick: by weight
+    // The foe's ability counts (chapter 28): Levitate in b.eff, Water Absorb, Wonder Guard, Thick Fat...
+    const eff = b.eff(M.type, fb), blocked = pow > 0 && G.Abilities.immune(pb, fb, M, M.type, eff);
+    const s = blocked ? 0 : pow * eff * G.Abilities.powerMult(b, pb, fb, M.type) * (G.Mon.types(me).includes(M.type) ? 1.5 : 1) * ((M.acc || 100) / 100);
     if (s > score) { score = s; best = m.slot; }
   }
   return { type: 'move', slot: best };
@@ -116,7 +118,8 @@ function wildFight(st, sp, lvl, o = {}) {
   const rng = G.RNG(W.seed * 389 + st.battles.length);
   const foe = G.Mon.create(G.Maps.species(sp), lvl, { rng, wild: true });
   S.dex.seen[foe.sp] = 1;
-  const b = G.Battle.create({ kind: 'wild', seed: W.seed * 53 + st.battles.length, player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag },
+  // o.party: only those Pokémon battle (Professor Birch's bag on Route 101, chapter 28).
+  const b = G.Battle.create({ kind: 'wild', seed: W.seed * 53 + st.battles.length, player: { name: S.player.name, id: S.player.id, party: o.party || S.party, bag: S.bag },
     foe: { party: [foe] }, rules: { noCatch: !!o.noCatch, obeyCap: obeyCap(st) } });
   b.start();
   const r = autoplay(G, b);
@@ -363,6 +366,14 @@ function lead(st, sp) {
   if (i > 0) p.unshift(p.splice(i, 1)[0]);
 }
 
+/** At a PC: the party Pokémon of species `out` swaps places with the boxed one of species `inn`. */
+function swapBox(st, out, inn) {
+  const { S } = st;
+  const box = S.boxes.find(b => b.some(m => m && m.sp === inn));
+  const i = box.findIndex(m => m && m.sp === inn), k = S.party.findIndex(m => m.sp === out);
+  [box[i], S.party[k]] = [S.party[k], box[i]];
+}
+
 /** Chapter 2 after chapter 1: Route 3, Mt. Moon, Cerulean City, Misty. */
 async function chapter2(st) {
   const { G, S } = st;
@@ -443,6 +454,28 @@ function leaderRate(G, mapId, id) {
     return wins / 40;
   };
 }
+
+test('balance: the rival on Route 103 (chapter 28), win rates of the three starters are printed', () => {
+  const { G } = world(1);
+  // Your starter alone against the rival's (Lv. 5, the one strong against yours), as you might arrive.
+  const rate = (sp, lvl) => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 29);
+      const me = [G.Mon.create(sp, lvl, { rng })], foe = [G.Mon.create(G.Hoenn.COUNTER[sp], 5, { rng })];
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foe, trainer: { id: 'rival3', name: 'May', ai: 'basic', items: {}, prize: 60 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 40;
+  };
+  const table = {};
+  for (const sp of [252, 255, 258]) for (const l of [5, 7, 9]) table[G.SPECIES[sp].slug + ' ' + l] = rate(sp, l);
+  console.log('[balance] the rival on Route 103:', JSON.stringify(table));
+  // Losing is allowed (and does not stop the story); a few levels from Route 101's grass help.
+  for (const sp of ['treecko', 'torchic', 'mudkip']) assert.ok(table[sp + ' 9'] >= 0.5, sp + ' at Lv. 9');
+});
 
 test('balance: the rival at the summit of Mt. Silver (chapter 27), win rates of typical teams are printed', () => {
   const { G } = world(1);
@@ -525,15 +558,16 @@ test('balance: Koga (chapter 5), win rates of typical teams are printed', () => 
     'dugtrio 34 + wartortle 36': rate([[51, 34], [8, 36]]),
     'kadabra 34 + wartortle 36': rate([[64, 34], [8, 36]]),
     'blastoise 38 + dugtrio 34': rate([[9, 38], [51, 34]]),
-    'charmeleon 35 + pidgeotto 34 + dugtrio 33': rate([[5, 35], [17, 34], [51, 33]])
+    'charmeleon 35 + pidgeotto 34 + dugtrio 33': rate([[5, 35], [17, 34], [51, 33]]),
+    'charmeleon 35 + pidgeotto 34 + kadabra 33': rate([[5, 35], [17, 34], [64, 33]])
   };
   console.log('[balance] vs Koga:', JSON.stringify(table));
   // Four Pokémon with Poison Gas, Toxic and Smokescreen wear down a small team that never heals
-  // (the auto-player); Ground and Psychic types (Diglett's Cave, Abra from Route 24/25) answer them,
-  // as the Gym guide says.
+  // (the auto-player). A Psychic type (Abra from Route 24/25) answers them, as the Gym guide says;
+  // since abilities (chapter 28) Koffing and Weezing float (Levitate), so a Dugtrio only hurts Muk.
   assert.ok(table['kadabra 34 + wartortle 36'] >= 0.8, 'Kadabra leading a Wartortle');
-  assert.ok(table['charmeleon 35 + pidgeotto 34 + dugtrio 33'] >= 0.8, 'a team of three with a Dugtrio');
-  assert.ok(table['blastoise 38 + dugtrio 34'] >= 0.4, 'Blastoise with a Dugtrio');
+  assert.ok(table['charmeleon 35 + pidgeotto 34 + kadabra 33'] >= 0.8, 'a team of three with a Kadabra');
+  assert.ok(table['dugtrio 34 + wartortle 36'] < 0.3, 'Ground moves miss the floating Koffing');
   assert.ok(table['blastoise 38'] < 0.3, 'a lone Blastoise should struggle');
 });
 
@@ -638,7 +672,9 @@ test('balance: the Elite Four and the Champion (chapter 9), win rates of typical
   console.log('[balance] vs the Elite Four:', JSON.stringify(table));
   // Each member alone, with a fresh team (in the League they come one after another, and a player
   // heals with items in between; the auto-player never does, nor switches).
-  for (const id of ['lorelei', 'bruno', 'agatha']) assert.ok(table[id]['charizard team 55'] >= 0.8, id);
+  for (const id of ['lorelei', 'bruno']) assert.ok(table[id]['charizard team 55'] >= 0.8, id);
+  // Gengar and Haunter float (Levitate, chapter 28): the team's Earthquake and Dig miss them.
+  assert.ok(table.agatha['charizard team 55'] >= 0.5, 'agatha');
   assert.ok(table.lance['charizard team 55'] >= 0.5, 'Lance');
   assert.ok(table['champion (Venusaur)']['charizard team 58'] >= 0.6 && table['champion (Blastoise)']['charizard team 58'] >= 0.6, 'the Champion');
   assert.ok(table['champion (Venusaur)']['charizard team 55'] < table['champion (Venusaur)']['charizard team 58'], 'levels matter');
@@ -729,8 +765,10 @@ test('balance: Whitney in Goldenrod (chapter 13), win rates of typical teams are
   };
   console.log('[balance] vs Whitney:', JSON.stringify(table));
   // Miltank is the wall: Rollout rolls on and doubles, Attract stops a Pokémon of the other gender,
-  // Milk Drink heals. A Rock type (Geodude from Union Cave) takes Rollout and Stomp well.
-  assert.ok(table['quilava 24'] >= 0.4, 'Quilava');
+  // Milk Drink heals. A Rock type (Geodude from Union Cave) takes Rollout and Stomp well. Since
+  // abilities (chapter 28) Miltank's Thick Fat halves Fire moves and Clefairy's Cute Charm may
+  // charm whoever touches it: a lone Quilava no longer wins (it did about half the time).
+  assert.ok(table['quilava 24'] < 0.2, 'a lone Quilava'); assert.ok(table['bayleef 24'] >= 0.4, 'Bayleef');
   assert.ok(table['quilava 22 + geodude 18'] >= 0.35, 'Quilava with a Geodude');
   assert.ok(table['bayleef 24 + geodude 20'] >= 0.6, 'Bayleef with a Geodude');
   assert.ok(table['croconaw 24 + geodude 20'] >= 0.4, 'Croconaw with a Geodude');
@@ -825,10 +863,12 @@ test('balance: Clair in Blackthorn (chapter 18), win rates of typical teams are 
   };
   console.log('[balance] vs Clair:', JSON.stringify(table));
   // The games' first levels (Gold and Silver): no lone starter beats four dragons; a team of four
-  // with an Ice move or two usually does.
+  // with an Ice move or two usually does. Since abilities (chapter 28) the Gyarados in front cuts
+  // the Attack of the Pokémon that faces it (Intimidate) and Dragonair may shed its paralysis
+  // (Shed Skin): physical teams win less (Feraligatr and two 0.6 -> 0.35).
   assert.ok(table['typhlosion 42 + jynx 36 + ampharos 38 + pidgeot 38'] >= 0.6, 'four with Jynx');
-  assert.ok(table['feraligatr 42 + ampharos 38 + pidgeot 38'] >= 0.45, 'Feraligatr and two');
-  assert.ok(table['meganium 42 + piloswine 38 + ampharos 38 + pidgeot 38'] >= 0.3, 'Meganium and three');
+  assert.ok(table['feraligatr 42 + ampharos 38 + pidgeot 38'] >= 0.3, 'Feraligatr and two');
+  assert.ok(table['meganium 42 + piloswine 38 + ampharos 38 + pidgeot 38'] >= 0.2, 'Meganium and three');
 });
 
 test("balance: Johto's Elite Four and Lance (chapter 20), win rates of typical teams are printed", () => {
@@ -865,7 +905,9 @@ test("balance: Johto's Elite Four and Lance (chapter 20), win rates of typical t
   // As in Kanto: three levels below the games (Lance six), each member alone with a fresh team.
   for (const id of ['will', 'koga', 'bruno']) assert.ok(table[id]['typhlosion 48 + 5'] >= 0.8, id);
   assert.ok(table.karen['typhlosion 48 + 5'] >= 0.7 && table.karen['meganium 48 + 5'] >= 0.7, 'Karen');
-  assert.ok(table.lance['typhlosion 48 + 5'] >= 0.5 && table.lance['feraligatr 48 + 3'] >= 0.6, 'Lance');
+  // Lance's Gyarados cuts the Attack of the Pokémon in front (Intimidate, chapter 28), his
+  // Dragonite do not flinch (Inner Focus): about a fifth fewer wins than before abilities.
+  assert.ok(table.lance['typhlosion 48 + 5'] >= 0.4 && table.lance['feraligatr 48 + 3'] >= 0.45, 'Lance');
   // The rematches: ten levels up against a team ten levels up.
   const up = t => t.map(([sp, l, m]) => [sp, l + 10, m]);
   const again = { karen: fight(member('karen-room', 'karen2'), up(TEAMS['typhlosion 48 + 5'])),
@@ -1034,7 +1076,7 @@ async function chapter5(st) {
   const F = G.Field;
   const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
   const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
-  const won = () => assert.equal(st.battles[st.battles.length - 1].outcome, 'win', st.battles[st.battles.length - 1].key);
+  const won = () => { const l = st.battles[st.battles.length - 1]; assert.equal(l.outcome, 'win', l.key + ' at levels ' + l.levels); };
   // The Game Corner: the Grunt by the poster, then the switch behind it.
   const stairs = G.Maps.get('celadon-gamecorner').warps.find(w => w.to === 'hideout-b1f');
   assert.ok(!F.test(stairs.if), 'the stairs are hidden at first');
@@ -1076,12 +1118,18 @@ async function chapter5(st) {
   assert.ok(F.flag('route12-snorlax'), 'Snorlax leaves the road');
   // Routes 13 to 15, then Fuchsia City.
   for (const id of ['route13', 'route14', 'route15']) await all(id);
-  // A Diglett from Diglett's Cave, grown into a Dugtrio, leads against Koga (the guide says Ground).
+  // A Diglett from Diglett's Cave, grown into a Dugtrio (for Sabrina and Giovanni later), and an
+  // Abra from Route 24, grown into a Kadabra, that leads against Koga (the guide says Psychic: his
+  // Koffing float over Ground moves).
   const dug = F.giveMon('dugtrio', 31);
   S.dex.seen[51] = 1; S.dex.caught[51] = 1;
   lead(st, 51);
   grind(st, 'route15', 37, 200);
   assert.equal(S.party[0], dug);
+  const kad = F.giveMon('kadabra', 31);
+  S.dex.seen[63] = 1; S.dex.caught[63] = 1; S.dex.seen[64] = 1; S.dex.caught[64] = 1;
+  lead(st, 64);
+  grind(st, 'route15', 37, 200);
   await all('fuchsia-gym');
   F.healAll();
   const before = S.player.money;
@@ -1091,6 +1139,7 @@ async function chapter5(st) {
   assert.deepEqual([...S.player.badges], [1, 2, 3, 4, 5]);
   assert.equal(F.count('tm06'), 1);
   assert.equal(S.player.money - before, 3700);
+  S.party.splice(S.party.indexOf(kad), 1); F.toBox(kad);          // to the PC: the team after Koga is as before
   assert.ok(F.flag('chapter-5-done'));
   assert.deepEqual(st.errors, [], 'no script errors');
 }
@@ -1128,7 +1177,7 @@ async function chapter6(st) {
   assert.ok(F.flag('got-hm04') && F.count('hm04') === 1 && F.count('gold-teeth') === 0, 'HM04 Strength');
   const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
   const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
-  const won = () => assert.equal(st.battles[st.battles.length - 1].outcome, 'win', st.battles[st.battles.length - 1].key);
+  const won = () => { const l = st.battles[st.battles.length - 1]; assert.equal(l.outcome, 'win', l.key + ' at levels ' + l.levels); };
   // Saffron City: a drink from the Celadon rooftop for the thirsty guard opens every gate.
   await run(st, 'route8', 'celadon.saffron-gate');
   assert.ok(!F.flag('saffron-open'), 'no drink, no entry');
@@ -1151,10 +1200,14 @@ async function chapter6(st) {
   assert.equal(F.count('card-key'), 1);
   W.player = { x: 5, y: 3, dir: 'right' };
   F.healAll();
+  // The rival's Gyarados and Growlithe cut the Attack of Parasect (Intimidate, chapter 28): the
+  // Alakazam from Koga's Gym comes out of the PC for him, in Magikarp's place.
+  swapBox(st, 129, 65);
   await run(st, 'silph-7f', 'silph.rival');
   assert.ok(F.flag('silph-rival'));
   assert.equal(st.battles[st.battles.length - 1].key, 'silph-7f:rival-silph');
   won();
+  swapBox(st, 65, 129);
   await run(st, 'silph-7f', 'silph.lapras');
   assert.ok(F.flag('got-lapras') && (S.party.concat(...S.boxes).some(m => m && m.sp === 131)), 'Lapras joined');
   await run(st, 'silph-9f', 'silph.nurse');
@@ -1193,7 +1246,7 @@ async function chapter7(st) {
   const F = G.Field;
   const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
   const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
-  const won = () => assert.equal(st.battles[st.battles.length - 1].outcome, 'win', st.battles[st.battles.length - 1].key);
+  const won = () => { const l = st.battles[st.battles.length - 1]; assert.equal(l.outcome, 'win', l.key + ' at levels ' + l.levels); };
   const has = sp => S.party.concat(...S.boxes).some(m => m && m.sp === sp && m.lvl === 30);
   // The rods: Vermilion's old fisherman, Fuchsia's fisherman, the angler by the Silence Bridge.
   await run(st, 'vermilion', 'vermilion.old-rod', [0]);
@@ -1269,7 +1322,7 @@ async function chapter8(st) {
   const F = G.Field;
   const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
   const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) await fight(mapId, t.id); };
-  const won = () => assert.equal(st.battles[st.battles.length - 1].outcome, 'win', st.battles[st.battles.length - 1].key);
+  const won = () => { const l = st.battles[st.battles.length - 1]; assert.equal(l.outcome, 'win', l.key + ' at levels ' + l.levels); };
   // The Bicycle: a million at the Bike Shop, or the Fan Club chairman's voucher for listening to him.
   await run(st, 'cerulean-bikeshop', 'cerulean.bike-shop');
   assert.equal(F.count('bicycle'), 0, 'nobody has a million');
@@ -1346,15 +1399,17 @@ async function chapter9(st) {
   await run(st, 'indigo-lobby', G.Maps.get('indigo-lobby').npcs.find(n => n.id === 'nurse').script, [0]);
   assert.deepEqual(plain(S.player.lastHeal), { map: 'indigo-lobby', spot: 'heal' });
   await run(st, 'lorelei-room', 'league.start');
-  const LEADS = { lorelei: 136, bruno: 47, agatha: 51, lance: 47 };
+  // Agatha's Gengar and Haunter float over Dugtrio's Ground moves (Levitate, chapter 28): Blastoise leads.
+  const LEADS = { lorelei: 136, bruno: 47, agatha: 9, lance: 47 };
   for (const id of ['lorelei', 'bruno', 'agatha', 'lance']) {
     lead(st, LEADS[id]);
     await fight(id + '-room', id);              // (healed first: a player uses items between the rooms)
     won();
     assert.ok(F.flag('e4-' + id), id + ' opens the door');
   }
-  // The Champion, then Professor Oak and the Hall of Fame.
-  lead(st, 47);
+  // The Champion, then Professor Oak and the Hall of Fame. Blastoise's Surf leads: the rival's
+  // Gyarados and Arcanine cut the Attack of a physical lead (Intimidate, chapter 28).
+  lead(st, 9);
   F.healAll();
   const money = S.player.money;
   await run(st, 'champion-room', 'league.champion');
@@ -1399,7 +1454,8 @@ async function chapter10(st) {
   await run(st, 'lorelei-room', 'league.start');
   const lorelei = G.Maps.get('lorelei-room').trainers;
   assert.ok(F.test(lorelei.find(t => t.id === 'lorelei2').if) && !F.test(lorelei.find(t => t.id === 'lorelei').if), 'the rematch team battles now');
-  const LEADS = { lorelei: 136, bruno: 47, agatha: 51, lance: 47 };
+  // Agatha's Gengar and Haunter float over Dugtrio's Ground moves (Levitate, chapter 28): Kangaskhan leads.
+  const LEADS = { lorelei: 136, bruno: 47, agatha: 115, lance: 47 };
   for (const id of ['lorelei', 'bruno', 'agatha', 'lance']) {
     lead(st, LEADS[id]);
     F.healAll();
@@ -2126,9 +2182,11 @@ async function chapter27(st) {
   const door = G.Maps.get('route22-gate').def.warps.find(w => w.to === 'route28');
   assert.ok(F.test(door.if), 'the way to Route 28');
   // Train on the mountain (the Exp. Share on the second Pokémon), then the summit.
-  // The PC: the young Pichu and Pikachu stay there; Blastoise and Kangaskhan from Kanto come along.
+  // The PC: the young Pichu and Pikachu stay there; Blastoise, Kangaskhan and Dugtrio from Kanto
+  // come along, and the whole team trains to 74 (the rival's Gyarados and Arcanine cut the Attack
+  // of the Pokémon in front: Intimidate, chapter 28; and Eruption weakens as Typhlosion's HP falls).
   for (const m of S.party.filter(m => m.lvl < 30)) { S.party.splice(S.party.indexOf(m), 1); F.toBox(m); }
-  for (const slug of ['blastoise', 'kangaskhan']) {
+  for (const slug of ['blastoise', 'kangaskhan', 'dugtrio']) {
     for (const box of S.boxes) {
       const i = box.findIndex(m => m && G.SPECIES[m.sp].slug === slug);
       if (i >= 0 && S.party.length < 6) { S.party.push(box[i]); box[i] = null; break; }
@@ -2136,6 +2194,8 @@ async function chapter27(st) {
   }
   G.FieldItems.give(S.party[S.party.length - 2], 'exp-share');
   grind(st, 'mt-silver-3f', 76, 3000);
+  for (const m of S.party.slice()) { lead(st, m.sp); grind(st, 'mt-silver-3f', 74, 3000); }
+  lead(st, 157);
   F.healAll();
   await run(st, 'mt-silver-summit', 'silver.rival');
   assert.equal(last().key, 'mt-silver-summit:rival-silver');
@@ -2145,6 +2205,63 @@ async function chapter27(st) {
   F.healAll();
   await run(st, 'mt-silver-summit', 'silver.rival', [0]);
   assert.equal(last().key, 'mt-silver-summit:rival-silver');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
+/** Chapter 28 after chapter 27: Oak's letter, the S.S. Aqua, Littleroot Town, Professor Birch, Routes 101 and 103. */
+async function chapter28(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  // Professor Oak has a letter from Professor Birch in Hoenn (the rival at the summit sent you).
+  assert.ok(st.log.some(l => /Gramps wants to see you/.test(l)), 'the rival mentions it');
+  await run(st, 'oak-lab', 'lab.oak');
+  assert.ok(F.flag('hoenn-invite'), "Oak's letter");
+  // Olivine City's pier: the S.S. Aqua to Littleroot Town, and back again.
+  await run(st, 'olivine', npc(st, 'olivine', 'ferry'), [0]);
+  assert.equal(st.W.map, 'littleroot');
+  assert.ok(F.flag('hoenn-arrived'));
+  await run(st, 'littleroot', npc(st, 'littleroot', 'sailor'), [0]);
+  assert.equal(st.W.map, 'olivine', 'the ship sails back');
+  await run(st, 'olivine', npc(st, 'olivine', 'ferry'), [0]);
+  assert.equal(st.W.map, 'littleroot');
+  assert.equal(F.obeyCap('hoenn'), null, 'everybody obeys until the Hoenn journey begins');
+  // The lab: Professor Birch is out. His house: his wife welcomes you.
+  await run(st, 'birch-lab', 'hoenn.aide');
+  assert.ok(st.log[st.log.length - 1].includes('Route 101'));
+  await run(st, 'birch-house', 'hoenn.mrs-birch');
+  // Route 101: the Zigzagoon chasing Professor Birch, and Mudkip from his bag (the party is full: it goes to the PC).
+  assert.equal(S.party.length, 6);
+  const levels = S.party.map(m => m.lvl).join();
+  await run(st, 'route101', 'hoenn.birch-chase', [2]);
+  assert.equal(last().key, 'wild:zigzagoon');
+  assert.equal(last().outcome, 'win');
+  assert.equal(last().levels.join(), levels, 'only the Pokémon from the bag battled');
+  assert.ok(F.flag('birch-saved') && F.flag('hoenn-start'));
+  assert.equal(st.W.map, 'birch-lab');
+  const mudkip = S.boxes.flat().find(m => m && m.sp === 258);
+  assert.ok(mudkip && mudkip.lvl >= 5 && mudkip.ot.name === S.player.name, 'Mudkip is yours, in the PC');
+  assert.equal(S.rival3.starter, 252, 'the rival takes Treecko, strong against Mudkip');
+  assert.equal(F.getVar('rival3'), 'may', 'a boy meets May');
+  assert.equal(F.obeyCap('hoenn'), 20, 'no Hoenn badge: up to Lv. 20');
+  assert.equal(F.obeyCap('johto'), null, 'Johto is done');
+  // At the lab's PC: Mudkip in, Dugtrio out; it trains on Route 101.
+  swapBox(st, 51, 258);
+  lead(st, 258);
+  grind(st, 'route101', 9, 300);
+  // Oldale Town: the way west (Route 102) is closed for now.
+  assert.ok(!G.Maps.get('oldale').def.connect.west, 'no Route 102 yet');
+  await run(st, 'oldale', 'hoenn.sketcher');
+  // Route 103: May; then the lab: a Pokédex for Hoenn and five Poké Balls.
+  const balls = F.count('poke-ball');
+  await run(st, 'route103', 'hoenn.rival103');
+  assert.equal(last().key, 'route103:rival3-103');
+  console.log('[story] the rival on Route 103:', last().outcome, 'at levels', last().levels.join());
+  assert.ok(F.flag('rival3-met') && F.flag('hoenn-dex') && F.flag('chapter-28-done'));
+  assert.equal(F.count('poke-ball'), balls + 5);
+  assert.equal(st.W.map, 'birch-lab');
+  const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
+  assert.equal(back.rival3.starter, 252, "the save keeps the rival's starter");
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
@@ -2229,7 +2346,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 27: Johto, from Professor Elm to Johto's League and its post-game, to the summit of Mt. Silver", async () => {
+test("chapters 11 to 28: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then the S.S. Aqua to Hoenn", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2258,4 +2375,5 @@ test("chapters 11 to 27: Johto, from Professor Elm to Johto's League and its pos
   await chapter25(st);
   await chapter26(st);
   await chapter27(st);
+  await chapter28(st);
 });

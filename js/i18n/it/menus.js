@@ -185,5 +185,15 @@ G.I18n.add({
   "Take": "Prendi",
   "Took {item} from {mon}.": "Hai preso {item} da {mon}.",
   "Give {mon} which item?": "Quale strumento dai a {mon}?",
-  "None": "Nessuno"
+  "None": "Nessuno",
+  "Stone Badge": "Medaglia Pietra",
+  "Knuckle Badge": "Medaglia Pugno",
+  "Dynamo Badge": "Medaglia Dinamo",
+  "Heat Badge": "Medaglia Calore",
+  "Balance Badge": "Medaglia Equilibrio",
+  "Feather Badge": "Medaglia Piuma",
+  "Mind Badge": "Medaglia Mente",
+  "Rain Badge": "Medaglia Pioggia",
+  "Ability": "Abilità",
+  "Hoenn": "Hoenn"
 }, "it");

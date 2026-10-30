@@ -8,7 +8,7 @@ G.SpecialMoves = (() => {
   const me = bm => ({ side: bm.side, uid: bm.mon.uid });
   const fail = b => { b.emit('fail', {}); return false; };
   const hpPct = bm => bm.mon.hp / G.Mon.maxHp(bm.mon);
-  const W = b => b.weather && b.weather.w;
+  const W = b => G.Abilities.weather(b);              // none while Cloud Nine or Air Lock is out
   /** How many times a rolling move (Rollout) already hit in a row. */
   const rolls = (u, id) => (u.vol.rampage && u.vol.rampage.move === id ? u.vol.rampage.n : 0);
 
@@ -63,7 +63,8 @@ G.SpecialMoves = (() => {
                         const f = b.sideOf(t).field;
                         if (f.reflect || f.lightScreen) { delete f.reflect; delete f.lightScreen; b.emit('screensBroken', { side: t.side }); } } },
     'tri-attack':   { after: (b, u, t, M, res) => {
-                        if (res.total > 0 && b.alive(t) && !t.vol.substitute && b.rng.pct(20)) b.inflict(t, ['brn', 'par', 'frz'][b.rng.int(0, 2)], { source: u, silent: true }); } },
+                        if (res.total > 0 && b.alive(t) && !t.vol.substitute && !G.Abilities.shieldDust(t) && b.rng.pct(G.Abilities.chance(u, 20)))
+                          b.inflict(t, ['brn', 'par', 'frz'][b.rng.int(0, 2)], { source: u, silent: true }); } },
     'low-kick':     { power: (b, u, t) => { const kg = G.SPECIES[t.mon.sp].w / 10;
                         return kg < 10 ? 20 : kg < 25 ? 40 : kg < 50 ? 60 : kg < 100 ? 80 : kg < 200 ? 100 : 120; } },
     'return':       { power: (b, u) => Math.max(1, Math.floor((u.mon.friendship || 0) * 10 / 25)) },
@@ -74,9 +75,16 @@ G.SpecialMoves = (() => {
     'frustration':  { power: (b, u) => Math.max(1, Math.floor((255 - (u.mon.friendship || 0)) * 10 / 25)) },
     'hidden-power': { power: (b, u) => hiddenPower(u.mon).pow, moveType: (b, u) => hiddenPower(u.mon).type },
     'facade':       { power: (b, u, t, M) => (['psn', 'tox', 'par', 'brn'].includes(u.mon.status) ? M.pow * 2 : M.pow) },
+    // Eruption and Water Spout: weaker as the user's HP falls (150 at full HP).
+    'eruption':     { power: (b, u, t, M) => Math.max(1, Math.floor(M.pow * u.mon.hp / b.maxHp(u))) },
+    'water-spout':  { power: (b, u, t, M) => Math.max(1, Math.floor(M.pow * u.mon.hp / b.maxHp(u))) },
+    // Smelling Salts: double against a paralysed target, and it cures it.
+    'smelling-salts': { power: (b, u, t, M) => (t.mon.status === 'par' ? M.pow * 2 : M.pow),
+                        after: (b, u, t) => { if (b.alive(t) && t.mon.status === 'par') { t.mon.status = null; b.emit('cure', { side: t.side, uid: t.mon.uid }); } } },
     'revenge':      { power: (b, u, t, M) => (u.lastHit && u.lastHit.from !== u.side ? M.pow * 2 : M.pow) },
     // Rollout rolls on for five turns (a miss stops it), doubling each time; twice as hard after Defense Curl.
     'rollout':      { roll: true, power: (b, u, t, M) => M.pow * 2 ** rolls(u, 'rollout') * (u.vol.curl ? 2 : 1) },
+    'ice-ball':     { roll: true, power: (b, u, t, M) => M.pow * 2 ** rolls(u, 'ice-ball') * (u.vol.curl ? 2 : 1) },
     'defense-curl': { after: (b, u) => { u.vol.curl = true; } },
     // Fury Cutter doubles with each hit in a row, up to 160 (40, 80, 160: Generation 6 on).
     'fury-cutter':  { power: (b, u, t, M) => { u.vol.cutter = u.lastMoveHit === 'fury-cutter' ? Math.min(3, (u.vol.cutter || 0) + 1) : 0; return Math.min(160, M.pow * 2 ** u.vol.cutter); },
@@ -99,7 +107,7 @@ G.SpecialMoves = (() => {
     // ---------- status moves with their own rules ----------
     'focus-energy': { use: (b, u) => { if (u.vol.focusEnergy) return fail(b); u.vol.focusEnergy = true; b.emit('pumped', me(u)); return {}; } },
     'rest':         { use: (b, u) => {
-                        if (u.mon.hp >= G.Mon.maxHp(u.mon) || u.mon.status === 'slp') return fail(b);
+                        if (u.mon.hp >= G.Mon.maxHp(u.mon) || u.mon.status === 'slp' || G.Abilities.blocksStatus(u, 'slp')) return fail(b);   // Insomnia
                         u.mon.status = 'slp'; u.mon.slp = 2; u.vol.nightmare = false;
                         b.emit('rest', me(u)); b.heal(u, G.Mon.maxHp(u.mon), 'rest'); return {}; } },
     'substitute':   { use: (b, u) => {
@@ -264,6 +272,7 @@ G.SpecialMoves = (() => {
       if (b.weather && b.weather.w === w) return fail(b);
       b.weather = { w, turns: 5 };
       b.emit('weather', { w });
+      G.Abilities.forecast(b);
       return {};
     };
   }
@@ -275,7 +284,7 @@ G.SpecialMoves = (() => {
     // status: no effect in a single battle without abilities / held items yet
     'baton-pass', 'camouflage', 'conversion-2', 'grudge', 'imprison', 'mimic', 'recycle', 'role-play',
     'skill-swap', 'snatch', 'spikes', 'taunt', 'torment', 'transform', 'trick', 'mud-sport', 'water-sport',
-    'sketch', 'wish',
+    'sketch', 'wish', 'assist', 'nature-power',
     'aqua-ring', 'copycat', 'embargo', 'gastro-acid', 'guard-swap', 'heal-block', 'healing-wish', 'lucky-chant',
     'magic-coat', 'magnet-rise', 'power-swap', 'power-trick', 'psycho-shift', 'tailwind', 'toxic-spikes', 'worry-seed',
     // damaging: just their damage (no delayed hit, uproar lock, item theft, switch hit)

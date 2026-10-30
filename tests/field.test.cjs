@@ -838,6 +838,46 @@ test("Mt. Silver: the gate's south door opens after chapter 26; Route 28 runs we
   assert.ok(W.map.def.snow && W.map.palette === 'snow', 'snow at the summit');
 });
 
+test('Hoenn (chapter 28): the S.S. Aqua to Littleroot, Professor Birch on Route 101 with a Pokémon from his bag, Route 102 closed', async () => {
+  const { G, W } = world(['js/content/johto/olivine.js', 'js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.giveMon('typhlosion', 60, { moves: ['flamethrower'] });              // the Champion's own team
+  const until = async ok => { for (let i = 0; i < 300 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  // Olivine's pier: before Professor Oak's letter the sailor only talks.
+  W.load('olivine', { x: 19, y: 29, dir: 'down' });
+  await pump(W, W.interact());
+  assert.equal(W.map.id, 'olivine');
+  F.setFlag('hoenn-invite');
+  W.interact();
+  await until(() => W.map.id === 'littleroot');
+  assert.deepEqual([W.player.x, W.player.y], [7, 20], "on Littleroot's pier");
+  await until(() => F.flag('hoenn-arrived'));
+  for (let i = 0; i < 20; i++) { W.update(0.05); await tick(); }      // the sailor's last words
+  // North to Route 101: Professor Birch and the Zigzagoon. Only the Pokémon from his bag battles.
+  const got = [];
+  W.onEncounter = async (sp, lvl, area, info) => { got.push([G.Maps.species(sp), lvl, info.player.party.map(m => m.sp)]); return 'win'; };
+  W.load('littleroot', { x: 11, y: 0, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'route101');
+  assert.deepEqual([W.player.x, W.player.y], [9, 17]);
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('hoenn-start'));
+  assert.deepEqual(plain(got), [[263, 2, [252]]], 'Zigzagoon Lv. 2 against Treecko alone');
+  assert.equal(W.map.id, 'birch-lab');
+  assert.deepEqual(plain(F.party().map(m => m.sp)), [157, 252], 'Treecko joins the team');
+  assert.equal(F.obeyCap('hoenn'), 20);
+  assert.equal(G.Field.save.rival3.starter, 255, 'the rival takes Torchic');
+  // Oldale Town: a man sketching footprints blocks the way west to Route 102.
+  W.load('oldale', { x: 2, y: 10, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked');
+  // Route 103 is north of Oldale, Route 101 south.
+  W.load('oldale', { x: 10, y: 0, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'route103');
+  assert.deepEqual([W.player.x, W.player.y], [10, 15]);
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

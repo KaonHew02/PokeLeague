@@ -94,5 +94,8 @@ G.I18n.add({
   "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Obrigado por jogar! Norman, o Líder de Ginásio de Petalburg, espera por você em uma próxima atualização.",
   "Chapter 33 complete!": "Capítulo 33 concluído!",
   "{player} visited Wally in Verdanturf Town, earned the Balance Badge from Norman and met Steven again across the water on Route 118.": "{player} visitou Wally em Verdanturf, ganhou a Insígnia Equilíbrio de Norman e reencontrou Steven do outro lado da água na Rota 118.",
-  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Obrigado por jogar! A Rota 119, o Instituto Meteorológico e Fortree esperam por você em uma próxima atualização."
+  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Obrigado por jogar! A Rota 119, o Instituto Meteorológico e Fortree esperam por você em uma próxima atualização.",
+  "Chapter 34 complete!": "Capítulo 34 concluído!",
+  "{player} drove Team Aqua out of the Weather Institute, battled {rival3} on Route 119, uncovered a hidden Kecleon with the Devon Scope and earned the Feather Badge from Winona.": "{player} expulsou a Equipe Aqua do Instituto Meteorológico, batalhou com {rival3} na Rota 119, revelou um Kecleon escondido com o Devon Scope e ganhou a Insígnia Pena de Winona.",
+  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "Obrigado por jogar! A Rota 121 e Lilycove esperam por você em uma próxima atualização."
 }, "pt-BR");

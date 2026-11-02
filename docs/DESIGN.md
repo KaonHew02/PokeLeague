@@ -1647,11 +1647,35 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   tunnel's rock, the channel without Surf, Steven's trigger and Norman's students appearing with
   the fourth badge.
 
-### After chapter 33
+- **Chapter 34** ✅, Fortree and the Feather Badge: Route 118's road north opens. Route 119 (tall
+  grass, a river to Surf and fish, four Trainers) passes the Weather Institute, which Team Aqua has
+  taken over: two grunts on 1F, one on 2F and the Admin Shelly (class `aqua-admin`); beaten, she
+  leaves (`institute.shelly-win`, flag `institute-saved`) and the institute's chief gives a Castform
+  Lv. 25 (flag `got-castform`). Further north the rival battles you (`route119.rival`, can be lost,
+  flag `rival3-119`; the team in `G.Hoenn.RIVAL_TEAM_119`: Pelipper or Lombre and Numel at 29, the
+  starter's second stage at 31). Fortree City (the palette `forest`; a Center, a Mart, two houses):
+  something unseen stands in the Gym's doorway, a locked warp (`fortree.unseen`) that opens once
+  flag `kecleon-gone` is set. On Route 120 (a bridge, two Trainers; Route 121 closed) Steven shows
+  a hidden Kecleon with the Devon Scope (a wild Kecleon Lv. 30), then gives you the Scope (key item
+  `devon-scope`, flag `got-devon-scope`); with it the Gym's Kecleon shows itself and you battle it.
+  Winona's Gym (Bird Keepers Jared, Darius, Humberto; Winona: Swablu 29, Tropius 29, Pelipper 30,
+  Skarmory 31, Altaria 33, Emerald's moves, a Super Potion): the Feather Badge (badge 22: up to
+  Lv. 60) and TM40 Aerial Ace, then `ending(34)`. Files: `js/content/hoenn/fortree.js`
+  (translations `hoenn-fortree`); `verdanturf.js` (Route 118's road north).
+- **Engine and data for chapter 34:** the key item `devon-scope` (`--region hoenn`); people
+  `shelly`, `winona`, the class `aqua-admin`; the Town Map's Routes 119 and 120. A locked door with
+  `to` and `if` opens when its condition holds (already in field.js since Kanto). `[balance]` vs
+  Winona: Emerald's five Pokémon as they are; Swablu's Perish Song knocks out a lone Pokémon that
+  cannot switch (every lone final-stage starter at 36 loses) and Altaria finishes a pair; a team of
+  three with a Lv. 32 Manectric and a Lv. 34 Golem (Electric and Rock, the Gym guide's advice) wins
+  80% with Swampert, 73% with Sceptile, 98% with Blaziken. The story test's Marshtomp beats the
+  rival at 34 and Winona at 35. `tests/field.test.cjs` walks the new roads, the institute's door,
+  the rival's trigger, the unseen doorway before and after the Devon Scope, and Steven's Kecleon.
 
-1. **Hoenn, chapter 34:** Route 119 north of Route 118 (tall grass, rain, the rival), the Weather
-   Institute taken over by Team Aqua (Castform), Fortree City and Winona's Feather Badge; the
-   Kecleon on Route 120 and the Devon Scope from Steven.
+### After chapter 34
+
+1. **Hoenn, chapter 35:** Route 121 and Lilycove City (the Department Store, the Contest Hall, Team
+   Aqua's hideout in the cove), Mt. Pyre (Team Magma and Team Aqua take the orbs), the Safari Zone.
 2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
    abilities outside battle (Pickup, Synchronize and the others on wild encounters), Dive and
    the other Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.

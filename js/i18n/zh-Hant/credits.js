@@ -94,5 +94,8 @@ G.I18n.add({
   "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "感謝遊玩！橙華市的道館館主千里，將在之後的更新中等著你。",
   "Chapter 33 complete!": "第三十三章完成！",
   "{player} visited Wally in Verdanturf Town, earned the Balance Badge from Norman and met Steven again across the water on Route 118.": "{player}去綠蔭鎮看望了滿充，從千里那裡贏得了平衡徽章，還在118號道路的對岸再次遇見了大吾。",
-  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "感謝遊玩！119號道路、天氣研究所和茵鬱市將在之後的更新中等著你。"
+  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "感謝遊玩！119號道路、天氣研究所和茵鬱市將在之後的更新中等著你。",
+  "Chapter 34 complete!": "第三十四章完成！",
+  "{player} drove Team Aqua out of the Weather Institute, battled {rival3} on Route 119, uncovered a hidden Kecleon with the Devon Scope and earned the Feather Badge from Winona.": "{player}把海洋隊趕出了天氣研究所，在119號道路和{rival3}對戰，用得文偵測鏡找出了躲起來的變隱龍，還從娜琪那裡贏得了羽翼徽章。",
+  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "感謝遊玩！121號道路和水靜市將在之後的更新中等著你。"
 }, "zh-Hant");

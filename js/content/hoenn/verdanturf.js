@@ -4,7 +4,7 @@
  * boyfriend, who is digging the Rusturf Tunnel from Rustboro's side (rusturf.js: its last rock needs
  * Rock Smash). East of Mauville, Route 118 is cut by a sea channel: with Surf, the far bank, where
  * Steven waits (flag steven-118) and talks of the strange weather and of Route 119 and Fortree City,
- * then `ending(33)`. Route 119 is closed for now. Norman's Gym is in petalburg.js.
+ * then `ending(33)`. Route 119 (north, fortree.js) opens in chapter 34. Norman's Gym is in petalburg.js.
  */
 (() => {
   const T = s => G.T(s);
@@ -142,15 +142,15 @@
   G.Maps.def(Object.assign({
     id: 'route118', loc: 'hoenn-route-118', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
-      'TTTTTTTTTTTTTTT~~~~~~~TTTTTTTTTTTTTTTTTT',
-      'T............::~~~~~~~::.......S..TTTTTT',
-      'T.."""""""...::~~~~~~~::..........TTTTTT',
-      'T.."""""""...::~~~~~~~::.."""""""".....T',
-      'T.."""""""...::~~~~~~~::.."""""""".....T',
-      'T.."""""""...::~~~~~~~::.."""""""".....T',
-      'T.."""""""...::~~~~~~~::.."""""""".....T',
-      'T............::~~~~~~~::.."""""""".....T',
-      'T..........S.::~~~~~~~::...............T',
+      'TTTTTTTTTTTTTTT~~~~~~~TTTTTT,,TTTTTTTTTT',
+      'T............::~~~~~~~::....,,.S..TTTTTT',
+      'T.."""""""...::~~~~~~~::....,,....TTTTTT',
+      'T.."""""""...::~~~~~~~::.."",,"""".....T',
+      'T.."""""""...::~~~~~~~::.."",,"""".....T',
+      'T.."""""""...::~~~~~~~::.."",,"""".....T',
+      'T.."""""""...::~~~~~~~::.."",,"""".....T',
+      'T............::~~~~~~~::.."",,"""".....T',
+      'T..........S.::~~~~~~~::....,,.........T',
       ',,,,,,,,,,,,,::~~~~~~~::...............T',
       ',,,,,,,,,,,,,::~~~~~~~::...............T',
       'T............::~~~~~~~::...............T',
@@ -163,10 +163,10 @@
       'T............::~~~~~~~::...............T',
       'TTTTTTTTTTTTTTT~~~~~~~TTTTTTTTTTTTTTTTTT'
     ],
-    connect: { west: { map: 'mauville', offset: 0 } },
+    connect: { west: { map: 'mauville', offset: 0 }, north: { map: 'route119', offset: 14 } },
     signs: {
       '11,8': 'Route 118. West: Mauville City. The road goes on across the water.',
-      '31,1': 'North: Route 119, to Fortree City. The road is closed for now.'
+      '31,1': 'North: Route 119, to the Weather Institute and Fortree City.'
     },
     triggers: [{ x: 22, y: 1, w: 1, h: 18, if: '!steven-118', script: 'route118.steven' }],
     trainers: [

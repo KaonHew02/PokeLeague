@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 34) return { title: T('Chapter 34 complete!'),
+      done: fmt('{player} drove Team Aqua out of the Weather Institute, battled {rival3} on Route 119, uncovered a hidden Kecleon with the Devon Scope and earned the Feather Badge from Winona.', { player, rival3: G.Field.vars().rival3 }),
+      next: T('Thank you for playing! Route 121 and Lilycove City wait in a future update.') };
     if (n === 33) return { title: T('Chapter 33 complete!'),
       done: fmt('{player} visited Wally in Verdanturf Town, earned the Balance Badge from Norman and met Steven again across the water on Route 118.', { player }),
       next: T('Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.') };

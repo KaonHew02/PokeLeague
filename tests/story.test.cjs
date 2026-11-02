@@ -457,6 +457,28 @@ function leaderRate(G, mapId, id) {
   };
 }
 
+test('balance: Winona in Fortree (chapter 34), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'fortree-gym', 'winona');
+  // Moves a player keeps (Surf from the HM; the default sets at Lv. 36 are the last four learned).
+  const SWAMPERT = ['surf', 'mud-shot', 'take-down', 'protect'], SCEPTILE = ['leaf-blade', 'quick-attack', 'pursuit', 'screech'];
+  const BLAZIKEN = ['blaze-kick', 'double-kick', 'peck', 'bulk-up'], MANECTRIC = ['spark', 'thunder-wave', 'quick-attack', 'bite'];
+  const GOLEM = ['rock-throw', 'magnitude', 'rollout', 'defense-curl'];
+  const table = {
+    'swampert 36': rate([[260, 36, SWAMPERT]]), 'sceptile 36': rate([[254, 36, SCEPTILE]]), 'blaziken 36': rate([[257, 36, BLAZIKEN]]),
+    'swampert 36 + manectric 32': rate([[260, 36, SWAMPERT], [310, 32, MANECTRIC]]),
+    'swampert 36 + manectric 32 + golem 34': rate([[260, 36, SWAMPERT], [310, 32, MANECTRIC], [76, 34, GOLEM]]),
+    'sceptile 36 + manectric 32 + golem 34': rate([[254, 36, SCEPTILE], [310, 32, MANECTRIC], [76, 34, GOLEM]]),
+    'blaziken 36 + manectric 32 + golem 34': rate([[257, 36, BLAZIKEN], [310, 32, MANECTRIC], [76, 34, GOLEM]])
+  };
+  console.log('[balance] vs Winona:', JSON.stringify(table));
+  // Emerald's five Pokémon as they are. Swablu's Perish Song knocks out a lone Pokémon that cannot
+  // switch, and Altaria's Dragon Dance and Earthquake finish off a pair; a team of three with Electric
+  // and Rock types (the Gym guide's advice) wins whichever starter leads it.
+  for (const k of ['swampert', 'sceptile', 'blaziken']) assert.ok(table[k + ' 36 + manectric 32 + golem 34'] >= 0.6, k + ' with a team of three');
+  assert.ok(table['swampert 36'] < 0.1 && table['sceptile 36'] < 0.1 && table['blaziken 36'] < 0.1, 'a lone starter falls to Perish Song');
+});
+
 test('balance: Norman in Petalburg (chapter 33), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = leaderRate(G, 'petalburg-gym', 'norman-gym');
@@ -2635,6 +2657,52 @@ async function chapter33(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter34(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // North of Route 118: Route 119, and Team Aqua in the Weather Institute.
+  await all('route119');
+  await fight('institute-1f', 'grunt1'); won();
+  await fight('institute-1f', 'grunt2'); won();
+  await fight('institute-2f', 'grunt3'); won();
+  await fight('institute-2f', 'shelly'); won();
+  assert.ok(F.flag('institute-saved') && F.flag('got-castform'), 'the institute is saved, Castform given');
+  assert.ok(st.log.some(l => l.includes('Castform')));
+  // Further north, the rival.
+  F.healAll();
+  await run(st, 'route119', 'route119.rival');
+  assert.equal(last().key, 'route119:rival3-119');
+  console.log('[story] the rival on Route 119:', last().outcome, 'at levels', last().levels.join());
+  assert.ok(F.flag('rival3-119'));
+  // Fortree City: something unseen in the Gym's doorway. Steven and the Devon Scope on Route 120.
+  await run(st, 'fortree', 'fortree.unseen');
+  assert.match(st.log[st.log.length - 1], /cannot see/);
+  assert.ok(!F.flag('kecleon-gone'));
+  await all('route120');
+  await run(st, 'route120', npc(st, 'route120', 'steven'));
+  assert.ok(F.flag('got-devon-scope') && F.count('devon-scope') === 1, 'the Devon Scope');
+  await run(st, 'fortree', 'fortree.unseen');
+  assert.ok(F.flag('kecleon-gone'), 'the Kecleon at the Gym is gone');
+  // Winona's Gym.
+  grind(st, 'route119', 35, 400);
+  await all('fortree-gym');
+  F.healAll();
+  const money = S.player.money, tm40 = F.count('tm40');
+  await run(st, 'fortree-gym', [['battle', 'fortree-gym:winona']]);
+  won();
+  console.log('[story] Winona: won at levels', last().levels.join());
+  assert.ok(S.player.badges.includes(22), 'the Feather Badge');
+  assert.equal(F.obeyCap('hoenn'), 60, 'six Hoenn badges: up to Lv. 60');
+  assert.equal(F.count('tm40'), tm40 + 1);
+  assert.equal(S.player.money - money, 3300);
+  assert.ok(F.flag('chapter-34-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2716,7 +2784,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 33: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Balance Badge", async () => {
+test("chapters 11 to 34: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Feather Badge", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2751,4 +2819,5 @@ test("chapters 11 to 33: Johto, from Professor Elm to Johto's League and its pos
   await chapter31(st);
   await chapter32(st);
   await chapter33(st);
+  await chapter34(st);
 });

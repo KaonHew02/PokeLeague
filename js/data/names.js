@@ -968,6 +968,7 @@ G.NAMES = {
     letter: ["Letter","Carta a Máximo","Lettre à Pierre","Lettera","给大吾的信","給大吾的信"],
     meteorite: ["Meteorite","Meteorito","Météorite","Meteorite","陨石","隕石"],
     "go-goggles": ["Go-Goggles","Gafas Aislantes","Lunettes Sable","Occhialoni","ＧＯＧＯ护目镜","ＧＯＧＯ護目鏡"],
+    "devon-scope": ["Devon Scope","Detector Devon","Devon Scope","Devonscopio","得文侦测镜","得文偵測鏡"],
     hm01: ["HM01","MO01","CS01","MN01","秘传学习器０１","秘傳學習器０１"],
     hm02: ["HM02","MO02","CS02","MN02","秘传学习器０２","秘傳學習器０２"],
     hm03: ["HM03","MO03","CS03","MN03","秘传学习器０３","秘傳學習器０３"],

@@ -49,5 +49,5 @@ G.I18n.add({
   "Route 117. West: Verdanturf Town. East: Mauville City.": "Route 117. Ouest : Vergazon. Est : Lavandia.",
   "Verdanturf Town. A town of fresh air, sheltered from the ash of Mt. Chimney.": "Vergazon. Une ville à l'air pur, à l'abri de la cendre du Mont Chimnée.",
   "Route 118. West: Mauville City. The road goes on across the water.": "Route 118. Ouest : Lavandia. La route continue de l'autre côté de l'eau.",
-  "North: Route 119, to Fortree City. The road is closed for now.": "Nord : Route 119, vers Cimetronelle. La route est fermée pour l'instant."
+  "North: Route 119, to the Weather Institute and Fortree City.": "Nord : Route 119, vers l'Institut Météo et Cimetronelle."
 }, "fr");

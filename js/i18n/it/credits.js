@@ -94,5 +94,8 @@ G.I18n.add({
   "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Grazie per aver giocato! Norman, il Capopalestra di Petalipoli, ti aspetta in un prossimo aggiornamento.",
   "Chapter 33 complete!": "Capitolo 33 completato!",
   "{player} visited Wally in Verdanturf Town, earned the Balance Badge from Norman and met Steven again across the water on Route 118.": "{player} ha fatto visita a Valerio a Mentania, ha vinto la Medaglia Equilibrio di Norman e ha ritrovato Rocco al di là dell'acqua sul Percorso 118.",
-  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Grazie per aver giocato! Il Percorso 119, l'Istituto Meteo e Forestopoli ti aspettano in un prossimo aggiornamento."
+  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Grazie per aver giocato! Il Percorso 119, l'Istituto Meteo e Forestopoli ti aspettano in un prossimo aggiornamento.",
+  "Chapter 34 complete!": "Capitolo 34 completato!",
+  "{player} drove Team Aqua out of the Weather Institute, battled {rival3} on Route 119, uncovered a hidden Kecleon with the Devon Scope and earned the Feather Badge from Winona.": "{player} ha cacciato il Team Idro dall'Istituto Meteo, ha lottato contro {rival3} sul Percorso 119, ha scoperto un Kecleon nascosto con il Devonscopio e ha vinto la Medaglia Piuma di Alice.",
+  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "Grazie per aver giocato! Il Percorso 121 e Porto Alghepoli ti aspettano in un prossimo aggiornamento."
 }, "it");

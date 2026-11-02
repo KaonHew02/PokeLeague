@@ -137,7 +137,7 @@ REGIONS['hoenn'] = dict(REGIONS['johto'], **{
                       'lets-go-pikachu', 'lets-go-eevee'],
     'text_vgs': ['firered-leafgreen', 'heartgold-soulsilver', 'emerald', 'ruby-sapphire', 'lets-go-pikachu-lets-go-eevee'],
     'items': REGIONS['johto']['items'] + ['deep-sea-tooth', 'deep-sea-scale', 'devon-goods', 'letter',
-                                          'meteorite', 'go-goggles'],
+                                          'meteorite', 'go-goggles', 'devon-scope'],
     'regions': REGIONS['johto']['regions'] + [('hoenn', ['emerald', 'ruby', 'sapphire'])],
 })
 

@@ -202,6 +202,8 @@ G.ITEM_FX = {
   // Chapter 32: the Meteorite Team Magma took from Meteor Falls, the Go-Goggles for the desert's sandstorm.
   'meteorite':     { key: 1 },
   'go-goggles':    { key: 1 },
+  // Chapter 34: Steven's Devon Scope shows Pokémon that cannot be seen (the Kecleon at Fortree's Gym).
+  'devon-scope':   { key: 1 },
 
   // ---- fossils ----
   'helix-fossil':  { fossil: 138 },

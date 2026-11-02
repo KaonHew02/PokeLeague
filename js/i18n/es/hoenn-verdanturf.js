@@ -49,5 +49,5 @@ G.I18n.add({
   "Route 117. West: Verdanturf Town. East: Mauville City.": "Ruta 117. Oeste: Pueblo Verdegal. Este: Ciudad Malvalona.",
   "Verdanturf Town. A town of fresh air, sheltered from the ash of Mt. Chimney.": "Pueblo Verdegal. Un pueblo de aire puro, a salvo de la ceniza del Monte Cenizo.",
   "Route 118. West: Mauville City. The road goes on across the water.": "Ruta 118. Oeste: Ciudad Malvalona. El camino sigue al otro lado del agua.",
-  "North: Route 119, to Fortree City. The road is closed for now.": "Norte: Ruta 119, hacia Ciudad Arborada. El camino está cerrado por ahora."
+  "North: Route 119, to the Weather Institute and Fortree City.": "Norte: Ruta 119, hacia el Instituto Meteorológico y Ciudad Arborada."
 }, "es");

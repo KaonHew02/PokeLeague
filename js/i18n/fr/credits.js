@@ -94,5 +94,8 @@ G.I18n.add({
   "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Merci d'avoir joué ! Norman, le Champion d'Arène de Clémenti-Ville, t'attend dans une prochaine mise à jour.",
   "Chapter 33 complete!": "Chapitre 33 terminé !",
   "{player} visited Wally in Verdanturf Town, earned the Balance Badge from Norman and met Steven again across the water on Route 118.": "{player} a rendu visite à Timmy à Vergazon, a gagné le Badge Balance de Norman et a retrouvé Pierre de l'autre côté de l'eau sur la Route 118.",
-  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Merci d'avoir joué ! La Route 119, l'Institut Météo et Cimetronelle t'attendent dans une prochaine mise à jour."
+  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Merci d'avoir joué ! La Route 119, l'Institut Météo et Cimetronelle t'attendent dans une prochaine mise à jour.",
+  "Chapter 34 complete!": "Chapitre 34 terminé !",
+  "{player} drove Team Aqua out of the Weather Institute, battled {rival3} on Route 119, uncovered a hidden Kecleon with the Devon Scope and earned the Feather Badge from Winona.": "{player} a chassé la Team Aqua de l'Institut Météo, a affronté {rival3} sur la Route 119, a démasqué un Kecleon caché avec le Devon Scope et a gagné le Badge Plume d'Alizée.",
+  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "Merci d'avoir joué ! La Route 121 et Nénucrique t'attendent dans une prochaine mise à jour."
 }, "fr");

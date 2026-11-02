@@ -49,5 +49,5 @@ G.I18n.add({
   "Route 117. West: Verdanturf Town. East: Mauville City.": "117号道路。西：绿荫镇。东：紫堇市。",
   "Verdanturf Town. A town of fresh air, sheltered from the ash of Mt. Chimney.": "绿荫镇。空气清新，不受烟囱山火山灰影响的小镇。",
   "Route 118. West: Mauville City. The road goes on across the water.": "118号道路。西：紫堇市。道路在水的另一边继续延伸。",
-  "North: Route 119, to Fortree City. The road is closed for now.": "北：119号道路，通往茵郁市。道路目前封闭。"
+  "North: Route 119, to the Weather Institute and Fortree City.": "北：119号道路，通往天气研究所和茵郁市。"
 }, "zh-Hans");

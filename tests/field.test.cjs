@@ -1155,6 +1155,66 @@ test('Hoenn (chapter 33): Routes 117 and 118, Verdanturf and the Rusturf Tunnel,
   assert.equal(got[0], 'petalburg-gym:randall');
 });
 
+test('Hoenn (chapter 34): Route 119 and the Weather Institute, the rival, Fortree\'s unseen doorway, the Devon Scope on Route 120', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.giveMon('marshtomp', 35, { moves: ['water-gun', 'mud-shot'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to); };
+  const got = [], wild = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  W.onEncounter = async (sp, lvl) => { wild.push(G.Maps.species(sp) + ':' + lvl); return 'win'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  // North from Route 118 to Route 119, on to Fortree City, east to Route 120.
+  W.load('route118', { x: 28, y: 0, dir: 'up' });
+  await cross('up', 'route119');
+  assert.deepEqual([W.player.x, W.player.y], [14, 55]);
+  W.load('route119', { x: 10, y: 0, dir: 'up' });
+  await cross('up', 'fortree');
+  assert.deepEqual([W.player.x, W.player.y], [14, 23]);
+  W.load('fortree', { x: 31, y: 10, dir: 'right' });
+  await cross('right', 'route120');
+  assert.deepEqual([W.player.x, W.player.y], [0, 10]);
+  // Into the Weather Institute.
+  W.load('route119', { x: 5, y: 34, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'institute-1f');
+  await settle();
+  // With the institute saved, the rival waits on the way north.
+  F.setFlag('institute-saved');
+  W.load('route119', { x: 14, y: 9, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('rival3-119'));
+  assert.equal(got[got.length - 1], 'route119:rival3-119');
+  await settle();
+  // Fortree's Gym: something unseen stands in the doorway.
+  W.load('fortree', { x: 24, y: 8, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked');
+  await settle();
+  assert.ok(!F.flag('kecleon-gone'));
+  // Steven on Route 120 shows the hidden Kecleon there and gives you the Devon Scope.
+  W.load('route120', { x: 12, y: 10, dir: 'right' });
+  W.interact();
+  await until(() => F.flag('got-devon-scope'));
+  await settle();
+  assert.equal(F.count('devon-scope'), 1);
+  assert.deepEqual(wild, ['352:30']);
+  // Back at the Gym, the Scope shows its Kecleon too; then the door opens.
+  W.load('fortree', { x: 24, y: 8, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked');
+  await until(() => F.flag('kecleon-gone'));
+  assert.deepEqual(wild, ['352:30', '352:30']);
+  await settle();
+  W.load('fortree', { x: 24, y: 8, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'fortree-gym');
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

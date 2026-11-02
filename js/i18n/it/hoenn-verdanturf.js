@@ -49,5 +49,5 @@ G.I18n.add({
   "Route 117. West: Verdanturf Town. East: Mauville City.": "Percorso 117. Ovest: Mentania. Est: Ciclamipoli.",
   "Verdanturf Town. A town of fresh air, sheltered from the ash of Mt. Chimney.": "Mentania. Un paese dall'aria pura, al riparo dalla cenere del Monte Camino.",
   "Route 118. West: Mauville City. The road goes on across the water.": "Percorso 118. Ovest: Ciclamipoli. La strada continua oltre l'acqua.",
-  "North: Route 119, to Fortree City. The road is closed for now.": "Nord: Percorso 119, verso Forestopoli. La strada è chiusa per ora."
+  "North: Route 119, to the Weather Institute and Fortree City.": "Nord: Percorso 119, verso l'Istituto Meteo e Forestopoli."
 }, "it");

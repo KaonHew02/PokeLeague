@@ -45,5 +45,6 @@ G.I18n.add({
   "Guitarist": "Guitariste",
   "Magma Admin": "Admin Magma",
   "Magma Leader": "Leader Magma",
-  "Kindler": "Pyromane"
+  "Kindler": "Pyromane",
+  "Aqua Admin": "Admin Aqua"
 }, "fr");

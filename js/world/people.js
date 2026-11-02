@@ -26,7 +26,7 @@ G.People = (() => {
                  'whitney', 'pokefan', 'granny', 'morty', 'kimono', 'eusine', 'jasmine', 'chuck',
                  'pryce', 'skier', 'boarder', 'clair', 'cooltrainerm', 'will', 'karen', 'birch', 'may', 'brendan',
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
-                 'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler'];
+                 'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -236,6 +236,10 @@ G.People = (() => {
                j: '#c8302a', J: '#8e1e18', c: '#2a2228', C: '#16121a', p: '#2a2228', P: '#16121a', k: '#16121a' },
     flannery: { head: 'long', body: 'tee', legs: 'pants', h: '#d8382a', H: '#a02418', c: '#f4f4f4', C: '#c8c8d0', p: '#3a5aa8', P: '#28407a', k: '#5a3a2a' },
     kindler: { head: 'spiky', body: 'tee', legs: 'pants', h: '#d8582a', H: '#a83e1a', c: '#f08030', C: '#c05a20', p: '#5a4030', P: '#3e2c20', k: '#3e2c20' },
+    // Chapter 34: Shelly (Team Aqua's Admin: a blue bandana over long dark hair), Winona (lilac hair, white and sky blue).
+    shelly: { head: 'bandana', body: 'tee', legs: 'pants', a: '#2a4aa8', A: '#1a3278', h: '#2a2238', H: '#16101e', c: '#3a6ac8', C: '#f4f4f4',
+              p: '#1e2a5a', P: '#121a3c', k: '#1e2a5a' },
+    winona: { head: 'long', body: 'dress', legs: 'bare', h: '#b49ad8', H: '#8a72b4', c: '#f4f4f4', C: '#c8c8d0', j: '#6aa8e0', J: '#4a84c0', k: '#4a84c0' },
     elm: { head: 'short', body: 'coat', legs: 'pants', h: '#6a4a2a', H: '#4a3018', j: '#f4f4f4', J: '#c4c8d0', c: '#3a8a5a', C: '#28683e', p: '#4a4a5a', P: '#30303e', k: '#3a3030' },
     silver: { head: 'long', body: 'jacket', legs: 'pants', h: '#c8303a', H: '#8a1e26', j: '#2a2a3a', J: '#16161e', c: '#c8303a', C: '#8a1e26', p: '#3a3a4a', P: '#24242e', k: '#2a2020' },
     sage: { head: 'bald', body: 'coat', legs: 'pants', h: '#3a3a40', H: '#24242a', j: '#5a5a6a', J: '#40404c', c: '#d8c8a0', C: '#b8a880', p: '#4a4a56', P: '#30303a', k: '#2a2a2a' },

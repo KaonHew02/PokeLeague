@@ -54,7 +54,7 @@
     ],
     connect: { east: { map: 'petalburg', offset: 18 }, north: { map: 'petalburg-woods', offset: 0 } },
     warps: [{ x: 14, y: 29, to: 'briney-house', spot: 'door' }],
-    spots: { 'briney-door': [14, 30, 'down'] },
+    spots: { 'briney-door': [14, 30, 'down'], pier: [9, 30, 'left'] },
     signs: { '18,24': 'Route 104. North: Petalburg Woods. East: Petalburg City.' },
     trainers: [
       { id: 'haley', who: 'lass', cls: 'lass', name: 'Haley', x: 19, y: 10, dir: 'left', sight: 3, team: [['lotad', 7], ['shroomish', 7]],
@@ -81,10 +81,14 @@
     rows: HOUSE,
     warps: [{ x: 4, y: 7, to: 'route104', spot: 'briney-door' }],
     spots: { door: [4, 7, 'up'] },
+    // Chapter 30: while Peeko is missing they are out on Route 116 (rusturf.js); after it, his boat (dewford.js).
     npcs: [
-      { id: 'briney', who: 'captain', x: 7, y: 4, dir: 'left',
+      { id: 'briney', who: 'captain', x: 7, y: 4, dir: 'left', if: '!goods-stolen',
         say: 'Ahoy! I am Briney. I sailed every sea in Hoenn in my day, but these old bones have hung up their sea legs. Now Peeko and I just enjoy the view.' },
-      { id: 'peeko', who: 'wingull', mon: 'wingull', x: 8, y: 5, dir: 'left', fixed: true,
+      { id: 'peeko', who: 'wingull', mon: 'wingull', x: 8, y: 5, dir: 'left', fixed: true, if: '!goods-stolen',
+        say: 'Peeko the Wingull flaps its wings and cries happily.' },
+      { id: 'briney2', who: 'captain', x: 7, y: 4, dir: 'left', if: 'peeko-saved', script: 'hoenn.briney' },
+      { id: 'peeko2', who: 'wingull', mon: 'wingull', x: 8, y: 5, dir: 'left', fixed: true, if: 'peeko-saved',
         say: 'Peeko the Wingull flaps its wings and cries happily.' }
     ]
   }, HOENN));

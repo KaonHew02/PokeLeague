@@ -82,5 +82,8 @@ G.I18n.add({
   "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "Obrigado por jogar! Sua jornada por Kanto e Johto está completa. O Professor Carvalho tem notícias de uma região distante: vá vê-lo em Pallet.",
   "Chapter 29 complete!": "Capítulo 29 concluído!",
   "{player} helped Wally catch his first Pokémon, drove Team Aqua out of Petalburg Woods and earned the Stone Badge from Roxanne: the first badge of Hoenn.": "{player} ajudou Wally a pegar seu primeiro Pokémon, expulsou a Equipe Aqua da Petalburg Woods e ganhou a Insígnia Pedra de Roxanne: a primeira insígnia de Hoenn.",
-  "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "Obrigado por jogar! O próximo Ginásio de Hoenn, do outro lado do mar em Dewford, abre em uma próxima atualização."
+  "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "Obrigado por jogar! O próximo Ginásio de Hoenn, do outro lado do mar em Dewford, abre em uma próxima atualização.",
+  "Chapter 30 complete!": "Capítulo 30 concluído!",
+  "{player} got the Devon Goods back from Team Aqua, sailed to Dewford Town in Mr. Briney's boat and earned the Knuckle Badge from Brawly.": "{player} recuperou os Devon Goods da Equipe Aqua, navegou até Dewford no barco do Sr. Briney e ganhou a Insígnia Punho de Brawly.",
+  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Obrigado por jogar! Slateport, para onde os Devon Goods devem ir, espera por você em uma próxima atualização."
 }, "pt-BR");

@@ -35,5 +35,8 @@ G.I18n.add({
   "Rustboro City Pokémon Gym. Leader: Roxanne, the top student who loves rocks.": "Gimnasio Pokémon de Ciudad Férrica. Líder: Petra, la alumna estrella que adora las rocas.",
   "Devon Corporation. From Poké Balls to the newest gadgets: technology for Trainers.": "Devon S.A. De Poké Balls a los últimos aparatos: tecnología para Entrenadores.",
   "East: Route 116. North: Route 115. Both roads are closed for now.": "Este: Ruta 116. Norte: Ruta 115. Ambos caminos están cerrados por ahora.",
-  "The blackboard says: \"A sleeping or frozen Pokémon cannot move. A paralyzed one is slower, and may not move.\"": "En la pizarra pone: «Un Pokémon dormido o congelado no puede moverse. Uno paralizado es más lento y puede que no se mueva»."
+  "The blackboard says: \"A sleeping or frozen Pokémon cannot move. A paralyzed one is slower, and may not move.\"": "En la pizarra pone: «Un Pokémon dormido o congelado no puede moverse. Uno paralizado es más lento y puede que no se mueva».",
+  "Sorry, the road east is closed while we move the tunnel machines. Come back a little later.": "Lo siento, el camino al este está cerrado mientras movemos las máquinas del túnel. Vuelve un poco más tarde.",
+  "That Team Aqua grunt ran east, toward Route 116 and the Rusturf Tunnel. Please, get our Devon Goods back!": "Ese recluta del Team Aqua huyó al este, hacia la Ruta 116 y el Túnel Fervergal. ¡Por favor, recupera nuestras Piezas Devon!",
+  "East: Route 116 and the Rusturf Tunnel. North: Route 115, closed for now.": "Este: Ruta 116 y el Túnel Fervergal. Norte: Ruta 115, cerrada por ahora."
 }, "es");

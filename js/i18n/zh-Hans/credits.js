@@ -82,5 +82,8 @@ G.I18n.add({
   "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "感谢游玩！你在关都和城都的旅程已经完成。大木博士收到了来自遥远地区的消息：去真新镇找他吧。",
   "Chapter 29 complete!": "第二十九章完成！",
   "{player} helped Wally catch his first Pokémon, drove Team Aqua out of Petalburg Woods and earned the Stone Badge from Roxanne: the first badge of Hoenn.": "{player}帮满充抓到了第一只宝可梦，把海洋队赶出了橙华森林，还从杜娟那里赢得了原石徽章：丰缘的第一枚徽章。",
-  "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "感谢游玩！丰缘的下一座道馆在海对面的武斗镇，将在之后的更新中开放。"
+  "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "感谢游玩！丰缘的下一座道馆在海对面的武斗镇，将在之后的更新中开放。",
+  "Chapter 30 complete!": "第三十章完成！",
+  "{player} got the Devon Goods back from Team Aqua, sailed to Dewford Town in Mr. Briney's boat and earned the Knuckle Badge from Brawly.": "{player}从海洋队手中夺回了得文货物，坐哈奇老人的船来到武斗镇，还从藤树那里赢得了拳头徽章。",
+  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "感谢游玩！得文货物要送去的凯那市，将在之后的更新中等着你。"
 }, "zh-Hans");

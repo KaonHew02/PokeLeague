@@ -151,6 +151,8 @@ G.ITEMS = {
   "silk-scarf": {"id":228,"pocket":"items","cat":"type-enhancement"},
   "deep-sea-tooth": {"id":203,"pocket":"items","cat":"species-specific"},
   "deep-sea-scale": {"id":204,"pocket":"items","cat":"species-specific"},
+  "devon-goods": {"id":530,"pocket":"key","cat":"plot-advancement"},
+  letter: {"id":533,"pocket":"key","cat":"plot-advancement"},
   hm01: {"id":397,"pocket":"tms","cat":"all-machines","move":"cut"},
   hm02: {"id":398,"pocket":"tms","cat":"all-machines","move":"fly"},
   hm03: {"id":399,"pocket":"tms","cat":"all-machines","move":"surf"},

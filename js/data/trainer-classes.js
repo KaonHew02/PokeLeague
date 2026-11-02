@@ -52,5 +52,6 @@ G.TRAINER_CLASSES = {
   // Hoenn (chapter 29)
   'team-aqua':   { title: 'Team Aqua Grunt', who: 'aqua', prize: 20 },
   'school-kid':  { title: 'School Kid', who: 'youngster', prize: 20 },
+  'battle-girl': { title: 'Battle Girl', who: 'battlegirl', prize: 24 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

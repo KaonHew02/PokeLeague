@@ -196,6 +196,9 @@ G.ITEM_FX = {
   'gold-teeth':    { key: 1 },
   'bike-voucher':  { key: 1 },
   'mystery-egg':   { key: 1 },
+  // Hoenn (chapter 30): the parts stolen from the Devon Corporation, Mr. Stone's letter to his son.
+  'devon-goods':   { key: 1 },
+  'letter':        { key: 1 },
 
   // ---- fossils ----
   'helix-fossil':  { fossil: 138 },

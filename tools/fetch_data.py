@@ -134,7 +134,7 @@ REGIONS['hoenn'] = dict(REGIONS['johto'], **{
     'text_versions': ['firered', 'leafgreen', 'heartgold', 'soulsilver', 'emerald', 'ruby', 'sapphire',
                       'lets-go-pikachu', 'lets-go-eevee'],
     'text_vgs': ['firered-leafgreen', 'heartgold-soulsilver', 'emerald', 'ruby-sapphire', 'lets-go-pikachu-lets-go-eevee'],
-    'items': REGIONS['johto']['items'] + ['deep-sea-tooth', 'deep-sea-scale'],
+    'items': REGIONS['johto']['items'] + ['deep-sea-tooth', 'deep-sea-scale', 'devon-goods', 'letter'],
     'regions': REGIONS['johto']['regions'] + [('hoenn', ['emerald', 'ruby', 'sapphire'])],
 })
 
@@ -211,6 +211,8 @@ LOC_NAMES = {
     'pacifidlog-town':   ('Pueblo Oromar',      'Orocea',              '暮水镇',     '暮水鎮'),
     'ever-grande-city':  ('Ciudad Colosalia',   'Iridopoli',           '彩幽市',     '彩幽市'),
     'petalburg-woods':   ('Bosque Petalia',     'Bosco Petalo',        '橙华森林',   '橙華森林'),
+    'rusturf-tunnel':    ('Túnel Fervergal',    'Tunnel Menferro',     '石头隧道',   '石頭隧道'),
+    'granite-cave':      ('Cueva Granito',      'Grotta Pietrosa',     '石之洞窟',   '石之洞窟'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

@@ -455,6 +455,25 @@ function leaderRate(G, mapId, id) {
   };
 }
 
+test('balance: Brawly in Dewford (chapter 30), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'dewford-gym', 'brawly');
+  const table = {
+    'marshtomp 18': rate([[259, 18]]), 'grovyle 18': rate([[253, 18]]), 'combusken 18': rate([[256, 18]]),
+    'marshtomp 20': rate([[259, 20]]), 'grovyle 20': rate([[253, 20]]), 'combusken 20': rate([[256, 20]]),
+    'grovyle 18 + taillow 16': rate([[253, 18], [276, 16]]), 'combusken 18 + wingull 16': rate([[256, 18], [278, 16]]),
+    'marshtomp 18 + taillow 16': rate([[259, 18], [276, 16]])
+  };
+  console.log('[balance] vs Brawly:', JSON.stringify(table));
+  // Emerald's team: Makuhita's Bulk Up and Reversal wear down a lone starter that never heals or
+  // switches (the auto-player). A Flying partner (Taillow, Wingull: the Gym guide says so) turns it
+  // around; a lone Grovyle has only Absorb for Grass moves until Leaf Blade, and loses.
+  assert.ok(table['marshtomp 20'] >= 0.5 && table['combusken 20'] >= 0.35, 'Marshtomp and Combusken at 20');
+  assert.ok(table['marshtomp 18 + taillow 16'] >= 0.6 && table['combusken 18 + wingull 16'] >= 0.5, 'with a Flying partner');
+  assert.ok(table['grovyle 18 + taillow 16'] >= 0.3, 'Grovyle with a Taillow');
+  assert.ok(table['grovyle 20'] < 0.2 && table['marshtomp 18'] < 0.3, 'a lone starter struggles');
+});
+
 test('balance: Roxanne in Rustboro (chapter 29), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = leaderRate(G, 'rustboro-gym', 'roxanne');
@@ -2344,6 +2363,61 @@ async function chapter29(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 30 after chapter 29: the Devon Goods, Route 116 and the Rusturf Tunnel, the Devon Corporation, Mr. Briney's
+ *  boat, Dewford Town, Granite Cave and Steven, Brawly. */
+async function chapter30(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // Rustboro City, with the Stone Badge: a Team Aqua grunt runs off with the Devon Goods, and the road east opens.
+  const east = G.Maps.get('rustboro').npcs.find(p => p.id === 'east');
+  assert.ok(F.test(east.if), 'the road east is closed');
+  await run(st, 'rustboro', G.Maps.get('rustboro').def.enter);
+  assert.ok(F.flag('goods-stolen') && !F.test(east.if), 'the Goods are stolen; the road east opens');
+  // Route 116 and the Rusturf Tunnel: the grunt, the Goods and Peeko.
+  await all('route116');
+  await all('rusturf-tunnel');
+  await run(st, 'rusturf-tunnel', 'rusturf.grunt');
+  assert.equal(last().key, 'rusturf-tunnel:aqua-tunnel');
+  won();
+  assert.ok(F.flag('goods-recovered') && F.flag('peeko-saved') && F.count('devon-goods') === 1, 'the Goods and Peeko are back');
+  // The Devon Corporation opens its door; its president asks two favours.
+  assert.ok(F.test(G.Maps.get('rustboro').warps.find(w => w.to === 'devon-1f').if), "Devon's door opens");
+  await run(st, 'devon-1f', 'devon.researcher');
+  await run(st, 'devon-3f', 'devon.president');
+  assert.ok(F.flag('stone-met') && F.count('letter') === 1, 'a Letter for Steven');
+  // Mr. Briney's boat, from his cottage to Dewford Town.
+  await run(st, 'briney-house', npc(st, 'briney-house', 'briney2'), [0]);
+  assert.equal(st.W.map, 'dewford');
+  // Route 106 and Granite Cave: Steven takes the Letter.
+  await all('route106');
+  await all('granite-cave-1f');
+  await all('granite-cave-b1f');
+  const tm47 = F.count('tm47');
+  await run(st, 'granite-cave-b1f', 'dewford.steven');
+  assert.ok(F.flag('steven-letter') && F.count('letter') === 0 && F.count('tm47') === tm47 + 1, 'Steel Wing from Steven');
+  await run(st, 'dewford-house', 'dewford.fisherman');
+  // Brawly's Gym.
+  grind(st, 'granite-cave-1f', 20, 400);
+  await all('dewford-gym');
+  F.healAll();
+  const money = S.player.money, tm08 = F.count('tm08');
+  await run(st, 'dewford-gym', [['battle', 'dewford-gym:brawly']]);
+  won();
+  assert.ok(S.player.badges.includes(18), 'the Knuckle Badge');
+  assert.equal(F.obeyCap('hoenn'), 30, 'two Hoenn badges: up to Lv. 30');
+  assert.equal(F.count('tm08'), tm08 + 1);
+  assert.equal(S.player.money - money, 1900);
+  assert.ok(F.flag('chapter-30-done'));
+  // And Mr. Briney sails back to Route 104.
+  await run(st, 'dewford', npc(st, 'dewford', 'briney'), [0]);
+  assert.equal(st.W.map, 'route104');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2425,7 +2499,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 29: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Stone Badge", async () => {
+test("chapters 11 to 30: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Knuckle Badge", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2456,4 +2530,5 @@ test("chapters 11 to 29: Johto, from Professor Elm to Johto's League and its pos
   await chapter27(st);
   await chapter28(st);
   await chapter29(st);
+  await chapter30(st);
 });

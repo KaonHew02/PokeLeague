@@ -924,6 +924,57 @@ test("Hoenn (chapter 29): Route 102 opens after the Pokédex, Petalburg's west g
   assert.equal(step(W, 'up'), 'blocked');
 });
 
+test("Hoenn (chapter 30): the Devon Goods are stolen on the way out of Roxanne's Gym; Route 116, the tunnel, Mr. Briney's boat, Granite Cave", async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js',
+                          'js/content/hoenn/woods.js', 'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.giveMon('marshtomp', 20, { moves: ['water-gun', 'mud-shot'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to); };
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  // Rustboro: the road east is closed; with the Stone Badge, coming out of the Gym, the Goods are stolen.
+  W.load('rustboro', { x: 33, y: 9, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked', 'the road east is closed');
+  F.badge(17);
+  W.load('rustboro-gym', 'door');
+  assert.equal(step(W, 'down'), 'warped');
+  await until(() => F.flag('goods-stolen'));
+  assert.equal(W.map.id, 'rustboro');
+  W.load('rustboro', { x: 35, y: 9, dir: 'right' });
+  await cross('right', 'route116');
+  assert.deepEqual([W.player.x, W.player.y], [0, 6]);
+  // The tunnel: walking up to the grunt starts the battle; the Goods and Peeko come back.
+  W.load('rusturf-tunnel', { x: 14, y: 4, dir: 'left' });
+  assert.equal(step(W, 'left'), 'moved');
+  await until(() => F.flag('peeko-saved'));
+  assert.deepEqual(plain(got), ['rusturf-tunnel:aqua-tunnel']);
+  assert.ok(F.flag('goods-recovered') && F.count('devon-goods') === 1);
+  // Devon's door is open now.
+  W.load('rustboro', { x: 27, y: 8, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'devon-1f');
+  // Mr. Briney's boat: Route 104 to Dewford Town and back.
+  W.load('briney-house', { x: 6, y: 4, dir: 'right' });
+  W.interact();
+  await until(() => W.map.id === 'dewford');
+  assert.deepEqual([W.player.x, W.player.y], [20, 20], "on Dewford's pier");
+  for (let i = 0; i < 30; i++) { W.update(0.05); await tick(); }
+  W.load('dewford', { x: 21, y: 20, dir: 'down' });
+  W.interact();
+  await until(() => W.map.id === 'route104');
+  assert.deepEqual([W.player.x, W.player.y], [9, 30]);
+  // Dewford's west road is Route 106; Granite Cave is in its cliff, its ladder goes down into the dark.
+  W.load('dewford', { x: 0, y: 9, dir: 'left' });
+  await cross('left', 'route106');
+  assert.deepEqual([W.player.x, W.player.y], [29, 3]);
+  W.load('route106', { x: 4, y: 2, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'granite-cave-1f');
+  assert.ok(G.Maps.get('granite-cave-b1f').def.dark, 'B1F is dark');
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

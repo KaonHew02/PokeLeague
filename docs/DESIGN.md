@@ -1520,10 +1520,41 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   it or bring a Grass type). `tests/story.test.cjs` plays chapter 29 with the Mudkip from chapter
   28; `tests/field.test.cjs` walks the new roads and their gates.
 
-### After chapter 29
+- **Chapter 30** ✅, the Devon Goods and Dewford Town: back in Rustboro with the Stone Badge (the
+  map's `enter` script `rustboro.enter`), a Team Aqua grunt runs past the Gym's door with the Devon
+  Goods and east (`G.Hoenn.theft`, flag `goods-stolen`); the man closing the road east steps away.
+  Route 116 (three Trainers, the new class `school-kid`) leads to the Rusturf Tunnel, which is not
+  dug through to Verdanturf yet; Mr. Briney waits at its mouth: the grunt grabbed Peeko on the way.
+  At the tunnel's dead end (a trigger) you battle the grunt (Poochyena Lv. 11), get the Devon Goods
+  back (key item `devon-goods`) and Peeko flies home (flags `goods-recovered`, `peeko-saved`).
+  Devon's door opens (`devon-1f`, `devon-3f`): the company's president asks you to give his son
+  Steven a Letter (key item `letter`) and to take the Goods to the Oceanic Museum in Slateport City
+  (flag `stone-met`). Mr. Briney's cottage then offers his boat (`hoenn.briney`): to Dewford
+  Town's pier and back (`hoenn.briney-dewford`, spot `route104:pier`). Dewford: Brawly's Gym (Battle
+  Girl Laura, Black Belt Takao; Brawly: Machop 16, Meditite 16, Makuhita 19, a Super Potion), a
+  Pokémon Center (no Mart), Dewford Hall, a fisherman's house (an Old Rod if you have none). Route
+  106's beach leads west to Granite Cave: 1F, and a dark B1F (Flash) where Steven takes the Letter
+  and gives TM47 Steel Wing (flag `steven-letter`). The Knuckle Badge (badge 18: up to Lv. 30) and
+  TM08 Bulk Up, then `ending(30)`. Emerald's wild Pokémon. Files: `js/content/hoenn/rusturf.js`,
+  `dewford.js` (translations `hoenn-rusturf`, `hoenn-dewford`); `rustboro.js` (the theft, the road
+  east, Devon's door), `woods.js` (Briney's cottage before, during and after).
+- **Engine and data for chapter 30:** the key items `devon-goods` and `letter` (`--region hoenn`;
+  the Devon Goods' Chinese names in `G.Names`' FIX table); Chinese names for Rusturf Tunnel and
+  Granite Cave (`LOC_NAMES`); people `brawly`, `steven`, `president`, `battlegirl`, the class
+  `battle-girl`; the Town Map's Routes 116 and 106. Brawly's Meditite knows Confusion rather than
+  Focus Punch (here a plain 150-power hit: the move's charge is not simulated). `[balance]` vs
+  Brawly: Emerald's team is a wall for a lone starter that never heals or switches (Marshtomp at 20
+  wins 65%, Combusken 50%, a lone Grovyle has only Absorb for Grass moves and loses); with a
+  Flying partner (Taillow, Wingull: the Gym guide's advice) 45–80%. `tests/story.test.cjs` plays
+  chapter 30; `tests/field.test.cjs` the theft on the way out of the Gym, the roads, the tunnel's
+  scene, the boat both ways and Granite Cave. A school kid on Route 116 is Kelsey, not Karen (that
+  name translates as Johto's Elite Four).
 
-1. **Hoenn, chapter 30:** the Devon Goods (the Rusturf Tunnel on Route 116, Team Aqua again) and
-   Mr. Briney's boat to Dewford Town (Brawly's Gym, the Knuckle Badge) and Slateport City.
+### After chapter 30
+
+1. **Hoenn, chapter 31:** Mr. Briney's boat to Slateport City (Route 109's beach, the Oceanic
+   Museum: the Devon Goods to Captain Stern, Team Aqua again), Route 110 to Mauville City (the
+   rival, Wally), Wattson's Gym and the Dynamo Badge.
 2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
    abilities outside battle (Pickup, Synchronize and the others on wild encounters), Dive and
    the other Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.

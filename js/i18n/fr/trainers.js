@@ -40,5 +40,6 @@ G.I18n.add({
   "Skier": "Skieuse",
   "Boarder": "Snowboardeur",
   "Team Rocket Executive": "Admin Team Rocket",
-  "School Kid": "Écolier"
+  "School Kid": "Écolier",
+  "Battle Girl": "Combattante"
 }, "fr");

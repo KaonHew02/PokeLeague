@@ -35,5 +35,8 @@ G.I18n.add({
   "Rustboro City Pokémon Gym. Leader: Roxanne, the top student who loves rocks.": "Palestra Pokémon di Ferrugipoli. Capopalestra: Petra, la prima della classe che ama le rocce.",
   "Devon Corporation. From Poké Balls to the newest gadgets: technology for Trainers.": "Devon S.p.A. Dalle Poké Ball agli ultimi congegni: tecnologia per Allenatori.",
   "East: Route 116. North: Route 115. Both roads are closed for now.": "Est: Percorso 116. Nord: Percorso 115. Entrambe le strade sono chiuse per ora.",
-  "The blackboard says: \"A sleeping or frozen Pokémon cannot move. A paralyzed one is slower, and may not move.\"": "Sulla lavagna c'è scritto: «Un Pokémon addormentato o congelato non può muoversi. Uno paralizzato è più lento, e potrebbe non muoversi»."
+  "The blackboard says: \"A sleeping or frozen Pokémon cannot move. A paralyzed one is slower, and may not move.\"": "Sulla lavagna c'è scritto: «Un Pokémon addormentato o congelato non può muoversi. Uno paralizzato è più lento, e potrebbe non muoversi».",
+  "Sorry, the road east is closed while we move the tunnel machines. Come back a little later.": "Mi spiace, la strada a est è chiusa mentre spostiamo le macchine della galleria. Torna un po' più tardi.",
+  "That Team Aqua grunt ran east, toward Route 116 and the Rusturf Tunnel. Please, get our Devon Goods back!": "Quella recluta del Team Idro è scappata a est, verso il Percorso 116 e il Tunnel Menferro. Ti prego, recupera la nostra Merce Devon!",
+  "East: Route 116 and the Rusturf Tunnel. North: Route 115, closed for now.": "Est: Percorso 116 e Tunnel Menferro. Nord: Percorso 115, chiuso per ora."
 }, "it");

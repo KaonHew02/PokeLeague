@@ -35,5 +35,8 @@ G.I18n.add({
   "Rustboro City Pokémon Gym. Leader: Roxanne, the top student who loves rocks.": "Ginásio Pokémon de Rustboro. Líder: Roxanne, a melhor aluna que ama pedras.",
   "Devon Corporation. From Poké Balls to the newest gadgets: technology for Trainers.": "Devon Corporation. De Poké Balls aos aparelhos mais novos: tecnologia para Treinadores.",
   "East: Route 116. North: Route 115. Both roads are closed for now.": "Leste: Rota 116. Norte: Rota 115. As duas estradas estão fechadas por enquanto.",
-  "The blackboard says: \"A sleeping or frozen Pokémon cannot move. A paralyzed one is slower, and may not move.\"": "No quadro-negro está escrito: \"Um Pokémon dormindo ou congelado não pode agir. Um paralisado fica mais lento e pode não agir.\""
+  "The blackboard says: \"A sleeping or frozen Pokémon cannot move. A paralyzed one is slower, and may not move.\"": "No quadro-negro está escrito: \"Um Pokémon dormindo ou congelado não pode agir. Um paralisado fica mais lento e pode não agir.\"",
+  "Sorry, the road east is closed while we move the tunnel machines. Come back a little later.": "Desculpe, a estrada para o leste está fechada enquanto mudamos as máquinas do túnel. Volte um pouco mais tarde.",
+  "That Team Aqua grunt ran east, toward Route 116 and the Rusturf Tunnel. Please, get our Devon Goods back!": "Aquele recruta da Equipe Aqua fugiu para o leste, rumo à Rota 116 e ao Rusturf Tunnel. Por favor, recupere nossos Devon Goods!",
+  "East: Route 116 and the Rusturf Tunnel. North: Route 115, closed for now.": "Leste: Rota 116 e Rusturf Tunnel. Norte: Rota 115, fechada por enquanto."
 }, "pt-BR");

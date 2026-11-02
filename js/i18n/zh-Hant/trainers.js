@@ -40,5 +40,6 @@ G.I18n.add({
   "Skier": "滑雪者",
   "Boarder": "單板滑雪者",
   "Team Rocket Executive": "火箭隊幹部",
-  "School Kid": "補習班學生"
+  "School Kid": "補習班學生",
+  "Battle Girl": "對戰少女"
 }, "zh-Hant");

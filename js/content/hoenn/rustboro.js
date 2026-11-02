@@ -2,9 +2,10 @@
  * Chapter 29, the end of the chapter. Rustboro City, north of Route 104: Roxanne's Gym (Rock types;
  * two Trainers and the Leader: Geodude, Geodude, Nosepass), the Devon Corporation (closed to
  * visitors for now), the Trainers' School (the teacher gives a Quick Claw), a Pokémon Center, a Mart
- * and a house. The roads east (Route 116) and north (Route 115) open in later chapters. Beating
- * Roxanne gives the Stone Badge (badge 17: Pokémon up to Lv. 25 obey in Hoenn) and TM39 (Rock
- * Tomb), then `ending(29)`.
+ * and a house. Beating Roxanne gives the Stone Badge (badge 17: Pokémon up to Lv. 25 obey in Hoenn)
+ * and TM39 (Rock Tomb), then `ending(29)`. Chapter 30: back in town with the badge, a Team Aqua grunt
+ * runs out of Devon with the Devon Goods and east to Route 116 (flag goods-stolen; rusturf.js); the
+ * road east opens, and once the Goods are back (goods-recovered) so does Devon's door.
  */
 (() => {
   const T = s => G.T(s);
@@ -24,7 +25,7 @@
       'T...GGGGGG..............YYYYYYYY...T',
       'T...GGDGGG..............YYYDYYYY...T',
       'T.....,.S..................,..S....T',
-      'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,T',
+      'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
       'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,T',
       'T...........S.,,,,...............S.T',
       'T.............,,,,.................T',
@@ -46,10 +47,11 @@
       'T.............,,,,.................T',
       'TTTTTTTTTTTTTT,,,,TTTTTTTTTTTTTTTTTT'
     ],
-    connect: { south: { map: 'route104n', offset: 2 } },
+    connect: { south: { map: 'route104n', offset: 2 }, east: { map: 'route116', offset: 3 } },
+    enter: 'rustboro.enter',
     warps: [
       { x: 6, y: 7, to: 'rustboro-gym', spot: 'door' },
-      { x: 27, y: 7, locked: 'rustboro.devon-closed' },
+      { x: 27, y: 7, to: 'devon-1f', spot: 'door', if: 'goods-recovered', locked: 'rustboro.devon-closed' },
       { x: 6, y: 16, to: 'trainer-school', spot: 'door' },
       { x: 22, y: 16, to: 'rustboro-center', spot: 'door' },
       { x: 28, y: 16, to: 'rustboro-mart', spot: 'door' },
@@ -61,7 +63,7 @@
       '12,11': 'Rustboro City. A city of stone, where nature and science go hand in hand.',
       '8,8': 'Rustboro City Pokémon Gym. Leader: Roxanne, the top student who loves rocks.',
       '30,8': 'Devon Corporation. From Poké Balls to the newest gadgets: technology for Trainers.',
-      '33,11': 'East: Route 116. North: Route 115. Both roads are closed for now.'
+      '33,11': 'East: Route 116 and the Rusturf Tunnel. North: Route 115, closed for now.'
     },
     npcs: [
       { id: 'man', who: 'gentleman', x: 18, y: 20, move: 'look',
@@ -69,7 +71,14 @@
       { id: 'girl', who: 'lass', x: 12, y: 22, move: 'wander', r: 2,
         say: 'Roxanne is the best student the Trainers\' School ever had. Now she teaches there when she is not at the Gym!' },
       { id: 'worker', who: 'engineer', x: 31, y: 11, move: 'look',
-        say: 'They are digging a tunnel east of town, out on Route 116. Nobody gets through until it is safe.' }
+        say: 'They are digging a tunnel east of town, out on Route 116. Nobody gets through until it is safe.' },
+      // Chapter 30: the road east stays closed until the Devon Goods are stolen.
+      { id: 'east', who: 'engineer', x: 34, y: 9, dir: 'left', if: '!goods-stolen',
+        say: 'Sorry, the road east is closed while we move the tunnel machines. Come back a little later.' },
+      { id: 'thief', who: 'aqua', x: 27, y: 8, dir: 'down', if: 'scripted' },
+      { id: 'chaser', who: 'scientist', x: 27, y: 8, dir: 'down', if: 'scripted' },
+      { id: 'researcher', who: 'scientist', x: 26, y: 8, dir: 'right', if: ['goods-stolen', '!goods-recovered'],
+        say: 'That Team Aqua grunt ran east, toward Route 116 and the Rusturf Tunnel. Please, get our Devon Goods back!' }
     ]
   }, HOENN));
 
@@ -142,6 +151,8 @@
 
   G.Script.def({
     'rustboro.devon-closed': [['say', 'Devon Corporation. The doors are locked: visitors by appointment only.']],
+    // Chapter 30: with the Stone Badge, back in town, the Devon Goods are stolen.
+    'rustboro.enter': [['if', ['badge:17', '!goods-stolen'], [['js', h => G.Hoenn.theft(h)]]]],
     'rustboro.gym-guide': [
       ['say', 'Hey, Champion! Welcome to Hoenn\'s first Gym. Roxanne uses Rock-type Pokémon.'],
       ['say', 'Water and Grass moves work great on them. Fire, Normal and Flying moves barely scratch them.'],

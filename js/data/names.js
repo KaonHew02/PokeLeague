@@ -964,6 +964,8 @@ G.NAMES = {
     "silk-scarf": ["Silk Scarf","Pañuelo de Seda","Mouchoir Soie","Sciarpa Seta","丝绸围巾","絲綢圍巾"],
     "deep-sea-tooth": ["Deep Sea Tooth","Diente Marino","Dent Océan","Dente Abissi","深海之牙","深海之牙"],
     "deep-sea-scale": ["Deep Sea Scale","Escama Marina","Écaille Océan","Squamabissi","深海鳞片","深海鱗片"],
+    "devon-goods": ["Devon Goods","Piezas Devon","Pack Devon","Merce Devon","Devon Goods","Devon Goods"],
+    letter: ["Letter","Carta a Máximo","Lettre à Pierre","Lettera","给大吾的信","給大吾的信"],
     hm01: ["HM01","MO01","CS01","MN01","秘传学习器０１","秘傳學習器０１"],
     hm02: ["HM02","MO02","CS02","MN02","秘传学习器０２","秘傳學習器０２"],
     hm03: ["HM03","MO03","CS03","MN03","秘传学习器０３","秘傳學習器０３"],

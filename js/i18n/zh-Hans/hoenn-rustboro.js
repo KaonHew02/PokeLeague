@@ -35,5 +35,8 @@ G.I18n.add({
   "Rustboro City Pokémon Gym. Leader: Roxanne, the top student who loves rocks.": "卡那兹市宝可梦道馆。馆主：杜娟，热爱岩石的优等生。",
   "Devon Corporation. From Poké Balls to the newest gadgets: technology for Trainers.": "得文公司。从精灵球到最新的小工具：为训练家打造的科技。",
   "East: Route 116. North: Route 115. Both roads are closed for now.": "东：116号道路。北：115号道路。两条路目前都封闭了。",
-  "The blackboard says: \"A sleeping or frozen Pokémon cannot move. A paralyzed one is slower, and may not move.\"": "黑板上写着：“睡着或冰冻的宝可梦无法行动。麻痹的宝可梦速度会变慢，有时无法行动。”"
+  "The blackboard says: \"A sleeping or frozen Pokémon cannot move. A paralyzed one is slower, and may not move.\"": "黑板上写着：“睡着或冰冻的宝可梦无法行动。麻痹的宝可梦速度会变慢，有时无法行动。”",
+  "Sorry, the road east is closed while we move the tunnel machines. Come back a little later.": "抱歉，我们正在搬运挖隧道的机器，往东的路暂时封闭。请晚点再来。",
+  "That Team Aqua grunt ran east, toward Route 116 and the Rusturf Tunnel. Please, get our Devon Goods back!": "那个海洋队手下往东逃了，朝116号道路和石头隧道去了。请帮我们把得文货物抢回来！",
+  "East: Route 116 and the Rusturf Tunnel. North: Route 115, closed for now.": "东：116号道路和石头隧道。北：115号道路，目前封闭。"
 }, "zh-Hans");

@@ -36,6 +36,7 @@ G.Names = (() => {
     // Minun: PokeAPI has a traditional character in its Simplified Chinese name.
     mon: { 312: ['Minun', 'Minun', 'Négapi', 'Minun', '负电拍拍', '負電拍拍'] },
     item: {
+      'devon-goods': ['Devon Goods', 'Piezas Devon', 'Pack Devon', 'Merce Devon', '得文货物', '得文貨物'],
       bicycle: ['Bicycle', 'Bici', 'Bicyclette', 'Bicicletta', '自行车', '自行車'],
       'bike-voucher': ['Bike Voucher', 'Bono Bici', 'Bon Commande', 'Buono Bici', '自行车兑换券', '自行車兌換券']
     }

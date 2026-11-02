@@ -82,5 +82,8 @@ G.I18n.add({
   "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "Merci d'avoir joué ! Ton voyage à travers Kanto et Johto est terminé. Le Professeur Chen a des nouvelles d'une région lointaine : va le voir à Bourg Palette.",
   "Chapter 29 complete!": "Chapitre 29 terminé !",
   "{player} helped Wally catch his first Pokémon, drove Team Aqua out of Petalburg Woods and earned the Stone Badge from Roxanne: the first badge of Hoenn.": "{player} a aidé Timmy à attraper son premier Pokémon, a chassé la Team Aqua du Bois Clémenti et a gagné le Badge Roche de Roxanne : le premier badge de Hoenn.",
-  "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "Merci d'avoir joué ! La prochaine Arène de Hoenn, de l'autre côté de la mer à Myokara, ouvrira dans une prochaine mise à jour."
+  "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "Merci d'avoir joué ! La prochaine Arène de Hoenn, de l'autre côté de la mer à Myokara, ouvrira dans une prochaine mise à jour.",
+  "Chapter 30 complete!": "Chapitre 30 terminé !",
+  "{player} got the Devon Goods back from Team Aqua, sailed to Dewford Town in Mr. Briney's boat and earned the Knuckle Badge from Brawly.": "{player} a repris le Pack Devon à la Team Aqua, a navigué jusqu'à Myokara sur le bateau de M. Marco et a gagné le Badge Poing de Bastien.",
+  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Merci d'avoir joué ! Poivressel, où le Pack Devon doit être livré, t'attend dans une prochaine mise à jour."
 }, "fr");

@@ -12,7 +12,10 @@ the map format and which files each milestone owns.
 - Edit `dev.html` (never `index.html`, which is generated) and the files under `js/`, `css/`, `tools/`.
 - `node tools/build_langs.js` after changing any translation (dev.html loads the generated `js/lang/*.js`).
 - `node --test tests/*.test.cjs` — everything must pass.
-- `node tools/build.js` — writes `index.html`, `js/app.min.js`, `css/app.css`, `js/lang/*.js`, `version.json`.
+- `node tools/build.js` — writes `index.html`, `js/app.min.js`, `css/app.css`, `js/lang/*.js`, `version.json`,
+  and the file list inside `sw.js` (the service worker for offline play; see `G.Offline` in docs/DESIGN.md).
+  Test the offline app on the built page (`http://localhost:8130/`), never dev.html. `node tools/make_icons.js`
+  redraws the Home Screen icons in `assets/icons/`.
 - `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1 [--trainer] [--lang zh-Hans]` — a battle in the terminal.
 - `python tools/fetch_data.py --region hoenn [--offline]` — regenerates js/data/ from PokeAPI (cached).
   Use `hoenn` (dex 1–386, Kanto, Johto and Hoenn places, abilities): `--region johto` or `kanto` would

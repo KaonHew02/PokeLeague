@@ -8,6 +8,7 @@
  *   js/app.min.js and the stylesheet block css/app.css, each with a content
  *   fingerprint in its URL so browsers do not keep a stale copy.
  * - <script data-dev> files (debug.js) are left out of the published build.
+ * - sw.js (offline play) gets the list of files it keeps, with the same fingerprints.
  */
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const { execFileSync } = require('child_process');
@@ -66,6 +67,24 @@ html = html.replace(LOC, `<script src="js/core/locales.js?v=${sha(...locBufs)}">
 html = html.replace(/<meta name="robots" content="noindex">\s*/, '');
 html = html.replace(/<!-- dev\.html: the source page[^>]*-->/, '<!-- GENERATED from dev.html by tools/build.js: do not edit by hand (edit dev.html). -->');
 fs.writeFileSync(OUT, html);
+
+// ---- service worker: the files sw.js keeps for offline play (between its build: markers) ----
+const SW = path.join(ROOT, 'sw.js');
+const locV = sha(...locBufs);
+const manifest = fs.readFileSync(path.join(ROOT, 'manifest.json'));
+const shell = [...new Set(['./', `css/app.css?v=${sha(css)}`, `js/app.min.js?v=${hash}`, `js/core/locales.js?v=${locV}`,
+  ...fs.readdirSync(path.join(ROOT, 'js', 'lang')).sort().map(f => `js/lang/${f}?v=${locV}`),
+  ...[...html.matchAll(/<link[^>]*href="(assets\/[^"?]+)"/g)].map(m => m[1]),     // fonts, icons
+  'manifest.json', ...JSON.parse(manifest).icons.map(i => i.src)])];
+const icons = shell.filter(f => f.startsWith('assets/icons/')).map(f => fs.readFileSync(path.join(ROOT, f)));
+const swSrc = fs.readFileSync(SW, 'utf8'), B = '/* build:begin */', E = '/* build:end */';
+const bi = swSrc.indexOf(B), bj = swSrc.indexOf(E);
+if (bi < 0 || bj < 0) throw new Error('sw.js lacks the markers ' + B + ' / ' + E);
+fs.writeFileSync(SW, swSrc.slice(0, bi + B.length)
+  + `\nconst VERSION = '${sha(Buffer.from(html), manifest, ...icons)}';`
+  + `\nconst SPRITES = '${sha(fs.readFileSync(path.join(ROOT, 'js', 'data', 'sprites-meta.js')))}';`
+  + `\nconst SHELL = [\n${shell.map(f => '  ' + JSON.stringify(f)).join(',\n')}\n];\n` + swSrc.slice(bj));
+
 // Published version (for a future "update available" notice).
 fs.writeFileSync(path.join(ROOT, 'version.json'), JSON.stringify({ v: hash, at: new Date().toISOString() }) + '\n');
 console.log('ok: dictionaries ' + langSizes.join(' · '));

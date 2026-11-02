@@ -54,5 +54,14 @@ G.I18n.add({
   "Less shaking and flashing": "Meno scosse e lampi",
   "The screen shakes less and flashes are softer.": "Lo schermo trema meno e i lampi sono più tenui.",
   "Sound off": "Audio disattivato",
-  "Sound on": "Audio attivato"
+  "Sound on": "Audio attivato",
+  "Play without internet": "Gioca senza internet",
+  "Every file is on this device: the game works without internet.": "Tutti i file sono su questo dispositivo: il gioco funziona senza internet.",
+  "Downloading the Pokémon: {n}%": "Download dei Pokémon: {n}%",
+  "Checking the files on this device…": "Controllo dei file su questo dispositivo…",
+  "The download stopped (no connection?). Try again later.": "Il download si è interrotto (nessuna connessione?). Riprova più tardi.",
+  "Download every Pokémon picture now (about {mb} MB), so the game works without internet.": "Scarica ora tutte le immagini dei Pokémon (circa {mb} MB), così il gioco funziona senza internet.",
+  "Try again": "Riprova",
+  "Download": "Scarica",
+  "On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.": "Su iPhone, l'app nella schermata Home e Safari tengono file e salvataggi separati: gioca dall'icona."
 }, "it");

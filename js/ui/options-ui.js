@@ -1,7 +1,7 @@
 /* ============ options-ui.js — Settings (like PokéGo's) ============
  * Opens over whatever is on screen (title, start menu) and goes back there.
  * Tabs: Game · Sound · Controls · Display. Everything belongs to this device
- * (G.Settings, G.Audio volumes, G.I18n language), not to the save file.
+ * (G.Settings, G.Audio volumes, G.I18n language, G.Offline files), not to the save file.
  *
  *   G.OptionsUI.open('sound')   G.OptionsUI.close()
  *   G.OptionsUI.muteButton(el)  turns a button into the quick mute toggle
@@ -20,10 +20,12 @@ G.OptionsUI = (() => {
     // Plugging a controller in or out shows at once on the Controls tab.
     for (const ev of ['gamepadconnected', 'gamepaddisconnected']) addEventListener(ev, () => { if (isOpen() && tab === 'controls') render(); });
     document.addEventListener('fullscreenchange', () => { if (isOpen() && tab === 'display') render(); });
+    G.Offline.on(() => { if (isOpen() && tab === 'game') render(); });
   }
 
   function open(t) {
     if (t) tab = t;
+    G.Offline.check();
     render();
     G.UI.open('scr-options', { onBack: close });
   }
@@ -57,6 +59,23 @@ G.OptionsUI = (() => {
     }
   }
 
+  // ---------------- playing without internet (G.Offline) ----------------
+  function offlineRow() {
+    const o = G.Offline.status();
+    if (!o) return '';                // dev.html, file:// or an old browser
+    let desc, ctl = '';
+    if (o.state === 'ready') desc = T('Every file is on this device: the game works without internet.');
+    else if (o.state === 'loading') desc = G.I18n.fmt('Downloading the Pokémon: {n}%', { n: o.total ? Math.floor(o.done / o.total * 100) : 0 });
+    else if (o.state === 'checking') desc = T('Checking the files on this device…');
+    else {
+      desc = o.state === 'failed' ? T('The download stopped (no connection?). Try again later.')
+        : G.I18n.fmt('Download every Pokémon picture now (about {mb} MB), so the game works without internet.', { mb: G.Offline.SIZE_MB });
+      ctl = `<button class="btn small" data-offline>${esc(o.state === 'failed' ? T('Try again') : T('Download'))}</button>`;
+    }
+    if (IOS && !standalone()) desc += ' ' + T('On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.');
+    return row(T('Play without internet'), desc, ctl);
+  }
+
   // ---------------- tabs ----------------
   function bodyHtml() {
     const S = k => G.Settings.get(k);
@@ -69,7 +88,8 @@ G.OptionsUI = (() => {
         + row(T('Battle animations'), T('Moves play an animation in battle.'), toggle('battleAnim', S('battleAnim')))
         + row(T('Battle style'), T("Shift: after you defeat one of a trainer's Pokémon, you may switch yours. Set: you keep the same one."),
               choice('battleStyle', [['shift', T('Shift')], ['set', T('Set')]]))
-        + row(T('Pokémon follows you'), T('Your first Pokémon walks behind you.'), toggle('follower', S('follower')));
+        + row(T('Pokémon follows you'), T('Your first Pokémon walks behind you.'), toggle('follower', S('follower')))
+        + offlineRow();
     }
     if (tab === 'sound') {
       const a = G.Audio.settings;
@@ -105,7 +125,7 @@ G.OptionsUI = (() => {
   }
 
   /** Something that identifies a control across re-renders, to keep the focus on it. */
-  const idOf = el => el && ['data-k', 'data-v', 'data-vol', 'data-lang', 'data-mute', 'data-full', 'data-t']
+  const idOf = el => el && ['data-k', 'data-v', 'data-vol', 'data-lang', 'data-mute', 'data-full', 'data-offline', 'data-t']
     .map(a => el.hasAttribute(a) ? `[${a}="${el.getAttribute(a)}"]` : '').join('');
 
   function render() {
@@ -138,6 +158,8 @@ G.OptionsUI = (() => {
     if (m) m.onclick = () => { G.Audio.toggleMute(); refreshMuteButtons(); render(); };
     const f = box.querySelector('[data-full]');
     if (f) f.onclick = toggleFull;
+    const d = box.querySelector('[data-offline]');
+    if (d) d.onclick = () => { G.Offline.download(); render(); };
   }
 
   // ---------------- quick mute button ----------------

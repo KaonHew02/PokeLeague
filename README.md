@@ -10,6 +10,9 @@ region — Kanto first, then Johto, Hoenn…
 - Hand-made towns and routes, Pokémon Centers, Poké Marts, trainers and gyms.
 - Seven languages: English, Español, Français, Italiano, Português (Brasil), 简体中文, 繁體中文.
 - Keyboard and mouse (WASD, click to walk), controllers, and tapping on phones. Saves stay in your browser.
+- Installs as an app and plays offline: on iPhone open the game in Safari, tap Share, then
+  "Add to Home Screen" (on Android, Chrome's "Install app"). Opened from that icon it fills
+  the screen and downloads every Pokémon picture (about 28 MB), then needs no internet.
 
 **Status:** early development. The first playable goal is the start of Kanto,
 from Pallet Town to Brock's Boulder Badge.

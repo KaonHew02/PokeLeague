@@ -16,6 +16,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PokeLeague">
+<!-- Home Screen app (iPhone: Share, then "Add to Home Screen"); sw.js lets it play offline. -->
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-180.png">
 <link rel="preload" href="assets/fonts/PixelifyPS-400.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="assets/fonts/PixelifyPS-700.ttf" as="font" type="font/ttf" crossorigin>
 <!-- css:begin -->
@@ -105,6 +109,7 @@
 <script defer src="js/core/gamepad.js"></script>
 <script defer src="js/core/sprites.js"></script>
 <script defer src="js/core/camera.js"></script>
+<script defer src="js/core/offline.js"></script>
 
 <script defer src="js/data/music.js"></script>
 <script defer src="js/data/music-map.js"></script>

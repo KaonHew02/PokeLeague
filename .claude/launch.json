@@ -6,6 +6,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["tools/serve.py", "8130"],
       "port": 8130
+    },
+    {
+      "name": "pokeleague-8131",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["tools/serve.py", "8131"],
+      "port": 8131
     }
   ]
 }

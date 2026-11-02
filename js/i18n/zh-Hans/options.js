@@ -54,5 +54,14 @@ G.I18n.add({
   "Less shaking and flashing": "减少晃动和闪光",
   "The screen shakes less and flashes are softer.": "画面晃动更少，闪光更柔和。",
   "Sound off": "已静音",
-  "Sound on": "已开启声音"
+  "Sound on": "已开启声音",
+  "Play without internet": "离线游玩",
+  "Every file is on this device: the game works without internet.": "所有文件都已存到这台设备上：没有网络也能玩。",
+  "Downloading the Pokémon: {n}%": "正在下载宝可梦：{n}%",
+  "Checking the files on this device…": "正在检查这台设备上的文件…",
+  "The download stopped (no connection?). Try again later.": "下载中断了（没有网络？）。请稍后再试。",
+  "Download every Pokémon picture now (about {mb} MB), so the game works without internet.": "现在下载全部宝可梦图片（约 {mb} MB），没有网络也能玩。",
+  "Try again": "重试",
+  "Download": "下载",
+  "On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.": "在 iPhone 上，主屏幕 App 和 Safari 的文件与存档是分开的：请从图标打开游戏。"
 }, "zh-Hans");

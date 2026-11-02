@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 29) return { title: T('Chapter 29 complete!'),
+      done: fmt('{player} helped Wally catch his first Pokémon, drove Team Aqua out of Petalburg Woods and earned the Stone Badge from Roxanne: the first badge of Hoenn.', { player }),
+      next: T("Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.") };
     if (n === 28) return { title: T('Chapter 28 complete!'),
       done: fmt('{player} sailed to Hoenn, saved Professor Birch from a wild Zigzagoon on Route 101 and got a Pokédex for Hoenn: a new journey begins.', { player }),
       next: T('Thank you for playing! The road west to Petalburg City and Hoenn\'s first Gym opens in a future update.') };

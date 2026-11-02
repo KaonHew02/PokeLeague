@@ -22,5 +22,6 @@ G.I18n.add({
   "Zigzagoon zigzag through the grass, picking things up as they go. Sometimes they bring back something nice!": "Os Zigzagoon andam em zigue-zague pelo mato, pegando coisas pelo caminho. Às vezes trazem algo legal!",
   "Route 101. North: Oldale Town. South: Littleroot Town.": "Rota 101. Norte: Oldale. Sul: Littleroot.",
   "Oldale Town. A town where things begin, and where they come back to.": "Oldale. Uma cidade onde as coisas começam, e para onde voltam.",
-  "Route 103. South: Oldale Town.": "Rota 103. Sul: Oldale."
+  "Route 103. South: Oldale Town.": "Rota 103. Sul: Oldale.",
+  "My sketch is finished! The road west to Petalburg City is all yours. Mind the footprints!": "Meu desenho está pronto! O caminho a oeste até Petalburg é todo seu. Cuidado com as pegadas!"
 }, "pt-BR");

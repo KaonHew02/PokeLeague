@@ -79,5 +79,8 @@ G.I18n.add({
   "Chapter 28 complete!": "Chapitre 28 terminé !",
   "{player} sailed to Hoenn, saved Professor Birch from a wild Zigzagoon on Route 101 and got a Pokédex for Hoenn: a new journey begins.": "{player} a navigué jusqu'à Hoenn, a sauvé le Professeur Seko d'un Zigzaton sauvage sur la Route 101 et a obtenu un Pokédex pour Hoenn : un nouveau voyage commence.",
   "Thank you for playing! The road west to Petalburg City and Hoenn's first Gym opens in a future update.": "Merci d'avoir joué ! La route vers l'ouest jusqu'à Clémenti-Ville et la première Arène de Hoenn s'ouvrira dans une prochaine mise à jour.",
-  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "Merci d'avoir joué ! Ton voyage à travers Kanto et Johto est terminé. Le Professeur Chen a des nouvelles d'une région lointaine : va le voir à Bourg Palette."
+  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "Merci d'avoir joué ! Ton voyage à travers Kanto et Johto est terminé. Le Professeur Chen a des nouvelles d'une région lointaine : va le voir à Bourg Palette.",
+  "Chapter 29 complete!": "Chapitre 29 terminé !",
+  "{player} helped Wally catch his first Pokémon, drove Team Aqua out of Petalburg Woods and earned the Stone Badge from Roxanne: the first badge of Hoenn.": "{player} a aidé Timmy à attraper son premier Pokémon, a chassé la Team Aqua du Bois Clémenti et a gagné le Badge Roche de Roxanne : le premier badge de Hoenn.",
+  "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "Merci d'avoir joué ! La prochaine Arène de Hoenn, de l'autre côté de la mer à Myokara, ouvrira dans une prochaine mise à jour."
 }, "fr");

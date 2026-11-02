@@ -455,6 +455,29 @@ function leaderRate(G, mapId, id) {
   };
 }
 
+test('balance: Roxanne in Rustboro (chapter 29), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'rustboro-gym', 'roxanne');
+  const table = {
+    'treecko 14': rate([[252, 14]]), 'grovyle 16': rate([[253, 16]]),
+    'torchic 14': rate([[255, 14]]), 'combusken 16': rate([[256, 16]]),
+    'mudkip 14': rate([[258, 14]]),
+    'torchic 14 + marill 12': rate([[255, 14], [183, 12]]), 'torchic 14 + lotad 12': rate([[255, 14], [270, 12]]),
+    'torchic 14 + shroomish 12': rate([[255, 14], [285, 12]]),
+    'treecko 16': rate([[252, 16]]), 'mudkip 16': rate([[258, 16]]), 'torchic 15 + wingull 12': rate([[255, 15], [278, 12]]),
+    'torchic 15 + shroomish 14': rate([[255, 15], [285, 14]]), 'torchic 15 + marill 14': rate([[255, 15], [183, 14]])
+  };
+  console.log('[balance] vs Roxanne:', JSON.stringify(table));
+  // Water and Grass starters are ready at 14-16; a lone Torchic has to evolve (Combusken's Double Kick)
+  // or bring a Grass type. Nosepass knows Rock Throw rather than Rock Tomb: today's Rock Tomb (60
+  // power, 95%) is stronger than Generation 3's (50, 80%).
+  assert.ok(table['mudkip 14'] >= 0.8 && table['treecko 16'] >= 0.8 && table['grovyle 16'] >= 0.8, 'Mudkip and Treecko');
+  assert.ok(table['treecko 14'] >= 0.4, 'Treecko at 14');
+  assert.ok(table['combusken 16'] >= 0.8, 'Combusken');
+  assert.ok(table['torchic 14'] < 0.2, 'a lone Torchic should struggle');
+  assert.ok(table['torchic 15 + shroomish 14'] >= 0.35, 'Torchic with a Shroomish');
+});
+
 test('balance: the rival on Route 103 (chapter 28), win rates of the three starters are printed', () => {
   const { G } = world(1);
   // Your starter alone against the rival's (Lv. 5, the one strong against yours), as you might arrive.
@@ -2249,8 +2272,9 @@ async function chapter28(st) {
   swapBox(st, 51, 258);
   lead(st, 258);
   grind(st, 'route101', 9, 300);
-  // Oldale Town: the way west (Route 102) is closed for now.
-  assert.ok(!G.Maps.get('oldale').def.connect.west, 'no Route 102 yet');
+  // Oldale Town: the man sketching footprints blocks the way west (Route 102) until the Pokédex.
+  const sketcher = G.Maps.get('oldale').npcs.find(p => p.id === 'sketcher');
+  assert.ok(F.test(sketcher.if), 'he is still drawing');
   await run(st, 'oldale', 'hoenn.sketcher');
   // Route 103: May; then the lab: a Pokédex for Hoenn and five Poké Balls.
   const balls = F.count('poke-ball');
@@ -2260,8 +2284,63 @@ async function chapter28(st) {
   assert.ok(F.flag('rival3-met') && F.flag('hoenn-dex') && F.flag('chapter-28-done'));
   assert.equal(F.count('poke-ball'), balls + 5);
   assert.equal(st.W.map, 'birch-lab');
+  assert.ok(!F.test(sketcher.if), 'the way west is open');
   const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
   assert.equal(back.rival3.starter, 252, "the save keeps the rival's starter");
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
+/** Chapter 29 after chapter 28: Route 102, Petalburg City and Wally, Route 104, Petalburg Woods, Rustboro City and Roxanne. */
+async function chapter29(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // Oldale Town: the man has finished his sketch. Route 102's Trainers, Mudkip in front.
+  assert.ok(F.test(G.Maps.get('oldale').npcs.find(p => p.id === 'sketcher2').if), 'he steps aside');
+  lead(st, 258);
+  await all('route102');
+  // Petalburg City: the way west waits until you have been to the Gym; Norman, and Wally's Ralts.
+  const gate = G.Maps.get('petalburg').npcs.find(p => p.id === 'gate');
+  assert.ok(F.test(gate.if), 'a man sends you to the Gym first');
+  await run(st, 'petalburg-gym', 'petalburg.gym-enter');
+  assert.ok(F.flag('wally-caught') && S.dex.seen[280], 'Wally caught a Ralts');
+  assert.equal(st.W.map, 'route102');
+  assert.ok(!F.test(gate.if), 'the way west is open');
+  await run(st, 'petalburg-gym', 'petalburg.norman');
+  assert.ok(st.log[st.log.length - 2].includes('Rustboro'), 'Norman points the way');
+  // Route 104, Petalburg Woods (Team Aqua and the Devon researcher), Route 104's north.
+  grind(st, 'route104', 12, 300);
+  await all('route104');
+  await all('petalburg-woods');
+  const great = F.count('great-ball');
+  await run(st, 'petalburg-woods', 'woods.aqua');
+  assert.equal(last().key, 'petalburg-woods:aqua-woods');
+  won();
+  assert.ok(F.flag('woods-aqua') && F.count('great-ball') === great + 1, 'a Great Ball from the researcher');
+  const seeds = F.count('miracle-seed');
+  await run(st, 'petalburg-woods', 'woods.seed-girl');
+  assert.equal(F.count('miracle-seed'), seeds + 1);
+  await all('route104n');
+  const berries = F.count('oran-berry');
+  await run(st, 'pretty-petal', 'woods.florist');
+  assert.equal(F.count('oran-berry'), berries + 2);
+  // Rustboro City: the school's Quick Claw, then Roxanne's Gym.
+  await run(st, 'trainer-school', 'rustboro.teacher');
+  assert.ok(F.flag('got-school-claw'));
+  grind(st, 'route104n', 15, 400);
+  await all('rustboro-gym');
+  F.healAll();
+  const money = S.player.money, tms = F.count('tm39');
+  await run(st, 'rustboro-gym', [['battle', 'rustboro-gym:roxanne']]);
+  won();
+  assert.ok(S.player.badges.includes(17), 'the Stone Badge');
+  assert.equal(F.obeyCap('hoenn'), 25, 'one Hoenn badge: up to Lv. 25');
+  assert.equal(F.count('tm39'), tms + 1);
+  assert.equal(S.player.money - money, 1500);
+  assert.ok(F.flag('chapter-29-done'));
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
@@ -2346,7 +2425,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 28: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then the S.S. Aqua to Hoenn", async () => {
+test("chapters 11 to 29: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Stone Badge", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2376,4 +2455,5 @@ test("chapters 11 to 28: Johto, from Professor Elm to Johto's League and its pos
   await chapter26(st);
   await chapter27(st);
   await chapter28(st);
+  await chapter29(st);
 });

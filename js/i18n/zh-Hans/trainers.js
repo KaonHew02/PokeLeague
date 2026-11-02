@@ -39,5 +39,6 @@ G.I18n.add({
   "Medium": "灵媒",
   "Skier": "滑雪者",
   "Boarder": "单板滑雪者",
-  "Team Rocket Executive": "火箭队干部"
+  "Team Rocket Executive": "火箭队干部",
+  "School Kid": "补习班学生"
 }, "zh-Hans");

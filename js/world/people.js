@@ -24,7 +24,8 @@ G.People = (() => {
                  'blackbelt', 'psychic', 'sabrina', 'swimmerf', 'burglar', 'blaine', 'cueball',
                  'lorelei', 'bruno', 'agatha', 'lance', 'elm', 'silver', 'sage', 'falkner', 'kurt', 'bugsy',
                  'whitney', 'pokefan', 'granny', 'morty', 'kimono', 'eusine', 'jasmine', 'chuck',
-                 'pryce', 'skier', 'boarder', 'clair', 'cooltrainerm', 'will', 'karen', 'birch', 'may', 'brendan'];
+                 'pryce', 'skier', 'boarder', 'clair', 'cooltrainerm', 'will', 'karen', 'birch', 'may', 'brendan',
+                 'norman', 'wally', 'roxanne', 'aqua'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -205,6 +206,13 @@ G.People = (() => {
     may: { head: 'bandana', body: 'tee', legs: 'bare', a: '#e03838', A: '#a82828', h: '#8a5030', H: '#5e3418', c: '#e04040', C: '#a82c2c', k: '#3a3a48' },
     brendan: { head: 'knit', body: 'jacket', legs: 'pants', a: '#f4f4f4', A: '#c8c8d0', b: '#2a2a32', h: '#3c2c24', H: '#24180f', j: '#e05a30', J: '#b04420',
                c: '#2a2a32', C: '#16161c', p: '#2a2a32', P: '#16161c', k: '#e05a30' },
+    // Chapter 29: Norman, Wally, Roxanne, a Team Aqua grunt (a bandana and a striped shirt).
+    norman: { head: 'short', body: 'jacket', legs: 'pants', h: '#2a3050', H: '#1a1e36', j: '#e05a30', J: '#b04420', c: '#f4f4f4', C: '#c8c8d0',
+              p: '#2a3a5a', P: '#1c2840', k: '#1c1c28' },
+    wally: { head: 'short', body: 'tee', legs: 'pants', h: '#5ac87a', H: '#3a9a58', c: '#f4f4f4', C: '#c8c8d0', p: '#4a5a7a', P: '#344058', k: '#3a3a48' },
+    roxanne: { head: 'long', body: 'dress', legs: 'bare', h: '#5a3a2a', H: '#3e2618', c: '#f4f4f4', C: '#c8c8d0', j: '#2a3a6a', J: '#1c284a', k: '#2a2a3a' },
+    aqua: { head: 'bandana', body: 'tee', legs: 'pants', a: '#1e2a5a', A: '#121a3c', h: '#2a2420', H: '#16100c', c: '#3a6ac8', C: '#f4f4f4',
+            p: '#1e2a5a', P: '#121a3c', k: '#1c1c28' },
     elm: { head: 'short', body: 'coat', legs: 'pants', h: '#6a4a2a', H: '#4a3018', j: '#f4f4f4', J: '#c4c8d0', c: '#3a8a5a', C: '#28683e', p: '#4a4a5a', P: '#30303e', k: '#3a3030' },
     silver: { head: 'long', body: 'jacket', legs: 'pants', h: '#c8303a', H: '#8a1e26', j: '#2a2a3a', J: '#16161e', c: '#c8303a', C: '#8a1e26', p: '#3a3a4a', P: '#24242e', k: '#2a2020' },
     sage: { head: 'bald', body: 'coat', legs: 'pants', h: '#3a3a40', H: '#24242a', j: '#5a5a6a', J: '#40404c', c: '#d8c8a0', C: '#b8a880', p: '#4a4a56', P: '#30303a', k: '#2a2a2a' },

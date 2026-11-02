@@ -26,7 +26,8 @@ G.BattleText = (() => {
   function trainerName(b) {
     const t = b.foe.trainer;
     if (!t) return '';
-    return t.title ? G.T(t.title, t.titleCtx || 'trainer') + ' ' + t.name : t.name;
+    // A Trainer with no name of their own (a Team Rocket or Team Aqua grunt) is just the title.
+    return t.title ? (G.T(t.title, t.titleCtx || 'trainer') + ' ' + (t.name || '')).trim() : t.name;
   }
   const money = n => '₽' + G.I18n.num(n);
 

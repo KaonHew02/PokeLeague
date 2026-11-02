@@ -79,5 +79,8 @@ G.I18n.add({
   "Chapter 28 complete!": "¡Capítulo 28 completado!",
   "{player} sailed to Hoenn, saved Professor Birch from a wild Zigzagoon on Route 101 and got a Pokédex for Hoenn: a new journey begins.": "{player} navegó hasta Hoenn, salvó al Profesor Abedul de un Zigzagoon salvaje en la Ruta 101 y consiguió una Pokédex para Hoenn: comienza un nuevo viaje.",
   "Thank you for playing! The road west to Petalburg City and Hoenn's first Gym opens in a future update.": "¡Gracias por jugar! El camino al oeste hacia Ciudad Petalia y el primer Gimnasio de Hoenn se abrirá en una próxima actualización.",
-  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "¡Gracias por jugar! Tu viaje por Kanto y Johto ha terminado. El Profesor Oak tiene noticias de una región lejana: ve a verlo a Pueblo Paleta."
+  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "¡Gracias por jugar! Tu viaje por Kanto y Johto ha terminado. El Profesor Oak tiene noticias de una región lejana: ve a verlo a Pueblo Paleta.",
+  "Chapter 29 complete!": "¡Capítulo 29 completado!",
+  "{player} helped Wally catch his first Pokémon, drove Team Aqua out of Petalburg Woods and earned the Stone Badge from Roxanne: the first badge of Hoenn.": "{player} ayudó a Blasco a atrapar su primer Pokémon, echó al Team Aqua del Bosque Petalia y ganó la Medalla Piedra de Petra: la primera medalla de Hoenn.",
+  "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "¡Gracias por jugar! El siguiente Gimnasio de Hoenn, al otro lado del mar en Pueblo Azuliza, se abrirá en una próxima actualización."
 }, "es");

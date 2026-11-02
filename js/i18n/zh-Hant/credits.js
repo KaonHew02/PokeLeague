@@ -79,5 +79,8 @@ G.I18n.add({
   "Chapter 28 complete!": "第二十八章完成！",
   "{player} sailed to Hoenn, saved Professor Birch from a wild Zigzagoon on Route 101 and got a Pokédex for Hoenn: a new journey begins.": "{player}坐船來到豐緣，在101號道路從野生的蛇紋熊手中救下了小田卷博士，拿到了豐緣的圖鑑：新的旅程開始了。",
   "Thank you for playing! The road west to Petalburg City and Hoenn's first Gym opens in a future update.": "感謝遊玩！向西前往橙華市的道路和豐緣的第一座道館，將在之後的更新中開放。",
-  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "感謝遊玩！你在關都和城都的旅程已經完成。大木博士收到了來自遙遠地區的消息：去真新鎮找他吧。"
+  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "感謝遊玩！你在關都和城都的旅程已經完成。大木博士收到了來自遙遠地區的消息：去真新鎮找他吧。",
+  "Chapter 29 complete!": "第二十九章完成！",
+  "{player} helped Wally catch his first Pokémon, drove Team Aqua out of Petalburg Woods and earned the Stone Badge from Roxanne: the first badge of Hoenn.": "{player}幫滿充抓到了第一隻寶可夢，把海洋隊趕出了橙華森林，還從杜娟那裡贏得了原石徽章：豐緣的第一枚徽章。",
+  "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "感謝遊玩！豐緣的下一座道館在海對面的武鬥鎮，將在之後的更新中開放。"
 }, "zh-Hant");

@@ -22,5 +22,6 @@ G.I18n.add({
   "Zigzagoon zigzag through the grass, picking things up as they go. Sometimes they bring back something nice!": "蛇纹熊会在草丛里歪歪扭扭地跑来跑去，一路捡东西。有时还会带回好东西呢！",
   "Route 101. North: Oldale Town. South: Littleroot Town.": "101号道路。北：古辰镇。南：未白镇。",
   "Oldale Town. A town where things begin, and where they come back to.": "古辰镇。一切从这里开始，也会回到这里。",
-  "Route 103. South: Oldale Town.": "103号道路。南：古辰镇。"
+  "Route 103. South: Oldale Town.": "103号道路。南：古辰镇。",
+  "My sketch is finished! The road west to Petalburg City is all yours. Mind the footprints!": "我的素描画好了！往西去橙华市的路随你走。小心别踩到脚印哦！"
 }, "zh-Hans");

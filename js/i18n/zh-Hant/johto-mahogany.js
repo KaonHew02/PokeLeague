@@ -63,7 +63,7 @@ G.I18n.add({
   "Petrel": "拉姆達",
   "So you are the brat who keeps getting in our way. I am Petrel, an executive of Team Rocket. Our radio signal will not be switched off by a child!": "原來就是你這個小鬼一直在妨礙我們。我是火箭隊幹部拉姆達。我們的電波信號可不會被小孩子關掉！",
   "Hmph. Not bad, kid.": "哼。還不賴嘛，小鬼。",
-  "Roxanne": "洛珊",
+  "Rosalind": "羅莎琳",
   "You made it across the ice? Then let us see how you do against a Skier!": "你成功滑過冰面了？那就看看你對上滑雪者會怎樣吧！",
   "I slipped...": "我滑倒了……",
   "Pryce never slips on the ice. Not once in fifty years.": "柳伯在冰上從來不會滑倒。五十年來一次都沒有。",

@@ -210,6 +210,7 @@ LOC_NAMES = {
     'sootopolis-city':   ('Arrecípolis',        'Ceneride',            '琉璃市',     '琉璃市'),
     'pacifidlog-town':   ('Pueblo Oromar',      'Orocea',              '暮水镇',     '暮水鎮'),
     'ever-grande-city':  ('Ciudad Colosalia',   'Iridopoli',           '彩幽市',     '彩幽市'),
+    'petalburg-woods':   ('Bosque Petalia',     'Bosco Petalo',        '橙华森林',   '橙華森林'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

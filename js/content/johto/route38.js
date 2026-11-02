@@ -119,7 +119,7 @@ G.Maps.def({
       before: 'Ahoy! A sailor\'s Pokémon are tough as old rope!',
       defeat: 'My rope snapped...',
       after: 'At Olivine harbour, the ships come and go all day long.' },
-    { id: 'norman', who: 'psychic', cls: 'psychic', name: 'Norman', x: 12, y: 30, dir: 'left', sight: 2,
+    { id: 'norman', who: 'psychic', cls: 'psychic', name: 'Nolan', x: 12, y: 30, dir: 'left', sight: 2,
       team: [['slowpoke', 26], ['slowbro', 28]],
       before: 'My Slowpoke is thinking very hard. About what, nobody knows.',
       defeat: 'Still thinking...',

@@ -1216,7 +1216,7 @@ G.NAMES = {
     "meteor-falls": ["Meteor Falls","Cascada Meteoro","Site Météore","Cascate Meteora","Meteor Falls","Meteor Falls"],
     "rusturf-tunnel": ["Rusturf Tunnel","Túnel Fervergal","Tunnel Mérazon","Tunnel Menferro","Rusturf Tunnel","Rusturf Tunnel"],
     "granite-cave": ["Granite Cave","Cueva Granito","Grotte Granite","Grotta Pietrosa","Granite Cave","Granite Cave"],
-    "petalburg-woods": ["Petalburg Woods","Bosque Petalia","Bois Clémenti","Bosco Petalo","Petalburg Woods","Petalburg Woods"],
+    "petalburg-woods": ["Petalburg Woods","Bosque Petalia","Bois Clémenti","Bosco Petalo","橙华森林","橙華森林"],
     "jagged-pass": ["Jagged Pass","Desfiladero","Sentier Sinuroc","Passo Selvaggio","Jagged Pass","Jagged Pass"],
     "fiery-path": ["Fiery Path","Senda Ígnea","Chemin Ardent","Cammino Ardente","Fiery Path","Fiery Path"],
     "mt-pyre": ["Mt. Pyre","Monte Pírico","Mont Mémoria","Monte Pira","Mt. Pyre","Mt. Pyre"],

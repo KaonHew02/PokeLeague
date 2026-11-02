@@ -63,7 +63,7 @@ G.I18n.add({
   "Petrel": "Lambda",
   "So you are the brat who keeps getting in our way. I am Petrel, an executive of Team Rocket. Our radio signal will not be switched off by a child!": "Alors c'est toi, le gamin qui nous met des bâtons dans les roues. Je suis Lambda, admin de la Team Rocket. Ce n'est pas un enfant qui coupera notre signal radio !",
   "Hmph. Not bad, kid.": "Hmph. Pas mal, gamin.",
-  "Roxanne": "Roxanne",
+  "Rosalind": "Rosalinde",
   "You made it across the ice? Then let us see how you do against a Skier!": "Tu as réussi à traverser la glace ? Alors voyons ce que tu vaux contre une Skieuse !",
   "I slipped...": "J'ai glissé...",
   "Pryce never slips on the ice. Not once in fifty years.": "Frédo ne glisse jamais sur la glace. Pas une seule fois en cinquante ans.",

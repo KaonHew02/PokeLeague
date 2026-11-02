@@ -335,7 +335,7 @@ G.Maps.def({
   spots: { door: [7, 15, 'up'] },
   npcs: [{ id: 'guide', who: 'guide', x: 9, y: 15, dir: 'left', script: 'mahogany.gym-guide' }],
   trainers: [
-    { id: 'roxanne', who: 'skier', cls: 'skier', name: 'Roxanne', x: 2, y: 3, dir: 'right', sight: 4,
+    { id: 'roxanne', who: 'skier', cls: 'skier', name: 'Rosalind', x: 2, y: 3, dir: 'right', sight: 4,
       team: [['jynx', 31]],
       before: 'You made it across the ice? Then let us see how you do against a Skier!',
       defeat: 'I slipped...',

@@ -49,5 +49,8 @@ G.TRAINER_CLASSES = {
   'elite-four':  { title: 'Elite Four', who: 'lorelei', prize: 100 },
   champion:      { title: 'Champion', who: 'rival', prize: 100 },
   sage:          { title: 'Sage', who: 'sage', prize: 32 },
+  // Hoenn (chapter 29)
+  'team-aqua':   { title: 'Team Aqua Grunt', who: 'aqua', prize: 20 },
+  'school-kid':  { title: 'School Kid', who: 'youngster', prize: 20 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

@@ -1489,11 +1489,41 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
     bag's Pokémon alone, Oldale's closed west road; `tests/maps.test.cjs` checks that every map's
     palette exists and suits its tileset.
 
-### After chapter 28
+- **Chapter 29** ✅, Hoenn's first badge: once the Pokédex records Hoenn (`hoenn-dex`) the man in
+  Oldale Town has finished his sketch and steps aside (`sketcher2`), and Route 102 runs west (four
+  Trainers, a pond, an Oran Berry tree) to Petalburg City: Norman's Gym, a Pokémon Center, a Mart,
+  Wally's house, two houses, a pond. A man at the west gate sends new Trainers to the Gym first
+  (`!wally-caught`); stepping into the Gym (`petalburg.gym-enter`) Norman (who only accepts
+  challengers with four Hoenn badges) meets you, and Wally asks for help catching his first
+  Pokémon: Norman lends him a Zigzagoon and you go with him to Route 102, where he catches a Ralts
+  (told, not battled; flag `wally-caught`). Route 104 runs along the beach (Mr. Briney's cottage:
+  he has given up the sea and lives with Peeko the Wingull) north into Petalburg Woods (forest
+  palette): in the narrow way north a Team Aqua grunt (new class `team-aqua`) corners a Devon
+  researcher (a trigger, flag `woods-aqua`; Poochyena Lv. 9; the researcher gives a Great Ball); a
+  girl gives a Miracle Seed. Route 104's north (`route104n`) crosses a river by a bridge past the
+  Pretty Petal flower shop (`pretty-petal`: two Oran Berries) to Rustboro City: Roxanne's Gym
+  (Youngster Josh, Hiker Marc; Roxanne: Geodude 12, Geodude 12, Nosepass 15, two Potions), the
+  Devon Corporation (locked), the Trainers' School (the teacher gives a Quick Claw, new class
+  `school-kid` for later), a Pokémon Center, a Mart, a house. The Stone Badge (badge 17: Pokémon up to
+  Lv. 25 obey in Hoenn) and TM39, then `ending(29)`. Emerald's wild Pokémon. Files:
+  `js/content/hoenn/petalburg.js`, `woods.js`, `rustboro.js` (translations `hoenn-petalburg`,
+  `hoenn-woods`, `hoenn-rustboro`); `route101.js` (Oldale's west road).
+- **Engine and data for chapter 29:** people `norman`, `wally`, `roxanne`, `aqua`; Petalburg Woods'
+  Chinese names (`LOC_NAMES`); the Town Map's Route 104; a battle with an unnamed Trainer (a grunt)
+  reads "Team Aqua Grunt", not "Team Aqua Grunt " (`G.BattleText.trainerName`). Two minor Johto
+  Trainers were renamed (Nolan, Rosalind) so that "Norman" and "Roxanne" translate as the Gym
+  Leaders (千里, 杜娟; Petra in Spanish and Italian). Roxanne's Nosepass knows Rock Throw, not
+  Rock Tomb: today's Rock Tomb (60 power, 95%) is stronger than Generation 3's (50, 80%), and with
+  it a Lv. 14 Treecko won 1 time in 10. `[balance]` vs Roxanne: Mudkip at 14 wins 95%, Treecko at
+  14 60%, Grovyle, Combusken or Treecko at 16 95–100%; a lone Torchic loses (its Fire moves are
+  resisted), and Torchic with a Lv. 14 Shroomish wins half the time (the Gym guide says to evolve
+  it or bring a Grass type). `tests/story.test.cjs` plays chapter 29 with the Mudkip from chapter
+  28; `tests/field.test.cjs` walks the new roads and their gates.
 
-1. **Hoenn, chapter 29:** the footprint man leaves; Route 102 → Petalburg City (Norman's Gym, closed
-   until later; Wally's catching lesson) → Route 104 and Petalburg Woods → Rustboro City and
-   Roxanne's Gym (the Stone Badge, badge 17).
+### After chapter 29
+
+1. **Hoenn, chapter 30:** the Devon Goods (the Rusturf Tunnel on Route 116, Team Aqua again) and
+   Mr. Briney's boat to Dewford Town (Brawly's Gym, the Knuckle Badge) and Slateport City.
 2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
    abilities outside battle (Pickup, Synchronize and the others on wild encounters), Dive and
    the other Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.

@@ -79,5 +79,8 @@ G.I18n.add({
   "Chapter 28 complete!": "Capítulo 28 concluído!",
   "{player} sailed to Hoenn, saved Professor Birch from a wild Zigzagoon on Route 101 and got a Pokédex for Hoenn: a new journey begins.": "{player} navegou até Hoenn, salvou o Professor Birch de um Zigzagoon selvagem na Rota 101 e ganhou uma Pokédex para Hoenn: uma nova jornada começa.",
   "Thank you for playing! The road west to Petalburg City and Hoenn's first Gym opens in a future update.": "Obrigado por jogar! O caminho a oeste até Petalburg e o primeiro Ginásio de Hoenn abrem em uma próxima atualização.",
-  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "Obrigado por jogar! Sua jornada por Kanto e Johto está completa. O Professor Carvalho tem notícias de uma região distante: vá vê-lo em Pallet."
+  "Thank you for playing! Your journey through Kanto and Johto is complete. Professor Oak has news from a faraway region: go and see him in Pallet Town.": "Obrigado por jogar! Sua jornada por Kanto e Johto está completa. O Professor Carvalho tem notícias de uma região distante: vá vê-lo em Pallet.",
+  "Chapter 29 complete!": "Capítulo 29 concluído!",
+  "{player} helped Wally catch his first Pokémon, drove Team Aqua out of Petalburg Woods and earned the Stone Badge from Roxanne: the first badge of Hoenn.": "{player} ajudou Wally a pegar seu primeiro Pokémon, expulsou a Equipe Aqua da Petalburg Woods e ganhou a Insígnia Pedra de Roxanne: a primeira insígnia de Hoenn.",
+  "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "Obrigado por jogar! O próximo Ginásio de Hoenn, do outro lado do mar em Dewford, abre em uma próxima atualização."
 }, "pt-BR");

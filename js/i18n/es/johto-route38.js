@@ -34,7 +34,7 @@ G.I18n.add({
   "Ahoy! A sailor's Pokémon are tough as old rope!": "¡Ah del barco! ¡Los Pokémon de un marinero son duros como una vieja maroma!",
   "My rope snapped...": "Se me rompió la maroma...",
   "At Olivine harbour, the ships come and go all day long.": "En el puerto de Ciudad Olivo, los barcos van y vienen todo el día.",
-  "Norman": "Norman",
+  "Nolan": "Nolan",
   "My Slowpoke is thinking very hard. About what, nobody knows.": "Mi Slowpoke está pensando muchísimo. En qué, nadie lo sabe.",
   "Still thinking...": "Sigue pensando...",
   "A Slowpoke bitten by a Shellder becomes a Slowbro. Lucky, or unlucky?": "Un Slowpoke al que muerde un Shellder se convierte en Slowbro. ¿Suerte o mala suerte?",

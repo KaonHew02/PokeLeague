@@ -3,7 +3,7 @@
  * being chased by a wild Zigzagoon; you send out Treecko, Torchic or Mudkip (Lv. 5) from his bag
  * and battle it alone (flag birch-saved), then he takes you to his lab (littleroot.js:
  * G.Hoenn.giveStarter). Oldale Town: a Pokémon Center, a Mart, a house; the way west to Route 102
- * is blocked by a man sketching footprints (it opens in chapter 29). Route 103, north of Oldale:
+ * is blocked by a man sketching footprints until the Pokédex can record Hoenn (flag hoenn-dex). Route 103, north of Oldale:
  * grass, a pond (Surf), and the rival (May or Brendan, Lv. 5, the starter strong against yours;
  * losing is allowed, flag rival3-met), then back to the lab for the Pokédex (G.Hoenn.dex).
  * Emerald's wild Pokémon.
@@ -71,7 +71,7 @@
       'T........,,,,........T',
       'TTTTTTTTT,,,,TTTTTTTTT'
     ],
-    connect: { south: { map: 'route101', offset: 1 }, north: { map: 'route103', offset: 0 } },
+    connect: { south: { map: 'route101', offset: 1 }, north: { map: 'route103', offset: 0 }, west: { map: 'route102', offset: 3 } },
     warps: [
       { x: 5, y: 5, to: 'oldale-center', spot: 'door' },
       { x: 15, y: 5, to: 'oldale-mart', spot: 'door' },
@@ -80,8 +80,10 @@
     spots: { 'center-door': [5, 6, 'down'], 'mart-door': [15, 6, 'down'], 'house-door': [15, 14, 'down'] },
     signs: { '13,8': 'Oldale Town. A town where things begin, and where they come back to.' },
     npcs: [
-      // Route 102 opens in chapter 29: until then he is still drawing.
-      { id: 'sketcher', who: 'supernerd', x: 1, y: 10, dir: 'right', script: 'hoenn.sketcher' },
+      // Route 102 opens with the Pokédex for Hoenn (the end of chapter 28): then he has finished his drawing.
+      { id: 'sketcher', who: 'supernerd', x: 1, y: 10, dir: 'right', if: '!hoenn-dex', script: 'hoenn.sketcher' },
+      { id: 'sketcher2', who: 'supernerd', x: 2, y: 9, dir: 'down', if: 'hoenn-dex',
+        say: 'My sketch is finished! The road west to Petalburg City is all yours. Mind the footprints!' },
       { id: 'boy', who: 'youngster', x: 11, y: 4, move: 'look',
         say: 'Professor Birch says Hoenn has more water than land. Pokémon that swim must love it here!' },
       { id: 'girl', who: 'lass', x: 5, y: 9, move: 'wander', r: 2,

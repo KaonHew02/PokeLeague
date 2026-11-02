@@ -878,6 +878,52 @@ test('Hoenn (chapter 28): the S.S. Aqua to Littleroot, Professor Birch on Route 
   assert.deepEqual([W.player.x, W.player.y], [10, 15]);
 });
 
+test("Hoenn (chapter 29): Route 102 opens after the Pokédex, Petalburg's west gate after Wally, the woods' grunt, the road to Rustboro", async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js',
+                          'js/content/hoenn/woods.js', 'js/content/hoenn/rustboro.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.giveMon('mudkip', 15, { moves: ['water-gun'] });
+  const until = async ok => { for (let i = 0; i < 300 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to); };
+  // Oldale Town: the sketcher blocks the way west until the Pokédex records Hoenn.
+  W.load('oldale', { x: 2, y: 10, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked');
+  F.setFlag('hoenn-dex');
+  W.load('oldale', { x: 0, y: 10, dir: 'left' });
+  await cross('left', 'route102');
+  assert.deepEqual([W.player.x, W.player.y], [35, 7]);
+  // Route 102 west into Petalburg City; its west gate waits for the Gym visit.
+  W.load('route102', { x: 0, y: 7, dir: 'left' });
+  await cross('left', 'petalburg');
+  assert.deepEqual([W.player.x, W.player.y], [31, 8]);
+  W.load('petalburg', { x: 2, y: 8, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked', 'the man at the west gate');
+  F.setFlag('wally-caught');
+  W.load('petalburg', { x: 0, y: 8, dir: 'left' });
+  await cross('left', 'route104');
+  assert.deepEqual([W.player.x, W.player.y], [29, 26]);
+  // North through Petalburg Woods: the grunt in the narrow way stops you (a battle, then a Great Ball).
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  W.load('route104', { x: 16, y: 0, dir: 'up' });
+  await cross('up', 'petalburg-woods');
+  assert.deepEqual([W.player.x, W.player.y], [16, 29]);
+  W.load('petalburg-woods', { x: 11, y: 9, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('woods-aqua'));
+  assert.deepEqual(plain(got), ['petalburg-woods:aqua-woods']);
+  assert.equal(F.count('great-ball'), 1);
+  W.load('petalburg-woods', { x: 6, y: 0, dir: 'up' });
+  await cross('up', 'route104n');
+  W.load('route104n', { x: 12, y: 0, dir: 'up' });
+  await cross('up', 'rustboro');
+  assert.deepEqual([W.player.x, W.player.y], [14, 29], 'in Rustboro City');
+  // Devon Corporation is locked.
+  W.load('rustboro', { x: 27, y: 8, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked');
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

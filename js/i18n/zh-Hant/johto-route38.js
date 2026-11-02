@@ -34,7 +34,7 @@ G.I18n.add({
   "Ahoy! A sailor's Pokémon are tough as old rope!": "喂！水手的寶可夢可是像老纜繩一樣結實！",
   "My rope snapped...": "我的纜繩斷了……",
   "At Olivine harbour, the ships come and go all day long.": "淺蔥市的港口裡，船隻整天來來往往。",
-  "Norman": "諾曼",
+  "Nolan": "諾蘭",
   "My Slowpoke is thinking very hard. About what, nobody knows.": "我的呆呆獸正在認真思考。至於想什麼，誰也不知道。",
   "Still thinking...": "還在想……",
   "A Slowpoke bitten by a Shellder becomes a Slowbro. Lucky, or unlucky?": "呆呆獸被大舌貝咬住就會變成呆殼獸。這算幸運還是不幸呢？",

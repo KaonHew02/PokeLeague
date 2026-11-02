@@ -60,9 +60,10 @@ G.TownMapUI = (() => {
       'littleroot-town': [4, 12], 'oldale-town': [4, 9.5], 'petalburg-city': [1.2, 9.5], 'rustboro-city': [1.2, 4.5],
       'dewford-town': [1.2, 13.8], 'slateport-city': [9, 12], 'mauville-city': [9, 6], 'verdanturf-town': [6, 6],
       'fallarbor-town': [3.5, 1.2], 'lavaridge-town': [6, 3.5], 'fortree-city': [11.5, 1.2], 'lilycove-city': [16, 3],
-      'mossdeep-city': [18.6, 4.5], 'sootopolis-city': [16.4, 8], 'pacifidlog-town': [14.5, 12.4], 'ever-grande-city': [19, 11]
+      'mossdeep-city': [18.6, 4.5], 'sootopolis-city': [16.4, 8], 'pacifidlog-town': [14.5, 12.4], 'ever-grande-city': [19, 11],
+      'petalburg-woods': [0.4, 7]
     },
-    ROADS: { 101: [[4, 12], [4, 9.5]], 102: [[4, 9.5], [1.2, 9.5]], 103: [[4, 9.5], [4, 8], [8, 8]] },
+    ROADS: { 101: [[4, 12], [4, 9.5]], 102: [[4, 9.5], [1.2, 9.5]], 103: [[4, 9.5], [4, 8], [8, 8]], 104: [[1.2, 9.5], [0.4, 9.5], [0.4, 4.5], [1.2, 4.5]] },
     SEA: {},
     LAND: [[-0.5, -0.5, 13, 13.2], [0.4, 13.2, 1.6, 1.2], [9.5, 0.2, 7.6, 4.2], [17.8, 3.6, 1.8, 1.8], [15.6, 7.2, 1.6, 1.6],
            [18.2, 9.8, 2.3, 2.6]]

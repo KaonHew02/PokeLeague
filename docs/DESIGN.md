@@ -1623,11 +1623,35 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Maxie at 28 and Flannery at 30); `tests/field.test.cjs` the roads, the one-way ledges, the
   grunts at the cable car, both scenes, the Egg and the rival at the Gym's door.
 
-### After chapter 32
+- **Chapter 33** ✅, Verdanturf and the Balance Badge: Mauville's roads west and east open. Route 117
+  (flowers, a pond, three Trainers) leads to Verdanturf Town, sheltered from Mt. Chimney's ash: Wally
+  lives there with his aunt (`wally-home`), Wanda waits for her boyfriend who digs the Rusturf
+  Tunnel (`wanda-house`), a Center, a Mart, the Contest Hall (closed). The Rusturf Tunnel is dug
+  through to Verdanturf but for one cracked rock that Rock Smash breaks (the player has had HM06
+  since the Dark Cave; like every cracked rock it is back on the next visit). With four Hoenn badges
+  (`badge:20`) Norman's students are back in the Petalburg Gym (Cool Trainers Randall, Mary, George,
+  a guide; until then they and the trainer `norman-gym` are hidden and the old Norman stays) and
+  Norman battles: Spinda 27, Vigoroth 27, Linoone 29, Slaking 31 (Emerald's moves), a Super
+  Potion; the Balance Badge (badge 21: up to Lv. 50) and TM42 Facade. Route 118 east of Mauville is
+  cut by a sea channel: with Surf (the player has had HM03 since Kanto, and Kanto's badges let it be
+  used in Hoenn), Steven waits on the far bank (a trigger, flag `steven-118`), speaks of the strange
+  weather, the Weather Institute and Fortree City, then `ending(33)`. Route 119 is closed for now.
+  Files: `js/content/hoenn/verdanturf.js` (translations `hoenn-verdanturf`); `petalburg.js`
+  (Norman's Gym), `rusturf.js` (the way through), `mauville.js` (the roads).
+- **Engine and data for chapter 33:** nothing new in the engine; the Town Map's Routes 117 and 118.
+  Wally's father's Surf is left out (the player already has HM03). `[balance]` vs Norman: Emerald's
+  team as it is (Teeter Dance, Facade on all four, a Slaking that loafs every other turn) beats a
+  lone starter at 32 every time and two Pokémon nearly always; three (Marshtomp 32, a Lv. 28
+  Hariyama and Breloom: Fighting types, as the Gym guide says) win 80%. The story test's Marshtomp
+  wins at 32 with its Kanto and Johto team behind it. `tests/field.test.cjs` walks the new roads, the
+  tunnel's rock, the channel without Surf, Steven's trigger and Norman's students appearing with
+  the fourth badge.
 
-1. **Hoenn, chapter 33:** Route 117 west of Mauville to Verdanturf Town (Wally's home; the Rusturf
-   Tunnel dug through to Route 116), back to Petalburg City for Norman's Balance Badge, then Surf
-   from Wally's father and Route 118 east of Mauville.
+### After chapter 33
+
+1. **Hoenn, chapter 34:** Route 119 north of Route 118 (tall grass, rain, the rival), the Weather
+   Institute taken over by Team Aqua (Castform), Fortree City and Winona's Feather Badge; the
+   Kecleon on Route 120 and the Devon Scope from Steven.
 2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
    abilities outside battle (Pickup, Synchronize and the others on wild encounters), Dive and
    the other Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.

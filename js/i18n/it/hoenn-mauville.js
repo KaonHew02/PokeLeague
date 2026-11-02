@@ -38,7 +38,7 @@ G.I18n.add({
   "Wahahahah! Well, I was the one who got electrified! You are the real deal!": "Wahahahah! Beh, quello elettrizzato sono stato io! Sei proprio forte!",
   "Mauville City. The bright and shining city of fun!": "Ciclamipoli. La città scintillante del divertimento!",
   "Mauville City Pokémon Gym. Leader: Wattson, the cheerfully electrifying man!": "Palestra Pokémon di Ciclamipoli. Capopalestra: Walter, l'uomo che elettrizza con allegria!",
-  "West: Route 117 and Verdanturf Town. The road is closed for now.": "Ovest: Percorso 117 e Mentania. La strada è chiusa per ora.",
-  "East: Route 118. The road is closed for now.": "Est: Percorso 118. La strada è chiusa per ora.",
-  "North: Route 111, to Route 112 and Mt. Chimney.": "Nord: Percorso 111, verso il Percorso 112 e il Monte Camino."
+  "North: Route 111, to Route 112 and Mt. Chimney.": "Nord: Percorso 111, verso il Percorso 112 e il Monte Camino.",
+  "West: Route 117 and Verdanturf Town.": "Ovest: Percorso 117 e Mentania.",
+  "East: Route 118. You will need a Pokémon that can Surf to cross it.": "Est: Percorso 118. Ti servirà un Pokémon che conosca Surf per attraversarlo."
 }, "it");

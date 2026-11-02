@@ -1,10 +1,10 @@
 /* ============ mauville.js — Mauville City and Wattson's Gym ============
  * Chapter 31, the end of the chapter. Mauville City, north of Route 110: Wattson's Gym (Electric
- * types), a Pokémon Center, a Mart, Rydel's Cycles, the Game Corner (closed for now) and a house. The
- * roads west (Route 117), east (Route 118) and north (Route 111) open in later chapters. Outside the
- * Gym, Wally and his uncle: Wally wants to challenge Wattson, his uncle says he must beat you first;
+ * types), a Pokémon Center, a Mart, Rydel's Cycles, the Game Corner (closed for now) and a house. Outside
+ * the Gym, Wally and his uncle: Wally wants to challenge Wattson, his uncle says he must beat you first;
  * you battle his Ralts (flag wally-battle). Beating Wattson gives the Dynamo Badge (badge 19:
- * Pokémon up to Lv. 35 obey in Hoenn) and TM34 Shock Wave, then `ending(31)`.
+ * Pokémon up to Lv. 35 obey in Hoenn) and TM34 Shock Wave, then `ending(31)`. The road north (Route 111)
+ * opens in chapter 32, the roads west (Route 117) and east (Route 118) in chapter 33.
  */
 (() => {
   const T = s => G.T(s);
@@ -25,8 +25,8 @@
       'T..CCCCC.....GGGGGG....MDMM.,,.T',
       'T..CCDCC.....GGDGGG.....,...,,ST',
       'T....,......S.,,,,.S........,,.T',
-      'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,T',
-      'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,T',
+      ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+      ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
       'T.S...........,,,,...........S.T',
       'T.............,,,,.............T',
       'T..HHHH.BBBBBB,,,,......HHHH...T',
@@ -41,7 +41,8 @@
       'T.............,,,,.............T',
       'TTTTTTTTTTTTTT,,,,TTTTTTTTTTTTTT'
     ],
-    connect: { south: { map: 'route110', offset: 4 }, north: { map: 'route111', offset: 18 } },
+    connect: { south: { map: 'route110', offset: 4 }, north: { map: 'route111', offset: 18 },
+               west: { map: 'route117', offset: 3 }, east: { map: 'route118', offset: 0 } },
     warps: [
       { x: 15, y: 7, to: 'mauville-gym', spot: 'door' },
       { x: 5, y: 7, to: 'mauville-center', spot: 'door' },
@@ -55,8 +56,8 @@
     signs: {
       '12,8': 'Mauville City. The bright and shining city of fun!',
       '19,8': 'Mauville City Pokémon Gym. Leader: Wattson, the cheerfully electrifying man!',
-      '2,11': 'West: Route 117 and Verdanturf Town. The road is closed for now.',
-      '29,11': 'East: Route 118. The road is closed for now.',
+      '2,11': 'West: Route 117 and Verdanturf Town.',
+      '29,11': 'East: Route 118. You will need a Pokémon that can Surf to cross it.',
       '30,7': 'North: Route 111, to Route 112 and Mt. Chimney.'
     },
     triggers: [{ x: 14, y: 11, w: 4, h: 1, if: ['badge:18', '!wally-battle'], script: 'mauville.wally' }],

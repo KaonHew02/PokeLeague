@@ -91,5 +91,8 @@ G.I18n.add({
   "Thank you for playing! The roads beyond Mauville City open in a future update.": "感谢游玩！紫堇市以外的道路将在之后的更新中开放。",
   "Chapter 32 complete!": "第三十二章完成！",
   "{player} crossed the Fiery Path, saw Team Magma steal a meteorite at Meteor Falls, stopped Maxie on Mt. Chimney and earned the Heat Badge from Flannery.": "{player}穿过火焰小径，在流星瀑布目睹熔岩队抢走陨石，在烟囱山阻止了赤焰松，还从亚莎那里赢得了火热徽章。",
-  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "感谢游玩！橙华市的道馆馆主千里，将在之后的更新中等着你。"
+  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "感谢游玩！橙华市的道馆馆主千里，将在之后的更新中等着你。",
+  "Chapter 33 complete!": "第三十三章完成！",
+  "{player} visited Wally in Verdanturf Town, earned the Balance Badge from Norman and met Steven again across the water on Route 118.": "{player}去绿荫镇看望了满充，从千里那里赢得了平衡徽章，还在118号道路的对岸再次遇见了大吾。",
+  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "感谢游玩！119号道路、天气研究所和茵郁市将在之后的更新中等着你。"
 }, "zh-Hans");

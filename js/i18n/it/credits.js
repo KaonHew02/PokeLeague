@@ -91,5 +91,8 @@ G.I18n.add({
   "Thank you for playing! The roads beyond Mauville City open in a future update.": "Grazie per aver giocato! Le strade oltre Ciclamipoli si apriranno in un prossimo aggiornamento.",
   "Chapter 32 complete!": "Capitolo 32 completato!",
   "{player} crossed the Fiery Path, saw Team Magma steal a meteorite at Meteor Falls, stopped Maxie on Mt. Chimney and earned the Heat Badge from Flannery.": "{player} ha attraversato il Cammino Ardente, ha visto il Team Magma rubare un meteorite alle Cascate Meteora, ha fermato Max sul Monte Camino e ha vinto la Medaglia Calore di Fiammetta.",
-  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Grazie per aver giocato! Norman, il Capopalestra di Petalipoli, ti aspetta in un prossimo aggiornamento."
+  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Grazie per aver giocato! Norman, il Capopalestra di Petalipoli, ti aspetta in un prossimo aggiornamento.",
+  "Chapter 33 complete!": "Capitolo 33 completato!",
+  "{player} visited Wally in Verdanturf Town, earned the Balance Badge from Norman and met Steven again across the water on Route 118.": "{player} ha fatto visita a Valerio a Mentania, ha vinto la Medaglia Equilibrio di Norman e ha ritrovato Rocco al di là dell'acqua sul Percorso 118.",
+  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Grazie per aver giocato! Il Percorso 119, l'Istituto Meteo e Forestopoli ti aspettano in un prossimo aggiornamento."
 }, "it");

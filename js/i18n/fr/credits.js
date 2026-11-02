@@ -91,5 +91,8 @@ G.I18n.add({
   "Thank you for playing! The roads beyond Mauville City open in a future update.": "Merci d'avoir joué ! Les routes au-delà de Lavandia s'ouvriront dans une prochaine mise à jour.",
   "Chapter 32 complete!": "Chapitre 32 terminé !",
   "{player} crossed the Fiery Path, saw Team Magma steal a meteorite at Meteor Falls, stopped Maxie on Mt. Chimney and earned the Heat Badge from Flannery.": "{player} a traversé le Chemin Ardent, a vu la Team Magma voler une météorite au Site Météore, a arrêté Max au Mont Chimnée et a gagné le Badge Chaleur d'Adriane.",
-  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Merci d'avoir joué ! Norman, le Champion d'Arène de Clémenti-Ville, t'attend dans une prochaine mise à jour."
+  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Merci d'avoir joué ! Norman, le Champion d'Arène de Clémenti-Ville, t'attend dans une prochaine mise à jour.",
+  "Chapter 33 complete!": "Chapitre 33 terminé !",
+  "{player} visited Wally in Verdanturf Town, earned the Balance Badge from Norman and met Steven again across the water on Route 118.": "{player} a rendu visite à Timmy à Vergazon, a gagné le Badge Balance de Norman et a retrouvé Pierre de l'autre côté de l'eau sur la Route 118.",
+  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Merci d'avoir joué ! La Route 119, l'Institut Météo et Cimetronelle t'attendent dans une prochaine mise à jour."
 }, "fr");

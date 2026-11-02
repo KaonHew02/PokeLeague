@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 33) return { title: T('Chapter 33 complete!'),
+      done: fmt('{player} visited Wally in Verdanturf Town, earned the Balance Badge from Norman and met Steven again across the water on Route 118.', { player }),
+      next: T('Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.') };
     if (n === 32) return { title: T('Chapter 32 complete!'),
       done: fmt('{player} crossed the Fiery Path, saw Team Magma steal a meteorite at Meteor Falls, stopped Maxie on Mt. Chimney and earned the Heat Badge from Flannery.', { player }),
       next: T('Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.') };

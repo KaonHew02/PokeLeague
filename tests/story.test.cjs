@@ -457,6 +457,27 @@ function leaderRate(G, mapId, id) {
   };
 }
 
+test('balance: Norman in Petalburg (chapter 33), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'petalburg-gym', 'norman-gym');
+  // Moves a player keeps (Marshtomp's last four at Lv. 31 would drop Water Gun).
+  const MARSHTOMP = ['water-gun', 'mud-shot', 'take-down', 'mud-slap'];
+  const BRELOOM = ['mach-punch', 'headbutt', 'mega-drain', 'stun-spore'], HARIYAMA = ['arm-thrust', 'vital-throw', 'fake-out', 'knock-off'];
+  const table = {
+    'marshtomp 32': rate([[259, 32, MARSHTOMP]]), 'combusken 32': rate([[256, 32]]), 'grovyle 32': rate([[253, 32]]),
+    'marshtomp 32 + breloom 28': rate([[259, 32, MARSHTOMP], [286, 28, BRELOOM]]),
+    'grovyle 32 + hariyama 28': rate([[253, 32], [297, 28, HARIYAMA]]),
+    'combusken 32 + breloom 28': rate([[256, 32], [286, 28, BRELOOM]]),
+    'marshtomp 32 + hariyama 28 + breloom 28': rate([[259, 32, MARSHTOMP], [297, 28, HARIYAMA], [286, 28, BRELOOM]])
+  };
+  console.log('[balance] vs Norman:', JSON.stringify(table));
+  // Emerald's team as it is: four Normal types (Teeter Dance, Facade on all of them, a Lv. 31 Slaking
+  // that loafs every other turn) wear down a starter that never heals, and two Pokémon rarely make it
+  // past Slaking. A team of three, with Fighting types as the Gym guide says, wins.
+  assert.ok(table['marshtomp 32 + hariyama 28 + breloom 28'] >= 0.6, 'a team of three');
+  assert.ok(table['marshtomp 32'] < 0.1 && table['grovyle 32'] < 0.1 && table['combusken 32'] < 0.1, 'a lone starter is worn down');
+});
+
 test('balance: Flannery in Lavaridge (chapter 32), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = leaderRate(G, 'lavaridge-gym', 'flannery');
@@ -2580,6 +2601,40 @@ async function chapter32(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter33(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // West of Mauville: Route 117 and Verdanturf Town, where Wally lives now.
+  await all('route117');
+  await run(st, 'wally-home', npc(st, 'wally-home', 'wally'));
+  assert.match(st.log[st.log.length - 1], /battle you again/);
+  await run(st, 'wanda-house', npc(st, 'wanda-house', 'wanda'));
+  assert.match(st.log[st.log.length - 1], /smash/);
+  // Norman's Gym, now that four Hoenn badges are in the case.
+  assert.ok(F.test('badge:20'), 'four Hoenn badges');
+  grind(st, 'route118', 32, 400);
+  await all('petalburg-gym');
+  F.healAll();
+  const money = S.player.money, tm42 = F.count('tm42');
+  await run(st, 'petalburg-gym', [['battle', 'petalburg-gym:norman-gym']]);
+  won();
+  console.log('[story] Norman: won at levels', last().levels.join());
+  assert.ok(S.player.badges.includes(21), 'the Balance Badge');
+  assert.equal(F.obeyCap('hoenn'), 50, 'five Hoenn badges: up to Lv. 50');
+  assert.equal(F.count('tm42'), tm42 + 1);
+  assert.equal(S.player.money - money, 3100);
+  // Route 118: Trainers on both banks, then Steven across the water.
+  await all('route118');
+  await run(st, 'route118', 'route118.steven');
+  assert.ok(st.log.some(l => l.includes('Weather Institute')));
+  assert.ok(F.flag('steven-118') && F.flag('chapter-33-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2661,7 +2716,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 32: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Heat Badge", async () => {
+test("chapters 11 to 33: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Balance Badge", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2695,4 +2750,5 @@ test("chapters 11 to 32: Johto, from Professor Elm to Johto's League and its pos
   await chapter30(st);
   await chapter31(st);
   await chapter32(st);
+  await chapter33(st);
 });

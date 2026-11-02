@@ -7,6 +7,8 @@
  * his boat (flags goods-recovered, peeko-saved). Devon's door opens: on 3F the company's president
  * thanks you and asks two favours: a Letter for his son Steven in Dewford Town, and the Goods for the
  * Oceanic Museum in Slateport City (flag stone-met).
+ * Chapter 33: the tunnel is dug through to Verdanturf Town (verdanturf.js) but for one cracked rock,
+ * which Rock Smash breaks (field.js; it is back each time you come in).
  */
 (() => {
   const T = s => G.T(s);
@@ -64,23 +66,23 @@
     id: 'rusturf-tunnel', loc: 'rusturf-tunnel', tileset: 'outdoor', palette: 'cave', music: 'cave', battleBg: 'cave', border: '#',
     cave: true, escape: true,
     rows: [
-      '########################',
-      '########################',
-      '########################',
-      '##########............##',
-      '##########............##',
-      '##########............##',
-      '##################....##',
-      '##################....##',
-      '##......##########....##',
-      '##....................##',
-      '##....................##',
-      '##......################',
-      '####O###################',
-      '########################'
+      '##################################',
+      '##################################',
+      '##################################',
+      '##########............####......##',
+      '##########.............k........##',
+      '##########.............k........##',
+      '##################....####......##',
+      '##################....####......##',
+      '##......##########....####......##',
+      '##....................####......##',
+      '##....................####......##',
+      '##......#####################O####',
+      '####O#############################',
+      '##################################'
     ],
-    warps: [{ x: 4, y: 12, to: 'route116', spot: 'mouth' }],
-    spots: { mouth: [4, 11, 'up'] },
+    warps: [{ x: 4, y: 12, to: 'route116', spot: 'mouth' }, { x: 29, y: 11, to: 'verdanturf', spot: 'tunnel' }],
+    spots: { mouth: [4, 11, 'up'], verdanturf: [29, 10, 'up'] },
     triggers: [{ x: 13, y: 3, w: 1, h: 3, if: '!goods-recovered', script: 'rusturf.grunt' }],
     trainers: [
       { id: 'mike', who: 'hiker', cls: 'hiker', name: 'Mike', x: 14, y: 10, dir: 'left', sight: 3, team: [['geodude', 10], ['geodude', 10]],

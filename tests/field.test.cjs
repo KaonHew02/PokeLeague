@@ -1103,6 +1103,58 @@ test('Hoenn (chapter 32): Routes 111 and 112, Meteor Falls, the cable car, Maxie
   assert.ok(F.flag('rival3-goggles') && F.count('go-goggles') === 1);
 });
 
+test('Hoenn (chapter 33): Routes 117 and 118, Verdanturf and the Rusturf Tunnel, Steven across the water, Norman\'s students', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.giveMon('marshtomp', 32, { moves: ['water-gun', 'mud-shot'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to); };
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  // West out of Mauville: Route 117, then Verdanturf Town.
+  W.load('mauville', { x: 0, y: 9, dir: 'left' });
+  await cross('left', 'route117');
+  assert.deepEqual([W.player.x, W.player.y], [35, 6]);
+  W.load('route117', { x: 0, y: 6, dir: 'left' });
+  await cross('left', 'verdanturf');
+  assert.deepEqual([W.player.x, W.player.y], [27, 10]);
+  // Into the Rusturf Tunnel from Verdanturf: its last rock stops you without Rock Smash.
+  W.load('verdanturf', { x: 4, y: 4, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'rusturf-tunnel');
+  assert.deepEqual([W.player.x, W.player.y], [29, 10]);
+  W.load('rusturf-tunnel', { x: 24, y: 4, dir: 'left' });
+  assert.notEqual(step(W, 'left'), 'moved', 'the cracked rock');
+  // East out of Mauville: Route 118, whose channel needs Surf.
+  W.load('mauville', { x: 31, y: 9, dir: 'right' });
+  await cross('right', 'route118');
+  assert.deepEqual([W.player.x, W.player.y], [0, 9]);
+  W.load('route118', { x: 14, y: 9, dir: 'right' });
+  assert.notEqual(step(W, 'right'), 'moved', 'the water, without Surf');
+  // Steven waits on the far bank.
+  W.load('route118', { x: 23, y: 9, dir: 'left' });
+  assert.equal(step(W, 'left'), 'moved');
+  await until(() => F.flag('chapter-33-done'));
+  assert.ok(F.flag('steven-118'));
+  await settle();
+  // Norman's Gym: his students are only there with four Hoenn badges.
+  F.setFlag('wally-caught');
+  W.load('petalburg-gym', { x: 6, y: 10, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await settle();
+  assert.equal(got.length, 0, 'nobody stops you yet');
+  for (const n of [17, 18, 19, 20]) F.badge(n);
+  W.load('petalburg-gym', { x: 6, y: 10, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => got.length === 1);
+  assert.equal(got[0], 'petalburg-gym:randall');
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

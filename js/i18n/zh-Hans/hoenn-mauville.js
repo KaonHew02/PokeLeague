@@ -38,7 +38,7 @@ G.I18n.add({
   "Wahahahah! Well, I was the one who got electrified! You are the real deal!": "哇哈哈哈！结果被电到的是我！你是真材实料！",
   "Mauville City. The bright and shining city of fun!": "紫堇市。光彩夺目的欢乐之城！",
   "Mauville City Pokémon Gym. Leader: Wattson, the cheerfully electrifying man!": "紫堇市宝可梦道馆。馆主：铁旋，快乐放电的男人！",
-  "West: Route 117 and Verdanturf Town. The road is closed for now.": "西：117号道路和绿荫镇。道路目前封闭。",
-  "East: Route 118. The road is closed for now.": "东：118号道路。道路目前封闭。",
-  "North: Route 111, to Route 112 and Mt. Chimney.": "北：111号道路，通往112号道路和烟囱山。"
+  "North: Route 111, to Route 112 and Mt. Chimney.": "北：111号道路，通往112号道路和烟囱山。",
+  "West: Route 117 and Verdanturf Town.": "西：117号道路和绿荫镇。",
+  "East: Route 118. You will need a Pokémon that can Surf to cross it.": "东：118号道路。需要会冲浪的宝可梦才能渡过。"
 }, "zh-Hans");

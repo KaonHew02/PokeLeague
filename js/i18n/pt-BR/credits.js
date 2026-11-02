@@ -91,5 +91,8 @@ G.I18n.add({
   "Thank you for playing! The roads beyond Mauville City open in a future update.": "Obrigado por jogar! Os caminhos além de Mauville abrem em uma próxima atualização.",
   "Chapter 32 complete!": "Capítulo 32 concluído!",
   "{player} crossed the Fiery Path, saw Team Magma steal a meteorite at Meteor Falls, stopped Maxie on Mt. Chimney and earned the Heat Badge from Flannery.": "{player} atravessou o Fiery Path, viu a Equipe Magma roubar um meteorito em Meteor Falls, deteve Maxie no Mt. Chimney e ganhou a Insígnia Calor de Flannery.",
-  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Obrigado por jogar! Norman, o Líder de Ginásio de Petalburg, espera por você em uma próxima atualização."
+  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Obrigado por jogar! Norman, o Líder de Ginásio de Petalburg, espera por você em uma próxima atualização.",
+  "Chapter 33 complete!": "Capítulo 33 concluído!",
+  "{player} visited Wally in Verdanturf Town, earned the Balance Badge from Norman and met Steven again across the water on Route 118.": "{player} visitou Wally em Verdanturf, ganhou a Insígnia Equilíbrio de Norman e reencontrou Steven do outro lado da água na Rota 118.",
+  "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Obrigado por jogar! A Rota 119, o Instituto Meteorológico e Fortree esperam por você em uma próxima atualização."
 }, "pt-BR");

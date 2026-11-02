@@ -38,7 +38,7 @@ G.I18n.add({
   "Wahahahah! Well, I was the one who got electrified! You are the real deal!": "Wahahahah! Bom, quem levou o choque fui eu! Você é o verdadeiro!",
   "Mauville City. The bright and shining city of fun!": "Mauville. A cidade brilhante e reluzente da diversão!",
   "Mauville City Pokémon Gym. Leader: Wattson, the cheerfully electrifying man!": "Ginásio Pokémon de Mauville. Líder: Wattson, o homem alegremente eletrizante!",
-  "West: Route 117 and Verdanturf Town. The road is closed for now.": "Oeste: Rota 117 e Verdanturf. A estrada está fechada por enquanto.",
-  "East: Route 118. The road is closed for now.": "Leste: Rota 118. A estrada está fechada por enquanto.",
-  "North: Route 111, to Route 112 and Mt. Chimney.": "Norte: Rota 111, para a Rota 112 e o Mt. Chimney."
+  "North: Route 111, to Route 112 and Mt. Chimney.": "Norte: Rota 111, para a Rota 112 e o Mt. Chimney.",
+  "West: Route 117 and Verdanturf Town.": "Oeste: Rota 117 e Verdanturf.",
+  "East: Route 118. You will need a Pokémon that can Surf to cross it.": "Leste: Rota 118. Você vai precisar de um Pokémon que saiba Surf para atravessá-la."
 }, "pt-BR");

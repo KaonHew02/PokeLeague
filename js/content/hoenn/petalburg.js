@@ -7,6 +7,9 @@
  * Zigzagoon and you go with him to Route 102, where he catches a Ralts (flag wally-caught). Until
  * then a man at the west gate sends new Trainers to the Gym; after it the road west to Route 104
  * (woods.js) is open.
+ * Chapter 33: with four Hoenn badges (badge 20), Norman's students are back in the Gym (three Cool
+ * Trainers, a guide) and Norman battles: the Balance Badge (badge 21: Pokémon up to Lv. 50 obey in
+ * Hoenn) and TM42 Facade.
  */
 (() => {
   const T = s => G.T(s);
@@ -141,8 +144,37 @@
     warps: [{ x: 6, y: 10, to: 'petalburg', spot: 'gym-door' }],
     spots: { door: [6, 10, 'up'], front: [6, 5, 'up'] },
     npcs: [
-      { id: 'norman', who: 'norman', x: 6, y: 4, dir: 'down', script: 'petalburg.norman' },
-      { id: 'wally', who: 'wally', x: 5, y: 9, dir: 'up', if: 'scripted' }
+      { id: 'norman', who: 'norman', x: 6, y: 4, dir: 'down', if: '!badge:20', script: 'petalburg.norman' },
+      { id: 'wally', who: 'wally', x: 5, y: 9, dir: 'up', if: 'scripted' },
+      { id: 'guide', who: 'guide', x: 8, y: 10, dir: 'left', if: 'badge:20', script: 'petalburg.gym-guide' }
+    ],
+    // Chapter 33: with four Hoenn badges, Norman's students are back and Norman battles.
+    trainers: [
+      { id: 'randall', who: 'cooltrainerm', cls: 'cooltrainer', name: 'Randall', x: 0, y: 9, dir: 'right', sight: 6, if: 'badge:20',
+        team: [['delcatty', 27], ['zigzagoon', 26]],
+        before: 'Norman taught me that speed decides most battles. Let me show you!',
+        defeat: 'Not fast enough...',
+        after: 'Norman is strong, and he is fair. Losing to him always teaches you something.' },
+      { id: 'mary', who: 'cooltrainer', cls: 'cooltrainer-f', name: 'Mary', x: 12, y: 7, dir: 'left', sight: 6, if: 'badge:20',
+        team: [['wigglytuff', 27], ['skitty', 26]],
+        before: 'Every Pokémon in this Gym is a Normal type. Normal does not mean weak!',
+        defeat: 'Hmm, not bad at all.',
+        after: 'Normal types can learn moves of many other types. Never assume you know what is coming!' },
+      { id: 'george', who: 'cooltrainerm', cls: 'cooltrainer', name: 'George', x: 0, y: 6, dir: 'right', sight: 6, if: 'badge:20',
+        team: [['slakoth', 27], ['linoone', 27]],
+        before: 'My Slakoth looks lazy, but just wait until it gets going!',
+        defeat: 'Still yawning...',
+        after: 'Slakoth sleeps most of the day. Its evolution, Vigoroth, cannot keep still at all!' },
+      { id: 'norman-gym', who: 'norman', cls: 'leader', name: 'Norman', x: 6, y: 4, dir: 'down', sight: 0, leader: true, ai: 'leader', if: 'badge:20',
+        items: { 'super-potion': 1 },
+        team: [['spinda', 27, ['teeter-dance', 'psybeam', 'facade', 'encore']],
+               ['vigoroth', 27, ['slash', 'facade', 'encore', 'feint-attack']],
+               ['linoone', 29, ['slash', 'belly-drum', 'facade', 'headbutt']],
+               ['slaking', 31, ['facade', 'yawn', 'feint-attack', 'encore']]],
+        before: 'So you hold four badges now. Then I will battle you, not as the man who welcomed you to Hoenn, but as a Gym Leader. Show me everything you have!',
+        defeat: '...I lost. You have grown even stronger since you came to Hoenn. I am proud to have battled you.',
+        win: 'petalburg.norman-win',
+        afterScript: [['say', 'Wally writes to me from Verdanturf. He says he grows stronger every day. I think you had something to do with that.', NORMAN]] }
     ]
   }, HOENN));
 
@@ -218,6 +250,20 @@
         ['say', 'Rustboro City is north of here, past Route 104 and Petalburg Woods. Its Leader, Roxanne, is a fine first challenge in Hoenn.', NORMAN],
         ['say', 'Come back when you hold four badges. Then we will see what a Champion can do.', NORMAN]
       ], [['js', gymEnter]]]
+    ],
+    'petalburg.gym-guide': [
+      ['say', 'Yo, Champion! Norman uses Normal-type Pokémon. Fighting moves hit them hard, and his Normal moves cannot touch a Ghost type!'],
+      ['say', 'Watch out for his Slaking. It hits like a falling boulder... but it is so lazy that it only attacks every other turn.']
+    ],
+    'petalburg.norman-win': [
+      ['say', 'This is the Balance Badge. You earned it in a battle I will not soon forget.', NORMAN],
+      ['badge', 21],
+      ['jingle', 'badge'],
+      ['say', '{player} received the Balance Badge from Norman!'],
+      ['say', 'With five Hoenn badges, Pokémon up to level 50 will obey you, wherever they come from.', NORMAN],
+      ['say', 'And take this: TM42, Facade. If your Pokémon is burned, poisoned or paralyzed, it hits twice as hard.', NORMAN],
+      ['giveItem', 'tm42', 1],
+      ['say', 'East of Mauville, Route 118 crosses the sea. If one of your Pokémon knows Surf, the road beyond is yours.', NORMAN]
     ],
     'petalburg.wally-mom': [
       ['if', 'wally-caught', [

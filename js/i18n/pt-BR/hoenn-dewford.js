@@ -8,12 +8,7 @@ G.I18n.add({
   "You seem like a Trainer who will go far. Please take this TM. Steel Wing: hard wings that strike like steel.": "Você parece um Treinador que vai longe. Por favor, aceite este TM. Steel Wing: asas duras que golpeiam como aço.",
   "I have more stones to look for. Maybe we will meet again somewhere. Take care.": "Tenho mais pedras para procurar. Talvez nos encontremos de novo por aí. Cuide-se.",
   "Slateport City is to the north, across the sea. Mr. Briney can take you there, I bet.": "Slateport fica ao norte, do outro lado do mar. Aposto que o Sr. Briney pode te levar lá.",
-  "Ahoy! Peeko and I owe you one. Shall we sail across the sea to Dewford Town?": "Ahoy! Eu e a Peeko te devemos uma. Vamos navegar até Dewford?",
   "Mr. Briney's boat cut through the waves, with Peeko flying beside it...": "O barco do Sr. Briney cortou as ondas, com a Peeko voando ao lado...",
-  "Here we are: Dewford Town! Just say the word when you want to go back.": "Chegamos: Dewford! É só falar quando quiser voltar.",
-  "Any time you need a boat, just say the word!": "Sempre que precisar de um barco, é só falar!",
-  "Shall we sail back to my cottage on Route 104?": "Vamos voltar para a minha casinha na Rota 104?",
-  "Take your time. Peeko and I like it here too.": "Sem pressa. Eu e a Peeko também gostamos daqui.",
   "You already have a fishing rod! Cast it in any water and see what bites.": "Você já tem uma vara de pescar! Lance-a em qualquer água e veja o que morde.",
   "Fishing is the best! Here, take this Old Rod and see for yourself.": "Pescar é o melhor! Tome esta Old Rod e veja você mesmo.",
   "Face the water, use the rod, and wait for a bite!": "Fique de frente para a água, use a vara e espere morder!",
@@ -56,5 +51,7 @@ G.I18n.add({
   "Brawly's Gym is my goal. I will beat him one day!": "Meu objetivo é o Ginásio do Brawly. Um dia vou vencê-lo!",
   "Dewford Town. A tiny island in the rough sea, with a big Gym.": "Dewford. Uma ilhazinha num mar agitado, com um grande Ginásio.",
   "Dewford Town Pokémon Gym. Leader: Brawly, a big wave of fighting spirit.": "Ginásio Pokémon de Dewford. Líder: Brawly, uma grande onda de espírito de luta.",
-  "Granite Cave. Visitors must watch their step in the dark.": "Granite Cave. Os visitantes devem tomar cuidado com onde pisam no escuro."
+  "Granite Cave. Visitors must watch their step in the dark.": "Granite Cave. Os visitantes devem tomar cuidado com onde pisam no escuro.",
+  "Ahoy! Peeko and I owe you one. Where shall we sail?": "Ahoy! Eu e a Peeko te devemos uma. Para onde vamos navegar?",
+  "Here we are! Just say the word when you want to sail again.": "Chegamos! É só falar quando quiser navegar de novo."
 }, "pt-BR");

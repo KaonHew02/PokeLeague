@@ -85,5 +85,8 @@ G.I18n.add({
   "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "Merci d'avoir joué ! La prochaine Arène de Hoenn, de l'autre côté de la mer à Myokara, ouvrira dans une prochaine mise à jour.",
   "Chapter 30 complete!": "Chapitre 30 terminé !",
   "{player} got the Devon Goods back from Team Aqua, sailed to Dewford Town in Mr. Briney's boat and earned the Knuckle Badge from Brawly.": "{player} a repris le Pack Devon à la Team Aqua, a navigué jusqu'à Myokara sur le bateau de M. Marco et a gagné le Badge Poing de Bastien.",
-  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Merci d'avoir joué ! Poivressel, où le Pack Devon doit être livré, t'attend dans une prochaine mise à jour."
+  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Merci d'avoir joué ! Poivressel, où le Pack Devon doit être livré, t'attend dans une prochaine mise à jour.",
+  "Chapter 31 complete!": "Chapitre 31 terminé !",
+  "{player} delivered the Devon Goods to the Oceanic Museum, drove Team Aqua out of it, battled {rival3} and Wally, and earned the Dynamo Badge from Wattson.": "{player} a livré le Pack Devon au Musée Océanographique, en a chassé la Team Aqua, a affronté {rival3} et Timmy, et a gagné le Badge Dynamo de Voltère.",
+  "Thank you for playing! The roads beyond Mauville City open in a future update.": "Merci d'avoir joué ! Les routes au-delà de Lavandia s'ouvriront dans une prochaine mise à jour."
 }, "fr");

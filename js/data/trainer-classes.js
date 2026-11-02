@@ -53,5 +53,6 @@ G.TRAINER_CLASSES = {
   'team-aqua':   { title: 'Team Aqua Grunt', who: 'aqua', prize: 20 },
   'school-kid':  { title: 'School Kid', who: 'youngster', prize: 20 },
   'battle-girl': { title: 'Battle Girl', who: 'battlegirl', prize: 24 },
+  guitarist:     { title: 'Guitarist', who: 'rocker', prize: 32 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

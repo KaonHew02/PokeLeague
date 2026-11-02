@@ -8,12 +8,7 @@ G.I18n.add({
   "You seem like a Trainer who will go far. Please take this TM. Steel Wing: hard wings that strike like steel.": "Pareces un Entrenador que llegará lejos. Acepta esta MT, por favor. Ala de Acero: alas duras que golpean como el acero.",
   "I have more stones to look for. Maybe we will meet again somewhere. Take care.": "Tengo más piedras que buscar. Quizá volvamos a vernos en algún sitio. Cuídate.",
   "Slateport City is to the north, across the sea. Mr. Briney can take you there, I bet.": "Ciudad Portual está al norte, al otro lado del mar. Seguro que el Sr. Arenque puede llevarte.",
-  "Ahoy! Peeko and I owe you one. Shall we sail across the sea to Dewford Town?": "¡Ah del barco! Peeko y yo te debemos una. ¿Navegamos hasta Pueblo Azuliza?",
   "Mr. Briney's boat cut through the waves, with Peeko flying beside it...": "El barco del Sr. Arenque surcó las olas, con Peeko volando a su lado...",
-  "Here we are: Dewford Town! Just say the word when you want to go back.": "¡Ya hemos llegado: Pueblo Azuliza! Avísame cuando quieras volver.",
-  "Any time you need a boat, just say the word!": "¡Cuando necesites un barco, solo dímelo!",
-  "Shall we sail back to my cottage on Route 104?": "¿Volvemos navegando a mi casita de la Ruta 104?",
-  "Take your time. Peeko and I like it here too.": "Tómate tu tiempo. A Peeko y a mí también nos gusta esto.",
   "You already have a fishing rod! Cast it in any water and see what bites.": "¡Ya tienes una caña de pescar! Lánzala en cualquier agua y mira qué pica.",
   "Fishing is the best! Here, take this Old Rod and see for yourself.": "¡Pescar es lo mejor! Toma esta Caña Vieja y compruébalo tú mismo.",
   "Face the water, use the rod, and wait for a bite!": "¡Ponte frente al agua, usa la caña y espera a que piquen!",
@@ -56,5 +51,7 @@ G.I18n.add({
   "Brawly's Gym is my goal. I will beat him one day!": "Mi meta es el Gimnasio de Marcial. ¡Algún día lo venceré!",
   "Dewford Town. A tiny island in the rough sea, with a big Gym.": "Pueblo Azuliza. Una islita en un mar bravo, con un gran Gimnasio.",
   "Dewford Town Pokémon Gym. Leader: Brawly, a big wave of fighting spirit.": "Gimnasio Pokémon de Pueblo Azuliza. Líder: Marcial, una gran ola de espíritu de lucha.",
-  "Granite Cave. Visitors must watch their step in the dark.": "Cueva Granito. Los visitantes deben ir con cuidado en la oscuridad."
+  "Granite Cave. Visitors must watch their step in the dark.": "Cueva Granito. Los visitantes deben ir con cuidado en la oscuridad.",
+  "Ahoy! Peeko and I owe you one. Where shall we sail?": "¡Ah del barco! Peeko y yo te debemos una. ¿Adónde navegamos?",
+  "Here we are! Just say the word when you want to sail again.": "¡Ya hemos llegado! Avísame cuando quieras volver a navegar."
 }, "es");

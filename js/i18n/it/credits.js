@@ -85,5 +85,8 @@ G.I18n.add({
   "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "Grazie per aver giocato! La prossima Palestra di Hoenn, oltre il mare a Bluruvia, si aprirà in un prossimo aggiornamento.",
   "Chapter 30 complete!": "Capitolo 30 completato!",
   "{player} got the Devon Goods back from Team Aqua, sailed to Dewford Town in Mr. Briney's boat and earned the Knuckle Badge from Brawly.": "{player} ha recuperato la Merce Devon dal Team Idro, ha navigato fino a Bluruvia sulla barca del Signor Marino e ha vinto la Medaglia Pugno di Rudi.",
-  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Grazie per aver giocato! Porto Selcepoli, dove deve arrivare la Merce Devon, ti aspetta in un prossimo aggiornamento."
+  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Grazie per aver giocato! Porto Selcepoli, dove deve arrivare la Merce Devon, ti aspetta in un prossimo aggiornamento.",
+  "Chapter 31 complete!": "Capitolo 31 completato!",
+  "{player} delivered the Devon Goods to the Oceanic Museum, drove Team Aqua out of it, battled {rival3} and Wally, and earned the Dynamo Badge from Wattson.": "{player} ha consegnato la Merce Devon al Museo Oceanografico, ne ha cacciato il Team Idro, ha lottato contro {rival3} e Valerio, e ha vinto la Medaglia Dinamo di Walter.",
+  "Thank you for playing! The roads beyond Mauville City open in a future update.": "Grazie per aver giocato! Le strade oltre Ciclamipoli si apriranno in un prossimo aggiornamento."
 }, "it");

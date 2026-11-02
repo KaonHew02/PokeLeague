@@ -8,12 +8,7 @@ G.I18n.add({
   "You seem like a Trainer who will go far. Please take this TM. Steel Wing: hard wings that strike like steel.": "Sembri un Allenatore che farà strada. Ti prego, accetta questa MT. Alacciaio: ali dure che colpiscono come l'acciaio.",
   "I have more stones to look for. Maybe we will meet again somewhere. Take care.": "Ho altre pietre da cercare. Forse ci rivedremo da qualche parte. Abbi cura di te.",
   "Slateport City is to the north, across the sea. Mr. Briney can take you there, I bet.": "Porto Selcepoli è a nord, oltre il mare. Scommetto che il Signor Marino può portarti lì.",
-  "Ahoy! Peeko and I owe you one. Shall we sail across the sea to Dewford Town?": "Ohilà! Io e Peeko ti dobbiamo un favore. Salpiamo verso Bluruvia?",
   "Mr. Briney's boat cut through the waves, with Peeko flying beside it...": "La barca del Signor Marino fendeva le onde, con Peeko in volo accanto...",
-  "Here we are: Dewford Town! Just say the word when you want to go back.": "Eccoci: Bluruvia! Dimmelo quando vuoi tornare.",
-  "Any time you need a boat, just say the word!": "Ogni volta che ti serve una barca, dimmelo!",
-  "Shall we sail back to my cottage on Route 104?": "Torniamo alla mia casetta sul Percorso 104?",
-  "Take your time. Peeko and I like it here too.": "Fai con calma. Anche a me e a Peeko piace stare qui.",
   "You already have a fishing rod! Cast it in any water and see what bites.": "Hai già una canna da pesca! Lanciala in qualsiasi specchio d'acqua e vedi cosa abbocca.",
   "Fishing is the best! Here, take this Old Rod and see for yourself.": "La pesca è il massimo! Tieni questa Amo Vecchio e provalo tu stesso.",
   "Face the water, use the rod, and wait for a bite!": "Mettiti davanti all'acqua, usa la canna e aspetta che abbocchi!",
@@ -56,5 +51,7 @@ G.I18n.add({
   "Brawly's Gym is my goal. I will beat him one day!": "Il mio obiettivo è la Palestra di Rudi. Un giorno lo batterò!",
   "Dewford Town. A tiny island in the rough sea, with a big Gym.": "Bluruvia. Un'isoletta in un mare agitato, con una grande Palestra.",
   "Dewford Town Pokémon Gym. Leader: Brawly, a big wave of fighting spirit.": "Palestra Pokémon di Bluruvia. Capopalestra: Rudi, una grande onda di spirito combattivo.",
-  "Granite Cave. Visitors must watch their step in the dark.": "Grotta Pietrosa. I visitatori facciano attenzione a dove mettono i piedi al buio."
+  "Granite Cave. Visitors must watch their step in the dark.": "Grotta Pietrosa. I visitatori facciano attenzione a dove mettono i piedi al buio.",
+  "Ahoy! Peeko and I owe you one. Where shall we sail?": "Ohilà! Io e Peeko ti dobbiamo un favore. Dove salpiamo?",
+  "Here we are! Just say the word when you want to sail again.": "Eccoci! Dimmelo quando vuoi salpare di nuovo."
 }, "it");

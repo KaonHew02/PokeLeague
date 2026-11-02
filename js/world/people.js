@@ -25,7 +25,8 @@ G.People = (() => {
                  'lorelei', 'bruno', 'agatha', 'lance', 'elm', 'silver', 'sage', 'falkner', 'kurt', 'bugsy',
                  'whitney', 'pokefan', 'granny', 'morty', 'kimono', 'eusine', 'jasmine', 'chuck',
                  'pryce', 'skier', 'boarder', 'clair', 'cooltrainerm', 'will', 'karen', 'birch', 'may', 'brendan',
-                 'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl'];
+                 'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
+                 'archie', 'stern', 'wattson'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -220,6 +221,12 @@ G.People = (() => {
     president: { head: 'short', body: 'coat', legs: 'pants', h: '#e8e8f0', H: '#b8b8c4', j: '#5a4a7a', J: '#40345a', c: '#f4f4f4', C: '#c8c8d0',
                  p: '#3a3a4a', P: '#262634', k: '#1a1a22' },
     battlegirl: { head: 'long', body: 'tee', legs: 'bare', h: '#2a2028', H: '#160e14', c: '#f4f4f4', C: '#c8c8d0', p: '#e05a30', P: '#b04420', k: '#e05a30' },
+    // Chapter 31: Archie (Team Aqua's leader), Captain Stern, Wattson (a white beard, a yellow shirt).
+    archie: { head: 'bandana', body: 'tee', legs: 'pants', a: '#1e2a5a', A: '#121a3c', h: '#2a2420', H: '#16100c', c: '#1e2a5a', C: '#121a3c',
+              p: '#1e2a5a', P: '#121a3c', k: '#e8c060', s: '#d8a070', S: '#b07c50' },
+    stern: { head: 'birch', body: 'coat', legs: 'pants', h: '#3a2a1e', H: '#241a10', j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0',
+             p: '#2a3a6a', P: '#1c284a', k: '#1a1a22' },
+    wattson: { head: 'birch', body: 'tee', legs: 'pants', h: '#f0f0f4', H: '#c4c4d0', c: '#f0c838', C: '#c8a020', p: '#5a4a3a', P: '#3e3226', k: '#3a2a1e' },
     elm: { head: 'short', body: 'coat', legs: 'pants', h: '#6a4a2a', H: '#4a3018', j: '#f4f4f4', J: '#c4c8d0', c: '#3a8a5a', C: '#28683e', p: '#4a4a5a', P: '#30303e', k: '#3a3030' },
     silver: { head: 'long', body: 'jacket', legs: 'pants', h: '#c8303a', H: '#8a1e26', j: '#2a2a3a', J: '#16161e', c: '#c8303a', C: '#8a1e26', p: '#3a3a4a', P: '#24242e', k: '#2a2020' },
     sage: { head: 'bald', body: 'coat', legs: 'pants', h: '#3a3a40', H: '#24242a', j: '#5a5a6a', J: '#40404c', c: '#d8c8a0', C: '#b8a880', p: '#4a4a56', P: '#30303a', k: '#2a2a2a' },

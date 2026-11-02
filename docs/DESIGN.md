@@ -363,7 +363,9 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
   done `map:flag`, trainers as `map:id`.
 - **Script commands added:** `['found', item, n, doneKey]` (item ball), `['lastHeal', spot]`,
   `['addVar', k, n]`, `['place', who, x, y, dir]`, `['js', fn]`. `say` takes `{ name, vars }`;
-  `choice` is `['choice', text, [yes], [no], { options, name }]`. `dex('give')` sets the flag
+  `choice` is `['choice', text, [yes], [no], { options, name }]`; `menu` is `['menu', text, [[label,
+  [commands], cond?], …], { name }]` (only the items whose `cond` holds are offered, then Cancel; a
+  label `{ loc }` shows a place name). `dex('give')` sets the flag
   `has-pokedex`. The full list is at the top of script.js; `G.Script.check` validates arguments.
 - **Shop and PC:** the scripts call `G.ShopUI.open(stock)` and `G.PCUI.open()` (M5) and await
   them. The menu button and Start call `G.StartMenu.open()` (M5).
@@ -420,7 +422,7 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
   `{ name: '{rival}' }`). People: `daisy`, `aide`. `G.TRAINER_CLASSES` (title, who, prize base:
   youngster, lass, bug-catcher, camper, picnicker, hiker, leader). The rival and other named
   characters have no class: their def has `name` and `prize`.
-- **Texts in content files:** `tools/i18n_keys.js` finds `['say' | 'choice', '…']`, the fields
+- **Texts in content files:** `tools/i18n_keys.js` finds `['say' | 'choice' | 'menu' | 'sign', '…']`, the fields
   `say before defeat after text sign name title`, sign texts (`'x,y': '…'`) and `G.T('…')` in
   helper code (`h.say(G.T('…'), { vars })`). Translations go in `js/i18n/<lang>/kanto-<area>.js`;
   trainer classes in `trainers.js`.
@@ -1550,11 +1552,43 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   scene, the boat both ways and Granite Cave. A school kid on Route 116 is Kelsey, not Karen (that
   name translates as Johto's Elite Four).
 
-### After chapter 30
+- **Chapter 31** ✅, Slateport and Mauville: Mr. Briney's boat now asks where to sail (the script
+  command `menu`): Route 104, Dewford Town and, once you have been to Dewford (`visited:dewford`),
+  Slateport City's pier (`hoenn.briney-slateport`, spot `slateport:pier`). Slateport: the Oceanic
+  Museum (two grunts idle on 1F until the Goods are delivered; on 2F the map's `enter` script
+  `museum.enter` runs the scene: Captain Stern takes the parts, two grunts battle you one after the
+  other, Carvanha Lv. 16 then Poochyena and Carvanha Lv. 15, Archie of Team Aqua calls them off and
+  you hand over the Devon Goods, flag `goods-delivered`), the museum's shipyard, a Pokémon Center, a
+  Mart, a house; the sea and the pier south of the beach. Route 110 north (Psychic Edward, Lass
+  Isabel, Fisherman Dale at the pond, Youngster Ben): {rival3} stops you once the Goods are
+  delivered (`route110.rival`, can be lost, flag `rival3-110`; the team in `G.Hoenn.RIVAL_TEAM_110`:
+  Wingull, Numel or Lombre at 18 and the starter's second stage at 20). Mauville City: Wally and his
+  uncle outside the Gym once you hold the Knuckle Badge (Wally's Ralts Lv. 16, flag `wally-battle`),
+  Rydel's Cycles (nothing to sell: you have Kanto's Bicycle), the Game Corner (closed), a Pokémon
+  Center, a Mart, a house; the roads west, east and north are closed for now. Wattson's Gym
+  (Guitarist Kirk, Battle Girl Vivian; Wattson: Voltorb 20, Electrike 20, Magneton 22, Manectric 24,
+  a Super Potion). The Dynamo Badge (badge 19: up to Lv. 35) and TM34 Shock Wave, then
+  `ending(31)`. Emerald's wild Pokémon. Files: `js/content/hoenn/slateport.js`, `mauville.js`
+  (translations `hoenn-slateport`, `hoenn-mauville`); `dewford.js` (the boat's menu).
+- **Engine and data for chapter 31:** the script command `menu` (`G.Script`, checked by
+  `G.Script.check`; `tools/i18n_keys.js` finds its text); people `archie`, `stern`, `wattson`, the
+  class `guitarist`; the Town Map's Route 110. `G.World`'s first fade-in after the game starts only
+  runs the `enter` script of the map it was for (a warp taken before it ends no longer runs the next
+  map's script twice). The story test's auto-player counts a multi-hit move's average hits (Double
+  Kick, Fury Swipes...): with it Combusken at 20 now beats Brawly 72% of the time. Slateport has
+  seven rows of sea under the pier, so the view from its end is open water, not the border's trees.
+  `[balance]` vs Wattson: Marshtomp at 24 wins 88% (Ground: immune to his Electric moves), Combusken
+  or Grovyle at 24 with a Lv. 20 Geodude 83% and 53% (the Gym guide's advice); a lone Grovyle or
+  Combusken loses. `tests/story.test.cjs` plays chapter 31; `tests/field.test.cjs` the boat's menu
+  before and after Dewford, the museum's battles, Route 110 to Mauville and Wally's trigger;
+  `tests/maps.test.cjs` the `menu` command.
 
-1. **Hoenn, chapter 31:** Mr. Briney's boat to Slateport City (Route 109's beach, the Oceanic
-   Museum: the Devon Goods to Captain Stern, Team Aqua again), Route 110 to Mauville City (the
-   rival, Wally), Wattson's Gym and the Dynamo Badge.
+### After chapter 31
+
+1. **Hoenn, chapter 32:** Route 117 west to Verdanturf Town (the Rusturf Tunnel dug through, Wally's
+   home), Route 111 north (the desert closed until the Go-Goggles) and Route 112 to the Fiery Path
+   and the cable car up Mt. Chimney (Team Magma and Team Aqua at the summit), Lavaridge Town,
+   Flannery's Gym and the Heat Badge.
 2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
    abilities outside battle (Pickup, Synchronize and the others on wild encounters), Dive and
    the other Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.

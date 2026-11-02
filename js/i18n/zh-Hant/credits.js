@@ -85,5 +85,8 @@ G.I18n.add({
   "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "感謝遊玩！豐緣的下一座道館在海對面的武鬥鎮，將在之後的更新中開放。",
   "Chapter 30 complete!": "第三十章完成！",
   "{player} got the Devon Goods back from Team Aqua, sailed to Dewford Town in Mr. Briney's boat and earned the Knuckle Badge from Brawly.": "{player}從海洋隊手中奪回了得文貨物，坐哈奇老人的船來到武鬥鎮，還從藤樹那裡贏得了拳頭徽章。",
-  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "感謝遊玩！得文貨物要送去的凱那市，將在之後的更新中等著你。"
+  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "感謝遊玩！得文貨物要送去的凱那市，將在之後的更新中等著你。",
+  "Chapter 31 complete!": "第三十一章完成！",
+  "{player} delivered the Devon Goods to the Oceanic Museum, drove Team Aqua out of it, battled {rival3} and Wally, and earned the Dynamo Badge from Wattson.": "{player}把得文貨物送到了海洋博物館，把海洋隊趕了出去，和{rival3}、滿充對戰，還從鐵旋那裡贏得了紫電徽章。",
+  "Thank you for playing! The roads beyond Mauville City open in a future update.": "感謝遊玩！紫堇市以外的道路將在之後的更新中開放。"
 }, "zh-Hant");

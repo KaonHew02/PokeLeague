@@ -44,7 +44,7 @@ function fromJs(file, keys) {
     if (r && r[0].trim()) keys.has(r[0]) || keys.set(r[0], rel);
   }
   // Content: say / sign / dialogue text in [ 'say', '…' ] commands and text fields.
-  const re2 = /\[\s*'(?:say|choice|sign)'\s*,\s*/g;
+  const re2 = /\[\s*'(?:say|choice|menu|sign)'\s*,\s*/g;
   while ((m = re2.exec(src))) {
     const r = readString(src, re2.lastIndex);
     if (r && r[0].trim()) keys.has(r[0]) || keys.set(r[0], rel);

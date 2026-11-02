@@ -85,5 +85,8 @@ G.I18n.add({
   "Thank you for playing! Hoenn's next Gym, across the sea in Dewford Town, opens in a future update.": "Obrigado por jogar! O próximo Ginásio de Hoenn, do outro lado do mar em Dewford, abre em uma próxima atualização.",
   "Chapter 30 complete!": "Capítulo 30 concluído!",
   "{player} got the Devon Goods back from Team Aqua, sailed to Dewford Town in Mr. Briney's boat and earned the Knuckle Badge from Brawly.": "{player} recuperou os Devon Goods da Equipe Aqua, navegou até Dewford no barco do Sr. Briney e ganhou a Insígnia Punho de Brawly.",
-  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Obrigado por jogar! Slateport, para onde os Devon Goods devem ir, espera por você em uma próxima atualização."
+  "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Obrigado por jogar! Slateport, para onde os Devon Goods devem ir, espera por você em uma próxima atualização.",
+  "Chapter 31 complete!": "Capítulo 31 concluído!",
+  "{player} delivered the Devon Goods to the Oceanic Museum, drove Team Aqua out of it, battled {rival3} and Wally, and earned the Dynamo Badge from Wattson.": "{player} entregou os Devon Goods no Museu Oceânico, expulsou a Equipe Aqua de lá, batalhou com {rival3} e Wally, e ganhou a Insígnia Dínamo de Wattson.",
+  "Thank you for playing! The roads beyond Mauville City open in a future update.": "Obrigado por jogar! Os caminhos além de Mauville abrem em uma próxima atualização."
 }, "pt-BR");

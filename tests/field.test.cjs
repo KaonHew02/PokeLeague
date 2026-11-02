@@ -975,6 +975,56 @@ test("Hoenn (chapter 30): the Devon Goods are stolen on the way out of Roxanne's
   assert.ok(G.Maps.get('granite-cave-b1f').def.dark, 'B1F is dark');
 });
 
+test('Hoenn (chapter 31): the boat to Slateport, Team Aqua in the museum, Route 110 to Mauville, Wally outside the Gym', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.giveMon('marshtomp', 26, { moves: ['water-gun', 'mud-shot'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to); };
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  // Mr. Briney's menu: Slateport only once you have been to Dewford.
+  F.setFlag('goods-stolen'); F.setFlag('peeko-saved');
+  const asked = [];
+  G.Dialog.ask = (t, o) => { asked.push(plain(o.options || [])); return Promise.resolve(asked.length === 1 ? 1 : 1); };
+  W.load('briney-house', { x: 6, y: 4, dir: 'right' });
+  W.interact();
+  await until(() => asked.length === 1);
+  assert.deepEqual(asked[0], ['Dewford Town', 'Cancel'], 'before Dewford: only Dewford');
+  for (let i = 0; i < 20; i++) { W.update(0.05); await tick(); }
+  W.load('dewford', { x: 20, y: 20, dir: 'up' });                        // arriving makes it visited
+  W.load('briney-house', { x: 6, y: 4, dir: 'right' });
+  W.interact();
+  await until(() => W.map.id === 'slateport');
+  assert.deepEqual(asked[1], ['Dewford Town', 'Slateport City', 'Cancel']);
+  assert.deepEqual([W.player.x, W.player.y], [20, 28], "on Slateport's pier");
+  G.Dialog.ask = () => Promise.resolve(0);
+  for (let i = 0; i < 30; i++) { W.update(0.05); await tick(); }
+  // The museum: up the stairs with the Devon Goods, two grunts, then Archie.
+  F.giveItem('devon-goods', 1);
+  W.load('museum-1f', { x: 10, y: 3, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('goods-delivered'));
+  assert.deepEqual(plain(got), ['museum-2f:aqua-museum-1', 'museum-2f:aqua-museum-2']);
+  assert.equal(F.count('devon-goods'), 0);
+  // North along Route 110 to Mauville City.
+  W.load('slateport', { x: 16, y: 0, dir: 'up' });
+  await cross('up', 'route110');
+  assert.deepEqual([W.player.x, W.player.y], [11, 39]);
+  W.load('route110', { x: 11, y: 0, dir: 'up' });
+  await cross('up', 'mauville');
+  assert.deepEqual([W.player.x, W.player.y], [15, 23]);
+  // Wally and his uncle wait outside the Gym once you hold the Knuckle Badge.
+  F.badge(17); F.badge(18);
+  W.load('mauville', { x: 15, y: 12, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('wally-battle'));
+  assert.equal(got[got.length - 1], 'mauville:wally-mauville');
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

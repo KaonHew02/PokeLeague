@@ -10,6 +10,9 @@
  * Text (English keys, translated with G.I18n.fmt; {player} and {rival} are filled in):
  *   ['say', text | [texts], { name, vars }]      a dialog box (a list = one box after another)
  *   ['choice', text, [yes cmds], [no cmds], { options:['Yes','No'], name }]
+ *   ['menu', text, [[label, [cmds], cond?], …], { name }]   one of several (chapter 31): items whose
+ *                                  cond fails are left out, Cancel comes last; a label is an English
+ *                                  key or { loc: id } (a place's official name, G.Names.loc)
  *   ['if', cond, [then], [else]]   cond: 'flag', '!flag', 'var>=3', 'has:potion', 'badge:1',
  *                                  'done:route2:rick', a list (all of them) — see G.Field.test
  *   ['call', 'script-name']        ['end']   stops the whole script
@@ -50,6 +53,12 @@ G.Script = (() => {
     async choice(h, text, yes, no, o) {
       const i = await h.choice(text, o || {});
       return exec(i === 0 ? yes : no, h);
+    },
+    async menu(h, text, items, o) {
+      const shown = list(items).filter(it => it[2] == null || G.Field.test(it[2]));
+      const label = l => (l && typeof l === 'object' && l.loc ? G.Names.loc(l.loc) : l);
+      const i = await h.choice(text, Object.assign({}, o || {}, { options: shown.map(it => label(it[0])).concat([G.T('Cancel')]) }));
+      if (i >= 0 && i < shown.length) return exec(shown[i][1], h);
     },
     if: (h, cond, then, els) => exec(G.Field.test(cond) ? then : els, h),
     call(h, name) {
@@ -146,7 +155,8 @@ G.Script = (() => {
   const COND = v => typeof v === 'string' || typeof v === 'function' || (Array.isArray(v) && v.every(c => typeof c === 'string'));
   /** Argument checks per command (null = anything goes). */
   const ARGS = {
-    say: [TEXT], choice: [TEXT], if: [COND], call: [WHO], end: [],
+    say: [TEXT], choice: [TEXT], menu: [TEXT, v => Array.isArray(v) && v.every(it => Array.isArray(it) && Array.isArray(it[1]))],
+    if: [COND], call: [WHO], end: [],
     setFlag: [WHO], clearFlag: [WHO], setVar: [WHO], addVar: [WHO], badge: [NUM], dex: [WHO],
     giveMon: [v => G.Maps.species(v) != null, NUM], giveItem: [v => !G.ITEMS || !!G.ITEMS[v]], takeItem: [v => !G.ITEMS || !!G.ITEMS[v]], money: [NUM],
     found: [v => !G.ITEMS || !!G.ITEMS[v]],
@@ -170,6 +180,7 @@ G.Script = (() => {
       want.forEach((ok, k) => { if (!ok(args[k])) E.push(`${at} ${name}: bad argument ${k + 1} ${JSON.stringify(args[k])}`); });
       if (name === 'choice') { E.push(...check(list(args[1]), at + '.yes'), ...check(list(args[2]), at + '.no')); }
       if (name === 'if') { E.push(...check(list(args[1]), at + '.then'), ...check(list(args[2]), at + '.else')); }
+      if (name === 'menu') list(args[1]).forEach((it, k) => { if (Array.isArray(it)) E.push(...check(list(it[1]), `${at}.${k}`)); });
       if (name === 'call' && !get(args[0])) E.push(`${at}: call to unknown script "${args[0]}"`);
       if (name === 'warp' && G.Maps.get && G.Maps.get(args[0]) && !G.Maps.get(args[0]).spots[args[1]]) E.push(`${at}: ${args[0]} has no spot "${args[1]}"`);
     });

@@ -40,7 +40,9 @@ function bestMove(G, b) {
     const pow = sm && typeof sm.power === 'function' ? sm.power(b, pb, fb, M) || 0 : M.pow || 0;   // Low Kick: by weight
     // The foe's ability counts (chapter 28): Levitate in b.eff, Water Absorb, Wonder Guard, Thick Fat...
     const eff = b.eff(M.type, fb), blocked = pow > 0 && G.Abilities.immune(pb, fb, M, M.type, eff);
-    const s = blocked ? 0 : pow * eff * G.Abilities.powerMult(b, pb, fb, M.type) * (G.Mon.types(me).includes(M.type) ? 1.5 : 1) * ((M.acc || 100) / 100);
+    // A move that hits several times counts its average number of hits (Double Kick: two).
+    const hits = M.meta.hits ? (M.meta.hits[0] + M.meta.hits[1]) / 2 : 1;
+    const s = blocked ? 0 : pow * hits * eff * G.Abilities.powerMult(b, pb, fb, M.type) * (G.Mon.types(me).includes(M.type) ? 1.5 : 1) * ((M.acc || 100) / 100);
     if (s > score) { score = s; best = m.slot; }
   }
   return { type: 'move', slot: best };
@@ -454,6 +456,23 @@ function leaderRate(G, mapId, id) {
     return wins / 40;
   };
 }
+
+test('balance: Wattson in Mauville (chapter 31), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'mauville-gym', 'wattson');
+  const table = {
+    'marshtomp 24': rate([[259, 24]]), 'grovyle 24': rate([[253, 24]]), 'combusken 24': rate([[256, 24]]),
+    'grovyle 26': rate([[253, 26]]), 'combusken 26': rate([[256, 26]]),
+    'combusken 24 + geodude 20': rate([[256, 24], [74, 20]]), 'grovyle 24 + geodude 20': rate([[253, 24], [74, 20]])
+  };
+  console.log('[balance] vs Wattson:', JSON.stringify(table));
+  // Emerald's four Pokémon (Lv. 20-24) outlast any lone starter but Marshtomp, whom Electric moves do
+  // not touch. A Ground-type partner (a Geodude from Granite Cave: the Gym guide says so) turns it.
+  assert.ok(table['marshtomp 24'] >= 0.8, 'Marshtomp');
+  assert.ok(table['combusken 24 + geodude 20'] >= 0.6, 'Combusken with a Geodude');
+  assert.ok(table['grovyle 24 + geodude 20'] >= 0.4, 'Grovyle with a Geodude');
+  assert.ok(table['grovyle 24'] < 0.2 && table['combusken 24'] < 0.2, 'a lone Grovyle or Combusken is worn down');
+});
 
 test('balance: Brawly in Dewford (chapter 30), win rates of typical teams are printed', () => {
   const { G } = world(1);
@@ -2418,6 +2437,58 @@ async function chapter30(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 31 after chapter 30: Mr. Briney's boat to Slateport City, the Oceanic Museum and Team Aqua, Route 110 and the rival,
+ *  Wally in Mauville City, Wattson. */
+async function chapter31(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // From Mr. Briney's cottage: Dewford Town, and now Slateport City (the overworld sets visited:dewford on arrival).
+  F.setFlag('visited:dewford');
+  await run(st, 'briney-house', npc(st, 'briney-house', 'briney2'), [1]);
+  assert.equal(st.W.map, 'slateport');
+  assert.ok(st.log.some(l => l.includes('Slateport City')), 'Slateport is on the menu');
+  // The Oceanic Museum: two Team Aqua grunts, Archie, and the Devon Goods for the captain.
+  F.healAll();
+  await run(st, 'museum-2f', G.Maps.get('museum-2f').def.enter);
+  assert.equal(st.battles[st.battles.length - 2].key, 'museum-2f:aqua-museum-1');
+  assert.equal(last().key, 'museum-2f:aqua-museum-2');
+  won();
+  assert.ok(F.flag('goods-delivered') && F.count('devon-goods') === 0, 'the Goods are delivered');
+  // Route 110: its Trainers, then the rival.
+  await all('route110');
+  F.healAll();
+  await run(st, 'route110', 'route110.rival');
+  assert.equal(last().key, 'route110:rival3-110');
+  console.log('[story] the rival on Route 110:', last().outcome, 'at levels', last().levels.join());
+  assert.ok(F.flag('rival3-110'));
+  // Mauville City: Wally and his Ralts, outside the Gym.
+  F.healAll();
+  await run(st, 'mauville', 'mauville.wally');
+  assert.equal(last().key, 'mauville:wally-mauville');
+  won();
+  assert.ok(F.flag('wally-battle'));
+  // Wattson's Gym.
+  grind(st, 'route110', 25, 400);
+  await all('mauville-gym');
+  F.healAll();
+  const money = S.player.money, tm34 = F.count('tm34');
+  await run(st, 'mauville-gym', [['battle', 'mauville-gym:wattson']]);
+  won();
+  assert.ok(S.player.badges.includes(19), 'the Dynamo Badge');
+  assert.equal(F.obeyCap('hoenn'), 35, 'three Hoenn badges: up to Lv. 35');
+  assert.equal(F.count('tm34'), tm34 + 1);
+  assert.equal(S.player.money - money, 2400);
+  assert.ok(F.flag('chapter-31-done'));
+  // Mr. Briney sails from Slateport too.
+  await run(st, 'slateport', npc(st, 'slateport', 'briney'), [1]);
+  assert.equal(st.W.map, 'dewford');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2499,7 +2570,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 30: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Knuckle Badge", async () => {
+test("chapters 11 to 31: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Dynamo Badge", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2531,4 +2602,5 @@ test("chapters 11 to 30: Johto, from Professor Elm to Johto's League and its pos
   await chapter28(st);
   await chapter29(st);
   await chapter30(st);
+  await chapter31(st);
 });

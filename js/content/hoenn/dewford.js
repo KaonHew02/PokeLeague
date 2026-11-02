@@ -220,6 +220,20 @@
     encounters: { walk: '@granite-cave-b1f' }
   }, CAVE));
 
+  // ---------------- Mr. Briney's boat ----------------
+  const PLACES = [['route104', 'hoenn-route-104', null], ['dewford', 'dewford-town', null], ['slateport', 'slateport-city', 'visited:dewford']];
+  /** His boat from `here` to any of the other places he sails to. */
+  const boat = here => [
+    ['menu', 'Ahoy! Peeko and I owe you one. Where shall we sail?',
+      PLACES.filter(([map]) => map !== here).map(([map, loc, cond]) => [{ loc }, [
+        ['fade', 'out', 0.6], ['sfx', 'horn'],
+        ['say', "Mr. Briney's boat cut through the waves, with Peeko flying beside it..."],
+        ['warp', map, 'pier'],
+        ['say', 'Here we are! Just say the word when you want to sail again.', BRINEY]
+      ], here === 'dewford' && map === 'slateport' ? null : cond]),
+      BRINEY]
+  ];
+
   // ---------------- Steven ----------------
   async function steven(h) {
     const F = G.Field;
@@ -244,26 +258,10 @@
 
   G.Script.def({
     'dewford.steven': [['js', steven]],
-    // Mr. Briney's boat: Route 104 to Dewford Town and back (chapter 30).
-    'hoenn.briney': [
-      ['choice', 'Ahoy! Peeko and I owe you one. Shall we sail across the sea to Dewford Town?', [
-        ['fade', 'out', 0.6], ['sfx', 'horn'],
-        ['say', 'Mr. Briney\'s boat cut through the waves, with Peeko flying beside it...'],
-        ['warp', 'dewford', 'pier'],
-        ['say', 'Here we are: Dewford Town! Just say the word when you want to go back.', BRINEY]
-      ], [
-        ['say', 'Any time you need a boat, just say the word!', BRINEY]
-      ], BRINEY]
-    ],
-    'hoenn.briney-dewford': [
-      ['choice', 'Shall we sail back to my cottage on Route 104?', [
-        ['fade', 'out', 0.6], ['sfx', 'horn'],
-        ['say', 'Mr. Briney\'s boat cut through the waves, with Peeko flying beside it...'],
-        ['warp', 'route104', 'pier']
-      ], [
-        ['say', 'Take your time. Peeko and I like it here too.', BRINEY]
-      ], BRINEY]
-    ],
+    // Mr. Briney's boat (chapter 30; Slateport City in chapter 31, once you have been to Dewford Town).
+    'hoenn.briney': boat('route104'),
+    'hoenn.briney-dewford': boat('dewford'),
+    'hoenn.briney-slateport': boat('slateport'),
     'dewford.fisherman': [
       ['if', 'has:old-rod', [
         ['say', 'You already have a fishing rod! Cast it in any water and see what bites.']

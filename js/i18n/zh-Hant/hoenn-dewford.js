@@ -8,12 +8,7 @@ G.I18n.add({
   "You seem like a Trainer who will go far. Please take this TM. Steel Wing: hard wings that strike like steel.": "你看起來是會大有作為的訓練家。請收下這個招式學習器。鋼翼：用像鋼鐵一樣堅硬的翅膀攻擊。",
   "I have more stones to look for. Maybe we will meet again somewhere. Take care.": "我還有別的石頭要找。說不定我們會在哪裡再見。保重。",
   "Slateport City is to the north, across the sea. Mr. Briney can take you there, I bet.": "凱那市在北邊的海對面。哈奇老人一定能載你過去。",
-  "Ahoy! Peeko and I owe you one. Shall we sail across the sea to Dewford Town?": "喂！我和Peeko欠你一個人情。要不要渡海去武鬥鎮？",
   "Mr. Briney's boat cut through the waves, with Peeko flying beside it...": "哈奇老人的船破浪前進，Peeko在一旁飛著……",
-  "Here we are: Dewford Town! Just say the word when you want to go back.": "到了：武鬥鎮！想回去的時候說一聲就好。",
-  "Any time you need a boat, just say the word!": "什麼時候需要船，說一聲就行！",
-  "Shall we sail back to my cottage on Route 104?": "要不要坐船回我在104號道路的小屋？",
-  "Take your time. Peeko and I like it here too.": "慢慢來。我和Peeko也挺喜歡這裡的。",
   "You already have a fishing rod! Cast it in any water and see what bites.": "你已經有釣竿了！隨便找片水域甩下去，看看會釣到什麼吧。",
   "Fishing is the best! Here, take this Old Rod and see for yourself.": "釣魚最棒了！來，拿著這根破舊釣竿，自己試試看吧。",
   "Face the water, use the rod, and wait for a bite!": "面對水面用釣竿，然後等魚上鉤！",
@@ -56,5 +51,7 @@ G.I18n.add({
   "Brawly's Gym is my goal. I will beat him one day!": "我的目標是藤樹的道館。總有一天我會打敗他！",
   "Dewford Town. A tiny island in the rough sea, with a big Gym.": "武鬥鎮。洶湧海中的小島，有一座大道館。",
   "Dewford Town Pokémon Gym. Leader: Brawly, a big wave of fighting spirit.": "武鬥鎮寶可夢道館。館主：藤樹，鬥志如巨浪般洶湧。",
-  "Granite Cave. Visitors must watch their step in the dark.": "石之洞窟。來訪者在黑暗中請注意腳下。"
+  "Granite Cave. Visitors must watch their step in the dark.": "石之洞窟。來訪者在黑暗中請注意腳下。",
+  "Ahoy! Peeko and I owe you one. Where shall we sail?": "喂！我和Peeko欠你一個人情。要開船去哪裡？",
+  "Here we are! Just say the word when you want to sail again.": "到了！想再出海的時候說一聲就好。"
 }, "zh-Hant");

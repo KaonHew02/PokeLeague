@@ -190,6 +190,28 @@ test('scripts run in order: say, choice, if, flags, vars, call and end', async (
   assert.ok(T(null) && T([]) && T(s => s.vars.count === 5));
 });
 
+test('scripts: a menu offers the items whose condition holds (places by their names), then Cancel; it runs the one chosen', async () => {
+  const W = boot(['js/core/locales.js', 'js/core/util.js', 'js/core/rng.js', 'js/core/i18n.js', 'js/core/names.js', 'js/data/names.js',
+    'js/data/species.js', 'js/data/items.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/script/script.js']).G;
+  let asked = null, answer = 1;
+  const host = { say: async () => {}, choice: async (t, o) => { asked = o.options; return answer; }, lock() {}, unlock() {} };
+  W.Field.setFlag('open');
+  const menu = [['menu', 'Where to?', [
+    [{ loc: 'pallet-town' }, [['setVar', 'to', 'pallet']]],
+    [{ loc: 'viridian-city' }, [['setVar', 'to', 'viridian']], 'closed'],
+    [{ loc: 'pewter-city' }, [['setVar', 'to', 'pewter']], 'open']
+  ]]];
+  assert.deepEqual(plain(W.Script.check(menu)), []);
+  await W.Script.run(menu, host);
+  assert.deepEqual(plain(asked), ['Pallet Town', 'Pewter City', 'Cancel'], 'the closed one is left out');
+  assert.equal(W.Field.getVar('to'), 'pewter');
+  answer = 2;
+  W.Field.setVar('to', null);
+  await W.Script.run(menu, host);
+  assert.equal(W.Field.getVar('to'), null, 'Cancel does nothing');
+  assert.ok(W.Script.check([['menu', 'x', [['a', [['bogus']]]]]]).length === 1, 'the items are checked too');
+});
+
 test('paths: 4 neighbours around obstacles; ledges only downhill', () => {
   const rows = ['.....', '.###.', '.....', 'vvvvv', '.....'];
   const open = (x, y) => y >= 0 && y < rows.length && x >= 0 && x < 5 && rows[y][x] === '.';

@@ -1494,7 +1494,9 @@ G.World = (() => {
     if (arg && arg.map) {
       fadeA = 1;
       load(arg.map, arg.spot != null ? arg.spot : (arg.x != null ? { x: arg.x, y: arg.y, dir: arg.dir } : null));
-      fadeTo(0, 0.3).then(async () => { if (map.def.enter) await runScript(map.def.enter, {}); darkCheck(); });
+      // Only for the map it entered: a warp taken before the fade ends runs its own enter script.
+      const m = map;
+      fadeTo(0, 0.3).then(async () => { if (map === m && m.def.enter) await runScript(m.def.enter, {}); darkCheck(); });
     } else if (map) {
       refresh();
       makeFollower();

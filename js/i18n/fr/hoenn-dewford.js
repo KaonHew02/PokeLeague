@@ -8,12 +8,7 @@ G.I18n.add({
   "You seem like a Trainer who will go far. Please take this TM. Steel Wing: hard wings that strike like steel.": "Tu as l'air d'un Dresseur qui ira loin. Prends cette CT, je t'en prie. Aile d'Acier : des ailes dures qui frappent comme de l'acier.",
   "I have more stones to look for. Maybe we will meet again somewhere. Take care.": "J'ai encore des pierres à chercher. Peut-être nous reverrons-nous quelque part. Prends soin de toi.",
   "Slateport City is to the north, across the sea. Mr. Briney can take you there, I bet.": "Poivressel est au nord, de l'autre côté de la mer. M. Marco peut t'y emmener, j'en suis sûr.",
-  "Ahoy! Peeko and I owe you one. Shall we sail across the sea to Dewford Town?": "Ohé ! Peeko et moi te devons bien ça. On met le cap sur Myokara ?",
   "Mr. Briney's boat cut through the waves, with Peeko flying beside it...": "Le bateau de M. Marco fend les vagues, Peeko volant à ses côtés...",
-  "Here we are: Dewford Town! Just say the word when you want to go back.": "Nous y voilà : Myokara ! Dis-le-moi quand tu voudras rentrer.",
-  "Any time you need a boat, just say the word!": "Quand tu as besoin d'un bateau, dis-le-moi !",
-  "Shall we sail back to my cottage on Route 104?": "On rentre à ma maisonnette sur la Route 104 ?",
-  "Take your time. Peeko and I like it here too.": "Prends ton temps. Peeko et moi, on aime bien cet endroit aussi.",
   "You already have a fishing rod! Cast it in any water and see what bites.": "Tu as déjà une canne à pêche ! Lance-la dans n'importe quelle eau et vois ce qui mord.",
   "Fishing is the best! Here, take this Old Rod and see for yourself.": "La pêche, c'est le top ! Tiens, prends cette Canne et vois par toi-même.",
   "Face the water, use the rod, and wait for a bite!": "Mets-toi face à l'eau, utilise la canne et attends que ça morde !",
@@ -56,5 +51,7 @@ G.I18n.add({
   "Brawly's Gym is my goal. I will beat him one day!": "Mon objectif, c'est l'Arène de Bastien. Un jour, je le battrai !",
   "Dewford Town. A tiny island in the rough sea, with a big Gym.": "Myokara. Une petite île dans une mer agitée, avec une grande Arène.",
   "Dewford Town Pokémon Gym. Leader: Brawly, a big wave of fighting spirit.": "Arène Pokémon de Myokara. Champion : Bastien, une grande vague d'esprit combatif.",
-  "Granite Cave. Visitors must watch their step in the dark.": "Grotte Granite. Les visiteurs doivent faire attention où ils mettent les pieds dans le noir."
+  "Granite Cave. Visitors must watch their step in the dark.": "Grotte Granite. Les visiteurs doivent faire attention où ils mettent les pieds dans le noir.",
+  "Ahoy! Peeko and I owe you one. Where shall we sail?": "Ohé ! Peeko et moi te devons bien ça. Où allons-nous ?",
+  "Here we are! Just say the word when you want to sail again.": "Nous y voilà ! Dis-le-moi quand tu voudras reprendre la mer."
 }, "fr");

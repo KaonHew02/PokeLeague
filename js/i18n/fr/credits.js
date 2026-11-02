@@ -106,5 +106,8 @@ G.I18n.add({
   "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "Merci d'avoir joué ! La mer où la Team Aqua a emmené le sous-marin t'attend dans une prochaine mise à jour.",
   "Chapter 37 complete!": "Chapitre 37 terminé !",
   "{player} learned to Dive with Steven's HM08, followed Team Aqua down to the Seafloor Cavern and battled Archie, but Kyogre woke and vanished into the sea.": "{player} a appris à plonger grâce à la CS08 de Pierre, a suivi la Team Aqua jusqu'à la Caverne Fondmer et a affronté Arthur, mais Kyogre s'est réveillé et a disparu dans la mer.",
-  "Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.": "Merci d'avoir joué ! Atalanopolis et les maîtres de la terre et des mers t'attendent dans une prochaine mise à jour."
+  "Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.": "Merci d'avoir joué ! Atalanopolis et les maîtres de la terre et des mers t'attendent dans une prochaine mise à jour.",
+  "Chapter 38 complete!": "Chapitre 38 terminé !",
+  "{player} dived into Sootopolis City, woke Rayquaza at the top of the Sky Pillar to end the battle of Groudon and Kyogre, and earned the Rain Badge from Juan.": "{player} a plongé jusqu'à Atalanopolis, a réveillé Rayquaza au sommet du Pilier Céleste pour mettre fin au combat de Groudon et Kyogre, et a gagné le Badge Pluie de Juan.",
+  "Thank you for playing! Victory Road and Hoenn's Pokémon League wait in a future update.": "Merci d'avoir joué ! La Route Victoire et la Ligue Pokémon de Hoenn t'attendent dans une prochaine mise à jour."
 }, "fr");

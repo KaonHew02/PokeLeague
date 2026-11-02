@@ -1427,6 +1427,95 @@ test('Hoenn (chapter 37): Steven\'s HM08, Routes 127 and 128, the sea floor, the
   assert.ok(W.surfing, 'on the deep water of Route 128');
 });
 
+test('a storm: rain in battle for the whole battle (rules.weather)', () => {
+  const { G } = world();
+  const rng = G.RNG(3);
+  const b = G.Battle.create({ kind: 'wild', seed: 1, player: { name: 'Red', party: [G.Mon.create(260, 40, { rng })], bag: {} },
+    foe: { party: [G.Mon.create(129, 20, { rng, wild: true })] }, rules: { weather: 'rain' } });
+  const ev = b.start();
+  assert.ok(ev.some(e => e.type === 'weather' && e.w === 'rain' && e.field));
+  assert.equal(b.weatherNow(), 'rain');
+  assert.equal(b.weather.turns, Infinity);
+  assert.equal(G.BattleText.line(ev.find(e => e.type === 'weather'), b), 'It is raining.');
+});
+
+test('Hoenn (chapter 38): Steven on Route 128, Sootopolis under the storm, Wallace, the Sky Pillar, Rayquaza, Juan', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.save.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 17, 18, 19, 20, 21, 22, 23];
+  F.giveMon('swampert', 46, { moves: ['surf', 'dive', 'strength', 'rock-smash'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const got = [], wild = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  W.onEncounter = async (sp, lvl, area, info) => { wild.push([G.Maps.species(sp), lvl]); return 'caught'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  F.setFlag('kyogre-awake');
+  // Route 128: Steven waits on the sandbar; the storm rains on the sea.
+  W.load('route128', { x: 29, y: 11, dir: 'right' });
+  assert.ok(W.stormy(), 'a storm over Route 128');
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => F.flag('steven-128'));
+  await settle();
+  // The sea roads: Route 127 west to Route 126, Route 128 west to Route 129, Route 124 south to Route 126.
+  assert.equal(G.Maps.get('route127').def.connect.west.map, 'route126');
+  assert.equal(G.Maps.get('route124').def.connect.south.map, 'route126');
+  assert.equal(G.Maps.get('route128').def.connect.west.map, 'route129');
+  // Route 126: down south of the crater, up through the tunnel into Sootopolis's lake.
+  W.load('route126', { x: 15, y: 35, dir: 'up' });
+  await pump(W, W.interact());
+  assert.equal(W.map.id, 'route126-uw');
+  W.load('route126-uw', 'sootopolis');
+  await pump(W, W.interact());
+  await until(() => W.map.id === 'sootopolis' && F.flag('sootopolis-seen'));
+  assert.ok(W.surfing && W.stormy());
+  await settle();
+  // The Gym is shut while the storm rages.
+  W.load('sootopolis', 'gym-door');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'blocked');
+  await settle();
+  // Wallace, in the Cave of Origin.
+  W.load('cave-of-origin', { x: 8, y: 5, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('wallace-sky-pillar'));
+  // The Sky Pillar: its door opens; a hole on 2F drops you to 1F.
+  W.load('route131', 'pillar-door');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'sky-pillar-1f');
+  await settle();
+  W.load('sky-pillar-2f', { x: 6, y: 2, dir: 'down' });
+  assert.equal(step(W, 'down'), 'moved');
+  await until(() => W.map.id === 'sky-pillar-1f');
+  await settle();
+  // The top: Rayquaza wakes and flies off; in Sootopolis it calms the two masters.
+  W.load('sky-pillar-top', 'stairs');
+  for (let i = 0; i < 3; i++) assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('rayquaza-awake'));
+  await settle();
+  await pump(W, W.flyTo('sootopolis'));
+  await until(() => F.flag('weather-calm'));
+  await settle();
+  assert.ok(!W.stormy(), 'the storm is over');
+  // Rayquaza is back on the pillar.
+  W.load('sky-pillar-top', { x: 8, y: 6, dir: 'up' });
+  await pump(W, W.interact());
+  assert.deepEqual(wild, [[384, 70]]);
+  assert.ok(F.flag('rayquaza-met'));
+  // Juan.
+  W.load('sootopolis-gym', { x: 7, y: 3, dir: 'up' });
+  await pump(W, W.interact());
+  await until(() => F.flag('chapter-38-done'));
+  assert.equal(got[got.length - 1], 'sootopolis-gym:juan');
+  assert.ok(F.save.player.badges.includes(24));
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

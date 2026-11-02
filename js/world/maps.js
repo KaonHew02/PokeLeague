@@ -18,6 +18,8 @@
  *   floor below, the same size: you come down on the same tile) or { to, spot } (one place below),
  *   and on the sea floor underwater: true, surface: '<map>' (the sea above, the same size: you can
  *   come up wherever it is deep). Its `"` is seaweed (the 'seaweed' table), `,` the lit floor under deep water.
+ *   Chapter 38: storm: cond (rain on the map and in its battles while it holds); on the sea floor
+ *   up: [{ x, y, w, h, to, spot }] (coming up there leads to that spot: a lake inside a crater).
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
@@ -400,6 +402,13 @@ G.Maps = (() => {
       if (!t) E.push(`surface: unknown map "${d.surface}"`);
       else if (t.w !== m.w || t.h !== m.h) E.push(`surface: ${t.id} is ${t.w}x${t.h}, not ${m.w}x${m.h} like this map`);
       else if (t.def.dive !== m.id) E.push(`surface: ${t.id} has no dive: '${m.id}' back down`);
+    }
+    for (const u of d.up || []) {
+      const t = get(u.to);
+      if (!t || !t.spots[u.spot]) E.push(`up ${where(u.x, u.y)}: no map "${u.to}" with the spot "${u.spot}"`);
+      for (let y = u.y; y < u.y + (u.h || 1); y++) for (let x = u.x; x < u.x + (u.w || 1); x++) {
+        if (!open(m, x, y)) E.push(`up ${where(u.x, u.y)}: ${where(x, y)} is a ${kindAt(m, x, y)} tile`);
+      }
     }
 
     // People and objects

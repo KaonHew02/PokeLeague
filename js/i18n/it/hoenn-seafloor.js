@@ -53,5 +53,9 @@ G.I18n.add({
   "Go on. The boss is in the deepest chamber. Ahaha... I wonder what you will find there.": "Vai avanti. Il capo è nella camera più profonda. Ahaha... Chissà cosa troverai laggiù.",
   "A huge Pokémon lies still at the bottom of the pool. It seems to be asleep.": "Un enorme Pokémon giace immobile sul fondo della pozza. Sembra addormentato.",
   "A dark opening in the rock. Bubbles rise from inside it.": "Un'apertura buia nella roccia. Dall'interno salgono bolle.",
-  "Team Aqua's submarine is moored at the rock. Its hatch is open, and nobody is aboard.": "Il sottomarino del Team Idro è ormeggiato alla roccia. Il portello è aperto e a bordo non c'è nessuno."
+  "Team Aqua's submarine is moored at the rock. Its hatch is open, and nobody is aboard.": "Il sottomarino del Team Idro è ormeggiato alla roccia. Il portello è aperto e a bordo non c'è nessuno.",
+  "{player}! You made it out of the cavern. I saw the sky turn black from Mossdeep and came as fast as I could.": "{player}! Sei uscito dall'antro. Ho visto il cielo diventare nero da Verdeazzupoli e sono venuto più in fretta che potevo.",
+  "Kyogre is not the only one awake. Groudon has risen too, and both of them are heading for Sootopolis City.": "Kyogre non è l'unico a essersi risvegliato. Anche Groudon si è destato, ed entrambi si stanno dirigendo verso Ceneride.",
+  "Sootopolis lies inside a crater on Route 126, west of Route 127. By sea, the only way in is under the water: Dive in the deep water south of the crater and you will come up in the city's lake.": "Ceneride si trova dentro un cratere sul Percorso 126, a ovest del Percorso 127. Via mare, l'unico ingresso è sott'acqua: immergiti nelle acque profonde a sud del cratere e riemergerai nel lago della città.",
+  "I will fly ahead. Hurry, {player}!": "Io vado avanti in volo. Sbrigati, {player}!"
 }, "it");

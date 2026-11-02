@@ -84,7 +84,8 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { west: { map: 'lilycove', offset: -23 }, east: { map: 'mossdeep', offset: 0 } },
+    connect: { west: { map: 'lilycove', offset: -23 }, east: { map: 'mossdeep', offset: 0 }, south: { map: 'route126', offset: 0 } },
+    storm: ['kyogre-awake', '!weather-calm'],                // (chapter 38: the storm Kyogre brings)
     trainers: [
       { id: 'reed', who: 'swimmer', cls: 'swimmer', name: 'Reed', x: 14, y: 6, dir: 'down', sight: 4, swim: true, team: [['tentacruel', 36], ['wailmer', 36]],
         before: 'The sea between Lilycove and Mossdeep is my training ground. Let me show you!',
@@ -102,7 +103,7 @@
   // ---------------- Mossdeep City ----------------
   G.Maps.def(Object.assign({
     id: 'mossdeep', loc: 'mossdeep-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
-    fly: { spot: 'center-door' },
+    fly: { spot: 'center-door' }, storm: ['kyogre-awake', '!weather-calm'],
     rows: [
       '~~~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
       '~~~~~::.........................TTTT',

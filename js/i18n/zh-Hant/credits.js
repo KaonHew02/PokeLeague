@@ -106,5 +106,8 @@ G.I18n.add({
   "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "感謝遊玩！海洋隊開著潛水艇前往的那片大海，將在之後的更新中等著你。",
   "Chapter 37 complete!": "第三十七章完成！",
   "{player} learned to Dive with Steven's HM08, followed Team Aqua down to the Seafloor Cavern and battled Archie, but Kyogre woke and vanished into the sea.": "{player}用大吾給的秘傳學習器08學會了潛水，追著海洋隊來到海底洞窟並與水梧桐對戰，但蓋歐卡還是醒了過來，消失在大海之中。",
-  "Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.": "感謝遊玩！琉璃市以及大地與海洋之主，將在之後的更新中等著你。"
+  "Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.": "感謝遊玩！琉璃市以及大地與海洋之主，將在之後的更新中等著你。",
+  "Chapter 38 complete!": "第三十八章完成！",
+  "{player} dived into Sootopolis City, woke Rayquaza at the top of the Sky Pillar to end the battle of Groudon and Kyogre, and earned the Rain Badge from Juan.": "{player}潛入琉璃市，在天空柱頂端喚醒了烈空坐，結束了固拉多與蓋歐卡的戰鬥，還從亞當那裡贏得了雨滴徽章。",
+  "Thank you for playing! Victory Road and Hoenn's Pokémon League wait in a future update.": "感謝遊玩！冠軍之路和豐緣的寶可夢聯盟，將在之後的更新中等著你。"
 }, "zh-Hant");

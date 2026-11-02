@@ -53,5 +53,9 @@ G.I18n.add({
   "Go on. The boss is in the deepest chamber. Ahaha... I wonder what you will find there.": "Pode ir. O chefe está na câmara mais funda. Ahaha... O que será que você vai encontrar lá?",
   "A huge Pokémon lies still at the bottom of the pool. It seems to be asleep.": "Um Pokémon enorme está imóvel no fundo do lago. Parece estar dormindo.",
   "A dark opening in the rock. Bubbles rise from inside it.": "Uma abertura escura na rocha. Bolhas sobem lá de dentro.",
-  "Team Aqua's submarine is moored at the rock. Its hatch is open, and nobody is aboard.": "O submarino da Equipe Aqua está atracado na rocha. A escotilha está aberta e não há ninguém a bordo."
+  "Team Aqua's submarine is moored at the rock. Its hatch is open, and nobody is aboard.": "O submarino da Equipe Aqua está atracado na rocha. A escotilha está aberta e não há ninguém a bordo.",
+  "{player}! You made it out of the cavern. I saw the sky turn black from Mossdeep and came as fast as I could.": "{player}! Você saiu da caverna. Vi o céu escurecer lá de Mossdeep e vim o mais rápido que pude.",
+  "Kyogre is not the only one awake. Groudon has risen too, and both of them are heading for Sootopolis City.": "Kyogre não é o único que despertou. Groudon também se ergueu, e os dois estão indo para Sootopolis.",
+  "Sootopolis lies inside a crater on Route 126, west of Route 127. By sea, the only way in is under the water: Dive in the deep water south of the crater and you will come up in the city's lake.": "Sootopolis fica dentro de uma cratera na Rota 126, a oeste da Rota 127. Pelo mar, a única entrada é por baixo d'água: mergulhe na água funda ao sul da cratera e você vai sair no lago da cidade.",
+  "I will fly ahead. Hurry, {player}!": "Vou na frente voando. Depressa, {player}!"
 }, "pt-BR");

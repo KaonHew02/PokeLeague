@@ -180,5 +180,6 @@ G.I18n.add({
   "{mon} is exerting its {ability}!": "{mon}正在释放{ability}！",
   "{mon}'s {ability} prevents {move} from working!": "{mon}的{ability}让{move}无法使出！",
   "{mon}'s {ability}!": "{mon}的{ability}！",
-  "{mon}'s {ability} restored its HP!": "{mon}的{ability}让它回复了HP！"
+  "{mon}'s {ability} restored its HP!": "{mon}的{ability}让它回复了HP！",
+  "It is raining.": "正在下雨。"
 }, "zh-Hans");

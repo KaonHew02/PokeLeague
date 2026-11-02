@@ -53,5 +53,9 @@ G.I18n.add({
   "Go on. The boss is in the deepest chamber. Ahaha... I wonder what you will find there.": "Vas-y. Le chef est dans la salle la plus profonde. Ahaha... Je me demande ce que tu y trouveras.",
   "A huge Pokémon lies still at the bottom of the pool. It seems to be asleep.": "Un énorme Pokémon repose immobile au fond du bassin. Il semble endormi.",
   "A dark opening in the rock. Bubbles rise from inside it.": "Une ouverture sombre dans la roche. Des bulles en sortent.",
-  "Team Aqua's submarine is moored at the rock. Its hatch is open, and nobody is aboard.": "Le sous-marin de la Team Aqua est amarré au rocher. Son écoutille est ouverte, et il n'y a personne à bord."
+  "Team Aqua's submarine is moored at the rock. Its hatch is open, and nobody is aboard.": "Le sous-marin de la Team Aqua est amarré au rocher. Son écoutille est ouverte, et il n'y a personne à bord.",
+  "{player}! You made it out of the cavern. I saw the sky turn black from Mossdeep and came as fast as I could.": "{player} ! Tu es sorti de la caverne. J'ai vu le ciel devenir noir depuis Algatia et je suis venu aussi vite que possible.",
+  "Kyogre is not the only one awake. Groudon has risen too, and both of them are heading for Sootopolis City.": "Kyogre n'est pas le seul à s'être réveillé. Groudon s'est levé lui aussi, et tous deux se dirigent vers Atalanopolis.",
+  "Sootopolis lies inside a crater on Route 126, west of Route 127. By sea, the only way in is under the water: Dive in the deep water south of the crater and you will come up in the city's lake.": "Atalanopolis se trouve dans un cratère sur le Chenal 126, à l'ouest du Chenal 127. Par la mer, la seule entrée est sous l'eau : plonge dans l'eau profonde au sud du cratère, et tu remonteras dans le lac de la ville.",
+  "I will fly ahead. Hurry, {player}!": "Je vais y aller en volant. Dépêche-toi, {player} !"
 }, "fr");

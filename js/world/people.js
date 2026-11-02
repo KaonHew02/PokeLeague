@@ -26,7 +26,8 @@ G.People = (() => {
                  'whitney', 'pokefan', 'granny', 'morty', 'kimono', 'eusine', 'jasmine', 'chuck',
                  'pryce', 'skier', 'boarder', 'clair', 'cooltrainerm', 'will', 'karen', 'birch', 'may', 'brendan',
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
-                 'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza'];
+                 'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
+                 'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -245,6 +246,19 @@ G.People = (() => {
     tate: { head: 'short', body: 'tee', legs: 'pants', h: '#2a2a3a', H: '#16161e', c: '#4a6ad8', C: '#3450a8', p: '#e8e0f0', P: '#c0b8d0', k: '#3450a8' },
     liza: { head: 'long', body: 'dress', legs: 'bare', h: '#2a2a3a', H: '#16161e', c: '#d85aa8', C: '#a84080', j: '#e8e0f0', J: '#c0b8d0', k: '#a84080' },
     winona: { head: 'long', body: 'dress', legs: 'bare', h: '#b49ad8', H: '#8a72b4', c: '#f4f4f4', C: '#c8c8d0', j: '#6aa8e0', J: '#4a84c0', k: '#4a84c0' },
+    // Chapter 38: Juan (Sootopolis's Gym Leader: dark purple hair, a purple coat), Wallace (teal hair, white and purple).
+    juan: { head: 'short', body: 'coat', legs: 'pants', h: '#4a3a7a', H: '#30244e', j: '#5a3a8a', J: '#3e2862', c: '#f4f4f4', C: '#c8c8d0',
+            p: '#2a2a3a', P: '#16161e', k: '#16161e' },
+    wallace: { head: 'short', body: 'coat', legs: 'pants', h: '#5ab8d0', H: '#3a8aa4', j: '#f4f4f8', J: '#c8c8d8', c: '#7a4ab8', C: '#5a348a',
+               p: '#f4f4f8', P: '#c8c8d8', k: '#5a348a' },
+    // Chapter 39: Hoenn's Elite Four: Sidney (a red crest, black leather), Phoebe (short dark hair, pink), Glacia (long
+    // silver hair, ice blue), Drake (white hair, a navy captain's coat).
+    sidney: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#d83a2a', H: '#a0261a', j: '#2a2a34', J: '#16161e', c: '#3a3a44', C: '#24242c',
+              p: '#2a2a34', P: '#16161e', k: '#16161e' },
+    phoebe: { head: 'short', body: 'tee', legs: 'bare', h: '#2a2028', H: '#160e14', c: '#e88aa8', C: '#b8607e', p: '#3a3a52', P: '#26263a', k: '#7a3a5a' },
+    glacia: { head: 'long', body: 'dress', legs: 'bare', h: '#e8eef8', H: '#b8c4d8', c: '#6a8ad8', C: '#4a68b0', j: '#e8eef8', J: '#b8c4d8', k: '#4a68b0' },
+    drake: { head: 'short', body: 'coat', legs: 'pants', h: '#d8d8e0', H: '#a8a8b4', j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0',
+             p: '#2a3a6a', P: '#1c284a', k: '#1a1a22' },
     elm: { head: 'short', body: 'coat', legs: 'pants', h: '#6a4a2a', H: '#4a3018', j: '#f4f4f4', J: '#c4c8d0', c: '#3a8a5a', C: '#28683e', p: '#4a4a5a', P: '#30303e', k: '#3a3030' },
     silver: { head: 'long', body: 'jacket', legs: 'pants', h: '#c8303a', H: '#8a1e26', j: '#2a2a3a', J: '#16161e', c: '#c8303a', C: '#8a1e26', p: '#3a3a4a', P: '#24242e', k: '#2a2020' },
     sage: { head: 'bald', body: 'coat', legs: 'pants', h: '#3a3a40', H: '#24242a', j: '#5a5a6a', J: '#40404c', c: '#d8c8a0', C: '#b8a880', p: '#4a4a56', P: '#30303a', k: '#2a2a2a' },

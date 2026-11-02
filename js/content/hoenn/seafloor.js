@@ -13,7 +13,9 @@
 (() => {
   const T = s => G.T(s);
   const HOENN = { region: 'hoenn' };
-  const ARCHIE = { name: 'Archie' }, MAXIE = { name: 'Maxie' }, GRUNT = { name: 'Team Aqua Grunt' };
+  const ARCHIE = { name: 'Archie' }, MAXIE = { name: 'Maxie' }, GRUNT = { name: 'Team Aqua Grunt' }, STEVEN = { name: 'Steven' };
+  // Chapter 38: the storm Kyogre brings, until Rayquaza calms it (sootopolis.js).
+  const STORM = ['kyogre-awake', '!weather-calm'];
   // The sea floor: one map below each sea route, the same size (deep water above its lit floor).
   const SEA = { tileset: 'outdoor', palette: 'underwater', music: 'cave', battleBg: 'underwater', border: '#', underwater: true, region: 'hoenn' };
   const CAVERN = { loc: 'seafloor-cavern', tileset: 'outdoor', palette: 'cave', music: 'cave', battleBg: 'cave', border: '#', cave: true,
@@ -55,7 +57,7 @@
   // ---------------- Route 127 ----------------
   G.Maps.def(Object.assign({
     id: 'route127', loc: 'hoenn-route-127', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'sea', border: '~',
-    dive: 'route127-uw',
+    dive: 'route127-uw', storm: STORM,
     rows: [
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
@@ -98,7 +100,7 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { north: { map: 'mossdeep', offset: 0 }, south: { map: 'route128', offset: 0 } },
+    connect: { north: { map: 'mossdeep', offset: 0 }, south: { map: 'route128', offset: 0 }, west: { map: 'route126', offset: -4 } },
     trainers: [
       { id: 'koji', who: 'blackbelt', cls: 'black-belt', name: 'Koji', x: 12, y: 14, dir: 'down', sight: 4, team: [['machoke', 39], ['hariyama', 39]],
         before: 'I train on this islet where nobody bothers me. Nobody but you, it seems!',
@@ -173,7 +175,7 @@
   // ---------------- Route 128 ----------------
   G.Maps.def(Object.assign({
     id: 'route128', loc: 'hoenn-route-128', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'sea', border: '~',
-    dive: 'route128-uw',
+    dive: 'route128-uw', storm: STORM,
     rows: [
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
@@ -185,9 +187,9 @@
       '~~~~~~::####::~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~::::::::~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~',
-      '~~~~~~~~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~',
-      '~~~~~~~~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~',
-      '~~~~~~~~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~dddddd~:::~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~dddddd~:::~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~dddddd~:::~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
@@ -202,7 +204,10 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { north: { map: 'route127', offset: 0 } },
+    connect: { north: { map: 'route127', offset: 0 }, west: { map: 'route129', offset: 4 } },
+    // Chapter 38: Steven on the sandbar, once Kyogre is awake.
+    triggers: [{ x: 25, y: 7, w: 9, h: 9, if: ['kyogre-awake', '!steven-128'], script: 'route128.steven' }],
+    npcs: [{ id: 'steven', who: 'steven', x: 35, y: 11, dir: 'left', if: ['kyogre-awake', '!steven-128'], script: 'route128.steven' }],
     trainers: [
       { id: 'isaiah', who: 'fisherman', cls: 'fisherman', name: 'Isaiah', x: 9, y: 8, dir: 'down', sight: 4, team: [['wailmer', 40], ['tentacruel', 40]],
         before: 'This reef is my secret fishing spot. Now that you know, you have to battle me!',
@@ -436,6 +441,15 @@
   }
 
   G.Script.def({
-    'seafloor.archie': [['js', archie]]
+    'seafloor.archie': [['js', archie]],
+    'route128.steven': [
+      ['face', 'steven', 'player'],
+      ['say', '{player}! You made it out of the cavern. I saw the sky turn black from Mossdeep and came as fast as I could.', STEVEN],
+      ['say', 'Kyogre is not the only one awake. Groudon has risen too, and both of them are heading for Sootopolis City.', STEVEN],
+      ['say', 'Sootopolis lies inside a crater on Route 126, west of Route 127. By sea, the only way in is under the water: Dive in the deep water south of the crater and you will come up in the city\'s lake.', STEVEN],
+      ['say', 'I will fly ahead. Hurry, {player}!', STEVEN],
+      ['setFlag', 'steven-128'],
+      ['hide', 'steven']
+    ]
   });
 })();

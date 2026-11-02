@@ -72,6 +72,9 @@
  * swim on that Pokémon's back over the sea floor (`underwater: true`: no follower, no Bicycle, no
  * Fly); seaweed (`"`) rolls the 'seaweed' table. A on the floor under deep water comes back up
  * (`surface`, the same tile).
+ * Chapter 38: a storm (map `storm`: a condition) rains on the map and in its battles; on the sea
+ * floor, `up: [{ x, y, w, h, to, spot }]` are places where coming up leads somewhere else (a lake
+ * inside a crater: Sootopolis City).
  * Chapter 15: berry trees (`y`): one to three berries once a day (the map's `berries`: [[x, y, item]]).
  * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
  * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
@@ -743,8 +746,9 @@ G.World = (() => {
   function battleOpts(canLose) {
     // On the water (Surf, a rod) outside a cave: the sea behind the Pokémon.
     const sea = (surfing || fishing) && map.tileset === 'outdoor' && !map.def.cave;
-    return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld',
-             rules: { canLose: !!canLose, where: map.loc || map.id, obeyCap: G.Field.obeyCap(map.def.region) } };
+    const rules = { canLose: !!canLose, where: map.loc || map.id, obeyCap: G.Field.obeyCap(map.def.region) };
+    if (stormy()) rules.weather = 'rain';
+    return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld', rules };
   }
   /** After a battle: Pokédex, prize money, a caught Pokémon that goes to the PC. -> the outcome */
   function settle(r) {
@@ -1196,8 +1200,11 @@ G.World = (() => {
   const under = (m = map) => !!(m && m.def.underwater);
   /** The Pokémon that can Dive (the Mind Badge allows it outside battle, as in the games). */
   const diver = () => G.Field.save.player.badges.includes(23) ? G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'dive')) || null : null;
-  /** Deep water right above this tile of the sea floor: you can come up here. */
+  /** A place on the sea floor where coming up leads somewhere else (map `up`, chapter 38), or null. */
+  const upAt = (x, y) => (map.def.up || []).find(u => x >= u.x && y >= u.y && x < u.x + (u.w || 1) && y < u.y + (u.h || 1)) || null;
+  /** Deep water right above this tile of the sea floor (or an `up` place): you can come up here. */
   function surfaceAbove(x, y) {
+    if (upAt(x, y)) return true;
     const s = map.def.surface;
     return !!s && M().has(s) && M().kindAt(M().get(s), x, y) === 'deep';
   }
@@ -1216,7 +1223,9 @@ G.World = (() => {
     if (await h.choice(G.T('Light is filtering down from above. Would you like to use Dive?'), {}) !== 0) return;
     const mon = diver() || G.Field.party().find(m => G.Mon.knows(m, 'dive'));
     if (mon) await h.say(G.T('{mon} used Dive!'), { vars: { mon: G.Mon.name(mon) } });
-    await warp(map.def.surface, { x: me.x, y: me.y, dir: me.dir }, { sfx: 'surf' });
+    const u = upAt(me.x, me.y);
+    if (u) await warp(u.to, u.spot, { sfx: 'surf' });
+    else await warp(map.def.surface, { x: me.x, y: me.y, dir: me.dir }, { sfx: 'surf' });
   }
 
   // ---------------- the Bicycle ----------------
@@ -1589,14 +1598,16 @@ G.World = (() => {
 
   /** The light of the time of day over Johto's and Hoenn's outdoor maps (none indoors, in caves or in Kanto). */
   const TINT = { morning: 'rgba(255,176,96,0.10)', day: null, night: 'rgba(14,22,70,0.40)' };
-  const tint = () => under() ? 'rgba(10,40,120,0.30)'
+  /** A storm on this map (its `storm` condition holds, chapter 38): rain, a dark sky, rain in battle. */
+  const stormy = (m = map) => !!(m && m.def.storm) && G.Field.test(m.def.storm);
+  const tint = () => under() ? 'rgba(10,40,120,0.30)' : stormy() ? 'rgba(20,28,60,0.38)'
     : ((map.def.region === 'johto' || map.def.region === 'hoenn') && map.tileset === 'outdoor' && !map.def.cave && G.Clock
     ? TINT[G.Clock.period()] : null);
 
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(), snow: !!map.def.snow, bubbles: under(),
+      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(), snow: !!map.def.snow, bubbles: under(), rain: stormy(),
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }
@@ -1606,7 +1617,7 @@ G.World = (() => {
     actor: id => actor(id, {}), host, debug,
     onEncounter: null, onTrainer: null, wildForm: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, get surfing() { return surfing; }, keyOpen,
-    barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod,
+    barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, stormy,
     get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },

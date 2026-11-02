@@ -7,7 +7,7 @@
  *     player: { name, id, party, bag },            // live references: the battle changes them
  *     foe:    { party, trainer: { id, name, title, ai: 'basic' | 'leader', items: {potion: 1}, prize: 20 } | null },
  *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', noCatch: false, forceCatch: false (debug),
- *               fishing: false (hooked with a rod: the Lure Ball) } })
+ *               fishing: false (hooked with a rod: the Lure Ball), weather: 'rain' (the overworld's, for the whole battle) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
  *                           | { kind: 'learn', uid, move } | null (battle over)
@@ -52,6 +52,8 @@ G.Battle = (() => {
     start() {
       this.events = [];
       this.emit('start', { kind: this.kind, trainer: this.foe.trainer ? this.foe.trainer.id : null });
+      // The overworld's weather (rules.weather, chapter 38: the storm): it lasts the whole battle.
+      if (this.rules.weather) { this.weather = { w: this.rules.weather, turns: Infinity }; this.emit('weather', { w: this.rules.weather, field: true }); }
       this.sendOut(this.foe, this.firstHealthy(this.foe));
       this.sendOut(this.player, this.firstHealthy(this.player));
       // Abilities on entry, the faster first (the player's on a tie).

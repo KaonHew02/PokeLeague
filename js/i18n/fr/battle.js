@@ -180,5 +180,6 @@ G.I18n.add({
   "{mon} is exerting its {ability}!": "{mon} exerce sa {ability} !",
   "{mon}'s {ability} prevents {move} from working!": "Le talent {ability} de {mon} empêche {move} de fonctionner !",
   "{mon}'s {ability}!": "Talent {ability} de {mon} !",
-  "{mon}'s {ability} restored its HP!": "Le talent {ability} de {mon} lui fait récupérer des PV !"
+  "{mon}'s {ability} restored its HP!": "Le talent {ability} de {mon} lui fait récupérer des PV !",
+  "It is raining.": "Il pleut."
 }, "fr");

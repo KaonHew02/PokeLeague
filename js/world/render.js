@@ -268,6 +268,20 @@ G.WorldRender = (() => {
         ctx.fillRect(Math.round(x), Math.round(y), s, s);
       }
     }
+    // A storm (map `storm`, chapter 38): rain slanting down, the same streaks every time.
+    if (S.rain) {
+      const t = performance.now() / 1000, WW = W + 2 * TS, HH = H + 2 * TS;
+      ctx.strokeStyle = 'rgba(190,210,255,0.55)';
+      ctx.lineWidth = Math.max(1, PX / 2);
+      ctx.beginPath();
+      for (let i = 0; i < 140; i++) {
+        const a = (i * 0.6180339) % 1, c = (i * 0.4142135 + 0.3) % 1, v = 520 + 260 * a;
+        const y = Tp - TS + ((c * HH + t * v) % HH), x = L - TS + ((a * WW - (y - Tp) * 0.25) % WW + WW) % WW;
+        ctx.moveTo(Math.round(x), Math.round(y));
+        ctx.lineTo(Math.round(x - 4 * PX * 0.25), Math.round(y + 4 * PX));
+      }
+      ctx.stroke();
+    }
     // The sea floor (Dive, chapter 37): bubbles rising, the same ones every time, wobbling.
     if (S.bubbles) {
       const t = performance.now() / 1000;

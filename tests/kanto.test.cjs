@@ -24,7 +24,7 @@ function reachable(from) {
     const m = G.Maps.get(todo.pop());
     const dive = m.def.dive ? [typeof m.def.dive === 'string' ? m.def.dive : m.def.dive.to] : [];
     const next = m.warps.filter(w => w.to).map(w => w.to).concat(Object.values(m.def.connect || {}).map(c => c.map), dive,
-      m.def.surface ? [m.def.surface] : [],
+      m.def.surface ? [m.def.surface] : [], (m.def.up || []).map(u => u.to),
       m.warps.filter(w => typeof w.locked === 'string').flatMap(w => scriptWarps(w.locked)),
       (m.def.npcs || []).filter(p => typeof p.script === 'string').flatMap(p => scriptWarps(p.script)));
     for (const id of next) if (!seen.has(id)) { seen.add(id); todo.push(id); }

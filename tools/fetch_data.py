@@ -231,6 +231,11 @@ LOC_NAMES = {
     'team-aqua-hideout': ('Guarida Aqua',       'Rifugio Idro',        '海洋队基地', '海洋隊基地'),
     # Chapter 37.
     'seafloor-cavern':   ('Caverna Abisal',     'Antro Abissale',      '海底洞窟',   '海底洞窟'),
+    # Chapters 38 and 39.
+    'cave-of-origin':    ('Cueva Ancestral',    'Grotta dei Tempi',    '觉醒祠堂',   '覺醒祠堂'),
+    'sky-pillar':        ('Pilar Celeste',      'Torre dei Cieli',     '天空柱',     '天空柱'),
+    'hoenn-victory-road': ('Calle Victoria',    'Via Vittoria',        '冠军之路',   '冠軍之路'),
+    'hoenn-pokemon-league': ('Liga Pokémon',    'Lega Pokémon',        '宝可梦联盟', '寶可夢聯盟'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

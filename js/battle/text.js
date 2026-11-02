@@ -217,7 +217,9 @@ G.BattleText = (() => {
       case 'crash': return fmt('{mon} kept going and crashed!', { mon });
       case 'field': return fieldLine(e.side, e.effect, true);
       case 'fieldEnd': return fieldLine(e.side, e.effect, false);
-      case 'weather': return { sun: fmt('The sunlight turned harsh!', {}), rain: fmt('It started to rain!', {}),
+      // (A battle that starts in the overworld's rain, chapter 38: it is already raining.)
+      case 'weather': if (e.field) return fmt('It is raining.', {});
+        return { sun: fmt('The sunlight turned harsh!', {}), rain: fmt('It started to rain!', {}),
                                sand: fmt('A sandstorm kicked up!', {}), hail: fmt('It started to hail!', {}) }[e.w];
       case 'weatherEnd': return { sun: fmt('The sunlight faded.', {}), rain: fmt('The rain stopped.', {}),
                                   sand: fmt('The sandstorm subsided.', {}), hail: fmt('The hail stopped.', {}) }[e.w];

@@ -464,6 +464,25 @@ function trainerRate(G, L) {
   };
 }
 
+test('balance: Juan in Sootopolis (chapter 38), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'sootopolis-gym', 'juan');
+  const SWAMPERT = ['surf', 'earthquake', 'take-down', 'protect'], SCEPTILE = ['leaf-blade', 'quick-attack', 'agility', 'slam'];
+  const BLAZIKEN = ['blaze-kick', 'sky-uppercut', 'slash', 'bulk-up'], MANECTRIC = ['spark', 'bite', 'quick-attack', 'roar'];
+  const LUDICOLO = ['giga-drain', 'surf', 'fake-out', 'growth'];
+  const table = {
+    'swampert 46': rate([[260, 46, SWAMPERT]]), 'sceptile 46': rate([[254, 46, SCEPTILE]]), 'blaziken 46': rate([[257, 46, BLAZIKEN]]),
+    'swampert 46 + manectric 44 + ludicolo 44': rate([[260, 46, SWAMPERT], [310, 44, MANECTRIC], [272, 44, LUDICOLO]]),
+    'sceptile 46 + manectric 44 + ludicolo 44': rate([[254, 46, SCEPTILE], [310, 44, MANECTRIC], [272, 44, LUDICOLO]]),
+    'blaziken 46 + manectric 44 + ludicolo 44': rate([[257, 46, BLAZIKEN], [310, 44, MANECTRIC], [272, 44, LUDICOLO]])
+  };
+  console.log('[balance] vs Juan:', JSON.stringify(table));
+  // Emerald's team, the toughest of Hoenn's Gyms: Kingdra at 46 (Water and Dragon, Double Team, Rest) walls
+  // a lone starter; a team of three at 44-46 with Electric and Grass moves wins at least half the time.
+  for (const k of ['swampert', 'sceptile', 'blaziken']) assert.ok(table[k + ' 46 + manectric 44 + ludicolo 44'] >= 0.5, k + ' with a team of three');
+  assert.ok(table['swampert 46'] < 0.3 && table['sceptile 46'] < 0.3 && table['blaziken 46'] < 0.3, 'a lone starter is walled');
+});
+
 test('balance: Archie in the Seafloor Cavern (chapter 37), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = trainerRate(G, { id: 'archie', name: 'Archie', items: { 'hyper-potion': 1 }, team: ARCHIE_TEAM });
@@ -2852,6 +2871,48 @@ async function chapter37(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter38(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // Out of the Seafloor Cavern: Steven on Route 128 sends you to Sootopolis.
+  assert.ok(F.flag('kyogre-awake'));
+  await run(st, 'route128', 'route128.steven');
+  assert.ok(F.flag('steven-128'));
+  await all('route126');
+  // Sootopolis, inside the crater: Groudon and Kyogre; Steven, then Wallace in the Cave of Origin.
+  await run(st, 'sootopolis', 'sootopolis.enter');
+  assert.ok(F.flag('sootopolis-seen') && !F.flag('weather-calm'));
+  await run(st, 'sootopolis', 'sootopolis.steven');
+  await run(st, 'cave-of-origin', 'origin.wallace');
+  assert.ok(F.flag('wallace-sky-pillar'));
+  // West over the sea to the Sky Pillar: Rayquaza wakes and flies to Sootopolis.
+  await all('route129');
+  await all('route130');
+  await all('route131');
+  await run(st, 'sky-pillar-top', 'skypillar.rayquaza');
+  assert.ok(F.flag('rayquaza-awake'));
+  await run(st, 'sootopolis', 'sootopolis.enter');
+  assert.ok(F.flag('weather-calm'), 'the storm is over');
+  // Juan's Gym.
+  await all('sootopolis-gym');
+  grind(st, 'sky-pillar-1f', 46, 600);
+  F.healAll();
+  const money = S.player.money, tm03 = F.count('tm03');
+  await run(st, 'sootopolis-gym', [['battle', 'sootopolis-gym:juan']]);
+  won();
+  console.log('[story] Juan: won at levels', last().levels.join());
+  assert.ok(S.player.badges.includes(24), 'the Rain Badge');
+  assert.equal(F.obeyCap('hoenn'), null, 'eight Hoenn badges: every Pokémon obeys');
+  assert.equal(F.count('tm03'), tm03 + 1);
+  assert.equal(S.player.money - money, 4600);
+  assert.ok(F.flag('chapter-38-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2933,7 +2994,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 37: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Seafloor Cavern", async () => {
+test("chapters 11 to 38: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Rain Badge", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2972,4 +3033,5 @@ test("chapters 11 to 37: Johto, from Professor Elm to Johto's League and its pos
   await chapter35(st);
   await chapter36(st);
   await chapter37(st);
+  await chapter38(st);
 });

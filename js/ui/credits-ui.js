@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 38) return { title: T('Chapter 38 complete!'),
+      done: fmt('{player} dived into Sootopolis City, woke Rayquaza at the top of the Sky Pillar to end the battle of Groudon and Kyogre, and earned the Rain Badge from Juan.', { player }),
+      next: T('Thank you for playing! Victory Road and Hoenn\'s Pokémon League wait in a future update.') };
     if (n === 37) return { title: T('Chapter 37 complete!'),
       done: fmt('{player} learned to Dive with Steven\'s HM08, followed Team Aqua down to the Seafloor Cavern and battled Archie, but Kyogre woke and vanished into the sea.', { player }),
       next: T('Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.') };

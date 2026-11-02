@@ -1756,11 +1756,40 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   seaweed, coming up, a save on the sea floor) and the chapter's way from Steven's house down to
   Archie and back up on Route 128.
 
-### After chapter 37
+- **Chapter 38** ✅, Sootopolis and the Rain Badge: while Kyogre is awake and the weather is not calm
+  (`STORM` = `kyogre-awake`, `!weather-calm`) a storm covers Routes 124 and 126-129, Mossdeep and
+  Sootopolis (map `storm`). Leaving the Seafloor Cavern, Steven on Route 128's sandbar (a trigger,
+  flag `steven-128`) sends you to Sootopolis. Route 126 (west of Route 127, south of Route 124:
+  three Trainers) surrounds the crater; deep water south of it leads to `route126-uw`, whose tunnel
+  runs under the crater wall to an `up` place: you come up in Sootopolis's lake. Sootopolis City (a
+  Center, a Mart, two houses, the Gym, the Cave of Origin's mouth): Groudon on the shore and Kyogre
+  in the lake (`sootopolis.enter` the first time, flag `sootopolis-seen`); Steven sends you to Wallace
+  in the Cave of Origin, who sends you to the Sky Pillar and unseals its door (flag
+  `wallace-sky-pillar`). West of Route 128: Routes 129 (stormy), 130 (an islet with grass) and 131
+  (the Sky Pillar's island; two Trainers each) and Pacifidlog Town (rafts and log bridges, a Center,
+  two houses; the currents of Route 132 to the west). The Sky Pillar: 1F, 2F and 3F (holes in the
+  floor drop you a floor down) and the top, where Rayquaza wakes and flies to Sootopolis (flag
+  `rayquaza-awake`). Back in Sootopolis (`sootopolis.enter`) it calms Groudon and Kyogre, the storm ends
+  (flag `weather-calm`), Wallace and Steven send you to Juan's Gym (closed until then) and Ever
+  Grande City. Rayquaza waits at the top of the pillar again (Lv. 70, flag `rayquaza-met`). Juan's Gym
+  (an ice floor with rocks, the shortest way up 9 slides; four Trainers): Luvdisc 41, Whiscash 41,
+  Sealeo 43, Crawdaunt 43, Kingdra 46 (Emerald's sets, a Hyper Potion), the Rain Badge (badge 24:
+  every Pokémon obeys) and TM03 Water Pulse, then `ending(38)`. Files: `js/content/hoenn/sootopolis.js`
+  (translations `hoenn-sootopolis`); `seafloor.js` (Steven, the storm, the roads west); `mossdeep.js`.
+- **Engine and data for chapter 38:** map `storm` (a condition: rain slanting over the map in
+  render.js, a dark wash, and `rules.weather: 'rain'` in its battles: the battle starts with rain that
+  lasts, "It is raining."); `up` places on the sea floor (field.js `upAt`, validated); people `juan`,
+  `wallace` (and the Elite Four's for chapter 39); the Chinese names of the Cave of Origin, the Sky
+  Pillar, Victory Road and the League (`LOC_NAMES`); the Town Map's Routes 126 and 129-131, the Cave of
+  Origin and the Sky Pillar. `[balance]` vs Juan, the toughest Gym: Kingdra walls a lone final-stage
+  starter at 46 (0-25%); a team of three at 46/44/44 with Manectric and Ludicolo wins 58-98%
+  (Blaziken's the least: Kingdra outlasts it). The story test's Swampert beats Juan at 46;
+  `tests/field.test.cjs` the storm's rain in battle, and the chapter from Route 128 to Juan.
 
-1. **Hoenn, chapter 38:** Sootopolis City under the storm (Route 126 and its sea floor, the way in
-   from below), Groudon and Kyogre clashing, the Cave of Origin, the Sky Pillar (Rayquaza), and
-   Juan's Rain Badge. Weather on the overworld (the rain, the drought) would come with it.
-2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
-   abilities outside battle (Pickup, Synchronize and the others on wild encounters), the other
-   Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.
+### After chapter 38
+
+1. **Hoenn, chapter 39:** Ever Grande City (Route 128's east end, up the waterfall), Victory Road
+   (Wally), and Hoenn's Pokémon League: Sidney, Phoebe, Glacia, Drake and the Champion Wallace.
+2. Engine features along the way: **double battles**, abilities outside battle, the other Hoenn
+   HMs, Pokéblocks or another way to evolve Feebas, Repel steps; Routes 132-134 between Pacifidlog
+   and Slateport (their currents).

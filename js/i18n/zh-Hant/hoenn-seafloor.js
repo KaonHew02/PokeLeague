@@ -53,5 +53,9 @@ G.I18n.add({
   "Go on. The boss is in the deepest chamber. Ahaha... I wonder what you will find there.": "去吧。老大就在最深處的洞穴裡。啊哈哈……真想知道你會在那裡看到什麼。",
   "A huge Pokémon lies still at the bottom of the pool. It seems to be asleep.": "一隻巨大的寶可夢靜靜地躺在水池底部。牠好像在睡覺。",
   "A dark opening in the rock. Bubbles rise from inside it.": "岩石上有個黑漆漆的洞口。有氣泡從裡面冒出來。",
-  "Team Aqua's submarine is moored at the rock. Its hatch is open, and nobody is aboard.": "海洋隊的潛水艇停靠在岩石邊。艙門開著，裡面一個人也沒有。"
+  "Team Aqua's submarine is moored at the rock. Its hatch is open, and nobody is aboard.": "海洋隊的潛水艇停靠在岩石邊。艙門開著，裡面一個人也沒有。",
+  "{player}! You made it out of the cavern. I saw the sky turn black from Mossdeep and came as fast as I could.": "{player}！你從洞窟裡出來了。我在綠嶺市看到天空變黑，就盡快趕過來了。",
+  "Kyogre is not the only one awake. Groudon has risen too, and both of them are heading for Sootopolis City.": "醒來的不只是蓋歐卡。固拉多也甦醒了，牠們倆正朝著琉璃市前進。",
+  "Sootopolis lies inside a crater on Route 126, west of Route 127. By sea, the only way in is under the water: Dive in the deep water south of the crater and you will come up in the city's lake.": "琉璃市位於127號道路西邊、126號道路上的一個火山口裡。從海上進去的唯一辦法就是走水下：在火山口南邊的深水處潛水，就能從城市的湖裡浮上來。",
+  "I will fly ahead. Hurry, {player}!": "我先飛過去。快點，{player}！"
 }, "zh-Hant");

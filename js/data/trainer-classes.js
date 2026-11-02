@@ -59,5 +59,6 @@ G.TRAINER_CLASSES = {
   'magma-leader': { title: 'Magma Leader', who: 'maxie', prize: 60 },
   kindler:       { title: 'Kindler', who: 'kindler', prize: 32 },
   'aqua-admin':  { title: 'Aqua Admin', who: 'shelly', prize: 40 },
+  'aqua-leader': { title: 'Aqua Leader', who: 'archie', prize: 60 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

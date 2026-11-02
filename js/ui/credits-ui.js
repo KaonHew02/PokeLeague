@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 37) return { title: T('Chapter 37 complete!'),
+      done: fmt('{player} learned to Dive with Steven\'s HM08, followed Team Aqua down to the Seafloor Cavern and battled Archie, but Kyogre woke and vanished into the sea.', { player }),
+      next: T('Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.') };
     if (n === 36) return { title: T('Chapter 36 complete!'),
       done: fmt('{player} raided Team Aqua\'s hideout, crossed the sea to Mossdeep City, earned the Mind Badge from Tate and Liza and drove Team Magma out of the Space Center.', { player }),
       next: T('Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.') };

@@ -1316,6 +1316,117 @@ test('Hoenn (chapter 36): Team Aqua\'s hideout, Route 124 to Mossdeep, the Gym, 
   assert.ok(F.flag('space-center-saved'));
 });
 
+test('Dive: from deep water down to the sea floor (with the Mind Badge) and back up; seaweed has its own wild Pokémon', async () => {
+  const { G, W } = world();
+  const F = G.Field;
+  G.Maps.def({ id: 't-sea', region: 'hoenn', tileset: 'outdoor', palette: 'kanto', border: '~', dive: 't-floor',
+    rows: ['~~~~~', '~ddd~', '~~~~~', '~~~~~'], spots: { start: [2, 1, 'up'] } });
+  G.Maps.def({ id: 't-floor', region: 'hoenn', tileset: 'outdoor', palette: 'underwater', border: '#', underwater: true, surface: 't-sea',
+    rows: ['#####', '#,,,#', '#"""#', '#####'], spots: { start: [2, 1, 'down'] },
+    encounters: { seaweed: { rate: 180, mons: [[366, 20, 20, 100]] } } });
+  assert.deepEqual(plain(G.Maps.validate('t-sea').concat(G.Maps.validate('t-floor'))), []);
+  // The sea floor must be open under every deep tile, and the same size.
+  G.Maps.def({ id: 't-bad', tileset: 'outdoor', border: '~', dive: 't-floor', rows: ['~~~~~', '~dd~d', '~~~~~', '~~~~~'], spots: { start: [1, 1] } });
+  assert.ok(G.Maps.validate('t-bad').some(e => e.includes('deep water at 4,1')), G.Maps.validate('t-bad').join('; '));
+  G.Dialog.ask = () => Promise.resolve(0);
+  F.giveMon('swampert', 45, { moves: ['surf', 'dive'] });
+  F.badge(3); F.badge(5);
+  W.load('t-sea', 'start');
+  assert.ok(W.surfing, 'deep water is water to Surf on');
+  // Without the Mind Badge, only a hint.
+  await pump(W, W.interact());
+  assert.equal(W.map.id, 't-sea');
+  F.badge(23);
+  await pump(W, W.interact());
+  assert.equal(W.map.id, 't-floor', 'down with Dive');
+  assert.deepEqual([W.player.x, W.player.y], [2, 1], 'on the same tile');
+  assert.ok(!W.surfing && W.player.ride === 260 && !W.follower, 'riding Swampert over the sea floor');
+  assert.ok(!W.canRide() && W.flyBlock() === 'here', 'no Bicycle, no Fly down here');
+  // Seaweed: the map's 'seaweed' table.
+  const got = [];
+  W.onEncounter = async (sp, lvl, area, info) => { got.push([G.Maps.species(sp), info.method]); return 'run'; };
+  assert.equal(step(W, 'down'), 'moved');
+  for (let i = 0; i < 40 && !got.length; i++) { W.update(0.05); await tick(); }
+  assert.deepEqual(got[0], [366, 'seaweed']);
+  W.onEncounter = null;
+  for (let i = 0; i < 40; i++) { W.update(0.05); await tick(); }
+  // Under the seaweed there is no deep water: nothing to come up through.
+  W.player.face('down');
+  assert.equal(W.interact(), null);
+  assert.equal(step(W, 'up'), 'moved');
+  W.player.face('up');
+  await pump(W, W.interact());
+  assert.equal(W.map.id, 't-sea', 'back up');
+  assert.deepEqual([W.player.x, W.player.y], [2, 1]);
+  assert.ok(W.surfing && W.player.ride === 260, 'surfing again');
+  // A save made on the sea floor loads there, riding.
+  W.load('t-floor', 'start');
+  assert.ok(!W.surfing && W.player.ride === 260);
+});
+
+test('Hoenn (chapter 37): Steven\'s HM08, Routes 127 and 128, the sea floor, the Seafloor Cavern and Archie', async () => {
+  const { G, W, later } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                                 'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                                 'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                                 'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.save.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 17, 18, 19, 20, 21, 22, 23];
+  F.giveMon('swampert', 44, { moves: ['surf', 'dive', 'strength', 'rock-smash'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  // Steven is home after the Space Center: HM08.
+  W.load('steven-house', { x: 7, y: 4, dir: 'up' });
+  assert.ok(!W.actors.some(a => a.id === 'steven' && a.visible), 'not home before the Space Center');
+  F.setFlag('space-center-saved');
+  W.load('steven-house', { x: 7, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('got-hm08') && F.count('hm08') === 1, 'HM08 Dive');
+  // South of Mossdeep by sea: Route 127, then Route 128.
+  W.load('mossdeep', { x: 2, y: 27, dir: 'down' });
+  assert.ok(W.surfing);
+  assert.equal(step(W, 'down'), 'moved');
+  assert.equal(W.map.id, 'route127');
+  assert.equal(G.Maps.get('route127').def.connect.south.map, 'route128');
+  // Route 128's deep water: down to the sea floor, through the cavern's mouth, up in its pool.
+  W.load('route128', { x: 29, y: 11, dir: 'down' });
+  await pump(W, W.interact());
+  assert.equal(W.map.id, 'route128-uw');
+  W.load('route128-uw', 'mouth');
+  W.player.face('down');
+  assert.equal(step(W, 'down'), 'moved');
+  await until(() => W.map.id === 'seafloor-entrance');
+  assert.ok(W.surfing, 'up in the pool');
+  await settle();
+  // Dive in the pool goes back down to the mouth.
+  await pump(W, W.interact());
+  assert.equal(W.map.id, 'route128-uw');
+  assert.deepEqual([W.player.x, W.player.y], [31, 21]);
+  // Room 1: a cracked rock, then a boulder in the narrow way down.
+  W.load('seafloor-1', { x: 5, y: 10, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked');
+  await pump(W, W.interact());
+  await settle();
+  assert.equal(step(W, 'up'), 'moved', 'the rock is smashed');
+  W.load('seafloor-1', { x: 18, y: 12, dir: 'down' });
+  W.strength = true;
+  shove(W, later, 'down', 2);
+  assert.equal(step(W, 'down'), 'moved');
+  assert.equal(step(W, 'right'), 'moved', 'past the boulder');
+  // The deepest chamber: Archie, then Kyogre wakes; you come up on Route 128.
+  W.load('seafloor-deep', 'ladder');
+  assert.equal(step(W, 'up'), 'moved');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('chapter-37-done'));
+  assert.equal(got[got.length - 1], 'seafloor-deep:archie');
+  assert.ok(F.flag('kyogre-awake'));
+  assert.equal(W.map.id, 'route128');
+  assert.ok(W.surfing, 'on the deep water of Route 128');
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

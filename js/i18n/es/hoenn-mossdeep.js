@@ -74,5 +74,10 @@ G.I18n.add({
   "Mossdeep City. An island town where the stars feel close enough to touch.": "Ciudad Algaria. Un pueblo isleño donde las estrellas parecen al alcance de la mano.",
   "Mossdeep City Pokémon Gym. Leaders: Tate and Liza, twins who think as one.": "Gimnasio Pokémon de Ciudad Algaria. Líderes: Vito y Leti, gemelos que piensan como uno.",
   "Mossdeep Space Center. Our window on the stars.": "Centro Espacial de Ciudad Algaria. Nuestra ventana a las estrellas.",
-  "A letter lies on the table: \"I am off on a journey again. Whoever finds this, feel free to rest here. - Steven\"": "Hay una carta sobre la mesa: «Me voy de viaje otra vez. Quien encuentre esto, puede descansar aquí. Máximo»."
+  "A letter lies on the table: \"I am off on a journey again. Whoever finds this, feel free to rest here. - Steven\"": "Hay una carta sobre la mesa: «Me voy de viaje otra vez. Quien encuentre esto, puede descansar aquí. Máximo».",
+  "{player}, welcome to my home. Thank you again for what you did at the Space Center.": "{player}, bienvenido a mi casa. Gracias otra vez por lo que hiciste en el Centro Espacial.",
+  "While we were busy with Team Magma, Team Aqua's submarine slipped away to the south of Mossdeep. I think they mean to go under the sea.": "Mientras lidiábamos con el Team Magma, el submarino del Team Aqua se escabulló al sur de Ciudad Algaria. Creo que quieren bajar bajo el mar.",
+  "Take this. With it, you can follow them.": "Toma esto. Con ella podrás seguirlos.",
+  "HM08 is Dive. With the Mind Badge, a Pokémon that knows it can take you down from deep, dark water to the sea floor.": "La MO08 contiene Buceo. Con la Medalla Mente, un Pokémon que la conozca puede llevarte desde las aguas profundas y oscuras hasta el fondo marino.",
+  "The submarine was last seen over the dark water of Route 128, south of Route 127. Be careful down there, {player}.": "Al submarino lo vieron por última vez sobre las aguas oscuras de la Ruta 128, al sur de la Ruta 127. Ten cuidado ahí abajo, {player}."
 }, "es");

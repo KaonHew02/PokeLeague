@@ -57,12 +57,13 @@
   // ---------------- Route 124 ----------------
   G.Maps.def(Object.assign({
     id: 'route124', loc: 'hoenn-route-124', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'sea', border: '~',
+    dive: 'route124-uw',                       // (chapter 37: deep water in the north-east, its sea floor in seafloor.js)
     rows: [
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-      '~~~~~::::::::~~~~~~~~~~~~~~~~~~~',
-      '~~~~~:######:~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~dddd~~',
+      '~~~~~::::::::~~~~~~~~~~~~~dddd~~',
+      '~~~~~:######:~~~~~~~~~~~~~dddd~~',
       '~~~~~:######:~~~~~~~~~~~~~~~~~~~',
       '~~~~~:######:~~~~~~~~~~~~~~~~~~~',
       '~~~~~:######:~~~~~~~~~~~~~~~~~~~',
@@ -132,7 +133,7 @@
       '~~~~~::............................T',
       '~~~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
-    connect: { west: { map: 'route124', offset: 0 } },
+    connect: { west: { map: 'route124', offset: 0 }, south: { map: 'route127', offset: 0 } },
     warps: [
       { x: 11, y: 7, to: 'mossdeep-center', spot: 'door' },
       { x: 18, y: 7, to: 'mossdeep-mart', spot: 'door' },
@@ -179,7 +180,9 @@
     rows: HOUSE,
     warps: [{ x: 4, y: 7, to: 'mossdeep', spot: 'steven-door' }],
     spots: { door: [4, 7, 'up'] },
-    signs: { '5,4': 'A letter lies on the table: "I am off on a journey again. Whoever finds this, feel free to rest here. - Steven"' }
+    signs: { '5,4': 'A letter lies on the table: "I am off on a journey again. Whoever finds this, feel free to rest here. - Steven"' },
+    // Chapter 37: home after the Space Center, with HM08 Dive.
+    npcs: [{ id: 'steven', who: 'steven', x: 7, y: 3, dir: 'down', if: ['space-center-saved', '!kyogre-awake'], script: 'mossdeep.steven' }]
   }, HOENN));
 
   G.Maps.def(Object.assign({
@@ -325,6 +328,18 @@
       ['js', maxie]
     ],
     'space.steven': [['say', 'Team Magma\'s leader is right there. Let us finish this, {player}!', STEVEN]],
+    'mossdeep.steven': [
+      ['face', 'steven', 'player'],
+      ['if', '!got-hm08', [
+        ['say', '{player}, welcome to my home. Thank you again for what you did at the Space Center.', STEVEN],
+        ['say', 'While we were busy with Team Magma, Team Aqua\'s submarine slipped away to the south of Mossdeep. I think they mean to go under the sea.', STEVEN],
+        ['say', 'Take this. With it, you can follow them.', STEVEN],
+        ['giveItem', 'hm08', 1],
+        ['setFlag', 'got-hm08'],
+        ['say', 'HM08 is Dive. With the Mind Badge, a Pokémon that knows it can take you down from deep, dark water to the sea floor.', STEVEN]
+      ]],
+      ['say', 'The submarine was last seen over the dark water of Route 128, south of Route 127. Be careful down there, {player}.', STEVEN]
+    ],
     'space.scientist': [
       ['if', ATTACK, [
         ['say', 'Team Magma stormed in! They are after our rocket fuel! The director is upstairs!']

@@ -74,5 +74,10 @@ G.I18n.add({
   "Mossdeep City. An island town where the stars feel close enough to touch.": "Mossdeep. Uma cidade na ilha onde as estrelas parecem ao alcance da mão.",
   "Mossdeep City Pokémon Gym. Leaders: Tate and Liza, twins who think as one.": "Ginásio Pokémon de Mossdeep. Líderes: Tate e Liza, gêmeos que pensam como um só.",
   "Mossdeep Space Center. Our window on the stars.": "Centro Espacial de Mossdeep. Nossa janela para as estrelas.",
-  "A letter lies on the table: \"I am off on a journey again. Whoever finds this, feel free to rest here. - Steven\"": "Há uma carta sobre a mesa: \"Saí de viagem de novo. Quem encontrar isto, fique à vontade para descansar aqui. Steven\""
+  "A letter lies on the table: \"I am off on a journey again. Whoever finds this, feel free to rest here. - Steven\"": "Há uma carta sobre a mesa: \"Saí de viagem de novo. Quem encontrar isto, fique à vontade para descansar aqui. Steven\"",
+  "{player}, welcome to my home. Thank you again for what you did at the Space Center.": "{player}, bem-vindo à minha casa. Obrigado mais uma vez pelo que você fez no Centro Espacial.",
+  "While we were busy with Team Magma, Team Aqua's submarine slipped away to the south of Mossdeep. I think they mean to go under the sea.": "Enquanto lidávamos com a Equipe Magma, o submarino da Equipe Aqua escapuliu para o sul de Mossdeep. Acho que eles pretendem descer sob o mar.",
+  "Take this. With it, you can follow them.": "Pegue isto. Com ele, você poderá segui-los.",
+  "HM08 is Dive. With the Mind Badge, a Pokémon that knows it can take you down from deep, dark water to the sea floor.": "O HM08 é Dive. Com a Insígnia Mente, um Pokémon que o conheça pode levar você das águas fundas e escuras até o fundo do mar.",
+  "The submarine was last seen over the dark water of Route 128, south of Route 127. Be careful down there, {player}.": "O submarino foi visto pela última vez sobre as águas escuras da Rota 128, ao sul da Rota 127. Tome cuidado lá embaixo, {player}."
 }, "pt-BR");

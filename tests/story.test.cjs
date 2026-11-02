@@ -95,7 +95,7 @@ async function fight(st, ref, o, h) {
     rules: { canLose: !!(o && o.canLose), obeyCap: obeyCap(st) } });
   b.start();
   const r = autoplay(G, b);
-  st.battles.push({ key, outcome: r.outcome, levels: S.party.map(m => m.lvl) });
+  st.battles.push({ key, outcome: r.outcome, levels: S.party.map(m => m.lvl), team: d.team });
   G.Field.lastBattle = r.outcome;
   for (const sp of r.seen || []) S.dex.seen[sp] = 1;
   if (r.outcome === 'win' && r.money > 0) G.Field.money(r.money);
@@ -440,8 +440,15 @@ test('chapter 2: Route 3, Mt. Moon and its fossils, Cerulean City and the Cascad
 });
 
 /** Win rate of a team ([[species, level], ...]) against a Gym Leader, over 40 seeded battles. */
+/** Archie's team in the deepest chamber (seafloor.js; chapter 37 checks it is the one fought). */
+const ARCHIE_TEAM = [['mightyena', 41], ['crobat', 41], ['sharpedo', 43]];
+
 function leaderRate(G, mapId, id) {
-  const L = G.Maps.get(mapId).trainers.find(t => t.id === id);
+  return trainerRate(G, G.Maps.get(mapId).trainers.find(t => t.id === id));
+}
+/** The same for any trainer { id, name, team, items } (a scripted battle: Archie). */
+function trainerRate(G, L) {
+  const id = L.id;
   return team => {
     let wins = 0;
     for (let s = 1; s <= 40; s++) {
@@ -456,6 +463,25 @@ function leaderRate(G, mapId, id) {
     return wins / 40;
   };
 }
+
+test('balance: Archie in the Seafloor Cavern (chapter 37), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = trainerRate(G, { id: 'archie', name: 'Archie', items: { 'hyper-potion': 1 }, team: ARCHIE_TEAM });
+  const SWAMPERT = ['surf', 'muddy-water', 'take-down', 'protect'], SCEPTILE = ['leaf-blade', 'quick-attack', 'agility', 'slam'];
+  const BLAZIKEN = ['blaze-kick', 'double-kick', 'slash', 'bulk-up'], MANECTRIC = ['spark', 'bite', 'quick-attack', 'roar'];
+  const BANETTE = ['shadow-ball', 'feint-attack', 'knock-off', 'will-o-wisp'];
+  const table = {
+    'swampert 44': rate([[260, 44, SWAMPERT]]), 'sceptile 44': rate([[254, 44, SCEPTILE]]), 'blaziken 44': rate([[257, 44, BLAZIKEN]]),
+    'swampert 44 + manectric 40 + banette 40': rate([[260, 44, SWAMPERT], [310, 40, MANECTRIC], [354, 40, BANETTE]]),
+    'sceptile 44 + manectric 40 + banette 40': rate([[254, 44, SCEPTILE], [310, 40, MANECTRIC], [354, 40, BANETTE]]),
+    'blaziken 44 + manectric 40 + banette 40': rate([[257, 44, BLAZIKEN], [310, 40, MANECTRIC], [354, 40, BANETTE]])
+  };
+  console.log('[balance] vs Archie:', JSON.stringify(table));
+  // Emerald's team (Mightyena, Crobat, Sharpedo at Lv. 41-43, a Hyper Potion) outlasts a lone starter; a team
+  // of three with Electric and Ghost moves wins with any starter.
+  for (const k of ['swampert', 'sceptile', 'blaziken']) assert.ok(table[k + ' 44 + manectric 40 + banette 40'] >= 0.6, k + ' with a team of three');
+  assert.ok(table['swampert 44'] < 0.2 && table['sceptile 44'] < 0.2 && table['blaziken 44'] < 0.2, 'a lone starter is outlasted');
+});
 
 test('balance: Tate and Liza in Mossdeep (chapter 36), win rates of typical teams are printed', () => {
   const { G } = world(1);
@@ -2795,6 +2821,37 @@ async function chapter36(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter37(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // Steven, home after the Space Center: HM08 Dive (Swampert can learn it).
+  assert.ok(F.flag('space-center-saved'));
+  await run(st, 'steven-house', 'mossdeep.steven');
+  assert.ok(F.flag('got-hm08') && F.count('hm08') === 1);
+  assert.ok(G.SPECIES[260].tm.includes('hm08'));
+  // By sea, south of Mossdeep: Routes 127 and 128.
+  await all('route127');
+  await all('route128');
+  // Down to the Seafloor Cavern: its grunts, Shelly, then Archie in the deepest chamber.
+  await all('seafloor-1');
+  await all('seafloor-2');
+  grind(st, 'seafloor-1', 43, 600);
+  F.healAll();
+  await run(st, 'seafloor-deep', 'seafloor.archie');
+  assert.equal(last().key, 'seafloor-deep:archie');
+  won();
+  assert.deepEqual(plain(last().team), ARCHIE_TEAM);
+  console.log('[story] Archie in the Seafloor Cavern: won at levels', last().levels.join());
+  assert.ok(F.flag('kyogre-awake') && F.flag('chapter-37-done'));
+  assert.ok(st.log.some(l => l.includes('Kyogre')));
+  assert.equal(st.W.map, 'route128', 'back up on Route 128');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2876,7 +2933,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 36: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Mind Badge", async () => {
+test("chapters 11 to 37: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Seafloor Cavern", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2914,4 +2971,5 @@ test("chapters 11 to 36: Johto, from Professor Elm to Johto's League and its pos
   await chapter34(st);
   await chapter35(st);
   await chapter36(st);
+  await chapter37(st);
 });

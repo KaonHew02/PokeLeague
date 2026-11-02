@@ -103,5 +103,8 @@ G.I18n.add({
   "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "Grazie per aver giocato! Il covo del Team Idro e Verdeazzupoli ti aspettano in un prossimo aggiornamento.",
   "Chapter 36 complete!": "Capitolo 36 completato!",
   "{player} raided Team Aqua's hideout, crossed the sea to Mossdeep City, earned the Mind Badge from Tate and Liza and drove Team Magma out of the Space Center.": "{player} ha fatto irruzione nel covo del Team Idro, ha attraversato il mare fino a Verdeazzupoli, ha vinto la Medaglia Mente di Tell e Pat e ha cacciato il Team Magma dal Centro Spaziale.",
-  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "Grazie per aver giocato! Il mare dove il Team Idro ha portato il sottomarino ti aspetta in un prossimo aggiornamento."
+  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "Grazie per aver giocato! Il mare dove il Team Idro ha portato il sottomarino ti aspetta in un prossimo aggiornamento.",
+  "Chapter 37 complete!": "Capitolo 37 completato!",
+  "{player} learned to Dive with Steven's HM08, followed Team Aqua down to the Seafloor Cavern and battled Archie, but Kyogre woke and vanished into the sea.": "{player} ha imparato a immergersi con la MN08 di Rocco, ha seguito il Team Idro fino all'Antro Abissale e ha lottato contro Ivan, ma Kyogre si è risvegliato ed è scomparso nel mare.",
+  "Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.": "Grazie per aver giocato! Ceneride e i signori della terra e del mare ti aspettano in un prossimo aggiornamento."
 }, "it");

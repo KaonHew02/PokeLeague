@@ -355,6 +355,15 @@ participants). The real mon objects only change HP, PP, status, EXP, EVs, level 
   `visited:<map>`), `bike: true` (Cycling Road: with a Bicycle you are on it there and cannot get
   off), `slope: 'down'` (while riding and letting go you roll that way; riding against it is slow)
   and `noBike: true` (an outdoor map without the Bicycle).
+- **Chapter 37 map fields (Dive):** outdoor `d` is deep water (kind `deep`: surfable, drawn darker).
+  `dive: '<map>'` names the sea floor below, a map of the same size: while surfing on deep water, A
+  (Dive with the Mind Badge, badge 23) goes down to the same tile, so the floor must be open under
+  every deep tile (`validate` checks the size and the tiles). `dive: { to, spot }` goes down to one
+  spot instead (the Seafloor Cavern's pool). The floor map has `underwater: true` and `surface:
+  '<map>'` (whose `dive` names it back): palette `underwater`, `battleBg: 'underwater'`, `,` the lit
+  floor under deep water (A there comes back up to the same tile, surfing), `"` seaweed (the map's
+  `encounters.seaweed`), a blue wash and rising bubbles; you ride the Pokémon that dived (no
+  follower, no Bicycle, no Fly). A spot may lie on deep water (you come up there surfing).
 - **Extra map fields:** `enter` (script run after arriving by warp), `items[].hidden` (found by facing
   it and pressing A) and `items[].n`, npc/trainer `if` (conditions: shown only while true), `fixed`
   (does not turn to face you), `move: 'still' | 'look' | 'wander' | 'spin'` with `r` (wander radius,
@@ -1718,11 +1727,40 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   `tests/field.test.cjs` the cave before and after the orbs, Matt's trigger, the sea roads and the
   Space Center before and after the badge.
 
-### After chapter 36
+- **Chapter 37** ✅, Dive and the Seafloor Cavern: after the Space Center Steven is home in Mossdeep
+  (`mossdeep.steven`, while `space-center-saved` and not `kyogre-awake`) and gives HM08 Dive (flag
+  `got-hm08`). Route 124 has a patch of deep water over a sea-floor pocket (`route124-uw`: seaweed
+  with Emerald's underwater table, Calcium). South of Mossdeep the sea is Route 127 (two islets,
+  Black Belt Koji, Fisherman Jonah, two swimmers; two patches of deep water over `route127-uw`:
+  seaweed, Big Pearl, Zinc, a hidden Pearl) and Route 128 (Fisherman Isaiah on a reef, two swimmers;
+  its east end waits for Ever Grande City). Route 128's deep water lies over `route128-uw`, where a
+  corridor of seaweed leads to the cavern's mouth (`O`): you come up in the pool of
+  `seafloor-entrance` (Team Aqua's submarine moored at the rock, a grunt; its `dive` goes back to the
+  mouth). `seafloor-1`: two grunts, a cracked rock on the way north and a boulder in the narrow way
+  down (pushed twice); `seafloor-2`: a grunt and Shelly; `seafloor-deep`: Kyogre asleep in a pool
+  (a `swim` person), Archie and two grunts at its edge. The trigger (`seafloor.archie`): Archie
+  battles you (Mightyena 41, Crobat 41, Sharpedo 43, a Hyper Potion; class `aqua-leader`), then
+  raises the Blue Orb; Kyogre wakes and dives away; Maxie arrives too late (he woke Groudon in the
+  mountain, and it vanished too); the leaders hurry out (flag `kyogre-awake`), you come up on Route
+  128 under pouring rain, then `ending(37)`. Files: `js/content/hoenn/seafloor.js` (translations
+  `hoenn-seafloor`); `mossdeep.js` (Steven, Route 124's deep water, Mossdeep's sea to the south).
+- **Engine and data for chapter 37:** Dive (map fields above; field.js `diveAt`, `surfaceUp`,
+  `under`, `diver`; tiles.js `deep` and palette `underwater`; render.js bubbles; battle-ui.js
+  background `underwater`). `tools/fetch_data.py`: PokeAPI gives the seaweed tables no encounter
+  rate, so they get 8 (`SEAWEED_RATE`); the Seafloor Cavern's Chinese names (`LOC_NAMES`) and HM08's
+  (`ITEM_ZH`: PokeAPI has none). Kyogre sits low in its pool, so the scene shows it. The Town
+  Map's Routes 127 and 128 (sea) and the cavern; `tests/kanto.test.cjs` follows Dive between maps.
+  `[balance]` vs Archie: his three Pokémon outlast a lone final-stage starter at 44 (0-5%); a team
+  of three with a Lv. 40 Manectric and Banette wins 88-100% with any starter. The story test's
+  Swampert beats Archie at 44; `tests/field.test.cjs` Dive on a test map (the badge, the ride,
+  seaweed, coming up, a save on the sea floor) and the chapter's way from Steven's house down to
+  Archie and back up on Route 128.
 
-1. **Hoenn, chapter 37:** Dive (HM08) and the sea routes 126 to 128, the Seafloor Cavern where
-   Archie wakes the master of the sea, Sootopolis City under the storm, the Sky Pillar, and Juan's
-   Rain Badge. The engine needs Dive (dark water, an underwater layer) first.
+### After chapter 37
+
+1. **Hoenn, chapter 38:** Sootopolis City under the storm (Route 126 and its sea floor, the way in
+   from below), Groudon and Kyogre clashing, the Cave of Origin, the Sky Pillar (Rayquaza), and
+   Juan's Rain Badge. Weather on the overworld (the rain, the drought) would come with it.
 2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
-   abilities outside battle (Pickup, Synchronize and the others on wild encounters), Dive and
-   the other Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.
+   abilities outside battle (Pickup, Synchronize and the others on wild encounters), the other
+   Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.

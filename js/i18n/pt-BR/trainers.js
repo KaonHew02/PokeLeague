@@ -46,5 +46,6 @@ G.I18n.add({
   "Magma Admin": "Admin Magma",
   "Magma Leader": "Líder Magma",
   "Kindler": "Pirotécnico",
-  "Aqua Admin": "Admin Aqua"
+  "Aqua Admin": "Admin Aqua",
+  "Aqua Leader": "Líder Aqua"
 }, "pt-BR");

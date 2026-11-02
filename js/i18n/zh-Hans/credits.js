@@ -103,5 +103,8 @@ G.I18n.add({
   "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "感谢游玩！海洋队的基地和绿岭市将在之后的更新中等着你。",
   "Chapter 36 complete!": "第三十六章完成！",
   "{player} raided Team Aqua's hideout, crossed the sea to Mossdeep City, earned the Mind Badge from Tate and Liza and drove Team Magma out of the Space Center.": "{player}闯进了海洋队的基地，渡海来到绿岭市，从小枫与小南那里赢得了心灵徽章，还把熔岩队赶出了宇宙中心。",
-  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "感谢游玩！海洋队开着潜水艇前往的那片大海，将在之后的更新中等着你。"
+  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "感谢游玩！海洋队开着潜水艇前往的那片大海，将在之后的更新中等着你。",
+  "Chapter 37 complete!": "第三十七章完成！",
+  "{player} learned to Dive with Steven's HM08, followed Team Aqua down to the Seafloor Cavern and battled Archie, but Kyogre woke and vanished into the sea.": "{player}用大吾给的秘传学习器08学会了潜水，追着海洋队来到海底洞窟并与水梧桐对战，但盖欧卡还是醒了过来，消失在大海之中。",
+  "Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.": "感谢游玩！琉璃市以及大地与海洋之主，将在之后的更新中等着你。"
 }, "zh-Hans");

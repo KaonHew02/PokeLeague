@@ -74,5 +74,10 @@ G.I18n.add({
   "Mossdeep City. An island town where the stars feel close enough to touch.": "綠嶺市。星星近得彷彿伸手可及的島上城鎮。",
   "Mossdeep City Pokémon Gym. Leaders: Tate and Liza, twins who think as one.": "綠嶺市寶可夢道館。館主：小楓與小南，心意相通的雙胞胎。",
   "Mossdeep Space Center. Our window on the stars.": "綠嶺宇宙中心。我們眺望星空的窗口。",
-  "A letter lies on the table: \"I am off on a journey again. Whoever finds this, feel free to rest here. - Steven\"": "桌上放著一封信：「我又出門旅行了。不論是誰看到這封信，都可以在這裡休息。——大吾」"
+  "A letter lies on the table: \"I am off on a journey again. Whoever finds this, feel free to rest here. - Steven\"": "桌上放著一封信：「我又出門旅行了。不論是誰看到這封信，都可以在這裡休息。——大吾」",
+  "{player}, welcome to my home. Thank you again for what you did at the Space Center.": "{player}，歡迎來我家。再次感謝你在宇宙中心所做的一切。",
+  "While we were busy with Team Magma, Team Aqua's submarine slipped away to the south of Mossdeep. I think they mean to go under the sea.": "我們忙著對付熔岩隊的時候，海洋隊的潛水艇悄悄往綠嶺市南邊去了。我想他們是打算潛到海底。",
+  "Take this. With it, you can follow them.": "收下這個。有了它，你就能追上他們。",
+  "HM08 is Dive. With the Mind Badge, a Pokémon that knows it can take you down from deep, dark water to the sea floor.": "秘傳學習器08是潛水。有了心靈徽章，會這招的寶可夢就能帶你從幽暗的深水潛到海底。",
+  "The submarine was last seen over the dark water of Route 128, south of Route 127. Be careful down there, {player}.": "最後有人看到潛水艇，是在127號道路南邊、128號道路的幽暗海面上。到了下面要小心，{player}。"
 }, "zh-Hant");

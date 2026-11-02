@@ -67,6 +67,11 @@
  * breaks one until you leave the map, and a wild Pokémon may be under it (the area's 'rock-smash'
  * table). An Apricorn tree is a berry tree whose item is an Apricorn: one a day, once you have
  * Kurt's Apricorn Box. A Pokémon hooked with a rod is a battle with `rules.fishing` (the Lure Ball).
+ * Chapter 37: Dive (a Pokémon that knows it, with the Mind Badge, as in the games): pressing A while
+ * surfing on deep water (`d`) goes down to the map's `dive` (the same tile, or one spot), where you
+ * swim on that Pokémon's back over the sea floor (`underwater: true`: no follower, no Bicycle, no
+ * Fly); seaweed (`"`) rolls the 'seaweed' table. A on the floor under deep water comes back up
+ * (`surface`, the same tile).
  * Chapter 15: berry trees (`y`): one to three berries once a day (the map's `berries`: [[x, y, item]]).
  * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
  * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
@@ -328,7 +333,7 @@ G.World = (() => {
 
   function makeFollower() {
     const lead = G.Field.lead();
-    if (!lead || surfing || G.Settings.get('follower') === false) { follower = null; return; }
+    if (!lead || surfing || under() || G.Settings.get('follower') === false) { follower = null; return; }
     if (!follower || follower.mon !== lead.sp) follower = new G.Actor({ id: 'follower', mon: lead.sp, shiny: !!lead.shiny });
     // One tile behind the player, if there is room; else under the player (hidden) until the first step.
     const [dx, dy] = M().DIRS[M().OPP[me.dir]];
@@ -607,6 +612,9 @@ G.World = (() => {
     if (spotted()) return;
     if (surfing) {
       if (maybeEncounter('surf')) return;
+    } else if (k === 'tall' && under()) {
+      // Seaweed on the sea floor (Dive).
+      if (maybeEncounter('seaweed')) return;
     } else if (k === 'tall') {
       sfx('grass');
       if (maybeEncounter('walk')) return;
@@ -735,7 +743,7 @@ G.World = (() => {
   function battleOpts(canLose) {
     // On the water (Surf, a rod) outside a cave: the sea behind the Pokémon.
     const sea = (surfing || fishing) && map.tileset === 'outdoor' && !map.def.cave;
-    return { bg: sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld',
+    return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld',
              rules: { canLose: !!canLose, where: map.loc || map.id, obeyCap: G.Field.obeyCap(map.def.region) } };
   }
   /** After a battle: Pokédex, prize money, a caught Pokémon that goes to the PC. -> the outcome */
@@ -898,10 +906,14 @@ G.World = (() => {
     if (k === 'waterfall') return runScript([['js', h => waterfallAt(h)]], {});
     if (k === 'whirlpool' && !cut.has(M().key(tx, ty))) return runScript([['js', h => whirlpoolAt(h, tx, ty)]], {});
     if (k === 'smashrock' && !cut.has(M().key(tx, ty))) return runScript([['js', h => rockSmash(h, tx, ty)]], {});
+    // Deep water under the player: Dive goes down (before fishing in front: a rod works from the Bag too).
+    if (surfing && M().kindAt(map, me.x, me.y) === 'deep' && map.def.dive) return runScript([['js', h => diveAt(h)]], {});
     if (isWater(tx, ty) && !occupant(tx, ty, me) && (!surfing || bestRod())) return runScript([['js', h => atWater(h, me.dir)]], {});
     if (k === 'keydoor' && !keyOpen(tx, ty)) return runScript([['js', h => cardKey(h, tx, ty)]], {});
     if (k === 'pc') return runScript([['sfx', 'pc'], ['say', '{player} turned on the PC.'], ['pc']], {});
     if (map.def.dark && !lit) return darkCheck();
+    // On the sea floor under deep water: back up to the surface.
+    if (under() && surfaceAbove(me.x, me.y)) return runScript([['js', h => surfaceUp(h)]], {});
     return null;
   }
 
@@ -1147,12 +1159,12 @@ G.World = (() => {
   function isWater(x, y) {
     if (M().inside(map, x, y)) {
       const k = M().kindAt(map, x, y);
-      return k === 'water' || (k === 'rapids' && calm(map)) || (k === 'whirlpool' && cut.has(M().key(x, y)));
+      return k === 'water' || k === 'deep' || (k === 'rapids' && calm(map)) || (k === 'whirlpool' && cut.has(M().key(x, y)));
     }
     const a = M().across(map, x, y);
     if (!a) return false;
     const k = M().kindAt(a.map, a.x, a.y);
-    return k === 'water' || (k === 'rapids' && calm(a.map));
+    return k === 'water' || k === 'deep' || (k === 'rapids' && calm(a.map));
   }
   /** The Pokémon that can Surf (the Soul Badge allows it outside battle, as in the games). */
   const surfer = () => G.Field.save.player.badges.includes(5) ? G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'surf')) : null;
@@ -1160,7 +1172,9 @@ G.World = (() => {
     surfing = !!on;
     if (!me) return;
     const mon = on ? surfer() || G.Field.party().find(m => G.Mon.knows(m, 'surf')) : null;
-    me.ride = on ? (mon ? mon.sp : 131) : 0;
+    // On the sea floor you ride the Pokémon that dived.
+    const deep = !on && under() ? diver() || G.Field.party().find(m => G.Mon.knows(m, 'dive')) : null;
+    me.ride = on ? (mon ? mon.sp : 131) : under() ? (deep ? deep.sp : 131) : 0;
   }
   async function surf(h, dir, chosen) {
     const mon = surfer();
@@ -1176,11 +1190,40 @@ G.World = (() => {
     stepActor(me, dir, G.Player.WALK, false);
   }
 
+  // ---------------- Dive ----------------
+
+  /** The sea floor (a map with `underwater`). */
+  const under = (m = map) => !!(m && m.def.underwater);
+  /** The Pokémon that can Dive (the Mind Badge allows it outside battle, as in the games). */
+  const diver = () => G.Field.save.player.badges.includes(23) ? G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'dive')) || null : null;
+  /** Deep water right above this tile of the sea floor: you can come up here. */
+  function surfaceAbove(x, y) {
+    const s = map.def.surface;
+    return !!s && M().has(s) && M().kindAt(M().get(s), x, y) === 'deep';
+  }
+  /** A while surfing on deep water: down to the sea floor (the same tile, or the map's one spot below). */
+  async function diveAt(h) {
+    const mon = diver();
+    if (!mon) { await h.say(G.T('The sea is deep here. A Pokémon could dive down to the sea floor.')); return; }
+    if (await h.choice(G.T('The sea is deep here. Would you like to use Dive?'), {}) !== 0) return;
+    await h.say(G.T('{mon} used Dive!'), { vars: { mon: G.Mon.name(mon) } });
+    const d = map.def.dive;
+    if (typeof d === 'string') await warp(d, { x: me.x, y: me.y, dir: me.dir }, { sfx: 'surf' });
+    else await warp(d.to, d.spot, { sfx: 'surf' });
+  }
+  /** A on the sea floor under deep water: back up (to the same tile of the map's `surface`). */
+  async function surfaceUp(h) {
+    if (await h.choice(G.T('Light is filtering down from above. Would you like to use Dive?'), {}) !== 0) return;
+    const mon = diver() || G.Field.party().find(m => G.Mon.knows(m, 'dive'));
+    if (mon) await h.say(G.T('{mon} used Dive!'), { vars: { mon: G.Mon.name(mon) } });
+    await warp(map.def.surface, { x: me.x, y: me.y, dir: me.dir }, { sfx: 'surf' });
+  }
+
   // ---------------- the Bicycle ----------------
 
   const hasBike = () => G.Field.count('bicycle') > 0;
   /** Outdoor maps only (not on the water, not indoors). */
-  const canRide = (m = map) => !!m && m.tileset === 'outdoor' && !m.def.noBike;
+  const canRide = (m = map) => !!m && m.tileset === 'outdoor' && !m.def.noBike && !m.def.underwater;
   /** Cycling Road (map `bike: true`): with a Bicycle you are always on it there. */
   const mustRide = (m = map) => !!m && !!m.def.bike && hasBike();
   function setBike(on) {
@@ -1217,7 +1260,7 @@ G.World = (() => {
   /** Can you take off here? -> null, or why not ('badge', 'here') */
   function flyBlock() {
     if (!G.Field.save.player.badges.includes(3)) return 'badge';
-    if (!map || map.tileset !== 'outdoor' || map.def.cave || map.def.noFly || mustRide(map) || locks) return 'here';
+    if (!map || map.tileset !== 'outdoor' || map.def.cave || map.def.underwater || map.def.noFly || mustRide(map) || locks) return 'here';
     return null;
   }
   /** Flies to a visited town: off the bike or the water, to its landing spot. */
@@ -1546,13 +1589,14 @@ G.World = (() => {
 
   /** The light of the time of day over Johto's and Hoenn's outdoor maps (none indoors, in caves or in Kanto). */
   const TINT = { morning: 'rgba(255,176,96,0.10)', day: null, night: 'rgba(14,22,70,0.40)' };
-  const tint = () => ((map.def.region === 'johto' || map.def.region === 'hoenn') && map.tileset === 'outdoor' && !map.def.cave && G.Clock
+  const tint = () => under() ? 'rgba(10,40,120,0.30)'
+    : ((map.def.region === 'johto' || map.def.region === 'hoenn') && map.tileset === 'outdoor' && !map.def.cave && G.Clock
     ? TINT[G.Clock.period()] : null);
 
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(), snow: !!map.def.snow,
+      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(), snow: !!map.def.snow, bubbles: under(),
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }

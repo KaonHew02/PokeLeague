@@ -84,5 +84,9 @@ G.I18n.add({
   "Oh? The Egg is moving!": "Hã? O Ovo está se mexendo!",
   "There is no room in your party, so {mon} was sent to the PC.": "Não há espaço na sua equipe, então {mon} foi enviado para o PC.",
   "Brendan": "Brendan",
-  "May": "May"
+  "May": "May",
+  "The sea is deep here. A Pokémon could dive down to the sea floor.": "O mar é fundo aqui. Um Pokémon poderia mergulhar até o fundo do mar.",
+  "The sea is deep here. Would you like to use Dive?": "O mar é fundo aqui. Gostaria de usar Dive?",
+  "{mon} used Dive!": "{mon} usou Dive!",
+  "Light is filtering down from above. Would you like to use Dive?": "A luz está entrando lá de cima. Gostaria de usar Dive?"
 }, "pt-BR");

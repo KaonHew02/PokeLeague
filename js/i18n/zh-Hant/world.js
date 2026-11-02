@@ -84,5 +84,9 @@ G.I18n.add({
   "Oh? The Egg is moving!": "咦？蛋在動！",
   "There is no room in your party, so {mon} was sent to the PC.": "隊伍裡已經沒有位置了，{mon}被送到了電腦裡。",
   "Brendan": "小悠",
-  "May": "小遙"
+  "May": "小遙",
+  "The sea is deep here. A Pokémon could dive down to the sea floor.": "這裡的海很深。寶可夢也許能潛到海底。",
+  "The sea is deep here. Would you like to use Dive?": "這裡的海很深。要使用潛水嗎？",
+  "{mon} used Dive!": "{mon}使用了潛水！",
+  "Light is filtering down from above. Would you like to use Dive?": "上方有光照下來。要使用潛水嗎？"
 }, "zh-Hant");

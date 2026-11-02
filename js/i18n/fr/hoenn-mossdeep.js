@@ -74,5 +74,10 @@ G.I18n.add({
   "Mossdeep City. An island town where the stars feel close enough to touch.": "Algatia. Une ville insulaire où les étoiles semblent à portée de main.",
   "Mossdeep City Pokémon Gym. Leaders: Tate and Liza, twins who think as one.": "Arène Pokémon d'Algatia. Champions : Lévy et Tatia, des jumeaux qui pensent comme un seul.",
   "Mossdeep Space Center. Our window on the stars.": "Centre Spatial d'Algatia. Notre fenêtre sur les étoiles.",
-  "A letter lies on the table: \"I am off on a journey again. Whoever finds this, feel free to rest here. - Steven\"": "Une lettre est posée sur la table : « Je repars en voyage. Qui que tu sois, n'hésite pas à te reposer ici. Pierre »"
+  "A letter lies on the table: \"I am off on a journey again. Whoever finds this, feel free to rest here. - Steven\"": "Une lettre est posée sur la table : « Je repars en voyage. Qui que tu sois, n'hésite pas à te reposer ici. Pierre »",
+  "{player}, welcome to my home. Thank you again for what you did at the Space Center.": "{player}, bienvenue chez moi. Merci encore pour ce que tu as fait au Centre Spatial.",
+  "While we were busy with Team Magma, Team Aqua's submarine slipped away to the south of Mossdeep. I think they mean to go under the sea.": "Pendant qu'on s'occupait de la Team Magma, le sous-marin de la Team Aqua a filé au sud d'Algatia. Je crois qu'ils veulent descendre sous la mer.",
+  "Take this. With it, you can follow them.": "Prends ceci. Avec elle, tu pourras les suivre.",
+  "HM08 is Dive. With the Mind Badge, a Pokémon that knows it can take you down from deep, dark water to the sea floor.": "La CS08, c'est Plongée. Avec le Badge Esprit, un Pokémon qui la connaît peut t'emmener des eaux sombres et profondes jusqu'au fond marin.",
+  "The submarine was last seen over the dark water of Route 128, south of Route 127. Be careful down there, {player}.": "Le sous-marin a été vu pour la dernière fois au-dessus des eaux sombres du Chenal 128, au sud du Chenal 127. Sois prudent là-dessous, {player}."
 }, "fr");

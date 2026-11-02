@@ -46,5 +46,6 @@ G.I18n.add({
   "Magma Admin": "Magmatenente",
   "Magma Leader": "Capo Magma",
   "Kindler": "Mangiafuoco",
-  "Aqua Admin": "Idrotenente"
+  "Aqua Admin": "Idrotenente",
+  "Aqua Leader": "Capo Idro"
 }, "it");

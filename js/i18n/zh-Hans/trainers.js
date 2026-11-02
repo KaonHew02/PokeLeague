@@ -46,5 +46,6 @@ G.I18n.add({
   "Magma Admin": "熔岩队干部",
   "Magma Leader": "熔岩队首领",
   "Kindler": "吹火人",
-  "Aqua Admin": "海洋队干部"
+  "Aqua Admin": "海洋队干部",
+  "Aqua Leader": "海洋队首领"
 }, "zh-Hans");

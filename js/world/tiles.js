@@ -200,6 +200,21 @@ G.Tiles = (() => {
     wood: ['#7a5a44', '#987458', '#54402e'], woodEdge: '#2a1c12',
     ledge: ['#8a6450', '#6e4c3c', '#52382c']
   };
+  // The sea floor (Dive, chapter 37): dim blue sand, sunlit sand under deep water (`,`), seaweed
+  // for tall grass and dark rock for cliffs.
+  PALETTES.underwater = {
+    grass: ['#3e6a86', '#3a6480', '#42708c'], speck: '#305670', light: '#4e7c98',
+    path: ['#7aa4b4', '#729cac', '#82acbc'], pathEdge: '#4e7c98', pathSpeck: '#6a94a6',
+    sand: ['#5a8498', '#547e92', '#608a9e'], sandEdge: '#3e6a86', sandSpeck: '#4c7690',
+    tall: ['#1e5a46', '#2a7656', '#3a9068'], tallEdge: '#123a2e',
+    petals: ['#e88aa0', '#f4c8d4'], petalCenter: '#f8e0a0',
+    leaf: ['#16303e', '#1e4050', '#2a5466', '#386a7e'], trunk: ['#1a2c38', '#24384a'], treeEdge: '#0a1620',
+    cliffTop: ['#24425a', '#284860', '#203c54'], cliffLight: '#3a5c76', cliffEdge: '#0a1826',
+    cliffFace: ['#1c364c', '#183044'], cliffFaceDark: '#0e2030',
+    liq: '#1e4a7a', liqDeep: '#163c66', foam: '#6a9ac8', shore: '#305670',
+    wood: ['#5a6a6a', '#728282', '#3e4a4a'], woodEdge: '#1e2626',
+    ledge: ['#4a7690', '#3a6278', '#2c4e62']
+  };
   // The Pokémon Mansion: scorched wood and old wallpaper.
   PALETTES.mansion = { floor: 'wood', wallTop: ['#3a302c', '#463a34'], paper: ['#cdbd9e', '#c0b090'], trim: '#6e5442', base: '#4a382a',
     wood: ['#9a7654', '#8c6a4a', '#a8825e'], woodLine: '#5e4430', tile: ['#bcae98', '#ae9f88'], grout: '#8e806a',
@@ -323,7 +338,7 @@ G.Tiles = (() => {
   const FAMILY = {
     grass: 'grass', tall: 'grass', flowers: 'grass', tree: 'grass', 'sign': 'grass', fence: 'grass',
     'ledge-down': 'grass', 'ledge-left': 'grass', 'ledge-right': 'grass',
-    path: 'path', door: 'path', stamp: 'path', sand: 'sand', water: 'water', rapids: 'water', whirlpool: 'water', cliff: 'cliff'
+    path: 'path', door: 'path', stamp: 'path', sand: 'sand', water: 'water', rapids: 'water', whirlpool: 'water', deep: 'water', cliff: 'cliff'
   };
   const fam = k => FAMILY[k] || k;
 
@@ -453,7 +468,7 @@ G.Tiles = (() => {
 
   /** Water with shore, foam and a few waves; frame 1 moves the waves. */
   function water(P, C, ox, oy, tx, ty, at, frame) {
-    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge' || k === 'rapids' || k === 'waterfall' || k === 'whirlpool'; };
+    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge' || k === 'rapids' || k === 'waterfall' || k === 'whirlpool' || k === 'deep'; };
     const n = same(0, -1), s = same(0, 1), w = same(-1, 0), e = same(1, 0);
     grass(P, C, ox, oy, tx, ty);
     for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
@@ -475,6 +490,12 @@ G.Tiles = (() => {
       if (d >= 3 && H(gx, gy, 34 + frame) < 0.006) col = C.foam;
       P.set(ox + x, oy + y, col);
     }
+  }
+
+  /** Deep water (Dive): the same water a few shades darker, and darkest where deep meets deep. */
+  function deep(P, C, ox, oy, tx, ty, at, frame) {
+    if (!C.deepC) C.deepC = Object.assign({}, C, { liq: C.liqDeep, liqLight: C.liq, liqDeep: pack(shade(C.src.liqDeep, -0.3)) });
+    water(P, C.deepC, ox, oy, tx, ty, at, frame);
   }
 
   /** A waterfall: deep water pouring down in white streaks (they move between the two frames). */
@@ -1415,6 +1436,7 @@ G.Tiles = (() => {
       case 'flowers': flowers(P, C, ox, oy, tx, ty, frame); break;
       case 'cliff': cliff(P, C, ox, oy, tx, ty, at); break;
       case 'water': water(P, C, ox, oy, tx, ty, at, frame); break;
+      case 'deep': deep(P, C, ox, oy, tx, ty, at, frame); break;
       case 'waterfall': waterfall(P, C, ox, oy, tx, ty, at, frame); break;
       case 'bridge': bridge(P, C, ox, oy, tx, ty, at, frame); break;
       case 'fence': fence(P, C, ox, oy, tx, ty, at); break;
@@ -1477,7 +1499,7 @@ G.Tiles = (() => {
 
   /** The whole map, once: two ground frames and the Y-sorted strips. */
   function bakeMap(m) {
-    const animated = m.kind.some(k => k === 'water' || k === 'flowers' || k === 'rapids' || k === 'waterfall' || k === 'whirlpool');
+    const animated = m.kind.some(k => k === 'water' || k === 'flowers' || k === 'rapids' || k === 'waterfall' || k === 'whirlpool' || k === 'deep');
     const g0 = bakeGround(m, 0);
     const ground = [g0, animated ? bakeGround(m, 1) : g0];
     const strips = {};

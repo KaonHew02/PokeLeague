@@ -103,5 +103,8 @@ G.I18n.add({
   "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "Obrigado por jogar! O esconderijo da Equipe Aqua e Mossdeep esperam por você em uma próxima atualização.",
   "Chapter 36 complete!": "Capítulo 36 concluído!",
   "{player} raided Team Aqua's hideout, crossed the sea to Mossdeep City, earned the Mind Badge from Tate and Liza and drove Team Magma out of the Space Center.": "{player} invadiu o esconderijo da Equipe Aqua, atravessou o mar até Mossdeep, ganhou a Insígnia Mente de Tate e Liza e expulsou a Equipe Magma do Centro Espacial.",
-  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "Obrigado por jogar! O mar para onde a Equipe Aqua levou o submarino espera por você em uma próxima atualização."
+  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "Obrigado por jogar! O mar para onde a Equipe Aqua levou o submarino espera por você em uma próxima atualização.",
+  "Chapter 37 complete!": "Capítulo 37 concluído!",
+  "{player} learned to Dive with Steven's HM08, followed Team Aqua down to the Seafloor Cavern and battled Archie, but Kyogre woke and vanished into the sea.": "{player} aprendeu a mergulhar com o HM08 de Steven, seguiu a Equipe Aqua até a Seafloor Cavern e batalhou com Archie, mas Kyogre despertou e sumiu no mar.",
+  "Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.": "Obrigado por jogar! Sootopolis e os senhores da terra e do mar esperam por você em uma próxima atualização."
 }, "pt-BR");

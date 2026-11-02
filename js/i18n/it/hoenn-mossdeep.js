@@ -74,5 +74,10 @@ G.I18n.add({
   "Mossdeep City. An island town where the stars feel close enough to touch.": "Verdeazzupoli. Una città su un'isola dove le stelle sembrano a portata di mano.",
   "Mossdeep City Pokémon Gym. Leaders: Tate and Liza, twins who think as one.": "Palestra Pokémon di Verdeazzupoli. Capipalestra: Tell e Pat, gemelli che pensano come una cosa sola.",
   "Mossdeep Space Center. Our window on the stars.": "Centro Spaziale di Verdeazzupoli. La nostra finestra sulle stelle.",
-  "A letter lies on the table: \"I am off on a journey again. Whoever finds this, feel free to rest here. - Steven\"": "Sul tavolo c'è una lettera: «Riparto per un viaggio. Chiunque la trovi, si senta libero di riposare qui. Rocco»"
+  "A letter lies on the table: \"I am off on a journey again. Whoever finds this, feel free to rest here. - Steven\"": "Sul tavolo c'è una lettera: «Riparto per un viaggio. Chiunque la trovi, si senta libero di riposare qui. Rocco»",
+  "{player}, welcome to my home. Thank you again for what you did at the Space Center.": "{player}, benvenuto a casa mia. Grazie ancora per quello che hai fatto al Centro Spaziale.",
+  "While we were busy with Team Magma, Team Aqua's submarine slipped away to the south of Mossdeep. I think they mean to go under the sea.": "Mentre eravamo impegnati con il Team Magma, il sottomarino del Team Idro è sgusciato via a sud di Verdeazzupoli. Credo che vogliano scendere sotto il mare.",
+  "Take this. With it, you can follow them.": "Prendi questa. Con lei potrai seguirli.",
+  "HM08 is Dive. With the Mind Badge, a Pokémon that knows it can take you down from deep, dark water to the sea floor.": "La MN08 è Sub. Con la Medaglia Mente, un Pokémon che la conosce può portarti dalle acque scure e profonde fino al fondale.",
+  "The submarine was last seen over the dark water of Route 128, south of Route 127. Be careful down there, {player}.": "Il sottomarino è stato visto l'ultima volta sopra le acque scure del Percorso 128, a sud del Percorso 127. Fai attenzione laggiù, {player}."
 }, "it");

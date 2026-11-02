@@ -268,6 +268,18 @@ G.WorldRender = (() => {
         ctx.fillRect(Math.round(x), Math.round(y), s, s);
       }
     }
+    // The sea floor (Dive, chapter 37): bubbles rising, the same ones every time, wobbling.
+    if (S.bubbles) {
+      const t = performance.now() / 1000;
+      ctx.fillStyle = 'rgba(220,240,255,0.55)';
+      for (let i = 0; i < 40; i++) {
+        const a = (i * 0.6180339) % 1, c = (i * 0.4142135 + 0.3) % 1;
+        const x = L - TS + a * (W + 2 * TS) + Math.sin(t * 1.7 + i) * 6;
+        const y = Tp - TS + (H + 2 * TS) - ((c * (H + 2 * TS) + t * (18 + 22 * a)) % (H + 2 * TS));
+        const s = PX * (1 + (i % 4 === 0));
+        ctx.fillRect(Math.round(x), Math.round(y), s, s);
+      }
+    }
     // A dark cave: a small circle of light around the player (Flash lights it all).
     if (S.dark && S.me) {
       const cx = S.me.wx, cy = S.me.wy - TS / 2;

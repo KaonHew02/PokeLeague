@@ -103,5 +103,8 @@ G.I18n.add({
   "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "Merci d'avoir joué ! La planque de la Team Aqua et Algatia t'attendent dans une prochaine mise à jour.",
   "Chapter 36 complete!": "Chapitre 36 terminé !",
   "{player} raided Team Aqua's hideout, crossed the sea to Mossdeep City, earned the Mind Badge from Tate and Liza and drove Team Magma out of the Space Center.": "{player} a pris d'assaut la planque de la Team Aqua, a traversé la mer jusqu'à Algatia, a gagné le Badge Esprit de Lévy et Tatia et a chassé la Team Magma du Centre Spatial.",
-  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "Merci d'avoir joué ! La mer où la Team Aqua a emmené le sous-marin t'attend dans une prochaine mise à jour."
+  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "Merci d'avoir joué ! La mer où la Team Aqua a emmené le sous-marin t'attend dans une prochaine mise à jour.",
+  "Chapter 37 complete!": "Chapitre 37 terminé !",
+  "{player} learned to Dive with Steven's HM08, followed Team Aqua down to the Seafloor Cavern and battled Archie, but Kyogre woke and vanished into the sea.": "{player} a appris à plonger grâce à la CS08 de Pierre, a suivi la Team Aqua jusqu'à la Caverne Fondmer et a affronté Arthur, mais Kyogre s'est réveillé et a disparu dans la mer.",
+  "Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.": "Merci d'avoir joué ! Atalanopolis et les maîtres de la terre et des mers t'attendent dans une prochaine mise à jour."
 }, "fr");

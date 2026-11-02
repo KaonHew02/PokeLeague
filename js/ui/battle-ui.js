@@ -1,6 +1,6 @@
 /* ============ battle-ui.js — the battle screen ============
  *   G.BattleUI.start({ kind: 'wild' | 'trainer', player: { name, id, party, bag }, foe: { party, trainer },
- *                      seed, bg: 'grass' | 'forest' | 'cave' | 'indoor' | 'sea' | 'ice', rules, music, returnMode, returnArg })
+ *                      seed, bg: 'grass' | 'forest' | 'cave' | 'indoor' | 'sea' | 'ice' | 'underwater', rules, music, returnMode, returnArg })
  *     -> Promise<result>   (the engine's result; evolutions are already done)
  *
  * Canvas (mode 'battle'): background, two platforms, the foe facing you (row 7,
@@ -711,7 +711,8 @@ G.BattleUI = (() => {
     forest: { sky: ['#1e4428', '#3e7a40'], ground: ['#5a9a48', '#3e7a36'], pad: '#7ab860', rim: '#4a8a3c' },
     indoor: { sky: ['#e8e0d0', '#f4ecdc'], ground: ['#c8b8a0', '#b0a088'], pad: '#ddd0b8', rim: '#a09078' },
     sea:    { sky: ['#78bff0', '#cfeeff'], ground: ['#4c9ae0', '#2e74c0'], pad: '#8cc8f4', rim: '#3a84d0' },
-    ice:    { sky: ['#30405a', '#5a7894'], ground: ['#8eaec4', '#6a8aa4'], pad: '#c4dcea', rim: '#7e9cb4' }
+    ice:    { sky: ['#30405a', '#5a7894'], ground: ['#8eaec4', '#6a8aa4'], pad: '#c4dcea', rim: '#7e9cb4' },
+    underwater: { sky: ['#0c2a5a', '#1e5a8e'], ground: ['#2a6a8a', '#1a4a6a'], pad: '#6a9aa8', rim: '#2e5e74' }
   };
 
   function drawScene(ctx, v) {

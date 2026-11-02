@@ -14,6 +14,10 @@
  *   plate:<map>:<x>,<y>), outdoor `b` a rock barrier (a `bars` gate: open while its rule holds),
  *   stamp `I` the Pokémon League.
  *   Chapter 11: region: 'johto' (the time of day, obedience; Kanto maps leave it out).
+ *   Chapter 37: outdoor `d` deep water (surfable; Dive goes down from it), dive: '<map>' (the sea
+ *   floor below, the same size: you come down on the same tile) or { to, spot } (one place below),
+ *   and on the sea floor underwater: true, surface: '<map>' (the sea above, the same size: you can
+ *   come up wherever it is deep). Its `"` is seaweed (the 'seaweed' table), `,` the lit floor under deep water.
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
@@ -70,7 +74,9 @@ G.Maps = (() => {
     // Chapter 22: a whirlpool (Sea Route 41): Whirlpool calms it into water until you leave the map (field.js).
     whirlpool: { solid: 1 },
     // Chapter 23: a cracked rock (the Dark Cave): Rock Smash breaks it until you leave the map (field.js).
-    smashrock: { solid: 1 }
+    smashrock: { solid: 1 },
+    // Chapter 37: deep water (Hoenn's sea routes): surfable like water; Dive goes down from it (field.js).
+    deep: { solid: 1 }
   };
   const LEGEND = {
     outdoor: {
@@ -90,7 +96,8 @@ G.Maps = (() => {
       i: 'ice',                                      // ice on a cave floor (the Ice Path)
       '|': 'waterfall',                              // a waterfall: ride down it, climb it with Waterfall
       w: 'whirlpool',                                // a whirlpool: Whirlpool calms it (until you leave the map)
-      k: 'smashrock'                                 // a cracked rock: Rock Smash breaks it (until you leave the map)
+      k: 'smashrock',                                // a cracked rock: Rock Smash breaks it (until you leave the map)
+      d: 'deep'                                      // deep water: Surf on it, Dive down from it
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',
@@ -324,7 +331,8 @@ G.Maps = (() => {
       const s = spot(m, v);
       if (!s) { E.push(`spot "${name}" is not [x, y, dir]`); continue; }
       if (!tileOk(s.x, s.y)) E.push(`spot "${name}" ${where(s.x, s.y)} is outside the map`);
-      else if (!open(m, s.x, s.y)) E.push(`spot "${name}" ${where(s.x, s.y)} is on a ${kindAt(m, s.x, s.y)} tile`);
+      // (Deep water is a spot too: you come up there with Dive.)
+      else if (!open(m, s.x, s.y) && kindAt(m, s.x, s.y) !== 'deep') E.push(`spot "${name}" ${where(s.x, s.y)} is on a ${kindAt(m, s.x, s.y)} tile`);
       if (Array.isArray(v) && v[2] !== undefined && !DIRS[v[2]]) E.push(`spot "${name}": bad direction "${v[2]}"`);
     }
 
@@ -364,7 +372,7 @@ G.Maps = (() => {
       else if ((back.offset | 0) !== -(c.offset | 0)) E.push(`connect ${side} -> ${t.id}: offsets ${c.offset | 0} and ${back.offset | 0} do not match (one must be minus the other)`);
       // The shared edge needs at least one open tile on both sides (or water on both: the sea routes).
       const nb = neighbour(m, side);
-      const wet = (mm, x, y) => inside(mm, x, y) && kindAt(mm, x, y) === 'water';
+      const wet = (mm, x, y) => inside(mm, x, y) && (kindAt(mm, x, y) === 'water' || kindAt(mm, x, y) === 'deep');
       const both = (x, y, tx, ty) => (open(m, x, y) && open(t, tx, ty)) || (wet(m, x, y) && wet(t, tx, ty));
       let pass = 0;
       if (side === 'north' || side === 'south') {
@@ -375,6 +383,23 @@ G.Maps = (() => {
         for (let y = 0; y < m.h; y++) if (both(x, y, tx, y - nb.oy)) pass++;
       }
       if (!pass) E.push(`connect ${side} -> ${t.id}: no open tile lines up on both sides of the edge`);
+    }
+
+    // Dive: the sea floor below (the same size, open under every deep tile) and the sea above.
+    if (d.dive) {
+      const t = get(typeof d.dive === 'string' ? d.dive : d.dive.to);
+      if (!t) E.push(`dive: unknown map "${typeof d.dive === 'string' ? d.dive : d.dive.to}"`);
+      else if (typeof d.dive !== 'string') { if (!t.spots[d.dive.spot]) E.push(`dive: ${t.id} has no spot "${d.dive.spot}"`); }
+      else if (t.w !== m.w || t.h !== m.h) E.push(`dive: ${t.id} is ${t.w}x${t.h}, not ${m.w}x${m.h} like this map`);
+      else for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w; x++) {
+        if (kindAt(m, x, y) === 'deep' && !open(t, x, y)) E.push(`deep water at ${where(x, y)}: ${t.id} is ${kindAt(t, x, y)} below it`);
+      }
+    }
+    if (d.surface) {
+      const t = get(d.surface);
+      if (!t) E.push(`surface: unknown map "${d.surface}"`);
+      else if (t.w !== m.w || t.h !== m.h) E.push(`surface: ${t.id} is ${t.w}x${t.h}, not ${m.w}x${m.h} like this map`);
+      else if (t.def.dive !== m.id) E.push(`surface: ${t.id} has no dive: '${m.id}' back down`);
     }
 
     // People and objects

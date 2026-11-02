@@ -57,6 +57,10 @@ TUTOR_FROM_HM = {'whirlpool'}
 HGSS_TEXT = {'basement-key', 'clear-bell', 'silver-wing'}
 # Items whose FireRed text is about Kanto: Emerald's text (the Meteorite of Meteor Falls, chapter 32).
 EMERALD_TEXT = {'meteorite'}
+# Items PokeAPI has no Chinese name for (chapter 37: HM08, like the other HMs).
+ITEM_ZH = {'hm08': ('秘传学习器０８', '秘傳學習器０８')}
+# PokeAPI gives the sea floor's seaweed (Dive) no encounter rate: a cave's, a little higher for its small patches.
+SEAWEED_RATE = {'seaweed': 8}
 TYPES = ['normal', 'fire', 'water', 'electric', 'grass', 'ice', 'fighting', 'poison', 'ground',
          'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy']
 
@@ -225,6 +229,8 @@ LOC_NAMES = {
     'mt-pyre':           ('Monte Pírico',       'Monte Pira',          '送神山',     '送神山'),
     # Chapter 36.
     'team-aqua-hideout': ('Guarida Aqua',       'Rifugio Idro',        '海洋队基地', '海洋隊基地'),
+    # Chapter 37.
+    'seafloor-cavern':   ('Caverna Abisal',     'Antro Abissale',      '海底洞窟',   '海底洞窟'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}
@@ -573,6 +579,8 @@ def build(region):
             rec['move'] = tms[n]
         ITEMS[n] = rec
         names_item[n] = names_of(v['names'], 'item', fallback=n)
+        if n in ITEM_ZH:
+            names_item[n][LANGS.index('zh-Hans')], names_item[n][LANGS.index('zh-Hant')] = ITEM_ZH[n]
         tcfg = dict(cfg, text_vgs=['heartgold-soulsilver'] + cfg['text_vgs']) if n in HGSS_TEXT else cfg
         if n in EMERALD_TEXT:
             tcfg = dict(cfg, text_vgs=['emerald', 'ruby-sapphire'] + cfg['text_vgs'])
@@ -660,7 +668,7 @@ def build(region):
             tables = {t: sorted(([d, mn, mx, ch] for (d, mn, mx), ch in m.items()), key=lambda r: (-r[3], r[0], r[1]))
                       for t, m in merged.items()}
             if tables['day']:
-                rec = {'rate': rates.get(meth, 0), 'mons': tables['day']}
+                rec = {'rate': rates.get(meth, 0) or SEAWEED_RATE.get(meth, 0), 'mons': tables['day']}
                 for t in ('morning', 'night'):
                     if tables[t] and tables[t] != tables['day']:
                         rec[t] = tables[t]

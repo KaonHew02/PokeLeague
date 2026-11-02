@@ -88,5 +88,8 @@ G.I18n.add({
   "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "感谢游玩！得文货物要送去的凯那市，将在之后的更新中等着你。",
   "Chapter 31 complete!": "第三十一章完成！",
   "{player} delivered the Devon Goods to the Oceanic Museum, drove Team Aqua out of it, battled {rival3} and Wally, and earned the Dynamo Badge from Wattson.": "{player}把得文货物送到了海洋博物馆，把海洋队赶了出去，和{rival3}、满充对战，还从铁旋那里赢得了紫电徽章。",
-  "Thank you for playing! The roads beyond Mauville City open in a future update.": "感谢游玩！紫堇市以外的道路将在之后的更新中开放。"
+  "Thank you for playing! The roads beyond Mauville City open in a future update.": "感谢游玩！紫堇市以外的道路将在之后的更新中开放。",
+  "Chapter 32 complete!": "第三十二章完成！",
+  "{player} crossed the Fiery Path, saw Team Magma steal a meteorite at Meteor Falls, stopped Maxie on Mt. Chimney and earned the Heat Badge from Flannery.": "{player}穿过火焰小径，在流星瀑布目睹熔岩队抢走陨石，在烟囱山阻止了赤焰松，还从亚莎那里赢得了火热徽章。",
+  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "感谢游玩！橙华市的道馆馆主千里，将在之后的更新中等着你。"
 }, "zh-Hans");

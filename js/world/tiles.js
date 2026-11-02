@@ -171,6 +171,35 @@ G.Tiles = (() => {
     wood: ['#7a7468', '#98907e', '#544e44'], woodEdge: '#2a2620',
     ledge: ['#7a888c', '#606e72', '#4a565a']
   };
+  // Route 113 and Fallarbor Town (chapter 32): grass and trees under grey volcanic ash.
+  PALETTES.ash = {
+    grass: ['#b4b8a8', '#acb0a0', '#bcc0b0'], speck: '#9a9e90', light: '#cacebe',
+    path: ['#d4ccb8', '#ccc4b0', '#dcd4c0'], pathEdge: '#a49c88', pathSpeck: '#b4ac98',
+    sand: ['#d8d2c2', '#d0caba', '#e0dacb'], sandEdge: '#aaa494', sandSpeck: '#bcb6a6',
+    tall: ['#7c8474', '#8c9484', '#9ca494'], tallEdge: '#4c5446',
+    petals: ['#e8e0d0', '#f4f0e8'], petalCenter: '#c8b890',
+    leaf: ['#3a4038', '#4c5448', '#64705e', '#8a9484'], trunk: ['#4a3e34', '#5e5044'], treeEdge: '#1e221c',
+    cliffTop: ['#8c8a80', '#949288', '#848278'], cliffLight: '#aeaca2', cliffEdge: '#34322c',
+    cliffFace: ['#6e6c64', '#66645c'], cliffFaceDark: '#46443e',
+    liq: '#6a94c0', liqDeep: '#4e78a8', foam: '#dce8f4', shore: '#9a9e90',
+    wood: ['#a08a70', '#bca488', '#6e5c48'], woodEdge: '#3a3026',
+    ledge: ['#a4a898', '#8a8e80', '#70746a']
+  };
+  // The Fiery Path, Mt. Chimney and the Jagged Pass (chapter 32): dark volcanic rock; water is lava
+  // (only ever ringed by cliffs, so nobody surfs on it).
+  PALETTES.fiery = {
+    grass: ['#8a6a5a', '#826252', '#927262'], speck: '#6e5040', light: '#a08070',
+    path: ['#a07c64', '#98745c', '#a8846c'], pathEdge: '#6e5040', pathSpeck: '#805e48',
+    sand: ['#9a8478', '#927c70', '#a28c80'], sandEdge: '#6e5a50', sandSpeck: '#7e6a60',
+    tall: ['#5a5a44', '#6a6a50', '#7a7a5c'], tallEdge: '#34341e',
+    petals: ['#f0a050', '#f8d080'], petalCenter: '#f8e070',
+    leaf: ['#2e2a24', '#403a30', '#565040', '#6e6650'], trunk: ['#3a2a20', '#4e3a2c'], treeEdge: '#140e0a',
+    cliffTop: ['#5a3a30', '#623f34', '#52342a'], cliffLight: '#7a5444', cliffEdge: '#1e100c',
+    cliffFace: ['#5a362a', '#522f24'], cliffFaceDark: '#341c14',
+    liq: '#e8602a', liqDeep: '#c8401a', foam: '#ffd070', shore: '#6e4030',
+    wood: ['#7a5a44', '#987458', '#54402e'], woodEdge: '#2a1c12',
+    ledge: ['#8a6450', '#6e4c3c', '#52382c']
+  };
   // The Pokémon Mansion: scorched wood and old wallpaper.
   PALETTES.mansion = { floor: 'wood', wallTop: ['#3a302c', '#463a34'], paper: ['#cdbd9e', '#c0b090'], trim: '#6e5442', base: '#4a382a',
     wood: ['#9a7654', '#8c6a4a', '#a8825e'], woodLine: '#5e4430', tile: ['#bcae98', '#ae9f88'], grout: '#8e806a',

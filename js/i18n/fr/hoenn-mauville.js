@@ -39,5 +39,6 @@ G.I18n.add({
   "Mauville City. The bright and shining city of fun!": "Lavandia. La ville brillante et étincelante du divertissement !",
   "Mauville City Pokémon Gym. Leader: Wattson, the cheerfully electrifying man!": "Arène Pokémon de Lavandia. Champion : Voltère, l'homme à l'électricité joyeuse !",
   "West: Route 117 and Verdanturf Town. The road is closed for now.": "Ouest : Route 117 et Vergazon. La route est fermée pour l'instant.",
-  "East: Route 118. North: Route 111. Both are closed for now.": "Est : Route 118. Nord : Route 111. Toutes deux fermées pour l'instant."
+  "East: Route 118. The road is closed for now.": "Est : Route 118. La route est fermée pour l'instant.",
+  "North: Route 111, to Route 112 and Mt. Chimney.": "Nord : Route 111, vers la Route 112 et le Mont Chimnée."
 }, "fr");

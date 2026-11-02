@@ -39,5 +39,6 @@ G.I18n.add({
   "Mauville City. The bright and shining city of fun!": "Ciclamipoli. La città scintillante del divertimento!",
   "Mauville City Pokémon Gym. Leader: Wattson, the cheerfully electrifying man!": "Palestra Pokémon di Ciclamipoli. Capopalestra: Walter, l'uomo che elettrizza con allegria!",
   "West: Route 117 and Verdanturf Town. The road is closed for now.": "Ovest: Percorso 117 e Mentania. La strada è chiusa per ora.",
-  "East: Route 118. North: Route 111. Both are closed for now.": "Est: Percorso 118. Nord: Percorso 111. Entrambi chiusi per ora."
+  "East: Route 118. The road is closed for now.": "Est: Percorso 118. La strada è chiusa per ora.",
+  "North: Route 111, to Route 112 and Mt. Chimney.": "Nord: Percorso 111, verso il Percorso 112 e il Monte Camino."
 }, "it");

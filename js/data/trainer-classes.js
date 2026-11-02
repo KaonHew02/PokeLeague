@@ -54,5 +54,9 @@ G.TRAINER_CLASSES = {
   'school-kid':  { title: 'School Kid', who: 'youngster', prize: 20 },
   'battle-girl': { title: 'Battle Girl', who: 'battlegirl', prize: 24 },
   guitarist:     { title: 'Guitarist', who: 'rocker', prize: 32 },
+  'team-magma':  { title: 'Team Magma Grunt', who: 'magma', prize: 20 },
+  'magma-admin': { title: 'Magma Admin', who: 'tabitha', prize: 40 },
+  'magma-leader': { title: 'Magma Leader', who: 'maxie', prize: 60 },
+  kindler:       { title: 'Kindler', who: 'kindler', prize: 32 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

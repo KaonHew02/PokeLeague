@@ -161,6 +161,11 @@ G.DayCare = (() => {
     return { mon, steps: stepsFor(sp) };
   }
 
+  /** A gift Egg of one species (chapter 32: the Wynaut Egg from Lavaridge's hot springs). */
+  function egg(sp, r = rng) {
+    return { mon: newborn(sp, r), steps: stepsFor(sp) };
+  }
+
   /** The Day-Care Man's Odd Egg: a baby Pokémon, shiny one time in eight. */
   function odd(r = rng) {
     const sp = BABIES[r.int(0, BABIES.length - 1)];
@@ -213,5 +218,5 @@ G.DayCare = (() => {
   }
 
   return { MAX, list, full, canLeave, deposit, withdraw, grown, price, gain, step,
-           MAX_EGGS, EGG_EVERY, BABIES, breeding, eggs, waiting, canBreed, compat, root, breed, odd, collect, eggSteps, hint, hatch, seed };
+           MAX_EGGS, EGG_EVERY, BABIES, breeding, eggs, waiting, canBreed, compat, root, breed, odd, egg, collect, eggSteps, hint, hatch, seed };
 })();

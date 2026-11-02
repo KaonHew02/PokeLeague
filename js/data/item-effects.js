@@ -199,6 +199,9 @@ G.ITEM_FX = {
   // Hoenn (chapter 30): the parts stolen from the Devon Corporation, Mr. Stone's letter to his son.
   'devon-goods':   { key: 1 },
   'letter':        { key: 1 },
+  // Chapter 32: the Meteorite Team Magma took from Meteor Falls, the Go-Goggles for the desert's sandstorm.
+  'meteorite':     { key: 1 },
+  'go-goggles':    { key: 1 },
 
   // ---- fossils ----
   'helix-fossil':  { fossil: 138 },

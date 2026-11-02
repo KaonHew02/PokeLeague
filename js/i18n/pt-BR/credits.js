@@ -88,5 +88,8 @@ G.I18n.add({
   "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Obrigado por jogar! Slateport, para onde os Devon Goods devem ir, espera por você em uma próxima atualização.",
   "Chapter 31 complete!": "Capítulo 31 concluído!",
   "{player} delivered the Devon Goods to the Oceanic Museum, drove Team Aqua out of it, battled {rival3} and Wally, and earned the Dynamo Badge from Wattson.": "{player} entregou os Devon Goods no Museu Oceânico, expulsou a Equipe Aqua de lá, batalhou com {rival3} e Wally, e ganhou a Insígnia Dínamo de Wattson.",
-  "Thank you for playing! The roads beyond Mauville City open in a future update.": "Obrigado por jogar! Os caminhos além de Mauville abrem em uma próxima atualização."
+  "Thank you for playing! The roads beyond Mauville City open in a future update.": "Obrigado por jogar! Os caminhos além de Mauville abrem em uma próxima atualização.",
+  "Chapter 32 complete!": "Capítulo 32 concluído!",
+  "{player} crossed the Fiery Path, saw Team Magma steal a meteorite at Meteor Falls, stopped Maxie on Mt. Chimney and earned the Heat Badge from Flannery.": "{player} atravessou o Fiery Path, viu a Equipe Magma roubar um meteorito em Meteor Falls, deteve Maxie no Mt. Chimney e ganhou a Insígnia Calor de Flannery.",
+  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Obrigado por jogar! Norman, o Líder de Ginásio de Petalburg, espera por você em uma próxima atualização."
 }, "pt-BR");

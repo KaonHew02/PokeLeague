@@ -16,15 +16,15 @@
     id: 'mauville', loc: 'mauville-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
     fly: { spot: 'center-door' },
     rows: [
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'T..............................T',
-      'T..............................T',
-      'T............GGGGGG............T',
-      'T..CCCCC.....GGGGGG....MMMM....T',
-      'T..CCCCC.....GGGGGG....MMMM....T',
-      'T..CCCCC.....GGGGGG....MDMM....T',
-      'T..CCDCC.....GGDGGG.....,......T',
-      'T....,......S.,,,,.S...........T',
+      'TTTTTTTTTTTTTTTTTTTTTTTTTTTT,,TT',
+      'T...........................,,.T',
+      'T...........................,,.T',
+      'T............GGGGGG.........,,.T',
+      'T..CCCCC.....GGGGGG....MMMM.,,.T',
+      'T..CCCCC.....GGGGGG....MMMM.,,.T',
+      'T..CCCCC.....GGGGGG....MDMM.,,.T',
+      'T..CCDCC.....GGDGGG.....,...,,ST',
+      'T....,......S.,,,,.S........,,.T',
       'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,T',
       'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,T',
       'T.S...........,,,,...........S.T',
@@ -41,7 +41,7 @@
       'T.............,,,,.............T',
       'TTTTTTTTTTTTTT,,,,TTTTTTTTTTTTTT'
     ],
-    connect: { south: { map: 'route110', offset: 4 } },
+    connect: { south: { map: 'route110', offset: 4 }, north: { map: 'route111', offset: 18 } },
     warps: [
       { x: 15, y: 7, to: 'mauville-gym', spot: 'door' },
       { x: 5, y: 7, to: 'mauville-center', spot: 'door' },
@@ -56,7 +56,8 @@
       '12,8': 'Mauville City. The bright and shining city of fun!',
       '19,8': 'Mauville City Pokémon Gym. Leader: Wattson, the cheerfully electrifying man!',
       '2,11': 'West: Route 117 and Verdanturf Town. The road is closed for now.',
-      '29,11': 'East: Route 118. North: Route 111. Both are closed for now.'
+      '29,11': 'East: Route 118. The road is closed for now.',
+      '30,7': 'North: Route 111, to Route 112 and Mt. Chimney.'
     },
     triggers: [{ x: 14, y: 11, w: 4, h: 1, if: ['badge:18', '!wally-battle'], script: 'mauville.wally' }],
     npcs: [

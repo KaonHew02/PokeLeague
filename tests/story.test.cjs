@@ -457,6 +457,29 @@ function leaderRate(G, mapId, id) {
   };
 }
 
+test('balance: Flannery in Lavaridge (chapter 32), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'lavaridge-gym', 'flannery');
+  // Moves a player keeps (the default set at Lv. 29 would be the last four learned: Marshtomp without
+  // Water Gun, Graveler with Self-Destruct).
+  const MARSHTOMP = ['water-gun', 'mud-shot', 'mud-slap', 'foresight'], GRAVELER = ['rock-throw', 'magnitude', 'defense-curl', 'tackle'];
+  const table = {
+    'marshtomp 29': rate([[259, 29, MARSHTOMP]]), 'grovyle 29': rate([[253, 29]]), 'combusken 29': rate([[256, 29]]),
+    'marshtomp 27': rate([[259, 27, MARSHTOMP]]), 'combusken 31': rate([[256, 31]]),
+    'grovyle 29 + graveler 27': rate([[253, 29], [75, 27, GRAVELER]]), 'grovyle 29 + marill 26': rate([[253, 29], [183, 26]]),
+    'combusken 29 + graveler 27': rate([[256, 29], [75, 27, GRAVELER]]), 'combusken 29 + marill 26': rate([[256, 29], [183, 26]])
+  };
+  console.log('[balance] vs Flannery:', JSON.stringify(table));
+  // Emerald's team, but Numel and Slugma use Ember rather than Overheat, and one Super Potion: with four
+  // Overheats a lone Marshtomp (it resists Fire and hits all four super-effectively) still lost most
+  // battles, worn down by Torkoal's Body Slam and Overheat in the sunshine. A Grass starter needs a
+  // partner that stands the heat (the Gym guide says so).
+  assert.ok(table['marshtomp 29'] >= 0.35, 'Marshtomp');
+  assert.ok(table['combusken 29 + graveler 27'] >= 0.4, 'Combusken with a Graveler');
+  assert.ok(table['grovyle 29 + graveler 27'] >= 0.25, 'Grovyle with a Graveler');
+  assert.ok(table['grovyle 29'] < 0.1 && table['combusken 29'] < 0.1, 'a lone Grovyle or Combusken is burned down');
+});
+
 test('balance: Wattson in Mauville (chapter 31), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = leaderRate(G, 'mauville-gym', 'wattson');
@@ -2489,6 +2512,74 @@ async function chapter31(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter32(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // North from Mauville: Route 111 (the desert is closed), Route 112 (Team Magma keeps the cable car).
+  await all('route111');
+  await run(st, 'route111', npc(st, 'route111', 'traveller'));
+  assert.match(st.log[st.log.length - 1], /sandstorm/);
+  await all('route112');
+  assert.ok(F.test('!meteorite-stolen'), 'the cable car is still guarded');
+  // Through the Fiery Path to Route 113, Fallarbor Town and Route 114.
+  await all('route113');
+  await run(st, 'cozmo-house', npc(st, 'cozmo-house', 'wife'));
+  assert.match(st.log[st.log.length - 1], /Meteor Falls/);
+  await all('route114');
+  // Meteor Falls: Maxie takes the meteorite; Archie follows him to Mt. Chimney.
+  await run(st, 'meteor-falls', 'meteor.magma');
+  assert.ok(F.flag('meteorite-stolen'));
+  assert.ok(st.log.some(l => l.includes('Maxie')) && st.log.some(l => l.includes('cable car')));
+  // The cable car up Mt. Chimney: two grunts, Tabitha, then Maxie at the crater.
+  await run(st, 'cable-car-112', npc(st, 'cable-car-112', 'attendant'), [0]);
+  assert.equal(st.W.map, 'cable-car-top');
+  grind(st, 'route112', 27, 400);
+  await fight('mt-chimney', 'grunt1'); won();
+  await fight('mt-chimney', 'grunt2'); won();
+  F.healAll();
+  await run(st, 'mt-chimney', 'chimney.maxie');
+  assert.equal(st.battles[st.battles.length - 2].key, 'mt-chimney:tabitha');
+  assert.equal(last().key, 'mt-chimney:maxie-chimney');
+  won();
+  console.log('[story] Maxie on Mt. Chimney: won at levels', last().levels.join());
+  assert.ok(F.flag('maxie-beaten') && F.count('meteorite') === 1, 'Maxie gave up the meteorite');
+  // Down the Jagged Pass to Lavaridge Town: the old woman's Egg.
+  await all('jagged-pass');
+  const eggs = G.DayCare.eggs().length;
+  await run(st, 'lavaridge', npc(st, 'lavaridge', 'granny2'), [0]);
+  assert.equal(G.DayCare.eggs().length, eggs + 1);
+  assert.equal(G.DayCare.eggs()[eggs].mon.sp, 360, 'a Wynaut Egg');
+  assert.ok(F.flag('lavaridge-egg'));
+  // Flannery's Gym.
+  grind(st, 'route112', 29, 400);
+  await all('lavaridge-gym');
+  F.healAll();
+  const money = S.player.money, tm50 = F.count('tm50');
+  await run(st, 'lavaridge-gym', [['battle', 'lavaridge-gym:flannery']]);
+  won();
+  console.log('[story] Flannery: won at levels', last().levels.join());
+  assert.ok(S.player.badges.includes(20), 'the Heat Badge');
+  assert.equal(F.obeyCap('hoenn'), 40, 'four Hoenn badges: up to Lv. 40');
+  assert.equal(F.count('tm50'), tm50 + 1);
+  assert.equal(S.player.money - money, 2900);
+  // Out of the Gym, the rival brings Go-Goggles; the chapter ends.
+  await run(st, 'lavaridge', 'lavaridge.enter');
+  assert.ok(F.flag('rival3-goggles') && F.count('go-goggles') === 1);
+  assert.ok(F.flag('chapter-32-done'));
+  // The meteorite goes home to Professor Cozmo: TM27 Return.
+  const tm27 = F.count('tm27');
+  await run(st, 'cozmo-house', npc(st, 'cozmo-house', 'cozmo'));
+  assert.ok(F.flag('meteorite-returned') && F.count('meteorite') === 0, 'the meteorite is home');
+  assert.equal(F.count('tm27'), tm27 + 1);
+  await run(st, 'route111', npc(st, 'route111', 'traveller'));
+  assert.match(st.log[st.log.length - 1], /storm/);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2570,7 +2661,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 31: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Dynamo Badge", async () => {
+test("chapters 11 to 32: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Heat Badge", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2603,4 +2694,5 @@ test("chapters 11 to 31: Johto, from Professor Elm to Johto's League and its pos
   await chapter29(st);
   await chapter30(st);
   await chapter31(st);
+  await chapter32(st);
 });

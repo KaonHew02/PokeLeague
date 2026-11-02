@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 32) return { title: T('Chapter 32 complete!'),
+      done: fmt('{player} crossed the Fiery Path, saw Team Magma steal a meteorite at Meteor Falls, stopped Maxie on Mt. Chimney and earned the Heat Badge from Flannery.', { player }),
+      next: T('Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.') };
     if (n === 31) return { title: T('Chapter 31 complete!'),
       done: fmt('{player} delivered the Devon Goods to the Oceanic Museum, drove Team Aqua out of it, battled {rival3} and Wally, and earned the Dynamo Badge from Wattson.', { player, rival3: G.Field.vars().rival3 }),
       next: T('Thank you for playing! The roads beyond Mauville City open in a future update.') };

@@ -1583,12 +1583,51 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   before and after Dewford, the museum's battles, Route 110 to Mauville and Wally's trigger;
   `tests/maps.test.cjs` the `menu` command.
 
-### After chapter 31
+- **Chapter 32** ✅, Mt. Chimney and the Heat Badge: Mauville's north road opens. Route 111 reaches
+  the edge of the desert (a sandstorm; closed for now, even with Go-Goggles) and turns west onto
+  Route 112, at the foot of Mt. Chimney: two Team Magma grunts keep everyone off the cable car
+  (`!meteorite-stolen`). The Fiery Path goes through the mountain to Route 113 (volcanic ash, the
+  palette `ash`) and Fallarbor Town (a Center, a Mart, the Contest Hall closed, Professor Cozmo's
+  house, a house); Route 114 crosses a river to Meteor Falls, where Maxie, Team Magma's leader,
+  takes Cozmo's meteorite, Archie and Team Aqua follow, and both teams leave for Mt. Chimney
+  (`meteor.magma`, a trigger; flag `meteorite-stolen`). The cable car (`chimney.car-up`,
+  `chimney.car-down`: the stations `cable-car-112` and `cable-car-top`) goes to the summit: Team
+  Aqua keeps Team Magma busy, two grunts battle you, then the Admin Tabitha and Maxie by the crater
+  (`chimney.maxie`, a trigger; flag `maxie-beaten`, key item `meteorite`). The Jagged Pass goes down
+  over ledges (one way) to Lavaridge Town: hot springs (an old woman gives an Egg: Wynaut, flag
+  `lavaridge-egg`), a Center, a Mart, a house, and Flannery's Gym (Kindlers Cole and Jace, Cool
+  Trainer Gerald; Flannery: Numel 24, Slugma 24, Camerupt 26, Torkoal 29, a Super Potion). The Heat
+  Badge (badge 20: up to Lv. 40) and TM50 Overheat; outside the Gym (`lavaridge.enter`) the rival
+  brings Go-Goggles from Professor Birch (flag `rival3-goggles`) and points to Norman, then
+  `ending(32)`. Lavaridge's east road goes down a ledge onto Route 112. Back in Fallarbor, Cozmo
+  gives TM27 Return for his Meteorite (flag `meteorite-returned`). Emerald's wild Pokémon. Files:
+  `js/content/hoenn/fallarbor.js` (Routes 111-114, the Fiery Path, Fallarbor, Meteor Falls) and
+  `lavaridge.js` (Mt. Chimney, the Jagged Pass, Lavaridge), translations `hoenn-fallarbor`,
+  `hoenn-lavaridge`; `mauville.js` (the road north).
+- **Engine and data for chapter 32:** the key items `meteorite` and `go-goggles` (`--region hoenn`;
+  the Meteorite takes Emerald's text, `EMERALD_TEXT` in fetch_data.py, since FireRed's is about
+  Mt. Moon); Chinese place names for the Fiery Path, Meteor Falls, Mt. Chimney and the Jagged Pass,
+  and Fallarbor (秋叶镇) and Lavaridge (釜炎镇) no longer swapped; regenerating also brought in the
+  Chinese names chapter 30 had added for the Rusturf Tunnel and Granite Cave. Outdoor palettes
+  `ash` and `fiery` (its water is lava, always ringed by cliffs so nobody surfs on it); people
+  `magma`, `maxie`, `tabitha`, `flannery`, `kindler`; classes `team-magma`, `magma-admin`,
+  `magma-leader`, `kindler`; `G.DayCare.egg(sp)` (a gift Egg); the Town Map's Routes 111-114 and the
+  places between. `tools/sim_battle.js` takes moves (`torkoal:29:overheat/body-slam`) and `--ai`.
+  Flannery's Numel and Slugma use Ember instead of Emerald's Overheat, and she has one Super Potion,
+  not two: with four Overheats a lone Marshtomp (it resists Fire and hits all four super-effectively)
+  lost most battles, worn down by Torkoal's Body Slam and Overheat in the sunshine. The balance test
+  gives Marshtomp the moves a player keeps (Water Gun: its last four at Lv. 29 would drop it) and
+  Graveler no Self-Destruct. `[balance]` vs Flannery: Marshtomp at 29 wins 45%, Combusken or Grovyle
+  at 29 with a Lv. 27 Graveler 58% and 38%; a lone Grovyle or Combusken loses (the Gym guide says to
+  bring Water, Ground or Rock types). `tests/story.test.cjs` plays chapter 32 (its Marshtomp beats
+  Maxie at 28 and Flannery at 30); `tests/field.test.cjs` the roads, the one-way ledges, the
+  grunts at the cable car, both scenes, the Egg and the rival at the Gym's door.
 
-1. **Hoenn, chapter 32:** Route 117 west to Verdanturf Town (the Rusturf Tunnel dug through, Wally's
-   home), Route 111 north (the desert closed until the Go-Goggles) and Route 112 to the Fiery Path
-   and the cable car up Mt. Chimney (Team Magma and Team Aqua at the summit), Lavaridge Town,
-   Flannery's Gym and the Heat Badge.
+### After chapter 32
+
+1. **Hoenn, chapter 33:** Route 117 west of Mauville to Verdanturf Town (Wally's home; the Rusturf
+   Tunnel dug through to Route 116), back to Petalburg City for Norman's Balance Badge, then Surf
+   from Wally's father and Route 118 east of Mauville.
 2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
    abilities outside battle (Pickup, Synchronize and the others on wild encounters), Dive and
    the other Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.

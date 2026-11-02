@@ -42,5 +42,8 @@ G.I18n.add({
   "Team Rocket Executive": "Executivo da Equipe Rocket",
   "School Kid": "Estudante",
   "Battle Girl": "Lutadora",
-  "Guitarist": "Guitarrista"
+  "Guitarist": "Guitarrista",
+  "Magma Admin": "Admin Magma",
+  "Magma Leader": "Líder Magma",
+  "Kindler": "Pirotécnico"
 }, "pt-BR");

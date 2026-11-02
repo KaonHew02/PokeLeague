@@ -39,5 +39,6 @@ G.I18n.add({
   "Mauville City. The bright and shining city of fun!": "Ciudad Malvalona. ¡La brillante y resplandeciente ciudad de la diversión!",
   "Mauville City Pokémon Gym. Leader: Wattson, the cheerfully electrifying man!": "Gimnasio Pokémon de Ciudad Malvalona. Líder: Erico, ¡el hombre que electriza con alegría!",
   "West: Route 117 and Verdanturf Town. The road is closed for now.": "Oeste: Ruta 117 y Pueblo Verdegal. El camino está cerrado por ahora.",
-  "East: Route 118. North: Route 111. Both are closed for now.": "Este: Ruta 118. Norte: Ruta 111. Ambas están cerradas por ahora."
+  "East: Route 118. The road is closed for now.": "Este: Ruta 118. El camino está cerrado por ahora.",
+  "North: Route 111, to Route 112 and Mt. Chimney.": "Norte: Ruta 111, hacia la Ruta 112 y el Monte Cenizo."
 }, "es");

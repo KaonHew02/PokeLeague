@@ -1025,6 +1025,84 @@ test('Hoenn (chapter 31): the boat to Slateport, Team Aqua in the museum, Route 
   assert.equal(got[got.length - 1], 'mauville:wally-mauville');
 });
 
+test('Hoenn (chapter 32): Routes 111 and 112, Meteor Falls, the cable car, Maxie on Mt. Chimney, the Jagged Pass to Lavaridge', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.giveMon('marshtomp', 30, { moves: ['water-gun', 'mud-shot'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to); };
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  // North out of Mauville onto Route 111, then west onto Route 112.
+  W.load('mauville', { x: 28, y: 0, dir: 'up' });
+  await cross('up', 'route111');
+  assert.deepEqual([W.player.x, W.player.y], [10, 31]);
+  W.load('route111', { x: 0, y: 14, dir: 'left' });
+  await cross('left', 'route112');
+  assert.deepEqual([W.player.x, W.player.y], [35, 14]);
+  // The ledge down from Lavaridge cannot be climbed from Route 112.
+  W.load('route112', { x: 3, y: 10, dir: 'left' });
+  assert.notEqual(step(W, 'left'), 'moved', 'up the ledge');
+  // Team Magma's grunts stand in front of the cable car's door.
+  W.load('route112', { x: 15, y: 9, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'a grunt is in the way');
+  // Meteor Falls: Team Magma takes the meteorite as you come in.
+  W.load('meteor-falls', { x: 21, y: 13, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('meteorite-stolen'));
+  await settle();
+  // The grunts are gone: up the cable car.
+  W.load('route112', { x: 15, y: 9, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'cable-car-112');
+  W.load('cable-car-112', { x: 5, y: 4, dir: 'up' });
+  W.interact();
+  await until(() => W.map.id === 'cable-car-top');
+  await settle();
+  // Mt. Chimney: Tabitha, then Maxie, once you step up toward the crater.
+  W.load('mt-chimney', { x: 13, y: 10, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('maxie-beaten'));
+  await until(() => F.count('meteorite') === 1);
+  assert.deepEqual(plain(got.slice(-2)), ['mt-chimney:tabitha', 'mt-chimney:maxie-chimney']);
+  await settle();
+  // Down the Jagged Pass: its ledges go one way.
+  W.load('mt-chimney', { x: 14, y: 21, dir: 'down' });
+  await cross('down', 'jagged-pass');
+  assert.deepEqual([W.player.x, W.player.y], [9, 0]);
+  W.load('jagged-pass', { x: 9, y: 8, dir: 'down' });
+  assert.equal(step(W, 'down'), 'moved', 'down the ledge');
+  await settle();
+  assert.equal(W.player.y, 10);
+  assert.notEqual(step(W, 'up'), 'moved', 'no way back up');
+  W.load('jagged-pass', { x: 9, y: 29, dir: 'down' });
+  await cross('down', 'lavaridge');
+  assert.deepEqual([W.player.x, W.player.y], [14, 0]);
+  // Lavaridge's east road goes down onto Route 112.
+  W.load('lavaridge', { x: 29, y: 12, dir: 'right' });
+  await cross('right', 'route112');
+  assert.deepEqual([W.player.x, W.player.y], [0, 10]);
+  // The old woman's Egg, at the hot springs.
+  W.load('lavaridge', { x: 11, y: 7, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('lavaridge-egg'));
+  assert.equal(G.DayCare.eggs()[G.DayCare.eggs().length - 1].mon.sp, 360);
+  await settle();
+  // With the Heat Badge, the rival waits outside the Gym with Go-Goggles.
+  for (const n of [17, 18, 19, 20]) F.badge(n);
+  W.load('lavaridge-gym', { x: 6, y: 11, dir: 'down' });
+  step(W, 'down');
+  await until(() => F.flag('chapter-32-done'));
+  assert.equal(W.map.id, 'lavaridge');
+  assert.ok(F.flag('rival3-goggles') && F.count('go-goggles') === 1);
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

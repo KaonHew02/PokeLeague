@@ -55,6 +55,8 @@ TUTOR_MOVES = {'headbutt'}
 TUTOR_FROM_HM = {'whirlpool'}
 # Items whose FireRed / LeafGreen text is about another region: HeartGold / SoulSilver's text instead.
 HGSS_TEXT = {'basement-key', 'clear-bell', 'silver-wing'}
+# Items whose FireRed text is about Kanto: Emerald's text (the Meteorite of Meteor Falls, chapter 32).
+EMERALD_TEXT = {'meteorite'}
 TYPES = ['normal', 'fire', 'water', 'electric', 'grass', 'ice', 'fighting', 'poison', 'ground',
          'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy']
 
@@ -134,7 +136,8 @@ REGIONS['hoenn'] = dict(REGIONS['johto'], **{
     'text_versions': ['firered', 'leafgreen', 'heartgold', 'soulsilver', 'emerald', 'ruby', 'sapphire',
                       'lets-go-pikachu', 'lets-go-eevee'],
     'text_vgs': ['firered-leafgreen', 'heartgold-soulsilver', 'emerald', 'ruby-sapphire', 'lets-go-pikachu-lets-go-eevee'],
-    'items': REGIONS['johto']['items'] + ['deep-sea-tooth', 'deep-sea-scale', 'devon-goods', 'letter'],
+    'items': REGIONS['johto']['items'] + ['deep-sea-tooth', 'deep-sea-scale', 'devon-goods', 'letter',
+                                          'meteorite', 'go-goggles'],
     'regions': REGIONS['johto']['regions'] + [('hoenn', ['emerald', 'ruby', 'sapphire'])],
 })
 
@@ -202,8 +205,8 @@ LOC_NAMES = {
     'slateport-city':    ('Ciudad Portual',     'Porto Selcepoli',     '凯那市',     '凱那市'),
     'mauville-city':     ('Ciudad Malvalona',   'Ciclamipoli',         '紫堇市',     '紫堇市'),
     'verdanturf-town':   ('Pueblo Verdegal',    'Mentania',            '绿荫镇',     '綠蔭鎮'),
-    'fallarbor-town':    ('Pueblo Pardal',      'Brunifoglia',         '釜炎镇',     '釜炎鎮'),
-    'lavaridge-town':    ('Pueblo Lavacalda',   'Cuordilava',          '秋叶镇',     '秋葉鎮'),
+    'fallarbor-town':    ('Pueblo Pardal',      'Brunifoglia',         '秋叶镇',     '秋葉鎮'),
+    'lavaridge-town':    ('Pueblo Lavacalda',   'Cuordilava',          '釜炎镇',     '釜炎鎮'),
     'fortree-city':      ('Ciudad Arborada',    'Forestopoli',         '茵郁市',     '茵鬱市'),
     'lilycove-city':     ('Ciudad Calagua',     'Porto Alghepoli',     '水静市',     '水靜市'),
     'mossdeep-city':     ('Ciudad Algaria',     'Verdeazzupoli',       '绿岭市',     '綠嶺市'),
@@ -213,6 +216,11 @@ LOC_NAMES = {
     'petalburg-woods':   ('Bosque Petalia',     'Bosco Petalo',        '橙华森林',   '橙華森林'),
     'rusturf-tunnel':    ('Túnel Fervergal',    'Tunnel Menferro',     '石头隧道',   '石頭隧道'),
     'granite-cave':      ('Cueva Granito',      'Grotta Pietrosa',     '石之洞窟',   '石之洞窟'),
+    # Chapter 32 (es and it as PokeAPI has them).
+    'fiery-path':        ('Senda Ígnea',        'Cammino Ardente',     '火焰小径',   '火焰小徑'),
+    'meteor-falls':      ('Cascada Meteoro',    'Cascate Meteora',     '流星瀑布',   '流星瀑布'),
+    'mt-chimney':        ('Monte Cenizo',       'Monte Camino',        '烟囱山',     '煙囪山'),
+    'jagged-pass':       ('Desfiladero',        'Passo Selvaggio',     '凹凸山道',   '凹凸山道'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}
@@ -562,6 +570,8 @@ def build(region):
         ITEMS[n] = rec
         names_item[n] = names_of(v['names'], 'item', fallback=n)
         tcfg = dict(cfg, text_vgs=['heartgold-soulsilver'] + cfg['text_vgs']) if n in HGSS_TEXT else cfg
+        if n in EMERALD_TEXT:
+            tcfg = dict(cfg, text_vgs=['emerald', 'ruby-sapphire'] + cfg['text_vgs'])
         item_txt[n] = texts_of(v.get('flavor_text_entries'), tcfg, 'item text', 'text', 'version_group')
 
     # ---- growth rates, natures, types, stats ----

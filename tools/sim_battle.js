@@ -2,7 +2,8 @@
  *   node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1
  *   node tools/sim_battle.js pikachu:12,pidgey:10 onix:14,geodude:12 --trainer --seed 7
  *   node tools/sim_battle.js squirtle:6 pidgey:3 --ball poke-ball:5     (try to catch it)
- *   options: --lang es   --wild (default) | --trainer   --events (print raw events too)
+ *   node tools/sim_battle.js marshtomp:29 torkoal:29:overheat/sunny-day --trainer --ai leader   (moves after a second colon)
+ *   options: --lang es   --wild (default) | --trainer   --ai basic (default) | leader   --events (print raw events too)
  * Your side picks moves like a 'basic' trainer; the foe uses 'random' (wild) or 'basic'.
  * Forgetting moves: never; switching after a faint: the first healthy Pokémon.
  */
@@ -32,10 +33,10 @@ function load(lang = 'en') {
 
 function team(G, spec, rng) {
   return spec.split(',').map(s => {
-    const [name, lvl] = s.split(':');
+    const [name, lvl, moves] = s.split(':');
     const sp = /^\d+$/.test(name) ? +name : +Object.keys(G.SPECIES).find(d => G.SPECIES[d].slug === name);
     if (!G.SPECIES[sp]) throw new Error('Unknown Pokémon: ' + name);
-    return G.Mon.create(sp, +(lvl || 5), { rng });
+    return G.Mon.create(sp, +(lvl || 5), { rng, moves: moves ? moves.split('/') : undefined });
   });
 }
 
@@ -43,13 +44,13 @@ function main() {
   const args = process.argv.slice(2);
   const opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
   const flag = k => args.includes('--' + k);
-  const pos = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && ['--seed', '--lang', '--ball'].includes(args[i - 1])));
+  const pos = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && ['--seed', '--lang', '--ball', '--ai'].includes(args[i - 1])));
   if (pos.length < 2) { console.log('usage: node tools/sim_battle.js <mine> <foe> [--seed n] [--trainer] [--ball item:n] [--lang xx]'); process.exit(1); }
   const G = load(opt('lang', 'en'));
   const seed = +opt('seed', 1);
   const rng = G.RNG(seed * 7919 + 1);
   const mine = team(G, pos[0], rng), foes = team(G, pos[1], rng);
-  const trainer = flag('trainer') ? { id: 'sim', name: 'Sim', title: 'Youngster', ai: 'basic', prize: 16 } : null;
+  const trainer = flag('trainer') ? { id: 'sim', name: 'Sim', title: 'Youngster', ai: opt('ai', 'basic'), prize: 16 } : null;
   const ball = opt('ball');
   const bag = ball ? { [ball.split(':')[0]]: +(ball.split(':')[1] || 5) } : {};
   const b = G.Battle.create({ kind: trainer ? 'trainer' : 'wild', seed, player: { name: 'Red', party: mine, bag },

@@ -88,5 +88,8 @@ G.I18n.add({
   "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Merci d'avoir joué ! Poivressel, où le Pack Devon doit être livré, t'attend dans une prochaine mise à jour.",
   "Chapter 31 complete!": "Chapitre 31 terminé !",
   "{player} delivered the Devon Goods to the Oceanic Museum, drove Team Aqua out of it, battled {rival3} and Wally, and earned the Dynamo Badge from Wattson.": "{player} a livré le Pack Devon au Musée Océanographique, en a chassé la Team Aqua, a affronté {rival3} et Timmy, et a gagné le Badge Dynamo de Voltère.",
-  "Thank you for playing! The roads beyond Mauville City open in a future update.": "Merci d'avoir joué ! Les routes au-delà de Lavandia s'ouvriront dans une prochaine mise à jour."
+  "Thank you for playing! The roads beyond Mauville City open in a future update.": "Merci d'avoir joué ! Les routes au-delà de Lavandia s'ouvriront dans une prochaine mise à jour.",
+  "Chapter 32 complete!": "Chapitre 32 terminé !",
+  "{player} crossed the Fiery Path, saw Team Magma steal a meteorite at Meteor Falls, stopped Maxie on Mt. Chimney and earned the Heat Badge from Flannery.": "{player} a traversé le Chemin Ardent, a vu la Team Magma voler une météorite au Site Météore, a arrêté Max au Mont Chimnée et a gagné le Badge Chaleur d'Adriane.",
+  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Merci d'avoir joué ! Norman, le Champion d'Arène de Clémenti-Ville, t'attend dans une prochaine mise à jour."
 }, "fr");

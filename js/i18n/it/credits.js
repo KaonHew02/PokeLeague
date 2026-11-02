@@ -88,5 +88,8 @@ G.I18n.add({
   "Thank you for playing! Slateport City, where the Devon Goods must go, waits in a future update.": "Grazie per aver giocato! Porto Selcepoli, dove deve arrivare la Merce Devon, ti aspetta in un prossimo aggiornamento.",
   "Chapter 31 complete!": "Capitolo 31 completato!",
   "{player} delivered the Devon Goods to the Oceanic Museum, drove Team Aqua out of it, battled {rival3} and Wally, and earned the Dynamo Badge from Wattson.": "{player} ha consegnato la Merce Devon al Museo Oceanografico, ne ha cacciato il Team Idro, ha lottato contro {rival3} e Valerio, e ha vinto la Medaglia Dinamo di Walter.",
-  "Thank you for playing! The roads beyond Mauville City open in a future update.": "Grazie per aver giocato! Le strade oltre Ciclamipoli si apriranno in un prossimo aggiornamento."
+  "Thank you for playing! The roads beyond Mauville City open in a future update.": "Grazie per aver giocato! Le strade oltre Ciclamipoli si apriranno in un prossimo aggiornamento.",
+  "Chapter 32 complete!": "Capitolo 32 completato!",
+  "{player} crossed the Fiery Path, saw Team Magma steal a meteorite at Meteor Falls, stopped Maxie on Mt. Chimney and earned the Heat Badge from Flannery.": "{player} ha attraversato il Cammino Ardente, ha visto il Team Magma rubare un meteorite alle Cascate Meteora, ha fermato Max sul Monte Camino e ha vinto la Medaglia Calore di Fiammetta.",
+  "Thank you for playing! Norman, the Gym Leader of Petalburg City, awaits you in a future update.": "Grazie per aver giocato! Norman, il Capopalestra di Petalipoli, ti aspetta in un prossimo aggiornamento."
 }, "it");

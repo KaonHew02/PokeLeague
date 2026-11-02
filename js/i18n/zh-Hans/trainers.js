@@ -42,5 +42,8 @@ G.I18n.add({
   "Team Rocket Executive": "火箭队干部",
   "School Kid": "补习班学生",
   "Battle Girl": "对战少女",
-  "Guitarist": "吉他手"
+  "Guitarist": "吉他手",
+  "Magma Admin": "熔岩队干部",
+  "Magma Leader": "熔岩队首领",
+  "Kindler": "吹火人"
 }, "zh-Hans");

@@ -39,5 +39,6 @@ G.I18n.add({
   "Mauville City. The bright and shining city of fun!": "紫堇市。光彩奪目的歡樂之城！",
   "Mauville City Pokémon Gym. Leader: Wattson, the cheerfully electrifying man!": "紫堇市寶可夢道館。館主：鐵旋，快樂放電的男人！",
   "West: Route 117 and Verdanturf Town. The road is closed for now.": "西：117號道路和綠蔭鎮。道路目前封閉。",
-  "East: Route 118. North: Route 111. Both are closed for now.": "東：118號道路。北：111號道路。兩條路目前都封閉。"
+  "East: Route 118. The road is closed for now.": "東：118號道路。道路目前封閉。",
+  "North: Route 111, to Route 112 and Mt. Chimney.": "北：111號道路，通往112號道路和煙囪山。"
 }, "zh-Hant");

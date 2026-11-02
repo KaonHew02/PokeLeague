@@ -26,7 +26,7 @@ G.People = (() => {
                  'whitney', 'pokefan', 'granny', 'morty', 'kimono', 'eusine', 'jasmine', 'chuck',
                  'pryce', 'skier', 'boarder', 'clair', 'cooltrainerm', 'will', 'karen', 'birch', 'may', 'brendan',
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
-                 'archie', 'stern', 'wattson'];
+                 'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -227,6 +227,15 @@ G.People = (() => {
     stern: { head: 'birch', body: 'coat', legs: 'pants', h: '#3a2a1e', H: '#241a10', j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0',
              p: '#2a3a6a', P: '#1c284a', k: '#1a1a22' },
     wattson: { head: 'birch', body: 'tee', legs: 'pants', h: '#f0f0f4', H: '#c4c4d0', c: '#f0c838', C: '#c8a020', p: '#5a4a3a', P: '#3e3226', k: '#3a2a1e' },
+    // Chapter 32: Team Magma's grunts (red hoods), Maxie (red hair, a dark coat), Tabitha, Flannery, a Kindler.
+    magma: { head: 'knit', body: 'jacket', legs: 'pants', a: '#c8302a', A: '#8e1e18', b: '#2a2228', h: '#3a2a1e', H: '#24180f',
+             j: '#c8302a', J: '#8e1e18', c: '#2a2228', C: '#16121a', p: '#3a3440', P: '#24202a', k: '#2a2228' },
+    maxie: { head: 'short', body: 'coat', legs: 'pants', h: '#c8402a', H: '#902c1c', j: '#2a2a34', J: '#16161e', c: '#c8302a', C: '#8e1e18',
+             p: '#2a2a34', P: '#16161e', k: '#16161e' },
+    tabitha: { head: 'knit', body: 'coat', legs: 'pants', a: '#c8302a', A: '#8e1e18', b: '#e8c060', h: '#3a2a1e', H: '#24180f',
+               j: '#c8302a', J: '#8e1e18', c: '#2a2228', C: '#16121a', p: '#2a2228', P: '#16121a', k: '#16121a' },
+    flannery: { head: 'long', body: 'tee', legs: 'pants', h: '#d8382a', H: '#a02418', c: '#f4f4f4', C: '#c8c8d0', p: '#3a5aa8', P: '#28407a', k: '#5a3a2a' },
+    kindler: { head: 'spiky', body: 'tee', legs: 'pants', h: '#d8582a', H: '#a83e1a', c: '#f08030', C: '#c05a20', p: '#5a4030', P: '#3e2c20', k: '#3e2c20' },
     elm: { head: 'short', body: 'coat', legs: 'pants', h: '#6a4a2a', H: '#4a3018', j: '#f4f4f4', J: '#c4c8d0', c: '#3a8a5a', C: '#28683e', p: '#4a4a5a', P: '#30303e', k: '#3a3030' },
     silver: { head: 'long', body: 'jacket', legs: 'pants', h: '#c8303a', H: '#8a1e26', j: '#2a2a3a', J: '#16161e', c: '#c8303a', C: '#8a1e26', p: '#3a3a4a', P: '#24242e', k: '#2a2020' },
     sage: { head: 'bald', body: 'coat', legs: 'pants', h: '#3a3a40', H: '#24242a', j: '#5a5a6a', J: '#40404c', c: '#d8c8a0', C: '#b8a880', p: '#4a4a56', P: '#30303a', k: '#2a2a2a' },

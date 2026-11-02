@@ -97,5 +97,8 @@ G.I18n.add({
   "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "感謝遊玩！119號道路、天氣研究所和茵鬱市將在之後的更新中等著你。",
   "Chapter 34 complete!": "第三十四章完成！",
   "{player} drove Team Aqua out of the Weather Institute, battled {rival3} on Route 119, uncovered a hidden Kecleon with the Devon Scope and earned the Feather Badge from Winona.": "{player}把海洋隊趕出了天氣研究所，在119號道路和{rival3}對戰，用得文偵測鏡找出了躲起來的變隱龍，還從娜琪那裡贏得了羽翼徽章。",
-  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "感謝遊玩！121號道路和水靜市將在之後的更新中等著你。"
+  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "感謝遊玩！121號道路和水靜市將在之後的更新中等著你。",
+  "Chapter 35 complete!": "第三十五章完成！",
+  "{player} reached Lilycove City, battled {rival3} at the Department Store and watched Team Aqua and Team Magma take the orbs from the summit of Mt. Pyre.": "{player}來到水靜市，在百貨公司前和{rival3}對戰，還在送神山頂目睹海洋隊和熔岩隊搶走了寶珠。",
+  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "感謝遊玩！海洋隊的基地和綠嶺市將在之後的更新中等著你。"
 }, "zh-Hant");

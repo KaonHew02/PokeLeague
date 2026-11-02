@@ -97,5 +97,8 @@ G.I18n.add({
   "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Grazie per aver giocato! Il Percorso 119, l'Istituto Meteo e Forestopoli ti aspettano in un prossimo aggiornamento.",
   "Chapter 34 complete!": "Capitolo 34 completato!",
   "{player} drove Team Aqua out of the Weather Institute, battled {rival3} on Route 119, uncovered a hidden Kecleon with the Devon Scope and earned the Feather Badge from Winona.": "{player} ha cacciato il Team Idro dall'Istituto Meteo, ha lottato contro {rival3} sul Percorso 119, ha scoperto un Kecleon nascosto con il Devonscopio e ha vinto la Medaglia Piuma di Alice.",
-  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "Grazie per aver giocato! Il Percorso 121 e Porto Alghepoli ti aspettano in un prossimo aggiornamento."
+  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "Grazie per aver giocato! Il Percorso 121 e Porto Alghepoli ti aspettano in un prossimo aggiornamento.",
+  "Chapter 35 complete!": "Capitolo 35 completato!",
+  "{player} reached Lilycove City, battled {rival3} at the Department Store and watched Team Aqua and Team Magma take the orbs from the summit of Mt. Pyre.": "{player} è arrivato a Porto Alghepoli, ha lottato contro {rival3} davanti al Centro Commerciale e ha visto il Team Idro e il Team Magma portare via le sfere dalla cima del Monte Pira.",
+  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "Grazie per aver giocato! Il covo del Team Idro e Verdeazzupoli ti aspettano in un prossimo aggiornamento."
 }, "it");

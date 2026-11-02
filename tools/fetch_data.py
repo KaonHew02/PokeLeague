@@ -221,6 +221,8 @@ LOC_NAMES = {
     'meteor-falls':      ('Cascada Meteoro',    'Cascate Meteora',     '流星瀑布',   '流星瀑布'),
     'mt-chimney':        ('Monte Cenizo',       'Monte Camino',        '烟囱山',     '煙囪山'),
     'jagged-pass':       ('Desfiladero',        'Passo Selvaggio',     '凹凸山道',   '凹凸山道'),
+    # Chapter 35.
+    'mt-pyre':           ('Monte Pírico',       'Monte Pira',          '送神山',     '送神山'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

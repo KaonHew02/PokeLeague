@@ -1215,6 +1215,61 @@ test('Hoenn (chapter 34): Route 119 and the Weather Institute, the rival, Fortre
   await until(() => W.map.id === 'fortree-gym');
 });
 
+test('Hoenn (chapter 35): Route 121 to Lilycove, the rival, the Department Store, the cave, Mt. Pyre and the orbs', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.giveMon('marshtomp', 36, { moves: ['water-gun', 'mud-shot'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to); };
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  // South from Route 120 to Route 121, east to Lilycove City.
+  W.load('route120', { x: 21, y: 19, dir: 'down' });
+  await cross('down', 'route121');
+  assert.deepEqual([W.player.x, W.player.y], [8, 0]);
+  W.load('route121', { x: 43, y: 9, dir: 'right' });
+  await cross('right', 'lilycove');
+  assert.deepEqual([W.player.x, W.player.y], [0, 9]);
+  // The Safari Zone's door is closed.
+  W.load('route121', { x: 22, y: 7, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked');
+  await settle();
+  // On Lilycove's main road, the rival stops you.
+  W.load('lilycove', { x: 13, y: 9, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => F.flag('rival3-lilycove'));
+  assert.equal(got[got.length - 1], 'lilycove:rival3-lilycove');
+  await settle();
+  // The Department Store, up its stairs; the cave in the cove is guarded.
+  W.load('lilycove', { x: 19, y: 8, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'dept-store-1f');
+  W.load('dept-store-1f', { x: 12, y: 3, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'dept-store-2f');
+  W.load('lilycove', { x: 38, y: 22, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'a Team Aqua grunt is in the way');
+  // Mt. Pyre, from its island on Route 122, up to the summit.
+  W.load('route122', { x: 14, y: 17, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'mt-pyre-1f');
+  W.load('mt-pyre-1f', { x: 7, y: 3, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'mt-pyre-summit');
+  assert.deepEqual([W.player.x, W.player.y], [12, 20]);
+  // At the altar, Archie and Maxie take the orbs.
+  W.load('mt-pyre-summit', { x: 12, y: 9, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('chapter-35-done'));
+  assert.ok(F.flag('orbs-taken'));
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

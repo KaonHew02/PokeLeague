@@ -14,7 +14,7 @@ function load() {
   const dev = source('dev.html');
   const content = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
   const files = ['js/core/locales.js', 'js/core/util.js', 'js/core/rng.js', 'js/core/i18n.js', 'js/core/names.js',
-    'js/data/species.js', 'js/data/moves.js', 'js/data/items.js', 'js/data/names.js', 'js/data/encounters.js', 'js/data/trainer-classes.js',
+    'js/data/species.js', 'js/data/moves.js', 'js/data/items.js', 'js/data/item-effects.js', 'js/data/names.js', 'js/data/encounters.js', 'js/data/trainer-classes.js',
     'js/world/people.js', 'js/world/maps.js', 'js/world/path4.js', 'js/script/script.js', ...content];
   return boot(files).G;
 }

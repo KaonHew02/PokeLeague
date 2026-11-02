@@ -61,7 +61,7 @@ G.ITEM_FX = {
   'chesto-berry':  { cure: ['slp'], field: 1, battle: 1, held: 'berry' },
   'rawst-berry':   { cure: ['brn'], field: 1, battle: 1, held: 'berry' },
   'aspear-berry':  { cure: ['frz'], field: 1, battle: 1, held: 'berry' },
-  'ether':         { pp: 10,     field: 1, battle: 1 },
+  'ether':         { pp: 10,     field: 1, battle: 1, price: 1200 },
   'max-ether':     { pp: 'full', field: 1, battle: 1 },
   'elixir':        { pp: 10,     ppAll: 1, field: 1, battle: 1 },
   'max-elixir':    { pp: 'full', ppAll: 1, field: 1, battle: 1 },
@@ -117,6 +117,18 @@ G.ITEM_FX = {
   'tm31':          { price: 3000 },
   'tm43':          { price: 3000 },
   'tm45':          { price: 3000 },
+  // Goldenrod's Department Store (its counter showed only priced TMs until chapter 35).
+  'tm10':          { price: 3000 },
+  'tm11':          { price: 2000 },
+  'tm16':          { price: 2000 },
+  'tm17':          { price: 3000 },
+  'tm18':          { price: 2000 },
+  'tm20':          { price: 2000 },
+  'tm33':          { price: 2000 },
+  // Lilycove's Department Store (chapter 35).
+  'tm14':          { price: 5500 },
+  'tm25':          { price: 5500 },
+  'tm38':          { price: 5500 },
 
   // ---- valuables (only for selling) ----
   'nugget':        { price: 10000 },

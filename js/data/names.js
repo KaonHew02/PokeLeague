@@ -1224,7 +1224,7 @@ G.NAMES = {
     "petalburg-woods": ["Petalburg Woods","Bosque Petalia","Bois Clémenti","Bosco Petalo","橙华森林","橙華森林"],
     "jagged-pass": ["Jagged Pass","Desfiladero","Sentier Sinuroc","Passo Selvaggio","凹凸山道","凹凸山道"],
     "fiery-path": ["Fiery Path","Senda Ígnea","Chemin Ardent","Cammino Ardente","火焰小径","火焰小徑"],
-    "mt-pyre": ["Mt. Pyre","Monte Pírico","Mont Mémoria","Monte Pira","Mt. Pyre","Mt. Pyre"],
+    "mt-pyre": ["Mt. Pyre","Monte Pírico","Mont Mémoria","Monte Pira","送神山","送神山"],
     "seafloor-cavern": ["Seafloor Cavern","Caverna Abisal","Caverne Fondmer","Antro Abissale","Seafloor Cavern","Seafloor Cavern"],
     "cave-of-origin": ["Cave of Origin","Cueva Ancestral","Grotte Origine","Grotta dei Tempi","Cave of Origin","Cave of Origin"],
     "hoenn-victory-road": ["Victory Road","Calle Victoria","Route Victoire","Via Vittoria","Victory Road","Victory Road"],

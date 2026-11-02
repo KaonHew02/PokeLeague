@@ -97,5 +97,8 @@ G.I18n.add({
   "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "Obrigado por jogar! A Rota 119, o Instituto Meteorológico e Fortree esperam por você em uma próxima atualização.",
   "Chapter 34 complete!": "Capítulo 34 concluído!",
   "{player} drove Team Aqua out of the Weather Institute, battled {rival3} on Route 119, uncovered a hidden Kecleon with the Devon Scope and earned the Feather Badge from Winona.": "{player} expulsou a Equipe Aqua do Instituto Meteorológico, batalhou com {rival3} na Rota 119, revelou um Kecleon escondido com o Devon Scope e ganhou a Insígnia Pena de Winona.",
-  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "Obrigado por jogar! A Rota 121 e Lilycove esperam por você em uma próxima atualização."
+  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "Obrigado por jogar! A Rota 121 e Lilycove esperam por você em uma próxima atualização.",
+  "Chapter 35 complete!": "Capítulo 35 concluído!",
+  "{player} reached Lilycove City, battled {rival3} at the Department Store and watched Team Aqua and Team Magma take the orbs from the summit of Mt. Pyre.": "{player} chegou a Lilycove, batalhou com {rival3} na Loja de Departamentos e viu a Equipe Aqua e a Equipe Magma levarem as esferas do topo do Mt. Pyre.",
+  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "Obrigado por jogar! O esconderijo da Equipe Aqua e Mossdeep esperam por você em uma próxima atualização."
 }, "pt-BR");

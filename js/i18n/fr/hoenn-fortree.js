@@ -87,5 +87,5 @@ G.I18n.add({
   "Fortree City. A city of homes built high up among the trees.": "Cimetronelle. Une ville aux maisons perchées dans les arbres.",
   "Fortree City Pokémon Gym. Leader: Winona, who rides the wind with her bird Pokémon.": "Arène Pokémon de Cimetronelle. Championne : Alizée, qui chevauche le vent avec ses Pokémon oiseaux.",
   "Route 120. West: Fortree City. Over the bridge, the road turns south.": "Route 120. Ouest : Cimetronelle. Après le pont, la route tourne vers le sud.",
-  "South: Route 121, to Lilycove City. The road is closed for now.": "Sud : Route 121, vers Nénucrique. La route est fermée pour l'instant."
+  "South: Route 121, to Lilycove City.": "Sud : Route 121, vers Nénucrique."
 }, "fr");

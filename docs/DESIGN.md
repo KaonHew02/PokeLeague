@@ -1672,10 +1672,33 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   rival at 34 and Winona at 35. `tests/field.test.cjs` walks the new roads, the institute's door,
   the rival's trigger, the unseen doorway before and after the Devon Scope, and Steven's Kecleon.
 
-### After chapter 34
+- **Chapter 35** ✅, Lilycove and Mt. Pyre (no Gym): Route 120's road south opens. Route 121 (four
+  Trainers; the Safari Zone's gate, closed: `route121.safari`) runs east to Lilycove City: the
+  Department Store over two floors (1F Balls and medicine; 2F TMs 14, 25, 38 and 15, X items,
+  vitamins), a Center, the Contest Hall (closed), the Museum (its exhibits are signs on statues), two
+  houses, a harbour (the ferry is not running), and a cave in the cove that a Team Aqua grunt guards
+  (`lilycove.cave`). On the main road in front of the store the rival battles you (a trigger,
+  `lilycove.rival`, can be lost, flag `rival3-lilycove`; `G.Hoenn.RIVAL_TEAM_LILYCOVE`: Pelipper or
+  Lombre at 32, Camerupt or Lombre, the starter's second stage at 34). The sea south of Route 121 is
+  Route 122, around Mt. Pyre's island: 1F (graves, a Channeler, a Psychic, an old woman) and its
+  summit (the palette `whirl`; a Team Aqua grunt and a Team Magma grunt): at the altar Archie takes
+  the Blue Orb and Maxie the Red Orb while the old guardians look on (a trigger, `pyre.orbs`, flag
+  `orbs-taken`), then `ending(35)`. Files: `js/content/hoenn/lilycove.js` (translations
+  `hoenn-lilycove`); `fortree.js` (Route 120's road south).
+- **Engine and data for chapter 35:** a test that every shop (Mart stocks, counters, named scripts)
+  sells items that exist and have a price: the Shop screen silently drops the others, and it found
+  Fortree's Mart offering an X item that does not exist (`x-sp-def`, now X Speed) and Goldenrod's
+  Department Store hiding Ether and seven of its TMs (now priced). `tools/map_check.js` loads
+  `item-effects.js`. Mt. Pyre's Chinese name (`LOC_NAMES`); prices for TMs 14, 25 and 38; the Town
+  Map's Route 121, Route 122 (sea) and Mt. Pyre. `tests/story.test.cjs` plays chapter 35 (its
+  Marshtomp beats the rival at 36); `tests/field.test.cjs` the roads, the Safari Zone's door, the
+  rival's trigger, the store's stairs, the guarded cave, Mt. Pyre and the scene at the altar.
 
-1. **Hoenn, chapter 35:** Route 121 and Lilycove City (the Department Store, the Contest Hall, Team
-   Aqua's hideout in the cove), Mt. Pyre (Team Magma and Team Aqua take the orbs), the Safari Zone.
+### After chapter 35
+
+1. **Hoenn, chapter 36:** Team Aqua's hideout in Lilycove's cove (the Master Ball; Team Aqua takes
+   the submarine from Slateport), Routes 124 and 125 by sea to Mossdeep City, Tate and Liza's Mind
+   Badge, the Space Center.
 2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
    abilities outside battle (Pickup, Synchronize and the others on wild encounters), Dive and
    the other Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.

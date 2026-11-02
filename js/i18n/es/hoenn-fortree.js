@@ -87,5 +87,5 @@ G.I18n.add({
   "Fortree City. A city of homes built high up among the trees.": "Ciudad Arborada. Una ciudad de casas construidas en lo alto de los árboles.",
   "Fortree City Pokémon Gym. Leader: Winona, who rides the wind with her bird Pokémon.": "Gimnasio Pokémon de Ciudad Arborada. Líder: Alana, que surca el viento con sus Pokémon pájaro.",
   "Route 120. West: Fortree City. Over the bridge, the road turns south.": "Ruta 120. Oeste: Ciudad Arborada. Pasado el puente, el camino gira hacia el sur.",
-  "South: Route 121, to Lilycove City. The road is closed for now.": "Sur: Ruta 121, hacia Ciudad Calagua. El camino está cerrado por ahora."
+  "South: Route 121, to Lilycove City.": "Sur: Ruta 121, hacia Ciudad Calagua."
 }, "es");

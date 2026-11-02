@@ -21,6 +21,21 @@ test('every map in the game validates (warps, spots, connections, legend, footpr
   for (const id of ids) assert.deepEqual(plain(G.Maps.validate(id)), [], id);
 });
 
+test('every shop sells items that exist and have a price (Marts, counters, named scripts)', () => {
+  const bad = [];
+  const scan = (cmds, where) => {
+    if (!Array.isArray(cmds)) return;
+    if (cmds[0] === 'shop' && Array.isArray(cmds[1])) {
+      for (const it of cmds[1]) if (!G.ITEMS[it] || !(G.ITEM_FX[it] && G.ITEM_FX[it].price)) bad.push(where + ': ' + it);
+      return;
+    }
+    for (const c of cmds) if (Array.isArray(c)) scan(c, where);
+  };
+  for (const id of G.Maps.all()) for (const p of G.Maps.get(id).def.npcs || []) if (Array.isArray(p.script)) scan(p.script, id + ':' + p.id);
+  for (const name of G.Script.all()) scan(G.Script.get(name), name);
+  assert.deepEqual(bad, []);
+});
+
 test('legend: unknown tiles and ragged rows are errors; indoor and outdoor tiles do not mix', () => {
   assert.ok(has(errors({ rows: ['..Z.', '....'] }), /unknown tile "Z"/));
   assert.ok(has(errors({ rows: ['....', '...'] }), /row 1 is 3 wide/));

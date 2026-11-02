@@ -2703,6 +2703,34 @@ async function chapter34(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter35(st) {
+  const { G } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // South from Route 120: Route 121 (the Safari Zone is closed) to Lilycove City.
+  await all('route121');
+  await run(st, 'route121', 'route121.safari');
+  assert.match(st.log[st.log.length - 1], /closed/);
+  // Lilycove: the rival in front of the Department Store; Team Aqua guards a cave in the cove.
+  F.healAll();
+  await run(st, 'lilycove', 'lilycove.rival');
+  assert.equal(last().key, 'lilycove:rival3-lilycove');
+  console.log('[story] the rival in Lilycove:', last().outcome, 'at levels', last().levels.join());
+  assert.ok(F.flag('rival3-lilycove'));
+  await run(st, 'lilycove', 'lilycove.cave');
+  assert.match(st.log[st.log.length - 1], /Team Aqua/);
+  // Across the sea, Mt. Pyre: its Trainers, the grunts on the summit, then Archie and Maxie take the orbs.
+  await all('mt-pyre-1f');
+  await all('mt-pyre-summit');
+  await run(st, 'mt-pyre-summit', 'pyre.orbs');
+  assert.ok(st.log.some(l => l.includes('Blue Orb')) && st.log.some(l => l.includes('Red Orb')));
+  assert.ok(F.flag('orbs-taken') && F.flag('chapter-35-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2784,7 +2812,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 34: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Feather Badge", async () => {
+test("chapters 11 to 35: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to Mt. Pyre", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2820,4 +2848,5 @@ test("chapters 11 to 34: Johto, from Professor Elm to Johto's League and its pos
   await chapter32(st);
   await chapter33(st);
   await chapter34(st);
+  await chapter35(st);
 });

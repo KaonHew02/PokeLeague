@@ -97,5 +97,8 @@ G.I18n.add({
   "Thank you for playing! Route 119, the Weather Institute and Fortree City wait in a future update.": "¡Gracias por jugar! La Ruta 119, el Instituto Meteorológico y Ciudad Arborada te esperan en una próxima actualización.",
   "Chapter 34 complete!": "¡Capítulo 34 completado!",
   "{player} drove Team Aqua out of the Weather Institute, battled {rival3} on Route 119, uncovered a hidden Kecleon with the Devon Scope and earned the Feather Badge from Winona.": "{player} echó al Team Aqua del Instituto Meteorológico, luchó contra {rival3} en la Ruta 119, descubrió un Kecleon oculto con el Detector Devon y ganó la Medalla Pluma de Alana.",
-  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "¡Gracias por jugar! La Ruta 121 y Ciudad Calagua te esperan en una próxima actualización."
+  "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "¡Gracias por jugar! La Ruta 121 y Ciudad Calagua te esperan en una próxima actualización.",
+  "Chapter 35 complete!": "¡Capítulo 35 completado!",
+  "{player} reached Lilycove City, battled {rival3} at the Department Store and watched Team Aqua and Team Magma take the orbs from the summit of Mt. Pyre.": "{player} llegó a Ciudad Calagua, luchó contra {rival3} frente al Centro Comercial y vio cómo el Team Aqua y el Team Magma se llevaban las esferas de la cima del Monte Pírico.",
+  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "¡Gracias por jugar! La guarida del Team Aqua y Ciudad Algaria te esperan en una próxima actualización."
 }, "es");

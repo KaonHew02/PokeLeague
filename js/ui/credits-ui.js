@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 35) return { title: T('Chapter 35 complete!'),
+      done: fmt('{player} reached Lilycove City, battled {rival3} at the Department Store and watched Team Aqua and Team Magma take the orbs from the summit of Mt. Pyre.', { player, rival3: G.Field.vars().rival3 }),
+      next: T('Thank you for playing! Team Aqua\'s hideout and Mossdeep City wait in a future update.') };
     if (n === 34) return { title: T('Chapter 34 complete!'),
       done: fmt('{player} drove Team Aqua out of the Weather Institute, battled {rival3} on Route 119, uncovered a hidden Kecleon with the Devon Scope and earned the Feather Badge from Winona.', { player, rival3: G.Field.vars().rival3 }),
       next: T('Thank you for playing! Route 121 and Lilycove City wait in a future update.') };

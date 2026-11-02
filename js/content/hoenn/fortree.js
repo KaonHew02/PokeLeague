@@ -7,7 +7,7 @@
  * Kecleon with the Devon Scope, then gives you the Scope (flag got-devon-scope); with it the Kecleon at
  * the Gym shows itself and you battle it (flag kecleon-gone). Winona's Gym: the Feather Badge (badge 22:
  * Pokémon up to Lv. 60 obey in Hoenn) and TM40 Aerial Ace, then `ending(34)`. Route 121, south of
- * Route 120, is closed for now.
+ * Route 120, opens in chapter 35 (lilycove.js).
  */
 (() => {
   const T = s => G.T(s);
@@ -218,7 +218,7 @@
   G.Maps.mart('fortree-mart', {
     loc: 'fortree-city', exit: { map: 'fortree', spot: 'mart-door' },
     stock: ['great-ball', 'ultra-ball', 'super-potion', 'hyper-potion', 'antidote', 'paralyze-heal', 'awakening', 'full-heal', 'revive', 'escape-rope',
-            'super-repel', 'x-sp-def'],
+            'super-repel', 'x-speed'],
     npcs: [{ id: 'shopper', who: 'lass', x: 6, y: 5, move: 'look',
              say: 'Revive brings a fainted Pokémon back to the fight. Do not leave home without one!' }]
   }).region = 'hoenn';
@@ -298,12 +298,12 @@
       'T."""""""""..~~~~~~..,,."""".T',
       'T."""""""""..~~~~~~..,,S"""".T',
       'T............~~~~~~..,,......T',
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
+      'TTTTTTTTTTTTTTTTTTTTT,,TTTTTTT'
     ],
-    connect: { west: { map: 'fortree', offset: 0 } },
+    connect: { west: { map: 'fortree', offset: 0 }, south: { map: 'route121', offset: 13 } },
     signs: {
       '11,9': 'Route 120. West: Fortree City. Over the bridge, the road turns south.',
-      '23,17': 'South: Route 121, to Lilycove City. The road is closed for now.'
+      '23,17': 'South: Route 121, to Lilycove City.'
     },
     trainers: [
       { id: 'jennifer', who: 'lass', cls: 'lass', name: 'Jennifer', x: 5, y: 8, dir: 'down', sight: 2, team: [['marill', 28], ['plusle', 28]],

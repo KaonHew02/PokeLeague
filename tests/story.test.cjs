@@ -464,6 +464,49 @@ function trainerRate(G, L) {
   };
 }
 
+test("balance: Wally, Hoenn's Elite Four and Wallace (chapter 39), win rates of typical teams are printed", () => {
+  const { G } = world(1);
+  // A Hoenn team: the starter at 55 and Pokémon met along the way a few levels lower.
+  const SW = [260, 55, ['surf', 'earthquake', 'ice-beam', 'take-down']], SC = [254, 55, ['leaf-blade', 'earthquake', 'aerial-ace', 'quick-attack']];
+  const BL = [257, 55, ['blaze-kick', 'sky-uppercut', 'slash', 'bulk-up']];
+  const MA = [310, 51, ['thunderbolt', 'bite', 'quick-attack', 'roar']], LU = [272, 51, ['giga-drain', 'surf', 'fake-out', 'ice-beam']];
+  const GA = [282, 51, ['psychic', 'calm-mind', 'thunderbolt', 'double-team']], AL = [334, 51, ['dragon-claw', 'aerial-ace', 'earthquake', 'dragon-dance']];
+  const MI = [262, 51, ['crunch', 'take-down', 'sand-attack', 'howl']];
+  const TEAMS = { 'swampert 55 + 5': [SW, MA, LU, GA, AL, MI], 'sceptile 55 + 5': [SC, MA, LU, GA, AL, MI], 'blaziken 55 + 5': [BL, MA, LU, GA, AL, MI] };
+  const fight = (foe, me) => {
+    let wins = 0;
+    for (let s = 1; s <= 30; s++) {
+      const rng = G.RNG(s * 19);
+      const mine = me.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const foes = foe.map(([x, l, moves]) => G.Mon.create(G.Maps.species(x), l, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: mine, bag: {} },
+        foe: { party: foes, trainer: { id: 'x', name: 'X', ai: 'leader', items: {}, prize: 100 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return Math.round(wins / 30 * 100) / 100;
+  };
+  const member = (room, id) => G.Maps.get(room).trainers.find(t => t.id === id).team;
+  const FOES = { wally: G.HoennLeague.WALLY_TEAM, sidney: member('sidney-room', 'sidney'), phoebe: member('phoebe-room', 'phoebe'),
+                 glacia: member('glacia-room', 'glacia'), drake: member('drake-room', 'drake'), wallace: G.HoennLeague.wallaceTeam(false) };
+  const table = {};
+  for (const [name, foe] of Object.entries(FOES)) {
+    table[name] = {};
+    for (const [k, t] of Object.entries(TEAMS)) table[name][k] = fight(foe, t);
+  }
+  console.log("[balance] vs Hoenn's Elite Four:", JSON.stringify(table));
+  const up = t => t.map(([sp, l, m]) => [sp, l + 10, m]);
+  const again = { drake: fight(member('drake-room', 'drake2'), up(TEAMS['swampert 55 + 5'])),
+                  wallace: fight(G.HoennLeague.wallaceTeam(true), up(TEAMS['swampert 55 + 5'])) };
+  console.log('[balance] rematches ten levels up:', JSON.stringify(again));
+  // As in Kanto and Johto: Emerald's teams three levels lower (Wallace six), each alone with a fresh team.
+  for (const id of ['wally', 'sidney', 'phoebe', 'glacia']) for (const k of Object.keys(TEAMS)) assert.ok(table[id][k] >= 0.9, id + ', ' + k);
+  // Drake is the wall: Altaria's Dragon Dance and Salamence; a Sceptile team has the hardest time.
+  assert.ok(table.drake['swampert 55 + 5'] >= 0.8 && table.drake['blaziken 55 + 5'] >= 0.7 && table.drake['sceptile 55 + 5'] >= 0.4, 'Drake');
+  for (const k of Object.keys(TEAMS)) assert.ok(table.wallace[k] >= 0.6, 'Wallace, ' + k);
+  assert.ok(again.drake >= 0.7 && again.wallace >= 0.7, 'the rematches');
+});
+
 test('balance: Juan in Sootopolis (chapter 38), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = leaderRate(G, 'sootopolis-gym', 'juan');
@@ -2913,6 +2956,46 @@ async function chapter38(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter39(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // Victory Road, with all eight Hoenn badges: its Cool Trainers, then Wally at the end.
+  assert.ok(S.player.badges.includes(24));
+  await all('hoenn-victory-1f');
+  await all('hoenn-victory-b1f');
+  F.healAll();
+  await run(st, 'hoenn-victory-1f', 'vroad.wally');
+  assert.equal(last().key, 'hoenn-victory-1f:wally-vroad');
+  won();
+  assert.ok(F.flag('wally-vroad'));
+  // The League: the four rooms in a row, then Wallace.
+  await run(st, 'sidney-room', 'hleague.start');
+  for (const [room, id] of [['sidney-room', 'sidney'], ['phoebe-room', 'phoebe'], ['glacia-room', 'glacia'], ['drake-room', 'drake']]) {
+    await fight(room, id);
+    won();
+    assert.ok(F.flag('he4-' + id), id);
+  }
+  F.healAll();
+  const fame = (S.fame || []).length;
+  await run(st, 'wallace-room', 'hleague.champion');
+  assert.equal(last().key, 'wallace-room:wallace-champion');
+  won();
+  console.log('[story] Wallace: won at levels', last().levels.join());
+  assert.deepEqual(plain(last().team), plain(G.HoennLeague.wallaceTeam(false)));
+  assert.ok(F.flag('he4-champion') && F.flag('hoenn-champion') && F.flag('chapter-39-done'));
+  assert.equal(S.fame.length, fame + 1, 'the Hall of Fame');
+  assert.equal(st.W.map, 'birch-house-2f', 'home in Littleroot');
+  // The rematch: everybody ten levels up.
+  await run(st, 'sidney-room', 'hleague.start');
+  assert.ok(!F.flag('he4-sidney'));
+  assert.equal(G.Maps.get('sidney-room').trainers.find(t => t.id === 'sidney2').team[4][1], 56);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2994,7 +3077,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 38: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Rain Badge", async () => {
+test("chapters 11 to 39: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3034,4 +3117,5 @@ test("chapters 11 to 38: Johto, from Professor Elm to Johto's League and its pos
   await chapter36(st);
   await chapter37(st);
   await chapter38(st);
+  await chapter39(st);
 });

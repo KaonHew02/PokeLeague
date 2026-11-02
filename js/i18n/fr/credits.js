@@ -109,5 +109,8 @@ G.I18n.add({
   "Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.": "Merci d'avoir joué ! Atalanopolis et les maîtres de la terre et des mers t'attendent dans une prochaine mise à jour.",
   "Chapter 38 complete!": "Chapitre 38 terminé !",
   "{player} dived into Sootopolis City, woke Rayquaza at the top of the Sky Pillar to end the battle of Groudon and Kyogre, and earned the Rain Badge from Juan.": "{player} a plongé jusqu'à Atalanopolis, a réveillé Rayquaza au sommet du Pilier Céleste pour mettre fin au combat de Groudon et Kyogre, et a gagné le Badge Pluie de Juan.",
-  "Thank you for playing! Victory Road and Hoenn's Pokémon League wait in a future update.": "Merci d'avoir joué ! La Route Victoire et la Ligue Pokémon de Hoenn t'attendent dans une prochaine mise à jour."
+  "Thank you for playing! Victory Road and Hoenn's Pokémon League wait in a future update.": "Merci d'avoir joué ! La Route Victoire et la Ligue Pokémon de Hoenn t'attendent dans une prochaine mise à jour.",
+  "Chapter 39 complete!": "Chapitre 39 terminé !",
+  "{player} climbed Victory Road, beat Wally, Hoenn's Elite Four and the Champion Wallace, and entered the Hall of Fame as the Champion of Hoenn!": "{player} a traversé la Route Victoire, a battu Timmy, le Conseil 4 de Hoenn et le Maître Marc, et est entré au Panthéon en tant que Maître de Hoenn !",
+  "Thank you for playing! The journey through Kanto, Johto and Hoenn is complete. Hoenn's Elite Four will battle you again, ten levels stronger, whenever you return.": "Merci d'avoir joué ! Le voyage à travers Kanto, Johto et Hoenn est terminé. Le Conseil 4 de Hoenn t'affrontera de nouveau, dix niveaux plus fort, quand tu reviendras."
 }, "fr");

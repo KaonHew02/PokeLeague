@@ -204,7 +204,7 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { north: { map: 'route127', offset: 0 }, west: { map: 'route129', offset: 4 } },
+    connect: { north: { map: 'route127', offset: 0 }, west: { map: 'route129', offset: 4 }, east: { map: 'ever-grande', offset: -10 } },
     // Chapter 38: Steven on the sandbar, once Kyogre is awake.
     triggers: [{ x: 25, y: 7, w: 9, h: 9, if: ['kyogre-awake', '!steven-128'], script: 'route128.steven' }],
     npcs: [{ id: 'steven', who: 'steven', x: 35, y: 11, dir: 'left', if: ['kyogre-awake', '!steven-128'], script: 'route128.steven' }],

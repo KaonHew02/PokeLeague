@@ -21,8 +21,8 @@ the map format and which files each milestone owns.
   Use `hoenn` (dex 1–386, Kanto, Johto and Hoenn places, abilities): `--region johto` or `kanto` would
   cut the data back to 251 or 151.
 - `node tools/map_check.js <map-id> | --all` — prints a map with its objects and checks it.
-- `tests/story.test.cjs` plays chapters 1 to 38 headless (real scripts and battle engine with an
-  auto-player) and prints `[balance]` win rates against the Gym Leaders (Kanto's eight, Johto's eight, Hoenn's so far), Kanto's and Johto's Elite Four
+- `tests/story.test.cjs` plays chapters 1 to 39 headless (real scripts and battle engine with an
+  auto-player) and prints `[balance]` win rates against the Gym Leaders (Kanto's eight, Johto's eight, and Hoenn's eight), the Elite Four of Kanto, Johto and Hoenn
   and Champions (and their rematches). `tests/field.test.cjs` runs the overworld rules (field.js) without a screen. The game grows chapter by
   chapter (docs/DESIGN.md section 10); a chapter ends with `G.CreditsUI.ending(n)`.
   Try a map in the browser with `dev.html?debug&map=<id>` (`map=sandbox` is the M3 test town).

@@ -1787,10 +1787,35 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   (Blaziken's the least: Kingdra outlasts it). The story test's Swampert beats Juan at 46;
   `tests/field.test.cjs` the storm's rain in battle, and the chapter from Route 128 to Juan.
 
-### After chapter 38
+- **Chapter 39** ✅, the end of the journey through Hoenn, its League: Route 128's east end is Ever
+  Grande City's sea; a waterfall (Waterfall) climbs to the plateau (the Pokémon Center, Victory Road's
+  mouth, a locked warp until `badge:24`), and the League stands on the top, reached only through
+  Victory Road (ledges lead back down). Victory Road (`hoenn-victory-1f`, `-b1f`): the south hall
+  (two Cool Trainers), B1F across an underground river (Surf; two Cool Trainers), the north hall (a
+  Cool Trainer and Wally: a trigger, `vroad.wally`, Emerald's team three levels lower, flag
+  `wally-vroad`) and the way out. The League's lobby (`hoenn-league`: a nurse, a shop, the guard
+  `hleague.guard`), then Sidney (Dark, `sidney-room`, whose `enter` starts a run), Phoebe (Ghost),
+  Glacia (Ice) and Drake (Dragon), flags `he4-*`, and the Champion Wallace (`wallace-room`, a
+  trigger, `hleague.champion`). Beating him: Hoenn's Hall of Fame (`hoenn-fame`, a third entry in
+  `save.fame`, flag `hoenn-champion`), home to Littleroot (`birch-house-2f`) and `ending(39)`. Once
+  you are Hoenn's Champion everyone battles ten levels up (the `2` trainers, as in Johto) and so does
+  Wallace (`G.HoennLeague.wallaceTeam(true)`). Files: `js/content/hoenn/evergrande.js` (translations
+  `hoenn-league`); `seafloor.js` (Route 128's way east).
+- **Balance:** Emerald's teams three levels lower (Wallace six; no one-hit moves: Walrein's Sheer
+  Cold is Rest), as in Kanto and Johto. A Hoenn team of six (starter Lv. 55, the others 51): Wally,
+  Sidney, Phoebe and Glacia ~100%; Drake is the wall (Altaria's Dragon Dance, Salamence): 50% with
+  Sceptile, 87% with Blaziken, 100% with Swampert; Wallace 77-100%; the rematches ten levels up
+  against a team ten levels up: Drake and Wallace over 90%. The story test's Swampert (with the
+  older team, which obeys after the eighth badge) beats Wally, the Elite Four and Wallace;
+  `tests/field.test.cjs` the sea to the waterfall, the badge check, Wally, the four rooms, Wallace,
+  the Hall of Fame and home.
 
-1. **Hoenn, chapter 39:** Ever Grande City (Route 128's east end, up the waterfall), Victory Road
-   (Wally), and Hoenn's Pokémon League: Sidney, Phoebe, Glacia, Drake and the Champion Wallace.
-2. Engine features along the way: **double battles**, abilities outside battle, the other Hoenn
-   HMs, Pokéblocks or another way to evolve Feebas, Repel steps; Routes 132-134 between Pacifidlog
-   and Slateport (their currents).
+### After chapter 39
+
+The journey through Kanto, Johto and Hoenn is complete (Pokémon 1-386). Ideas for later:
+1. Hoenn after the League: the Battle Frontier or Battle Tower, Steven at Meteor Falls, Groudon and
+   Kyogre to catch (Terra and Marine Caves), Latias and Latios, the Regis; Routes 132-134 between
+   Pacifidlog and Slateport.
+2. Engine features: **double battles**, abilities outside battle, Pokéblocks or another way to evolve
+   Feebas, Repel steps.
+3. A fourth region needs Pokémon 387 and up (`tools/fetch_data.py`), their sprites and moves.

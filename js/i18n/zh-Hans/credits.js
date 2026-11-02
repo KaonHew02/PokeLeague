@@ -109,5 +109,8 @@ G.I18n.add({
   "Thank you for playing! Sootopolis City and the masters of the land and sea wait in a future update.": "感谢游玩！琉璃市以及大地与海洋之主，将在之后的更新中等着你。",
   "Chapter 38 complete!": "第三十八章完成！",
   "{player} dived into Sootopolis City, woke Rayquaza at the top of the Sky Pillar to end the battle of Groudon and Kyogre, and earned the Rain Badge from Juan.": "{player}潜入琉璃市，在天空柱顶端唤醒了烈空坐，结束了固拉多与盖欧卡的战斗，还从亚当那里赢得了雨滴徽章。",
-  "Thank you for playing! Victory Road and Hoenn's Pokémon League wait in a future update.": "感谢游玩！冠军之路和丰缘的宝可梦联盟，将在之后的更新中等着你。"
+  "Thank you for playing! Victory Road and Hoenn's Pokémon League wait in a future update.": "感谢游玩！冠军之路和丰缘的宝可梦联盟，将在之后的更新中等着你。",
+  "Chapter 39 complete!": "第三十九章完成！",
+  "{player} climbed Victory Road, beat Wally, Hoenn's Elite Four and the Champion Wallace, and entered the Hall of Fame as the Champion of Hoenn!": "{player}闯过了冠军之路，打败了满充、丰缘的四天王和冠军米可利，作为丰缘的冠军登录了殿堂！",
+  "Thank you for playing! The journey through Kanto, Johto and Hoenn is complete. Hoenn's Elite Four will battle you again, ten levels stronger, whenever you return.": "感谢游玩！关都、城都和丰缘的旅程到此完成。每当你回来，丰缘的四天王都会以高十级的实力再次与你对战。"
 }, "zh-Hans");

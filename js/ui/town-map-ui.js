@@ -63,7 +63,8 @@ G.TownMapUI = (() => {
       'mossdeep-city': [18.6, 4.5], 'sootopolis-city': [16.4, 8], 'pacifidlog-town': [14.5, 12.4], 'ever-grande-city': [19, 11],
       'petalburg-woods': [0.4, 7], 'rusturf-tunnel': [3.6, 4.5], 'granite-cave': [0.4, 13.2],
       'fiery-path': [7.4, 3.2], 'mt-chimney': [6, 2.2], 'jagged-pass': [6, 2.9], 'meteor-falls': [1.4, 2.4], 'mt-pyre': [15, 5.4],
-      'team-aqua-hideout': [16.6, 3.5], 'seafloor-cavern': [18, 9.2], 'cave-of-origin': [16.4, 7.4], 'sky-pillar': [15.4, 13.2]
+      'team-aqua-hideout': [16.6, 3.5], 'seafloor-cavern': [18, 9.2], 'cave-of-origin': [16.4, 7.4], 'sky-pillar': [15.4, 13.2],
+      'hoenn-victory-road': [19.6, 10.2], 'hoenn-pokemon-league': [19.6, 9.4]
     },
     ROADS: { 101: [[4, 12], [4, 9.5]], 102: [[4, 9.5], [1.2, 9.5]], 103: [[4, 9.5], [4, 8], [8, 8]], 104: [[1.2, 9.5], [0.4, 9.5], [0.4, 4.5], [1.2, 4.5]],
              116: [[1.2, 4.5], [3.6, 4.5]], 106: [[1.2, 13.8], [0.4, 13.8], [0.4, 13.2]], 110: [[9, 12], [9, 6]],

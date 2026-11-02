@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 39) return { title: T('Chapter 39 complete!'),
+      done: fmt('{player} climbed Victory Road, beat Wally, Hoenn\'s Elite Four and the Champion Wallace, and entered the Hall of Fame as the Champion of Hoenn!', { player }),
+      next: T('Thank you for playing! The journey through Kanto, Johto and Hoenn is complete. Hoenn\'s Elite Four will battle you again, ten levels stronger, whenever you return.') };
     if (n === 38) return { title: T('Chapter 38 complete!'),
       done: fmt('{player} dived into Sootopolis City, woke Rayquaza at the top of the Sky Pillar to end the battle of Groudon and Kyogre, and earned the Rain Badge from Juan.', { player }),
       next: T('Thank you for playing! Victory Road and Hoenn\'s Pokémon League wait in a future update.') };

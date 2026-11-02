@@ -1516,6 +1516,76 @@ test('Hoenn (chapter 38): Steven on Route 128, Sootopolis under the storm, Walla
   assert.ok(F.save.player.badges.includes(24));
 });
 
+test('Hoenn (chapter 39): Ever Grande City, Victory Road and Wally, the Elite Four, Wallace and the Hall of Fame', async () => {
+  const { G, W } = world(['js/content/kanto/league.js', 'js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js',
+                          'js/content/hoenn/woods.js', 'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js',
+                          'js/content/hoenn/slateport.js', 'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js',
+                          'js/content/hoenn/verdanturf.js', 'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js',
+                          'js/content/hoenn/seafloor.js', 'js/content/hoenn/sootopolis.js', 'js/content/hoenn/evergrande.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.save.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+  F.giveMon('swampert', 50, { moves: ['surf', 'waterfall', 'strength', 'rock-smash'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  F.setFlag('kyogre-awake'); F.setFlag('weather-calm'); F.setFlag('steven-128');
+  // Route 128's east end is Ever Grande City's sea.
+  W.load('route128', { x: 43, y: 20, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  assert.equal(W.map.id, 'ever-grande');
+  assert.deepEqual([W.player.x, W.player.y], [0, 30]);
+  // Up the waterfall to the plateau.
+  W.load('ever-grande', { x: 16, y: 24, dir: 'up' });
+  await pump(W, W.interact());
+  await until(() => W.player.y === 21 && !W.player.moving);
+  // Victory Road opens with all eight Hoenn badges.
+  W.load('ever-grande', 'road-door');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'blocked');
+  await settle();
+  F.badge(24);
+  W.load('ever-grande', 'road-door');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'hoenn-victory-1f');
+  await settle();
+  // Wally, at the end of Victory Road.
+  W.load('hoenn-victory-1f', { x: 8, y: 3, dir: 'left' });
+  assert.equal(step(W, 'left'), 'moved');
+  await until(() => F.flag('wally-vroad'));
+  assert.equal(got[got.length - 1], 'hoenn-victory-1f:wally-vroad');
+  await settle();
+  // The lobby's guard sends you to Sidney's room.
+  W.load('hoenn-league', 'guard');
+  W.player.face('up');
+  await pump(W, W.interact());
+  await until(() => W.map.id === 'sidney-room');
+  await settle();
+  // The Elite Four, one room after another.
+  for (const [room, id] of [['sidney-room', 'sidney'], ['phoebe-room', 'phoebe'], ['glacia-room', 'glacia'], ['drake-room', 'drake']]) {
+    W.load(room, { x: 5, y: 5, dir: 'up' });
+    await pump(W, W.interact());
+    await until(() => F.flag('he4-' + id));
+    await settle();
+    W.load(room, { x: 5, y: 3, dir: 'up' });
+    assert.equal(step(W, 'up'), 'moved', 'the door opens after ' + id);
+    await until(() => W.map.id !== room);
+    await settle();
+  }
+  assert.equal(W.map.id, 'wallace-room');
+  // The Champion, the Hall of Fame and home.
+  W.load('wallace-room', { x: 5, y: 9, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('chapter-39-done'));
+  assert.equal(got[got.length - 1], 'wallace-room:wallace-champion');
+  assert.ok(F.flag('hoenn-champion'));
+  assert.equal(W.map.id, 'birch-house-2f');
+  assert.equal(F.save.fame.length, 1);
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

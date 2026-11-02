@@ -223,6 +223,8 @@ LOC_NAMES = {
     'jagged-pass':       ('Desfiladero',        'Passo Selvaggio',     '凹凸山道',   '凹凸山道'),
     # Chapter 35.
     'mt-pyre':           ('Monte Pírico',       'Monte Pira',          '送神山',     '送神山'),
+    # Chapter 36.
+    'team-aqua-hideout': ('Guarida Aqua',       'Rifugio Idro',        '海洋队基地', '海洋隊基地'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

@@ -1694,11 +1694,35 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Marshtomp beats the rival at 36); `tests/field.test.cjs` the roads, the Safari Zone's door, the
   rival's trigger, the store's stairs, the guarded cave, Mt. Pyre and the scene at the altar.
 
-### After chapter 35
+- **Chapter 36** ✅, Mossdeep and the Mind Badge: once the orbs are gone (`orbs-taken`) the grunt
+  leaves Lilycove's cove and its cave (a locked warp with `if`) leads into Team Aqua's hideout: 1F
+  (two grunts), B1F (a grunt, the Master Ball, the dock). At the dock the Admin Matt (a scripted
+  battle, `hideout.matt`, flag `aqua-hideout-done`) tells you Archie has left in the submarine taken
+  from Slateport, carrying the Blue Orb to the bottom of the sea. The sea east of Lilycove is Route
+  124 (islets, two swimmers) to Mossdeep City (a Center, a Mart, Steven's house with a letter, a
+  house, the Space Center). Tate and Liza's Gym (Psychics Preston and Virgil, Gentleman Clifford): the
+  twins battle as one Trainer (`Tate & Liza`; no double battles yet) with Emerald's double-battle team
+  (Claydol 41, Xatu 41, Lunatone 42, Solrock 42, a Hyper Potion): the Mind Badge (badge 23: up to
+  Lv. 70) and TM04 Calm Mind. After the badge Team Magma raids the Space Center (`ATTACK` =
+  `badge:23`, `!space-center-saved`): two grunts on 1F; arriving on 2F (`space.enter`) Steven heals
+  your team, Tabitha battles you, then Maxie (Mightyena 42, Crobat 42, Camerupt 43;
+  `space.maxie`, also on talking to him), flag `space-center-saved`, then `ending(36)`. Files:
+  `js/content/hoenn/mossdeep.js` (translations `hoenn-mossdeep`); `lilycove.js` (the cave, the sea
+  road east).
+- **Engine and data for chapter 36:** Team Aqua's hideout's Spanish, Italian and Chinese names
+  (`LOC_NAMES`); people `matt`, `tate`, `liza`; the Town Map's Route 124 (sea) and the hideout.
+  `[balance]` vs Tate and Liza: one at a time, their four Pokémon (Calm Mind, Hypnosis, Light Screen,
+  Solar Beam in the sun) outlast a lone final-stage starter at 42; a team of three with a Lv. 38
+  Mightyena and Banette (Dark and Ghost, the Gym guide's advice) wins 100% with Swampert, 98% with
+  Sceptile, 83% with Blaziken. The story test's Swampert beats Matt, the twins at 41 and Maxie at 42;
+  `tests/field.test.cjs` the cave before and after the orbs, Matt's trigger, the sea roads and the
+  Space Center before and after the badge.
 
-1. **Hoenn, chapter 36:** Team Aqua's hideout in Lilycove's cove (the Master Ball; Team Aqua takes
-   the submarine from Slateport), Routes 124 and 125 by sea to Mossdeep City, Tate and Liza's Mind
-   Badge, the Space Center.
+### After chapter 36
+
+1. **Hoenn, chapter 37:** Dive (HM08) and the sea routes 126 to 128, the Seafloor Cavern where
+   Archie wakes the master of the sea, Sootopolis City under the storm, the Sky Pillar, and Juan's
+   Rain Badge. The engine needs Dive (dark water, an underwater layer) first.
 2. Engine features along the way: **double battles** (the first double-battle Trainers in Hoenn),
    abilities outside battle (Pickup, Synchronize and the others on wild encounters), Dive and
    the other Hoenn HMs, Pokéblocks or another way to evolve Feebas, Repel steps.

@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 36) return { title: T('Chapter 36 complete!'),
+      done: fmt('{player} raided Team Aqua\'s hideout, crossed the sea to Mossdeep City, earned the Mind Badge from Tate and Liza and drove Team Magma out of the Space Center.', { player }),
+      next: T('Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.') };
     if (n === 35) return { title: T('Chapter 35 complete!'),
       done: fmt('{player} reached Lilycove City, battled {rival3} at the Department Store and watched Team Aqua and Team Magma take the orbs from the summit of Mt. Pyre.', { player, rival3: G.Field.vars().rival3 }),
       next: T('Thank you for playing! Team Aqua\'s hideout and Mossdeep City wait in a future update.') };

@@ -100,5 +100,8 @@ G.I18n.add({
   "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "感谢游玩！121号道路和水静市将在之后的更新中等着你。",
   "Chapter 35 complete!": "第三十五章完成！",
   "{player} reached Lilycove City, battled {rival3} at the Department Store and watched Team Aqua and Team Magma take the orbs from the summit of Mt. Pyre.": "{player}来到水静市，在百货公司前和{rival3}对战，还在送神山顶目睹海洋队和熔岩队抢走了宝珠。",
-  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "感谢游玩！海洋队的基地和绿岭市将在之后的更新中等着你。"
+  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "感谢游玩！海洋队的基地和绿岭市将在之后的更新中等着你。",
+  "Chapter 36 complete!": "第三十六章完成！",
+  "{player} raided Team Aqua's hideout, crossed the sea to Mossdeep City, earned the Mind Badge from Tate and Liza and drove Team Magma out of the Space Center.": "{player}闯进了海洋队的基地，渡海来到绿岭市，从小枫与小南那里赢得了心灵徽章，还把熔岩队赶出了宇宙中心。",
+  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "感谢游玩！海洋队开着潜水艇前往的那片大海，将在之后的更新中等着你。"
 }, "zh-Hans");

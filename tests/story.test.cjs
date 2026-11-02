@@ -457,6 +457,27 @@ function leaderRate(G, mapId, id) {
   };
 }
 
+test('balance: Tate and Liza in Mossdeep (chapter 36), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'mossdeep-gym', 'tate');
+  // Moves a player keeps (Surf from the HM); Dark and Ghost partners, as the Gym guide says.
+  const SWAMPERT = ['surf', 'muddy-water', 'take-down', 'protect'], SCEPTILE = ['leaf-blade', 'quick-attack', 'agility', 'slam'];
+  const BLAZIKEN = ['blaze-kick', 'double-kick', 'slash', 'bulk-up'], MIGHTYENA = ['bite', 'take-down', 'sand-attack', 'howl'];
+  const BANETTE = ['shadow-ball', 'feint-attack', 'knock-off', 'will-o-wisp'];
+  const table = {
+    'swampert 42': rate([[260, 42, SWAMPERT]]), 'sceptile 42': rate([[254, 42, SCEPTILE]]), 'blaziken 42': rate([[257, 42, BLAZIKEN]]),
+    'swampert 42 + mightyena 38 + banette 38': rate([[260, 42, SWAMPERT], [262, 38, MIGHTYENA], [354, 38, BANETTE]]),
+    'sceptile 42 + mightyena 38 + banette 38': rate([[254, 42, SCEPTILE], [262, 38, MIGHTYENA], [354, 38, BANETTE]]),
+    'blaziken 42 + mightyena 38 + banette 38': rate([[257, 42, BLAZIKEN], [262, 38, MIGHTYENA], [354, 38, BANETTE]])
+  };
+  console.log('[balance] vs Tate and Liza:', JSON.stringify(table));
+  // Emerald's double-battle team, fought one at a time (no double battles yet): four Pokémon at Lv. 41-42
+  // with Calm Mind, Hypnosis, Light Screen and Solar Beam in the sun outlast a lone starter; a team of
+  // three with Dark and Ghost moves wins with any starter.
+  for (const k of ['swampert', 'sceptile', 'blaziken']) assert.ok(table[k + ' 42 + mightyena 38 + banette 38'] >= 0.6, k + ' with a team of three');
+  assert.ok(table['swampert 42'] < 0.2 && table['sceptile 42'] < 0.2 && table['blaziken 42'] < 0.2, 'a lone starter is outlasted');
+});
+
 test('balance: Winona in Fortree (chapter 34), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = leaderRate(G, 'fortree-gym', 'winona');
@@ -2731,6 +2752,49 @@ async function chapter35(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter36(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // Lilycove's cove: Team Aqua's hideout, open since the orbs left Mt. Pyre.
+  assert.ok(F.flag('orbs-taken'));
+  await all('aqua-hideout-1f');
+  await all('aqua-hideout-b1f');
+  F.healAll();
+  await run(st, 'aqua-hideout-b1f', 'hideout.matt');
+  assert.equal(last().key, 'aqua-hideout-b1f:matt');
+  won();
+  assert.ok(F.flag('aqua-hideout-done'));
+  assert.ok(st.log.some(l => l.includes('submarine')));
+  // By sea on Route 124 to Mossdeep City.
+  await all('route124');
+  // Tate and Liza.
+  grind(st, 'mt-pyre-summit', 41, 600);
+  await all('mossdeep-gym');
+  F.healAll();
+  const money = S.player.money, tm04 = F.count('tm04');
+  await run(st, 'mossdeep-gym', [['battle', 'mossdeep-gym:tate']]);
+  won();
+  console.log('[story] Tate and Liza: won at levels', last().levels.join());
+  assert.ok(S.player.badges.includes(23), 'the Mind Badge');
+  assert.equal(F.obeyCap('hoenn'), 70, 'seven Hoenn badges: up to Lv. 70');
+  assert.equal(F.count('tm04'), tm04 + 1);
+  assert.equal(S.player.money - money, 4200);
+  // Team Magma raids the Space Center: Steven heals the team, then Tabitha and Maxie.
+  await all('space-center-1f');
+  F.party().forEach(m => { m.hp = 1; });
+  await run(st, 'space-center-2f', G.Maps.get('space-center-2f').def.enter);
+  assert.equal(st.battles[st.battles.length - 2].key, 'space-center-2f:tabitha');
+  assert.equal(last().key, 'space-center-2f:maxie-space');
+  won();
+  console.log('[story] Maxie at the Space Center: won at levels', last().levels.join());
+  assert.ok(F.flag('space-center-saved') && F.flag('chapter-36-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -2812,7 +2876,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 35: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to Mt. Pyre", async () => {
+test("chapters 11 to 36: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to the Mind Badge", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -2849,4 +2913,5 @@ test("chapters 11 to 35: Johto, from Professor Elm to Johto's League and its pos
   await chapter33(st);
   await chapter34(st);
   await chapter35(st);
+  await chapter36(st);
 });

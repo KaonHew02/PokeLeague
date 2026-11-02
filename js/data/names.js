@@ -1295,7 +1295,7 @@ G.NAMES = {
     "secret-base": ["Secret Base","Base Secreta","Base Secrète","Base Segreta","Secret Base","Secret Base"],
     "hoenn-battle-tower": ["Battle Tower","Battle Tower","Tour de Combat","Battle Tower","Battle Tower","Battle Tower"],
     "hoenn-pokemon-league": ["Pokémon League","Liga Pokémon","Ligue Pokémon","Lega Pokémon","Pokémon League","Pokémon League"],
-    "team-aqua-hideout": ["Team Aqua Hideout","Guarida Aqua","Planque Aqua","Rifugio Idro","Team Aqua Hideout","Team Aqua Hideout"],
+    "team-aqua-hideout": ["Team Aqua Hideout","Guarida Aqua","Planque Aqua","Rifugio Idro","海洋队基地","海洋隊基地"],
     "sea-mauville": ["Sea Mauville","Malvamar","Lavandia Sea","Ciclamare","Sea Mauville","Sea Mauville"],
     "team-magma-hideout": ["Team Magma Hideout","Guarida Magma","Planque Magma","Rifugio Magma","Team Magma Hideout","Team Magma Hideout"],
     "battle-resort": ["Battle Resort","Resort Batalla","Atoll de Combat","Resort Lotta","Battle Resort","Battle Resort"],

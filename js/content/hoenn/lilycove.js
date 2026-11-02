@@ -5,7 +5,8 @@
  * Department Store the rival battles you (flag rival3-lilycove). The sea south of Route 121 is Route
  * 122, around Mt. Pyre's island: inside, graves and two Trainers; on the summit, a Team Aqua grunt and a
  * Team Magma grunt, then Archie and Maxie at the altar take the Blue Orb and the Red Orb (flag
- * orbs-taken) while its old guardians look on, then `ending(35)`.
+ * orbs-taken) while its old guardians look on, then `ending(35)`. Once the orbs are gone, the grunt leaves
+ * the cove and the cave leads into Team Aqua's hideout; the sea east of town is Route 124 (mossdeep.js).
  */
 (() => {
   const T = s => G.T(s);
@@ -105,7 +106,7 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { west: { map: 'route121', offset: 0 } },
+    connect: { west: { map: 'route121', offset: 0 }, east: { map: 'route124', offset: 23 } },
     warps: [
       { x: 19, y: 7, to: 'dept-store-1f', spot: 'door' },
       { x: 6, y: 7, to: 'lilycove-center', spot: 'door' },
@@ -113,10 +114,10 @@
       { x: 6, y: 17, to: 'lilycove-museum', spot: 'door' },
       { x: 15, y: 17, to: 'lilycove-house', spot: 'door' },
       { x: 26, y: 17, to: 'lilycove-house2', spot: 'door' },
-      { x: 38, y: 20, locked: 'lilycove.cave' }
+      { x: 38, y: 20, to: 'aqua-hideout-1f', spot: 'door', locked: 'lilycove.cave', if: 'orbs-taken' }
     ],
     spots: { 'center-door': [6, 8, 'down'], 'dept-door': [19, 8, 'down'], 'museum-door': [6, 18, 'down'], 'house-door': [15, 18, 'down'],
-             'house2-door': [26, 18, 'down'] },
+             'house2-door': [26, 18, 'down'], hideout: [38, 21, 'down'] },
     signs: {
       '12,8': 'Lilycove City. Where the land ends and the sea begins.',
       '24,8': 'Lilycove Department Store. Everything a Trainer could wish for, under one roof!',
@@ -132,7 +133,7 @@
         say: 'The ferry is not running right now. Some trouble out at sea, they say. Sorry, kid.' },
       { id: 'fisher', who: 'fisherman', x: 20, y: 26, dir: 'down',
         say: 'Wailmer swim into the bay at dawn. One day I will see a Wailord too: they are as big as a ship!' },
-      { id: 'grunt', who: 'aqua', x: 38, y: 21, dir: 'down', script: 'lilycove.cave' },
+      { id: 'grunt', who: 'aqua', x: 38, y: 21, dir: 'down', if: '!orbs-taken', script: 'lilycove.cave' },
       { id: 'may', who: 'may', x: 20, y: 12, dir: 'up', if: ['!rival3-lilycove', 'rival3=may'], script: 'lilycove.rival' },
       { id: 'brendan', who: 'brendan', x: 20, y: 12, dir: 'up', if: ['!rival3-lilycove', 'rival3=brendan'], script: 'lilycove.rival' }
     ],

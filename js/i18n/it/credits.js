@@ -100,5 +100,8 @@ G.I18n.add({
   "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "Grazie per aver giocato! Il Percorso 121 e Porto Alghepoli ti aspettano in un prossimo aggiornamento.",
   "Chapter 35 complete!": "Capitolo 35 completato!",
   "{player} reached Lilycove City, battled {rival3} at the Department Store and watched Team Aqua and Team Magma take the orbs from the summit of Mt. Pyre.": "{player} è arrivato a Porto Alghepoli, ha lottato contro {rival3} davanti al Centro Commerciale e ha visto il Team Idro e il Team Magma portare via le sfere dalla cima del Monte Pira.",
-  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "Grazie per aver giocato! Il covo del Team Idro e Verdeazzupoli ti aspettano in un prossimo aggiornamento."
+  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "Grazie per aver giocato! Il covo del Team Idro e Verdeazzupoli ti aspettano in un prossimo aggiornamento.",
+  "Chapter 36 complete!": "Capitolo 36 completato!",
+  "{player} raided Team Aqua's hideout, crossed the sea to Mossdeep City, earned the Mind Badge from Tate and Liza and drove Team Magma out of the Space Center.": "{player} ha fatto irruzione nel covo del Team Idro, ha attraversato il mare fino a Verdeazzupoli, ha vinto la Medaglia Mente di Tell e Pat e ha cacciato il Team Magma dal Centro Spaziale.",
+  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "Grazie per aver giocato! Il mare dove il Team Idro ha portato il sottomarino ti aspetta in un prossimo aggiornamento."
 }, "it");

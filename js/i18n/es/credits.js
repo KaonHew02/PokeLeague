@@ -100,5 +100,8 @@ G.I18n.add({
   "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "¡Gracias por jugar! La Ruta 121 y Ciudad Calagua te esperan en una próxima actualización.",
   "Chapter 35 complete!": "¡Capítulo 35 completado!",
   "{player} reached Lilycove City, battled {rival3} at the Department Store and watched Team Aqua and Team Magma take the orbs from the summit of Mt. Pyre.": "{player} llegó a Ciudad Calagua, luchó contra {rival3} frente al Centro Comercial y vio cómo el Team Aqua y el Team Magma se llevaban las esferas de la cima del Monte Pírico.",
-  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "¡Gracias por jugar! La guarida del Team Aqua y Ciudad Algaria te esperan en una próxima actualización."
+  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "¡Gracias por jugar! La guarida del Team Aqua y Ciudad Algaria te esperan en una próxima actualización.",
+  "Chapter 36 complete!": "¡Capítulo 36 completado!",
+  "{player} raided Team Aqua's hideout, crossed the sea to Mossdeep City, earned the Mind Badge from Tate and Liza and drove Team Magma out of the Space Center.": "{player} asaltó la guarida del Team Aqua, cruzó el mar hasta Ciudad Algaria, ganó la Medalla Mente de Vito y Leti y echó al Team Magma del Centro Espacial.",
+  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "¡Gracias por jugar! El mar adonde el Team Aqua se llevó el submarino te espera en una próxima actualización."
 }, "es");

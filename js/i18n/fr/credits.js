@@ -100,5 +100,8 @@ G.I18n.add({
   "Thank you for playing! Route 121 and Lilycove City wait in a future update.": "Merci d'avoir joué ! La Route 121 et Nénucrique t'attendent dans une prochaine mise à jour.",
   "Chapter 35 complete!": "Chapitre 35 terminé !",
   "{player} reached Lilycove City, battled {rival3} at the Department Store and watched Team Aqua and Team Magma take the orbs from the summit of Mt. Pyre.": "{player} est arrivé à Nénucrique, a affronté {rival3} devant le Centre Commercial et a vu la Team Aqua et la Team Magma emporter les orbes du sommet du Mont Mémoria.",
-  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "Merci d'avoir joué ! La planque de la Team Aqua et Algatia t'attendent dans une prochaine mise à jour."
+  "Thank you for playing! Team Aqua's hideout and Mossdeep City wait in a future update.": "Merci d'avoir joué ! La planque de la Team Aqua et Algatia t'attendent dans une prochaine mise à jour.",
+  "Chapter 36 complete!": "Chapitre 36 terminé !",
+  "{player} raided Team Aqua's hideout, crossed the sea to Mossdeep City, earned the Mind Badge from Tate and Liza and drove Team Magma out of the Space Center.": "{player} a pris d'assaut la planque de la Team Aqua, a traversé la mer jusqu'à Algatia, a gagné le Badge Esprit de Lévy et Tatia et a chassé la Team Magma du Centre Spatial.",
+  "Thank you for playing! The sea where Team Aqua took the submarine waits in a future update.": "Merci d'avoir joué ! La mer où la Team Aqua a emmené le sous-marin t'attend dans une prochaine mise à jour."
 }, "fr");

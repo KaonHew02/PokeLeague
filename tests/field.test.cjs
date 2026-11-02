@@ -1270,6 +1270,52 @@ test('Hoenn (chapter 35): Route 121 to Lilycove, the rival, the Department Store
   assert.ok(F.flag('orbs-taken'));
 });
 
+test('Hoenn (chapter 36): Team Aqua\'s hideout, Route 124 to Mossdeep, the Gym, Team Magma at the Space Center', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.giveMon('swampert', 42, { moves: ['surf', 'muddy-water'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  // Before the orbs leave Mt. Pyre, a grunt guards the cove's cave.
+  W.load('lilycove', { x: 38, y: 22, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked');
+  await settle();
+  // After, the grunt is gone and the cave leads into the hideout.
+  F.setFlag('orbs-taken');
+  W.load('lilycove', { x: 38, y: 22, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'aqua-hideout-1f');
+  // Down to the dock: Matt.
+  W.load('aqua-hideout-b1f', { x: 8, y: 6, dir: 'down' });
+  assert.equal(step(W, 'down'), 'moved');
+  await until(() => F.flag('aqua-hideout-done'));
+  assert.equal(got[got.length - 1], 'aqua-hideout-b1f:matt');
+  await settle();
+  // The sea east of Lilycove is Route 124; Mossdeep is east of it.
+  assert.equal(G.Maps.get('lilycove').def.connect.east.map, 'route124');
+  assert.equal(G.Maps.get('route124').def.connect.east.map, 'mossdeep');
+  // The Space Center: quiet before the Mind Badge, raided after it.
+  W.load('space-center-1f', { x: 10, y: 3, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'space-center-2f');
+  await settle();
+  assert.ok(!F.flag('space-center-saved'), 'no raid before the badge');
+  for (const n of [17, 18, 19, 20, 21, 22, 23]) F.badge(n);
+  W.load('space-center-1f', { x: 10, y: 3, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('chapter-36-done'));
+  assert.deepEqual(plain(got.slice(-2)), ['space-center-2f:tabitha', 'space-center-2f:maxie-space']);
+  assert.ok(F.flag('space-center-saved'));
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

@@ -127,5 +127,8 @@ G.I18n.add({
   "The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.": "La série continue : Anabel, la Dame du Salon, attend quiconque gagnera vingt et un combats d'affilée.",
   "Chapter 44 complete!": "Chapitre 44 terminé !",
   "{player} sailed to the Sinnoh region, met Barry and Professor Rowan at Lake Verity, and chose a new partner from the professor's briefcase.": "{player} a navigué jusqu'à la région de Sinnoh, a rencontré Barry et le Professeur Sorbier au Lac Vérité, et a choisi un nouveau partenaire dans la mallette du professeur.",
-  "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "Merci d'avoir joué ! La Route 202 et Féli-Cité arriveront dans une prochaine mise à jour."
+  "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "Merci d'avoir joué ! La Route 202 et Féli-Cité arriveront dans une prochaine mise à jour.",
+  "Chapter 45 complete!": "Chapitre 45 terminé !",
+  "{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.": "{player} a tenu tête à la Team Galaxie à Féli-Cité, a de nouveau affronté Barry sur la Route 203, a trouvé Pierrick au fond de la Mine Charbourg et a gagné le Badge Charbon.",
+  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "Merci d'avoir joué ! La Route 204 et Floraville arriveront dans une prochaine mise à jour."
 }, "fr");

@@ -52,5 +52,6 @@ G.I18n.add({
   "Young Couple": "年轻情侣",
   "Sis and Bro": "姐弟",
   "Old Couple": "老夫妇",
-  "Salon Maiden": "沙龙女主人"
+  "Salon Maiden": "沙龙女主人",
+  "Worker": "工人"
 }, "zh-Hans");

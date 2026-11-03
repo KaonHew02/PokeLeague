@@ -99,21 +99,24 @@ G.Menus = (() => {
   const time = secs => { const m = Math.floor((secs | 0) / 60); return Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0'); };
   const COLORS = ['#9aa0a8', '#4aa8ff', '#ff9a2a', '#7ad86a', '#ff6fb0', '#ffd23f', '#ff4a3a', '#3fbf6a',
                   '#b8cce8', '#e8a830', '#f4d858', '#9a78d0', '#d8643c', '#b8c0c8', '#78d0f0', '#e04848',
-                  '#a8908a', '#d86a3a', '#f0c838', '#e8503a', '#c8a050', '#9adcf0', '#e870c0', '#4a8ae0'];
+                  '#a8908a', '#d86a3a', '#f0c838', '#e8503a', '#c8a050', '#9adcf0', '#e870c0', '#4a8ae0',
+                  '#5a5a68', '#5ab848', '#b89060', '#78b8a0', '#a878d0', '#c0c8d8', '#a8e0f8', '#f8d040'];
   const badgeNames = () => [G.T('Boulder Badge'), G.T('Cascade Badge'), G.T('Thunder Badge'), G.T('Rainbow Badge'),
                             G.T('Soul Badge'), G.T('Marsh Badge'), G.T('Volcano Badge'), G.T('Earth Badge'),
                             G.T('Zephyr Badge'), G.T('Hive Badge'), G.T('Plain Badge'), G.T('Fog Badge'),
                             G.T('Storm Badge'), G.T('Mineral Badge'), G.T('Glacier Badge'), G.T('Rising Badge'),
                             G.T('Stone Badge'), G.T('Knuckle Badge'), G.T('Dynamo Badge'), G.T('Heat Badge'),
-                            G.T('Balance Badge'), G.T('Feather Badge'), G.T('Mind Badge'), G.T('Rain Badge')];
-  /** The badges as rows of coloured gems (Kanto 1-8; Johto 9-16 and Hoenn 17-24 once one is earned); the ones not earned are dark. */
+                            G.T('Balance Badge'), G.T('Feather Badge'), G.T('Mind Badge'), G.T('Rain Badge'),
+                            G.T('Coal Badge'), G.T('Forest Badge'), G.T('Cobble Badge'), G.T('Fen Badge'),
+                            G.T('Relic Badge'), G.T('Mine Badge'), G.T('Icicle Badge'), G.T('Beacon Badge')];
+  /** The badges as rows of coloured gems (Kanto 1-8; Johto 9-16, Hoenn 17-24 and Sinnoh 25-32 once one is earned); the ones not earned are dark. */
   function badges(have) {
     const names = badgeNames();
     const row = from => `<div class="badges">${COLORS.slice(from, from + 8).map((col, j) => {
       const i = from + j, on = have.includes(i + 1);
       return `<span class="badge${on ? ' on' : ''}" style="--c:${col}" title="${G.U.esc(on ? names[i] : '?')}"></span>`;
     }).join('')}</div>`;
-    return row(0) + (have.some(b => b > 8 && b <= 16) ? row(8) : '') + (have.some(b => b > 16) ? row(16) : '');
+    return row(0) + [8, 16, 24].map(from => (have.some(b => b > from && b <= from + 8) ? row(from) : '')).join('');
   }
   const badgeName = n => badgeNames()[n - 1];
   return { money, time, badges, badgeName, num: fmtNum };

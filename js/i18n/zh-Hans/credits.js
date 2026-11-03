@@ -127,5 +127,8 @@ G.I18n.add({
   "The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.": "连胜还在继续：沙龙女主人莉拉正等着取得二十一连胜的人。",
   "Chapter 44 complete!": "第四十四章完成！",
   "{player} sailed to the Sinnoh region, met Barry and Professor Rowan at Lake Verity, and chose a new partner from the professor's briefcase.": "{player}乘船来到神奥地区，在心齐湖遇见了阿驯和七代博士，并从博士的公文包里选出了新的伙伴。",
-  "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "感谢游玩！202号道路和祝庆市将在之后的更新中登场。"
+  "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "感谢游玩！202号道路和祝庆市将在之后的更新中登场。",
+  "Chapter 45 complete!": "第四十五章完成！",
+  "{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.": "{player}在祝庆市挺身对抗银河队，在203号道路再次和阿驯对战，在黑金矿山深处找到瓢太，并赢得了煤炭徽章。",
+  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "感谢游玩！204号道路和苑之镇将在之后的更新中登场。"
 }, "zh-Hans");

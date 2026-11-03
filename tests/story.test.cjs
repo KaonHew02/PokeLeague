@@ -764,6 +764,31 @@ test('balance: Barry on Route 201 (chapter 44), win rates of the three starters 
   for (const sp of ['turtwig', 'chimchar', 'piplup']) assert.ok(table[sp + ' 6'] >= 0.25, sp + ' at Lv. 6');
 });
 
+test('balance: Barry on Route 203 and Roark in Oreburgh (chapter 45), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  // Barry: Starly Lv. 7 and the starter strong against yours, Lv. 9.
+  const barry = sp => trainerRate(G, { id: 'barry-203', name: 'Barry', team: [['starly', 7], [G.Sinnoh.COUNTER[sp], 9]] });
+  const vs = {};
+  for (const sp of [387, 390, 393]) for (const l of [9, 11]) vs[G.SPECIES[sp].slug + ' ' + l] = barry(sp)([[sp, l]]);
+  vs['chimchar 11 + shinx 9'] = barry(390)([[390, 11], [403, 9]]);
+  vs['turtwig 11 + starly 9'] = barry(387)([[387, 11], [396, 9]]);
+  console.log('[balance] Barry on Route 203:', JSON.stringify(vs));
+  const rate = leaderRate(G, 'oreburgh-gym', 'roark');
+  const table = {
+    'turtwig 14': rate([[387, 14]]), 'turtwig 16': rate([[387, 16]]),
+    'piplup 14': rate([[393, 14]]), 'piplup 16': rate([[393, 16]]),
+    'chimchar 13': rate([[390, 13]]), 'monferno 14': rate([[391, 14]]), 'monferno 16': rate([[391, 16]]),
+    'monferno 16 + shinx 12': rate([[391, 16], [403, 12]])
+  };
+  console.log('[balance] vs Roark:', JSON.stringify(table));
+  // Water and Grass starters are ready at 14-16; a lone Chimchar has to evolve (Monferno's Mach Punch).
+  // (Psyduck and Geodude keep Generation 3's moves: no Water Gun, nothing that helps against Rock types.)
+  assert.ok(table['turtwig 16'] >= 0.8 && table['piplup 16'] >= 0.8, 'Turtwig and Piplup');
+  assert.ok(table['monferno 16'] >= 0.5 && table['chimchar 13'] < 0.2, 'Monferno, not a lone Chimchar');
+  // A starter alone rarely beats Barry's two (losing is allowed); with a second Pokémon caught on the way it can.
+  assert.ok(vs['chimchar 11 + shinx 9'] >= 0.4 && vs['turtwig 11 + starly 9'] >= 0.5, 'Barry with two Pokémon');
+});
+
 test('balance: the Battle Tower (chapter 43), win rates of a typical team at level 50 are printed', () => {
   const { G } = world(1);
   const rate = (foe, n = 30) => {
@@ -3307,6 +3332,62 @@ async function chapter44(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 45 after chapter 44: Route 202, Jubilife City and Team Galactic, Route 203 and Barry, Oreburgh Gate,
+ *  the Oreburgh Mine and Roark. */
+async function chapter45(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // The road north of Sandgem opened with the Pokédex. At a PC: Chimchar in, the weakest of the old team out.
+  assert.ok(!F.test(G.Maps.get('sandgem').npcs.find(p => p.id === 'worker').if), 'the road north is open');
+  swapBox(st, S.party.slice().sort((a, b) => a.lvl - b.lvl)[0].sp, 390);
+  lead(st, 390);
+  // Route 202: the assistant's catching demonstration, the Trainers.
+  await run(st, 'route202', 'jubilife.demo');
+  assert.ok(F.flag('route202-demo') && st.log.some(l => /Bidoof was caught/.test(l)));
+  grind(st, 'route202', 8, 300);
+  await all('route202');
+  // Jubilife City: Team Galactic presses the assistant for Rowan's research; the Trainers' School.
+  await run(st, 'jubilife', 'jubilife.galactic');
+  assert.equal(last().key, 'jubilife:grunt-jubilife');
+  won();
+  assert.ok(F.flag('galactic-jubilife'));
+  await all('jubilife-school');
+  // Route 203: Barry (losing is allowed), the Trainers.
+  grind(st, 'route203', 11, 300);
+  F.healAll();
+  await run(st, 'route203', 'oreburgh.barry');
+  assert.equal(last().key, 'route203:barry-203');
+  console.log('[story] Barry on Route 203:', last().outcome, 'at levels', last().levels.join());
+  assert.ok(F.flag('barry-203'));
+  await all('route203');
+  // Oreburgh City: the Gym is locked until Roark is found in the mine.
+  const door = G.Maps.get('oreburgh').warps.find(w => w.to === 'oreburgh-gym');
+  assert.ok(!F.test(door.if), 'the Gym is locked');
+  await all('oreburgh-mine');
+  await all('oreburgh-mine-b1f');
+  await run(st, 'oreburgh-mine-b1f', 'oreburgh.roark-mine');
+  assert.ok(F.flag('roark-met') && F.test(door.if), 'Roark goes back to his Gym');
+  grind(st, 'oreburgh-gate', 16, 400);
+  await all('oreburgh-gym');
+  F.healAll();
+  const money = S.player.money, tms = F.count('tm76');
+  await run(st, 'oreburgh-gym', [['battle', 'oreburgh-gym:roark']]);
+  won();
+  console.log('[story] Roark:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(S.player.badges.includes(25), 'the Coal Badge');
+  assert.equal(F.obeyCap('sinnoh'), 25, 'one Sinnoh badge: up to Lv. 25');
+  assert.equal(F.count('tm76'), tms + 1);
+  assert.equal(S.player.money - money, 1400);
+  assert.ok(F.flag('chapter-45-done'));
+  const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
+  assert.ok(back.player.badges.includes(25), 'the save keeps the Coal Badge');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3388,7 +3469,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 44: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and the start of Sinnoh", async () => {
+test("chapters 11 to 45: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its first Gym", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3434,4 +3515,5 @@ test("chapters 11 to 44: Johto, from Professor Elm to Johto's League and its pos
   await chapter42(st);
   await chapter43(st);
   await chapter44(st);
+  await chapter45(st);
 });

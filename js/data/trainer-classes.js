@@ -67,5 +67,8 @@ G.TRAINER_CLASSES = {
   'young-couple': { title: 'Young Couple', who: 'cooltrainerm', prize: 32 },
   'sis-and-bro': { title: 'Sis and Bro', who: 'swimmerf', prize: 16 },
   'old-couple':  { title: 'Old Couple', who: 'oldman', prize: 40 },
+  // Sinnoh (chapter 45)
+  'team-galactic': { title: 'Team Galactic Grunt', who: 'galactic', prize: 20 },
+  worker:        { title: 'Worker', who: 'engineer', prize: 40 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

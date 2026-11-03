@@ -196,9 +196,9 @@ test("Hoenn's badges (17-24) survive a save and load; ones lost to the old 1-16 
   const { G } = fresh();
   const s = G.Store.newSave({ name: 'May' });
   s.party.push(mon(258, 30));
-  s.player.badges = [1, 9, 17, 18, 24];
+  s.player.badges = [1, 9, 17, 18, 24, 25, 32, 33];
   G.Store.write(1, s);
-  assert.deepEqual(plain(G.Store.load(1).player.badges), [1, 9, 17, 18, 24]);
+  assert.deepEqual(plain(G.Store.load(1).player.badges), [1, 9, 17, 18, 24, 25, 32], "Sinnoh's 25-32 too (chapter 45), nothing above");
   // A save from before the fix: Roxanne and Tate & Liza beaten, their badges gone.
   s.player.badges = [1];
   s.done = { 'rustboro-gym:roxanne': 1, 'mossdeep-gym:tate': 1, 'route104:gina-mia': 1 };

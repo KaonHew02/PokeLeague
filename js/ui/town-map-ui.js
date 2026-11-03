@@ -91,9 +91,9 @@ G.TownMapUI = (() => {
       'oreburgh-city': [8.4, 10], 'floaroma-town': [4.6, 6.5], 'eterna-city': [7.6, 4.4], 'hearthome-city': [12.4, 8.6],
       'solaceon-town': [13, 5.6], 'veilstone-city': [16, 5], 'pastoria-city': [15.4, 11], 'celestic-town': [11.4, 5],
       'canalave-city': [1.6, 8.4], 'snowpoint-city': [9.6, 0.8], 'sunyshore-city': [18.4, 11.6], 'sinnoh-pokemon-league': [18.6, 6.6],
-      'mt-coronet': [10, 7], 'lake-valor': [14, 10.4], 'lake-acuity': [8, 1.6]
+      'mt-coronet': [10, 7], 'lake-valor': [14, 10.4], 'lake-acuity': [8, 1.6], 'oreburgh-gate': [7.2, 10], 'oreburgh-mine': [8.4, 11]
     },
-    ROADS: { 201: [[2, 12], [3.4, 12], [3.4, 13], [3.4, 12], [5.5, 12], [5.5, 13]] },
+    ROADS: { 201: [[2, 12], [3.4, 12], [3.4, 13], [3.4, 12], [5.5, 12], [5.5, 13]], 202: [[5.5, 13], [5.5, 10]], 203: [[5.5, 10], [8.4, 10]] },
     SEA: {},
     LAND: [[0.6, -0.5, 19.6, 14.2]]
   };

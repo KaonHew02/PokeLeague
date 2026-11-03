@@ -52,5 +52,6 @@ G.I18n.add({
   "Young Couple": "Pareja joven",
   "Sis and Bro": "Hermanos",
   "Old Couple": "Pareja mayor",
-  "Salon Maiden": "Dama del Salón"
+  "Salon Maiden": "Dama del Salón",
+  "Worker": "Operario"
 }, "es");

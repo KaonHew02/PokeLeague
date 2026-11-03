@@ -152,6 +152,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
     'dex': (1, 493),
     'learnset_vg_from': REGIONS['hoenn']['learnset_vg_from'] + [(387, ['platinum', 'diamond-pearl', 'heartgold-soulsilver'])],
     'tm_vg_fallbacks': ['emerald', 'platinum'],
+    # TMs 51-92 (chapter 45): Platinum's machines after the fifty of Generation 3, which every species
+    # (1-493) learns by Platinum's list. TMs 1-50 and the HMs keep their Generation 3 numbers.
+    'tm_extra_vg': 'platinum',
     'text_versions': REGIONS['hoenn']['text_versions'] + ['platinum', 'diamond', 'pearl'],
     'text_vgs': REGIONS['hoenn']['text_vgs'] + ['platinum', 'diamond-pearl'],
     'items': REGIONS['hoenn']['items'] + ['razor-claw', 'razor-fang', 'shiny-stone', 'dusk-stone', 'dawn-stone', 'ice-stone', 'oval-stone',
@@ -268,6 +271,10 @@ LOC_NAMES = {
     'sandgem-town':      ('Pueblo Arena',       'Sabbiafine',          '真砂镇',     '真砂鎮'),
     'jubilife-city':     ('Ciudad Jubileo',     'Giubilopoli',         '祝庆市',     '祝慶市'),
     'lake-verity':       ('Lago Veraz',         'Lago Verità',         '心齐湖',     '心齊湖'),
+    # Chapter 45.
+    'oreburgh-city':     ('Ciudad Pirita',      'Mineropoli',          '黑金市',     '黑金市'),
+    'oreburgh-gate':     ('Puerta Pirita',      'Varco Mineropoli',    '黑金关口',   '黑金關口'),
+    'oreburgh-mine':     ('Mina Pirita',        'Miniera di Mineropoli', '黑金矿山', '黑金礦山'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}
@@ -460,7 +467,7 @@ def build(region):
     species = dict(zip(dexes, pmap(lambda d: get('pokemon-species', d), dexes)))
 
     # ---- learnsets and TM moves ----
-    learn, tm_moves, tutor, eggm, move_names = {}, {}, {}, {}, {'struggle'}
+    learn, tm_moves, tm_extra_moves, tutor, eggm, move_names = {}, {}, {}, {}, {}, {'struggle'}
     for d in dexes:
         p = pokemon[d]
         rows = []
@@ -484,6 +491,8 @@ def build(region):
                                   if vd['version_group']['name'] == tvg and vd['move_learn_method']['name'] == 'machine'})
             if tm_moves[d]:
                 break
+        tm_extra_moves[d] = {m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
+                             if vd['version_group']['name'] == cfg.get('tm_extra_vg') and vd['move_learn_method']['name'] == 'machine'}
         # Move tutors the game has (HeartGold / SoulSilver's, and its HMs FireRed lacks): species field 'tu'.
         tutor[d] = sorted({m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
                            if vd['version_group']['name'] == 'heartgold-soulsilver'
@@ -513,6 +522,15 @@ def build(region):
     machines = dict(zip(machine_urls, pmap(lambda n: get_url(machine_urls[n]), list(machine_urls))))
     move_tm = {n: machines[n]['item']['name'] for n in machines}
     tms = {v: k for k, v in move_tm.items()}
+    # TMs 51-92 (tm_extra_vg): move -> 'tm76'. Their moves are already in the list (Pokémon 387-493 learn them).
+    extra_tm = {}
+    if cfg.get('tm_extra_vg'):
+        xurls = {n: mc['machine']['url'] for n, m in moves_raw.items() for mc in m.get('machines', [])
+                 if mc['version_group']['name'] == cfg['tm_extra_vg']}
+        xmach = dict(zip(xurls, pmap(lambda n: get_url(xurls[n]), list(xurls))))
+        extra_tm = {n: x['item']['name'] for n, x in xmach.items()
+                    if re.fullmatch(r'tm\d+', x['item']['name']) and int(x['item']['name'][2:]) > 50}
+        tms.update({v: k for k, v in extra_tm.items()})
 
     MOVES, move_txt, names_move = {}, {}, {}
     for n, m in moves_raw.items():
@@ -579,7 +597,7 @@ def build(region):
             'cr': s['capture_rate'], 'bx': p['base_experience'], 'gr': s['growth_rate']['name'],
             'gf': s['gender_rate'], 'fr': s['base_happiness'], 'h': p['height'], 'w': p['weight'],
             'evo': evo[d], 'learn': learn[d],
-            'tm': sorted(move_tm[n] for n in tm_moves[d] if n in move_tm),
+            'tm': sorted({move_tm[n] for n in tm_moves[d] if n in move_tm} | {extra_tm[n] for n in tm_extra_moves[d] if n in extra_tm}),
         }
         if tutor[d]:
             rec['tu'] = tutor[d]

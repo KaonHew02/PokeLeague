@@ -197,5 +197,13 @@ G.I18n.add({
   "Ability": "Habilidade",
   "Hoenn": "Hoenn",
   "{mon} roams near the blinking dot.": "{mon} vaga perto do ponto que pisca.",
-  "Sinnoh": "Sinnoh"
+  "Sinnoh": "Sinnoh",
+  "Coal Badge": "Insígnia Carvão",
+  "Forest Badge": "Insígnia Floresta",
+  "Cobble Badge": "Insígnia Pedregulho",
+  "Fen Badge": "Insígnia Pântano",
+  "Relic Badge": "Insígnia Relíquia",
+  "Mine Badge": "Insígnia Mina",
+  "Icicle Badge": "Insígnia Pingente de Gelo",
+  "Beacon Badge": "Insígnia Farol"
 }, "pt-BR");

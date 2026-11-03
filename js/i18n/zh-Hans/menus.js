@@ -197,5 +197,13 @@ G.I18n.add({
   "Ability": "特性",
   "Hoenn": "丰缘",
   "{mon} roams near the blinking dot.": "{mon}在闪烁的点附近游荡。",
-  "Sinnoh": "神奥"
+  "Sinnoh": "神奥",
+  "Coal Badge": "煤炭徽章",
+  "Forest Badge": "森林徽章",
+  "Cobble Badge": "圆石徽章",
+  "Fen Badge": "湿地徽章",
+  "Relic Badge": "遗迹徽章",
+  "Mine Badge": "矿物徽章",
+  "Icicle Badge": "冰柱徽章",
+  "Beacon Badge": "灯塔徽章"
 }, "zh-Hans");

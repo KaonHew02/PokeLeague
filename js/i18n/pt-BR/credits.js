@@ -127,5 +127,8 @@ G.I18n.add({
   "The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.": "A sequência continua: Anabel, a Salon Maiden, espera quem vencer vinte e uma batalhas seguidas.",
   "Chapter 44 complete!": "Capítulo 44 concluído!",
   "{player} sailed to the Sinnoh region, met Barry and Professor Rowan at Lake Verity, and chose a new partner from the professor's briefcase.": "{player} navegou até a região de Sinnoh, conheceu Barry e o Professor Rowan no Lago Verity e escolheu um novo parceiro da maleta do professor.",
-  "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "Obrigado por jogar! A Rota 202 e Jubilife chegam em uma próxima atualização."
+  "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "Obrigado por jogar! A Rota 202 e Jubilife chegam em uma próxima atualização.",
+  "Chapter 45 complete!": "Capítulo 45 concluído!",
+  "{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.": "{player} enfrentou a Equipe Galáctica em Jubilife, batalhou de novo com Barry na Rota 203, encontrou Roark no fundo da mina de Oreburgh e conquistou a Insígnia Carvão.",
+  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "Obrigado por jogar! A Rota 204 e Floaroma chegam em uma próxima atualização."
 }, "pt-BR");

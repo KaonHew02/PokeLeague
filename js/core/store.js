@@ -136,8 +136,8 @@ G.Store = (() => {
     Object.assign(out.player, {
       name: cleanName(p.name) || 'Red', gender: p.gender === 'f' ? 'f' : 'm',
       id: int(p.id, 0, 65535, d.player.id), money: int(p.money, 0, 999999, 3000),
-      // Kanto's badges are 1-8, Johto's 9-16, Hoenn's 17-24.
-      badges: [...new Set((Array.isArray(p.badges) ? p.badges : []).filter(b => Number.isInteger(b) && b >= 1 && b <= 24))].sort((a, b) => a - b),
+      // Kanto's badges are 1-8, Johto's 9-16, Hoenn's 17-24, Sinnoh's 25-32.
+      badges: [...new Set((Array.isArray(p.badges) ? p.badges : []).filter(b => Number.isInteger(b) && b >= 1 && b <= 32))].sort((a, b) => a - b),
       map: typeof p.map === 'string' ? p.map : null, x: int(p.x, -999, 9999, 0), y: int(p.y, -999, 9999, 0),
       dir: DIRS.includes(p.dir) ? p.dir : 'down',
       lastHeal: obj(p.lastHeal) && typeof p.lastHeal.map === 'string'

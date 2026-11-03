@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 45) return { title: T('Chapter 45 complete!'),
+      done: fmt('{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.', { player }),
+      next: T('Thank you for playing! Route 204 and Floaroma Town wait in a future update.') };
     if (n === 44) return { title: T('Chapter 44 complete!'),
       done: fmt("{player} sailed to the Sinnoh region, met Barry and Professor Rowan at Lake Verity, and chose a new partner from the professor's briefcase.", { player }),
       next: T('Thank you for playing! Route 202 and Jubilife City wait in a future update.') };

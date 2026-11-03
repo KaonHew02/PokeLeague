@@ -2143,6 +2143,79 @@ test('Sinnoh (chapter 44): the ferry to Sandgem, the way to the lake, Barry in T
   assert.ok(F.test(G.Maps.get('rowan-lab').npcs.find(p => p.id === 'lucas').if));
 });
 
+test('Sinnoh (chapter 45): Route 202 after the Pokédex, Team Galactic in Jubilife, Barry, Oreburgh Gate, the locked Gym, Roark in the mine', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh'].map(f => `js/content/sinnoh/${f}.js`);
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+  F.setFlag('sinnoh-start'); F.setVar('barry-starter', 387);
+  F.giveMon('piplup', 15, { moves: ['bubble'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
+  const fights = [];
+  W.onTrainer = async (d, info) => { fights.push([d.id, d.team.map(t => t[0]).join(), !!info.canLose]); return 'win'; };
+  // Sandgem's road north opens with the Pokédex for Sinnoh.
+  W.load('sandgem', { x: 12, y: 2, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'the worker');
+  F.setFlag('sinnoh-dex');
+  W.load('sandgem', { x: 12, y: 0, dir: 'up' });
+  await cross('up', 'route202');
+  assert.deepEqual([W.player.x, W.player.y], [9, 27]);
+  // Route 202: the assistant's demonstration the first time.
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('route202-demo') && !W.locked);
+  W.load('route202', { x: 9, y: 0, dir: 'up' });
+  await cross('up', 'jubilife');
+  assert.deepEqual([W.player.x, W.player.y], [17, 29]);
+  // Jubilife: Team Galactic, three steps in.
+  for (let i = 0; i < 3; i++) { assert.equal(step(W, 'up'), 'moved'); await until(() => !W.locked); }
+  await until(() => F.flag('galactic-jubilife') && !W.locked);
+  assert.deepEqual(plain(fights.shift()), ['grunt-jubilife', 'glameow', false]);
+  W.load('jubilife', { x: 17, y: 2, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'Route 204 is closed');
+  // East to Route 203: Barry, losing allowed.
+  W.load('jubilife', { x: 35, y: 13, dir: 'right' });
+  await cross('right', 'route203');
+  assert.deepEqual([W.player.x, W.player.y], [0, 6]);
+  assert.equal(step(W, 'right'), 'moved');
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => F.flag('barry-203') && !W.locked);
+  assert.deepEqual(plain(fights.shift()), ['barry-203', 'starly,387', true]);
+  // Oreburgh Gate, then Oreburgh City.
+  W.load('route203', { x: 30, y: 7, dir: 'right' });
+  await cross('right', 'oreburgh-gate');
+  assert.deepEqual([W.player.x, W.player.y], [3, 9]);
+  W.load('oreburgh-gate', { x: 26, y: 9, dir: 'down' });
+  await cross('down', 'oreburgh');
+  assert.deepEqual([W.player.x, W.player.y], [4, 12]);
+  // The Gym is locked until Roark is found in the mine.
+  W.load('oreburgh', { x: 24, y: 7, dir: 'up' });
+  step(W, 'up');
+  await until(() => !W.locked);
+  assert.equal(W.map.id, 'oreburgh', 'the door is locked');
+  W.load('oreburgh', { x: 17, y: 24, dir: 'down' });
+  await cross('down', 'oreburgh-mine');
+  assert.deepEqual([W.player.x, W.player.y], [4, 13]);
+  W.load('oreburgh-mine', { x: 23, y: 4, dir: 'up' });
+  await cross('up', 'oreburgh-mine-b1f');
+  assert.deepEqual([W.player.x, W.player.y], [23, 11]);
+  W.load('oreburgh-mine-b1f', { x: 4, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('roark-met'));
+  // Roark: the Coal Badge, TM76, the end of the chapter.
+  W.load('oreburgh', { x: 24, y: 7, dir: 'up' });
+  await cross('up', 'oreburgh-gym');
+  W.load('oreburgh-gym', { x: 6, y: 4, dir: 'up' });
+  fights.length = 0;
+  W.interact();
+  await until(() => F.flag('chapter-45-done') && !W.locked);
+  assert.deepEqual(plain(fights), [['roark', 'geodude,onix,cranidos', false]]);
+  assert.ok(S.player.badges.includes(25));
+  assert.equal(F.obeyCap('sinnoh'), 25);
+  assert.equal(F.count('tm76'), 1);
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

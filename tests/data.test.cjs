@@ -41,6 +41,11 @@ test('learnsets: every move exists, each species knows something at level 1', ()
   }
   assert.deepEqual(plain(G.SPECIES[4].learn.slice(0, 3)), [[1, 'scratch'], [1, 'growl'], [7, 'ember']]);
   assert.equal(G.TMS.tm39, 'rock-tomb');                            // Brock's prize
+  // Platinum's TMs 51-92 (chapter 45): Roark's Stealth Rock; Geodude learns it, Pikachu does not.
+  assert.equal(Object.keys(G.TMS).filter(k => /^tm\d+$/.test(k) && +k.slice(2) > 50).length, 42);
+  assert.equal(G.TMS.tm76, 'stealth-rock');
+  assert.ok(G.SPECIES[74].tm.includes('tm76') && !G.SPECIES[25].tm.includes('tm76'));
+  assert.equal(G.ITEMS.tm76.move, 'stealth-rock');
   assert.equal(G.ITEMS.tm39.move, 'rock-tomb');
 });
 

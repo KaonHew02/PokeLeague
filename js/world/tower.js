@@ -67,11 +67,13 @@ G.Tower = (() => {
     return pools[t];
   }
 
+  /** Hoenn's machines: TMs 1-50 and the HMs (Sinnoh's TMs 51-92, chapter 45, are not part of this tower). */
+  const hoennTM = tm => !/^tm\d+$/.test(tm) || +tm.slice(2) <= 50;
   /** Every move it can know at level 50: by level, by TM, by tutor. */
   function learnable(sp) {
     const S = G.SPECIES[sp], out = new Set();
     for (const [lvl, id] of S.learn || []) if (lvl <= 50) out.add(id);
-    for (const tm of S.tm || []) if (G.TMS && G.TMS[tm]) out.add(G.TMS[tm]);
+    for (const tm of S.tm || []) if (G.TMS && G.TMS[tm] && hoennTM(tm)) out.add(G.TMS[tm]);
     for (const id of S.tu || []) out.add(id);
     return [...out].filter(id => G.MOVES[id] && !SKIP.has(id));
   }

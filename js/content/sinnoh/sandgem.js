@@ -4,7 +4,7 @@
  * littleroot.js); the ferry in Lilycove City (legends.js) then also sails to the pier on Sandgem Town's
  * beach, and back (flag sinnoh-arrived the first time). Sandgem: Rowan's lab (he is out at Lake Verity
  * with his assistant: Dawn for a boy, Lucas for a girl, {assistant}), a Pokémon Center, a Mart, two
- * houses; the road north to Route 202 is closed in this chapter (a fallen tree). The lake, the
+ * houses; the road north to Route 202 opens once the Pokédex records Sinnoh (chapter 45: jubilife.js). The lake, the
  * briefcase and Barry are in twinleaf.js; after the battle with Barry, Rowan upgrades the Pokédex for
  * Sinnoh and his assistant gives five Poké Balls (flag sinnoh-dex, G.Sinnoh.dex), then `ending(44)`.
  */
@@ -48,7 +48,7 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { west: { map: 'route201', offset: 0 } },
+    connect: { west: { map: 'route201', offset: 0 }, north: { map: 'route202', offset: 3 } },
     warps: [
       { x: 6, y: 5, to: 'rowan-lab', spot: 'door' },
       { x: 18, y: 5, to: 'sandgem-center', spot: 'door' },
@@ -60,8 +60,8 @@
              'house2-door': [9, 17, 'down'], pier: [14, 20, 'up'] },
     signs: { '12,12': 'Sandgem Town. A town that smells of the sea and the sand.' },
     npcs: [
-      // The road north to Route 202 and Jubilife City opens in a later chapter.
-      { id: 'worker', who: 'engineer', x: 12, y: 1, dir: 'down',
+      // The road north to Route 202 and Jubilife City opens with the Pokédex for Sinnoh (chapter 45).
+      { id: 'worker', who: 'engineer', x: 12, y: 1, dir: 'down', if: '!sinnoh-dex',
         say: 'A tree came down across the road to Jubilife City in last night\'s storm. We are clearing it as fast as we can!' },
       { id: 'girl', who: 'lass', x: 5, y: 8, move: 'wander', r: 2,
         say: 'Professor Rowan studies how Pokémon evolve. He looks stern, but nobody in Sinnoh cares more about Pokémon.' },

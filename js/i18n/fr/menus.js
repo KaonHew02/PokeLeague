@@ -197,5 +197,13 @@ G.I18n.add({
   "Ability": "Talent",
   "Hoenn": "Hoenn",
   "{mon} roams near the blinking dot.": "{mon} rôde près du point qui clignote.",
-  "Sinnoh": "Sinnoh"
+  "Sinnoh": "Sinnoh",
+  "Coal Badge": "Badge Charbon",
+  "Forest Badge": "Badge Forêt",
+  "Cobble Badge": "Badge Pavé",
+  "Fen Badge": "Badge Palustre",
+  "Relic Badge": "Badge Relique",
+  "Mine Badge": "Badge Mine",
+  "Icicle Badge": "Badge Glaçon",
+  "Beacon Badge": "Badge Phare"
 }, "fr");

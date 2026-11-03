@@ -2013,13 +2013,44 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   `tests/story.test.cjs` the chapter after the Battle Tower (the starter goes to the PC with a full
   party) and Barry's balance line.
 
-### After chapter 44
+- **Chapter 45** ✅, Sinnoh's first Gym (`js/content/sinnoh/jubilife.js` and `oreburgh.js`, translations
+  `sinnoh-jubilife` and `sinnoh-oreburgh`).
+  - **TMs 51-92** (`fetch_data.py` `tm_extra_vg: 'platinum'`): Platinum's machines after the fifty of
+    Generation 3, which every species (1-493) learns by Platinum's list; TMs 1-50 and the HMs keep their
+    Generation 3 numbers. Their 42 moves were already in the data. Hoenn's Battle Tower only uses TMs 1-50
+    and the HMs (`hoennTM` in tower.js), so its teams did not change.
+  - **Badges 25-32** (Coal, Forest, Cobble, Fen, Relic, Mine, Icicle, Beacon): the save keeps them, the badge
+    case shows a fourth row once one is earned; obedience by Sinnoh's badges was already in place.
+  - **People and Trainers**: a Team Galactic grunt (`galactic`), Roark (`roark`); the classes `team-galactic`
+    and `worker` (Workers look like Engineers).
+  - **Story**: Sandgem's worker leaves once the Pokédex records Sinnoh (flag sinnoh-dex): Route 202 is open.
+    Its first step plays the assistant's catching demonstration (flag route202-demo). Jubilife City: a
+    Center, a Mart, the Trainers' School (the blackboard on Sinnoh's new ways to evolve, two School Kids), a
+    condominium; Jubilife TV and the Pokétch Company are locked doors (`locked` warps), a worker keeps Route
+    204 closed. Coming in from Route 202 (a trigger across the city), two Team Galactic grunts press the
+    assistant for Rowan's research: you battle one (Glameow Lv. 8), the assistant the other (flag
+    galactic-jubilife). Route 203: Barry (Starly Lv. 7 and the starter strong against yours, Lv. 9; losing is
+    allowed, flag barry-203), four Trainers, Oreburgh Gate (a cave). Oreburgh City: a Center, a Mart, the
+    Mining Museum, a house and the Gym, locked until you meet Roark on B1F of the Oreburgh Mine (flag
+    roark-met; Workers on both floors). Roark: Geodude and Onix Lv. 12 (Stealth Rock), Cranidos Lv. 14; the
+    Coal Badge (badge 25: up to Lv. 25 obey in Sinnoh), TM76 (Stealth Rock), `ending(45)`. Place names of
+    Oreburgh in es, it and Chinese.
+- **Balance:** against Roark, Turtwig and Piplup win 88-90% at Lv. 16 (45-65% at 14); a lone Chimchar does
+  not (0% at 13): Monferno wins 65% at 14, 80% at 16. A lone starter rarely beats Barry's two on Route 203
+  (2-8% at Lv. 11), which is why losing is allowed; with a second Pokémon caught on the way, 53-70%.
+  Psyduck and Geodude keep Generation 3's moves (no Water Gun), so they do not help against Roark.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the road north, the demonstration, Team
+  Galactic, Route 204 closed, Barry, the gate, the locked Gym, the mine, Roark); `tests/story.test.cjs` the
+  chapter after chapter 44 (Chimchar from the PC, evolving on the way) and the balance lines for Barry and
+  Roark; `tests/data.test.cjs` TMs 51-92; `tests/save.test.cjs` badges 25-32.
+
+### After chapter 45
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower, and Sinnoh has begun (Pokémon 1-493). Ideas:
-1. Sinnoh: Route 202 and Jubilife City, then Oreburgh's Gym (badges 25-32 still need their names and
-   colours in popup.js and store.js's sanitize).
+the Battle Tower; in Sinnoh (Pokémon 1-493) the first badge is won. Ideas:
+1. Sinnoh: Route 204, Floaroma Town, the Valley Windworks (Team Galactic), Eterna Forest and City, Gardenia
+   (the Forest Badge; TM86 Grass Knot).
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
-3. Engine features: multi battles with a partner (Steven at the Space Center), abilities outside
-   battle, Pokéblocks or another way to evolve Feebas, Repel steps.
+3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic),
+   abilities outside battle, Pokéblocks or another way to evolve Feebas, Repel steps.

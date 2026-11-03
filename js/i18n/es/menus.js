@@ -197,5 +197,13 @@ G.I18n.add({
   "Ability": "Habilidad",
   "Hoenn": "Hoenn",
   "{mon} roams near the blinking dot.": "{mon} vaga cerca del punto que parpadea.",
-  "Sinnoh": "Sinnoh"
+  "Sinnoh": "Sinnoh",
+  "Coal Badge": "Medalla Lignito",
+  "Forest Badge": "Medalla Bosque",
+  "Cobble Badge": "Medalla Adoquín",
+  "Fen Badge": "Medalla Ciénaga",
+  "Relic Badge": "Medalla Reliquia",
+  "Mine Badge": "Medalla Mina",
+  "Icicle Badge": "Medalla Carámbano",
+  "Beacon Badge": "Medalla Faro"
 }, "es");

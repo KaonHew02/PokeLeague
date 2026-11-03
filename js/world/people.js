@@ -28,7 +28,7 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -277,6 +277,12 @@ G.People = (() => {
                 p: '#c8c8d0', P: '#9898a4', k: '#3a3a48' },
     roark: { head: 'cap', body: 'jacket', legs: 'pants', a: '#f0c838', A: '#c09a20', b: '#c09a20', h: '#a8382a', H: '#78241a',
              j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0', p: '#5a4a3a', P: '#3e3226', k: '#2a2020' },
+    // Chapter 46: Commander Mars (red hair, the white and grey of Team Galactic), Cheryl (long dark hair, a pink
+    // top), Gardenia (short orange hair, a green poncho).
+    mars: { head: 'short', body: 'dress', legs: 'bare', h: '#d83a4a', H: '#a02434', c: '#ececf2', C: '#b8b8c4', j: '#5a5a6a', J: '#3e3e4a', k: '#3a3a48' },
+    cheryl: { head: 'long', body: 'dress', legs: 'bare', h: '#4a3448', H: '#2e1e2c', c: '#e87a9a', C: '#b85a78', j: '#5a3a4a', J: '#3e2632', k: '#5a3a4a' },
+    gardenia: { head: 'short', body: 'coat', legs: 'pants', h: '#e8803a', H: '#b85a20', j: '#3a8a3a', J: '#28682a', c: '#f4f4f4', C: '#c8c8d0',
+                p: '#3a3a4a', P: '#262632', k: '#5a3a2a' },
     glacia: { head: 'long', body: 'dress', legs: 'bare', h: '#e8eef8', H: '#b8c4d8', c: '#6a8ad8', C: '#4a68b0', j: '#e8eef8', J: '#b8c4d8', k: '#4a68b0' },
     drake: { head: 'short', body: 'coat', legs: 'pants', h: '#d8d8e0', H: '#a8a8b4', j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0',
              p: '#2a3a6a', P: '#1c284a', k: '#1a1a22' },

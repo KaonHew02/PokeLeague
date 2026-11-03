@@ -275,6 +275,13 @@ LOC_NAMES = {
     'oreburgh-city':     ('Ciudad Pirita',      'Mineropoli',          '黑金市',     '黑金市'),
     'oreburgh-gate':     ('Puerta Pirita',      'Varco Mineropoli',    '黑金关口',   '黑金關口'),
     'oreburgh-mine':     ('Mina Pirita',        'Miniera di Mineropoli', '黑金矿山', '黑金礦山'),
+    # Chapter 46 (where we are not sure of a name, the English one stays).
+    'floaroma-town':     ('Pueblo Aromaflor',   'Giardinfiorito',      '苑之镇',     '苑之鎮'),
+    'floaroma-meadow':   ('Prado Aromaflor',    'Floaroma Meadow',     '苑之镇花田', '苑之鎮花田'),
+    'valley-windworks':  ('Valle Eólico',       'Valley Windworks',    '山谷发电厂', '山谷發電廠'),
+    'ravaged-path':      ('Ravaged Path',       'Ravaged Path',        '荒芜小路',   '荒蕪小路'),
+    'eterna-forest':     ('Bosque Vetusto',     'Bosco Evopoli',       '百代森林',   '百代森林'),
+    'eterna-city':       ('Ciudad Vetusta',     'Evopoli',             '百代市',     '百代市'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

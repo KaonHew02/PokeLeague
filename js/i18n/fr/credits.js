@@ -130,5 +130,8 @@ G.I18n.add({
   "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "Merci d'avoir joué ! La Route 202 et Féli-Cité arriveront dans une prochaine mise à jour.",
   "Chapter 45 complete!": "Chapitre 45 terminé !",
   "{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.": "{player} a tenu tête à la Team Galaxie à Féli-Cité, a de nouveau affronté Barry sur la Route 203, a trouvé Pierrick au fond de la Mine Charbourg et a gagné le Badge Charbon.",
-  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "Merci d'avoir joué ! La Route 204 et Floraville arriveront dans une prochaine mise à jour."
+  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "Merci d'avoir joué ! La Route 204 et Floraville arriveront dans une prochaine mise à jour.",
+  "Chapter 46 complete!": "Chapitre 46 terminé !",
+  "{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.": "{player} a chassé la Team Galaxie du pré de Floraville et de la centrale éolienne, a traversé la Forêt Vestigion avec Cheryl et a gagné le Badge Forêt de Flo.",
+  "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "Merci d'avoir joué ! Le bâtiment de la Team Galaxie à Vestigion arrivera dans une prochaine mise à jour."
 }, "fr");

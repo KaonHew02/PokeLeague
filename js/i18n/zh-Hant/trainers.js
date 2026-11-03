@@ -53,5 +53,7 @@ G.I18n.add({
   "Sis and Bro": "姐弟",
   "Old Couple": "老夫婦",
   "Salon Maiden": "沙龍女主人",
-  "Worker": "工人"
+  "Worker": "工人",
+  "Galactic Commander": "銀河隊幹部",
+  "Aroma Lady": "芳香小姐"
 }, "zh-Hant");

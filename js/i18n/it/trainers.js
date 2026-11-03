@@ -53,5 +53,7 @@ G.I18n.add({
   "Sis and Bro": "Sorella e fratello",
   "Old Couple": "Coppia anziana",
   "Salon Maiden": "Signora del Salone",
-  "Worker": "Operaio"
+  "Worker": "Operaio",
+  "Galactic Commander": "Comandante Galassia",
+  "Aroma Lady": "Aromadama"
 }, "it");

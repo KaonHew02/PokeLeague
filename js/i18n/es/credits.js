@@ -130,5 +130,8 @@ G.I18n.add({
   "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "¡Gracias por jugar! La Ruta 202 y Ciudad Jubileo llegarán en una próxima actualización.",
   "Chapter 45 complete!": "¡Capítulo 45 completado!",
   "{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.": "{player} plantó cara al Equipo Galaxia en Ciudad Jubileo, volvió a enfrentarse a Barry en la Ruta 203, encontró a Roco en lo más hondo de la Mina Pirita y ganó la Medalla Lignito.",
-  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "¡Gracias por jugar! La Ruta 204 y Pueblo Aromaflor llegarán en una próxima actualización."
+  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "¡Gracias por jugar! La Ruta 204 y Pueblo Aromaflor llegarán en una próxima actualización.",
+  "Chapter 46 complete!": "¡Capítulo 46 completado!",
+  "{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.": "{player} echó al Equipo Galaxia del Prado Aromaflor y del Valle Eólico, cruzó el Bosque Vetusto con Cheryl y ganó la Medalla Bosque de Gardenia.",
+  "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "¡Gracias por jugar! El edificio del Equipo Galaxia en Ciudad Vetusta llegará en una próxima actualización."
 }, "es");

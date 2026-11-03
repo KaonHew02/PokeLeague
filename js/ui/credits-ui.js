@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 46) return { title: T('Chapter 46 complete!'),
+      done: fmt('{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.', { player }),
+      next: T("Thank you for playing! Team Galactic's building in Eterna City waits in a future update.") };
     if (n === 45) return { title: T('Chapter 45 complete!'),
       done: fmt('{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.', { player }),
       next: T('Thank you for playing! Route 204 and Floaroma Town wait in a future update.') };

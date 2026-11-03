@@ -2216,6 +2216,107 @@ test('Sinnoh (chapter 45): Route 202 after the Pokédex, Team Galactic in Jubili
   assert.equal(F.count('tm76'), 1);
 });
 
+test('Sinnoh (chapter 46): Route 204, the twins, the meadow and the key, the windworks and Mars, Drifloon, Cheryl in Eterna Forest, Gardenia', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna'].map(f => `js/content/sinnoh/${f}.js`);
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
+  for (const f of ['sinnoh-start', 'sinnoh-dex', 'galactic-jubilife', 'barry-203', 'roark-met']) F.setFlag(f);
+  F.giveMon('monferno', 22, { moves: ['ember'] });
+  F.giveMon('staravia', 20, { moves: ['wing-attack'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
+  const walk = async (dir, n) => { for (let i = 0; i < n; i++) { assert.equal(step(W, dir), 'moved'); await until(() => !W.locked); } };
+  const answers = [], fights = [], wild = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  W.onTrainer = async (d, info) => { fights.push([d.id, !!(info.rules && info.rules.double)]); return 'win'; };
+  W.onEncounter = async (sp, lvl) => { wild.push([G.Maps.species(sp), lvl]); return 'win'; };
+  // Jubilife's road north (the Coal Badge), Route 204, the Ravaged Path.
+  W.load('jubilife', { x: 17, y: 0, dir: 'up' });
+  await cross('up', 'route204s');
+  assert.deepEqual([W.player.x, W.player.y], [9, 21]);
+  W.load('route204s', { x: 9, y: 3, dir: 'up' });
+  await cross('up', 'ravaged-path');
+  W.load('ravaged-path', { x: 18, y: 2, dir: 'up' });
+  await cross('up', 'route204n');
+  assert.deepEqual([W.player.x, W.player.y], [9, 20]);
+  // The twins see you and battle two at a time.
+  W.load('route204n', { x: 10, y: 10, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => fights.length === 1 && !W.locked);
+  assert.deepEqual(plain(fights.shift()), ['liv-liz', true]);
+  W.load('route204n', { x: 9, y: 0, dir: 'up' });
+  await cross('up', 'floaroma');
+  assert.deepEqual([W.player.x, W.player.y], [14, 23]);
+  // The windworks is locked without its key; the meadow's grunts drop it.
+  W.load('valley-windworks', { x: 12, y: 7, dir: 'up' });
+  step(W, 'up');
+  await until(() => !W.locked);
+  assert.equal(W.map.id, 'valley-windworks', 'locked');
+  W.load('floaroma', { x: 14, y: 0, dir: 'up' });
+  await cross('up', 'floaroma-meadow');
+  await walk('up', 10);
+  await until(() => F.flag('windworks-key') && !W.locked);
+  assert.deepEqual(plain(fights.splice(0)), [['grunt-meadow1', false], ['grunt-meadow2', false]]);
+  // The windworks: Commander Mars; then a Drifloon, once.
+  W.load('valley-windworks', { x: 12, y: 7, dir: 'up' });
+  await cross('up', 'windworks-inside');
+  W.load('windworks-inside', { x: 6, y: 4, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('mars-windworks') && !W.locked);
+  assert.deepEqual(plain(fights.splice(0)), [['mars', false]]);
+  W.load('valley-windworks', { x: 16, y: 9, dir: 'up' });
+  await pump(W, W.interact());
+  assert.deepEqual(plain(wild.splice(0)), [[425, 15]]);
+  assert.ok(F.flag('drifloon-met'));
+  // Eterna Forest: Cheryl comes along, and her Chansey heals the team after each battle.
+  W.load('route205s', { x: 26, y: 0, dir: 'up' });
+  await cross('up', 'eterna-forest');
+  assert.deepEqual([W.player.x, W.player.y], [5, 25]);
+  answers.push(0);
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('cheryl-with') && !W.locked);
+  const lead = F.party()[0];
+  lead.hp = 1;
+  W.load('eterna-forest', { x: 14, y: 9, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => fights.length === 1 && !W.locked);
+  assert.equal(fights.shift()[0], 'jack');
+  assert.equal(lead.hp, G.Mon.maxHp(lead), 'Cheryl healed the team');
+  const sitrus = F.count('sitrus-berry');
+  W.load('eterna-forest', { x: 36, y: 12, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => F.flag('cheryl-done') && !W.locked);
+  assert.equal(F.count('sitrus-berry'), sitrus + 2);
+  // Without Cheryl, no more healing.
+  lead.hp = 1;
+  W.load('eterna-forest', { x: 33, y: 9, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => fights.length === 1 && !W.locked);
+  assert.equal(fights.shift()[0], 'lindsey');
+  assert.equal(lead.hp, 1);
+  // Route 205 east to Eterna City; Routes 211 and 206 are closed.
+  W.load('eterna-forest', { x: 39, y: 12, dir: 'right' });
+  await cross('right', 'route205e');
+  assert.deepEqual([W.player.x, W.player.y], [0, 6]);
+  W.load('route205e', { x: 23, y: 6, dir: 'right' });
+  await cross('right', 'eterna');
+  assert.deepEqual([W.player.x, W.player.y], [0, 13]);
+  W.load('eterna', { x: 33, y: 13, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked', 'Route 211');
+  W.load('eterna', { x: 17, y: 25, dir: 'down' });
+  assert.equal(step(W, 'down'), 'blocked', 'Route 206');
+  // Gardenia: the Forest Badge, TM86, the end of the chapter.
+  W.load('eterna-gym', { x: 6, y: 4, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('chapter-46-done') && !W.locked);
+  assert.equal(fights.shift()[0], 'gardenia');
+  assert.ok(S.player.badges.includes(26));
+  assert.equal(F.obeyCap('sinnoh'), 30);
+  assert.equal(F.count('tm86'), 1);
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

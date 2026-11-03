@@ -28,6 +28,8 @@
  *   move can use it from the party menu: the script runs), walkAround: { x, y, w, h, if, script } (step
  *   on every tile along the edge of that rectangle, then the script runs once), desert: true (wild
  *   Pokémon on any step, and a sandstorm in its battles).
+ *   Chapter 46: afterBattle: { if, script } (after each battle on the map with a trainer standing there
+ *   or a wild Pokémon, unless it was lost: Cheryl heals the team in Eterna Forest).
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
@@ -543,6 +545,7 @@ G.Maps = (() => {
       else scriptRef(a.script, 'walkAround');
     }
     if (d.enter) scriptRef(d.enter, 'enter');
+    if (d.afterBattle) scriptRef(d.afterBattle.script, 'afterBattle');      // chapter 46
     // Fly: a town's landing spot.
     if (d.fly && !spot(m, d.fly.spot)) E.push(`fly: no spot "${d.fly.spot}"`);
     if (d.slope && !DIRS[d.slope]) E.push(`slope: bad direction "${d.slope}"`);

@@ -786,6 +786,7 @@ G.World = (() => {
     }
     else if (out === 'lose') await blackout();
     else if (safariOn()) { safariHud(); if (!G.Field.count('safari-ball')) await runScript('safari.out-of-balls', {}); }
+    else await afterBattle(out);
     return out;
   }
 
@@ -873,8 +874,16 @@ G.World = (() => {
         if (!api.onTrainer && t.def.defeat) await say(t.def.defeat, { name: trainerName(t.def) });
         // A gym leader's badge and TM: the trainer's `win` script.
         if (t.def.win) await runScript(t.def.win, { self: t });
+        await afterBattle(out);
       }
     } finally { locks--; }
+  }
+
+  /** Chapter 46: a map's `afterBattle: { if, script }` runs after each battle there that was not lost, a
+   *  trainer's or a wild one (Cheryl's Chansey heals the team in Eterna Forest). */
+  async function afterBattle(out) {
+    const a = map && map.def.afterBattle;
+    if (a && out !== 'lose' && G.Field.test(a.if)) await runScript(a.script, {});
   }
 
   /** The class label ('Bug Catcher'): G.TRAINER_CLASSES (M6), else the class id made readable. */

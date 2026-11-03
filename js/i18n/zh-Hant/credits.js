@@ -130,5 +130,8 @@ G.I18n.add({
   "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "感謝遊玩！202號道路和祝慶市將在之後的更新中登場。",
   "Chapter 45 complete!": "第四十五章完成！",
   "{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.": "{player}在祝慶市挺身對抗銀河隊，在203號道路再次和阿馴對戰，在黑金礦山深處找到瓢太，並贏得了煤炭徽章。",
-  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "感謝遊玩！204號道路和苑之鎮將在之後的更新中登場。"
+  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "感謝遊玩！204號道路和苑之鎮將在之後的更新中登場。",
+  "Chapter 46 complete!": "第四十六章完成！",
+  "{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.": "{player}把銀河隊趕出了苑之鎮花田和山谷發電廠，和小菊一起穿過百代森林，並從菜種那裡贏得了森林徽章。",
+  "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "感謝遊玩！百代市的銀河隊大樓將在之後的更新中登場。"
 }, "zh-Hant");

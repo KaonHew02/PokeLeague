@@ -2044,13 +2044,43 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   chapter after chapter 44 (Chimchar from the PC, evolving on the way) and the balance lines for Barry and
   Roark; `tests/data.test.cjs` TMs 51-92; `tests/save.test.cjs` badges 25-32.
 
-### After chapter 45
+- **Chapter 46** ✅, Sinnoh's second Gym (`js/content/sinnoh/floaroma.js` and `eterna.js`, translations
+  `sinnoh-floaroma` and `sinnoh-eterna`).
+  - **Engine**: a map's `afterBattle: { if, script }` runs after each battle there that was not lost (a
+    trainer standing on the map, or a wild Pokémon; not a scripted `h.battle`). Eterna Forest uses it for
+    Cheryl, who walks with you and whose Chansey heals the team after each battle (the half of Platinum's
+    battles beside her that the engine has: there are no multi battles with a partner).
+  - **People and Trainers**: `mars`, `cheryl`, `gardenia`; the classes `galactic-commander` and `aroma-lady`.
+  - **Story**: Jubilife's worker leaves with the Coal Badge (`!badge:25`): Route 204 south, the Ravaged
+    Path (a cave; Rock Smash opens the alcove with TM39), Route 204 north (twins, two at a time).
+    Floaroma Town: a Center, a Mart, the flower shop (two Oran Berries), a house; a girl's father is held at
+    the windworks. Floaroma Meadow: two grunts take the Honey seller's Honey; beaten one after the other,
+    they drop the windworks' key (flag windworks-key; a flag, not an item). Route 205 south crosses the
+    river: south to the Valley Windworks (its door locked without the key; a grunt outside, one inside,
+    and Commander Mars: Zubat 15, Purugly 17; flag mars-windworks), north to Eterna Forest. Afterwards a
+    Drifloon (Lv. 15) floats by the windworks once (flag drifloon-met). Eterna Forest: Cheryl asks at the
+    edge (flag cheryl-met; yes: cheryl-with), heals after each battle, and at the east exit gives two
+    Sitrus Berries (flag cheryl-done); four Trainers (one pair battles two at a time), a loop and a dead
+    end. Route 205 east to Eterna City: a Center, a Mart, a house, the ancient statue, Team Galactic's
+    building (a guard, a locked door), the cycle shop (closed); Routes 211 and 206 are closed by people
+    standing on the one-tile ways out. Gardenia (Cherubi 20, Turtwig 20, Roserade 22): the Forest Badge
+    (badge 26: up to Lv. 30 obey in Sinnoh), TM86 (Grass Knot), `ending(46)`.
+- **Balance:** Monferno beats Mars 85% at Lv. 18 and Gardenia 80% at 22; Prinplup beats Mars 70% at 18.
+  Zubat resists Grass, and Gardenia's team resists Grass and Water: a lone Grotle or Prinplup loses (0%),
+  with a Staravia or a Luxio they win (Mars 68-78% at Grotle 20; Gardenia 58-70% at 22), as a lone
+  Chimchar needs a friend against Roark.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the road north, the twins' double, the
+  meadow and its key, the locked windworks, Mars, Drifloon, Cheryl's healing and its end, Eterna's closed
+  ways, Gardenia); `tests/story.test.cjs` the chapter after chapter 45 and the balance lines for Mars and
+  Gardenia.
+
+### After chapter 46
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) the first badge is won. Ideas:
-1. Sinnoh: Route 204, Floaroma Town, the Valley Windworks (Team Galactic), Eterna Forest and City, Gardenia
-   (the Forest Badge; TM86 Grass Knot).
+the Battle Tower; in Sinnoh (Pokémon 1-493) two badges are won. Ideas:
+1. Sinnoh: Team Galactic's Eterna Building (Jupiter), the bicycle, Route 206 and Cycling Road, Wayward
+   Cave, Mt. Coronet, Hearthome City and Fantina (the Relic Badge in Platinum's order).
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
-3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic),
-   abilities outside battle, Pokéblocks or another way to evolve Feebas, Repel steps.
+3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic;
+   Cheryl in Eterna Forest), abilities outside battle, Pokéblocks or another way to evolve Feebas, Repel steps.

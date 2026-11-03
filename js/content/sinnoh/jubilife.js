@@ -3,7 +3,7 @@
  * the first time you walk in, Professor Rowan's assistant ({assistant}) shows how a wild Bidoof is
  * caught in Sinnoh (flag route202-demo); three Trainers. Jubilife City: a Pokémon Center, a Mart, the
  * Trainers' School (the blackboard on Sinnoh's new ways to evolve; two School Kids), a condominium;
- * Jubilife TV and the Pokétch Company are closed, and Route 204 to the north is closed in this chapter.
+ * Jubilife TV and the Pokétch Company are closed; Route 204 to the north opens with the Coal Badge (chapter 46).
  * Coming in from Route 202, two Team Galactic grunts are pressing the assistant for Rowan's research
  * on evolution: you battle one, the assistant beats the other, they run (flag galactic-jubilife).
  * Route 203 to the east leads on to Oreburgh City (oreburgh.js). Platinum's wild Pokémon.
@@ -110,7 +110,7 @@
       'T................,,................T',
       'TTTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTTT'
     ],
-    connect: { south: { map: 'route202', offset: 8 }, east: { map: 'route203', offset: 7 } },
+    connect: { south: { map: 'route202', offset: 8 }, east: { map: 'route203', offset: 7 }, north: { map: 'route204s', offset: 8 } },
     warps: [
       { x: 5, y: 6, locked: 'jubilife.tv' },
       { x: 25, y: 7, locked: 'jubilife.poketch' },
@@ -126,8 +126,8 @@
     },
     triggers: [{ x: 1, y: 26, w: 34, h: 1, if: '!galactic-jubilife', script: 'jubilife.galactic' }],
     npcs: [
-      // Route 204 opens in a later chapter.
-      { id: 'worker', who: 'engineer', x: 17, y: 1, dir: 'down',
+      // Route 204 opens with the Coal Badge (chapter 46, floaroma.js).
+      { id: 'worker', who: 'engineer', x: 17, y: 1, dir: 'down', if: '!badge:25',
         say: 'Rocks came down on the path to Route 204. We are clearing them, but it will take a while!' },
       // Team Galactic and the assistant, until you step in.
       { id: 'dawn', who: 'dawn', x: 17, y: 22, dir: 'down', if: ['!galactic-jubilife', '!gender=f'], script: 'jubilife.galactic' },

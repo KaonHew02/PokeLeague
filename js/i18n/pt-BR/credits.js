@@ -130,5 +130,8 @@ G.I18n.add({
   "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "Obrigado por jogar! A Rota 202 e Jubilife chegam em uma próxima atualização.",
   "Chapter 45 complete!": "Capítulo 45 concluído!",
   "{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.": "{player} enfrentou a Equipe Galáctica em Jubilife, batalhou de novo com Barry na Rota 203, encontrou Roark no fundo da mina de Oreburgh e conquistou a Insígnia Carvão.",
-  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "Obrigado por jogar! A Rota 204 e Floaroma chegam em uma próxima atualização."
+  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "Obrigado por jogar! A Rota 204 e Floaroma chegam em uma próxima atualização.",
+  "Chapter 46 complete!": "Capítulo 46 concluído!",
+  "{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.": "{player} expulsou a Equipe Galáctica do campo de flores de Floaroma e da usina eólica, atravessou a Floresta de Eterna com Cheryl e conquistou a Insígnia Floresta de Gardenia.",
+  "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "Obrigado por jogar! O prédio da Equipe Galáctica em Eterna chega em uma próxima atualização."
 }, "pt-BR");

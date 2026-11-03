@@ -130,5 +130,8 @@ G.I18n.add({
   "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "Grazie per aver giocato! Il Percorso 202 e Giubilopoli arriveranno in un prossimo aggiornamento.",
   "Chapter 45 complete!": "Capitolo 45 completato!",
   "{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.": "{player} ha affrontato il Team Galassia a Giubilopoli, ha sfidato di nuovo Barry sul Percorso 203, ha trovato Pedro nelle profondità della Miniera di Mineropoli e ha ottenuto la Medaglia Carbone.",
-  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "Grazie per aver giocato! Il Percorso 204 e Giardinfiorito arriveranno in un prossimo aggiornamento."
+  "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "Grazie per aver giocato! Il Percorso 204 e Giardinfiorito arriveranno in un prossimo aggiornamento.",
+  "Chapter 46 complete!": "Capitolo 46 completato!",
+  "{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.": "{player} ha cacciato il Team Galassia dal prato di Giardinfiorito e dalla centrale eolica, ha attraversato il Bosco Evopoli con Cheryl e ha ottenuto la Medaglia Foresta da Gardenia.",
+  "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "Grazie per aver giocato! Il palazzo del Team Galassia a Evopoli arriverà in un prossimo aggiornamento."
 }, "it");

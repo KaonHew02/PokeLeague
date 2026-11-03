@@ -789,6 +789,31 @@ test('balance: Barry on Route 203 and Roark in Oreburgh (chapter 45), win rates 
   assert.ok(vs['chimchar 11 + shinx 9'] >= 0.4 && vs['turtwig 11 + starly 9'] >= 0.5, 'Barry with two Pokémon');
 });
 
+test('balance: Mars at the windworks and Gardenia in Eterna (chapter 46), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const mars = leaderRate(G, 'windworks-inside', 'mars');
+  const vsMars = {
+    'grotle 18': mars([[388, 18]]), 'monferno 16': mars([[391, 16]]), 'monferno 18': mars([[391, 18]]),
+    'prinplup 18': mars([[394, 18]]), 'piplup 16 + shinx 14': mars([[393, 16], [403, 14]]),
+    'grotle 18 + staravia 16': mars([[388, 18], [397, 16]]), 'grotle 18 + luxio 16': mars([[388, 18], [404, 16]]),
+    'grotle 20 + staravia 18': mars([[388, 20], [397, 18]]), 'grotle 20 + luxio 18': mars([[388, 20], [404, 18]])
+  };
+  console.log('[balance] vs Mars:', JSON.stringify(vsMars));
+  const rate = leaderRate(G, 'eterna-gym', 'gardenia');
+  const table = {
+    'grotle 22': rate([[388, 22]]), 'grotle 24': rate([[388, 24]]), 'monferno 22': rate([[391, 22]]), 'monferno 24': rate([[391, 24]]),
+    'prinplup 22': rate([[394, 22]]), 'prinplup 24': rate([[394, 24]]),
+    'prinplup 22 + staravia 20': rate([[394, 22], [397, 20]]), 'grotle 22 + staravia 20': rate([[388, 22], [397, 20]])
+  };
+  console.log('[balance] vs Gardenia:', JSON.stringify(table));
+  // Zubat resists Grass, and Gardenia's team resists Grass and Water: Grotle and Prinplup need a second
+  // Pokémon (a Staravia, a Luxio), as a lone Chimchar does against Roark. Monferno is ready on its own.
+  assert.ok(vsMars['monferno 18'] >= 0.7 && vsMars['prinplup 18'] >= 0.5, 'Monferno and Prinplup against Mars');
+  assert.ok(vsMars['grotle 20 + staravia 18'] >= 0.6 && vsMars['grotle 20 + luxio 18'] >= 0.6, 'Grotle at 20 with a friend against Mars');
+  assert.ok(table['monferno 22'] >= 0.7, 'Monferno against Gardenia');
+  assert.ok(table['prinplup 22 + staravia 20'] >= 0.45 && table['grotle 22 + staravia 20'] >= 0.5, 'Prinplup and Grotle with a Staravia');
+});
+
 test('balance: the Battle Tower (chapter 43), win rates of a typical team at level 50 are printed', () => {
   const { G } = world(1);
   const rate = (foe, n = 30) => {
@@ -3388,6 +3413,67 @@ async function chapter45(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 46 after chapter 45: Route 204, Floaroma Town and Meadow, the Valley Windworks and Mars, Eterna Forest
+ *  with Cheryl, Eterna City and Gardenia. */
+async function chapter46(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async (mapId, skip = []) => {
+    for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader' && !skip.includes(t.id))) { await fight(mapId, t.id); won(); }
+  };
+  // Jubilife's road north opened with the Coal Badge. Monferno leads.
+  assert.ok(!F.test(G.Maps.get('jubilife').npcs.find(p => p.id === 'worker').if), 'Route 204 is open');
+  lead(st, 391);
+  await all('route204s');
+  await all('route204n');                                  // the twins: two at a time
+  // Floaroma: the flower shop's Berries; Team Galactic in the meadow drops the windworks' key.
+  const berries = F.count('oran-berry');
+  await run(st, 'floaroma-shop', 'floaroma.florist');
+  assert.equal(F.count('oran-berry'), berries + 2);
+  grind(st, 'route204n', 18, 300);
+  await run(st, 'floaroma-meadow', 'floaroma.meadow');
+  assert.equal(last().key, 'floaroma-meadow:grunt-meadow2');
+  won();
+  assert.ok(F.flag('windworks-key'));
+  // Route 205, the windworks and Commander Mars; then the Drifloon.
+  grind(st, 'route205s', 20, 300);
+  await all('route205s');
+  await all('valley-windworks');
+  await all('windworks-inside', ['mars']);
+  await fight('windworks-inside', 'mars');
+  won();
+  console.log('[story] Mars at the windworks:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('mars-windworks'));
+  await run(st, 'valley-windworks', 'windworks.drifloon');
+  assert.equal(last().key, 'wild:drifloon');
+  assert.ok(F.flag('drifloon-met'));
+  // Eterna Forest with Cheryl: her Sitrus Berries at the far side.
+  await run(st, 'eterna-forest', 'eterna.cheryl', [0]);
+  assert.ok(F.flag('cheryl-with'));
+  await all('eterna-forest');
+  const sitrus = F.count('sitrus-berry');
+  await run(st, 'eterna-forest', 'eterna.cheryl-bye');
+  assert.ok(F.flag('cheryl-done') && F.count('sitrus-berry') === sitrus + 2);
+  await all('route205e');
+  // Eterna City: Gardenia's Gym.
+  grind(st, 'route205e', 24, 400);
+  await all('eterna-gym');
+  F.healAll();
+  const money = S.player.money, tms = F.count('tm86');
+  await run(st, 'eterna-gym', [['battle', 'eterna-gym:gardenia']]);
+  won();
+  console.log('[story] Gardenia:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(S.player.badges.includes(26), 'the Forest Badge');
+  assert.equal(F.obeyCap('sinnoh'), 30, 'two Sinnoh badges: up to Lv. 30');
+  assert.equal(F.count('tm86'), tms + 1);
+  assert.equal(S.player.money - money, 2200);
+  assert.ok(F.flag('chapter-46-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3469,7 +3555,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 45: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its first Gym", async () => {
+test("chapters 11 to 46: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its second Gym", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3516,4 +3602,5 @@ test("chapters 11 to 45: Johto, from Professor Elm to Johto's League and its pos
   await chapter43(st);
   await chapter44(st);
   await chapter45(st);
+  await chapter46(st);
 });

@@ -338,7 +338,8 @@ G.Tiles = (() => {
   const FAMILY = {
     grass: 'grass', tall: 'grass', flowers: 'grass', tree: 'grass', 'sign': 'grass', fence: 'grass',
     'ledge-down': 'grass', 'ledge-left': 'grass', 'ledge-right': 'grass',
-    path: 'path', door: 'path', stamp: 'path', sand: 'sand', water: 'water', rapids: 'water', whirlpool: 'water', deep: 'water', cliff: 'cliff'
+    path: 'path', door: 'path', stamp: 'path', sand: 'sand', water: 'water', rapids: 'water', whirlpool: 'water', deep: 'water', cliff: 'cliff',
+    'current-left': 'water', 'current-right': 'water', 'current-up': 'water', 'current-down': 'water'
   };
   const fam = k => FAMILY[k] || k;
 
@@ -468,7 +469,7 @@ G.Tiles = (() => {
 
   /** Water with shore, foam and a few waves; frame 1 moves the waves. */
   function water(P, C, ox, oy, tx, ty, at, frame) {
-    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge' || k === 'rapids' || k === 'waterfall' || k === 'whirlpool' || k === 'deep'; };
+    const same = (dx, dy) => { const k = at(tx + dx, ty + dy); return k === 'water' || k === 'void' || k === 'bridge' || k === 'rapids' || k === 'waterfall' || k === 'whirlpool' || k === 'deep' || CURRENT[k]; };
     const n = same(0, -1), s = same(0, 1), w = same(-1, 0), e = same(1, 0);
     grass(P, C, ox, oy, tx, ty);
     for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
@@ -496,6 +497,19 @@ G.Tiles = (() => {
   function deep(P, C, ox, oy, tx, ty, at, frame) {
     if (!C.deepC) C.deepC = Object.assign({}, C, { liq: C.liqDeep, liqLight: C.liq, liqDeep: pack(shade(C.src.liqDeep, -0.3)) });
     water(P, C.deepC, ox, oy, tx, ty, at, frame);
+  }
+
+  /** A current (chapter 40): water with light streaks along its way (they move between the two frames). */
+  const CURRENT = { 'current-left': [-1, 0], 'current-right': [1, 0], 'current-up': [0, -1], 'current-down': [0, 1] };
+  function current(P, C, ox, oy, tx, ty, at, frame, kind) {
+    water(P, C, ox, oy, tx, ty, at, frame);
+    const [dx, dy] = CURRENT[kind], along = dx !== 0;
+    for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
+      const a = along ? tx * T + x : ty * T + y, b = along ? ty * T + y : tx * T + x;
+      const shift = (dx + dy) * frame * 5;
+      if (b % 6 === 2 && ((a - shift) & 7) < 4) P.set(ox + x, oy + y, C.liqLight);
+      if (b % 6 === 2 && ((a - shift) & 7) === (dx + dy > 0 ? 3 : 0)) P.set(ox + x, oy + y, C.foam);
+    }
   }
 
   /** A waterfall: deep water pouring down in white streaks (they move between the two frames). */
@@ -1437,6 +1451,7 @@ G.Tiles = (() => {
       case 'cliff': cliff(P, C, ox, oy, tx, ty, at); break;
       case 'water': water(P, C, ox, oy, tx, ty, at, frame); break;
       case 'deep': deep(P, C, ox, oy, tx, ty, at, frame); break;
+      case 'current-left': case 'current-right': case 'current-up': case 'current-down': current(P, C, ox, oy, tx, ty, at, frame, kind); break;
       case 'waterfall': waterfall(P, C, ox, oy, tx, ty, at, frame); break;
       case 'bridge': bridge(P, C, ox, oy, tx, ty, at, frame); break;
       case 'fence': fence(P, C, ox, oy, tx, ty, at); break;
@@ -1499,7 +1514,7 @@ G.Tiles = (() => {
 
   /** The whole map, once: two ground frames and the Y-sorted strips. */
   function bakeMap(m) {
-    const animated = m.kind.some(k => k === 'water' || k === 'flowers' || k === 'rapids' || k === 'waterfall' || k === 'whirlpool' || k === 'deep');
+    const animated = m.kind.some(k => k === 'water' || k === 'flowers' || k === 'rapids' || k === 'waterfall' || k === 'whirlpool' || k === 'deep' || CURRENT[k]);
     const g0 = bakeGround(m, 0);
     const ground = [g0, animated ? bakeGround(m, 1) : g0];
     const strips = {};

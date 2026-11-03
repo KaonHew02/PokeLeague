@@ -112,5 +112,8 @@ G.I18n.add({
   "Thank you for playing! Victory Road and Hoenn's Pokémon League wait in a future update.": "Grazie per aver giocato! La Via Vittoria e la Lega Pokémon di Hoenn ti aspettano in un prossimo aggiornamento.",
   "Chapter 39 complete!": "Capitolo 39 completato!",
   "{player} climbed Victory Road, beat Wally, Hoenn's Elite Four and the Champion Wallace, and entered the Hall of Fame as the Champion of Hoenn!": "{player} ha superato la Via Vittoria, ha sconfitto Valerio, i Superquattro di Hoenn e il Campione Adriano, ed è entrato nella Sala d'Onore come Campione di Hoenn!",
-  "Thank you for playing! The journey through Kanto, Johto and Hoenn is complete. Hoenn's Elite Four will battle you again, ten levels stronger, whenever you return.": "Grazie per aver giocato! Il viaggio attraverso Kanto, Johto e Hoenn è completo. I Superquattro di Hoenn lotteranno di nuovo con te, dieci livelli più forti, quando tornerai."
+  "Thank you for playing! The journey through Kanto, Johto and Hoenn is complete. Hoenn's Elite Four will battle you again, ten levels stronger, whenever you return.": "Grazie per aver giocato! Il viaggio attraverso Kanto, Johto e Hoenn è completo. I Superquattro di Hoenn lotteranno di nuovo con te, dieci livelli più forti, quando tornerai.",
+  "Chapter 40 complete!": "Capitolo 40 completato!",
+  "{player} rode the currents from Pacifidlog to Slateport, fought two against two, and beat Steven deep in Meteor Falls.": "{player} si è lasciato trasportare dalle correnti da Orocea a Porto Selcepoli, ha lottato due contro due e ha sconfitto Rocco nel profondo delle Cascate Meteora.",
+  "Thank you for playing! Steven left a gift at his house in Mossdeep City.": "Grazie per aver giocato! Rocco ha lasciato un regalo a casa sua, a Verdeazzupoli."
 }, "it");

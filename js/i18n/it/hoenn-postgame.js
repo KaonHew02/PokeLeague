@@ -1,0 +1,28 @@
+/* Italian — hoenn-postgame: Routes 132 to 134 and Steven at Meteor Falls (js/content/hoenn/postgame.js). */
+G.I18n.add({
+  "I will keep looking for rare stones here. If you find one on your travels, show me, {player}!": "Continuerò a cercare pietre rare qui. Se ne trovi una durante i tuoi viaggi, mostramela, {player}!",
+  "{player}! So the new Champion of Hoenn found my hiding place.": "{player}! Dunque il nuovo Campione di Hoenn ha trovato il mio nascondiglio.",
+  "I come to Meteor Falls to look for stones that fell from the sky. Every one of them has a story, like the meteorite Team Magma took.": "Vengo alle Cascate Meteora a cercare pietre cadute dal cielo. Ognuna ha la sua storia, come il meteorite che ha preso il Team Magma.",
+  "Wallace told me how you battled him. I have wanted to see it for myself ever since we met in Granite Cave. Show me, {player}!": "Adriano mi ha raccontato come l'hai affrontato. Da quando ci siamo incontrati nella Grotta Pietrosa volevo vederlo con i miei occhi. Mostramelo, {player}!",
+  "...Magnificent. I knew you were strong, but this... You truly are the Champion of Hoenn.": "...Magnifico. Sapevo che eri forte, ma questo... Sei davvero il Campione di Hoenn.",
+  "I left something for you at my house in Mossdeep: a Pokémon I met on my travels. I think it would be happy with a Trainer like you.": "Ti ho lasciato qualcosa a casa mia, a Verdeazzupoli: un Pokémon che ho incontrato durante i miei viaggi. Credo che sarebbe felice con un Allenatore come te.",
+  "Gilbert": "Gilbert",
+  "The currents here are a free ride west! Going east is the hard part. Let us battle!": "Qui le correnti ti portano a ovest gratis! Il difficile è andare a est. Lottiamo!",
+  "I got carried away...": "Mi sono lasciato trasportare...",
+  "Stay in the calm water between the currents if you want to swim east.": "Se vuoi nuotare verso est, resta nell'acqua calma tra le correnti.",
+  "I swim against the current every morning. A battle will be easy after that!": "Ogni mattina nuoto controcorrente. Dopo quello, una lotta sarà facile!",
+  "Swept away, for once...": "Per una volta, la corrente mi ha travolta...",
+  "The currents all flow toward Slateport. Pacifidlog is the hard way.": "Tutte le correnti vanno verso Porto Selcepoli. È andare a Orocea che è difficile.",
+  "Lisa & Ray": "Lisa e Ray",
+  "My little brother and I never lose in the water! Two against two!": "Io e il mio fratellino non perdiamo mai in acqua! Due contro due!",
+  "We lost... even in the water.": "Abbiamo perso... anche in acqua.",
+  "Next time we will train in the currents. Then we will win!": "La prossima volta ci alleneremo nelle correnti. Allora vinceremo!",
+  "Out here, the big ones bite. Like you!": "Qui abboccano quelli grossi. Come te!",
+  "The currents bring the fish right to this islet. I never have to move.": "Le correnti portano i pesci proprio a questo isolotto. Non devo mai muovermi.",
+  "Slateport is right there, but you will not get past me!": "Porto Selcepoli è proprio lì, ma non mi supererai!",
+  "You swim like a Kingdra...": "Nuoti come un Kingdra...",
+  "Slateport's beach is just west. The currents make the trip from Pacifidlog so fast!": "La spiaggia di Porto Selcepoli è appena a ovest. Con le correnti, il viaggio da Orocea è velocissimo!",
+  "I train where the currents meet the open sea. Ready?": "Mi alleno dove le correnti incontrano il mare aperto. Pronto?",
+  "Pulled under...": "Trascinato giù...",
+  "Some say a Pokémon as old as the sea itself sleeps somewhere around here.": "Si dice che da queste parti dorma un Pokémon antico quanto il mare stesso."
+}, "it");

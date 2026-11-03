@@ -186,7 +186,7 @@
     rows: HOUSE,
     warps: [{ x: 4, y: 7, to: 'mossdeep', spot: 'steven-door' }],
     spots: { door: [4, 7, 'up'] },
-    signs: { '5,4': 'A letter lies on the table: "I am off on a journey again. Whoever finds this, feel free to rest here. - Steven"' },
+    signs: { '5,4': { script: 'mossdeep.steven-letter' } },
     // Chapter 37: home after the Space Center, with HM08 Dive.
     npcs: [{ id: 'steven', who: 'steven', x: 7, y: 3, dir: 'down', if: ['space-center-saved', '!kyogre-awake'], script: 'mossdeep.steven' }]
   }, HOENN));
@@ -335,6 +335,15 @@
       ['js', maxie]
     ],
     'space.steven': [['say', 'Team Magma\'s leader is right there. Let us finish this, {player}!', STEVEN]],
+    // Chapter 40: once you are the Champion, a Poké Ball and a new letter (a Beldum).
+    'mossdeep.steven-letter': [
+      ['if', ['hoenn-champion', '!got-beldum'], [
+        ['say', 'A letter lies on the table beside a Poké Ball: "Congratulations, Champion. I met this Pokémon on my travels. Please look after it for me. - Steven"'],
+        ['choice', 'Take the Poké Ball?', [['giveMon', 'beldum', 5], ['setFlag', 'got-beldum']], []]
+      ], [
+        ['say', 'A letter lies on the table: "I am off on a journey again. Whoever finds this, feel free to rest here. - Steven"']
+      ]]
+    ],
     'mossdeep.steven': [
       ['face', 'steven', 'player'],
       ['if', '!got-hm08', [

@@ -435,6 +435,7 @@ G.BattleUI = (() => {
     D.win = false;
     for (const m of b.foe.party) m.hp = 0;
     b.events = [];
+    b.prompt = null;   // process() stops at a pending prompt
     b.afterAction();
     b.process();
     await play(b.events);

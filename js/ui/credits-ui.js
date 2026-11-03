@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 40) return { title: T('Chapter 40 complete!'),
+      done: fmt('{player} rode the currents from Pacifidlog to Slateport, fought two against two, and beat Steven deep in Meteor Falls.', { player }),
+      next: T('Thank you for playing! Steven left a gift at his house in Mossdeep City.') };
     if (n === 39) return { title: T('Chapter 39 complete!'),
       done: fmt('{player} climbed Victory Road, beat Wally, Hoenn\'s Elite Four and the Champion Wallace, and entered the Hall of Fame as the Champion of Hoenn!', { player }),
       next: T('Thank you for playing! The journey through Kanto, Johto and Hoenn is complete. Hoenn\'s Elite Four will battle you again, ten levels stronger, whenever you return.') };

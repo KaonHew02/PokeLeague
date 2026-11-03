@@ -1,0 +1,28 @@
+/* Traditional Chinese — hoenn-postgame: Routes 132 to 134 and Steven at Meteor Falls (js/content/hoenn/postgame.js). */
+G.I18n.add({
+  "I will keep looking for rare stones here. If you find one on your travels, show me, {player}!": "我會繼續在這裡尋找稀有的石頭。如果你在旅途中找到了，記得給我看看，{player}！",
+  "{player}! So the new Champion of Hoenn found my hiding place.": "{player}！原來是豐緣的新冠軍找到了我的藏身之處。",
+  "I come to Meteor Falls to look for stones that fell from the sky. Every one of them has a story, like the meteorite Team Magma took.": "我來流星瀑布尋找從天上掉下來的石頭。每一塊都有自己的故事，就像被熔岩隊拿走的那塊隕石一樣。",
+  "Wallace told me how you battled him. I have wanted to see it for myself ever since we met in Granite Cave. Show me, {player}!": "米可利跟我說了你和他對戰的樣子。自從我們在石之洞窟見面以後，我就一直想親眼看看。讓我見識一下吧，{player}！",
+  "...Magnificent. I knew you were strong, but this... You truly are the Champion of Hoenn.": "……太精彩了。我知道你很強，但沒想到這麼強……你真不愧是豐緣的冠軍。",
+  "I left something for you at my house in Mossdeep: a Pokémon I met on my travels. I think it would be happy with a Trainer like you.": "我在綠嶺市的家裡給你留了點東西：一隻我在旅途中遇到的寶可夢。我想牠跟著你這樣的訓練家會很幸福。",
+  "Gilbert": "吉爾伯特",
+  "The currents here are a free ride west! Going east is the hard part. Let us battle!": "這裡的激流能免費把你帶往西邊！往東走才難呢。來對戰吧！",
+  "I got carried away...": "我被沖走了……",
+  "Stay in the calm water between the currents if you want to swim east.": "想往東游的話，就待在激流之間平靜的水面上吧。",
+  "I swim against the current every morning. A battle will be easy after that!": "我每天早上都逆著激流游泳。比起那個，對戰輕鬆多了！",
+  "Swept away, for once...": "難得被沖走了一次……",
+  "The currents all flow toward Slateport. Pacifidlog is the hard way.": "所有的激流都流向凱那市。去暮水鎮才是難的那條路。",
+  "Lisa & Ray": "莉莎和雷",
+  "My little brother and I never lose in the water! Two against two!": "我和弟弟在水裡從來沒輸過！二對二！",
+  "We lost... even in the water.": "我們輸了……連在水裡都輸了。",
+  "Next time we will train in the currents. Then we will win!": "下次我們要在激流裡訓練。那樣就能贏了！",
+  "Out here, the big ones bite. Like you!": "在這裡上鉤的都是大傢伙。比如你！",
+  "The currents bring the fish right to this islet. I never have to move.": "激流會把魚直接帶到這座小島來。我根本不用挪地方。",
+  "Slateport is right there, but you will not get past me!": "凱那市就在前面了，不過你別想從我這裡過去！",
+  "You swim like a Kingdra...": "你游得像刺龍王一樣……",
+  "Slateport's beach is just west. The currents make the trip from Pacifidlog so fast!": "凱那市的海灘就在西邊。有激流的話，從暮水鎮過來快得很！",
+  "I train where the currents meet the open sea. Ready?": "我在激流和大海交匯的地方修行。準備好了嗎？",
+  "Pulled under...": "被拖到水底了……",
+  "Some say a Pokémon as old as the sea itself sleeps somewhere around here.": "聽說這附近沉睡著一隻和大海一樣古老的寶可夢。"
+}, "zh-Hant");

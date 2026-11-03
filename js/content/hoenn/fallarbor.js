@@ -364,10 +364,10 @@
     id: 'meteor-falls', loc: 'meteor-falls', tileset: 'outdoor', palette: 'cave', music: 'cave', battleBg: 'cave', border: '#',
     cave: true, escape: true,
     rows: [
-      '############################',
-      '############################',
-      '############################',
-      '############################',
+      '##########O#################',
+      '####~~~~~...################',
+      '####~~~~~...################',
+      '######|#####################',
       '###~~~~~~~...............###',
       '###~~~~~~~...............###',
       '###~~~~~~~...............###',
@@ -387,8 +387,9 @@
       '####################...#####',
       '#####################O######'
     ],
-    warps: [{ x: 21, y: 21, to: 'route114', spot: 'falls' }],
-    spots: { mouth: [21, 20, 'up'] },
+    // Chapter 40: up the waterfall, Steven's cave (postgame.js).
+    warps: [{ x: 21, y: 21, to: 'route114', spot: 'falls' }, { x: 10, y: 0, to: 'meteor-falls-steven', spot: 'mouth' }],
+    spots: { mouth: [21, 20, 'up'], steven: [10, 1, 'down'] },
     triggers: [{ x: 3, y: 12, w: 22, h: 1, if: '!meteorite-stolen', script: 'meteor.magma' }],
     npcs: [
       { id: 'cozmo', who: 'scientist', x: 14, y: 5, dir: 'down', if: '!meteorite-stolen', script: 'meteor.magma' },

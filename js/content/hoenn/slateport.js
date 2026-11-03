@@ -57,7 +57,7 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { north: { map: 'route110', offset: 5 } },
+    connect: { north: { map: 'route110', offset: 5 }, east: { map: 'route134', offset: 23 } },
     warps: [
       { x: 24, y: 6, to: 'museum-1f', spot: 'door' },
       { x: 6, y: 6, to: 'slateport-center', spot: 'door' },

@@ -83,5 +83,6 @@ G.I18n.add({
   "Rita & Sam": "麗塔和薩姆",
   "Big sister and me, against you! Ready?": "姐姐和我一起對付你！準備好了嗎？",
   "Sis, we lost!": "姐姐，我們輸了！",
-  "Some moves hit both foes at once. Surf is one of them!": "有些招式能同時打中兩個對手。衝浪就是其中之一！"
+  "Some moves hit both foes at once. Surf is one of them!": "有些招式能同時打中兩個對手。衝浪就是其中之一！",
+  "A letter lies on the table beside a Poké Ball: \"Congratulations, Champion. I met this Pokémon on my travels. Please look after it for me. - Steven\"": "桌上的精靈球旁邊放著一封信：「恭喜你成為冠軍。這是我在旅途中遇到的寶可夢。請替我好好照顧牠。——大吾」"
 }, "zh-Hant");

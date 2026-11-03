@@ -741,6 +741,32 @@ test('balance: the rival on Route 103 (chapter 28), win rates of the three start
   for (const sp of ['treecko', 'torchic', 'mudkip']) assert.ok(table[sp + ' 9'] >= 0.5, sp + ' at Lv. 9');
 });
 
+test('balance: Steven at Meteor Falls (chapter 40), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = team => {
+    let wins = 0;
+    for (let s = 1; s <= 30; s++) {
+      const rng = G.RNG(s * 23);
+      const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const foes = G.Postgame.STEVEN_TEAM.map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), { item }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 'steven', name: 'Steven', ai: 'leader', items: { 'full-restore': 1 }, prize: 100 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 30;
+  };
+  // A Hoenn team of six: Swampert, Manectric, Ludicolo, Gardevoir, Altaria and Mightyena, as against the League.
+  const SW = ['surf', 'earthquake', 'ice-beam', 'take-down'], MA = ['thunderbolt', 'bite', 'quick-attack', 'roar'];
+  const LU = ['giga-drain', 'surf', 'fake-out', 'ice-beam'], GA = ['psychic', 'calm-mind', 'thunderbolt', 'double-team'];
+  const AL = ['dragon-claw', 'aerial-ace', 'earthquake', 'dragon-dance'], MI = ['crunch', 'take-down', 'sand-attack', 'howl'];
+  const six = lvl => [[260, lvl, SW], [310, lvl, MA], [272, lvl, LU], [282, lvl, GA], [334, lvl, AL], [262, lvl, MI]];
+  const table = { 'six of Lv. 62': rate(six(62)), 'the same at Lv. 68': rate(six(68)), 'the same at Lv. 74': rate(six(74)) };
+  console.log('[balance] vs Steven:', JSON.stringify(table));
+  // The strongest Trainer in Hoenn after the League, as the rival on Mt. Silver is in Johto: a team at his level wins.
+  assert.ok(table['the same at Lv. 74'] >= table['six of Lv. 62'] && table['the same at Lv. 74'] >= 0.5);
+});
+
 test('balance: the rival at the summit of Mt. Silver (chapter 27), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = (team, starter) => {
@@ -3024,6 +3050,35 @@ async function chapter39(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter40(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => { for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); } };
+  // West of Pacifidlog with the currents: Routes 132 to 134 (a double battle on 133).
+  assert.ok(F.flag('hoenn-champion'));
+  await all('route132');
+  await all('route133');
+  assert.equal(st.battles.find(x => x.key === 'route133:lisa-ray').outcome, 'win');
+  await all('route134');
+  // Steven behind Meteor Falls.
+  F.healAll();
+  await run(st, 'meteor-falls-steven', 'meteor.steven');
+  assert.equal(last().key, 'meteor-falls-steven:steven');
+  won();
+  console.log('[story] Steven at Meteor Falls: won at levels', last().levels.join());
+  assert.ok(F.flag('steven-beaten') && F.flag('chapter-40-done'));
+  // His gift in Mossdeep: a Beldum.
+  const n = S.party.length + S.boxes.flat().filter(Boolean).length;
+  await run(st, 'steven-house', 'mossdeep.steven-letter', [0]);
+  assert.ok(F.flag('got-beldum'));
+  assert.equal(S.party.length + S.boxes.flat().filter(Boolean).length, n + 1);
+  assert.ok(S.party.concat(S.boxes.flat()).some(m => m && m.sp === 374), 'Beldum');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3105,7 +3160,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 39: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League", async () => {
+test("chapters 11 to 40: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League and Steven", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3146,4 +3201,5 @@ test("chapters 11 to 39: Johto, from Professor Elm to Johto's League and its pos
   await chapter37(st);
   await chapter38(st);
   await chapter39(st);
+  await chapter40(st);
 });

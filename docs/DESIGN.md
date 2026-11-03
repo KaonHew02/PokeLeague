@@ -1847,12 +1847,33 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   `tests/field.test.cjs` the sea to the waterfall, the badge check, Wally, the four rooms, Wallace,
   the Hall of Fame and home.
 
-### After chapter 39
+- **Chapter 40** ✅, Hoenn after the League: double battles and Routes 132-134. The battle engine
+  learned double battles (section 3): Tate and Liza fight two at a time, and five pairs wait on
+  Hoenn's routes (Twins Gina & Mia on Route 104, Twins Anna & Meg with Plusle and Minun on Route
+  117, the Young Couple Lois & Hal on Route 121, Sis and Bro Rita & Sam on Route 124, the Old
+  Couple John & Jay on Route 128's reef; classes `twins`, `young-couple`, `sis-and-bro`,
+  `old-couple`, person `twin`). West of Pacifidlog Town, Routes 132, 133 and 134 lead to Slateport
+  City's sea (`route134` west, `slateport` east): bands of current flow west (the outdoor tiles `(`
+  `)` `{` `}`: surfing onto one carries you along, across map edges too, until the water is calm;
+  never against one), calm lanes lead back east; swimmers, a fisherman and Sis and Bro Lisa & Ray (a
+  double battle). Meteor Falls gained a waterfall up to a pool and the mouth of Steven's cave
+  (`meteor-falls-steven`): once you are Hoenn's Champion he battles you with Emerald's team at the
+  level of the rival on Mt. Silver (Skarmory 72, Claydol 71, Aggron 72, Cradily 72, Armaldo 72,
+  Metagross 75, held items; `G.Postgame.STEVEN_TEAM`; flag `steven-beaten`), then `ending(40)`. His
+  house in Mossdeep holds a Poké Ball and a letter for the Champion: a Beldum (flag `got-beldum`).
+  Files: `js/content/hoenn/postgame.js` (translations `hoenn-postgame`); `fallarbor.js` (the falls),
+  `sootopolis.js` (Pacifidlog's currents), `slateport.js`, `mossdeep.js`.
+- **Balance:** Tate and Liza as a double battle: a lone starter cannot win; a team of four (the
+  starter at 42, Mightyena, Banette and Manectric at 40) wins 70-90%. Steven: a Hoenn team of six
+  wins 0% at Lv. 62, about a quarter at 68, 80% at 74. The story test's team beats the new pairs,
+  Steven, and takes the Beldum; `tests/double.test.cjs` the engine; `tests/field.test.cjs` the pairs,
+  the currents (on a test map and from Pacifidlog to Slateport), the falls, Steven and the gift.
 
-The journey through Kanto, Johto and Hoenn is complete (Pokémon 1-386). Ideas for later:
-1. Hoenn after the League: the Battle Frontier or Battle Tower, Steven at Meteor Falls, Groudon and
-   Kyogre to catch (Terra and Marine Caves), Latias and Latios, the Regis; Routes 132-134 between
-   Pacifidlog and Slateport.
-2. Engine features: **double battles**, abilities outside battle, Pokéblocks or another way to evolve
-   Feebas, Repel steps.
+### After chapter 40
+
+The journey through Kanto, Johto and Hoenn is complete (Pokémon 1-386), with double battles. Ideas:
+1. Hoenn after the League: the Battle Tower or Battle Frontier (singles and doubles), Groudon and
+   Kyogre to catch (Terra and Marine Caves), Latias and Latios, the Regis.
+2. Engine features: multi battles with a partner (Steven at the Space Center), abilities outside
+   battle, Pokéblocks or another way to evolve Feebas, Repel steps.
 3. A fourth region needs Pokémon 387 and up (`tools/fetch_data.py`), their sprites and moves.

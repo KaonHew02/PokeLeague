@@ -112,5 +112,8 @@ G.I18n.add({
   "Thank you for playing! Victory Road and Hoenn's Pokémon League wait in a future update.": "感謝遊玩！冠軍之路和豐緣的寶可夢聯盟，將在之後的更新中等著你。",
   "Chapter 39 complete!": "第三十九章完成！",
   "{player} climbed Victory Road, beat Wally, Hoenn's Elite Four and the Champion Wallace, and entered the Hall of Fame as the Champion of Hoenn!": "{player}闖過了冠軍之路，打敗了滿充、豐緣的四天王和冠軍米可利，作為豐緣的冠軍登錄了殿堂！",
-  "Thank you for playing! The journey through Kanto, Johto and Hoenn is complete. Hoenn's Elite Four will battle you again, ten levels stronger, whenever you return.": "感謝遊玩！關都、城都和豐緣的旅程到此完成。每當你回來，豐緣的四天王都會以高十級的實力再次與你對戰。"
+  "Thank you for playing! The journey through Kanto, Johto and Hoenn is complete. Hoenn's Elite Four will battle you again, ten levels stronger, whenever you return.": "感謝遊玩！關都、城都和豐緣的旅程到此完成。每當你回來，豐緣的四天王都會以高十級的實力再次與你對戰。",
+  "Chapter 40 complete!": "第四十章完成！",
+  "{player} rode the currents from Pacifidlog to Slateport, fought two against two, and beat Steven deep in Meteor Falls.": "{player}順著激流從暮水鎮來到凱那市，進行了二對二的對戰，還在流星瀑布深處打敗了大吾。",
+  "Thank you for playing! Steven left a gift at his house in Mossdeep City.": "感謝遊玩！大吾在綠嶺市的家裡留下了一份禮物。"
 }, "zh-Hant");

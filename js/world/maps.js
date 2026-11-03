@@ -20,6 +20,8 @@
  *   come up wherever it is deep). Its `"` is seaweed (the 'seaweed' table), `,` the lit floor under deep water.
  *   Chapter 38: storm: cond (rain on the map and in its battles while it holds); on the sea floor
  *   up: [{ x, y, w, h, to, spot }] (coming up there leads to that spot: a lake inside a crater).
+ *   Chapter 40: outdoor `(` `)` `{` `}` currents flowing left, right, up and down (surfable water that
+ *   carries you along until the water is calm; you cannot swim against it).
  *   Chapter 40: trainers with double: true (a double battle) and partner: { who, x, y, dir } (the
  *   second trainer of the pair, standing beside them).
  *
@@ -80,7 +82,10 @@ G.Maps = (() => {
     // Chapter 23: a cracked rock (the Dark Cave): Rock Smash breaks it until you leave the map (field.js).
     smashrock: { solid: 1 },
     // Chapter 37: deep water (Hoenn's sea routes): surfable like water; Dive goes down from it (field.js).
-    deep: { solid: 1 }
+    deep: { solid: 1 },
+    // Chapter 40: currents (Routes 132-134): surfable water that carries a surfer its way (field.js).
+    'current-left': { solid: 1, current: 'left' }, 'current-right': { solid: 1, current: 'right' },
+    'current-up': { solid: 1, current: 'up' }, 'current-down': { solid: 1, current: 'down' }
   };
   const LEGEND = {
     outdoor: {
@@ -101,7 +106,9 @@ G.Maps = (() => {
       '|': 'waterfall',                              // a waterfall: ride down it, climb it with Waterfall
       w: 'whirlpool',                                // a whirlpool: Whirlpool calms it (until you leave the map)
       k: 'smashrock',                                // a cracked rock: Rock Smash breaks it (until you leave the map)
-      d: 'deep'                                      // deep water: Surf on it, Dive down from it
+      d: 'deep',                                     // deep water: Surf on it, Dive down from it
+      '(': 'current-left', ')': 'current-right',     // currents: they carry a surfer along
+      '{': 'current-up', '}': 'current-down'
     },
     indoor: {
       W: 'wall', _: 'wood', '+': 'tile', r: 'rug',
@@ -376,7 +383,7 @@ G.Maps = (() => {
       else if ((back.offset | 0) !== -(c.offset | 0)) E.push(`connect ${side} -> ${t.id}: offsets ${c.offset | 0} and ${back.offset | 0} do not match (one must be minus the other)`);
       // The shared edge needs at least one open tile on both sides (or water on both: the sea routes).
       const nb = neighbour(m, side);
-      const wet = (mm, x, y) => inside(mm, x, y) && (kindAt(mm, x, y) === 'water' || kindAt(mm, x, y) === 'deep');
+      const wet = (mm, x, y) => inside(mm, x, y) && (kindAt(mm, x, y) === 'water' || kindAt(mm, x, y) === 'deep' || !!info(kindAt(mm, x, y)).current);
       const both = (x, y, tx, ty) => (open(m, x, y) && open(t, tx, ty)) || (wet(m, x, y) && wet(t, tx, ty));
       let pass = 0;
       if (side === 'north' || side === 'south') {

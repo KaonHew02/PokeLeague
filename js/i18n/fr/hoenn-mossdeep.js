@@ -83,5 +83,6 @@ G.I18n.add({
   "Rita & Sam": "Rita et Sam",
   "Big sister and me, against you! Ready?": "Ma grande sœur et moi, contre toi ! Prêt ?",
   "Sis, we lost!": "Sœurette, on a perdu !",
-  "Some moves hit both foes at once. Surf is one of them!": "Certaines capacités touchent les deux adversaires à la fois. Surf en fait partie !"
+  "Some moves hit both foes at once. Surf is one of them!": "Certaines capacités touchent les deux adversaires à la fois. Surf en fait partie !",
+  "A letter lies on the table beside a Poké Ball: \"Congratulations, Champion. I met this Pokémon on my travels. Please look after it for me. - Steven\"": "Une lettre est posée sur la table à côté d'une Poké Ball : « Félicitations, Maître. J'ai rencontré ce Pokémon pendant mes voyages. Prends-en soin pour moi, s'il te plaît. Pierre »"
 }, "fr");

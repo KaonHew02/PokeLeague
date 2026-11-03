@@ -1618,6 +1618,82 @@ test('double battles (chapter 40): a pair needs two Pokémon able to fight; the 
   assert.deepEqual(plain(got[got.length - 1]), ['mossdeep-gym:tate', true]);
 });
 
+test('currents (chapter 40): they carry a surfer their way until the water is calm, and you cannot swim against them', async () => {
+  const { G, W } = world();
+  const F = G.Field;
+  G.Maps.def({ id: 't-flow', region: 'hoenn', tileset: 'outdoor', palette: 'kanto', border: '~',
+    rows: ['~~~~~~~~', '~((((((~', '~~~~~~~~'], spots: { start: [0, 0, 'down'] } });
+  F.giveMon('wingull', 30, { moves: ['surf'] });
+  F.badge(5);
+  W.debug.noEnc = true;
+  W.load('t-flow', { x: 6, y: 0, dir: 'down' });
+  assert.ok(W.surfing);
+  assert.equal(step(W, 'down'), 'moved');
+  for (let i = 0; i < 40; i++) { W.update(0.05); W.player.update(0.05); if (!W.player.moving) W.arrived(W.player); await tick(); if (W.player.x === 1) break; }
+  assert.deepEqual([W.player.x, W.player.y], [1, 1], 'carried to the end of the current');
+  // Against the current: no.
+  W.load('t-flow', { x: 0, y: 1, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked');
+  // Across it from the calm water: you can enter it sideways.
+  W.load('t-flow', { x: 3, y: 2, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+});
+
+test('Hoenn (chapter 40): the currents west of Pacifidlog to Slateport, Steven behind Meteor Falls, and his gift', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js', 'js/content/hoenn/evergrande.js', 'js/content/hoenn/postgame.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.save.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+  F.giveMon('swampert', 60, { moves: ['surf', 'waterfall', 'strength', 'rock-smash'] });
+  F.giveMon('manectric', 55, { moves: ['thunderbolt'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push(info.key); return 'win'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  for (const f of ['kyogre-awake', 'weather-calm', 'hoenn-champion']) F.setFlag(f);
+  // The roads: Pacifidlog -> 132 -> 133 -> 134 -> Slateport.
+  assert.equal(G.Maps.get('pacifidlog').def.connect.west.map, 'route132');
+  assert.equal(G.Maps.get('route134').def.connect.west.map, 'slateport');
+  assert.equal(G.Maps.get('slateport').def.connect.east.map, 'route134');
+  // Into the current west of Pacifidlog: carried across Routes 132, 133 and 134 to Slateport's sea.
+  W.load('pacifidlog', { x: 1, y: 4, dir: 'left' });
+  assert.ok(W.surfing);
+  assert.equal(step(W, 'left'), 'moved');
+  for (let i = 0; i < 3000 && !(W.map.id === 'slateport' && !W.player.moving); i++) { W.update(0.05); await tick(); }
+  assert.equal(W.map.id, 'slateport', 'carried all the way');
+  assert.deepEqual([W.player.x, W.player.y], [33, 27]);
+  // Back east: the calm lanes.
+  W.load('route134', { x: 0, y: 10, dir: 'right' });
+  for (let i = 0; i < 39; i++) assert.equal(step(W, 'right'), 'moved');
+  assert.equal(step(W, 'right'), 'moved');
+  assert.equal(W.map.id, 'route133');
+  // Meteor Falls: up the waterfall, into Steven's cave.
+  W.load('meteor-falls', { x: 6, y: 4, dir: 'up' });
+  assert.ok(W.surfing);
+  await pump(W, W.interact());
+  await until(() => W.player.y === 2 && !W.player.moving);
+  W.load('meteor-falls', 'steven');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'meteor-falls-steven');
+  await settle();
+  // Steven.
+  W.load('meteor-falls-steven', { x: 8, y: 5, dir: 'up' });
+  await pump(W, W.interact());
+  await until(() => F.flag('chapter-40-done'));
+  assert.equal(got[got.length - 1], 'meteor-falls-steven:steven');
+  // His gift.
+  const n = F.party().length;
+  W.load('steven-house', { x: 5, y: 5, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('got-beldum') && F.party().length === n + 1 && F.party()[n].sp === 374);
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

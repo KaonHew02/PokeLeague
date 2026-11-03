@@ -75,6 +75,8 @@
  * Chapter 38: a storm (map `storm`: a condition) rains on the map and in its battles; on the sea
  * floor, `up: [{ x, y, w, h, to, spot }]` are places where coming up leads somewhere else (a lake
  * inside a crater: Sootopolis City).
+ * Chapter 40: currents (`(` `)` `{` `}`, Routes 132-134): surfing onto one, you are carried its way
+ * until the water is calm again (or something is in the way); you cannot swim against one.
  * Chapter 40: double-battle trainers (`double: true`) fight two against two; their `partner` stands
  * beside them (talking to either starts the battle). A trainer who is not a Gym Leader only takes on a
  * player with two Pokémon able to fight (else they do not spot you, and talking explains why).
@@ -524,6 +526,9 @@ G.World = (() => {
     // Surfing: water is open (and land too: stepping on it ends the ride).
     if (a === me && surfing && isWater(nx, ny)) {
       if (occupant(nx, ny, a)) return 'blocked';
+      // A current: not against it.
+      const cur = M().inside(map, nx, ny) && M().info(M().kindAt(map, nx, ny)).current;
+      if (cur && cur === M().OPP[dir]) { rapidsSay(); return 'blocked'; }
       stepActor(a, dir, speed, false);
       return 'moved';
     }
@@ -563,7 +568,12 @@ G.World = (() => {
     if (a !== me) return;
     if (!M().inside(map, me.x, me.y)) {
       const c = M().across(map, me.x, me.y);
-      if (c) cross(c);
+      if (c) {
+        cross(c);
+        // Carried across the edge by a current: it goes on in the next map.
+        const cur = M().info(M().kindAt(map, me.x, me.y)).current;
+        if (surfing && cur && sliding) slide(cur, true);
+      }
       return;
     }
     // On a waterfall: on down it (or up it, climbing) until the water at the other end.
@@ -605,6 +615,8 @@ G.World = (() => {
     }
     // Spin tiles: an arrow sends the player sliding (spinning) until a stop tile or a wall.
     const inf = M().info(k);
+    // A current carries a surfer its way, tile after tile, until the water is calm.
+    if (surfing && inf.current) { if (slide(inf.current, true)) return; }
     // Ice: you keep sliding the way you went until something is in the way; the first tile that
     // is not ice stops you.
     if (inf.ice) { if (slide(icy && sliding ? sliding : me.dir, true)) return; }
@@ -639,7 +651,9 @@ G.World = (() => {
   function slide(dir, ice = false) {
     const [dx, dy] = M().DIRS[dir];
     const nx = me.x + dx, ny = me.y + dy;
-    if (!M().inside(map, nx, ny) || !openTile(nx, ny) || occupant(nx, ny, me)) { sliding = null; return false; }
+    // (Carried by a current, the way on is water, into the next map too.)
+    const on = surfing ? isWater(nx, ny) : M().inside(map, nx, ny) && openTile(nx, ny);
+    if (!on || occupant(nx, ny, me)) { sliding = null; return false; }
     const lw = map.warpAt.get(M().key(nx, ny));
     if (lw && lw.locked && !(lw.to && G.Field.test(lw.if))) { sliding = null; return false; }
     if (!sliding) { if (!ice) sfx('spin', 'select'); slideN = 0; }
@@ -1180,12 +1194,12 @@ G.World = (() => {
   function isWater(x, y) {
     if (M().inside(map, x, y)) {
       const k = M().kindAt(map, x, y);
-      return k === 'water' || k === 'deep' || (k === 'rapids' && calm(map)) || (k === 'whirlpool' && cut.has(M().key(x, y)));
+      return k === 'water' || k === 'deep' || !!M().info(k).current || (k === 'rapids' && calm(map)) || (k === 'whirlpool' && cut.has(M().key(x, y)));
     }
     const a = M().across(map, x, y);
     if (!a) return false;
     const k = M().kindAt(a.map, a.x, a.y);
-    return k === 'water' || k === 'deep' || (k === 'rapids' && calm(a.map));
+    return k === 'water' || k === 'deep' || !!M().info(k).current || (k === 'rapids' && calm(a.map));
   }
   /** The Pokémon that can Surf (the Soul Badge allows it outside battle, as in the games). */
   const surfer = () => G.Field.save.player.badges.includes(5) ? G.Field.party().find(m => m.hp > 0 && G.Mon.knows(m, 'surf')) : null;

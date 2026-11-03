@@ -56,7 +56,8 @@ G.Store = (() => {
       dex: { seen: {}, caught: {} }, flags: {}, vars: {}, done: {}, fame: [],
       daycare: [],                                        // the Day Care's Pokémon: [{ mon, lvl }] (daycare.js)
       daycareEgg: false, eggs: [],                        // an Egg found at the Day Care; the Eggs you carry: [{ mon, steps }]
-      contest: null                                       // a Bug-Catching Contest under way (contest.js)
+      contest: null,                                      // a Bug-Catching Contest under way (contest.js)
+      roamer: null                                        // a roaming Pokémon (chapter 42, roam.js): { mon, map, seen }
     };
   }
 
@@ -184,6 +185,9 @@ G.Store = (() => {
     const c = s.contest;
     out.contest = obj(c) && typeof c.uid === 'string'
       ? { uid: c.uid.slice(0, 24), balls: int(c.balls, 0, 99, 0), steps: int(c.steps, 0, 9999, 0), mon: fixMon(c.mon) } : null;
+    // A roaming Pokémon (chapter 42): the Pokémon itself (its HP and status stay), its route, met or not.
+    const ro = s.roamer, rmon = obj(ro) ? fixMon(ro.mon) : null;
+    out.roamer = rmon && typeof ro.map === 'string' ? { mon: rmon, map: ro.map, seen: ro.seen === true } : null;
     // The Hall of Fame: each entry is the team that beat the Champion (at most 50 kept).
     out.fame = (Array.isArray(s.fame) ? s.fame : []).filter(obj).slice(-50).map(e => ({
       at: int(e.at, 0, 1e15, 0),

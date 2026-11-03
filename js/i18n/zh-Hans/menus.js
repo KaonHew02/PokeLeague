@@ -195,5 +195,6 @@ G.I18n.add({
   "Mind Badge": "心灵徽章",
   "Rain Badge": "雨滴徽章",
   "Ability": "特性",
-  "Hoenn": "丰缘"
+  "Hoenn": "丰缘",
+  "{mon} roams near the blinking dot.": "{mon}在闪烁的点附近游荡。"
 }, "zh-Hans");

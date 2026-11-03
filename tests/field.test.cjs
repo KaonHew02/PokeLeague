@@ -1861,6 +1861,117 @@ test('Hoenn (chapter 41): Route 105, the desert, the Sealed Chamber under Route 
   assert.deepEqual(wild, [[377, 40], [378, 40], [379, 40]]);
 });
 
+test('Hoenn (chapter 42): the Weather Institute, the Terra and Marine Caves, the news, the roaming Latias, Southern Island', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js', 'js/content/hoenn/evergrande.js', 'js/content/hoenn/postgame.js', 'js/content/hoenn/regis.js',
+                          'js/content/hoenn/legends.js', 'js/world/roam.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+  F.giveMon('swampert', 70, { moves: ['surf', 'dive', 'strength'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const wild = [];
+  let answer = 'caught';
+  W.onEncounter = async (sp, lvl, area, info) => { wild.push([G.Maps.species(sp), lvl, !!info.roamer]); return answer; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  for (const f of ['kyogre-awake', 'weather-calm', 'hoenn-champion']) F.setFlag(f);
+  // Before the readings, the Terra Cave is only a crack.
+  W.load('route114', 'terra');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'blocked');
+  await settle();
+  // The Weather Institute: nothing until Rayquaza is met.
+  W.load('institute-1f', { x: 8, y: 7, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(!F.flag('weather-report'));
+  F.setFlag('rayquaza-met');
+  await pump(W, W.interact());
+  assert.ok(F.flag('weather-report'));
+  // The Terra Cave and Groudon.
+  W.load('route114', 'terra');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'terra-cave');
+  await settle();
+  W.load('terra-cave', { x: 9, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('groudon-met'));
+  // Under Route 127: the Marine Cave, up in its pool, and Kyogre.
+  W.load('route127-uw', 'marine');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'marine-cave');
+  assert.ok(W.surfing, 'up in the pool');
+  await settle();
+  W.load('marine-cave', { x: 9, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('kyogre-met'));
+  assert.deepEqual(wild.slice(0, 2), [[383, 70, false], [382, 70, false]]);
+  // Mrs. Birch: red, so Latias roams; the Eon Ticket.
+  W.load('birch-house', { x: 7, y: 5, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('lati-red') && S.roamer.mon.sp === 380 && F.count('eon-ticket') === 1);
+  const routes = G.Roam.routes();
+  assert.ok(routes.includes('route118') && routes.includes('route105') && !routes.includes('route111-desert'));
+  assert.ok(routes.includes(S.roamer.map));
+  assert.equal(G.Roam.where(), null, 'not on the Town Map before it is met');
+  // It moves each time the player changes maps, along the routes.
+  const seen = new Set();
+  for (let i = 0; i < 30; i++) { W.load(i % 2 ? 'route118' : 'route119', 'start'); seen.add(S.roamer.map); }
+  assert.ok(seen.size > 3 && [...seen].every(r => routes.includes(r)), 'it roams: ' + [...seen].join());
+  // On its route, one wild encounter in four is it: it flees and moves on, with the damage kept.
+  W.load('route101', { x: 6, y: 9, dir: 'down' });
+  S.roamer.map = 'route101';
+  S.roamer.mon.hp = 50;
+  W.debug.noEnc = false;
+  answer = 'fled';
+  const grass = (() => { const m = W.map; for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w - 1; x++) if (G.Maps.kindAt(m, x, y) === 'tall' && G.Maps.kindAt(m, x + 1, y) === 'tall') return [x, y]; })();
+  W.load('route101', { x: grass[0], y: grass[1], dir: 'right' });
+  S.roamer.map = 'route101';
+  for (let i = 0; i < 400 && !wild.some(w => w[2]); i++) {
+    if (!W.locked && !W.player.moving) step(W, i % 2 ? 'left' : 'right');
+    W.update(0.05); await tick();
+  }
+  W.debug.noEnc = true;
+  const met = wild.find(w => w[2]);
+  assert.deepEqual(met, [380, 40, true], 'Latias');
+  await settle();
+  assert.ok(S.roamer.seen && G.Roam.where(), 'the Town Map shows it now');
+  assert.equal(S.roamer.mon.hp, 50, 'its HP stays');
+  // Beaten, it recovers and goes far away; caught, it is gone for good.
+  G.Roam.after('win', W.rng);
+  assert.equal(S.roamer.mon.hp, G.Mon.maxHp(S.roamer.mon));
+  // The save keeps it.
+  assert.equal(G.Store.sanitize(JSON.parse(JSON.stringify(S))).roamer.mon.sp, 380);
+  // Southern Island: the ferry, and Latios by the tree.
+  W.load('lilycove', { x: 22, y: 21, dir: 'up' });
+  await pump(W, W.interact());
+  await until(() => W.map.id === 'southern-island');
+  await settle();
+  W.load('southern-island', { x: 9, y: 6, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('southern-met'));
+  assert.deepEqual(wild[wild.length - 1], [381, 50, false]);
+  // Latias caught on its route: the chapter ends.
+  W.load('route101', { x: grass[0], y: grass[1], dir: 'right' });
+  S.roamer.map = 'route101';
+  answer = 'caught';
+  W.debug.noEnc = false;
+  const n = wild.length;
+  for (let i = 0; i < 400 && !(wild.length > n && wild[wild.length - 1][2]); i++) {
+    if (!W.locked && !W.player.moving) step(W, i % 2 ? 'left' : 'right');
+    W.update(0.05); await tick();
+  }
+  W.debug.noEnc = true;
+  await until(() => F.flag('chapter-42-done'));
+  assert.equal(S.roamer, null);
+  assert.ok(F.flag('roamer-caught'));
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

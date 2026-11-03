@@ -147,7 +147,7 @@
       '####################################',
       '####################################',
       '####################################',
-      '####################################',
+      '########O###########################',
       '###..........#######################',
       '###..........#######################',
       '#####,,,,,....######################',
@@ -169,6 +169,9 @@
     ],
     items: [{ x: 30, y: 8, item: 'big-pearl', flag: 'route127-uw-bigpearl' }, { x: 3, y: 22, item: 'zinc', flag: 'route127-uw-zinc' },
             { x: 4, y: 29, item: 'pearl', flag: 'route127-uw-pearl', hidden: true }],
+    // Chapter 42: the Marine Cave, once the Weather Institute has read the rain (legends.js).
+    warps: [{ x: 8, y: 21, to: 'marine-cave', spot: 'pool', if: 'weather-report', locked: 'legends.marine-closed' }],
+    spots: { marine: [8, 22, 'down'] },
     encounters: { seaweed: '@hoenn-route-126-underwater' }
   }, SEA));
 

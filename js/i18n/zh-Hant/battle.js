@@ -185,5 +185,6 @@ G.I18n.add({
   "{mon} took the attack with its {ability}!": "{mon}用{ability}吸引了攻擊！",
   "{mon} avoided the attack!": "{mon}躲開了攻擊！",
   "{mon} is ready to help {target}!": "{mon}準備幫助{target}！",
-  "{mon} became the center of attention!": "{mon}成為了眾人矚目的焦點！"
+  "{mon} became the center of attention!": "{mon}成為了眾人矚目的焦點！",
+  "{mon} tried to flee, but it could not get away!": "{mon}想要逃走，可是逃不掉！"
 }, "zh-Hant");

@@ -10,7 +10,7 @@ const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 const dev = source('dev.html');
 const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/script/script.js'], CONTENT);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/script/script.js'], CONTENT);
 
 function world(seed = 1) {
   const ctx = boot(FILES);
@@ -3114,6 +3114,57 @@ async function chapter41(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter42(st) {
+  const { G, S, W } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  // Rayquaza, back on the Sky Pillar.
+  F.healAll();
+  await run(st, 'sky-pillar-top', 'skypillar.rayquaza-battle');
+  assert.ok(F.flag('rayquaza-met'), 'Rayquaza: ' + last().outcome);
+  // The Weather Institute's readings: Groudon on Route 114, Kyogre under Route 127.
+  await run(st, 'institute-1f', 'legends.forecast');
+  assert.ok(F.flag('weather-report'));
+  for (const id of ['groudon', 'kyogre']) {
+    F.healAll();
+    await run(st, id === 'groudon' ? 'terra-cave' : 'marine-cave', 'legends.' + id);
+    assert.ok(F.flag(id + '-met'), id + ': ' + last().outcome);
+  }
+  // Mrs. Birch and the news: red, so Latias roams; the Eon Ticket.
+  await run(st, 'birch-house', 'hoenn.mrs-birch', [0]);
+  assert.ok(F.flag('lati-red') && S.roamer && S.roamer.mon.sp === 380 && S.roamer.mon.lvl === 40);
+  assert.equal(F.count('eon-ticket'), 1);
+  // Southern Island: Latios by the tree.
+  await run(st, 'lilycove', 'legends.ferry', [0]);
+  F.healAll();
+  await run(st, 'southern-island', 'legends.southern');
+  assert.ok(F.flag('southern-met'), 'Latios: ' + last().outcome);
+  // Latias: the first meeting, it flees; the Master Ball goes before it can.
+  const meet = action => {
+    const b = G.Battle.create({ kind: 'wild', seed: W.seed * 61 + st.battles.length, player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag },
+      foe: { party: [S.roamer.mon] }, rules: { roamer: true } });
+    b.start();
+    const r = action ? (b.act(action), b.result) : autoplay(G, b);
+    st.battles.push({ key: 'roamer:latias', outcome: r.outcome, levels: S.party.map(m => m.lvl) });
+    G.Roam.after(r.outcome, G.RNG(st.battles.length));
+    return r;
+  };
+  const first = meet(null).outcome;
+  assert.ok(['fled', 'win'].includes(first), 'Latias flees, or the strong story team knocks it out first: ' + first);
+  assert.ok(S.roamer && G.Roam.where(), 'it still roams, and the Town Map shows it');
+  if (first === 'win') assert.equal(S.roamer.mon.hp, G.Mon.maxHp(S.roamer.mon), 'beaten, it recovered');
+  if (!F.count('master-ball')) F.giveItem('master-ball', 1);
+  const r = meet({ type: 'ball', item: 'master-ball' });
+  assert.equal(r.outcome, 'caught');
+  if (r.toBox) F.toBox(r.mon);
+  assert.equal(S.roamer, null);
+  assert.ok(S.party.concat(S.boxes.flat()).some(m => m && m.sp === 380), 'Latias');
+  await run(st, 'route118', 'legends.done');
+  console.log('[story] Hoenn\'s legends:', st.battles.slice(-6).map(b => b.key + ' ' + b.outcome).join(', '));
+  assert.ok(F.flag('chapter-42-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3195,7 +3246,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 41: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, Steven and the Regis", async () => {
+test("chapters 11 to 42: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League and its legends", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3238,4 +3289,5 @@ test("chapters 11 to 41: Johto, from Professor Elm to Johto's League and its pos
   await chapter39(st);
   await chapter40(st);
   await chapter41(st);
+  await chapter42(st);
 });

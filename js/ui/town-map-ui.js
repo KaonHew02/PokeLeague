@@ -6,10 +6,11 @@
  * the maps with a `fly` landing spot (G.World.flyTargets); a click on the drawing picks one too.
  * It shows the region you are in (map `region`, Kanto by default); once you have been to another
  * one, a button goes round the regions you have seen (Fly crosses between them).
+ * A roaming Pokémon once met (chapter 42, G.Roam.where()) blinks on its route: red Latias, blue Latios.
  */
 G.TownMapUI = (() => {
   const esc = s => G.U.esc(s);
-  const T = s => G.T(s);
+  const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
   const CELL = 16, PAD = 12, COLS = 20, ROWS = 15;
   // Kanto. Where places sit on the drawing (grid cells), by location id.
   const AT = {
@@ -65,7 +66,8 @@ G.TownMapUI = (() => {
       'fiery-path': [7.4, 3.2], 'mt-chimney': [6, 2.2], 'jagged-pass': [6, 2.9], 'meteor-falls': [1.4, 2.4], 'mt-pyre': [15, 5.4],
       'team-aqua-hideout': [16.6, 3.5], 'seafloor-cavern': [18, 9.2], 'cave-of-origin': [16.4, 7.4], 'sky-pillar': [15.4, 13.2],
       'hoenn-victory-road': [19.6, 10.2], 'hoenn-pokemon-league': [19.6, 9.4],
-      'island-cave': [-0.2, 11.8], 'desert-ruins': [8.4, 2.2], 'ancient-tomb': [12.8, 1.8], 'sealed-chamber': [10, 12.8]
+      'island-cave': [-0.2, 11.8], 'desert-ruins': [8.4, 2.2], 'ancient-tomb': [12.8, 1.8], 'sealed-chamber': [10, 12.8],
+      'terra-cave': [2.4, 1.6], 'marine-cave': [19, 7.2], 'southern-island': [12.4, 14.6]
     },
     ROADS: { 101: [[4, 12], [4, 9.5]], 102: [[4, 9.5], [1.2, 9.5]], 103: [[4, 9.5], [4, 8], [8, 8]], 104: [[1.2, 9.5], [0.4, 9.5], [0.4, 4.5], [1.2, 4.5]],
              116: [[1.2, 4.5], [3.6, 4.5]], 106: [[1.2, 13.8], [0.4, 13.8], [0.4, 13.2]], 110: [[9, 12], [9, 6]],
@@ -140,10 +142,20 @@ G.TownMapUI = (() => {
     const loc = m && m.loc;
     if (!loc || (m.def.region || 'kanto') !== st.region) return null;
     if (R().AT[loc]) return pos(loc);
+    return middle(loc);
+  }
+  /** The middle of a route on the drawing, or null. */
+  function middle(loc) {
     const line = R().ROADS[routeNo(loc)] || R().SEA[routeNo(loc)];
     if (!line) return null;
     const [a, b] = [line[0], line[line.length - 1]];
     return [PAD + ((a[0] + b[0]) / 2 + 0.5) * CELL, PAD + ((a[1] + b[1]) / 2 + 0.5) * CELL];
+  }
+  /** The roaming Pokémon, once met: { at: [x, y], sp } on the Hoenn drawing, or null. */
+  function roamer() {
+    const id = st.region === 'hoenn' && G.Roam && G.Roam.where();
+    const at = id && G.Maps.has(id) ? middle(G.Maps.get(id).loc) : null;
+    return at ? { at, sp: G.Field.save.roamer.mon.sp } : null;
   }
 
   /** The drawing as large as its corner of the screen allows (the canvas keeps its own pixels). */
@@ -185,6 +197,11 @@ G.TownMapUI = (() => {
       c.fillRect(x - 4.5, y - 4.5, 9, 9);
       if (sel) { c.strokeStyle = blink ? '#ffffff' : '#ffe070'; c.lineWidth = 2; c.strokeRect(x - 8.5, y - 8.5, 17, 17); }
     }
+    const ro = roamer();
+    if (ro && !blink) {
+      c.fillStyle = '#20242c'; c.beginPath(); c.arc(ro.at[0], ro.at[1], 5.5, 0, 6.2832); c.fill();
+      c.fillStyle = ro.sp === 380 ? '#f05068' : '#5080f0'; c.beginPath(); c.arc(ro.at[0], ro.at[1], 4, 0, 6.2832); c.fill();
+    }
     const me = here();
     if (me && (!st.fly || blink)) {
       c.fillStyle = '#ffffff'; c.beginPath(); c.arc(me[0], me[1] - 9, 4.5, 0, 6.2832); c.fill();
@@ -199,6 +216,8 @@ G.TownMapUI = (() => {
     const p = el.querySelector('.tm-place');
     if (t) p.textContent = G.Names.loc(t.loc) + (m && m.loc === t.loc ? ' · ' + T('You are here') : '');
     else p.textContent = m && m.loc ? G.Names.loc(m.loc) + ' · ' + T('You are here') : '';
+    const ro = roamer();
+    if (ro) p.textContent += ' · ' + fmt('{mon} roams near the blinking dot.', { mon: G.Names.mon(ro.sp) });
   }
 
   function render() {

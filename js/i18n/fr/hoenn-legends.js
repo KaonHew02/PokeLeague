@@ -1,0 +1,27 @@
+/* French — hoenn-legends: Groudon, Kyogre, Latias and Latios (js/content/hoenn/legends.js). */
+G.I18n.add({
+  "Groudon, Kyogre, Latias and Latios: every legend of Hoenn's land, sea and sky has met you now.": "Groudon, Kyogre, Latias et Latios : toutes les légendes de la terre, de la mer et du ciel de Hoenn t'ont rencontré.",
+  "Every reading is calm now. The land and the sea of Hoenn are at rest.": "Tous les relevés sont calmes à présent. La terre et la mer de Hoenn sont au repos.",
+  "The skies have been calm since Rayquaza came down. Our instruments say it is still up there, watching from the Sky Pillar.": "Le ciel est calme depuis que Rayquaza est descendu. D'après nos instruments, il est toujours là-haut et veille depuis le Pilier Céleste.",
+  "These readings are strange! A fierce drought around Route 114, and rain that never stops over Route 127.": "Ces relevés sont étranges ! Une terrible sécheresse vers la Route 114, et une pluie qui ne s'arrête jamais sur le Chenal 127.",
+  "It is just like the day Groudon and Kyogre woke. Could the two of them be resting somewhere near there?": "C'est exactement comme le jour où Groudon et Kyogre se sont réveillés. Se reposeraient-ils quelque part par là ?",
+  "{player}, welcome home, Champion! You have to hear this: the news just showed a Pokémon soaring over Hoenn, faster than a jet!": "{player}, bon retour, Maître ! Écoute ça : les infos viennent de montrer un Pokémon qui survolait Hoenn, plus vite qu'un avion à réaction !",
+  "The picture was all a blur, but its color stood out. Did you see it on TV too?": "L'image était toute floue, mais sa couleur se voyait bien. Tu l'as vu à la télé, toi aussi ?",
+  "What color was the Pokémon?": "De quelle couleur était le Pokémon ?",
+  "Red": "Rouge",
+  "Blue": "Bleu",
+  "A blue one? Then it must have been {mon}! They say it is still flying all over Hoenn. Keep your eyes open on the routes!": "Un bleu ? Alors ce devait être {mon} ! On dit qu'il vole encore partout dans Hoenn. Garde l'œil ouvert sur les routes !",
+  "A red one? Then it must have been {mon}! They say it is still flying all over Hoenn. Keep your eyes open on the routes!": "Un rouge ? Alors ce devait être {mon} ! On dit qu'il vole encore partout dans Hoenn. Garde l'œil ouvert sur les routes !",
+  "Oh, and this came in the mail for you: a ticket with a picture of an island on it.": "Ah, et ceci est arrivé au courrier pour toi : un billet avec le dessin d'une île.",
+  "The sailors at the harbor in Lilycove City would know where it goes.": "Les marins du port de Nénucrique sauront où il mène.",
+  "The Pokémon by the great tree turns to look at you. It does not seem afraid.": "Le Pokémon près du grand arbre se tourne vers toi. Il n'a pas l'air d'avoir peur.",
+  "Waves of heat roll off the rock. The ground itself seems to breathe... Groudon opens its eyes!": "Des vagues de chaleur montent de la roche. Le sol lui-même semble respirer... Groudon ouvre les yeux !",
+  "The water of the pool swells and churns. Kyogre rises from the depths!": "L'eau du bassin gonfle et bouillonne. Kyogre surgit des profondeurs !",
+  "A crack runs through the rock. Hot, dry air seeps out of it, but it is far too narrow to get through.": "Une fissure traverse la roche. Un air chaud et sec s'en échappe, mais elle est bien trop étroite pour passer.",
+  "A dark opening in the rock. A strong current pours out of it, too strong to swim against.": "Une ouverture sombre dans la roche. Un courant en jaillit, bien trop fort pour nager à contre-courant.",
+  "The ferry is running again! An Eon Ticket, eh? That one sails to Southern Island, far to the south. Shall we go?": "Le ferry fonctionne de nouveau ! Un Passe Éon, hein ? Celui-là mène à l'Île du Sud, loin au sud. On y va ?",
+  "The ship sailed south over the calm sea...": "Le bateau a vogué vers le sud sur une mer calme...",
+  "The ferry is running again! But it only sails where you hold a ticket for, and you do not have one. Sorry, kid.": "Le ferry fonctionne de nouveau ! Mais il ne va que là où tu as un billet, et tu n'en as pas. Désolé, petit.",
+  "Ready to sail back to Lilycove City?": "Prêt à rentrer à Nénucrique ?",
+  "The ship sailed back north to Lilycove City.": "Le bateau est reparti vers le nord, jusqu'à Nénucrique."
+}, "fr");

@@ -216,6 +216,8 @@ G.ITEM_FX = {
   'go-goggles':    { key: 1 },
   // Chapter 34: Steven's Devon Scope shows Pokémon that cannot be seen (the Kecleon at Fortree's Gym).
   'devon-scope':   { key: 1 },
+  // Chapter 42: the Eon Ticket, for the ferry from Lilycove City to Southern Island.
+  'eon-ticket':    { key: 1 },
 
   // ---- fossils ----
   'helix-fossil':  { fossil: 138 },

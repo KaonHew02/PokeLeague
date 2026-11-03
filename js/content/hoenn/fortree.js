@@ -130,7 +130,9 @@
         defeat: 'Tch...',
         after: 'With the sea and the rain on our side, Team Aqua cannot lose!' }
     ],
-    npcs: [{ id: 'scientist', who: 'scientist', x: 3, y: 3, dir: 'down', script: 'institute.scientist' }]
+    npcs: [{ id: 'scientist', who: 'scientist', x: 3, y: 3, dir: 'down', script: 'institute.scientist' },
+           // Chapter 42: the readings that lead to Groudon and Kyogre (legends.js).
+           { id: 'forecaster', who: 'scientist', x: 8, y: 6, dir: 'down', if: 'hoenn-champion', script: 'legends.forecast' }]
   }, HOENN));
 
   G.Maps.def(Object.assign({

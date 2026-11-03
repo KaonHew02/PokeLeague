@@ -156,6 +156,7 @@ G.ITEMS = {
   meteorite: {"id":537,"pocket":"key","cat":"plot-advancement"},
   "go-goggles": {"id":536,"pocket":"key","cat":"gameplay"},
   "devon-scope": {"id":542,"pocket":"key","cat":"gameplay"},
+  "eon-ticket": {"id":534,"pocket":"key","cat":"event-items"},
   hm01: {"id":397,"pocket":"tms","cat":"all-machines","move":"cut"},
   hm02: {"id":398,"pocket":"tms","cat":"all-machines","move":"fly"},
   hm03: {"id":399,"pocket":"tms","cat":"all-machines","move":"surf"},

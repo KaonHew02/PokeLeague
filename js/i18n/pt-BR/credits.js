@@ -118,5 +118,8 @@ G.I18n.add({
   "Thank you for playing! Steven left a gift at his house in Mossdeep City.": "Obrigado por jogar! Steven deixou um presente na casa dele, em Mossdeep.",
   "Chapter 41 complete!": "Capítulo 41 concluído!",
   "{player} read the braille of Hoenn's ruins, unsealed the chamber under the sea, and met Regirock, Regice and Registeel.": "{player} leu o braile das ruínas de Hoenn, abriu a câmara selada sob o mar e encontrou Regirock, Regice e Registeel.",
-  "Groudon and Kyogre still sleep somewhere in Hoenn, and people say two Pokémon of red and blue soar over its skies...": "Groudon e Kyogre ainda dormem em algum lugar de Hoenn, e dizem que dois Pokémon, um vermelho e um azul, cruzam os seus céus..."
+  "Groudon and Kyogre still sleep somewhere in Hoenn, and people say two Pokémon of red and blue soar over its skies...": "Groudon e Kyogre ainda dormem em algum lugar de Hoenn, e dizem que dois Pokémon, um vermelho e um azul, cruzam os seus céus...",
+  "Chapter 42 complete!": "Capítulo 42 concluído!",
+  "{player} found Groudon and Kyogre where the weather ran wild, chased a Pokémon across the skies of Hoenn, and sailed to Southern Island.": "{player} encontrou Groudon e Kyogre onde o tempo enlouquecia, perseguiu um Pokémon pelos céus de Hoenn e navegou até Southern Island.",
+  "Thank you for playing! Every legend of Hoenn has met you now.": "Obrigado por jogar! Agora você já encontrou todas as lendas de Hoenn."
 }, "pt-BR");

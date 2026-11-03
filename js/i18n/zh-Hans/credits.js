@@ -118,5 +118,8 @@ G.I18n.add({
   "Thank you for playing! Steven left a gift at his house in Mossdeep City.": "感谢游玩！大吾在绿岭市的家里留下了一份礼物。",
   "Chapter 41 complete!": "第四十一章完成！",
   "{player} read the braille of Hoenn's ruins, unsealed the chamber under the sea, and met Regirock, Regice and Registeel.": "{player}读懂了丰缘遗迹的点字，解开了海底石室的封印，遇见了雷吉洛克、雷吉艾斯和雷吉斯奇鲁。",
-  "Groudon and Kyogre still sleep somewhere in Hoenn, and people say two Pokémon of red and blue soar over its skies...": "固拉多和盖欧卡仍沉睡在丰缘的某处，而且听说有一红一蓝两只宝可梦在天空中翱翔……"
+  "Groudon and Kyogre still sleep somewhere in Hoenn, and people say two Pokémon of red and blue soar over its skies...": "固拉多和盖欧卡仍沉睡在丰缘的某处，而且听说有一红一蓝两只宝可梦在天空中翱翔……",
+  "Chapter 42 complete!": "第四十二章完成！",
+  "{player} found Groudon and Kyogre where the weather ran wild, chased a Pokémon across the skies of Hoenn, and sailed to Southern Island.": "{player}在天气异常的地方找到了固拉多和盖欧卡，追着一只宝可梦跑遍丰缘的天空，还航行到了南方孤岛。",
+  "Thank you for playing! Every legend of Hoenn has met you now.": "感谢游玩！丰缘所有的传说都已经与你相遇。"
 }, "zh-Hans");

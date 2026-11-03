@@ -50,7 +50,7 @@ test('a Bug-Catching Contest saved halfway keeps its entrant, balls, steps and c
 test('a new save has the documented shape', () => {
   const s = G.Store.newSave({ name: 'Ash', gender: 'f', rival: 'Gary', id: 70000 });
   assert.deepEqual(Object.keys(s).sort(), ['app', 'bag', 'box', 'boxes', 'contest', 'created', 'daycare', 'daycareEgg', 'dex', 'done', 'eggs', 'fame', 'flags', 'party', 'player', 'playTime',
-    'repel', 'rival', 'rival2', 'rival3', 'savedAt', 'v', 'vars'].sort());
+    'repel', 'rival', 'rival2', 'rival3', 'roamer', 'savedAt', 'v', 'vars'].sort());
   assert.equal(s.app, 'PokeLeague');
   assert.equal(s.player.name, 'Ash');
   assert.equal(s.player.gender, 'f');
@@ -233,6 +233,18 @@ test('a hostile save file: no prototype pollution, every field is checked, names
   assert.deepEqual(plain(r.save.bag), { potion: 2 });
   assert.equal(r.save.rival.starter, null);
   assert.equal(r.save.fame[0].party[0].lvl, 1);
+});
+
+test('a roaming Pokémon (chapter 42) is kept with its HP and status; a broken one is dropped', () => {
+  const s = G.Store.newSave({ name: 'May' });
+  assert.equal(s.roamer, null);
+  const m = mon(380, 40);
+  m.hp = 20; m.status = 'par';
+  s.roamer = { mon: m, map: 'route118', seen: true };
+  const back = G.Store.sanitize(JSON.parse(JSON.stringify(s)));
+  assert.deepEqual([back.roamer.mon.sp, back.roamer.mon.hp, back.roamer.mon.status, back.roamer.map, back.roamer.seen], [380, 20, 'par', 'route118', true]);
+  assert.equal(G.Store.sanitize(Object.assign({}, s, { roamer: { mon: { sp: 9999 }, map: 'route118' } })).roamer, null);
+  assert.equal(G.Store.sanitize(Object.assign({}, s, { roamer: { mon: m, map: 7 } })).roamer, null);
 });
 
 test('the PC: caught Pokémon go to the current box first, healed', () => {

@@ -84,6 +84,8 @@
  * knows the move; the party menu offers them, G.World.useMoveSpot runs the script with ctx.mon); a
  * `walkAround` runs its script once every tile of its edge was stepped on during one visit; a `desert`
  * map meets wild Pokémon on any step, and its battles are in a sandstorm.
+ * Chapter 42: a roaming Pokémon (G.Roam, roam.js) moves on at each map change; on its route one wild
+ * encounter in four (walking or surfing) is it, fought with rules.roamer (it flees), then G.Roam.after.
  * Chapter 15: berry trees (`y`): one to three berries once a day (the map's `berries`: [[x, y, item]]).
  * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
  * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
@@ -380,6 +382,7 @@ G.World = (() => {
     setSurf(isWater(me.x, me.y));
     setBike(!surfing && canRide(m) && (biking || !!G.Field.save.player.bike || mustRide(m)));
     visit(m);
+    if (G.Roam) G.Roam.move(rng);                              // a roaming Pokémon moves on (chapter 42)
     makeActors();
     makeFollower();
     G.Player.reset();
@@ -422,6 +425,7 @@ G.World = (() => {
     map = a.map;
     cut = new Set();
     around = new Set();
+    if (G.Roam) G.Roam.move(rng);
     strength = false;
     if (!map.def.dark) lit = false;
     me.x -= nb.ox; me.y -= nb.oy; me.fx -= nb.ox; me.fy -= nb.oy;
@@ -726,6 +730,9 @@ G.World = (() => {
     if (debug.noEnc || !G.Field.party().length) return false;
     const wild = rollWild(method);
     if (!wild) return false;
+    // The roaming Pokémon on this route (chapter 42): one wild encounter in four is it.
+    const rm = (method === 'walk' || method === 'surf') && G.Roam && G.Roam.meets(rng, map.id);
+    if (rm) Object.assign(wild, { sp: rm.sp, lvl: rm.lvl, roamer: true });
     const lead = G.Field.lead();
     if (G.Field.save.repel > 0 && lead && wild.lvl < lead.lvl) return false;
     G.Player.walk(null);
@@ -753,6 +760,7 @@ G.World = (() => {
         if (wild.form) o.form = wild.form;
         if (wild.moves) o.moves = wild.moves;
         if (wild.shiny) o.shinyOdds = 1;
+        if (wild.roamer) { o.mon = G.Field.save.roamer.mon; o.rules.roamer = true; }
         r = await G.BattleUI.wild(me, wild.sp, wild.lvl, o);
       }
       else r = await fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) }));
@@ -760,6 +768,10 @@ G.World = (() => {
       out = settle(r);
     } finally { locks--; }
     G.Field.lastBattle = out;
+    if (wild.roamer && G.Roam) {
+      G.Roam.after(out, rng);
+      if (out === 'caught' && G.Script.get('legends.done')) await runScript('legends.done', {});
+    }
     if (contest) {
       safariHud();
       const m = G.Contest.entrant();

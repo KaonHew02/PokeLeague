@@ -237,6 +237,8 @@
       ]]
     ],
     'hoenn.mrs-birch': [
+      // Chapter 42: back home as the Champion, the news of a red or blue Pokémon (legends.js).
+      ['if', ['hoenn-champion', '!lati-chosen'], [['call', 'legends.tv'], ['end']]],
       ['if', 'hoenn-start', [
         ['say', '{player}, you look tired. Have a little rest.'],
         ['heal'], ['lastHeal', 'mom'],

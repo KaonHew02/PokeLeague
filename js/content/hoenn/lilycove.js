@@ -122,7 +122,7 @@
       { x: 38, y: 20, to: 'aqua-hideout-1f', spot: 'door', locked: 'lilycove.cave', if: 'orbs-taken' }
     ],
     spots: { 'center-door': [6, 8, 'down'], 'dept-door': [19, 8, 'down'], 'museum-door': [6, 18, 'down'], 'house-door': [15, 18, 'down'],
-             'house2-door': [26, 18, 'down'], hideout: [38, 21, 'down'] },
+             'house2-door': [26, 18, 'down'], hideout: [38, 21, 'down'], harbor: [21, 22, 'up'] },
     signs: {
       '12,8': 'Lilycove City. Where the land ends and the sea begins.',
       '24,8': 'Lilycove Department Store. Everything a Trainer could wish for, under one roof!',
@@ -134,8 +134,8 @@
         say: 'The Department Store has five... no, two floors! It just feels like five when you are shopping with my mum.' },
       { id: 'girl', who: 'lass', x: 34, y: 13, move: 'look',
         say: 'Lilycove is where the land runs out. Past the beach, it is nothing but sea all the way to Mossdeep City.' },
-      { id: 'sailor', who: 'sailor', x: 22, y: 20, move: 'look',
-        say: 'The ferry is not running right now. Some trouble out at sea, they say. Sorry, kid.' },
+      // Chapter 42: once you are the Champion, the ferry sails (to Southern Island with an Eon Ticket; legends.js).
+      { id: 'sailor', who: 'sailor', x: 22, y: 20, move: 'look', script: 'legends.ferry' },
       { id: 'fisher', who: 'fisherman', x: 20, y: 26, dir: 'down',
         say: 'Wailmer swim into the bay at dawn. One day I will see a Wailord too: they are as big as a ship!' },
       { id: 'grunt', who: 'aqua', x: 38, y: 21, dir: 'down', if: '!orbs-taken', script: 'lilycove.cave' },

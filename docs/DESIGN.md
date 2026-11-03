@@ -1899,12 +1899,39 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Tests:** `tests/field.test.cjs` the mechanisms on test maps and the whole chapter on the real maps
   (the hiker, the desert, Dive into the chamber, the wrong and the right party order, each door, the
   three battles); `tests/story.test.cjs` Route 105's swimmers and the Regis (beaten by the story team).
+- **Chapter 42** ✅, Hoenn after the League: Groudon, Kyogre, Latias and Latios. Engine: a roaming
+  Pokémon. The battle rule `rules.roamer` (battle.js, ai.js): unless held (`b.held(bm)`: Mean Look,
+  Block, Spider Web, a binding move, Ingrain, Shadow Tag, Arena Trap; Levitate floats out of Arena
+  Trap), the wild Pokémon chooses `{ type: 'flee' }`, ordered like a move with no priority (so a ball
+  always goes first, a faster foe moves first); asleep, frozen, flinching or fully paralysed it cannot,
+  and held by then it stays (`roamHeld`); fleeing ends the battle (`roamFled`, outcome `fled`).
+  `js/world/roam.js` (G.Roam): `save.roamer = { mon, map, seen }` (the Pokémon itself, so its HP and
+  status stay; kept by `G.Store.sanitize`); it moves at each map change (field.js `load` and `cross`) to a
+  route next to its own, through a town too, or 1 time in 16 anywhere (the world's seeded RNG); on its
+  route one wild encounter in four is it (`G.BattleUI.wild` takes `opts.mon`); after its battle,
+  `G.Roam.after(outcome)`: caught, it is gone (flag `roamer-caught`); beaten, it recovers far away (in
+  the games it was gone for good); otherwise it moves on. Once met, the Town Map shows a blinking dot on
+  its route (red Latias, blue Latios). Content (`js/content/hoenn/legends.js`, translations
+  `hoenn-legends`): once Rayquaza is met, the Weather Institute's forecaster reads a drought by Route 114
+  and rain over Route 127 (flag `weather-report`): the Terra Cave on Route 114 (a locked mouth until
+  then; Groudon, level 70) and the Marine Cave from Route 127's sea floor (you come up in its pool;
+  Kyogre, 70). As the Champion, Mrs. Birch tells of a red or blue Pokémon on the news: the colour named
+  roams (red Latias, blue Latios, level 40; flags `lati-red` / `lati-blue`), and she hands over the Eon
+  Ticket (`eon-ticket`, a key item from PokeAPI). The ferry in Lilycove City runs for the Champion and
+  sails to Southern Island with it, where the other one waits by the great tree (level 50, flag
+  `southern-met`). With all four met (the roaming one caught), `ending(42)`. Place names for the Terra
+  Cave, the Marine Cave and Southern Island in `tools/fetch_data.py`.
+- **Tests:** `tests/roam.test.cjs` the battle rule; `tests/field.test.cjs` the whole chapter on the real
+  maps (the locked crack, the forecast, both caves, the news, the roaming one moving, met one encounter
+  in four, its HP kept, beaten and recovered, the island, caught at last); `tests/save.test.cjs` the
+  save's roamer; `tests/story.test.cjs` Rayquaza, Groudon, Kyogre, Latios, then Latias (met, then a
+  Master Ball before it can flee).
 
-### After chapter 41
+### After chapter 42
 
-The journey through Kanto, Johto and Hoenn is complete (Pokémon 1-386), with double battles. Ideas:
-1. Hoenn after the League: Groudon and Kyogre to catch (Terra and Marine Caves), Latias and Latios
-   (roaming, Southern Island; chapter 42), the Battle Tower or Battle Frontier (singles and doubles).
+The journey through Kanto, Johto and Hoenn is complete (Pokémon 1-386), with double battles and every
+legend of Hoenn. Ideas:
+1. Hoenn after the League: the Battle Tower or Battle Frontier (singles and doubles).
 2. Engine features: multi battles with a partner (Steven at the Space Center), abilities outside
    battle, Pokéblocks or another way to evolve Feebas, Repel steps.
 3. A fourth region needs Pokémon 387 and up (`tools/fetch_data.py`), their sprites and moves.

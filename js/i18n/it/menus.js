@@ -195,5 +195,6 @@ G.I18n.add({
   "Mind Badge": "Medaglia Mente",
   "Rain Badge": "Medaglia Pioggia",
   "Ability": "Abilità",
-  "Hoenn": "Hoenn"
+  "Hoenn": "Hoenn",
+  "{mon} roams near the blinking dot.": "{mon} vaga vicino al punto lampeggiante."
 }, "it");

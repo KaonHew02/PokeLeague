@@ -8,7 +8,7 @@
  *     foe:    { party, trainer: { id, name, title, ai: 'basic' | 'leader', items: {potion: 1}, prize: 20 } | null },
  *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', noCatch: false, forceCatch: false (debug),
  *               fishing: false (hooked with a rod: the Lure Ball), weather: 'rain' (the overworld's, for the whole battle),
- *               double: false (two Pokémon a side, trainers only) } })
+ *               double: false (two Pokémon a side, trainers only), roamer: false (a roaming wild Pokémon that flees) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
  *                           | { kind: 'learn', uid, move } | null (battle over)
@@ -32,6 +32,11 @@
  * spread moves (effects.js) hit every target; each fainted slot is refilled on its own ({ kind: 'switch',
  * forced: true, slot }), or stays empty. A player with only one Pokémon able to fight has one slot.
  * Singles keep their own code paths: the same seed and choices give the same battle as before.
+ *
+ * A roaming Pokémon (chapter 42, rules.roamer: Latias or Latios): unless it is held (Mean Look, Block,
+ * Spider Web, a binding move, Ingrain, Shadow Tag, Arena Trap), it chooses { type: 'flee' }, which goes in
+ * the order of a move with no priority; asleep, frozen, flinching or fully paralysed it cannot, and held
+ * by then it stays ('roamHeld'). Fleeing ends the battle: 'roamFled', outcome 'fled'.
  *
  * Events are plain objects { type, ... } that the battle screen plays in order
  * (text: G.BattleText.line(event, battle)). side 0 = the player, 1 = the foe.
@@ -409,7 +414,7 @@ G.Battle = (() => {
         const bm = x.side.bm;
         const id = x.a.type === 'move' ? (x.a.id || (bm.mon.moves[x.a.slot] || {}).id) : null;
         return Object.assign(x, {
-          bracket: x.a.type === 'move' ? 0 : 1,
+          bracket: x.a.type === 'move' || x.a.type === 'flee' ? 0 : 1,
           pri: id && G.MOVES[id] ? G.MOVES[id].pri : 0,
           quick: x.a.type === 'move' && G.Held.quick(this, bm) ? 1 : 0,          // Quick Claw
           spe: this.stat(bm, 'spe'), tie: this.rng.next()
@@ -435,7 +440,7 @@ G.Battle = (() => {
       for (const x of acts) {
         const id = x.a.type === 'move' ? (x.a.id || (x.bm.mon.moves[x.a.slot] || {}).id) : null;
         Object.assign(x, {
-          bracket: x.a.type === 'move' ? 0 : 1,
+          bracket: x.a.type === 'move' || x.a.type === 'flee' ? 0 : 1,
           pri: id && G.MOVES[id] ? G.MOVES[id].pri : 0,
           quick: x.a.type === 'move' && G.Held.quick(this, x.bm) ? 1 : 0,          // Quick Claw
           spe: this.stat(x.bm, 'spe'), tie: this.rng.next()
@@ -454,8 +459,31 @@ G.Battle = (() => {
       else if (a.type === 'run') this.tryRun();
       else if (a.type === 'ball') this.throwBall(a.item);
       else if (a.type === 'item') G.BattleItems.use(this, side, a, bm);
+      else if (a.type === 'flee') this.roamFlee(bm);
       else this.doMove(bm, a);
       this.afterAction();
+    }
+
+    /** Held in battle: it can neither switch out nor run (nor, roaming, flee). */
+    held(bm) { return this.trapped(bm) || G.Abilities.traps(this, bm); }
+
+    /** A roaming Pokémon flees (rules.roamer): not while asleep, frozen, flinching or fully paralysed, nor held. */
+    roamFlee(bm) {
+      const mon = bm.mon, say = why => this.emit('cantMove', { side: bm.side, uid: mon.uid, why });
+      if (bm.vol.recharge) { bm.vol.recharge = false; return say('recharge'); }
+      if (mon.status === 'slp') {
+        if (mon.slp > 0) { mon.slp = Math.max(0, mon.slp - (G.Abilities.earlyBird(bm) ? 2 : 1)); return say('slp'); }
+        mon.status = null; this.emit('wake', { side: bm.side, uid: mon.uid });
+      }
+      if (mon.status === 'frz') {
+        if (!this.rng.pct(20)) return say('frz');
+        mon.status = null; this.emit('thaw', { side: bm.side, uid: mon.uid });
+      }
+      if (bm.vol.flinch && !G.Abilities.blocksFlinch(bm)) return say('flinch');
+      if (mon.status === 'par' && this.rng.pct(25)) return say('par');
+      if (this.held(bm)) return this.emit('roamHeld', { side: bm.side, uid: mon.uid });
+      this.emit('roamFled', { side: bm.side, uid: mon.uid });
+      this.finish('fled');
     }
 
     /** Doubles: the chosen target, or the other foe when it is gone (Generation 3). */

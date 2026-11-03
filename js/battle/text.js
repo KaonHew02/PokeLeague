@@ -194,6 +194,8 @@ G.BattleText = (() => {
       case 'angry': return fmt('{mon} is angry!', { mon: who(b, e.uid, 1) });
       case 'watching': return fmt('{mon} is watching carefully!', { mon: who(b, e.uid, 1) });
       case 'safariFled': return fmt('{mon} fled!', { mon: who(b, e.uid, 1) });
+      case 'roamFled': return fmt('{mon} fled!', { mon: who(b, e.uid, 1) });
+      case 'roamHeld': return fmt('{mon} tried to flee, but it could not get away!', { mon: who(b, e.uid, 1) });
       case 'noBalls': return fmt('You have no Safari Balls left!', {});
       case 'metronome': return fmt('Waggling a finger let it use {move}!', { move: G.Names.move(e.move) });
       case 'typeChange': return fmt("{mon}'s type changed to {type}!", { mon, type: G.Names.type(e.to) });

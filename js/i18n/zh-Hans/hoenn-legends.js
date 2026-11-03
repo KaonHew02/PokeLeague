@@ -1,0 +1,27 @@
+/* Simplified Chinese — hoenn-legends: Groudon, Kyogre, Latias and Latios (js/content/hoenn/legends.js). */
+G.I18n.add({
+  "Groudon, Kyogre, Latias and Latios: every legend of Hoenn's land, sea and sky has met you now.": "固拉多、盖欧卡、拉帝亚斯和拉帝欧斯：丰缘的大地、海洋与天空的传说，都已经与你相遇了。",
+  "Every reading is calm now. The land and the sea of Hoenn are at rest.": "现在所有的读数都很平稳。丰缘的大地与海洋都安静下来了。",
+  "The skies have been calm since Rayquaza came down. Our instruments say it is still up there, watching from the Sky Pillar.": "自从烈空坐降临以后，天空就一直很平静。仪器显示它还在高处，从天空柱上守望着。",
+  "These readings are strange! A fierce drought around Route 114, and rain that never stops over Route 127.": "这些读数好奇怪！114号道路一带严重干旱，127号道路上空却下着停不了的雨。",
+  "It is just like the day Groudon and Kyogre woke. Could the two of them be resting somewhere near there?": "这和固拉多与盖欧卡醒来的那天一模一样。难道它们就在那附近休息吗？",
+  "{player}, welcome home, Champion! You have to hear this: the news just showed a Pokémon soaring over Hoenn, faster than a jet!": "{player}，欢迎回家，冠军！你一定要听听这个：新闻刚刚播出一只宝可梦飞过丰缘的天空，比喷气机还快！",
+  "The picture was all a blur, but its color stood out. Did you see it on TV too?": "画面糊成一片，不过它的颜色很显眼。你也在电视上看到了吗？",
+  "What color was the Pokémon?": "那只宝可梦是什么颜色的？",
+  "Red": "红色",
+  "Blue": "蓝色",
+  "A blue one? Then it must have been {mon}! They say it is still flying all over Hoenn. Keep your eyes open on the routes!": "蓝色的？那一定是{mon}！听说它还在丰缘各地飞来飞去。在道路上要多留意哦！",
+  "A red one? Then it must have been {mon}! They say it is still flying all over Hoenn. Keep your eyes open on the routes!": "红色的？那一定是{mon}！听说它还在丰缘各地飞来飞去。在道路上要多留意哦！",
+  "Oh, and this came in the mail for you: a ticket with a picture of an island on it.": "对了，有你的信：一张画着小岛的船票。",
+  "The sailors at the harbor in Lilycove City would know where it goes.": "水静市港口的水手应该知道它通往哪里。",
+  "The Pokémon by the great tree turns to look at you. It does not seem afraid.": "大树旁的宝可梦转过头来看着你。它似乎一点也不害怕。",
+  "Waves of heat roll off the rock. The ground itself seems to breathe... Groudon opens its eyes!": "岩石冒出阵阵热浪。大地仿佛在呼吸……固拉多睁开了眼睛！",
+  "The water of the pool swells and churns. Kyogre rises from the depths!": "水池的水翻腾涌动。盖欧卡从深处浮上来了！",
+  "A crack runs through the rock. Hot, dry air seeps out of it, but it is far too narrow to get through.": "岩石上有一道裂缝。里面渗出干燥的热风，可是太窄了，根本过不去。",
+  "A dark opening in the rock. A strong current pours out of it, too strong to swim against.": "岩石上有个黑漆漆的洞口。里面涌出强劲的水流，根本没办法逆流游进去。",
+  "The ferry is running again! An Eon Ticket, eh? That one sails to Southern Island, far to the south. Shall we go?": "渡轮又开始航行了！哦，无限船票？这张票是去南方孤岛的，在很远的南方。要出发吗？",
+  "The ship sailed south over the calm sea...": "船在平静的海面上向南航行……",
+  "The ferry is running again! But it only sails where you hold a ticket for, and you do not have one. Sorry, kid.": "渡轮又开始航行了！不过只能去你有船票的地方，可惜你没有船票。抱歉啦，小朋友。",
+  "Ready to sail back to Lilycove City?": "准备好回水静市了吗？",
+  "The ship sailed back north to Lilycove City.": "船向北航行，回到了水静市。"
+}, "zh-Hans");

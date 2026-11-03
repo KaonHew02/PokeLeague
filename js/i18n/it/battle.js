@@ -185,5 +185,6 @@ G.I18n.add({
   "{mon} took the attack with its {ability}!": "{mon} attira l'attacco con {ability}!",
   "{mon} avoided the attack!": "{mon} ha evitato l'attacco!",
   "{mon} is ready to help {target}!": "{mon} è pronto ad aiutare {target}!",
-  "{mon} became the center of attention!": "{mon} è al centro dell'attenzione!"
+  "{mon} became the center of attention!": "{mon} è al centro dell'attenzione!",
+  "{mon} tried to flee, but it could not get away!": "{mon} ha provato a fuggire, ma non ci è riuscito!"
 }, "it");

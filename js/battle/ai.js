@@ -19,6 +19,8 @@ G.BattleAI = (() => {
   }
 
   function choose(b, side, slot) {
+    // A roaming Pokémon (rules.roamer, chapter 42) flees whenever it is not held.
+    if (b.rules.roamer && b.kind === 'wild' && side === b.foe && !b.held(side.bm)) return { type: 'flee' };
     if (b.double) return chooseDouble(b, side, slot || 0);
     const bm = side.bm;
     const moves = usable(bm);

@@ -310,9 +310,9 @@
     id: 'route114', loc: 'hoenn-route-114', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       'TTTTTTTTTTTTTTTTTTTTTTTT',
-      'T########..............T',
-      'T########..............T',
-      'T###O####..............T',
+      'T########.......#####..T',
+      'T########.......#####..T',
+      'T###O####.......##O##..T',
       'T...,,.................T',
       'T...,,...."""""""""....T',
       'T...,,...."""""""""....T',
@@ -341,8 +341,10 @@
       'TTTTTTTTTTTTTTTTTTTTTTTT'
     ],
     connect: { east: { map: 'fallarbor', offset: 14 } },
-    warps: [{ x: 4, y: 3, to: 'meteor-falls', spot: 'mouth' }],
-    spots: { falls: [4, 4, 'down'] },
+    // Chapter 42: the Terra Cave opens once the Weather Institute has read the drought (legends.js).
+    warps: [{ x: 4, y: 3, to: 'meteor-falls', spot: 'mouth' },
+            { x: 18, y: 3, to: 'terra-cave', spot: 'door', if: 'weather-report', locked: 'legends.terra-closed' }],
+    spots: { falls: [4, 4, 'down'], terra: [18, 4, 'down'] },
     signs: { '20,23': 'Route 114. East: Fallarbor Town. North-west: Meteor Falls.' },
     trainers: [
       { id: 'kai', who: 'fisherman', cls: 'fisherman', name: 'Kai', x: 7, y: 12, dir: 'left', sight: 2, team: [['barboach', 21], ['carvanha', 22]],

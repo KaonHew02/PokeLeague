@@ -1,0 +1,27 @@
+/* Italian — hoenn-legends: Groudon, Kyogre, Latias and Latios (js/content/hoenn/legends.js). */
+G.I18n.add({
+  "Groudon, Kyogre, Latias and Latios: every legend of Hoenn's land, sea and sky has met you now.": "Groudon, Kyogre, Latias e Latios: tutte le leggende della terra, del mare e del cielo di Hoenn ti hanno incontrato.",
+  "Every reading is calm now. The land and the sea of Hoenn are at rest.": "Ora ogni rilevazione è tranquilla. La terra e il mare di Hoenn riposano.",
+  "The skies have been calm since Rayquaza came down. Our instruments say it is still up there, watching from the Sky Pillar.": "Il cielo è tranquillo da quando Rayquaza è sceso. I nostri strumenti dicono che è ancora lassù, a vegliare dalla Torre dei Cieli.",
+  "These readings are strange! A fierce drought around Route 114, and rain that never stops over Route 127.": "Che rilevazioni strane! Una siccità terribile intorno al Percorso 114 e una pioggia che non smette mai sul Percorso 127.",
+  "It is just like the day Groudon and Kyogre woke. Could the two of them be resting somewhere near there?": "È proprio come il giorno in cui si sono risvegliati Groudon e Kyogre. Che stiano riposando da qualche parte lì vicino?",
+  "{player}, welcome home, Champion! You have to hear this: the news just showed a Pokémon soaring over Hoenn, faster than a jet!": "{player}, bentornato, Campione! Devi sentire questa: al telegiornale hanno appena mostrato un Pokémon che sfrecciava sopra Hoenn, più veloce di un jet!",
+  "The picture was all a blur, but its color stood out. Did you see it on TV too?": "L'immagine era tutta sfocata, ma il suo colore si vedeva bene. L'hai visto anche tu in TV?",
+  "What color was the Pokémon?": "Di che colore era il Pokémon?",
+  "Red": "Rosso",
+  "Blue": "Blu",
+  "A blue one? Then it must have been {mon}! They say it is still flying all over Hoenn. Keep your eyes open on the routes!": "Uno blu? Allora doveva essere {mon}! Dicono che stia ancora volando per tutta Hoenn. Tieni gli occhi aperti lungo i percorsi!",
+  "A red one? Then it must have been {mon}! They say it is still flying all over Hoenn. Keep your eyes open on the routes!": "Uno rosso? Allora doveva essere {mon}! Dicono che stia ancora volando per tutta Hoenn. Tieni gli occhi aperti lungo i percorsi!",
+  "Oh, and this came in the mail for you: a ticket with a picture of an island on it.": "Ah, ed è arrivato questo per posta per te: un biglietto con il disegno di un'isola.",
+  "The sailors at the harbor in Lilycove City would know where it goes.": "I marinai del porto di Porto Alghepoli sapranno dove porta.",
+  "The Pokémon by the great tree turns to look at you. It does not seem afraid.": "Il Pokémon accanto al grande albero si volta a guardarti. Non sembra spaventato.",
+  "Waves of heat roll off the rock. The ground itself seems to breathe... Groudon opens its eyes!": "Ondate di calore si alzano dalla roccia. Il terreno stesso sembra respirare... Groudon apre gli occhi!",
+  "The water of the pool swells and churns. Kyogre rises from the depths!": "L'acqua della pozza si gonfia e ribolle. Kyogre emerge dalle profondità!",
+  "A crack runs through the rock. Hot, dry air seeps out of it, but it is far too narrow to get through.": "Una crepa attraversa la roccia. Ne esce un'aria calda e secca, ma è troppo stretta per passarci.",
+  "A dark opening in the rock. A strong current pours out of it, too strong to swim against.": "Un'apertura buia nella roccia. Ne esce una corrente troppo forte per nuotarci contro.",
+  "The ferry is running again! An Eon Ticket, eh? That one sails to Southern Island, far to the south. Shall we go?": "Il traghetto è di nuovo in servizio! Un Biglietto Eone, eh? Quello porta all'Isola Remota, lontano a sud. Andiamo?",
+  "The ship sailed south over the calm sea...": "La nave salpò verso sud sul mare calmo...",
+  "The ferry is running again! But it only sails where you hold a ticket for, and you do not have one. Sorry, kid.": "Il traghetto è di nuovo in servizio! Ma va solo dove hai un biglietto, e tu non ne hai. Mi spiace, ragazzo.",
+  "Ready to sail back to Lilycove City?": "Pronto a tornare a Porto Alghepoli?",
+  "The ship sailed back north to Lilycove City.": "La nave tornò a nord, a Porto Alghepoli."
+}, "it");

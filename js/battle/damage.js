@@ -1,10 +1,10 @@
 /* ============ damage.js — the damage formula (Generation 5 and later) ============
- *   G.Damage.calc({ lvl, pow, atk, def, stab, eff, crit, roll, burn, screen, weather })
+ *   G.Damage.calc({ lvl, pow, atk, def, stab, eff, crit, roll, burn, screen, weather, spread })
  *     -> damage (an integer)
  *
  *   base = floor(floor(floor(2·L/5 + 2) · P · A / D) / 50) + 2
  *   then, rounding down after each step:
- *     weather ×1.5 / ×0.5 → critical ×1.5 → random roll 85..100 % → STAB ×1.5
+ *     spread (a move hitting both foes in a double battle: ×0.5, Generation 3) → weather ×1.5 / ×0.5 → critical ×1.5 → random roll 85..100 % → STAB ×1.5
  *     → type effectiveness → burn ×0.5 (physical) → Reflect / Light Screen ×0.5
  *   At least 1 unless the target is immune (eff 0 -> 0).
  *
@@ -19,6 +19,7 @@ G.Damage = (() => {
   function calc(o) {
     if (o.eff === 0) return 0;
     let d = base(o.lvl, o.pow, o.atk, o.def);
+    if (o.spread) d = Math.floor(d * o.spread);
     if (o.weather) d = Math.floor(d * o.weather);
     if (o.crit) d = Math.floor(d * 1.5);
     d = Math.floor(d * (o.roll == null ? 100 : o.roll) / 100);

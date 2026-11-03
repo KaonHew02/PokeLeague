@@ -44,5 +44,9 @@ G.I18n.add({
   "Taillow is small, but it never gives up, even against a bigger foe.": "傲骨燕虽然个子小，就算对手比它大也绝不放弃。",
   "Berries grow on trees all over Hoenn. Pick them, and a new crop grows the next day!": "丰缘到处都有长着树果的树。摘下来以后，第二天又会结出新的！",
   "Route 104. North: Petalburg Woods. East: Petalburg City.": "104号道路。北：橙华森林。东：橙华市。",
-  "Route 104. North: Rustboro City. South: Petalburg Woods.": "104号道路。北：卡那兹市。南：橙华森林。"
+  "Route 104. North: Rustboro City. South: Petalburg Woods.": "104号道路。北：卡那兹市。南：橙华森林。",
+  "Gina & Mia": "吉娜和米亚",
+  "We are twins, so we always battle together! Two against two!": "我们是双胞胎，所以总是一起对战！二对二！",
+  "We lost together too...": "我们也是一起输的……",
+  "When we battle side by side, we think the same thoughts. Most of the time.": "我们并肩对战的时候，想的都是同一件事。大部分时候是。"
 }, "zh-Hans");

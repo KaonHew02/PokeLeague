@@ -71,5 +71,9 @@ G.I18n.add({
   "A painting of Mt. Pyre in the morning mist. It feels peaceful, and a little sad.": "Un tableau du Mont Mémoria dans la brume du matin. Il dégage une impression de paix, et un peu de tristesse.",
   "A painting of two huge Pokémon, one of the land and one of the sea, clashing under a stormy sky. The plate reads: \"The Ancient Battle\".": "Un tableau de deux Pokémon immenses, l'un de la terre et l'autre de la mer, qui s'affrontent sous un ciel d'orage. La plaque indique : « La Bataille Ancestrale ».",
   "A sculpture of a Pokémon made of bright, curving lines. The plate has not been filled in yet.": "Une sculpture de Pokémon faite de lignes courbes et lumineuses. La plaque n'a pas encore été remplie.",
-  "A stone altar. Two hollows in it once held a red orb and a blue orb.": "Un autel de pierre. Ses deux creux abritaient autrefois un orbe rouge et un orbe bleu."
+  "A stone altar. Two hollows in it once held a red orb and a blue orb.": "Un autel de pierre. Ses deux creux abritaient autrefois un orbe rouge et un orbe bleu.",
+  "Lois & Hal": "Lois et Hal",
+  "We do everything together, and that includes battles!": "On fait tout ensemble, et ça inclut les combats !",
+  "At least we lost as a team.": "Au moins, on a perdu en équipe.",
+  "In a double battle, a move that hits both foes is worth twice as much. Think about it!": "En combat duo, une capacité qui touche les deux adversaires vaut double. Penses-y !"
 }, "fr");

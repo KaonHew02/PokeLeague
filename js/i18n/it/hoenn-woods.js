@@ -44,5 +44,9 @@ G.I18n.add({
   "Taillow is small, but it never gives up, even against a bigger foe.": "Taillow è piccolo, ma non si arrende mai, nemmeno contro un avversario più grande.",
   "Berries grow on trees all over Hoenn. Pick them, and a new crop grows the next day!": "Le bacche crescono sugli alberi in tutta Hoenn. Raccoglile, e il giorno dopo ne crescono di nuove!",
   "Route 104. North: Petalburg Woods. East: Petalburg City.": "Percorso 104. Nord: Bosco Petalo. Est: Petalipoli.",
-  "Route 104. North: Rustboro City. South: Petalburg Woods.": "Percorso 104. Nord: Ferrugipoli. Sud: Bosco Petalo."
+  "Route 104. North: Rustboro City. South: Petalburg Woods.": "Percorso 104. Nord: Ferrugipoli. Sud: Bosco Petalo.",
+  "Gina & Mia": "Gina e Mia",
+  "We are twins, so we always battle together! Two against two!": "Siamo gemelle, quindi lottiamo sempre insieme! Due contro due!",
+  "We lost together too...": "Abbiamo perso insieme anche stavolta...",
+  "When we battle side by side, we think the same thoughts. Most of the time.": "Quando lottiamo fianco a fianco, pensiamo le stesse cose. Quasi sempre."
 }, "it");

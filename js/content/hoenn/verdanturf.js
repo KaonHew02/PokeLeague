@@ -34,6 +34,11 @@
     connect: { east: { map: 'mauville', offset: -3 }, west: { map: 'verdanturf', offset: -4 } },
     signs: { '32,5': 'Route 117. West: Verdanturf Town. East: Mauville City.' },
     trainers: [
+      { id: 'anna-meg', who: 'twin', cls: 'twins', name: 'Anna & Meg', x: 13, y: 4, dir: 'down', sight: 2, double: true,
+        partner: { who: 'twin', x: 14, y: 4 }, team: [['plusle', 24], ['minun', 24]],
+        before: 'Our Plusle and Minun cheer each other on! They get stronger when they are together!',
+        defeat: 'They cheered so hard...',
+        after: 'Plusle and Minun power each other up, side by side. Do you have a pair like that?' },
       { id: 'lydia', who: 'lass', cls: 'picnicker', name: 'Lydia', x: 8, y: 5, dir: 'down', sight: 1, team: [['roselia', 24], ['marill', 24]],
         before: 'The flowers along Route 117 are my favourite. My Pokémon love them too!',
         defeat: 'My petals fell...',

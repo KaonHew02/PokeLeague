@@ -4,6 +4,7 @@
  *   node tools/sim_battle.js squirtle:6 pidgey:3 --ball poke-ball:5     (try to catch it)
  *   node tools/sim_battle.js marshtomp:29 torkoal:29:overheat/sunny-day --trainer --ai leader   (moves after a second colon)
  *   options: --lang es   --wild (default) | --trainer   --ai basic (default) | leader   --events (print raw events too)
+ *            --double (a double battle, with --trainer: two a side)
  * Your side picks moves like a 'basic' trainer; the foe uses 'random' (wild) or 'basic'.
  * Forgetting moves: never; switching after a faint: the first healthy Pokémon.
  */
@@ -45,7 +46,7 @@ function main() {
   const opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
   const flag = k => args.includes('--' + k);
   const pos = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && ['--seed', '--lang', '--ball', '--ai'].includes(args[i - 1])));
-  if (pos.length < 2) { console.log('usage: node tools/sim_battle.js <mine> <foe> [--seed n] [--trainer] [--ball item:n] [--lang xx]'); process.exit(1); }
+  if (pos.length < 2) { console.log('usage: node tools/sim_battle.js <mine> <foe> [--seed n] [--trainer [--double]] [--ball item:n] [--lang xx]'); process.exit(1); }
   const G = load(opt('lang', 'en'));
   const seed = +opt('seed', 1);
   const rng = G.RNG(seed * 7919 + 1);
@@ -54,7 +55,7 @@ function main() {
   const ball = opt('ball');
   const bag = ball ? { [ball.split(':')[0]]: +(ball.split(':')[1] || 5) } : {};
   const b = G.Battle.create({ kind: trainer ? 'trainer' : 'wild', seed, player: { name: 'Red', party: mine, bag },
-                              foe: { party: foes, trainer }, rules: { where: 'sim' } });
+                              foe: { party: foes, trainer }, rules: { where: 'sim', double: flag('double') } });
   const show = evs => {
     for (const e of evs) {
       if (flag('events')) console.log('   ', JSON.stringify(e));
@@ -69,10 +70,10 @@ function main() {
     const p = b.prompt;
     if (p.kind === 'action') {
       const a = ball && (bag[ball.split(':')[0]] || 0) > 0 && b.foe.bm.mon.hp / G.Mon.maxHp(b.foe.bm.mon) < 0.6
-        ? { type: 'ball', item: ball.split(':')[0] } : G.BattleAI.choose(b, me());
-      console.log('--- turn ' + (b.turn + 1));
-      show(b.act(a.type === 'move' && a.id === 'struggle' ? { type: 'move', slot: 0 } : a));
-    } else if (p.kind === 'switch') show(b.answer({ switchTo: b.options().switchable[0] }));
+        ? { type: 'ball', item: ball.split(':')[0] } : G.BattleAI.choose(b, me(), p.slot);
+      if (!p.slot) console.log('--- turn ' + (b.turn + 1));
+      show(b.act(a.type === 'move' && a.id === 'struggle' ? { type: 'move', slot: 0, target: a.target } : a));
+    } else if (p.kind === 'switch') show(b.answer({ switchTo: b.options(p.slot).switchable[0] }));
     else show(b.answer({ switchTo: -1, learnSlot: -1 }));
   }
   console.log('\nResult:', JSON.stringify(Object.assign({}, b.result, { mon: undefined })));

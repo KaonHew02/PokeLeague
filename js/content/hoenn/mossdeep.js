@@ -4,8 +4,8 @@
  * the Admin Matt waits: Archie has already left in the submarine taken from Slateport, carrying the Blue
  * Orb to the bottom of the sea; you battle Matt (flag aqua-hideout-done). East of Lilycove the sea is
  * Route 124 (islets, two swimmers) to Mossdeep City, an island town: a Center, a Mart, Steven's house
- * (a letter), a house, the Space Center, and Tate and Liza's Gym. The twins battle as one Trainer (no
- * double battles yet): the Mind Badge (badge 23: Pokémon up to Lv. 70 obey in Hoenn) and TM04 Calm
+ * (a letter), a house, the Space Center, and Tate and Liza's Gym. The twins battle as one Trainer (a
+ * double battle since chapter 40): the Mind Badge (badge 23: Pokémon up to Lv. 70 obey in Hoenn) and TM04 Calm
  * Mind. Then Team Magma raids the Space Center for its rocket fuel: two grunts on 1F; on 2F Steven heals
  * your team, Tabitha battles you, then Maxie (flag space-center-saved), then `ending(36)`.
  */
@@ -87,6 +87,11 @@
     connect: { west: { map: 'lilycove', offset: -23 }, east: { map: 'mossdeep', offset: 0 }, south: { map: 'route126', offset: 0 } },
     storm: ['kyogre-awake', '!weather-calm'],                // (chapter 38: the storm Kyogre brings)
     trainers: [
+      { id: 'rita-sam', who: 'swimmerf', cls: 'sis-and-bro', name: 'Rita & Sam', x: 20, y: 11, dir: 'down', sight: 4, swim: true, double: true,
+        partner: { who: 'swimmer', x: 21, y: 11 }, team: [['lanturn', 36], ['seadra', 36]],
+        before: 'Big sister and me, against you! Ready?',
+        defeat: 'Sis, we lost!',
+        after: 'Some moves hit both foes at once. Surf is one of them!' },
       { id: 'reed', who: 'swimmer', cls: 'swimmer', name: 'Reed', x: 14, y: 6, dir: 'down', sight: 4, swim: true, team: [['tentacruel', 36], ['wailmer', 36]],
         before: 'The sea between Lilycove and Mossdeep is my training ground. Let me show you!',
         defeat: 'I swallowed some seawater...',
@@ -218,7 +223,8 @@
         before: 'The twins are strong, but you will have to get past me first!',
         defeat: 'My vision was clouded...',
         after: 'Solrock shines brighter in the sunshine. Watch out if the twins call up the sun.' },
-      { id: 'tate', who: 'tate', cls: 'leader', name: 'Tate & Liza', x: 6, y: 3, dir: 'down', sight: 0, leader: true, ai: 'leader',
+      // A double battle (chapter 40): the twins' Pokémon two at a time.
+      { id: 'tate', who: 'tate', cls: 'leader', name: 'Tate & Liza', x: 6, y: 3, dir: 'down', sight: 0, leader: true, ai: 'leader', double: true,
         items: { 'hyper-potion': 1 },
         team: [['claydol', 41, ['earthquake', 'ancient-power', 'psychic', 'light-screen']],
                ['xatu', 41, ['psychic', 'sunny-day', 'confuse-ray', 'calm-mind']],

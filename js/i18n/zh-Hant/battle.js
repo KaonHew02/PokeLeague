@@ -181,5 +181,9 @@ G.I18n.add({
   "{mon}'s {ability} prevents {move} from working!": "{mon}的{ability}讓{move}無法使出！",
   "{mon}'s {ability}!": "{mon}的{ability}！",
   "{mon}'s {ability} restored its HP!": "{mon}的{ability}讓牠回復了HP！",
-  "It is raining.": "正在下雨。"
+  "It is raining.": "正在下雨。",
+  "{mon} took the attack with its {ability}!": "{mon}用{ability}吸引了攻擊！",
+  "{mon} avoided the attack!": "{mon}躲開了攻擊！",
+  "{mon} is ready to help {target}!": "{mon}準備幫助{target}！",
+  "{mon} became the center of attention!": "{mon}成為了眾人矚目的焦點！"
 }, "zh-Hant");

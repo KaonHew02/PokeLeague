@@ -49,5 +49,9 @@ G.I18n.add({
   "Route 117. West: Verdanturf Town. East: Mauville City.": "117號道路。西：綠蔭鎮。東：紫堇市。",
   "Verdanturf Town. A town of fresh air, sheltered from the ash of Mt. Chimney.": "綠蔭鎮。空氣清新，不受煙囪山火山灰影響的小鎮。",
   "Route 118. West: Mauville City. The road goes on across the water.": "118號道路。西：紫堇市。道路在水的另一邊繼續延伸。",
-  "North: Route 119, to the Weather Institute and Fortree City.": "北：119號道路，通往天氣研究所和茵鬱市。"
+  "North: Route 119, to the Weather Institute and Fortree City.": "北：119號道路，通往天氣研究所和茵鬱市。",
+  "Anna & Meg": "安娜和梅格",
+  "Our Plusle and Minun cheer each other on! They get stronger when they are together!": "我們的正電拍拍和負電拍拍會互相加油！牠們在一起的時候會變得更強！",
+  "They cheered so hard...": "牠們那麼努力地加油了……",
+  "Plusle and Minun power each other up, side by side. Do you have a pair like that?": "正電拍拍和負電拍拍肩並肩時會互相增強力量。你也有這樣的搭檔嗎？"
 }, "zh-Hant");

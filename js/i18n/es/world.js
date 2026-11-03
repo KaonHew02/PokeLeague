@@ -88,5 +88,6 @@ G.I18n.add({
   "The sea is deep here. A Pokémon could dive down to the sea floor.": "El mar es profundo aquí. Un Pokémon podría bucear hasta el fondo marino.",
   "The sea is deep here. Would you like to use Dive?": "El mar es profundo aquí. ¿Quieres usar Buceo?",
   "{mon} used Dive!": "¡{mon} usó Buceo!",
-  "Light is filtering down from above. Would you like to use Dive?": "La luz se filtra desde arriba. ¿Quieres usar Buceo?"
+  "Light is filtering down from above. Would you like to use Dive?": "La luz se filtra desde arriba. ¿Quieres usar Buceo?",
+  "We battle two against two! Come back when you have two Pokémon that can fight.": "¡Luchamos dos contra dos! Vuelve cuando tengas dos Pokémon que puedan combatir."
 }, "es");

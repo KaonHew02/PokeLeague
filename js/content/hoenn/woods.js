@@ -57,6 +57,12 @@
     spots: { 'briney-door': [14, 30, 'down'], pier: [9, 30, 'left'] },
     signs: { '18,24': 'Route 104. North: Petalburg Woods. East: Petalburg City.' },
     trainers: [
+      // A double battle (chapter 40): the twins and their partner beside them.
+      { id: 'gina-mia', who: 'twin', cls: 'twins', name: 'Gina & Mia', x: 19, y: 22, dir: 'left', sight: 2, double: true,
+        partner: { who: 'twin', x: 20, y: 22 }, team: [['lotad', 6], ['seedot', 6]],
+        before: 'We are twins, so we always battle together! Two against two!',
+        defeat: 'We lost together too...',
+        after: 'When we battle side by side, we think the same thoughts. Most of the time.' },
       { id: 'haley', who: 'lass', cls: 'lass', name: 'Haley', x: 19, y: 10, dir: 'left', sight: 3, team: [['lotad', 7], ['shroomish', 7]],
         before: 'The sea breeze makes my Pokémon so lively! Let me show you!',
         defeat: 'Oh, the wind changed...',

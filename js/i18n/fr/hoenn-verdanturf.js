@@ -49,5 +49,9 @@ G.I18n.add({
   "Route 117. West: Verdanturf Town. East: Mauville City.": "Route 117. Ouest : Vergazon. Est : Lavandia.",
   "Verdanturf Town. A town of fresh air, sheltered from the ash of Mt. Chimney.": "Vergazon. Une ville à l'air pur, à l'abri de la cendre du Mont Chimnée.",
   "Route 118. West: Mauville City. The road goes on across the water.": "Route 118. Ouest : Lavandia. La route continue de l'autre côté de l'eau.",
-  "North: Route 119, to the Weather Institute and Fortree City.": "Nord : Route 119, vers l'Institut Météo et Cimetronelle."
+  "North: Route 119, to the Weather Institute and Fortree City.": "Nord : Route 119, vers l'Institut Météo et Cimetronelle.",
+  "Anna & Meg": "Anna et Meg",
+  "Our Plusle and Minun cheer each other on! They get stronger when they are together!": "Nos Posipi et Négapi s'encouragent ! Ils deviennent plus forts quand ils sont ensemble !",
+  "They cheered so hard...": "Ils ont tellement encouragé...",
+  "Plusle and Minun power each other up, side by side. Do you have a pair like that?": "Posipi et Négapi se renforcent l'un l'autre, côte à côte. As-tu un duo comme ça ?"
 }, "fr");

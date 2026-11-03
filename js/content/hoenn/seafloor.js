@@ -209,6 +209,11 @@
     triggers: [{ x: 25, y: 7, w: 9, h: 9, if: ['kyogre-awake', '!steven-128'], script: 'route128.steven' }],
     npcs: [{ id: 'steven', who: 'steven', x: 35, y: 11, dir: 'left', if: ['kyogre-awake', '!steven-128'], script: 'route128.steven' }],
     trainers: [
+      { id: 'john-jay', who: 'oldman', cls: 'old-couple', name: 'John & Jay', x: 12, y: 4, dir: 'down', sight: 3, double: true,
+        partner: { who: 'granny', x: 13, y: 4 }, team: [['medicham', 40], ['hariyama', 40]],
+        before: 'We have battled side by side for fifty years. Shall we show you how it is done?',
+        defeat: 'Fifty years, and still learning.',
+        after: 'A good partner covers your weaknesses. That goes for Pokémon too.' },
       { id: 'isaiah', who: 'fisherman', cls: 'fisherman', name: 'Isaiah', x: 9, y: 8, dir: 'down', sight: 4, team: [['wailmer', 40], ['tentacruel', 40]],
         before: 'This reef is my secret fishing spot. Now that you know, you have to battle me!',
         defeat: 'Reeled in and beaten...',

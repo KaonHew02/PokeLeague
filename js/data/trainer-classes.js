@@ -60,5 +60,10 @@ G.TRAINER_CLASSES = {
   kindler:       { title: 'Kindler', who: 'kindler', prize: 32 },
   'aqua-admin':  { title: 'Aqua Admin', who: 'shelly', prize: 40 },
   'aqua-leader': { title: 'Aqua Leader', who: 'archie', prize: 60 },
+  // Double-battle pairs (chapter 40).
+  twins:         { title: 'Twins', who: 'twin', prize: 12 },
+  'young-couple': { title: 'Young Couple', who: 'cooltrainerm', prize: 32 },
+  'sis-and-bro': { title: 'Sis and Bro', who: 'swimmerf', prize: 16 },
+  'old-couple':  { title: 'Old Couple', who: 'oldman', prize: 40 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

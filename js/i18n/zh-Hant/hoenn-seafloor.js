@@ -57,5 +57,9 @@ G.I18n.add({
   "{player}! You made it out of the cavern. I saw the sky turn black from Mossdeep and came as fast as I could.": "{player}！你從洞窟裡出來了。我在綠嶺市看到天空變黑，就盡快趕過來了。",
   "Kyogre is not the only one awake. Groudon has risen too, and both of them are heading for Sootopolis City.": "醒來的不只是蓋歐卡。固拉多也甦醒了，牠們倆正朝著琉璃市前進。",
   "Sootopolis lies inside a crater on Route 126, west of Route 127. By sea, the only way in is under the water: Dive in the deep water south of the crater and you will come up in the city's lake.": "琉璃市位於127號道路西邊、126號道路上的一個火山口裡。從海上進去的唯一辦法就是走水下：在火山口南邊的深水處潛水，就能從城市的湖裡浮上來。",
-  "I will fly ahead. Hurry, {player}!": "我先飛過去。快點，{player}！"
+  "I will fly ahead. Hurry, {player}!": "我先飛過去。快點，{player}！",
+  "John & Jay": "約翰和傑伊",
+  "We have battled side by side for fifty years. Shall we show you how it is done?": "我們並肩對戰已經五十年了。要不要讓你見識一下？",
+  "Fifty years, and still learning.": "五十年了，還在學習呢。",
+  "A good partner covers your weaknesses. That goes for Pokémon too.": "好搭檔能彌補你的弱點。寶可夢也是一樣。"
 }, "zh-Hant");

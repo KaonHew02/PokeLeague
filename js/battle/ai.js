@@ -8,6 +8,9 @@
  *   gym leaders etc.  'leader'  'basic', and heals with their items when low
  * Randomness comes from the battle's RNG, so battles stay reproducible. It knows the target's
  * ability (Levitate through b.eff, Water Absorb, Wonder Guard, Limber...) and does not waste moves on it.
+ * Double battles (chapter 40): choose(b, side, slot) scores each move against each foe and aims at the
+ * best one; a move on both foes counts both (half damage each), Earthquake counts its partner against it
+ * (unless the partner cannot be hit), Helping Hand is worth something when the partner can attack.
  */
 G.BattleAI = (() => {
   function usable(bm) {
@@ -15,7 +18,8 @@ G.BattleAI = (() => {
       .filter(({ m }) => m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id));
   }
 
-  function choose(b, side) {
+  function choose(b, side, slot) {
+    if (b.double) return chooseDouble(b, side, slot || 0);
     const bm = side.bm;
     const moves = usable(bm);
     if (!moves.length) return { type: 'move', id: 'struggle' };
@@ -27,6 +31,41 @@ G.BattleAI = (() => {
     if (!good.length) return { type: 'move', slot: scored[0].slot };
     const pick = good.length > 1 && b.rng.pct(20) ? good[1] : good[0];
     return { type: 'move', slot: pick.slot };
+  }
+
+  /** Doubles: the move and its target for the battler in this slot. */
+  function chooseDouble(b, side, slot) {
+    const bm = side.bms[slot];
+    const moves = usable(bm);
+    const foes = b.foes(bm);
+    const aim = t => (t ? { side: t.side, slot: t.slot || 0 } : undefined);
+    if (!moves.length) return { type: 'move', id: 'struggle', target: aim(foes[0]) };
+    const ai = side.trainer ? side.trainer.ai || 'basic' : 'random';
+    if (ai === 'leader') { const it = healItem(b, side, slot); if (it) return it; }
+    const scored = [];
+    for (const x of moves) {
+      const M = G.MOVES[x.m.id], t = G.BattleFx.tgtOf(M, x.m.id);
+      if (t === 'all-opponents' || t === 'all-other-pokemon') {
+        let s = foes.reduce((n, f) => n + score(b, bm, f, x.m.id) * (t === 'all-opponents' && foes.length > 1 ? 0.5 : 1), 0);
+        const ally = b.ally(bm);
+        if (t === 'all-other-pokemon' && ally) s -= 1.5 * score(b, bm, ally, x.m.id);
+        scored.push({ slot: x.slot, s, target: aim(foes[0]) });
+      } else if (x.m.id === 'helping-hand') {
+        const ally = b.ally(bm);
+        scored.push({ slot: x.slot, s: ally && !ally.moved && ally.mon.moves.some(m => G.MOVES[m.id] && G.MOVES[m.id].cat !== 'status') ? 18 : 0 });
+      } else if (G.BattleFx.isSelf(M)) {
+        scored.push({ slot: x.slot, s: score(b, bm, foes[0] || b.other(bm), x.m.id) });
+      } else {
+        let best = null;
+        for (const f of foes) { const s = score(b, bm, f, x.m.id); if (!best || s > best.s) best = { s, f }; }
+        scored.push({ slot: x.slot, s: best ? best.s : 0, target: aim(best ? best.f : foes[0]) });
+      }
+    }
+    scored.sort((p, q) => q.s - p.s || p.slot - q.slot);
+    if (ai === 'random') { const r = scored[b.rng.int(0, scored.length - 1)]; return { type: 'move', slot: r.slot, target: r.target || aim(foes[0]) }; }
+    const good = scored.filter(x => x.s > 0);
+    const pick = !good.length ? scored[0] : good.length > 1 && b.rng.pct(20) ? good[1] : good[0];
+    return { type: 'move', slot: pick.slot, target: pick.target };
   }
 
   /** Rough value of a move right now (higher is better; 0 = pointless). */
@@ -105,11 +144,11 @@ G.BattleAI = (() => {
     catch (e) { return M.pow || 60; }
   }
 
-  function healItem(b, side) {
-    const bm = side.bm, max = G.Mon.maxHp(bm.mon);
+  function healItem(b, side, slot = 0) {
+    const bm = side.bms[slot], max = G.Mon.maxHp(bm.mon);
     if (bm.mon.hp / max > 0.25) return null;
     for (const item of ['full-restore', 'max-potion', 'hyper-potion', 'super-potion', 'potion']) {
-      if ((side.items[item] || 0) > 0) return { type: 'item', item, target: side.active };
+      if ((side.items[item] || 0) > 0) return { type: 'item', item, target: side.actives[slot] };
     }
     return null;
   }

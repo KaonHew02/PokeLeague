@@ -88,5 +88,6 @@ G.I18n.add({
   "The sea is deep here. A Pokémon could dive down to the sea floor.": "這裡的海很深。寶可夢也許能潛到海底。",
   "The sea is deep here. Would you like to use Dive?": "這裡的海很深。要使用潛水嗎？",
   "{mon} used Dive!": "{mon}使用了潛水！",
-  "Light is filtering down from above. Would you like to use Dive?": "上方有光照下來。要使用潛水嗎？"
+  "Light is filtering down from above. Would you like to use Dive?": "上方有光照下來。要使用潛水嗎？",
+  "We battle two against two! Come back when you have two Pokémon that can fight.": "我們是二對二對戰的！等你有兩隻能戰鬥的寶可夢再來吧。"
 }, "zh-Hant");

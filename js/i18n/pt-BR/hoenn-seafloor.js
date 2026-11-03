@@ -57,5 +57,9 @@ G.I18n.add({
   "{player}! You made it out of the cavern. I saw the sky turn black from Mossdeep and came as fast as I could.": "{player}! Você saiu da caverna. Vi o céu escurecer lá de Mossdeep e vim o mais rápido que pude.",
   "Kyogre is not the only one awake. Groudon has risen too, and both of them are heading for Sootopolis City.": "Kyogre não é o único que despertou. Groudon também se ergueu, e os dois estão indo para Sootopolis.",
   "Sootopolis lies inside a crater on Route 126, west of Route 127. By sea, the only way in is under the water: Dive in the deep water south of the crater and you will come up in the city's lake.": "Sootopolis fica dentro de uma cratera na Rota 126, a oeste da Rota 127. Pelo mar, a única entrada é por baixo d'água: mergulhe na água funda ao sul da cratera e você vai sair no lago da cidade.",
-  "I will fly ahead. Hurry, {player}!": "Vou na frente voando. Depressa, {player}!"
+  "I will fly ahead. Hurry, {player}!": "Vou na frente voando. Depressa, {player}!",
+  "John & Jay": "John e Jay",
+  "We have battled side by side for fifty years. Shall we show you how it is done?": "Batalhamos lado a lado há cinquenta anos. Quer ver como se faz?",
+  "Fifty years, and still learning.": "Cinquenta anos, e ainda aprendendo.",
+  "A good partner covers your weaknesses. That goes for Pokémon too.": "Um bom parceiro cobre suas fraquezas. Isso vale para os Pokémon também."
 }, "pt-BR");

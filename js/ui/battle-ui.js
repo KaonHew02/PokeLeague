@@ -70,7 +70,16 @@ G.BattleUI = (() => {
   let phase = 'off';                     // 'off' | 'text' | 'menu'
   const timers = [];                     // { t, r }
   const tweens = [];                     // { t, dur, from, to, set, r }
-  const sides = [null, null];            // display state of each side
+  // Display state of each Pokémon in battle: disp[side][slot] (slot 1 only in double battles).
+  const disp = [[null, null], [null, null]];
+  /** Where a Pokémon is shown: [side, slot], or null. */
+  function placeOf(uid) {
+    for (const sd of [0, 1]) for (const k of [0, 1]) if (disp[sd][k] && disp[sd][k].uid === uid) return [sd, k];
+    return null;
+  }
+  const dispOf = uid => { const at = placeOf(uid); return at ? disp[at[0]][at[1]] : null; };
+  const boxId = (side, slot) => (side ? 'bt-foe' : 'bt-me') + (slot ? '2' : '');
+  const dbl = () => !!(b && b.double);
   let ballFx = null, flash = 0, introT = 0;
   let scene = { bg: 'grass' };
 
@@ -90,12 +99,12 @@ G.BattleUI = (() => {
     root.setAttribute('translate', 'no');
     root.setAttribute('data-noinput', '');
     const monBox = (id, me) => `
-      <div class="bt-box ${me ? 'bt-me' : 'bt-foe'} out" id="${id}">
+      <div class="bt-box ${me ? 'bt-me' : 'bt-foe'} ${id} out" id="${id}">
         <div class="bt-name"><span class="nm"></span><span class="g"></span><span class="caught hidden"></span><span class="lv"></span></div>
         <div class="bt-row"><span class="lbl">HP</span><div class="bt-bar"><i></i></div><span class="bt-status hidden"></span></div>
         ${me ? '<div class="bt-hpnum"></div><div class="bt-exp"><i></i></div>' : ''}
       </div>`;
-    root.innerHTML = monBox('bt-foe', false) + monBox('bt-me', true) + `
+    root.innerHTML = monBox('bt-foe', false) + monBox('bt-foe2', false) + monBox('bt-me', true) + monBox('bt-me2', true) + `
       <div class="bt-text" id="bt-text"><span class="msg"></span><i class="more hidden"></i></div>
       <div class="bt-menu hidden" id="bt-menu">
         <button class="menu-item" data-a="fight" data-first></button><button class="menu-item" data-a="bag"></button>
@@ -137,8 +146,8 @@ G.BattleUI = (() => {
   function barClass(f) { return f > 0.5 ? '' : f > 0.2 ? 'mid' : 'low'; }
   const statusLabel = s => ({ par: T('PAR'), slp: T('SLP'), psn: T('PSN'), tox: T('PSN'), brn: T('BRN'), frz: T('FRZ') })[s];
 
-  function drawBox(side) {
-    const s = sides[side], el = $(side ? 'bt-foe' : 'bt-me');
+  function drawBox(side, slot = 0) {
+    const s = disp[side][slot], el = $(boxId(side, slot));
     if (!s) { el.classList.add('out'); return; }
     el.querySelector('.nm').textContent = s.name;
     const g = el.querySelector('.g');
@@ -170,19 +179,21 @@ G.BattleUI = (() => {
   // ---------------- scene positions ----------------
 
   function view() { return G.Game.view; }
-  function feet(side) {
+  /** Where a Pokémon stands. Doubles: two a side, the second one further back. */
+  function feet(side, slot = 0) {
     const v = view();
-    return side ? { x: v.w * 0.70, y: v.h * 0.43 } : { x: v.w * 0.27, y: v.h * 0.72 };
+    if (!dbl()) return side ? { x: v.w * 0.70, y: v.h * 0.43 } : { x: v.w * 0.27, y: v.h * 0.72 };
+    return side ? { x: v.w * (slot ? 0.84 : 0.61), y: v.h * (slot ? 0.38 : 0.42) } : { x: v.w * (slot ? 0.41 : 0.16), y: v.h * (slot ? 0.70 : 0.74) };
   }
-  function centre(side) {
-    const s = sides[side], f = feet(side);
+  function centre(side, slot = 0) {
+    const s = disp[side][slot], f = feet(side, slot);
     const h = s && s.anim ? G.Sprites.bodyHeight(s.sp, s.anim.scale) : 40;
     return { x: f.x, y: f.y - h * 0.5 };
   }
   /** Sprite scale: art pixels follow the frame height; big Pokémon are shrunk to fit. */
   function scaleFor(sp, side) {
     const v = view(), unit = v.h / 320;
-    let px = (side ? 2.3 : 3) * unit;
+    let px = (side ? 2.3 : 3) * unit * (dbl() ? 0.82 : 1);
     const m = G.Sprites.animMeta(sp, 'Idle');
     const maxH = v.h * (side ? 0.34 : 0.42);
     if (m && m.ay * px > maxH) px = maxH / m.ay;
@@ -203,18 +214,20 @@ G.BattleUI = (() => {
     switch (e.type) {
       case 'start': return intro(line);
       case 'send': return sendIn(e, line);
-      case 'withdraw': await say(line); return withdraw(e.side);
+      case 'withdraw': await say(line); return withdraw(e.uid);
       case 'move': await say(line, { extra: -0.4 }); return moveAnim(e);
-      case 'damage': await hpTo(e.side, e.hp, e.why === 'hit' ? e : null); return say(line);
-      case 'heal': await hpTo(e.side, e.hp); return say(line);
+      case 'damage': await hpTo(e.uid, e.hp, e.why === 'hit' ? e : null); return say(line);
+      case 'heal': await hpTo(e.uid, e.hp); return say(line);
       case 'revived': return say(line);
       case 'faint': return faint(e, line);
-      case 'status': setStatus(e.side, e.s); return say(line);
-      case 'cure': setStatus(e.side, null); return say(line);
-      case 'stage':
-        if (!e.capped && animOn()) G.BattleAnim.arrows(centre(e.side), e.delta > 0);
+      case 'status': setStatus(e.uid, e.s); return say(line);
+      case 'cure': setStatus(e.uid, null); return say(line);
+      case 'stage': {
+        const at = placeOf(e.uid);
+        if (!e.capped && animOn() && at) G.BattleAnim.arrows(centre(at[0], at[1]), e.delta > 0);
         G.Audio.sfx(e.delta > 0 ? 'select' : 'back');
         return say(line);
+      }
       case 'ball': return throwBall(e, line);
       case 'exp': await say(line); return expTo(e);
       case 'levelup': return levelUp(e, line);
@@ -223,7 +236,7 @@ G.BattleUI = (() => {
       case 'run': if (e.ok) G.Audio.sfx('back'); return say(line);
       case 'bait': case 'rock': G.Audio.sfx('throw'); return say(line);
       case 'safariFled': {
-        const s = sides[1];
+        const s = disp[1][0];
         G.Audio.sfx('run');
         if (s) await tween(0.4, 1, 0, v => { s.alpha = v; s.dx = (1 - v) * 0.3; });
         return say(line);
@@ -242,9 +255,9 @@ G.BattleUI = (() => {
     if (b.kind === 'wild' || b.kind === 'safari') {
       // The wild Pokémon is already there when the screen opens.
       const fo = b.foe.party[b.foe.active || 0];
-      sides[1] = makeSide(1, fo);
-      sides[1].alpha = 0;
-      await tween(0.5, 0, 1, v => { sides[1].alpha = v; sides[1].dx = (1 - v) * -0.4; });
+      const s = disp[1][0] = makeSide(1, fo);
+      s.alpha = 0;
+      await tween(0.5, 0, 1, v => { s.alpha = v; s.dx = (1 - v) * -0.4; });
       if (G.Audio.cry) G.Audio.cry(fo.sp);
       drawBox(1);
       $('bt-foe').classList.remove('out');
@@ -265,32 +278,38 @@ G.BattleUI = (() => {
 
   async function sendIn(e, line) {
     const mon = findMon(e.uid);
-    if (e.side === 1 && b.kind === 'wild' && sides[1] && sides[1].uid === e.uid) return;    // shown by the intro
+    if (e.side === 1 && b.kind === 'wild' && disp[1][0] && disp[1][0].uid === e.uid) return;    // shown by the intro
     if (line) await say(line);
+    const slot = e.slot || 0;
     const s = makeSide(e.side, mon);
     s.hp = e.hp; s.max = e.max; s.status = e.status;
     s.squash = 0;
-    sides[e.side] = s;
+    disp[e.side][slot] = s;
     G.Audio.sfx('ball');
     await tween(0.3, 0, 1, v => { s.squash = v; });
     if (G.Audio.cry) G.Audio.cry(mon.sp);
-    drawBox(e.side);
-    $(e.side ? 'bt-foe' : 'bt-me').classList.remove('out');
-    if (mon.shiny && animOn()) { G.Audio.sfx('shiny'); G.BattleAnim.sparkle(centre(e.side), '#fff6a0', 14); await wait(0.5); }
+    drawBox(e.side, slot);
+    $(boxId(e.side, slot)).classList.remove('out');
+    if (mon.shiny && animOn()) { G.Audio.sfx('shiny'); G.BattleAnim.sparkle(centre(e.side, slot), '#fff6a0', 14); await wait(0.5); }
     await wait(0.15);
   }
 
-  async function withdraw(side) {
-    const s = sides[side];
-    if (!s) return;
+  async function withdraw(uid) {
+    const at = placeOf(uid);
+    if (!at) return;
+    const s = disp[at[0]][at[1]];
     G.Audio.sfx('back');
     await tween(0.25, 1, 0, v => { s.squash = v; });
-    sides[side] = null;
-    drawBox(side);
+    disp[at[0]][at[1]] = null;
+    drawBox(at[0], at[1]);
   }
 
   async function moveAnim(e) {
-    const s = sides[e.side], t = sides[1 - e.side];
+    const at = placeOf(e.uid);
+    if (!at) return;
+    // The target: the one the move was aimed at (doubles), else the foe in front.
+    const tt = (e.tuid && placeOf(e.tuid)) || [1 - at[0], disp[1 - at[0]][0] ? 0 : 1];
+    const s = disp[at[0]][at[1]], t = disp[tt[0]][tt[1]];
     const M = G.MOVES[e.move];
     if (!s || !M) return;
     const self = G.BattleFx.isSelf(M);
@@ -301,12 +320,13 @@ G.BattleUI = (() => {
       await tween(0.12, 0, 1, v => { s.dx = dir * v * 0.06; s.dy = -dir * v * 0.04; });
       tween(0.18, 1, 0, v => { s.dx = dir * v * 0.06; s.dy = -dir * v * 0.04; });
     }
-    await G.BattleAnim.move({ from: centre(e.side), to: centre(1 - e.side), cat: M.cat, type: M.type, self: self || !t });
+    await G.BattleAnim.move({ from: centre(at[0], at[1]), to: centre(tt[0], tt[1]), cat: M.cat, type: M.type, self: self || !t });
   }
 
-  async function hpTo(side, hp, hit) {
-    const s = sides[side];
-    if (!s) return;
+  async function hpTo(uid, hp, hit) {
+    const at = placeOf(uid);
+    if (!at) return;
+    const [side, slot] = at, s = disp[side][slot];
     if (hit) {
       s.anim.play('Hurt');
       s.blink = 0.45;
@@ -317,13 +337,13 @@ G.BattleUI = (() => {
     const from = s.hp;
     if (hp > from) G.Audio.sfx('heal');
     const dur = Math.min(0.9, 0.25 + Math.abs(hp - from) / s.max * 0.8);
-    await tween(dur, from, hp, v => { s.hp = v; drawBox(side); });
+    await tween(dur, from, hp, v => { s.hp = v; drawBox(side, slot); });
     s.hp = hp;
-    drawBox(side);
+    drawBox(side, slot);
   }
 
   async function faint(e, line) {
-    const s = sides[e.side];
+    const at = placeOf(e.uid) || [e.side, 0], s = disp[at[0]][at[1]];
     if (s) {
       s.anim.play('Faint', { hold: true });
       if (G.Audio.cry) G.Audio.cry(s.sp, { faint: true });
@@ -331,38 +351,40 @@ G.BattleUI = (() => {
       await wait(0.35);
       await tween(0.35, 0, 1, v => { s.dy = v * 0.12; s.alpha = 1 - v; });
       s.status = null;
-      sides[e.side] = null;
+      disp[at[0]][at[1]] = null;
     }
-    $(e.side ? 'bt-foe' : 'bt-me').classList.add('out');
+    $(boxId(at[0], at[1])).classList.add('out');
     await say(line);
   }
 
-  function setStatus(side, st) { if (sides[side]) { sides[side].status = st; drawBox(side); } }
+  function setStatus(uid, st) { const at = placeOf(uid); if (at) { disp[at[0]][at[1]].status = st; drawBox(at[0], at[1]); } }
 
   async function expTo(e) {
-    const s = sides[0];
-    if (!s || s.uid !== e.uid) return;
+    const at = placeOf(e.uid);
+    if (!at || at[0] !== 0) return;
+    const s = disp[0][at[1]];
     const to = Math.min(1, (e.exp - e.from) / Math.max(1, e.to - e.from));
     G.Audio.sfx('coin');
-    await tween(0.6, s.expF, to, v => { s.expF = v; drawBox(0); });
+    await tween(0.6, s.expF, to, v => { s.expF = v; drawBox(0, at[1]); });
   }
 
   async function levelUp(e, line) {
-    const s = sides[0];
+    const at = placeOf(e.uid);
     G.Audio.jingle ? G.Audio.jingle('levelup') : G.Audio.sfx('levelup');
-    if (s && s.uid === e.uid) {
+    if (at && at[0] === 0) {
+      const s = disp[0][at[1]];
       s.lvl = e.lvl; s.max = e.after[0]; s.hp = e.hp;
-      s.expF = 0; drawBox(0);
+      s.expF = 0; drawBox(0, at[1]);
       const mon = findMon(e.uid);
       await say(line);
-      await tween(0.4, 0, expFraction(mon), v => { s.expF = Math.min(1, v); drawBox(0); });
+      await tween(0.4, 0, expFraction(mon), v => { s.expF = Math.min(1, v); drawBox(0, at[1]); });
       return;
     }
     await say(line);
   }
 
   async function throwBall(e, line) {
-    const s = sides[1];
+    const s = disp[1][0];
     const from = { x: view().w * 0.12, y: view().h * 0.7 }, to = centre(1), land = feet(1);
     ballFx = { x: from.x, y: from.y, item: e.item, wobble: 0, shown: true };
     G.Audio.sfx('ball');
@@ -422,11 +444,14 @@ G.BattleUI = (() => {
   async function chooseAction() {
     for (;;) {
       if (await debugHooks() && b.result) return null;
-      const me = findMon(b.player.bm.mon.uid);
+      const slot = b.prompt.slot || 0;
+      const me = findMon(b.player.bms[slot].mon.uid);
       box.set(fmt('What will {mon} do?', { mon: G.Mon.name(me) }));
-      root.onBack = () => {};
+      // Doubles: B on the second Pokémon's menu goes back to the first one's choice.
+      root.onBack = dbl() && slot > 0 ? () => pick('back') : () => {};
       const a = await menuWait(() => $('bt-menu').classList.remove('hidden'));
       hideMenus(); setPhase('text');
+      if (a === 'back') return { back: true };
       let act = null;
       if (a === 'fight') act = await chooseMove();
       else if (a === 'bag') act = await chooseItem();
@@ -439,7 +464,7 @@ G.BattleUI = (() => {
   async function chooseMove() {
     const opt = b.options();
     if (opt.struggle) return { type: 'move', slot: 0 };
-    const mon = b.player.bm.mon;
+    const bm = b.player.bms[b.prompt.slot || 0], mon = bm.mon;
     const info = $('bt-moves').querySelector('.info');
     const show = slot => {
       const m = mon.moves[slot]; if (!m) return;
@@ -463,6 +488,17 @@ G.BattleUI = (() => {
     const r = await menuWait(() => $('bt-moves').classList.remove('hidden'));
     obs.disconnect();
     hideMenus(); setPhase('text');
+    if (!r || !dbl()) return r;
+    // Doubles: a move aimed at one Pokémon asks which foe (when there are two).
+    const id = mon.moves[r.slot].id, t = G.BattleFx.tgtOf(G.MOVES[id], id);
+    const foes = b.foes(bm);
+    if (foes.length && (t === 'selected-pokemon' || t === 'selected-pokemon-me-first')) {
+      if (foes.length === 1) return Object.assign(r, { target: { side: 1, slot: foes[0].slot } });
+      const k = await list(fmt('Use {move} on which Pokémon?', { move: G.Names.move(id) }), foes.map(f => ({ value: f.slot,
+        html: `<span class="grow">${esc(G.Mon.name(f.mon))}</span><span class="meta">${esc(fmt('Lv. {n}', { n: f.mon.lvl }))}</span>` })));
+      if (k == null) return null;
+      return Object.assign(r, { target: { side: 1, slot: k } });
+    }
     return r;
   }
 
@@ -505,9 +541,13 @@ G.BattleUI = (() => {
       if (i == null) return null;
       const m = b.player.party[i];
       if (m.hp <= 0) { await say(fmt('{mon} has no energy left to battle!', { mon: G.Mon.name(m) })); continue; }
-      if (i === b.player.active && !b.player.bm.fainted) { await say(fmt('{mon} is already in battle!', { mon: G.Mon.name(m) })); continue; }
+      // In battle already (doubles: either one, or the one the first Pokémon is switching to).
+      const inBattle = b.player.bms.some((x, k) => x && !x.fainted && b.player.actives[k] === i)
+        || (b.choices || []).some(c => c && c.type === 'switch' && c.to === i);
+      if (inBattle) { await say(fmt('{mon} is already in battle!', { mon: G.Mon.name(m) })); continue; }
       if (forced) return i;
-      if (!b.options().canSwitch) { await say(fmt("{mon} can't be switched out!", { mon: G.Mon.name(b.player.bm.mon) })); return null; }
+      const me = b.player.bms[(b.prompt && b.prompt.slot) || 0];
+      if (!b.options().canSwitch) { await say(fmt("{mon} can't be switched out!", { mon: G.Mon.name(me.mon) })); return null; }
       return { type: 'switch', to: i };
     }
   }
@@ -528,7 +568,7 @@ G.BattleUI = (() => {
         if (b.rules.noCatch) { await say(T("The Pokémon dodged the Ball! It can't be caught!")); continue; }
         return { type: 'ball', item: id };
       }
-      if (fx.stage || fx.crit || fx.mist) return { type: 'item', item: id, target: b.player.active };
+      if (fx.stage || fx.crit || fx.mist) return { type: 'item', item: id, target: b.player.actives[(b.prompt && b.prompt.slot) || 0] };
       const t = await list(fmt('Use {item} on which Pokémon?', { item: G.Names.item(id) }), partyRows());
       if (t == null) continue;
       let move;
@@ -539,7 +579,7 @@ G.BattleUI = (() => {
         if (move == null) continue;
       }
       const a = { type: 'item', item: id, target: t, move };
-      if (!G.BattleItems.canUse(b, b.player, a)) { await say(T("It won't have any effect.")); continue; }
+      if (!G.BattleItems.canUse(b, b.player, a, dbl() ? b.player.bms[b.prompt.slot || 0] : undefined)) { await say(T("It won't have any effect.")); continue; }
       return a;
     }
   }
@@ -595,6 +635,7 @@ G.BattleUI = (() => {
         // F6 / F7 pressed while the menu was open count before the action.
         if (await debugHooks() && b.result) break;
         if (!a) continue;                   // the battle ended meanwhile (debug win)
+        if (a.back) { b.back(); continue; }
         ev = b.act(a);
         if (ev.length && ev[0].type === 'error') { await say(T("It won't have any effect.")); continue; }
       } else if (p.kind === 'switch') {
@@ -643,8 +684,8 @@ G.BattleUI = (() => {
     hideMenus();
     G.UI.close('battle-ui');
     root.classList.add('hidden');
-    $('bt-foe').classList.add('out'); $('bt-me').classList.add('out');
-    sides[0] = sides[1] = null;
+    for (const id of ['bt-foe', 'bt-foe2', 'bt-me', 'bt-me2']) $(id).classList.add('out');
+    disp[0] = [null, null]; disp[1] = [null, null];
     ballFx = null; flash = 0;
     G.BattleAnim.clear();
     setPhase('off');
@@ -659,6 +700,9 @@ G.BattleUI = (() => {
     const seed = opts.seed == null ? G.RNG.seed() : opts.seed;
     b = opts.kind === 'safari' ? G.Safari.create({ seed, player: opts.player, foe: opts.foe, rules: opts.rules })
       : G.Battle.create({ kind: opts.kind, seed, player: opts.player, foe: opts.foe, rules: opts.rules });
+    // Doubles: the second pair of boxes, smaller boxes all round.
+    root.classList.toggle('double', !!b.double);
+    for (const id of ['bt-foe2', 'bt-me2']) $(id).classList.toggle('hidden', !b.double);
     G.UI.closeAll();
     G.Game.setMode('battle');
     const t = opts.foe.trainer;
@@ -694,7 +738,7 @@ G.BattleUI = (() => {
         tw.set(tw.from + (tw.to - tw.from) * k);
         if (k >= 1) { tweens.splice(i, 1); tw.r(); }
       }
-      for (const s of sides) if (s) { s.anim.update(dt); if (s.blink > 0) s.blink -= dt; }
+      for (const row of disp) for (const s of row) if (s) { s.anim.update(dt); if (s.blink > 0) s.blink -= dt; }
       G.BattleAnim.update(dt);
       if (flash > 0) flash = Math.max(0, flash - dt * 2.5);
       if (introT > 0) introT = Math.max(0, introT - dt * 1.6);
@@ -723,17 +767,18 @@ G.BattleUI = (() => {
     g = ctx.createLinearGradient(0, v.h * 0.5, 0, v.h);
     g.addColorStop(0, c.ground[0]); g.addColorStop(1, c.ground[1]);
     ctx.fillStyle = g; ctx.fillRect(0, v.h * 0.5, v.w, v.h * 0.5);
-    // platforms
-    for (const side of [1, 0]) {
-      const f = feet(side), rx = v.w * (side ? 0.17 : 0.2), ry = v.h * (side ? 0.045 : 0.055);
+    // platforms (doubles: one each, a little smaller)
+    const slots = dbl() ? [1, 0] : [0], k = dbl() ? 0.7 : 1;
+    for (const side of [1, 0]) for (const slot of slots) {
+      const f = feet(side, slot), rx = v.w * (side ? 0.17 : 0.2) * k, ry = v.h * (side ? 0.045 : 0.055) * k;
       ctx.fillStyle = c.rim; ctx.beginPath(); ctx.ellipse(f.x, f.y + ry * 0.25, rx, ry, 0, 0, 6.2832); ctx.fill();
       ctx.fillStyle = c.pad; ctx.beginPath(); ctx.ellipse(f.x, f.y, rx * 0.94, ry * 0.8, 0, 0, 6.2832); ctx.fill();
     }
-    // Pokémon (the foe first: it is further away)
-    for (const side of [1, 0]) {
-      const s = sides[side];
+    // Pokémon (the foe first: it is further away; in doubles the one at the back first)
+    for (const side of [1, 0]) for (const slot of slots) {
+      const s = disp[side][slot];
       if (!s || s.alpha <= 0) continue;
-      const f = feet(side);
+      const f = feet(side, slot);
       const x = f.x + s.dx * v.w, y = f.y + s.dy * v.h;
       if (s.squash < 1) {
         ctx.save();
@@ -803,7 +848,8 @@ G.BattleUI = (() => {
                                     prize: 20, leader: q.has('leader'), items: { 'super-potion': 1 } } : null;
     const foes = parseTeam(q.get('wild') || q.get('vs'), rng);
     const again = () => start({ kind: trainer ? 'trainer' : 'wild', seed: seed + 1, bg: q.get('bg') || 'grass',
-                                player: { name: q.get('name') || 'Red', id: 1, party, bag }, foe: { party: foes.map(m => Object.assign({}, m)), trainer } })
+                                player: { name: q.get('name') || 'Red', id: 1, party, bag }, foe: { party: foes.map(m => Object.assign({}, m)), trainer },
+                                rules: { double: q.has('double') } })
       .then(r => { console.log('[battle] result', r); G.UI.toast(r.outcome, 2500); G.TitleUI.open(); });
     again();
     return true;

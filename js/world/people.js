@@ -27,7 +27,7 @@ G.People = (() => {
                  'pryce', 'skier', 'boarder', 'clair', 'cooltrainerm', 'will', 'karen', 'birch', 'may', 'brendan',
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
-                 'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake'];
+                 'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -251,6 +251,8 @@ G.People = (() => {
             p: '#2a2a3a', P: '#16161e', k: '#16161e' },
     wallace: { head: 'short', body: 'coat', legs: 'pants', h: '#5ab8d0', H: '#3a8aa4', j: '#f4f4f8', J: '#c8c8d8', c: '#7a4ab8', C: '#5a348a',
                p: '#f4f4f8', P: '#c8c8d8', k: '#5a348a' },
+    // Chapter 40: a twin (the double-battle pairs): a little girl with ginger hair in a pink dress.
+    twin: { head: 'long', body: 'dress', legs: 'bare', h: '#d8703a', H: '#a8502a', c: '#f4a0c0', C: '#c87898', j: '#f4a0c0', J: '#c87898', k: '#c87898' },
     // Chapter 39: Hoenn's Elite Four: Sidney (a red crest, black leather), Phoebe (short dark hair, pink), Glacia (long
     // silver hair, ice blue), Drake (white hair, a navy captain's coat).
     sidney: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#d83a2a', H: '#a0261a', j: '#2a2a34', J: '#16161e', c: '#3a3a44', C: '#24242c',

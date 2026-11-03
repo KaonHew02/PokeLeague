@@ -47,5 +47,9 @@ G.I18n.add({
   "Magma Leader": "Líder Magma",
   "Kindler": "Pirómano",
   "Aqua Admin": "Comandante Aqua",
-  "Aqua Leader": "Líder Aqua"
+  "Aqua Leader": "Líder Aqua",
+  "Twins": "Gemelas",
+  "Young Couple": "Pareja joven",
+  "Sis and Bro": "Hermanos",
+  "Old Couple": "Pareja mayor"
 }, "es");

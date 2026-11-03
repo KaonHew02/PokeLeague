@@ -7,7 +7,8 @@
  *     player: { name, id, party, bag },            // live references: the battle changes them
  *     foe:    { party, trainer: { id, name, title, ai: 'basic' | 'leader', items: {potion: 1}, prize: 20 } | null },
  *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', noCatch: false, forceCatch: false (debug),
- *               fishing: false (hooked with a rod: the Lure Ball), weather: 'rain' (the overworld's, for the whole battle) } })
+ *               fishing: false (hooked with a rod: the Lure Ball), weather: 'rain' (the overworld's, for the whole battle),
+ *               double: false (two Pokémon a side, trainers only) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
  *                           | { kind: 'learn', uid, move } | null (battle over)
@@ -24,6 +25,14 @@
  * counts is weatherNow() (Cloud Nine, Air Lock); abilities that act on entry (Intimidate, Drizzle...)
  * act once both Pokémon are out, then whenever one comes in.
  *
+ * Double battles (chapter 40, rules.double): each side has up to two battlers (side.bms, side.actives;
+ * side.bm and side.active are the first slot, as in singles). The prompt { kind: 'action', slot } asks
+ * for each of the player's battlers in turn (b.back() goes back to the first); a move's action names its
+ * target { side, slot }. All four act in one order; a move aimed at a fainted foe goes to the other one;
+ * spread moves (effects.js) hit every target; each fainted slot is refilled on its own ({ kind: 'switch',
+ * forced: true, slot }), or stays empty. A player with only one Pokémon able to fight has one slot.
+ * Singles keep their own code paths: the same seed and choices give the same battle as before.
+ *
  * Events are plain objects { type, ... } that the battle screen plays in order
  * (text: G.BattleText.line(event, battle)). side 0 = the player, 1 = the foe.
  * Internally the turn is a queue of steps; a step that needs the player's
@@ -38,10 +47,18 @@ G.Battle = (() => {
       this.rng = G.RNG(o.seed == null ? 1 : o.seed);
       this.kind = o.kind || 'wild';
       this.rules = Object.assign({ canLose: false, shift: true, where: null }, o.rules);
+      this.double = !!this.rules.double && this.kind === 'trainer';
+      if (this.double) this.rules.shift = false;
       const pl = o.player, fo = o.foe;
-      this.player = { side: 0, name: pl.name || 'Player', id: pl.id || 0, party: pl.party, bag: pl.bag || {}, bm: null, field: {} };
-      this.foe = { side: 1, party: fo.party, trainer: fo.trainer || null, items: Object.assign({}, fo.trainer && fo.trainer.items), bm: null, field: {} };
+      this.player = { side: 0, name: pl.name || 'Player', id: pl.id || 0, party: pl.party, bag: pl.bag || {}, bms: [], actives: [], field: {} };
+      this.foe = { side: 1, party: fo.party, trainer: fo.trainer || null, items: Object.assign({}, fo.trainer && fo.trainer.items), bms: [], actives: [], field: {} };
       this.sides = [this.player, this.foe];
+      // The first slot under its singles names.
+      for (const sd of this.sides) {
+        Object.defineProperty(sd, 'bm', { get() { return this.bms[0] || null; }, set(v) { this.bms[0] = v; }, enumerable: true });
+        Object.defineProperty(sd, 'active', { get() { return this.actives[0]; }, set(v) { this.actives[0] = v; }, enumerable: true });
+      }
+      this.choices = [];                 // doubles: the player's actions chosen so far this turn
       this.events = []; this.queue = []; this.prompt = null; this.pending = null; this.result = null;
       this.turn = 0; this.runs = 0; this.weather = null; this.payDay = 0;
       this.seen = new Set(); this.leveled = new Set();
@@ -54,23 +71,32 @@ G.Battle = (() => {
       this.emit('start', { kind: this.kind, trainer: this.foe.trainer ? this.foe.trainer.id : null });
       // The overworld's weather (rules.weather, chapter 38: the storm): it lasts the whole battle.
       if (this.rules.weather) { this.weather = { w: this.rules.weather, turns: Infinity }; this.emit('weather', { w: this.rules.weather, field: true }); }
-      this.sendOut(this.foe, this.firstHealthy(this.foe));
-      this.sendOut(this.player, this.firstHealthy(this.player));
+      if (!this.double) {
+        this.sendOut(this.foe, this.firstHealthy(this.foe));
+        this.sendOut(this.player, this.firstHealthy(this.player));
+      } else {
+        // Two each (one when only one can fight), the foe's first.
+        for (const sd of [this.foe, this.player]) {
+          sd.party.map((m, i) => i).filter(i => sd.party[i].hp > 0).slice(0, 2).forEach((i, slot) => this.sendOut(sd, i, { slot }));
+        }
+      }
       // Abilities on entry, the faster first (the player's on a tie).
       this.started = true;
-      for (const bm of [this.player.bm, this.foe.bm].sort((p, q) => this.stat(q, 'spe') - this.stat(p, 'spe'))) G.Abilities.switchIn(this, bm);
+      for (const bm of this.allActive().sort((p, q) => this.stat(q, 'spe') - this.stat(p, 'spe'))) G.Abilities.switchIn(this, bm);
       this.process();
       return this.events;
     }
 
-    options() {
-      const bm = this.player.bm;
+    options(slot) {
+      if (slot == null) slot = this.prompt && this.prompt.slot != null ? this.prompt.slot : 0;
+      const bm = this.player.bms[slot];
       const moves = bm.mon.moves.map((m, slot) => ({ slot, id: m.id, pp: m.pp, max: G.Mon.ppMax(m.id, m.ppUp),
         usable: m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id) }));
       const trapped = this.trapped(bm) || G.Abilities.traps(this, bm);     // Shadow Tag, Arena Trap, Magnet Pull
       return {
         moves, struggle: !moves.some(m => m.usable),
-        switchable: this.player.party.map((m, i) => i).filter(i => i !== this.player.active && this.player.party[i].hp > 0),
+        switchable: this.player.party.map((m, i) => i).filter(i => !this.player.actives.includes(i) && this.player.party[i].hp > 0
+                                                                && !this.choices.some(c => c && c.type === 'switch' && c.to === i)),
         canSwitch: !trapped, canRun: this.kind === 'wild' && (!trapped || G.Abilities.runAway(bm)),
         canBall: this.kind === 'wild' && !this.rules.noCatch, trapped
       };
@@ -82,12 +108,46 @@ G.Battle = (() => {
       const bad = this.validate(a);
       if (bad) return [{ type: 'error', reason: bad }];
       if (a.type === 'run' && this.kind === 'trainer') { this.emit('noRunTrainer', {}); return this.events; }
+      if (this.double) return this.actDouble(a);
       this.prompt = null;
       const pa = a.type === 'move' && this.options().struggle ? { type: 'move', id: 'struggle' } : a;
       const fa = this.lockedAction(this.foe.bm) || G.BattleAI.choose(this, this.foe);
       this.queue.push(() => this.runTurn(pa, fa));
       this.process();
       return this.events;
+    }
+
+    /** Doubles: one battler's action; the next one is asked, or the turn begins. */
+    actDouble(a) {
+      const slot = this.prompt.slot;
+      this.choices[slot] = a.type === 'move' && this.options(slot).struggle ? { type: 'move', id: 'struggle' } : a;
+      this.prompt = null;
+      const next = this.chooser(slot + 1);
+      if (next != null) { this.prompt = { kind: 'action', slot: next }; return this.events; }
+      const choices = this.choices.slice();
+      this.queue.push(() => this.runTurnDouble(choices));
+      this.process();
+      return this.events;
+    }
+
+    /** Doubles: back to the previous battler's choice (the screen's Back). */
+    back() {
+      if (!this.double || !this.prompt || this.prompt.kind !== 'action') return [{ type: 'error', reason: 'not-now' }];
+      let k = this.prompt.slot - 1;
+      while (k >= 0 && (!this.alive(this.player.bms[k]) || this.lockedAction(this.player.bms[k]))) k--;
+      if (k < 0) return [{ type: 'error', reason: 'not-now' }];
+      this.choices[k] = null;
+      this.prompt = { kind: 'action', slot: k };
+      return [];
+    }
+
+    /** Doubles: the first of the player's battlers from this slot on that chooses an action. */
+    chooser(from = 0) {
+      for (let k = from; k < this.player.bms.length; k++) {
+        const bm = this.player.bms[k];
+        if (this.alive(bm) && !this.lockedAction(bm)) return k;
+      }
+      return null;
     }
 
     answer(ans = {}) {
@@ -97,7 +157,7 @@ G.Battle = (() => {
       const k = this.prompt.kind;
       if ((k === 'switch' || k === 'shift') && ans.switchTo != null && ans.switchTo >= 0) {
         const m = this.player.party[ans.switchTo];
-        if (!m || m.hp <= 0 || ans.switchTo === this.player.active) return [{ type: 'error', reason: 'bad-switch' }];
+        if (!m || m.hp <= 0 || this.player.actives.includes(ans.switchTo)) return [{ type: 'error', reason: 'bad-switch' }];
       }
       if (k === 'switch' && !(ans.switchTo >= 0)) return [{ type: 'error', reason: 'must-switch' }];
       this.prompt = null; this.pending = null;
@@ -117,6 +177,14 @@ G.Battle = (() => {
         while (this.queue.length && !this.prompt && !this.result) this.queue.shift()();
         if (this.result) { this.queue.length = 0; this.prompt = null; return; }
         if (this.prompt) return;
+        if (this.double) {
+          // Each of the player's battlers chooses, unless it acts on its own (charging, recharging, rampaging).
+          this.choices = this.player.bms.map(bm => this.lockedAction(bm));
+          const first = this.chooser(0);
+          if (first == null) { const choices = this.choices.slice(); this.queue.push(() => this.runTurnDouble(choices)); continue; }
+          this.prompt = { kind: 'action', slot: first };
+          return;
+        }
         // A new turn. Charging, recharging or rampaging Pokémon act on their own.
         const lock = this.lockedAction(this.player.bm);
         if (lock) {
@@ -142,13 +210,26 @@ G.Battle = (() => {
         return m && m.hp > 0 && G.Evolution.candidates(m, { trigger: 'level' }).length > 0;
       });
       this.result = Object.assign({ outcome, money, leveled, evolve, seen: [...this.seen], caught: null, toBox: false }, extra, { money });
-      for (const s of this.sides) if (s.bm) { s.bm.mon.tox = 0; if (!s.bm.fainted) G.Abilities.switchOut(this, s.bm); }   // Natural Cure
+      for (const bm of this.allActive()) { bm.mon.tox = 0; if (!bm.fainted) G.Abilities.switchOut(this, bm); }   // Natural Cure
       this.emit('end', { outcome });
     }
 
     // ================= helpers for effects =================
 
-    other(bm) { return bm.side === 0 ? this.foe.bm : this.player.bm; }
+    /** The foe in front (singles: the foe; doubles: the one opposite, else the other one still standing). */
+    other(bm) {
+      if (!this.double) return bm.side === 0 ? this.foe.bm : this.player.bm;
+      const opp = this.sides[1 - bm.side].bms, front = opp[bm.slot || 0];
+      return (front && this.alive(front) ? front : opp.find(f => this.alive(f))) || front || opp[0] || null;
+    }
+    /** Every battler in the field (the player's first). */
+    allActive() { return this.player.bms.concat(this.foe.bms).filter(Boolean); }
+    /** The foes still standing. */
+    foes(bm) { return this.sides[1 - bm.side].bms.filter(f => this.alive(f)); }
+    /** Doubles: the partner still standing, else null. */
+    ally(bm) { const a = this.double ? this.sides[bm.side].bms.find(x => x && x !== bm) : null; return a && this.alive(a) ? a : null; }
+    /** The battler of a Pokémon in the field, else null. */
+    bmOf(mon) { return this.allActive().find(bm => bm.mon === mon) || null; }
     sideOf(bm) { return this.sides[bm.side]; }
     alive(bm) { return !!bm && bm.mon.hp > 0 && !bm.fainted; }
     firstHealthy(side) { return side.party.findIndex(m => m.hp > 0); }
@@ -156,7 +237,10 @@ G.Battle = (() => {
     maxHp(bm) { return G.Mon.maxHp(bm.mon); }
     trapped(bm) { return !!(bm.vol.trap || this.byFoe(bm, bm.vol.cantEscape) || bm.vol.ingrain); }
     /** Is the foe that set this effect (by uid) still the one in battle? */
-    byFoe(bm, uid) { const f = this.other(bm); return !!uid && !!f && this.alive(f) && f.mon.uid === uid; }
+    byFoe(bm, uid) {
+      if (this.double) return !!uid && this.foes(bm).some(f => f.mon.uid === uid);
+      const f = this.other(bm); return !!uid && !!f && this.alive(f) && f.mon.uid === uid;
+    }
 
     /** Effective stat with stages (and paralysis for speed). opts.crit: attacker ignores
      *  its negative stage, defender its positive one. */
@@ -210,7 +294,7 @@ G.Battle = (() => {
                             crit: !!o.crit, eff: o.eff == null ? 1 : o.eff, why: o.why || 'hit', src: o.src || null });
       if (band) this.emit('held', { side: target.side, uid: target.mon.uid, item: target.mon.item, why: 'focus-band' });
       if (o.user && o.user !== target && o.move) {
-        target.lastHit = { cat: o.move.cat, amt, from: o.user.side };
+        target.lastHit = { cat: o.move.cat, amt, from: o.user.side, uid: o.user.mon.uid };
         if (target.vol.rage && target.mon.hp > 0) this.stage(target, 'atk', 1, { source: target, rage: true });
         if (target.mon.hp <= 0 && target.vol.destinyBond && this.alive(o.user)) {
           this.emit('destinyBond', { side: target.side, uid: target.mon.uid });
@@ -310,7 +394,7 @@ G.Battle = (() => {
       if (a.type === 'item') {
         const fx = G.ITEM_FX[a.item];
         if (!fx || !fx.battle || fx.ball || !(bag[a.item] > 0)) return 'bad-item';
-        return G.BattleItems.canUse(this, this.player, a) ? null : 'no-effect';
+        return G.BattleItems.canUse(this, this.player, a, this.double ? this.player.bms[this.prompt.slot] : undefined) ? null : 'no-effect';
       }
       return 'bad-action';
     }
@@ -336,21 +420,55 @@ G.Battle = (() => {
       this.insert(...acts.map(x => () => this.doAction(x.side, x.a)), () => this.endOfTurn());
     }
 
-    doAction(side, a) {
-      const bm = side.bm;
+    /** Doubles: all four actions in one order (the same rules as runTurn). */
+    runTurnDouble(choices) {
+      this.turn++;
+      for (const bm of this.allActive()) {
+        bm.moved = false; bm.vol.flinch = false; bm.vol.protect = false; bm.vol.endure = false; bm.lastHit = null;
+        bm.vol.helped = false; bm.vol.followMe = false;
+      }
+      const acts = [];
+      this.player.bms.forEach((bm, k) => { if (this.alive(bm) && choices[k]) acts.push({ side: this.player, bm, a: choices[k], n: 0 }); });
+      this.foe.bms.forEach((bm, k) => {
+        if (this.alive(bm)) acts.push({ side: this.foe, bm, a: this.lockedAction(bm) || G.BattleAI.choose(this, this.foe, k), n: 1 });
+      });
+      for (const x of acts) {
+        const id = x.a.type === 'move' ? (x.a.id || (x.bm.mon.moves[x.a.slot] || {}).id) : null;
+        Object.assign(x, {
+          bracket: x.a.type === 'move' ? 0 : 1,
+          pri: id && G.MOVES[id] ? G.MOVES[id].pri : 0,
+          quick: x.a.type === 'move' && G.Held.quick(this, x.bm) ? 1 : 0,          // Quick Claw
+          spe: this.stat(x.bm, 'spe'), tie: this.rng.next()
+        });
+      }
+      acts.sort((p, q) => (q.bracket - p.bracket) || (q.bracket ? p.n - q.n : 0) || (q.pri - p.pri) || (q.quick - p.quick)
+                          || (q.spe - p.spe) || (p.tie - q.tie));
+      this.choices = [];
+      this.insert(...acts.map(x => () => this.doAction(x.side, x.a, x.bm)), () => this.endOfTurn());
+    }
+
+    doAction(side, a, bm = side.bm) {
       if (!this.alive(bm) || this.result) return;
       bm.moved = true;
-      if (a.type === 'switch') this.switchIn(side, a.to);
+      if (a.type === 'switch') this.switchIn(side, a.to, bm.slot || 0);
       else if (a.type === 'run') this.tryRun();
       else if (a.type === 'ball') this.throwBall(a.item);
-      else if (a.type === 'item') G.BattleItems.use(this, side, a);
+      else if (a.type === 'item') G.BattleItems.use(this, side, a, bm);
       else this.doMove(bm, a);
       this.afterAction();
     }
 
+    /** Doubles: the chosen target, or the other foe when it is gone (Generation 3). */
+    targetFor(bm, a) {
+      const t = a.target && this.sides[a.target.side] ? this.sides[a.target.side].bms[a.target.slot] : null;
+      if (t && this.alive(t)) return t;
+      if (t && t.side === bm.side) return this.ally(bm) || this.other(bm);
+      return this.other(bm);
+    }
+
     /** Move with the checks that come before it (recharge, sleep, freeze, flinch, confusion, paralysis, love). */
     doMove(bm, a) {
-      const target = this.other(bm);
+      const target = this.double ? this.targetFor(bm, a) : this.other(bm);
       const say = why => this.emit('cantMove', { side: bm.side, uid: bm.mon.uid, why });
       // An interrupted move ends its charge, its time in the sky / underground and its rampage.
       const stop = () => { bm.vol.charging = null; bm.vol.invuln = null; bm.vol.rampage = null; };
@@ -431,11 +549,11 @@ G.Battle = (() => {
 
     /** After every action: berries, faints, experience, and whether the battle is over. */
     afterAction() {
-      for (const s of this.sides) if (s.bm) G.Held.berry(this, s.bm);
+      for (const bm of this.allActive()) G.Held.berry(this, bm);
       const steps = [];
-      for (const s of this.sides) {
-        const bm = s.bm;
-        if (bm && bm.mon.hp <= 0 && !bm.fainted) {
+      for (const bm of this.allActive()) {
+        const s = this.sides[bm.side];
+        if (bm.mon.hp <= 0 && !bm.fainted) {
           bm.fainted = true;
           bm.mon.status = null; bm.mon.slp = 0; bm.mon.tox = 0;
           this.emit('faint', { side: s.side, uid: bm.mon.uid });
@@ -454,7 +572,7 @@ G.Battle = (() => {
         this.emit('outOfPokemon', {});
         return this.finish('lose');
       }
-      const foeOut = this.foe.bm.fainted;
+      const foeOut = this.double ? this.healthyLeft(this.foe) === 0 : this.foe.bm.fainted;
       if (foeOut && (this.kind === 'wild' || this.healthyLeft(this.foe) === 0)) {
         let money = 0;
         if (this.kind === 'trainer') {
@@ -469,7 +587,7 @@ G.Battle = (() => {
 
     endOfTurn() {
       if (this.result) return;
-      const order = this.sides.map(s => s.bm).filter(bm => this.alive(bm))
+      const order = this.allActive().filter(bm => this.alive(bm))
         .sort((p, q) => this.stat(q, 'spe') - this.stat(p, 'spe'));
       // Weather
       if (this.weather) {
@@ -488,7 +606,9 @@ G.Battle = (() => {
         if (!this.alive(bm)) continue;
         const max = this.maxHp(bm), uid = bm.mon.uid;
         if (bm.vol.seeded) {
-          const foe = this.other(bm);
+          // Doubles: the seeds feed whoever stands where the seeder stood.
+          const by = bm.vol.seededBy;
+          const foe = this.double && by ? this.sides[by.side].bms[by.slot] : this.other(bm);
           const d = this.hurt(bm, Math.max(1, Math.floor(max / 8)), { why: 'seed' });
           if (this.alive(foe) && G.Abilities.liquidOoze(bm)) this.hurt(foe, d, { why: 'ooze' });
           else if (this.alive(foe)) this.heal(foe, d, 'leech');
@@ -540,6 +660,7 @@ G.Battle = (() => {
     /** Fainted Pokémon are replaced at the end of the turn. */
     replacements() {
       if (this.result) return;
+      if (this.double) return this.replaceDouble();
       const steps = [];
       if (this.player.bm.fainted) {
         steps.push(() => this.ask({ kind: 'switch', forced: true }, ans => this.switchIn(this.player, ans.switchTo)));
@@ -557,39 +678,60 @@ G.Battle = (() => {
       this.insert(...steps);
     }
 
+    /** Doubles: each fainted slot is refilled (the player chooses), or stays empty. */
+    replaceDouble() {
+      const steps = [];
+      this.player.bms.forEach((bm, slot) => {
+        if (!bm || !bm.fainted) return;
+        steps.push(() => {
+          const free = this.player.party.some((m, i) => m.hp > 0 && !this.player.actives.includes(i));
+          if (free) this.ask({ kind: 'switch', forced: true, slot }, ans => this.switchIn(this.player, ans.switchTo, slot));
+        });
+      });
+      this.foe.bms.forEach((bm, slot) => {
+        if (!bm || !bm.fainted) return;
+        steps.push(() => {
+          const next = this.foe.party.findIndex((m, i) => m.hp > 0 && !this.foe.actives.includes(i));
+          if (next >= 0) this.sendOut(this.foe, next, { slot });
+        });
+      });
+      this.insert(...steps);
+    }
+
     // ================= switching =================
 
-    makeBM(side, mon) {
-      return { mon, side: side.side, stages: { atk: 0, def: 0, spa: 0, spd: 0, spe: 0, acc: 0, eva: 0 }, vol: {},
+    makeBM(side, mon, slot = 0) {
+      return { mon, side: side.side, slot, stages: { atk: 0, def: 0, spa: 0, spd: 0, spe: 0, acc: 0, eva: 0 }, vol: {},
                types: G.SPECIES[mon.sp].types.slice(), moved: false, turns: 0, lastMove: null, lastHit: null,
                fainted: false, participants: new Set(), ability: G.Abilities.of(mon), entered: this.turn };
     }
 
     /** o.noEntry: its entry ability waits (the caller runs it after its own line). */
+    /** o.noEntry: its entry ability waits (the caller runs it after its own line). o.slot: doubles. */
     sendOut(side, i, o = {}) {
-      side.active = i;
+      const slot = o.slot || 0;
+      side.actives[slot] = i;
       const mon = side.party[i];
-      side.bm = this.makeBM(side, mon);
+      const bm = side.bms[slot] = this.makeBM(side, mon, slot);
       if (side.side === 1) this.seen.add(mon.sp);
       if (side.side === 0 && G.Held.is(mon, 'amulet-coin')) this.amulet = true;
-      this.emit('send', { side: side.side, uid: mon.uid, sp: mon.sp, lvl: mon.lvl, hp: mon.hp, max: G.Mon.maxHp(mon),
-                          shiny: !!mon.shiny, gender: mon.gender, status: mon.status });
-      const pl = this.player.bm, fo = this.foe.bm;
-      if (pl && fo && this.alive(pl) && this.alive(fo)) fo.participants.add(pl.mon.uid);
-      if (this.started && !o.noEntry) G.Abilities.switchIn(this, side.bm);
+      this.emit('send', Object.assign({ side: side.side, uid: mon.uid, sp: mon.sp, lvl: mon.lvl, hp: mon.hp, max: G.Mon.maxHp(mon),
+                          shiny: !!mon.shiny, gender: mon.gender, status: mon.status }, this.double ? { slot } : {}));
+      // Those who faced a foe share its experience.
+      for (const fo of this.foe.bms) for (const pl of this.player.bms) if (pl && fo && this.alive(pl) && this.alive(fo)) fo.participants.add(pl.mon.uid);
+      if (this.started && !o.noEntry) G.Abilities.switchIn(this, bm);
     }
 
-    switchIn(side, i) {
-      const old = side.bm;
+    switchIn(side, i, slot = 0) {
+      const old = side.bms[slot];
       if (old && !old.fainted) {
         old.mon.tox = 0;
         G.Abilities.switchOut(this, old);                   // Natural Cure
         this.emit('withdraw', { side: side.side, uid: old.mon.uid });
         // The foe's trap and seeds on it stay with the battler that leaves.
-        const foe = this.other(old);
-        if (foe && foe.vol.attract) foe.vol.attract = false;
+        for (const foe of this.double ? this.foes(old) : [this.other(old)]) if (foe && foe.vol.attract) foe.vol.attract = false;
       }
-      this.sendOut(side, i);
+      this.sendOut(side, i, { slot });
     }
 
     // ================= running and catching =================
@@ -668,8 +810,8 @@ G.Battle = (() => {
       this.leveled.add(mon.uid);
       this.emit('levelup', { uid: mon.uid, lvl: mon.lvl, before, after: G.Mon.stats(mon), hp: mon.hp,
                              from: G.Stats.expAt(gr, mon.lvl), to: G.Stats.expAt(gr, Math.min(100, mon.lvl + 1)) });
-      const bm = this.player.bm;
-      if (bm && bm.mon === mon) bm.types = G.SPECIES[mon.sp].types.slice();
+      const bm = this.bmOf(mon);
+      if (bm && bm.side === 0) bm.types = G.SPECIES[mon.sp].types.slice();
       const learn = G.Mon.movesAt(mon.sp, mon.lvl).map(id => () => this.learnStep(mon, id));
       this.insert(...learn, () => this.levelStep(mon));
     }

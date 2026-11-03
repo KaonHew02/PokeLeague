@@ -1586,6 +1586,38 @@ test('Hoenn (chapter 39): Ever Grande City, Victory Road and Wally, the Elite Fo
   assert.equal(F.save.fame.length, 1);
 });
 
+test('double battles (chapter 40): a pair needs two Pokémon able to fight; the partner speaks for them; Tate and Liza fight two at a time', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const got = [];
+  W.onTrainer = async (d, info) => { got.push([info.key, !!d.double]); return 'win'; };
+  F.giveMon('treecko', 10, { moves: ['pound'] });
+  // Route 104's twins look along the path; with one Pokémon they let you pass.
+  W.load('route104', { x: 17, y: 21, dir: 'down' });
+  assert.ok(W.actors.some(a => a.id === 'gina-mia-partner' && a.visible), 'the partner stands there');
+  assert.equal(step(W, 'down'), 'moved');
+  await settle();
+  assert.equal(got.length, 0, 'not spotted with one Pokémon');
+  // Talking: they explain.
+  W.load('route104', { x: 18, y: 22, dir: 'right' });
+  await pump(W, W.interact());
+  assert.equal(got.length, 0);
+  // With two, they spot you; talking to the partner is talking to them.
+  F.giveMon('wingull', 10, { moves: ['growl'] });
+  W.load('route104', { x: 20, y: 23, dir: 'up' });
+  await pump(W, W.interact());
+  assert.deepEqual(plain(got), [['route104:gina-mia', true]]);
+  // Tate and Liza: a double battle.
+  W.load('mossdeep-gym', { x: 6, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  assert.deepEqual(plain(got[got.length - 1]), ['mossdeep-gym:tate', true]);
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

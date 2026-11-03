@@ -71,5 +71,9 @@ G.I18n.add({
   "A painting of Mt. Pyre in the morning mist. It feels peaceful, and a little sad.": "一幅画：晨雾中的送神山。让人觉得宁静，又有点感伤。",
   "A painting of two huge Pokémon, one of the land and one of the sea, clashing under a stormy sky. The plate reads: \"The Ancient Battle\".": "一幅画：一只大地的巨大宝可梦和一只海洋的巨大宝可梦，在暴风雨的天空下激烈交战。铭牌上写着：“远古之战”。",
   "A sculpture of a Pokémon made of bright, curving lines. The plate has not been filled in yet.": "一座由明亮曲线构成的宝可梦雕塑。铭牌还是空白的。",
-  "A stone altar. Two hollows in it once held a red orb and a blue orb.": "一座石造祭坛。上面的两个凹槽曾经放着一颗红色宝珠和一颗蓝色宝珠。"
+  "A stone altar. Two hollows in it once held a red orb and a blue orb.": "一座石造祭坛。上面的两个凹槽曾经放着一颗红色宝珠和一颗蓝色宝珠。",
+  "Lois & Hal": "路易丝和哈尔",
+  "We do everything together, and that includes battles!": "我们做什么都在一起，对战也一样！",
+  "At least we lost as a team.": "至少我们是一起输的。",
+  "In a double battle, a move that hits both foes is worth twice as much. Think about it!": "在双打对战里，能同时打中两个对手的招式价值翻倍。好好想想吧！"
 }, "zh-Hans");

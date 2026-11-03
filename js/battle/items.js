@@ -4,17 +4,24 @@
  *
  * target = index in that side's party (healing, curing, reviving, PP); X items,
  * Dire Hit and Guard Spec. act on the Pokémon in battle. move = move slot for Ether.
+ * Doubles (chapter 40): `user` is the battler whose turn uses it (its own Pokémon by default).
  */
 G.BattleItems = (() => {
   const all = ['psn', 'tox', 'brn', 'par', 'slp', 'frz'];
 
   function fxOf(item) { return G.ITEM_FX[item] || {}; }
 
-  function canUse(b, side, a) {
+  /** The party index an item goes to, and the battler of that Pokémon if it is in battle. */
+  function aim(b, side, a, user) {
+    const idx = a.target != null ? a.target : b.double && user ? side.party.indexOf(user.mon) : side.active;
+    const mon = side.party[idx];
+    return { idx, mon, bm: b.double ? (mon && b.bmOf(mon)) : (side.party[side.active] === mon ? side.bm : null) };
+  }
+
+  function canUse(b, side, a, user) {
     const fx = fxOf(a.item);
-    const mon = side.party[a.target == null ? side.active : a.target];
+    const { mon, bm: active } = aim(b, side, a, user);
     if (!mon) return false;
-    const active = side.party[side.active] === mon ? side.bm : null;
     if (fx.revive) return mon.hp <= 0;
     if (mon.hp <= 0) return false;
     if (fx.stage || fx.crit || fx.mist) return true;
@@ -31,13 +38,12 @@ G.BattleItems = (() => {
     return does;
   }
 
-  function use(b, side, a) {
+  function use(b, side, a, user) {
     const fx = fxOf(a.item);
     const store = side.side === 0 ? side.bag : side.items;
     if (store[a.item] > 0) { store[a.item]--; if (!store[a.item]) delete store[a.item]; }
-    const idx = a.target == null ? side.active : a.target;
-    const mon = side.party[idx];
-    const bm = side.party[side.active] === mon ? side.bm : null;
+    const { mon, bm } = aim(b, side, a, user);
+    const self = b.double && user ? user : side.bm;
     b.emit('item', { side: side.side, item: a.item, uid: mon.uid, trainer: side.side === 1 && side.trainer ? side.trainer.id : null });
     if (fx.revive) {
       mon.hp = Math.max(1, Math.floor(G.Mon.maxHp(mon) * fx.revive));
@@ -64,8 +70,8 @@ G.BattleItems = (() => {
       for (const m of slots) m.pp = fx.pp === 'full' ? G.Mon.ppMax(m.id, m.ppUp) : Math.min(G.Mon.ppMax(m.id, m.ppUp), m.pp + fx.pp);
       b.emit('ppRestored', { side: side.side, uid: mon.uid });
     }
-    if (fx.stage && side.bm) b.stage(side.bm, fx.stage[0], fx.stage[1], { source: side.bm });
-    if (fx.crit && side.bm) { side.bm.vol.focusEnergy = true; b.emit('pumped', { side: side.side, uid: side.bm.mon.uid }); }
+    if (fx.stage && self) b.stage(self, fx.stage[0], fx.stage[1], { source: self });
+    if (fx.crit && self) { self.vol.focusEnergy = true; b.emit('pumped', { side: side.side, uid: self.mon.uid }); }
     if (fx.mist) { side.field.mist = 5; b.emit('field', { side: side.side, effect: 'mist' }); }
   }
 

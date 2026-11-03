@@ -306,6 +306,43 @@ b.result       // {outcome:'win'|'lose'|'run'|'caught', caught, money, leveled:[
 Battle-only state lives in a `BattleMon` wrapper (stages, volatiles, types, last move,
 participants). The real mon objects only change HP, PP, status, EXP, EVs, level and moves.
 
+**Double battles (chapter 40, `rules.double`, trainer battles only).** Each side has up to two
+battlers: `side.bms[slot]` and `side.actives[slot]` (`side.bm` / `side.active` are slot 0, so
+single battles and the Safari Zone read them as before). A side with only one Pokémon able to
+fight has one slot (one against two). Helpers: `b.allActive()`, `b.foes(bm)`, `b.ally(bm)`,
+`b.bmOf(mon)`; `b.other(bm)` is the foe opposite (else the other one).
+- **Choosing:** `prompt { kind: 'action', slot }` asks for each of the player's battlers in turn
+  (charging, recharging or rampaging ones are skipped); `b.act(action)` with `target: { side, slot }`
+  for a move; `b.back()` returns to the previous battler's choice; `b.options(slot)`.
+- **The turn:** `runTurnDouble` sorts all four actions with the singles rules (switches and items,
+  priority, Quick Claw, Speed, a random tie). A move aimed at a fainted foe goes to the other one.
+- **Targets** (effects.js `targetsOf`, from the move's `tgt`; `TARGET` holds the Generation 3
+  ones that changed later: Surf hits both foes only): one target; both foes (`all-opponents`,
+  ×0.5 each when there are two: `G.Damage.calc({ spread })`); everyone else (`all-other-pokemon`:
+  Earthquake, Explosion hit the partner too, full damage); a random foe (`random-opponent`).
+  `useOnMany` runs Protect, accuracy, damage and effects once per target ("{mon} avoided the
+  attack!"); Magnitude rolls once (`oncePower`), Self-Destruct faints its user once (`faints`).
+  Follow Me draws the foes' single-target moves; Lightning Rod draws Electric ones aimed at another
+  Pokémon (the `rod` ability line); Helping Hand makes the partner's move 1.5× as strong.
+- **Abilities:** Intimidate on both foes; Trace copies one of the foes; Plus and Minus (Special
+  Attack ×1.5 beside the other one); Shadow Tag and Arena Trap from either foe; Cloud Nine, Damp
+  and Forecast look at all four.
+- **Faints:** each fainted slot is refilled on its own (`prompt { kind: 'switch', forced, slot }`
+  for the player, the next healthy Pokémon for the foe) or stays empty; no "Will you switch?"
+  offer. Experience goes to every one of the player's battlers that faced the fainted foe.
+- **AI** (`choose(b, side, slot)`): every move against every foe, the best target; a move on both
+  foes counts both (half each), Earthquake counts its partner against it, Helping Hand when the
+  partner can attack. The test auto-player (`bestDouble` in tests/story.test.cjs) does the same.
+- **Screen:** two Pokémon and two smaller boxes a side (`#bt-foe2`, `#bt-me2`, `.double`), a list
+  "Use {move} on which Pokémon?" when two foes stand, B on the second Pokémon's menu goes back to
+  the first, per-slot forced switches; the "used" event carries `tuid` (the chosen target) for
+  the animation. `dev.html?debug&vs=...&party=...&double` and `tools/sim_battle.js --trainer
+  --double` start one.
+- **Overworld:** a trainer with `double: true` battles two against two, its `partner: { who, x, y,
+  dir }` stands beside it (talking to it is talking to the trainer; maps.js checks its tile). One
+  who is not a Gym Leader needs two of your Pokémon able to fight: else it does not spot you, and
+  talking to it says so.
+
 ## 4. Overworld: `js/world/`, `js/script/`, `js/ui/dialog.js` (M3 ✅)
 
 **Built** — what exists (the original spec follows and is still accurate):

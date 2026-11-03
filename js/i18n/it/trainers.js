@@ -47,5 +47,9 @@ G.I18n.add({
   "Magma Leader": "Capo Magma",
   "Kindler": "Mangiafuoco",
   "Aqua Admin": "Idrotenente",
-  "Aqua Leader": "Capo Idro"
+  "Aqua Leader": "Capo Idro",
+  "Twins": "Gemelle",
+  "Young Couple": "Giovane coppia",
+  "Sis and Bro": "Sorella e fratello",
+  "Old Couple": "Coppia anziana"
 }, "it");

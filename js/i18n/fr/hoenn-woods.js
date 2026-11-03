@@ -44,5 +44,9 @@ G.I18n.add({
   "Taillow is small, but it never gives up, even against a bigger foe.": "Nirondelle est petit, mais il n'abandonne jamais, même face à plus gros que lui.",
   "Berries grow on trees all over Hoenn. Pick them, and a new crop grows the next day!": "Les baies poussent sur des arbres partout à Hoenn. Cueille-les, et il en repousse le lendemain !",
   "Route 104. North: Petalburg Woods. East: Petalburg City.": "Route 104. Nord : Bois Clémenti. Est : Clémenti-Ville.",
-  "Route 104. North: Rustboro City. South: Petalburg Woods.": "Route 104. Nord : Mérouville. Sud : Bois Clémenti."
+  "Route 104. North: Rustboro City. South: Petalburg Woods.": "Route 104. Nord : Mérouville. Sud : Bois Clémenti.",
+  "Gina & Mia": "Gina et Mia",
+  "We are twins, so we always battle together! Two against two!": "On est jumelles, alors on se bat toujours ensemble ! Deux contre deux !",
+  "We lost together too...": "On a perdu ensemble aussi...",
+  "When we battle side by side, we think the same thoughts. Most of the time.": "Quand on se bat côte à côte, on pense la même chose. La plupart du temps."
 }, "fr");

@@ -30,6 +30,7 @@ function world(seed = 1) {
 // ---------------- the auto-player ----------------
 
 function bestMove(G, b) {
+  if (b.double) return bestDouble(G, b);
   const o = b.options();
   const usable = o.moves.filter(m => m.usable);
   if (o.struggle || !usable.length) return { type: 'move', slot: 0 };
@@ -48,11 +49,38 @@ function bestMove(G, b) {
   return { type: 'move', slot: best };
 }
 
+/** Double battles (chapter 40): the same rule for each of the player's Pokémon, aiming at the foe it hurts most;
+ *  a move on both foes counts both (half each), Earthquake counts the partner against it. */
+function bestDouble(G, b) {
+  const slot = b.prompt.slot, o = b.options(slot), pb = b.player.bms[slot], me = pb.mon;
+  const usable = o.moves.filter(m => m.usable);
+  const foes = b.foes(pb), ally = b.ally(pb);
+  const aim = f => (f ? { side: f.side, slot: f.slot } : undefined);
+  if (o.struggle || !usable.length) return { type: 'move', slot: 0, target: aim(foes[0]) };
+  const value = (m, fb) => {
+    const M = G.MOVES[m.id], sm = G.SpecialMoves[m.id];
+    const pow = sm && typeof sm.power === 'function' && !sm.oncePower ? sm.power(b, pb, fb, M) || 0 : M.pow || 0;
+    const eff = b.eff(M.type, fb), blocked = pow > 0 && G.Abilities.immune(pb, fb, M, M.type, eff);
+    const hits = M.meta.hits ? (M.meta.hits[0] + M.meta.hits[1]) / 2 : 1;
+    return blocked ? 0 : pow * hits * eff * G.Abilities.powerMult(b, pb, fb, M.type) * (G.Mon.types(me).includes(M.type) ? 1.5 : 1) * ((M.acc || 100) / 100);
+  };
+  let best = { s: -1, slot: usable[0].slot, f: foes[0] };
+  for (const m of usable) {
+    const t = G.BattleFx.tgtOf(G.MOVES[m.id], m.id);
+    if (t === 'all-opponents' || t === 'all-other-pokemon') {
+      let s = foes.reduce((n, f) => n + value(m, f) * (t === 'all-opponents' && foes.length > 1 ? 0.5 : 1), 0);
+      if (t === 'all-other-pokemon' && ally) s -= value(m, ally);
+      if (s > best.s) best = { s, slot: m.slot, f: foes[0] };
+    } else for (const f of foes) { const s = value(m, f); if (s > best.s) best = { s, slot: m.slot, f }; }
+  }
+  return { type: 'move', slot: best.slot, target: aim(best.f) };
+}
+
 function autoplay(G, b) {
   for (let i = 0; i < 500 && !b.result && b.prompt; i++) {
     const p = b.prompt;
     if (p.kind === 'action') b.act(bestMove(G, b));
-    else if (p.kind === 'switch') { const s = b.options().switchable; b.answer({ switchTo: s.length ? s[0] : -1 }); }
+    else if (p.kind === 'switch') { const s = b.options(p.slot).switchable; b.answer({ switchTo: s.length ? s[0] : -1 }); }
     else if (p.kind === 'shift') b.answer({ switchTo: -1 });
     else if (p.kind === 'learn') {
       // Keep the strongest four: forget the weakest move if the new one hits harder.
@@ -92,7 +120,7 @@ async function fight(st, ref, o, h) {
   const b = G.Battle.create({ kind: 'trainer', seed: W.seed * 31 + st.battles.length,
     player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag },
     foe: { party, trainer: { id: key, name: d.name || '', ai: d.ai || (d.leader ? 'leader' : 'basic'), items: d.items || {}, prize: d.prize != null ? d.prize : cls.prize } },
-    rules: { canLose: !!(o && o.canLose), obeyCap: obeyCap(st) } });
+    rules: { canLose: !!(o && o.canLose), obeyCap: obeyCap(st), double: !!d.double } });
   b.start();
   const r = autoplay(G, b);
   st.battles.push({ key, outcome: r.outcome, levels: S.party.map(m => m.lvl), team: d.team });
@@ -456,7 +484,7 @@ function trainerRate(G, L) {
       const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
       const foes = L.team.map(([x, l, moves]) => G.Mon.create(G.Maps.species(x), l, { rng, moves }));
       const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
-        foe: { party: foes, trainer: { id, name: L.name, ai: 'leader', items: L.items || {}, prize: 100 } } });
+        foe: { party: foes, trainer: { id, name: L.name, ai: 'leader', items: L.items || {}, prize: 100 } }, rules: { double: !!L.double } });
       b.start();
       if ((autoplay(G, b) || {}).outcome === 'win') wins++;
     }
@@ -551,18 +579,18 @@ test('balance: Tate and Liza in Mossdeep (chapter 36), win rates of typical team
   // Moves a player keeps (Surf from the HM); Dark and Ghost partners, as the Gym guide says.
   const SWAMPERT = ['surf', 'muddy-water', 'take-down', 'protect'], SCEPTILE = ['leaf-blade', 'quick-attack', 'agility', 'slam'];
   const BLAZIKEN = ['blaze-kick', 'double-kick', 'slash', 'bulk-up'], MIGHTYENA = ['bite', 'take-down', 'sand-attack', 'howl'];
-  const BANETTE = ['shadow-ball', 'feint-attack', 'knock-off', 'will-o-wisp'];
-  const table = {
-    'swampert 42': rate([[260, 42, SWAMPERT]]), 'sceptile 42': rate([[254, 42, SCEPTILE]]), 'blaziken 42': rate([[257, 42, BLAZIKEN]]),
-    'swampert 42 + mightyena 38 + banette 38': rate([[260, 42, SWAMPERT], [262, 38, MIGHTYENA], [354, 38, BANETTE]]),
-    'sceptile 42 + mightyena 38 + banette 38': rate([[254, 42, SCEPTILE], [262, 38, MIGHTYENA], [354, 38, BANETTE]]),
-    'blaziken 42 + mightyena 38 + banette 38': rate([[257, 42, BLAZIKEN], [262, 38, MIGHTYENA], [354, 38, BANETTE]])
-  };
+  const BANETTE = ['shadow-ball', 'feint-attack', 'knock-off', 'will-o-wisp'], MANECTRIC = ['spark', 'bite', 'quick-attack', 'roar'];
+  const table = {};
+  for (const [k, st] of [['swampert', [260, 42, SWAMPERT]], ['sceptile', [254, 42, SCEPTILE]], ['blaziken', [257, 42, BLAZIKEN]]]) {
+    table[k + ' 42'] = rate([st]);
+    table[k + ' 42 + mightyena, banette 38'] = rate([st, [262, 38, MIGHTYENA], [354, 38, BANETTE]]);
+    table[k + ' 42 + mightyena, banette, manectric 40'] = rate([st, [262, 40, MIGHTYENA], [354, 40, BANETTE], [310, 40, MANECTRIC]]);
+  }
   console.log('[balance] vs Tate and Liza:', JSON.stringify(table));
-  // Emerald's double-battle team, fought one at a time (no double battles yet): four Pokémon at Lv. 41-42
-  // with Calm Mind, Hypnosis, Light Screen and Solar Beam in the sun outlast a lone starter; a team of
-  // three with Dark and Ghost moves wins with any starter.
-  for (const k of ['swampert', 'sceptile', 'blaziken']) assert.ok(table[k + ' 42 + mightyena 38 + banette 38'] >= 0.6, k + ' with a team of three');
+  // A double battle since chapter 40 (Emerald's): two at a time, Claydol's Earthquake free to hit (its partners
+  // levitate or fly), Calm Mind, Hypnosis, Light Screen and Solar Beam in the sun. A lone starter cannot win;
+  // a team of four with Dark, Ghost and Electric moves wins with any starter.
+  for (const k of ['swampert', 'sceptile', 'blaziken']) assert.ok(table[k + ' 42 + mightyena, banette, manectric 40'] >= 0.6, k + ' with a team of four');
   assert.ok(table['swampert 42'] < 0.2 && table['sceptile 42'] < 0.2 && table['blaziken 42'] < 0.2, 'a lone starter is outlasted');
 });
 

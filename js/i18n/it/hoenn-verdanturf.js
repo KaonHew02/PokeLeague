@@ -49,5 +49,9 @@ G.I18n.add({
   "Route 117. West: Verdanturf Town. East: Mauville City.": "Percorso 117. Ovest: Mentania. Est: Ciclamipoli.",
   "Verdanturf Town. A town of fresh air, sheltered from the ash of Mt. Chimney.": "Mentania. Un paese dall'aria pura, al riparo dalla cenere del Monte Camino.",
   "Route 118. West: Mauville City. The road goes on across the water.": "Percorso 118. Ovest: Ciclamipoli. La strada continua oltre l'acqua.",
-  "North: Route 119, to the Weather Institute and Fortree City.": "Nord: Percorso 119, verso l'Istituto Meteo e Forestopoli."
+  "North: Route 119, to the Weather Institute and Fortree City.": "Nord: Percorso 119, verso l'Istituto Meteo e Forestopoli.",
+  "Anna & Meg": "Anna e Meg",
+  "Our Plusle and Minun cheer each other on! They get stronger when they are together!": "I nostri Plusle e Minun si fanno il tifo a vicenda! Diventano più forti quando sono insieme!",
+  "They cheered so hard...": "Hanno fatto così tanto il tifo...",
+  "Plusle and Minun power each other up, side by side. Do you have a pair like that?": "Plusle e Minun si potenziano a vicenda, fianco a fianco. Hai una coppia così?"
 }, "it");

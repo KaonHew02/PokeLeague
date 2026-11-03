@@ -339,6 +339,13 @@ input { font: inherit; }
 .bt-foe { left: 3%; top: 5%; }
 .bt-me { right: 3%; top: 49%; }
 .bt-me.out { transform: translateX(.8em); }
+/* Doubles (chapter 40): two smaller boxes a side. */
+.battle-scr.double .bt-box { width: 36%; font-size: .64em; padding: .25em .5em .3em; }
+.battle-scr.double .bt-foe { top: 3%; }
+.battle-scr.double .bt-foe2 { left: 3%; top: 12.5%; }
+.battle-scr.double .bt-me { top: 48%; }
+.battle-scr.double .bt-me2 { right: 3%; top: 60.5%; }
+.battle-scr.double .bt-me2.out { transform: translateX(.8em); }
 .bt-name { display: flex; align-items: baseline; gap: .35em; font-weight: 700; }
 .bt-name .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bt-name .g-m { color: #3a6ee8; } .bt-name .g-f { color: #e0507a; }

@@ -75,6 +75,9 @@
  * Chapter 38: a storm (map `storm`: a condition) rains on the map and in its battles; on the sea
  * floor, `up: [{ x, y, w, h, to, spot }]` are places where coming up leads somewhere else (a lake
  * inside a crater: Sootopolis City).
+ * Chapter 40: double-battle trainers (`double: true`) fight two against two; their `partner` stands
+ * beside them (talking to either starts the battle). A trainer who is not a Gym Leader only takes on a
+ * player with two Pokémon able to fight (else they do not spot you, and talking explains why).
  * Chapter 15: berry trees (`y`): one to three berries once a day (the map's `berries`: [[x, y, item]]).
  * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
  * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
@@ -314,6 +317,9 @@ G.World = (() => {
       const a = new G.Actor({ id: d.id, who: d.who, x: d.x, y: d.y, dir: d.dir || 'down', def: d });
       a.trainer = true; a.key = id + ':' + d.id;
       actors.push(a);
+      // A double-battle trainer's partner (chapter 40): shown with them; talking to it is talking to them.
+      if (d.partner) actors.push(new G.Actor({ id: d.id + '-partner', who: d.partner.who, x: d.partner.x, y: d.partner.y,
+                                               dir: d.partner.dir || d.dir || 'down', def: { if: d.if, partnerOf: d.id, fixed: d.partner.fixed } }));
     }
     items = map.items.map(d => ({ def: d, key: id + ':' + d.flag }));
     rocks = (map.def.boulders || []).filter(b => G.Field.test(b.if) && !G.Field.flag('rock:' + id + ':' + b.id)).map(b => {
@@ -743,11 +749,12 @@ G.World = (() => {
     const S = G.Field.save;
     return { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag };
   }
-  function battleOpts(canLose) {
+  function battleOpts(canLose, d) {
     // On the water (Surf, a rod) outside a cave: the sea behind the Pokémon.
     const sea = (surfing || fishing) && map.tileset === 'outdoor' && !map.def.cave;
     const rules = { canLose: !!canLose, where: map.loc || map.id, obeyCap: G.Field.obeyCap(map.def.region) };
     if (stormy()) rules.weather = 'rain';
+    if (d && d.double) rules.double = true;
     return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld', rules };
   }
   /** After a battle: Pokédex, prize money, a caught Pokémon that goes to the PC. -> the outcome */
@@ -777,6 +784,7 @@ G.World = (() => {
   function spotted() {
     for (const t of actors) {
       if (!t.trainer || !t.visible || G.Field.isDone(t.key) || t.moving) continue;
+      if (needsTwo(t.def)) continue;                 // a double battle needs two Pokémon able to fight
       const n = t.def.sight | 0;
       const [dx, dy] = M().DIRS[t.dir];
       for (let i = 1; i <= n; i++) {
@@ -791,6 +799,9 @@ G.World = (() => {
     }
     return false;
   }
+
+  /** Doubles (chapter 40): a trainer (not a Gym Leader) who wants two of yours, when you have fewer. */
+  const needsTwo = d => !!(d && d.double && !d.leader && G.Field.party().filter(m => m.hp > 0).length < 2);
 
   async function trainerBattle(t, seen) {
     locks++;
@@ -857,7 +868,7 @@ G.World = (() => {
     try {
       let r;
       if (api.onTrainer) r = await api.onTrainer(d, { map: map.id, key, canLose: !!o.canLose });
-      else if (G.BattleUI && G.BattleUI.trainer) r = await G.BattleUI.trainer(battler(), battleTrainer(d, key), battleOpts(o.canLose));
+      else if (G.BattleUI && G.BattleUI.trainer) r = await G.BattleUI.trainer(battler(), battleTrainer(d, key), battleOpts(o.canLose, d));
       else r = await fallbackBattle(trainerName(d) || G.Names.pretty(d.id));
       out = settle(r);
     } finally { locks--; }
@@ -922,6 +933,12 @@ G.World = (() => {
   }
 
   function talk(a) {
+    // A double-battle trainer's partner speaks for the pair.
+    if (a.def && a.def.partnerOf) { const t = actors.find(x => x.trainer && x.id === a.def.partnerOf); if (t) return talk(t); }
+    if (a.trainer && !G.Field.isDone(a.key) && needsTwo(a.def)) {
+      sfx('select'); faceEachOther(a);
+      return runScript([['say', 'We battle two against two! Come back when you have two Pokémon that can fight.', { name: trainerName(a.def) }]], { self: a });
+    }
     if (a.trainer && !G.Field.isDone(a.key)) return trainerBattle(a, false);
     sfx('select');
     faceEachOther(a);

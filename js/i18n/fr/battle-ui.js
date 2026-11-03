@@ -35,5 +35,6 @@ G.I18n.add({
   "Ball ×{n}": "Ball ×{n}",
   "Bait": "Appât",
   "Rock": "Caillou",
-  "What will {player} do?": "Que doit faire {player} ?"
+  "What will {player} do?": "Que doit faire {player} ?",
+  "Use {move} on which Pokémon?": "Utiliser {move} sur quel Pokémon ?"
 }, "fr");

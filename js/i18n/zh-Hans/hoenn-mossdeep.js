@@ -79,5 +79,9 @@ G.I18n.add({
   "While we were busy with Team Magma, Team Aqua's submarine slipped away to the south of Mossdeep. I think they mean to go under the sea.": "我们忙着对付熔岩队的时候，海洋队的潜水艇悄悄往绿岭市南边去了。我想他们是打算潜到海底。",
   "Take this. With it, you can follow them.": "收下这个。有了它，你就能追上他们。",
   "HM08 is Dive. With the Mind Badge, a Pokémon that knows it can take you down from deep, dark water to the sea floor.": "秘传学习器08是潜水。有了心灵徽章，会这招的宝可梦就能带你从幽暗的深水潜到海底。",
-  "The submarine was last seen over the dark water of Route 128, south of Route 127. Be careful down there, {player}.": "最后有人看到潜水艇，是在127号道路南边、128号道路的幽暗海面上。到了下面要小心，{player}。"
+  "The submarine was last seen over the dark water of Route 128, south of Route 127. Be careful down there, {player}.": "最后有人看到潜水艇，是在127号道路南边、128号道路的幽暗海面上。到了下面要小心，{player}。",
+  "Rita & Sam": "丽塔和萨姆",
+  "Big sister and me, against you! Ready?": "姐姐和我一起对付你！准备好了吗？",
+  "Sis, we lost!": "姐姐，我们输了！",
+  "Some moves hit both foes at once. Surf is one of them!": "有些招式能同时打中两个对手。冲浪就是其中之一！"
 }, "zh-Hans");

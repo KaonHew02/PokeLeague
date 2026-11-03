@@ -97,6 +97,7 @@ G.BattleText = (() => {
       case 'truant': return fmt('{mon} is loafing around!', { mon });
       case 'pressure': return fmt('{mon} is exerting its {ability}!', { mon, ability });
       case 'damp': return fmt("{mon}'s {ability} prevents {move} from working!", { mon, ability, move: G.Names.move(e.move) });
+      case 'rod': return fmt('{mon} took the attack with its {ability}!', { mon, ability });
       default: return fmt("{mon}'s {ability}!", { mon, ability });
     }
   }
@@ -147,7 +148,9 @@ G.BattleText = (() => {
       case 'ability': return abilityLine(b, e, mon);
       case 'noEffect': return fmt("It doesn't affect {mon}...", { mon });
       case 'fail': return fmt('But it failed!', {});
-      case 'miss': return fmt("{mon}'s attack missed!", { mon });
+      case 'miss': return e.target ? fmt('{mon} avoided the attack!', { mon: who(b, e.target, e.tside) }) : fmt("{mon}'s attack missed!", { mon });
+      case 'helpingHand': return fmt('{mon} is ready to help {target}!', { mon, target: who(b, e.target, e.tside) });
+      case 'followMe': return fmt('{mon} became the center of attention!', { mon });
       case 'noTarget': return fmt('But there was no target...', {});
       case 'protected': return fmt('{mon} protected itself!', { mon });
       case 'hits': return fmt('Hit {n} times!', { n: e.n });

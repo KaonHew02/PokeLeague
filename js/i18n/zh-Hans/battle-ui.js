@@ -35,5 +35,6 @@ G.I18n.add({
   "Ball ×{n}": "球 ×{n}",
   "Bait": "饵料",
   "Rock": "石头",
-  "What will {player} do?": "{player}要怎么做？"
+  "What will {player} do?": "{player}要怎么做？",
+  "Use {move} on which Pokémon?": "要对哪只宝可梦使用{move}？"
 }, "zh-Hans");

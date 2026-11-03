@@ -19,6 +19,11 @@
  *   recharge · rampage · leaveOne · whileAsleep · thawsUser   flags
  * Abilities (abilities.js) are asked for accuracy, critical hits, power, immunities (Water Absorb,
  * Wonder Guard...), contact (Static...), secondary effects (Shield Dust, Serene Grace) and recoil.
+ * Double battles (chapter 40): the move's targets come from its `tgt` (TARGET for the Generation 3
+ * ones that differ): one chosen target (Follow Me and Lightning Rod draw it), both foes (×0.5 each
+ * with two), everyone else (Earthquake: the partner too, full damage), a random foe. useMove() then
+ * runs the target's part (Protect, accuracy, damage, effects) once per target; Magnitude rolls once and
+ * Self-Destruct faints its user once (`oncePower`, `faints` in moves-special.js).
  * A move with no handler and no generic meaning fails ("But it failed!"): those are
  * listed in G.SpecialMoves.FALLBACK so it is a deliberate choice (tests check it).
  */
@@ -29,6 +34,39 @@ G.BattleFx = (() => {
   const CRIT = [24, 8, 2, 1];
 
   const isSelf = M => SELF.has(M.tgt) || (M.tgt === 'specific-move' && M.cat === 'status');
+  // Generation 3 targets that later games changed (Surf hits only the foes).
+  const TARGET = { surf: 'all-opponents' };
+  const tgtOf = (M, id) => TARGET[id] || M.tgt;
+
+  /** Doubles: who a move hits. -> { list, spread } (spread: the damage factor for each). */
+  function targetsOf(b, user, target, M, id) {
+    const t = tgtOf(M, id);
+    if (t === 'all-opponents' || t === 'all-other-pokemon') {
+      const list = b.foes(user);
+      if (t === 'all-other-pokemon' && b.ally(user)) list.push(b.ally(user));
+      return { list, spread: t === 'all-opponents' && list.length > 1 ? 0.5 : null, many: true };
+    }
+    if (t === 'random-opponent') {
+      const fs = b.foes(user);
+      return { list: fs.length ? [fs.length > 1 ? fs[b.rng.int(0, fs.length - 1)] : fs[0]] : [] };
+    }
+    // Counter and Mirror Coat strike back at whoever hit the user.
+    if (t === 'specific-move' && user.lastHit && user.lastHit.uid) {
+      const back = b.foes(user).find(f => f.mon.uid === user.lastHit.uid);
+      if (back) return { list: [back] };
+    }
+    // One target: Follow Me draws the foes' moves, Lightning Rod the Electric ones (Generation 3).
+    let one = target;
+    if (target && target.side !== user.side) {
+      const follow = b.foes(user).find(f => f.vol.followMe);
+      if (follow) one = follow;
+      else if (M.type === 'electric') {
+        const rod = b.allActive().find(x => x !== user && b.alive(x) && x.ability === 'lightning-rod');
+        if (rod && rod !== target) { one = rod; G.Abilities.say(b, rod, 'rod'); }
+      }
+    }
+    return { list: one ? [one] : [] };
+  }
 
   function useMove(b, user, target, id, ctx = {}) {
     const M = G.MOVES[id];
@@ -47,13 +85,19 @@ G.BattleFx = (() => {
     }
     if (ctx.locked === 'charge') { user.vol.charging = null; user.vol.invuln = null; }
 
-    b.emit('move', Object.assign({ move: id }, who));
+    // Doubles: the chosen target too (the battle screen aims the animation at it).
+    b.emit('move', Object.assign({ move: id }, who, b.double && target && target !== user ? { tuid: target.mon.uid } : {}));
     user.lastMove = id;
     const self = isSelf(M);
     // Damp: no Self-Destruct or Explosion while it is out.
     const damp = G.Abilities.damp(b, id);
     if (damp) { G.Abilities.say(b, damp, 'damp', { move: id }); return; }
 
+    if (b.double && !self) {
+      const tg = targetsOf(b, user, target, M, id);
+      if (tg.many) return useOnMany(b, user, tg, M, S, id, ctx);
+      target = tg.list[0] || target;
+    }
     if (!self) {
       if (!b.alive(target)) { b.emit('noTarget', {}); return endRampage(b, user, S); }
       if (target.vol.protect && !S.ignoresProtect) {
@@ -78,6 +122,35 @@ G.BattleFx = (() => {
     if (S.recharge && res && res.total > 0) user.vol.recharge = true;
     if (S.rampage) rampage(b, user, id);
     if (S.roll && res !== false) roll(b, user, id);
+  }
+
+  /** Doubles: a move that hits several Pokémon, each in turn (one "used" line, one PP). */
+  function useOnMany(b, user, tg, M, S, id, ctx) {
+    const who = { side: user.side, uid: user.mon.uid };
+    if (!tg.list.length) { b.emit('noTarget', {}); return endRampage(b, user, S); }
+    // Self-Destruct and Explosion: the user faints once, after hitting everyone.
+    const per = S.faints ? Object.assign({}, S, { after: null, onMiss: null, onBlocked: null }) : S;
+    const sub = Object.assign({}, ctx, { spread: tg.spread });
+    if (S.oncePower) sub.pow = S.power(b, user, tg.list[0], M, 0);          // Magnitude: one roll for everyone
+    let total = 0, any = false;
+    for (const t of tg.list) {
+      if (!b.alive(t) || !b.alive(user)) continue;
+      if (t.vol.protect && !S.ignoresProtect) { b.emit('protected', { side: t.side, uid: t.mon.uid }); if (per.onBlocked) per.onBlocked(b, user, t, M); continue; }
+      if (S.check && S.check(b, user, t, M) === false) { b.emit('fail', {}); continue; }
+      if (!accuracy(b, user, t, M, S)) { b.emit('miss', Object.assign({ target: t.mon.uid, tside: t.side }, who)); if (per.onMiss) per.onMiss(b, user, t, M); continue; }
+      let res;
+      if (S.use) res = S.use(b, user, t, M, sub);
+      else if (M.cat !== 'status' || S.fixed || S.power) res = damaging(b, user, t, M, per, sub);
+      else res = statusMove(b, user, t, M, per);
+      if (per.after && res !== false) per.after(b, user, t, M, res || {});
+      if (res && res.total) total += res.total;
+      if (res !== false) any = true;
+    }
+    user.vol.lockOn = false;
+    if (S.faints && S.after) S.after(b, user, tg.list[0], M, { total });
+    if (S.recharge && total > 0) user.vol.recharge = true;
+    if (S.rampage) rampage(b, user, id);
+    if (S.roll && any) roll(b, user, id);
   }
 
   /** Rollout: locked in for five hits; `n` counts the hits so far. */
@@ -109,8 +182,8 @@ G.BattleFx = (() => {
     return b.rng.int(1, 100) <= Math.floor(acc * G.Stats.accStage(st) * G.Held.accMult(target.mon) * G.Abilities.accMult(b, user, target, M));
   }
 
-  /** One hit's damage: { dmg, crit } (power already known). */
-  function hitDamage(b, user, target, M, S, pow, eff, type) {
+  /** One hit's damage: { dmg, crit } (power already known). spread: doubles, a move on both foes. */
+  function hitDamage(b, user, target, M, S, pow, eff, type, spread) {
     const stage = (M.meta.crit || 0) + (user.vol.focusEnergy ? 2 : 0) + G.Held.critBonus(user.mon);
     const crit = b.rng.int(1, CRIT[Math.min(3, stage)]) === 1 && !G.Abilities.noCrit(target);     // Battle Armor, Shell Armor
     const phys = M.cat === 'physical';
@@ -118,7 +191,9 @@ G.BattleFx = (() => {
     const def = b.stat(target, phys ? 'def' : 'spd', { crit, defending: true });
     const field = b.sideOf(target).field;
     const dmg = G.Damage.calc({
-      lvl: user.mon.lvl, pow: Math.floor(pow * G.Held.power(user.mon, type) * (S.typeless ? 1 : G.Abilities.powerMult(b, user, target, type))),
+      lvl: user.mon.lvl, pow: Math.floor(pow * G.Held.power(user.mon, type) * (S.typeless ? 1 : G.Abilities.powerMult(b, user, target, type))
+                                * (user.vol.helped ? 1.5 : 1)),                // Helping Hand
+      spread,
       atk, def, eff, crit, roll: b.rng.int(85, 100),
       stab: !S.typeless && user.types.includes(type),
       burn: phys && user.mon.status === 'brn' && user.ability !== 'guts',
@@ -137,7 +212,7 @@ G.BattleFx = (() => {
     return b.rng.int(h[0], h[1]);
   }
 
-  function damaging(b, user, target, M, S) {
+  function damaging(b, user, target, M, S, ctx) {
     const type = S.moveType ? S.moveType(b, user) : M.type;
     const eff = S.typeless ? 1 : b.eff(type, target);
     if (eff === 0) {
@@ -167,10 +242,10 @@ G.BattleFx = (() => {
         dmg = S.fixed(b, user, target, M);
         if (dmg == null || dmg <= 0) { b.emit('fail', {}); return false; }
       } else {
-        let pow = S.power ? S.power(b, user, target, M, i) : M.pow;
+        let pow = ctx && ctx.pow != null ? ctx.pow : S.power ? S.power(b, user, target, M, i) : M.pow;
         if (!pow) { b.emit('fail', {}); return false; }
         if (S.doubleVsInvuln && target.vol.invuln && S.hitsInvuln.includes(target.vol.invuln)) pow *= 2;
-        ({ dmg, crit } = hitDamage(b, user, target, M, S, pow, eff, type));
+        ({ dmg, crit } = hitDamage(b, user, target, M, S, pow, eff, type, ctx && ctx.spread));
       }
       const sub = target.vol.substitute > 0;
       total += b.hurt(target, dmg, { user, move: M, crit, eff: S.fixed ? 1 : eff, leaveOne: S.leaveOne });
@@ -259,7 +334,9 @@ G.BattleFx = (() => {
       case 'leech-seed':
         if (target.types.includes('grass')) { b.emit('noEffect', tid); return false; }
         if (target.vol.seeded || subBlocks) { b.emit('fail', {}); return false; }
-        target.vol.seeded = true; b.emit('seeded', tid); return {};
+        target.vol.seeded = true;
+        if (b.double) target.vol.seededBy = { side: user.side, slot: user.slot || 0 };
+        b.emit('seeded', tid); return {};
       case 'infatuation':
         if (G.Abilities.blocksAttract(target)) { G.Abilities.say(b, target, 'protect'); return false; }      // Oblivious
         if (!user.mon.gender || !target.mon.gender || user.mon.gender === target.mon.gender || target.vol.attract || subBlocks) { b.emit('fail', {}); return false; }
@@ -271,7 +348,7 @@ G.BattleFx = (() => {
         if (target.mon.status !== 'slp' || target.vol.nightmare || subBlocks) { b.emit('fail', {}); return false; }
         target.vol.nightmare = true; b.emit('nightmare', tid); return {};
       case 'perish-song':
-        for (const bm of [user, target]) if (b.alive(bm) && !bm.vol.perish) bm.vol.perish = 4;
+        for (const bm of b.double ? b.allActive() : [user, target]) if (b.alive(bm) && !bm.vol.perish) bm.vol.perish = 4;
         b.emit('perishSong', {}); return {};
       case 'ingrain':
         if (user.vol.ingrain) { b.emit('fail', {}); return false; }
@@ -291,16 +368,16 @@ G.BattleFx = (() => {
       b.finish(target.side === 1 ? 'fled' : 'run');
       return {};
     }
-    const side = b.sideOf(target);
-    const opts = side.party.map((m, i) => i).filter(i => i !== side.active && side.party[i].hp > 0);
+    const side = b.sideOf(target), slot = target.slot || 0;
+    const opts = side.party.map((m, i) => i).filter(i => !side.actives.includes(i) && side.party[i].hp > 0);
     if (!opts.length) { b.emit('fail', {}); return false; }
     b.emit('blownAway', { side: target.side, uid: target.mon.uid });
     G.Abilities.switchOut(b, target);                                // Natural Cure
-    b.sendOut(side, opts[b.rng.int(0, opts.length - 1)], { noEntry: true });
-    b.emit('draggedOut', { side: target.side, uid: side.bm.mon.uid });
-    G.Abilities.switchIn(b, side.bm);
+    b.sendOut(side, opts[b.rng.int(0, opts.length - 1)], { noEntry: true, slot });
+    b.emit('draggedOut', { side: target.side, uid: side.bms[slot].mon.uid });
+    G.Abilities.switchIn(b, side.bms[slot]);
     return {};
   }
 
-  return { useMove, damaging, isSelf, POWDER, AIL, idOf };
+  return { useMove, damaging, isSelf, POWDER, AIL, idOf, tgtOf, targetsOf };
 })();

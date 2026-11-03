@@ -50,8 +50,10 @@ G.Abilities = (() => {
   const FORECAST = { sun: 'fire', rain: 'water', hail: 'ice' };
   // Every ability of the game's Pokémon (Generation 3): each one is handled here, or knowingly has
   // no effect in a single battle (NO_EFFECT). tests/abilities.test.cjs checks the species data.
-  const NO_EFFECT = new Set(['stench', 'illuminate', 'pickup', 'plus', 'minus', 'lightning-rod', 'sticky-hold']);
-  const KNOWN = new Set([...NO_EFFECT, ...`air-lock arena-trap battle-armor blaze chlorophyll clear-body cloud-nine color-change
+  const NO_EFFECT = new Set(['stench', 'illuminate', 'pickup', 'sticky-hold']);
+  // Double battles (chapter 40): Plus and Minus (Special Attack ×1.5 beside the other one), Lightning
+  // Rod (draws the Electric moves aimed at another Pokémon; effects.js), Intimidate on both foes.
+  const KNOWN = new Set([...NO_EFFECT, 'plus', 'minus', 'lightning-rod', ...`air-lock arena-trap battle-armor blaze chlorophyll clear-body cloud-nine color-change
     compound-eyes cute-charm damp drizzle drought early-bird effect-spore flame-body flash-fire forecast guts huge-power hustle
     hyper-cutter immunity inner-focus insomnia intimidate keen-eye levitate limber liquid-ooze magma-armor magnet-pull
     marvel-scale natural-cure oblivious overgrow own-tempo poison-point pressure pure-power rain-dish rock-head rough-skin
@@ -71,11 +73,13 @@ G.Abilities = (() => {
   }
   const say = (b, bm, why, extra) => b.emit('ability', Object.assign({ side: bm.side, uid: bm.mon.uid, ability: bm.ability, why }, extra));
   const foeOf = (b, bm) => b.other(bm);
+  /** Every battler in the field (a double battle has up to four). */
+  const active = b => (b.allActive ? b.allActive() : b.sides.map(s => s.bm).filter(Boolean));
 
   /** The weather that counts: none while a Pokémon with Cloud Nine or Air Lock is in battle. */
   function weather(b) {
     if (!b.weather) return null;
-    for (const s of b.sides) if (s.bm && b.alive(s.bm) && (s.bm.ability === 'cloud-nine' || s.bm.ability === 'air-lock')) return null;
+    for (const bm of active(b)) if (b.alive(bm) && (bm.ability === 'cloud-nine' || bm.ability === 'air-lock')) return null;
     return b.weather.w;
   }
 
@@ -85,6 +89,10 @@ G.Abilities = (() => {
     if (key === 'atk') return a === 'huge-power' || a === 'pure-power' ? 2 : a === 'hustle' || (a === 'guts' && st) ? 1.5 : 1;
     if (key === 'def') return a === 'marvel-scale' && st ? 1.5 : 1;
     if (key === 'spe') { const w = weather(b); return (a === 'swift-swim' && w === 'rain') || (a === 'chlorophyll' && w === 'sun') ? 2 : 1; }
+    if (key === 'spa' && (a === 'plus' || a === 'minus') && b.double) {
+      const al = b.ally(bm);
+      return al && al.ability === (a === 'plus' ? 'minus' : 'plus') ? 1.5 : 1;
+    }
     return 1;
   }
 
@@ -194,13 +202,19 @@ G.Abilities = (() => {
 
   function switchIn(b, bm) {
     if (!b.alive(bm)) return;
-    const a = bm.ability, foe = foeOf(b, bm);
+    const a = bm.ability;
+    let foe = foeOf(b, bm);
+    // Doubles: Trace copies one of the foes (at random when both can be copied).
+    if (a === 'trace' && b.double) { const fs = b.foes(bm).filter(f => f.ability && f.ability !== 'trace'); foe = fs.length > 1 ? fs[b.rng.int(0, 1)] : fs[0]; }
     if (a === 'trace' && foe && b.alive(foe) && foe.ability && foe.ability !== 'trace') {
       bm.ability = foe.ability;
       b.emit('ability', { side: bm.side, uid: bm.mon.uid, ability: foe.ability, why: 'trace', target: foe.mon.uid, tside: foe.side });
       return switchIn(b, bm);
     }
-    if (a === 'intimidate' && foe && b.alive(foe)) {
+    if (a === 'intimidate' && b.double && b.foes(bm).length) {
+      say(b, bm, 'show');
+      for (const f of b.foes(bm)) b.stage(f, 'atk', -1, { source: bm });
+    } else if (a === 'intimidate' && foe && b.alive(foe)) {
       say(b, bm, 'show');
       b.stage(foe, 'atk', -1, { source: bm });                   // Clear Body, Hyper Cutter and Mist stop it
     }
@@ -232,9 +246,8 @@ G.Abilities = (() => {
 
   /** Castform: Fire in the sun, Water in the rain, Ice in hail, Normal otherwise. */
   function forecast(b) {
-    for (const s of b.sides) {
-      const bm = s.bm;
-      if (!bm || !b.alive(bm) || bm.ability !== 'forecast') continue;
+    for (const bm of active(b)) {
+      if (!b.alive(bm) || bm.ability !== 'forecast') continue;
       const t = FORECAST[weather(b)] || 'normal';
       if (bm.types.length === 1 && bm.types[0] === t) continue;
       bm.types = [t];
@@ -254,17 +267,18 @@ G.Abilities = (() => {
   /** Damp: no Self-Destruct or Explosion while it is in battle. -> the battler with Damp, or null */
   function damp(b, id) {
     if (id !== 'self-destruct' && id !== 'explosion') return null;
-    for (const s of b.sides) if (s.bm && b.alive(s.bm) && s.bm.ability === 'damp') return s.bm;
+    for (const bm of active(b)) if (b.alive(bm) && bm.ability === 'damp') return bm;
     return null;
   }
   /** Shadow Tag, Arena Trap (not against flying or levitating Pokémon), Magnet Pull (Steel types). */
   function traps(b, bm) {
-    const foe = foeOf(b, bm);
-    if (!foe || !b.alive(foe) || !foe.ability) return false;
-    if (foe.ability === 'shadow-tag') return bm.ability !== 'shadow-tag';
-    if (foe.ability === 'arena-trap') return !bm.types.includes('flying') && bm.ability !== 'levitate';
-    if (foe.ability === 'magnet-pull') return bm.types.includes('steel');
-    return false;
+    return (b.double ? b.foes(bm) : [foeOf(b, bm)]).some(foe => {
+      if (!foe || !b.alive(foe) || !foe.ability) return false;
+      if (foe.ability === 'shadow-tag') return bm.ability !== 'shadow-tag';
+      if (foe.ability === 'arena-trap') return !bm.types.includes('flying') && bm.ability !== 'levitate';
+      if (foe.ability === 'magnet-pull') return bm.types.includes('steel');
+      return false;
+    });
   }
   const runAway = bm => bm.ability === 'run-away';
   const suctionCups = bm => bm.ability === 'suction-cups';

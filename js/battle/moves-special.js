@@ -42,13 +42,13 @@ G.SpecialMoves = (() => {
     'mirror-coat':  { fixed: (b, u) => (u.lastHit && u.lastHit.cat === 'special' && u.lastHit.from !== u.side ? 2 * u.lastHit.amt : null) },
 
     // ---------- the user faints ----------
-    'self-destruct': { after: selfKO, onMiss: selfKO, onBlocked: selfKO },
-    'explosion':     { after: selfKO, onMiss: selfKO, onBlocked: selfKO },
+    'self-destruct': { faints: true, after: selfKO, onMiss: selfKO, onBlocked: selfKO },
+    'explosion':     { faints: true, after: selfKO, onMiss: selfKO, onBlocked: selfKO },
 
     // ---------- variable power ----------
     'flail':        { power: (b, u) => reversalPower(u) },
     'reversal':     { power: (b, u) => reversalPower(u) },
-    'magnitude':    { hitsInvuln: ['dig'], doubleVsInvuln: true, power: (b) => {
+    'magnitude':    { hitsInvuln: ['dig'], doubleVsInvuln: true, oncePower: true, power: (b) => {
                         const r = b.rng.int(1, 100), i = r <= 5 ? 0 : r <= 15 ? 1 : r <= 35 ? 2 : r <= 65 ? 3 : r <= 85 ? 4 : r <= 95 ? 5 : 6;
                         b.emit('magnitude', { n: i + 4 });
                         return [10, 30, 50, 70, 90, 110, 150][i]; } },
@@ -206,7 +206,7 @@ G.SpecialMoves = (() => {
                         const n = u.vol.stockpile || 0;
                         if (!n || u.mon.hp >= G.Mon.maxHp(u.mon)) return fail(b);
                         b.heal(u, G.Mon.maxHp(u.mon) * [0, 0.25, 0.5, 1][n], 'move'); u.vol.stockpile = 0; return {}; } },
-    'haze':         { use: b => { for (const s of b.sides) if (s.bm) for (const k of G.Battle.STAGES) s.bm.stages[k] = 0; b.emit('haze', {}); return {}; } },
+    'haze':         { use: b => { for (const bm of b.allActive()) for (const k of G.Battle.STAGES) bm.stages[k] = 0; b.emit('haze', {}); return {}; } },
     'mist':         { use: field('mist') },
     'reflect':      { use: field('reflect') },
     'light-screen': { use: field('lightScreen') },
@@ -218,8 +218,16 @@ G.SpecialMoves = (() => {
     'moonlight':    { healPct: weatherHeal },
     'synthesis':    { healPct: weatherHeal },
     'morning-sun':  { healPct: weatherHeal },
-    'helping-hand': { use: fail },          // doubles only
-    'follow-me':    { use: fail }
+    // Doubles only (chapter 40): the partner's move this turn is 1.5× as strong; the foes' moves aim at the user.
+    'helping-hand': { use: (b, u) => {
+                        const a = b.ally(u);
+                        if (!a || a.moved) return fail(b);
+                        a.vol.helped = true;
+                        b.emit('helpingHand', Object.assign({ target: a.mon.uid, tside: a.side }, me(u))); return {}; } },
+    'follow-me':    { use: (b, u) => {
+                        if (!b.double) return fail(b);
+                        u.vol.followMe = true;
+                        b.emit('followMe', me(u)); return {}; } }
   };
 
   // Moves Metronome / Sleep Talk never call.

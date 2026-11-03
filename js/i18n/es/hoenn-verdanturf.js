@@ -49,5 +49,9 @@ G.I18n.add({
   "Route 117. West: Verdanturf Town. East: Mauville City.": "Ruta 117. Oeste: Pueblo Verdegal. Este: Ciudad Malvalona.",
   "Verdanturf Town. A town of fresh air, sheltered from the ash of Mt. Chimney.": "Pueblo Verdegal. Un pueblo de aire puro, a salvo de la ceniza del Monte Cenizo.",
   "Route 118. West: Mauville City. The road goes on across the water.": "Ruta 118. Oeste: Ciudad Malvalona. El camino sigue al otro lado del agua.",
-  "North: Route 119, to the Weather Institute and Fortree City.": "Norte: Ruta 119, hacia el Instituto Meteorológico y Ciudad Arborada."
+  "North: Route 119, to the Weather Institute and Fortree City.": "Norte: Ruta 119, hacia el Instituto Meteorológico y Ciudad Arborada.",
+  "Anna & Meg": "Anna y Meg",
+  "Our Plusle and Minun cheer each other on! They get stronger when they are together!": "¡Nuestros Plusle y Minun se animan el uno al otro! ¡Se vuelven más fuertes cuando están juntos!",
+  "They cheered so hard...": "Animaron tanto...",
+  "Plusle and Minun power each other up, side by side. Do you have a pair like that?": "Plusle y Minun se potencian el uno al otro, codo con codo. ¿Tienes una pareja así?"
 }, "es");

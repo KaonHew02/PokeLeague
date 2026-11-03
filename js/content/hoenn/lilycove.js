@@ -49,6 +49,11 @@
       '26,6': 'Safari Zone. Meet the Pokémon of all Hoenn in one place!'
     },
     trainers: [
+      { id: 'lois-hal', who: 'beauty', cls: 'young-couple', name: 'Lois & Hal', x: 25, y: 12, dir: 'up', sight: 2, double: true,
+        partner: { who: 'cooltrainerm', x: 26, y: 12 }, team: [['manectric', 31], ['lombre', 31]],
+        before: 'We do everything together, and that includes battles!',
+        defeat: 'At least we lost as a team.',
+        after: 'In a double battle, a move that hits both foes is worth twice as much. Think about it!' },
       { id: 'marcel', who: 'cooltrainerm', cls: 'cooltrainer', name: 'Marcel', x: 12, y: 8, dir: 'down', sight: 1, team: [['manectric', 31], ['shiftry', 32]],
         before: 'I am training on my way to Lilycove. You will make a good warm-up!',
         defeat: 'Some warm-up that was...',

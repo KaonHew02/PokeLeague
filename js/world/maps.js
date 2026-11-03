@@ -20,6 +20,8 @@
  *   come up wherever it is deep). Its `"` is seaweed (the 'seaweed' table), `,` the lit floor under deep water.
  *   Chapter 38: storm: cond (rain on the map and in its battles while it holds); on the sea floor
  *   up: [{ x, y, w, h, to, spot }] (coming up there leads to that spot: a lake inside a crater).
+ *   Chapter 40: trainers with double: true (a double battle) and partner: { who, x, y, dir } (the
+ *   second trainer of the pair, standing beside them).
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
@@ -439,6 +441,14 @@ G.Maps = (() => {
       if (!t.dir) E.push(`trainer "${t.id}" needs a dir to look along`);
       if (t.win) scriptRef(t.win, `trainer "${t.id}" win`);
       if (t.afterScript) scriptRef(t.afterScript, `trainer "${t.id}" afterScript`);
+      if (t.partner) {
+        const q = t.partner;
+        if (!t.double) E.push(`trainer "${t.id}": a partner, but not double: true`);
+        if (known && !known.includes(q.who)) E.push(`trainer "${t.id}": unknown partner sprite "${q.who}"`);
+        if (!tileOk(q.x, q.y)) E.push(`trainer "${t.id}": the partner ${where(q.x, q.y)} is outside the map`);
+        else if (t.swim ? kindAt(m, q.x, q.y) !== 'water' : !open(m, q.x, q.y)) E.push(`trainer "${t.id}": the partner stands on a ${kindAt(m, q.x, q.y)} tile at ${where(q.x, q.y)}`);
+        if (m.npcs.concat(m.trainers).some(p => p.x === q.x && p.y === q.y)) E.push(`trainer "${t.id}": someone stands on the partner's tile ${where(q.x, q.y)}`);
+      }
       if (!Array.isArray(t.team) || !t.team.length) E.push(`trainer "${t.id}" has no team`);
       else for (const mon of t.team) {
         if (!Array.isArray(mon) || species(mon[0]) == null) E.push(`trainer "${t.id}": unknown Pokémon ${JSON.stringify(mon)}`);

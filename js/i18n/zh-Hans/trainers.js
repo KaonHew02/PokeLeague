@@ -47,5 +47,9 @@ G.I18n.add({
   "Magma Leader": "熔岩队首领",
   "Kindler": "吹火人",
   "Aqua Admin": "海洋队干部",
-  "Aqua Leader": "海洋队首领"
+  "Aqua Leader": "海洋队首领",
+  "Twins": "双胞胎",
+  "Young Couple": "年轻情侣",
+  "Sis and Bro": "姐弟",
+  "Old Couple": "老夫妇"
 }, "zh-Hans");

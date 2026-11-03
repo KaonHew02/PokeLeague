@@ -79,5 +79,9 @@ G.I18n.add({
   "While we were busy with Team Magma, Team Aqua's submarine slipped away to the south of Mossdeep. I think they mean to go under the sea.": "Pendant qu'on s'occupait de la Team Magma, le sous-marin de la Team Aqua a filé au sud d'Algatia. Je crois qu'ils veulent descendre sous la mer.",
   "Take this. With it, you can follow them.": "Prends ceci. Avec elle, tu pourras les suivre.",
   "HM08 is Dive. With the Mind Badge, a Pokémon that knows it can take you down from deep, dark water to the sea floor.": "La CS08, c'est Plongée. Avec le Badge Esprit, un Pokémon qui la connaît peut t'emmener des eaux sombres et profondes jusqu'au fond marin.",
-  "The submarine was last seen over the dark water of Route 128, south of Route 127. Be careful down there, {player}.": "Le sous-marin a été vu pour la dernière fois au-dessus des eaux sombres du Chenal 128, au sud du Chenal 127. Sois prudent là-dessous, {player}."
+  "The submarine was last seen over the dark water of Route 128, south of Route 127. Be careful down there, {player}.": "Le sous-marin a été vu pour la dernière fois au-dessus des eaux sombres du Chenal 128, au sud du Chenal 127. Sois prudent là-dessous, {player}.",
+  "Rita & Sam": "Rita et Sam",
+  "Big sister and me, against you! Ready?": "Ma grande sœur et moi, contre toi ! Prêt ?",
+  "Sis, we lost!": "Sœurette, on a perdu !",
+  "Some moves hit both foes at once. Surf is one of them!": "Certaines capacités touchent les deux adversaires à la fois. Surf en fait partie !"
 }, "fr");

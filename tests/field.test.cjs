@@ -2390,6 +2390,98 @@ test('Sinnoh (chapter 47): the Eterna Building and Jupiter, the cycle shop, Cycl
   assert.equal(F.count('tm65'), 1);
 });
 
+test('Sinnoh (chapter 48): Route 209 after the Relic Badge, the Day Care in Solaceon, the Unown of the ruins, the Psyduck, the rain on Route 215, Veilstone, Maylene', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone'].map(f => `js/content/sinnoh/${f}.js`);
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js',
+    'js/world/puzzle.js', 'js/content/johto/route36.js', 'js/content/johto/ruins.js', 'js/content/johto/route34.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, D = G.DayCare;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26];
+  for (const f of ['sinnoh-start', 'sinnoh-dex', 'galactic-jubilife', 'barry-203', 'roark-met', 'mars-windworks', 'cheryl-done', 'tg-eterna-done', 'cyrus-coronet']) F.setFlag(f);
+  F.giveMon('monferno', 33, { moves: ['flame-wheel'] });
+  F.giveMon('kadabra', 30, { moves: ['psybeam'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
+  const fights = [], rules = [];
+  W.onTrainer = async (d, info) => { fights.push(d.id); rules.push(info.rules); return 'win'; };
+  // Hearthome: Route 209 opens with the Relic Badge.
+  W.load('hearthome', { x: 33, y: 13, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked', 'closed before the Relic Badge');
+  S.player.badges.push(29);
+  W.refresh();
+  assert.equal(step(W, 'right'), 'moved');
+  assert.equal(step(W, 'right'), 'moved');
+  await cross('right', 'route209');
+  assert.deepEqual([W.player.x, W.player.y], [0, 10]);
+  W.load('route209', { x: 19, y: 0, dir: 'up' });
+  await cross('up', 'solaceon');
+  assert.deepEqual([W.player.x, W.player.y], [15, 25]);
+  // Solaceon's Day Care: leave Kadabra with the lady; her husband outside looks after it.
+  W.load('solaceon', 'daycare-door');
+  await cross('up', 'solaceon-daycare');
+  G.PartyUI = { pick: () => Promise.resolve(1) };
+  W.load('solaceon-daycare', { x: 6, y: 4, dir: 'right' });
+  await pump(W, W.interact());
+  assert.equal(D.list().length, 1);
+  assert.equal(D.list()[0].mon.sp, 64, 'Kadabra at the Day Care');
+  const said = [];
+  G.Dialog.say = t => { said.push(t); return Promise.resolve(); };
+  W.load('solaceon', { x: 25, y: 5, dir: 'left' });
+  await pump(W, W.interact());
+  assert.ok(said.some(t => /doing fine/.test(t)), JSON.stringify(said));
+  // Solaceon Ruins: Unown on every floor, any letter.
+  W.load('solaceon', 'ruins');
+  await cross('up', 'solaceon-ruins');
+  assert.deepEqual([W.player.x, W.player.y], [6, 9]);
+  const got = [];
+  W.onEncounter = async (sp, lvl, area, info) => { got.push([G.Maps.species(sp), info.form]); return 'run'; };
+  W.debug.noEnc = false;
+  W.load('solaceon-ruins', { x: 6, y: 6, dir: 'right' });
+  W.seed(3);
+  for (let i = 0; i < 3000 && got.length < 20; i++) { step(W, i % 2 ? 'left' : 'right'); await until(() => !W.locked); }
+  W.debug.noEnc = true;
+  assert.ok(got.length >= 20, 'met some: ' + got.length);
+  assert.ok(got.every(([sp, f]) => sp === 201 && /^[A-Z]$/.test(f)), JSON.stringify(got));
+  assert.ok(got.some(([, f]) => f > 'K'), 'letters the Ruins of Alph keep behind their panels: ' + JSON.stringify(got));
+  // Route 210: the Psyduck block the way north; Route 215 to the east, in the rain.
+  W.load('solaceon', { x: 15, y: 0, dir: 'up' });
+  await cross('up', 'route210s');
+  assert.deepEqual([W.player.x, W.player.y], [9, 23]);
+  W.load('route210s', { x: 9, y: 2, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'the Psyduck');
+  W.load('route210s', { x: 19, y: 12, dir: 'right' });
+  await cross('right', 'route215');
+  assert.deepEqual([W.player.x, W.player.y], [0, 7]);
+  assert.ok(W.stormy(), 'rain on Route 215');
+  W.load('route215', { x: 9, y: 7, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => fights.includes('kirby') && !W.locked);
+  assert.equal(rules[rules.length - 1].weather, 'rain', 'and in its battles');
+  W.load('route215', { x: 39, y: 7, dir: 'right' });
+  await cross('right', 'veilstone');
+  assert.deepEqual([W.player.x, W.player.y], [0, 13]);
+  assert.ok(!W.stormy(), 'no rain in Veilstone');
+  // Veilstone: Route 214 is closed, the Galactic HQ guarded, the Game Corner shut.
+  W.load('veilstone', { x: 17, y: 25, dir: 'down' });
+  assert.equal(step(W, 'down'), 'blocked', 'Route 214');
+  W.load('veilstone', { x: 25, y: 23, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked', 'the grunt at the HQ');
+  W.load('veilstone', { x: 5, y: 21, dir: 'up' });
+  step(W, 'up');
+  await until(() => !W.locked);
+  assert.equal(W.map.id, 'veilstone', 'the Game Corner is shut');
+  // Maylene: the Cobble Badge, TM60, the end of the chapter.
+  W.load('veilstone', 'gym-door');
+  await cross('up', 'veilstone-gym');
+  W.load('veilstone-gym', { x: 6, y: 4, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('chapter-48-done') && !W.locked);
+  assert.ok(fights.includes('maylene'));
+  assert.ok(S.player.badges.includes(27));
+  assert.equal(F.obeyCap('sinnoh'), 40);
+  assert.equal(F.count('tm60'), 1);
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

@@ -4,7 +4,7 @@ G.I18n.add({
   "My name is Cyrus. I have been thinking about this world. The land, the people, even the heart: everything in it wears away. It is all incomplete.": "Mi chiamo Cyrus. Ho riflettuto su questo mondo. La terra, le persone, persino il cuore: tutto si consuma. È tutto incompleto.",
   "I intend to make a new world, one without that weakness. Remember my name. We will meet again.": "Intendo creare un mondo nuovo, senza questa debolezza. Ricorda il mio nome. Ci rivedremo.",
   "The man in the grey coat walked off into the dark of the mountain.": "L'uomo dal cappotto grigio si è allontanato nel buio della montagna.",
-  "The next Gym is in Veilstone City, east past Route 209 and Solaceon Town. Its Leader, Maylene, uses Fighting types!": "La prossima Palestra è a Rupepoli, a est oltre il Percorso 209 e Pratopoli. La sua Capopalestra, Marzia, usa il tipo Lotta!",
+  "The next Gym is in Veilstone City, east past Route 209 and Solaceon Town. Its Leader, Maylene, uses Fighting types!": "La prossima Palestra è a Rupepoli, a est oltre il Percorso 209 e Flemminia. La sua Capopalestra, Marzia, usa il tipo Lotta!",
   "Berries grow best with patience. Come back when you have planted some of your own!": "Le bacche crescono meglio con la pazienza. Torna quando ne avrai piantate qualcuna!",
   "I am the Berry Master! I grow Berries of every kind behind this house.": "Sono il Maestro delle Bacche! Coltivo bacche di ogni tipo dietro questa casa.",
   "A traveling Trainer, eh? Take these. A Sitrus Berry heals a good deal of HP when a Pokémon needs it.": "Un Allenatore in viaggio, eh? Prendi queste. Una Baccacedro cura parecchi PS quando un Pokémon ne ha bisogno.",

@@ -136,5 +136,8 @@ G.I18n.add({
   "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "Merci d'avoir joué ! Le bâtiment de la Team Galaxie à Vestigion arrivera dans une prochaine mise à jour.",
   "Chapter 47 complete!": "Chapitre 47 terminé !",
   "{player} freed a Clefairy from Team Galactic's Eterna Building, rode down Cycling Road, met Cyrus inside Mt. Coronet and earned the Relic Badge from Fantina.": "{player} a libéré un Mélofée du bâtiment de la Team Galaxie, a dévalé la Piste Cyclable, a rencontré Hélio dans le Mont Couronné et a gagné le Badge Relique de Kiméra.",
-  "Thank you for playing! Routes 209 and 212 wait in a future update.": "Merci d'avoir joué ! Les Routes 209 et 212 arriveront dans une prochaine mise à jour."
+  "Thank you for playing! Routes 209 and 212 wait in a future update.": "Merci d'avoir joué ! Les Routes 209 et 212 arriveront dans une prochaine mise à jour.",
+  "Chapter 48 complete!": "Chapitre 48 terminé !",
+  "{player} crossed Route 209 to Solaceon Town, met the Unown of the Solaceon Ruins, braved the rain on Route 215 and earned the Cobble Badge from Maylene.": "{player} a traversé la Route 209 jusqu'à Bonville, a rencontré les Zarbi des Ruines Bonville, a bravé la pluie de la Route 215 et a gagné le Badge Pavé de Mélina.",
+  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "Merci d'avoir joué ! La Route 214 et Verchamps arriveront dans une prochaine mise à jour."
 }, "fr");

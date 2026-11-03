@@ -136,5 +136,8 @@ G.I18n.add({
   "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "¡Gracias por jugar! El edificio del Equipo Galaxia en Ciudad Vetusta llegará en una próxima actualización.",
   "Chapter 47 complete!": "¡Capítulo 47 completado!",
   "{player} freed a Clefairy from Team Galactic's Eterna Building, rode down Cycling Road, met Cyrus inside Mt. Coronet and earned the Relic Badge from Fantina.": "{player} liberó a un Clefairy del edificio del Equipo Galaxia, bajó por la Pista Bici, conoció a Helio en el Monte Corona y ganó la Medalla Reliquia de Fantina.",
-  "Thank you for playing! Routes 209 and 212 wait in a future update.": "¡Gracias por jugar! Las Rutas 209 y 212 llegarán en una próxima actualización."
+  "Thank you for playing! Routes 209 and 212 wait in a future update.": "¡Gracias por jugar! Las Rutas 209 y 212 llegarán en una próxima actualización.",
+  "Chapter 48 complete!": "¡Capítulo 48 completado!",
+  "{player} crossed Route 209 to Solaceon Town, met the Unown of the Solaceon Ruins, braved the rain on Route 215 and earned the Cobble Badge from Maylene.": "{player} cruzó la Ruta 209 hasta Pueblo Sosiego, conoció a los Unown de las Ruinas Sosiego, desafió la lluvia de la Ruta 215 y ganó la Medalla Adoquín de Brega.",
+  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "¡Gracias por jugar! La Ruta 214 y Ciudad Pradera llegarán en una próxima actualización."
 }, "es");

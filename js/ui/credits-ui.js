@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 48) return { title: T('Chapter 48 complete!'),
+      done: fmt('{player} crossed Route 209 to Solaceon Town, met the Unown of the Solaceon Ruins, braved the rain on Route 215 and earned the Cobble Badge from Maylene.', { player }),
+      next: T('Thank you for playing! Route 214 and Pastoria City wait in a future update.') };
     if (n === 47) return { title: T('Chapter 47 complete!'),
       done: fmt("{player} freed a Clefairy from Team Galactic's Eterna Building, rode down Cycling Road, met Cyrus inside Mt. Coronet and earned the Relic Badge from Fantina.", { player }),
       next: T('Thank you for playing! Routes 209 and 212 wait in a future update.') };

@@ -3,8 +3,8 @@
  * 208: a Hiker, and the first meeting with Cyrus, Team Galactic's boss, who talks of a new world and
  * walks on (flag cyrus-coronet; no battle). Route 208 crosses a river to Hearthome City; the Berry
  * Master gives two Sitrus Berries (flag berry-master). Hearthome: a Pokémon Center, a Mart, a house and
- * Fantina's Gym; the Contest Hall and Amity Square are closed, and so are Routes 209 (east) and 212
- * (south) in this chapter. Fantina uses Ghost types (Duskull, Haunter, Mismagius); beating her gives the
+ * Fantina's Gym; the Contest Hall and Amity Square are closed, and so is Route 212 (south); Route 209
+ * (east, solaceon.js) opens with the Relic Badge. Fantina uses Ghost types (Duskull, Haunter, Mismagius); beating her gives the
  * Relic Badge (badge 29, the third in Platinum's order: Pokémon up to Lv. 35 obey in Sinnoh) and TM65
  * (Shadow Claw), then `ending(47)`. Platinum's wild Pokémon.
  */
@@ -133,7 +133,7 @@
       'T................,,................T',
       'TTTTTTTTTTTTTTTTT,TTTTTTTTTTTTTTTTTT'
     ],
-    connect: { west: { map: 'route208', offset: 6 } },
+    connect: { west: { map: 'route208', offset: 6 }, east: { map: 'route209', offset: 3 } },
     warps: [
       { x: 6, y: 7, to: 'hearthome-center', spot: 'door' },
       { x: 11, y: 7, to: 'hearthome-mart', spot: 'door' },
@@ -145,8 +145,8 @@
     spots: { 'center-door': [6, 8, 'down'], 'mart-door': [11, 8, 'down'], 'gym-door': [25, 8, 'down'], 'house-door': [13, 24, 'down'] },
     signs: { '16,10': 'Hearthome City. The warm-hearted city, where people and Pokémon come together.' },
     npcs: [
-      // Routes 209 (east) and 212 (south) open in later chapters.
-      { id: 'east', who: 'engineer', x: 34, y: 13, dir: 'left',
+      // Route 209 (east) opens with the Relic Badge (chapter 48); Route 212 (south) in a later chapter.
+      { id: 'east', who: 'engineer', x: 34, y: 13, dir: 'left', if: '!badge:29',
         say: 'The bridge on Route 209 is being repaired. You will have to wait a little!' },
       { id: 'south', who: 'gentleman', x: 17, y: 26, dir: 'up',
         say: 'Route 212 is flooded after all this rain. Better wait until the water goes down.' },

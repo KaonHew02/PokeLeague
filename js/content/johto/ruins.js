@@ -21,6 +21,7 @@
     { id: 'hooh', dex: 250, letters: 'XYZ', fossil: null }
   ];
   const solved = c => G.Field.flag('solved:' + c.id);
+  const ALL = CHAMBERS.map(c => c.letters).join('');
   const RUINS = { loc: 'ruins-of-alph', region: 'johto' };
 
   // ---------------- outside ----------------
@@ -155,9 +156,11 @@
     encounters: { walk: '@ruins-of-alph-interior-a' }
   }, RUINS));
 
-  /** Wild Unown: a letter among those the solved panels set free (G.World.wildForm; also G.Ruins.wildForm). */
+  /** Wild Unown: a letter among those the solved panels set free (G.World.wildForm; also G.Ruins.wildForm).
+   *  In Sinnoh's Solaceon Ruins (chapter 48, solaceon.js) every letter, A to Z, floats about. */
   function wildForm(sp, map, rng) {
     if (sp !== 201) return null;
+    if (map && map.id === 'solaceon-ruins') return ALL[rng.int(0, ALL.length - 1)];
     const ls = CHAMBERS.filter(solved).map(c => c.letters).join('');
     return ls ? ls[rng.int(0, ls.length - 1)] : null;
   }

@@ -2098,12 +2098,40 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   closed ways, Fantina); `tests/story.test.cjs` the chapter after chapter 46 and the balance lines for
   Jupiter and Fantina.
 
-### After chapter 47
+- **Chapter 48** ✅, Sinnoh's fourth Gym (`js/content/sinnoh/solaceon.js` and `veilstone.js`, translations
+  `sinnoh-solaceon` and `sinnoh-veilstone`; no engine change).
+  - **People and Trainers**: `maylene`.
+  - **Story**: Hearthome's worker on the way east leaves with the Relic Badge (`!badge:29`). Route 209
+    crosses a river by a bridge, north to Solaceon Town: a Center, a Mart, a house and the Day Care. Its
+    couple use Route 34's scripts (`daycare.lady`, `daycare.man`): there is one Day Care in the save, so a
+    Pokémon left in Solaceon is taken back on Route 34 and the other way round (a note on the shelf says
+    so). Solaceon Ruins (a `cave: true` chamber in palette `ruins`; an Ultra Ball, a carved wall): wild
+    Unown of every letter A-Z (`G.Ruins.wildForm` gives any letter when the map is `solaceon-ruins`; the
+    Ruins of Alph keep their panel rule and random draws). Route 210 south: a crowd of Psyduck blocks the
+    way north (for a later chapter); east is Route 215, where it always rains (`storm: true`: rain on the
+    map and in its battles). Veilstone City: a Center, the Veilstone Store (a Mart with more stock), a
+    house, the meteorites (signs), the Gym; Team Galactic's HQ (a grunt in front of a locked door) and the
+    Game Corner (locked) are shut, and a Hiker closes Route 214. Maylene (Meditite 28, Machoke 29,
+    Lucario 32): the Cobble Badge (badge 27, the fourth Sinnoh badge: up to Lv. 40 obey), TM60 (Drain
+    Punch), `ending(48)`.
+- **Balance:** Platinum's team is kept. Lucario (Lv. 32, faster than the starters, Drain Punch and Bone
+  Rush) beats a lone starter (0-3% at Lv. 32-34) and resists Flying moves with its Steel, so a starter
+  with a Staravia still loses; a team of three with a Psychic type wins 58-85% (Kadabra, wild on Route
+  215; Croagunk takes four times the damage). The Center, the gym guide and the Trainers on the way point
+  at Flying and Psychic moves, and at Fire, Fighting and Ground for Lucario.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (Hearthome's east before and after the
+  badge, leaving a Pokémon at Solaceon's Day Care, the Day-Care Man, Unown beyond Alph's letters, the
+  Psyduck, the rain on Route 215 and in its battles, Veilstone's closed ways, Maylene);
+  `tests/story.test.cjs` the chapter after chapter 47 (a Pokémon left in Solaceon is taken back on Route
+  34, all 26 letters) and the balance line for Maylene.
+
+### After chapter 48
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) three badges are won. Ideas:
-1. Sinnoh: Route 209, Solaceon Town and its ruins, Route 210, Veilstone City and Maylene (the Cobble
-   Badge; TM60 Drain Punch), the Galactic HQ later; Wayward Cave and Route 211 to the north.
+the Battle Tower; in Sinnoh (Pokémon 1-493) four badges are won. Ideas:
+1. Sinnoh: Route 214, Valor Lakefront and Pastoria City with Crasher Wake (the Fen Badge), the Great
+   Marsh; Team Galactic's HQ in Veilstone later; Route 210 north (the Psyduck), Celestic Town; Wayward
+   Cave and Route 211 to the north.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic;

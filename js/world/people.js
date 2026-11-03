@@ -28,7 +28,7 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -291,6 +291,8 @@ G.People = (() => {
     fantina: { head: 'long', body: 'dress', legs: 'bare', h: '#7a3a9a', H: '#562476', c: '#8a3aa8', C: '#682a80', j: '#e8c040', J: '#b89020', k: '#5a2a6a' },
     cyclist: { head: 'cap', body: 'tee', legs: 'pants', a: '#f0f0f8', A: '#c0c0cc', b: '#3ab8e8', h: '#5a3a2a', H: '#3e2618', c: '#3ab8e8', C: '#2a8ab8',
                p: '#2a2a32', P: '#16161c', k: '#e85a3a' },
+    // Chapter 48: Maylene (short pink hair, a blue and white fighter's top, bare feet).
+    maylene: { head: 'short', body: 'tee', legs: 'bare', h: '#f07aa8', H: '#c0507e', c: '#4a7ad8', C: '#3458a8', p: '#f4f4f4', P: '#c8c8d0', k: '#e8b890' },
     glacia: { head: 'long', body: 'dress', legs: 'bare', h: '#e8eef8', H: '#b8c4d8', c: '#6a8ad8', C: '#4a68b0', j: '#e8eef8', J: '#b8c4d8', k: '#4a68b0' },
     drake: { head: 'short', body: 'coat', legs: 'pants', h: '#d8d8e0', H: '#a8a8b4', j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0',
              p: '#2a3a6a', P: '#1c284a', k: '#1a1a22' },

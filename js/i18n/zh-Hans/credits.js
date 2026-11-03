@@ -136,5 +136,8 @@ G.I18n.add({
   "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "感谢游玩！百代市的银河队大楼将在之后的更新中登场。",
   "Chapter 47 complete!": "第四十七章完成！",
   "{player} freed a Clefairy from Team Galactic's Eterna Building, rode down Cycling Road, met Cyrus inside Mt. Coronet and earned the Relic Badge from Fantina.": "{player}从银河队百代大楼救出了皮皮，骑车冲下自行车道，在天冠山遇见了赤日，并从梅丽莎那里赢得了遗迹徽章。",
-  "Thank you for playing! Routes 209 and 212 wait in a future update.": "感谢游玩！209号道路和212号道路将在之后的更新中登场。"
+  "Thank you for playing! Routes 209 and 212 wait in a future update.": "感谢游玩！209号道路和212号道路将在之后的更新中登场。",
+  "Chapter 48 complete!": "第四十八章完成！",
+  "{player} crossed Route 209 to Solaceon Town, met the Unown of the Solaceon Ruins, braved the rain on Route 215 and earned the Cobble Badge from Maylene.": "{player}穿过209号道路来到随意镇，在随意遗迹见到了未知图腾，冒雨走过215号道路，并从阿李那里赢得了圆石徽章。",
+  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "感谢游玩！214号道路和湿原市将在之后的更新中登场。"
 }, "zh-Hans");

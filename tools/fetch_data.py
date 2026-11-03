@@ -286,6 +286,10 @@ LOC_NAMES = {
     'mt-coronet':        ('Monte Corona',       'Monte Corona',        '天冠山',     '天冠山'),
     'hearthome-city':    ('Ciudad Corazón',     'Cuoripoli',           '家缘市',     '家緣市'),
     'tg-eterna-bldg':    ('T.G. Eterna Bldg',   'T.G. Eterna Bldg',    '银河队百代大楼', '銀河隊百代大樓'),
+    # Chapter 48.
+    'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
+    'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),
+    'veilstone-city':    ('Ciudad Rocavelo',    'Rupepoli',            '帷幕市',     '帷幕市'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

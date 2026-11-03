@@ -844,6 +844,31 @@ test('balance: Jupiter in Eterna and Fantina in Hearthome (chapter 47), win rate
   for (const sp of ['monferno', 'grotle', 'prinplup']) assert.ok(table[sp + ' 28 + staravia 26 + luxio 26'] >= 0.55, sp + ' with two friends');
 });
 
+test('balance: Maylene in Veilstone (chapter 48), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'veilstone-gym', 'maylene');
+  const table = {
+    'grotle 32': rate([[388, 32]]), 'grotle 34': rate([[388, 34]]), 'monferno 32': rate([[391, 32]]), 'monferno 34': rate([[391, 34]]),
+    'prinplup 32': rate([[394, 32]]), 'prinplup 34': rate([[394, 34]]),
+    'grotle 32 + staravia 30': rate([[388, 32], [397, 30]]), 'monferno 32 + staravia 30': rate([[391, 32], [397, 30]]),
+    'prinplup 32 + staravia 30': rate([[394, 32], [397, 30]]),
+    'grotle 32 + staravia 30 + kadabra 30': rate([[388, 32], [397, 30], [64, 30]]),
+    'monferno 32 + staravia 30 + kadabra 30': rate([[391, 32], [397, 30], [64, 30]]),
+    'prinplup 32 + staravia 30 + kadabra 30': rate([[394, 32], [397, 30], [64, 30]]),
+    'grotle 32 + ponyta 30 + kadabra 30': rate([[388, 32], [77, 30], [64, 30]]),
+    'prinplup 32 + ponyta 30 + kadabra 30': rate([[394, 32], [77, 30], [64, 30]]),
+    'monferno 32 + drifloon 30 + kadabra 30': rate([[391, 32], [425, 30], [64, 30]]),
+    'grotle 32 + drifloon 30 + ponyta 30': rate([[388, 32], [425, 30], [77, 30]]),
+    'monferno 32 + staravia 30 + luxio 30': rate([[391, 32], [397, 30], [404, 30]]),
+    'prinplup 32 + staravia 30 + luxio 30': rate([[394, 32], [397, 30], [404, 30]])
+  };
+  console.log('[balance] vs Maylene:', JSON.stringify(table));
+  // Maylene's Lucario (Lv. 32, faster, Drain Punch and Bone Rush) beats a lone starter, and Flying moves do not help
+  // against its Steel: a team of three with a Psychic type (Kadabra, wild on Route 215) wins more than half the time.
+  for (const k of ['monferno 34', 'grotle 34', 'prinplup 34']) assert.ok(table[k] < 0.1, k + ' alone');
+  for (const sp of ['monferno', 'grotle', 'prinplup']) assert.ok(table[sp + ' 32 + staravia 30 + kadabra 30'] >= 0.55, sp + ' with a Kadabra');
+});
+
 test('balance: the Battle Tower (chapter 43), win rates of a typical team at level 50 are printed', () => {
   const { G } = world(1);
   const rate = (foe, n = 30) => {
@@ -3559,6 +3584,63 @@ async function chapter47(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 48 after chapter 47: Route 209, Solaceon Town, its Day Care and ruins, Route 210 (south), Route 215 in the
+ *  rain, Veilstone City and Maylene. */
+async function chapter48(st) {
+  const { G, S } = st;
+  const F = G.Field, D = G.DayCare;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async (mapId, skip = []) => {
+    for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader' && !skip.includes(t.id))) { await fight(mapId, t.id); won(); }
+  };
+  // Hearthome's road east opened with the Relic Badge. Monferno leads.
+  assert.ok(!F.test(G.Maps.get('hearthome').npcs.find(p => p.id === 'east').if), 'Route 209 is open');
+  lead(st, 391);
+  await all('route209');
+  // Solaceon Town: its Day Care is Route 34's (one in the save). Leave one here, take it back in Johto.
+  for (const e of D.list().splice(0)) F.toBox(e.mon);      // (chapter 25 left two Pikachu there)
+  const n = S.party.length, left = S.party[n - 1];
+  st.picks.push(n - 1);
+  await run(st, 'solaceon-daycare', npc(st, 'solaceon-daycare', 'lady'), [0]);
+  assert.equal(S.party.length, n - 1);
+  assert.equal(D.list()[0].mon, left, 'left in Solaceon');
+  await run(st, 'solaceon', npc(st, 'solaceon', 'oldman'));
+  assert.match(st.log[st.log.length - 1], /doing fine/);
+  D.step(300);
+  const paid = S.player.money, price = D.price(0);
+  await run(st, 'daycare', npc(st, 'daycare', 'lady'), [1, 0]);
+  assert.equal(S.party.length, n, 'taken back on Route 34');
+  assert.equal(S.player.money, paid - price, 'paid');
+  // Solaceon Ruins: Unown of every letter (the Ruins of Alph keep their own rule).
+  const ruins = G.Maps.get('solaceon-ruins'), rng = G.RNG(7), letters = new Set();
+  for (let i = 0; i < 600; i++) letters.add(G.Ruins.wildForm(201, ruins, rng));
+  assert.equal([...letters].sort().join(''), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+  assert.equal(G.Ruins.wildForm(16, ruins, rng), null, 'only Unown have letters');
+  assert.ok(G.Maps.encounters(ruins, 'walk').mons.every(r => r[0] === 201), 'nothing but Unown in the ruins');
+  // Route 210 (its north blocked by the Psyduck) and Route 215 in the rain.
+  await all('route210s');
+  assert.equal(G.Maps.get('route215').def.storm, true, 'it rains on Route 215');
+  grind(st, 'route215', 33, 400);
+  await all('route215');
+  // Veilstone City: Maylene's Gym.
+  await all('veilstone-gym');
+  F.healAll();
+  const money = S.player.money, tms = F.count('tm60');
+  await run(st, 'veilstone-gym', [['battle', 'veilstone-gym:maylene']]);
+  won();
+  console.log('[story] Maylene:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(S.player.badges.includes(27), 'the Cobble Badge');
+  assert.equal(F.obeyCap('sinnoh'), 40, 'four Sinnoh badges: up to Lv. 40');
+  assert.equal(F.count('tm60'), tms + 1);
+  assert.equal(S.player.money - money, 3200);
+  assert.ok(F.flag('chapter-48-done'));
+  const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
+  assert.ok(back.player.badges.includes(27), 'the save keeps the Cobble Badge');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3640,7 +3722,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 47: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its third Gym", async () => {
+test("chapters 11 to 48: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its fourth Gym", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3689,4 +3771,5 @@ test("chapters 11 to 47: Johto, from Professor Elm to Johto's League and its pos
   await chapter45(st);
   await chapter46(st);
   await chapter47(st);
+  await chapter48(st);
 });

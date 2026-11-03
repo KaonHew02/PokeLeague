@@ -12,7 +12,7 @@ region — Kanto first, then Johto, Hoenn…
 - Keyboard and mouse (WASD, click to walk), controllers, and tapping on phones. Saves stay in your browser.
 - Installs as an app and plays offline: on iPhone open the game in Safari, tap Share, then
   "Add to Home Screen" (on Android, Chrome's "Install app"). Opened from that icon it fills
-  the screen and downloads every Pokémon picture (about 28 MB), then needs no internet.
+  the screen and downloads every Pokémon picture (about 36 MB), then needs no internet.
 
 **Status:** early development. The first playable goal is the start of Kanto,
 from Pallet Town to Brock's Boulder Badge.

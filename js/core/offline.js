@@ -16,7 +16,7 @@
  *   G.Offline.SIZE_MB         about how much download() takes (checked by a test)
  */
 G.Offline = (() => {
-  const SIZE_MB = 28;
+  const SIZE_MB = 36;
   const SPRITE_CACHE = 'pokeleague-sprites-';     // as in sw.js
   const AT_ONCE = 6, GIVE_UP_AFTER = 20, START_DELAY_MS = 5000, WORKER_WAIT_MS = 30000;
   const st = { state: 'checking', done: 0, total: 0 };

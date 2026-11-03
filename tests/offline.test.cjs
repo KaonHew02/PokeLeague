@@ -56,7 +56,8 @@ test('G.Offline lists sprite files that exist, and says about how big they are',
     bytes += fs.statSync(path.join(ROOT, u)).size;
   }
   const mb = bytes / 1048576;
-  assert.ok(Math.abs(mb - G.Offline.SIZE_MB) < mb * 0.25, `G.Offline.SIZE_MB is ${G.Offline.SIZE_MB}, the sprites take ${mb.toFixed(1)} MB`);
+  // Settings shows this number: keep it close when a region adds sprites.
+  assert.ok(Math.abs(mb - G.Offline.SIZE_MB) < mb * 0.1, `G.Offline.SIZE_MB is ${G.Offline.SIZE_MB}, the sprites take ${mb.toFixed(1)} MB`);
   // Not in tests or on file://: no service worker there.
   assert.equal(G.Offline.status(), null);
 });

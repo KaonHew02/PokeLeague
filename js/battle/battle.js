@@ -8,7 +8,8 @@
  *     foe:    { party, trainer: { id, name, title, ai: 'basic' | 'leader', items: {potion: 1}, prize: 20 } | null },
  *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', noCatch: false, forceCatch: false (debug),
  *               fishing: false (hooked with a rod: the Lure Ball), weather: 'rain' (the overworld's, for the whole battle),
- *               double: false (two Pokémon a side, trainers only), roamer: false (a roaming wild Pokémon that flees) } })
+ *               double: false (two Pokémon a side, trainers only), roamer: false (a roaming wild Pokémon that flees),
+ *               noExp: false (no Exp. Points), noBag: false (no items or balls from the Bag: the Battle Tower) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
  *                           | { kind: 'learn', uid, move } | null (battle over)
@@ -391,6 +392,7 @@ G.Battle = (() => {
       }
       if (a.type === 'switch') return o.canSwitch && o.switchable.includes(a.to) ? null : 'bad-switch';
       if (a.type === 'run') return this.kind === 'trainer' || o.canRun ? null : 'trapped';
+      if ((a.type === 'ball' || a.type === 'item') && this.rules.noBag) return 'no-bag';
       if (a.type === 'ball') {
         if (!o.canBall) return 'no-ball-in-trainer-battle';
         const fx = G.ITEM_FX[a.item];
@@ -585,7 +587,7 @@ G.Battle = (() => {
           bm.fainted = true;
           bm.mon.status = null; bm.mon.slp = 0; bm.mon.tox = 0;
           this.emit('faint', { side: s.side, uid: bm.mon.uid });
-          if (s.side === 1) steps.push(...this.expSteps(bm));
+          if (s.side === 1 && !this.rules.noExp) steps.push(...this.expSteps(bm));
         }
       }
       steps.push(() => this.decide());

@@ -51,5 +51,6 @@ G.I18n.add({
   "Twins": "雙胞胎",
   "Young Couple": "年輕情侶",
   "Sis and Bro": "姐弟",
-  "Old Couple": "老夫婦"
+  "Old Couple": "老夫婦",
+  "Salon Maiden": "沙龍女主人"
 }, "zh-Hant");

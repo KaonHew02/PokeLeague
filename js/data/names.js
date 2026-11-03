@@ -1294,7 +1294,7 @@ G.NAMES = {
     "ancient-tomb": ["Ancient Tomb","Tumba Antigua","Tombeau Antique","Tomba Antica","古代墓穴","古代墓穴"],
     "inside-of-truck": ["???","(?)","???","???","???","???"],
     "secret-base": ["Secret Base","Base Secreta","Base Secrète","Base Segreta","Secret Base","Secret Base"],
-    "hoenn-battle-tower": ["Battle Tower","Battle Tower","Tour de Combat","Battle Tower","Battle Tower","Battle Tower"],
+    "hoenn-battle-tower": ["Battle Tower","Torre Batalla","Tour de Combat","Torre Lotta","对战塔","對戰塔"],
     "hoenn-pokemon-league": ["Pokémon League","Liga Pokémon","Ligue Pokémon","Lega Pokémon","宝可梦联盟","寶可夢聯盟"],
     "team-aqua-hideout": ["Team Aqua Hideout","Guarida Aqua","Planque Aqua","Rifugio Idro","海洋队基地","海洋隊基地"],
     "sea-mauville": ["Sea Mauville","Malvamar","Lavandia Sea","Ciclamare","Sea Mauville","Sea Mauville"],

@@ -51,5 +51,6 @@ G.I18n.add({
   "Twins": "Gêmeas",
   "Young Couple": "Casal jovem",
   "Sis and Bro": "Irmã e irmão",
-  "Old Couple": "Casal de idosos"
+  "Old Couple": "Casal de idosos",
+  "Salon Maiden": "Salon Maiden"
 }, "pt-BR");

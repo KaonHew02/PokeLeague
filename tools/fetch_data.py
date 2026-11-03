@@ -245,6 +245,8 @@ LOC_NAMES = {
     'terra-cave':        ('Terra Cave',         'Terra Cave',          '地底洞窟',   '地底洞窟'),
     'marine-cave':       ('Marine Cave',        'Marine Cave',         '海渊洞窟',   '海淵洞窟'),
     'southern-island':   ('Isla del Sur',       'Isola Remota',        '南方孤岛',   '南方孤島'),
+    # Chapter 43.
+    'hoenn-battle-tower': ('Torre Batalla',     'Torre Lotta',         '对战塔',     '對戰塔'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

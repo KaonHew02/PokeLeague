@@ -19,9 +19,9 @@ G.I18n.add({
   "The water of the pool swells and churns. Kyogre rises from the depths!": "水池的水翻腾涌动。盖欧卡从深处浮上来了！",
   "A crack runs through the rock. Hot, dry air seeps out of it, but it is far too narrow to get through.": "岩石上有一道裂缝。里面渗出干燥的热风，可是太窄了，根本过不去。",
   "A dark opening in the rock. A strong current pours out of it, too strong to swim against.": "岩石上有个黑漆漆的洞口。里面涌出强劲的水流，根本没办法逆流游进去。",
-  "The ferry is running again! An Eon Ticket, eh? That one sails to Southern Island, far to the south. Shall we go?": "渡轮又开始航行了！哦，无限船票？这张票是去南方孤岛的，在很远的南方。要出发吗？",
   "The ship sailed south over the calm sea...": "船在平静的海面上向南航行……",
-  "The ferry is running again! But it only sails where you hold a ticket for, and you do not have one. Sorry, kid.": "渡轮又开始航行了！不过只能去你有船票的地方，可惜你没有船票。抱歉啦，小朋友。",
   "Ready to sail back to Lilycove City?": "准备好回水静市了吗？",
-  "The ship sailed back north to Lilycove City.": "船向北航行，回到了水静市。"
+  "The ship sailed back north to Lilycove City.": "船向北航行，回到了水静市。",
+  "The ferry is running again! Where would you like to sail?": "渡轮又开始航行了！你想去哪里？",
+  "The ship sailed out to the island of the Battle Tower...": "船向对战塔所在的小岛驶去……"
 }, "zh-Hans");

@@ -19,9 +19,9 @@ G.I18n.add({
   "The water of the pool swells and churns. Kyogre rises from the depths!": "L'acqua della pozza si gonfia e ribolle. Kyogre emerge dalle profondità!",
   "A crack runs through the rock. Hot, dry air seeps out of it, but it is far too narrow to get through.": "Una crepa attraversa la roccia. Ne esce un'aria calda e secca, ma è troppo stretta per passarci.",
   "A dark opening in the rock. A strong current pours out of it, too strong to swim against.": "Un'apertura buia nella roccia. Ne esce una corrente troppo forte per nuotarci contro.",
-  "The ferry is running again! An Eon Ticket, eh? That one sails to Southern Island, far to the south. Shall we go?": "Il traghetto è di nuovo in servizio! Un Biglietto Eone, eh? Quello porta all'Isola Remota, lontano a sud. Andiamo?",
   "The ship sailed south over the calm sea...": "La nave salpò verso sud sul mare calmo...",
-  "The ferry is running again! But it only sails where you hold a ticket for, and you do not have one. Sorry, kid.": "Il traghetto è di nuovo in servizio! Ma va solo dove hai un biglietto, e tu non ne hai. Mi spiace, ragazzo.",
   "Ready to sail back to Lilycove City?": "Pronto a tornare a Porto Alghepoli?",
-  "The ship sailed back north to Lilycove City.": "La nave tornò a nord, a Porto Alghepoli."
+  "The ship sailed back north to Lilycove City.": "La nave tornò a nord, a Porto Alghepoli.",
+  "The ferry is running again! Where would you like to sail?": "Il traghetto è di nuovo in servizio! Dove vuoi andare?",
+  "The ship sailed out to the island of the Battle Tower...": "La nave salpò verso l'isola della Torre Lotta..."
 }, "it");

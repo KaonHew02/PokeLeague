@@ -53,6 +53,8 @@ G.TRAINER_CLASSES = {
   'team-aqua':   { title: 'Team Aqua Grunt', who: 'aqua', prize: 20 },
   'school-kid':  { title: 'School Kid', who: 'youngster', prize: 20 },
   'battle-girl': { title: 'Battle Girl', who: 'battlegirl', prize: 24 },
+  // Chapter 43: the Battle Tower's Frontier Brain.
+  'salon-maiden': { title: 'Salon Maiden', who: 'anabel', prize: 0 },
   guitarist:     { title: 'Guitarist', who: 'rocker', prize: 32 },
   'team-magma':  { title: 'Team Magma Grunt', who: 'magma', prize: 20 },
   'magma-admin': { title: 'Magma Admin', who: 'tabitha', prize: 40 },

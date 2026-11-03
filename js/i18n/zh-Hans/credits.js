@@ -121,5 +121,8 @@ G.I18n.add({
   "Groudon and Kyogre still sleep somewhere in Hoenn, and people say two Pokémon of red and blue soar over its skies...": "固拉多和盖欧卡仍沉睡在丰缘的某处，而且听说有一红一蓝两只宝可梦在天空中翱翔……",
   "Chapter 42 complete!": "第四十二章完成！",
   "{player} found Groudon and Kyogre where the weather ran wild, chased a Pokémon across the skies of Hoenn, and sailed to Southern Island.": "{player}在天气异常的地方找到了固拉多和盖欧卡，追着一只宝可梦跑遍丰缘的天空，还航行到了南方孤岛。",
-  "Thank you for playing! Every legend of Hoenn has met you now.": "感谢游玩！丰缘所有的传说都已经与你相遇。"
+  "Thank you for playing! Every legend of Hoenn has met you now.": "感谢游玩！丰缘所有的传说都已经与你相遇。",
+  "Chapter 43 complete!": "第四十三章完成！",
+  "{player} won seven battles in a row at the Battle Tower.": "{player}在对战塔取得了七连胜。",
+  "The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.": "连胜还在继续：沙龙女主人莉拉正等着取得二十一连胜的人。"
 }, "zh-Hans");

@@ -19,9 +19,9 @@ G.I18n.add({
   "The water of the pool swells and churns. Kyogre rises from the depths!": "L'eau du bassin gonfle et bouillonne. Kyogre surgit des profondeurs !",
   "A crack runs through the rock. Hot, dry air seeps out of it, but it is far too narrow to get through.": "Une fissure traverse la roche. Un air chaud et sec s'en échappe, mais elle est bien trop étroite pour passer.",
   "A dark opening in the rock. A strong current pours out of it, too strong to swim against.": "Une ouverture sombre dans la roche. Un courant en jaillit, bien trop fort pour nager à contre-courant.",
-  "The ferry is running again! An Eon Ticket, eh? That one sails to Southern Island, far to the south. Shall we go?": "Le ferry fonctionne de nouveau ! Un Passe Éon, hein ? Celui-là mène à l'Île du Sud, loin au sud. On y va ?",
   "The ship sailed south over the calm sea...": "Le bateau a vogué vers le sud sur une mer calme...",
-  "The ferry is running again! But it only sails where you hold a ticket for, and you do not have one. Sorry, kid.": "Le ferry fonctionne de nouveau ! Mais il ne va que là où tu as un billet, et tu n'en as pas. Désolé, petit.",
   "Ready to sail back to Lilycove City?": "Prêt à rentrer à Nénucrique ?",
-  "The ship sailed back north to Lilycove City.": "Le bateau est reparti vers le nord, jusqu'à Nénucrique."
+  "The ship sailed back north to Lilycove City.": "Le bateau est reparti vers le nord, jusqu'à Nénucrique.",
+  "The ferry is running again! Where would you like to sail?": "Le ferry fonctionne de nouveau ! Où veux-tu aller ?",
+  "The ship sailed out to the island of the Battle Tower...": "Le bateau a mis le cap sur l'île de la Tour de Combat..."
 }, "fr");

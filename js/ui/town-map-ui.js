@@ -67,7 +67,7 @@ G.TownMapUI = (() => {
       'team-aqua-hideout': [16.6, 3.5], 'seafloor-cavern': [18, 9.2], 'cave-of-origin': [16.4, 7.4], 'sky-pillar': [15.4, 13.2],
       'hoenn-victory-road': [19.6, 10.2], 'hoenn-pokemon-league': [19.6, 9.4],
       'island-cave': [-0.2, 11.8], 'desert-ruins': [8.4, 2.2], 'ancient-tomb': [12.8, 1.8], 'sealed-chamber': [10, 12.8],
-      'terra-cave': [2.4, 1.6], 'marine-cave': [19, 7.2], 'southern-island': [12.4, 14.6]
+      'terra-cave': [2.4, 1.6], 'marine-cave': [19, 7.2], 'southern-island': [12.4, 14.6], 'hoenn-battle-tower': [17.6, 13.6]
     },
     ROADS: { 101: [[4, 12], [4, 9.5]], 102: [[4, 9.5], [1.2, 9.5]], 103: [[4, 9.5], [4, 8], [8, 8]], 104: [[1.2, 9.5], [0.4, 9.5], [0.4, 4.5], [1.2, 4.5]],
              116: [[1.2, 4.5], [3.6, 4.5]], 106: [[1.2, 13.8], [0.4, 13.8], [0.4, 13.2]], 110: [[9, 12], [9, 6]],

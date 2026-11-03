@@ -172,15 +172,19 @@
       ['if', '!hoenn-champion', [
         ['say', 'The ferry is not running right now. Some trouble out at sea, they say. Sorry, kid.', SAILOR]
       ], [
-        ['if', 'has:eon-ticket', [
-          ['choice', 'The ferry is running again! An Eon Ticket, eh? That one sails to Southern Island, far to the south. Shall we go?', [
+        // Southern Island with the Eon Ticket; the Battle Tower (chapter 43, tower.js).
+        ['menu', 'The ferry is running again! Where would you like to sail?', [
+          [{ loc: 'southern-island' }, [
             ['fade', 'out', 0.6], ['sfx', 'horn'],
             ['say', 'The ship sailed south over the calm sea...'],
             ['warp', 'southern-island', 'pier']
-          ], [], SAILOR]
-        ], [
-          ['say', 'The ferry is running again! But it only sails where you hold a ticket for, and you do not have one. Sorry, kid.', SAILOR]
-        ]]
+          ], 'has:eon-ticket'],
+          [{ loc: 'hoenn-battle-tower' }, [
+            ['fade', 'out', 0.6], ['sfx', 'horn'],
+            ['say', 'The ship sailed out to the island of the Battle Tower...'],
+            ['warp', 'battle-tower', 'pier']
+          ]]
+        ], SAILOR]
       ]]
     ],
     'legends.ferry-back': [

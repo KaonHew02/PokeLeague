@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 43) return { title: T('Chapter 43 complete!'),
+      done: fmt('{player} won seven battles in a row at the Battle Tower.', { player }),
+      next: T('The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.') };
     if (n === 42) return { title: T('Chapter 42 complete!'),
       done: fmt('{player} found Groudon and Kyogre where the weather ran wild, chased a Pokémon across the skies of Hoenn, and sailed to Southern Island.', { player }),
       next: T('Thank you for playing! Every legend of Hoenn has met you now.') };

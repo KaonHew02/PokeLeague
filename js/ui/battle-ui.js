@@ -450,6 +450,7 @@ G.BattleUI = (() => {
       box.set(fmt('What will {mon} do?', { mon: G.Mon.name(me) }));
       // Doubles: B on the second Pokémon's menu goes back to the first one's choice.
       root.onBack = dbl() && slot > 0 ? () => pick('back') : () => {};
+      root.querySelector('#bt-menu [data-a="bag"]').disabled = !!b.rules.noBag;      // the Battle Tower (chapter 43)
       const a = await menuWait(() => $('bt-menu').classList.remove('hidden'));
       hideMenus(); setPhase('text');
       if (a === 'back') return { back: true };

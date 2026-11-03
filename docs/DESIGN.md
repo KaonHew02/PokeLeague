@@ -1926,12 +1926,42 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   in four, its HP kept, beaten and recovered, the island, caught at last); `tests/save.test.cjs` the
   save's roamer; `tests/story.test.cjs` Rayquaza, Groudon, Kyogre, Latios, then Latias (met, then a
   Master Ball before it can flee).
+- **Chapter 43** ✅, Hoenn after the League: the Battle Tower. Battle rules `rules.noExp` (no Exp.
+  Points) and `rules.noBag` (`validate` refuses items and balls: 'no-bag'; the battle screen greys out
+  the Bag). field.js `battle(ref, o)` takes `o.party` (these Pokémon fight instead of the party, with no
+  Bag), `o.rules` (more rules) and `o.record: false` (not marked as done); `onTrainer` gets them too.
+  `js/world/tower.js` (G.Tower): banned species (Mewtwo, Mew, Lugia, Ho-Oh, Celebi, Kyogre, Groudon,
+  Rayquaza, Jirachi, Deoxys), `why(mon, chosen)` (the species and item clauses), `copy(mon)` (a battle
+  copy at level 50 at most, all restored: the party never changes), the opponents' species by round of
+  seven (fully evolved, not legendary, base stat totals 400-479, 450-509, 480-539, then 500-600),
+  `moveset(sp, rng)` (the strongest attacks of different types it can learn by level 50, TM or tutor,
+  weighed by its types and better attacking stat, plus one useful status move; no charging, recharging
+  or self-fainting moves), `team(rng, round, n)` (one item each: a type booster for half, else a berry or
+  a battle item), `bpFor(set)` (3, 3, 4, 4, 5, 5, then 7) and the vars `bp`, `tower-single`,
+  `tower-double` (current streaks) and their `-best`. Content (`js/content/hoenn/tower.js`, translations
+  `hoenn-tower`): the Lilycove ferry is now a `menu` (Southern Island with the Eon Ticket, the Battle
+  Tower for the Champion); the island, the lobby (single and double counters, the Exchange Service
+  Corner: vitamins 1 BP, Leftovers 48, other held items 32) and the battle room (the opponent `foe`
+  takes each trainer's look). The player enters three Pokémon (four for doubles) with `PartyUI.pick`
+  (`h.pickMon` in tests: greyed out with a note when not allowed); opponents are seeded by the player's
+  ID, the run and the battle number (`G.TowerHall.trainerFor`); after each win, keep going or retire
+  (the streak ends); seven wins finish a set (BP; the streak goes on next time); a loss ends it. Anabel,
+  the Salon Maiden (person `anabel`, class `salon-maiden`), is the 21st (Alakazam, Entei, Snorlax: the
+  Silver Print, +10 BP) and the 49th single battle (Raikou, Latios, Snorlax: the Gold Print, +20). The
+  first set of seven: `ending(43)`.
+- **Balance:** Swampert, Gardevoir and Manectric at 50 win about 93% of single battles in the first set,
+  80% in the second and third, 73% after; 67% against Anabel's silver team and 63% against her gold one.
+  The story test retries after a loss, as a player would (two challenges for its first set).
+- **Tests:** `tests/tower.test.cjs` (G.Tower and the two rules); `tests/field.test.cjs` the whole tower on
+  the real maps (the ferry, the clauses, seven wins and BP, the streak going on, a loss, retiring,
+  doubles, Anabel, the exchange, the ferry back); `tests/story.test.cjs` a first set and a Protein.
 
-### After chapter 42
+### After chapter 43
 
-The journey through Kanto, Johto and Hoenn is complete (Pokémon 1-386), with double battles and every
-legend of Hoenn. Ideas:
-1. Hoenn after the League: the Battle Tower or Battle Frontier (singles and doubles).
+The journey through Kanto, Johto and Hoenn is complete (Pokémon 1-386), with double battles, every
+legend of Hoenn and the Battle Tower. Ideas:
+1. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
+   Arena...), Mirage Island.
 2. Engine features: multi battles with a partner (Steven at the Space Center), abilities outside
    battle, Pokéblocks or another way to evolve Feebas, Repel steps.
 3. A fourth region needs Pokémon 387 and up (`tools/fetch_data.py`), their sprites and moves.

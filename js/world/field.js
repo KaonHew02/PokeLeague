@@ -893,7 +893,11 @@ G.World = (() => {
              items: d.items || {}, leader: !!d.leader, team: d.team, music: d.music || null };
   }
 
-  /** A trainer battle through the M4 hook. ref: a trainer def, 'id' on this map or 'map:id'. */
+  /**
+   * A trainer battle through the M4 hook. ref: a trainer def, 'id' on this map or 'map:id'.
+   * o.canLose; o.party (chapter 43: the Battle Tower's copies fight instead of the party, with no Bag),
+   * o.rules (more battle rules), o.record: false (not marked as done: a trainer met only once).
+   */
   async function battle(ref, o = {}) {
     let d = ref, key = o.key;
     if (typeof ref === 'string') {
@@ -908,13 +912,16 @@ G.World = (() => {
     let out;
     try {
       let r;
-      if (api.onTrainer) r = await api.onTrainer(d, { map: map.id, key, canLose: !!o.canLose });
-      else if (G.BattleUI && G.BattleUI.trainer) r = await G.BattleUI.trainer(battler(), battleTrainer(d, key), battleOpts(o.canLose, d));
+      const opts = battleOpts(o.canLose, d);
+      if (o.rules) Object.assign(opts.rules, o.rules);
+      const me = o.party ? Object.assign(battler(), { party: o.party, bag: {} }) : battler();
+      if (api.onTrainer) r = await api.onTrainer(d, { map: map.id, key, canLose: !!o.canLose, party: o.party || null, rules: opts.rules });
+      else if (G.BattleUI && G.BattleUI.trainer) r = await G.BattleUI.trainer(me, battleTrainer(d, key), opts);
       else r = await fallbackBattle(trainerName(d) || G.Names.pretty(d.id));
       out = settle(r);
     } finally { locks--; }
     G.Field.lastBattle = out;
-    if (out !== 'lose') G.Field.markDone(key);
+    if (out !== 'lose') { if (o.record !== false) G.Field.markDone(key); }
     else if (!o.canLose) await blackout();
     return out;
   }

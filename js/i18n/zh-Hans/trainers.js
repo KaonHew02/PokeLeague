@@ -51,5 +51,6 @@ G.I18n.add({
   "Twins": "双胞胎",
   "Young Couple": "年轻情侣",
   "Sis and Bro": "姐弟",
-  "Old Couple": "老夫妇"
+  "Old Couple": "老夫妇",
+  "Salon Maiden": "沙龙女主人"
 }, "zh-Hans");

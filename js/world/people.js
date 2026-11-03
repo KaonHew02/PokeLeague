@@ -258,6 +258,8 @@ G.People = (() => {
     sidney: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#d83a2a', H: '#a0261a', j: '#2a2a34', J: '#16161e', c: '#3a3a44', C: '#24242c',
               p: '#2a2a34', P: '#16161e', k: '#16161e' },
     phoebe: { head: 'short', body: 'tee', legs: 'bare', h: '#2a2028', H: '#160e14', c: '#e88aa8', C: '#b8607e', p: '#3a3a52', P: '#26263a', k: '#7a3a5a' },
+    // Chapter 43: Anabel, the Salon Maiden of the Battle Tower (pink hair, a dark outfit).
+    anabel: { head: 'long', body: 'dress', legs: 'bare', h: '#f2a2c8', H: '#c87aa2', c: '#3a3448', C: '#262232', j: '#f2a2c8', J: '#c87aa2', k: '#3a3448' },
     glacia: { head: 'long', body: 'dress', legs: 'bare', h: '#e8eef8', H: '#b8c4d8', c: '#6a8ad8', C: '#4a68b0', j: '#e8eef8', J: '#b8c4d8', k: '#4a68b0' },
     drake: { head: 'short', body: 'coat', legs: 'pants', h: '#d8d8e0', H: '#a8a8b4', j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0',
              p: '#2a3a6a', P: '#1c284a', k: '#1a1a22' },

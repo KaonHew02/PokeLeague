@@ -1972,6 +1972,100 @@ test('Hoenn (chapter 42): the Weather Institute, the Terra and Marine Caves, the
   assert.ok(F.flag('roamer-caught'));
 });
 
+test('Hoenn (chapter 43): the Battle Tower: the ferry, entering, seven in a row, the streak, losing, retiring, doubles, Anabel, the exchange', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js', 'js/content/hoenn/evergrande.js', 'js/content/hoenn/postgame.js', 'js/content/hoenn/regis.js',
+                          'js/content/hoenn/legends.js', 'js/content/hoenn/tower.js', 'js/world/roam.js', 'js/world/tower.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, Tw = G.Tower;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+  F.setFlag('hoenn-champion');
+  for (const [sp, lvl, item] of [['swampert', 72, 'leftovers'], ['gardevoir', 70, 'leftovers'], ['mewtwo', 70, null], ['manectric', 45, null], ['altaria', 60, null]]) {
+    const m = F.giveMon(sp, lvl, { moves: ['tackle'] });
+    if (item) m.item = item;
+  }
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const answers = [], picks = [], asked = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  // What the party screen would show at each pick: greyed out, and the note on each card.
+  G.PartyUI = { pick: o => { asked.push(F.party().map((m, i) => [o.disabled(m, i), o.note(m, i)])); return Promise.resolve(picks.shift()); } };
+  const fights = [];
+  let outcome = () => 'win';
+  W.onTrainer = async (d, info) => { fights.push({ d, info }); return outcome(fights.length); };
+  const counter = async mode => { W.load('battle-tower-lobby', mode); await pump(W, W.interact()); await until(() => W.map.id === 'battle-tower-lobby' && !W.locked); };
+  // The ferry: (no Eon Ticket) the Battle Tower is the first choice.
+  W.load('lilycove', { x: 22, y: 21, dir: 'up' });
+  await pump(W, W.interact());
+  await until(() => W.map.id === 'battle-tower');
+  // Single battles: Swampert, then (Gardevoir holds the same item; Mewtwo is banned) Manectric and Altaria.
+  picks.push(0, 3, 4);
+  await counter('single');
+  const party = F.party();
+  assert.deepEqual(plain(asked[1]), [[true, 'No. 1'], [true, 'Same item'], [true, 'Cannot enter'], [false, null], [false, null]]);
+  assert.equal(fights.length, 7, 'seven battles');
+  for (const { d, info } of fights) {
+    assert.deepEqual(plain(info.party.map(m => [m.sp, m.lvl])), [[260, 50], [310, 45], [334, 50]]);
+    assert.ok(info.rules.noExp && info.rules.noBag && info.canLose && !info.rules.double);
+    assert.equal(d.team.length, 3);
+  }
+  assert.equal(new Set(fights.map(f => f.d.team.map(x => x[0]).join())).size, 7, 'seven different teams');
+  assert.deepEqual([Tw.streak('single'), Tw.bp()], [7, 3]);
+  assert.ok(F.flag('chapter-43-done'));
+  assert.deepEqual([party[0].lvl, party[0].item, party[0].hp], [72, 'leftovers', G.Mon.maxHp(party[0])], 'the party is as it was');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('battle-tower')));
+  // The streak goes on from No. 8; losing No. 9 ends it.
+  fights.length = 0;
+  outcome = k => (k === 2 ? 'lose' : 'win');
+  picks.push(0, 3, 4);
+  await counter('single');
+  assert.equal(fights.length, 2);
+  assert.ok(fights[0].d.team.every(x => Tw.pool(1).includes(x[0])), 'battle 8 is in the second set');
+  assert.deepEqual([Tw.streak('single'), Tw.best('single')], [0, 8]);
+  // Retiring after one win ends the streak too.
+  fights.length = 0;
+  outcome = () => 'win';
+  picks.push(0, 3, 4);
+  answers.push(0, 1);
+  await counter('single');
+  assert.equal(fights.length, 1);
+  assert.deepEqual([Tw.streak('single'), Tw.best('single')], [0, 8]);
+  // Double battles: four Pokémon, the double rule, teams of four.
+  fights.length = 0;
+  outcome = () => 'lose';
+  picks.push(0, 3, 4, 2);
+  await counter('double');
+  assert.equal(fights.length, 0, 'Mewtwo cannot enter: back out');
+  picks.length = 0;
+  F.giveMon('blaziken', 50, { moves: ['tackle'] });
+  picks.push(0, 3, 4, 5);
+  await counter('double');
+  assert.equal(fights.length, 1);
+  assert.ok(fights[0].info.rules.double && fights[0].d.double && fights[0].d.team.length === 4 && fights[0].info.party.length === 4);
+  // Anabel is the 21st single battle.
+  fights.length = 0;
+  outcome = () => 'win';
+  Tw.setStreak('single', 20);
+  picks.push(0, 3, 4);
+  await counter('single');
+  assert.equal(fights.length, 1, 'battle 21 also ends the third set');
+  assert.equal(fights[0].d.id, 'anabel');
+  assert.deepEqual(plain(fights[0].d.team.map(x => x[0])), ['alakazam', 'entei', 'snorlax']);
+  assert.ok(F.flag('tower-silver'));
+  assert.equal(Tw.bp(), 3 + 10 + 4, 'the first set, Anabel, the third set');
+  // The exchange: not enough for Leftovers; a Protein for 1 BP.
+  W.load('battle-tower-lobby', 'exchange');
+  answers.push(1, 0, 0, 1, 2);
+  await pump(W, W.interact());
+  assert.deepEqual([F.count('leftovers'), F.count('protein'), Tw.bp()], [0, 1, 16]);
+  // Home: the ferry back to Lilycove.
+  W.load('battle-tower', { x: 9, y: 12, dir: 'down' });
+  await pump(W, W.interact());
+  await until(() => W.map.id === 'lilycove');
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

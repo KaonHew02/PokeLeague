@@ -10,7 +10,7 @@ const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 const dev = source('dev.html');
 const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/script/script.js'], CONTENT);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/script/script.js'], CONTENT);
 
 function world(seed = 1) {
   const ctx = boot(FILES);
@@ -117,10 +117,11 @@ async function fight(st, ref, o, h) {
   const cls = G.TRAINER_CLASSES[d.cls] || {};
   const rng = G.RNG(W.seed * 977 + st.battles.length);
   const party = d.team.map(([sp, lvl, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(sp), lvl, { rng, moves }), item ? { item } : {}));
+  // o.party / o.rules / o.record (the Battle Tower, chapter 43): copies fight, with more rules, and are not recorded.
   const b = G.Battle.create({ kind: 'trainer', seed: W.seed * 31 + st.battles.length,
-    player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag },
+    player: { name: S.player.name, id: S.player.id, party: (o && o.party) || S.party, bag: o && o.party ? {} : S.bag },
     foe: { party, trainer: { id: key, name: d.name || '', ai: d.ai || (d.leader ? 'leader' : 'basic'), items: d.items || {}, prize: d.prize != null ? d.prize : cls.prize } },
-    rules: { canLose: !!(o && o.canLose), obeyCap: obeyCap(st), double: !!d.double } });
+    rules: Object.assign({ canLose: !!(o && o.canLose), obeyCap: obeyCap(st), double: !!d.double }, o && o.rules) });
   b.start();
   const r = autoplay(G, b);
   st.battles.push({ key, outcome: r.outcome, levels: S.party.map(m => m.lvl), team: d.team });
@@ -129,7 +130,7 @@ async function fight(st, ref, o, h) {
   if (r.outcome === 'win' && r.money > 0) G.Field.money(r.money);
   evolve(G, S, r);
   if (r.outcome !== 'lose') {
-    G.Field.markDone(key);
+    if (!(o && o.record === false)) G.Field.markDone(key);
     if (d.win) await G.Script.run(typeof d.win === 'string' ? G.Script.get(d.win) : d.win, h);
   } else if (!(o && o.canLose)) {
     // Blacked out: half the money, healed at the last Pokémon Center (or at home).
@@ -739,6 +740,33 @@ test('balance: the rival on Route 103 (chapter 28), win rates of the three start
   console.log('[balance] the rival on Route 103:', JSON.stringify(table));
   // Losing is allowed (and does not stop the story); a few levels from Route 101's grass help.
   for (const sp of ['treecko', 'torchic', 'mudkip']) assert.ok(table[sp + ' 9'] >= 0.5, sp + ' at Lv. 9');
+});
+
+test('balance: the Battle Tower (chapter 43), win rates of a typical team at level 50 are printed', () => {
+  const { G } = world(1);
+  const rate = (foe, n = 30) => {
+    let wins = 0;
+    for (let s = 1; s <= n; s++) {
+      const rng = G.RNG(s * 29);
+      const me = [[260, ['surf', 'earthquake', 'ice-beam', 'protect']], [282, ['psychic', 'thunderbolt', 'calm-mind', 'shadow-ball']],
+                  [310, ['thunderbolt', 'crunch', 'flamethrower', 'thunder-wave']]].map(([sp, moves]) => G.Mon.create(sp, 50, { rng, moves }));
+      me[0].item = 'leftovers'; me[1].item = 'sitrus-berry'; me[2].item = 'quick-claw';
+      const team = typeof foe === 'function' ? foe(G.RNG(s * 31)) : foe;
+      const foes = team.map(([sp, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(sp), l, { rng, moves }), { item }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } }, rules: { noExp: true, noBag: true, shift: false, canLose: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / n;
+  };
+  const table = {};
+  for (let round = 0; round < 4; round++) table['round ' + (round + 1)] = rate(rng => G.Tower.team(rng, round, 3));
+  table['Anabel (silver)'] = rate(G.TowerHall.BRAIN[21].team);
+  table['Anabel (gold)'] = rate(G.TowerHall.BRAIN[49].team);
+  console.log('[balance] Battle Tower, Swampert, Gardevoir and Manectric at 50:', JSON.stringify(table));
+  // Each round is harder; the first is mostly won, the last ones are a real test.
+  assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
 });
 
 test('balance: Steven at Meteor Falls (chapter 40), win rates of typical teams are printed', () => {
@@ -3165,6 +3193,42 @@ async function chapter42(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter43(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower;
+  // The ferry from Lilycove: Southern Island first (the Eon Ticket), then the Battle Tower.
+  await run(st, 'lilycove', 'legends.ferry', [1]);
+  assert.equal(st.W.map, 'battle-tower');
+  // Single battles with the three strongest Pokémon that may enter.
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 3 && !Tw.why(party[i], picks.map(j => party[j]))) picks.push(i);
+  }
+  const before = JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp]));
+  // As a player would: a new challenge after each loss, until a set of seven is won.
+  const n = st.battles.length;
+  let tries = 0;
+  while (Tw.streak('single') < 7 && tries < 10) {
+    tries++;
+    st.picks.push(...picks);
+    await run(st, 'battle-tower-lobby', 'tower.single', [0]);
+  }
+  const fights = st.battles.slice(n);
+  console.log('[story] the Battle Tower:', fights.map(b => b.outcome).join(), 'in', tries, 'challenge(s), with', picks.map(i => G.Names.mon(party[i].sp)).join(', '));
+  assert.equal(Tw.streak('single'), 7, 'a set of seven');
+  assert.ok(fights.slice(-7).every(b => b.outcome === 'win'));
+  assert.equal(Tw.bp(), 3);
+  assert.equal(JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp])), before, 'the party is as it was');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('battle-tower')), 'tower trainers are not recorded');
+  assert.ok(F.flag('chapter-43-done'));
+  // A Protein for 1 BP.
+  const p = F.count('protein');
+  await run(st, 'battle-tower-lobby', 'tower.exchange', [0, 1, 2]);
+  assert.equal(F.count('protein'), p + 1);
+  assert.equal(Tw.bp(), 2);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3246,7 +3310,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 42: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League and its legends", async () => {
+test("chapters 11 to 43: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3290,4 +3354,5 @@ test("chapters 11 to 42: Johto, from Professor Elm to Johto's League and its pos
   await chapter40(st);
   await chapter41(st);
   await chapter42(st);
+  await chapter43(st);
 });

@@ -121,5 +121,8 @@ G.I18n.add({
   "Groudon and Kyogre still sleep somewhere in Hoenn, and people say two Pokémon of red and blue soar over its skies...": "Groudon e Kyogre ainda dormem em algum lugar de Hoenn, e dizem que dois Pokémon, um vermelho e um azul, cruzam os seus céus...",
   "Chapter 42 complete!": "Capítulo 42 concluído!",
   "{player} found Groudon and Kyogre where the weather ran wild, chased a Pokémon across the skies of Hoenn, and sailed to Southern Island.": "{player} encontrou Groudon e Kyogre onde o tempo enlouquecia, perseguiu um Pokémon pelos céus de Hoenn e navegou até Southern Island.",
-  "Thank you for playing! Every legend of Hoenn has met you now.": "Obrigado por jogar! Agora você já encontrou todas as lendas de Hoenn."
+  "Thank you for playing! Every legend of Hoenn has met you now.": "Obrigado por jogar! Agora você já encontrou todas as lendas de Hoenn.",
+  "Chapter 43 complete!": "Capítulo 43 concluído!",
+  "{player} won seven battles in a row at the Battle Tower.": "{player} venceu sete batalhas seguidas na Battle Tower.",
+  "The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.": "A sequência continua: Anabel, a Salon Maiden, espera quem vencer vinte e uma batalhas seguidas."
 }, "pt-BR");

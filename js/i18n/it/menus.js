@@ -196,5 +196,6 @@ G.I18n.add({
   "Rain Badge": "Medaglia Pioggia",
   "Ability": "Abilità",
   "Hoenn": "Hoenn",
-  "{mon} roams near the blinking dot.": "{mon} vaga vicino al punto lampeggiante."
+  "{mon} roams near the blinking dot.": "{mon} vaga vicino al punto lampeggiante.",
+  "Sinnoh": "Sinnoh"
 }, "it");

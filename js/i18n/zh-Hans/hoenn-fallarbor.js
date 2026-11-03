@@ -69,7 +69,7 @@ G.I18n.add({
   "Kai": "凯",
   "The river here is full of fish, and my Pokémon are full of fight!": "这条河里全是鱼，我的宝可梦也全是斗志！",
   "Barboach hides in the mud at the bottom of the river. They say it can feel an earthquake before it comes.": "泥泥鳅躲在河底的泥巴里。听说它能在地震来临前就感觉到。",
-  "Lucas": "卢卡斯",
+  "Lucas": "明耀",
   "I am on my way to Meteor Falls, to see where the stars came down!": "我正要去流星瀑布，看看星星落下的地方！",
   "I am seeing stars...": "眼冒金星……",
   "Meteor Falls is through the cave mouth to the north-west. Bring sturdy boots!": "流星瀑布在西北边的洞口里面。记得穿双结实的鞋！",

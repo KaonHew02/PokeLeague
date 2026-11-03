@@ -196,5 +196,6 @@ G.I18n.add({
   "Rain Badge": "Badge Pluie",
   "Ability": "Talent",
   "Hoenn": "Hoenn",
-  "{mon} roams near the blinking dot.": "{mon} rôde près du point qui clignote."
+  "{mon} roams near the blinking dot.": "{mon} rôde près du point qui clignote.",
+  "Sinnoh": "Sinnoh"
 }, "fr");

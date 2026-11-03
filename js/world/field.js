@@ -49,7 +49,8 @@
  * Johto (chapter 11, maps with `region: 'johto'`): wild Pokémon follow the time of day
  * (G.Clock), and once the Johto journey has begun (flag johto-start) the player's Pokémon above
  * the level cap of the Johto badges may not obey (G.Field.obeyCap(), rules.obeyCap). Hoenn
- * (chapter 28, `region: 'hoenn'`): the same rule with Hoenn's badges 17-24 (flag hoenn-start). Walking
+ * (chapter 28, `region: 'hoenn'`): the same rule with Hoenn's badges 17-24 (flag hoenn-start), and Sinnoh
+ * (chapter 44, `region: 'sinnoh'`) with badges 25-32 (flag sinnoh-start). Walking
  * raises friendship (one point every 128 steps), and var egg-steps counts down to script
  * egg.hatch (the Mystery Egg); the Eggs you carry (chapter 25) hatch by G.DayCare.hatch.
  * Chapter 13: trees to Headbutt (`h`: a Pokémon that knows Headbutt may shake down a wild one from
@@ -169,9 +170,10 @@ G.Field = (() => {
     }
   }
   function badge(n) { if (!S.player.badges.includes(n)) S.player.badges.push(n); S.player.badges.sort((a, b) => a - b); }
-  /** Johto's badges are 9-16, Hoenn's 17-24: the level up to which every Pokémon obeys, by how many you hold. */
+  /** Johto's badges are 9-16, Hoenn's 17-24, Sinnoh's 25-32: the level up to which every Pokémon obeys, by how many you hold. */
   const OBEY = [20, 25, 30, 35, 40, 50, 60, 70];
-  const REGIONS = { johto: { first: 9, start: 'johto-start' }, hoenn: { first: 17, start: 'hoenn-start' } };
+  const REGIONS = { johto: { first: 9, start: 'johto-start' }, hoenn: { first: 17, start: 'hoenn-start' },
+                    sinnoh: { first: 25, start: 'sinnoh-start' } };
   const regionBadges = first => S.player.badges.filter(b => b >= first && b < first + 8).length;
   const johtoBadges = () => regionBadges(9), hoennBadges = () => regionBadges(17);
   /** The level cap in that region (null: everybody obeys; Kanto has no such rule). */
@@ -185,7 +187,7 @@ G.Field = (() => {
   /**
    * Script conditions: 'flag', '!flag', 'var=v', 'var!=v', 'var>=n' (also <= > <),
    * 'has:item', 'badge:n', 'done:map:id'; 'party', 'money' and 'badges' are numbers
-   * you can compare. A list means all of them; a function gets the state.
+   * you can compare, 'gender' is the player's ('gender=f'). A list means all of them; a function gets the state.
    */
   function test(c) {
     if (c == null || c === true) return true;
@@ -200,7 +202,7 @@ G.Field = (() => {
     if (!m) return flag(s);
     const [, k, op, rhs] = m;
     const lv = k === 'party' ? S.party.length : k === 'money' ? S.player.money : k === 'badges' ? S.player.badges.length
-      : k === 'battle' ? last : S.vars[k];
+      : k === 'battle' ? last : k === 'gender' ? S.player.gender : S.vars[k];
     const num = rhs !== '' && !isNaN(+rhs);
     const rv = num ? +rhs : rhs;
     const l = num ? +(lv || 0) : lv;
@@ -217,7 +219,10 @@ G.Field = (() => {
 
   // {rival3}: Professor Birch's child (chapter 28), May for a boy and Brendan for a girl.
   const rival3 = () => (S.player.gender === 'f' ? G.T('Brendan') : G.T('May'));
-  const vars = () => ({ player: S.player.name, rival: S.rival.name, rival2: (S.rival2 && S.rival2.name) || '???', rival3: rival3() });
+  // {assistant}: Professor Rowan's assistant in Sinnoh (chapter 44), Dawn for a boy and Lucas for a girl.
+  const assistant = () => (S.player.gender === 'f' ? G.T('Lucas') : G.T('Dawn'));
+  const vars = () => ({ player: S.player.name, rival: S.rival.name, rival2: (S.rival2 && S.rival2.name) || '???', rival3: rival3(),
+                        assistant: assistant() });
   /** The outcome of the last battle ('win', 'lose', 'run', 'caught'): scripts test it with 'battle=win'. */
   let last = null;
 
@@ -1673,12 +1678,12 @@ G.World = (() => {
     snapCamera();
   }
 
-  /** The light of the time of day over Johto's and Hoenn's outdoor maps (none indoors, in caves or in Kanto). */
+  /** The light of the time of day over the outdoor maps of Johto, Hoenn and Sinnoh (none indoors, in caves or in Kanto). */
   const TINT = { morning: 'rgba(255,176,96,0.10)', day: null, night: 'rgba(14,22,70,0.40)' };
   /** A storm on this map (its `storm` condition holds, chapter 38): rain, a dark sky, rain in battle. */
   const stormy = (m = map) => !!(m && m.def.storm) && G.Field.test(m.def.storm);
   const tint = () => under() ? 'rgba(10,40,120,0.30)' : stormy() ? 'rgba(20,28,60,0.38)'
-    : ((map.def.region === 'johto' || map.def.region === 'hoenn') && map.tileset === 'outdoor' && !map.def.cave && G.Clock
+    : (['johto', 'hoenn', 'sinnoh'].includes(map.def.region) && map.tileset === 'outdoor' && !map.def.cave && G.Clock
     ? TINT[G.Clock.period()] : null);
 
   function render(ctx, view) {

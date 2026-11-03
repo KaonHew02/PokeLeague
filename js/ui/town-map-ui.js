@@ -83,8 +83,22 @@ G.TownMapUI = (() => {
     LAND: [[-0.5, -0.5, 13, 13.2], [0.4, 13.2, 1.6, 1.2], [9.5, 0.2, 7.6, 4.2], [17.8, 3.6, 1.8, 1.8], [15.6, 7.2, 1.6, 1.6],
            [18.2, 9.8, 2.3, 2.6]]
   };
-  const MAPS = { kanto: { AT, ROADS, SEA, LAND }, johto: JOHTO, hoenn: HOENN };
-  const REGION_NAME = { kanto: () => T('Kanto'), johto: () => T('Johto'), hoenn: () => T('Hoenn') };
+  // Sinnoh (chapter 44): Twinleaf Town and Sandgem Town on the south coast, Lake Verity west of Route 201,
+  // Mt. Coronet down the middle; the towns of later chapters are already placed, their roads come with them.
+  const SINNOH = {
+    AT: {
+      'twinleaf-town': [3.4, 13], 'sandgem-town': [5.5, 13], 'lake-verity': [2, 12], 'jubilife-city': [5.5, 10],
+      'oreburgh-city': [8.4, 10], 'floaroma-town': [4.6, 6.5], 'eterna-city': [7.6, 4.4], 'hearthome-city': [12.4, 8.6],
+      'solaceon-town': [13, 5.6], 'veilstone-city': [16, 5], 'pastoria-city': [15.4, 11], 'celestic-town': [11.4, 5],
+      'canalave-city': [1.6, 8.4], 'snowpoint-city': [9.6, 0.8], 'sunyshore-city': [18.4, 11.6], 'sinnoh-pokemon-league': [18.6, 6.6],
+      'mt-coronet': [10, 7], 'lake-valor': [14, 10.4], 'lake-acuity': [8, 1.6]
+    },
+    ROADS: { 201: [[2, 12], [3.4, 12], [3.4, 13], [3.4, 12], [5.5, 12], [5.5, 13]] },
+    SEA: {},
+    LAND: [[0.6, -0.5, 19.6, 14.2]]
+  };
+  const MAPS = { kanto: { AT, ROADS, SEA, LAND }, johto: JOHTO, hoenn: HOENN, sinnoh: SINNOH };
+  const REGION_NAME = { kanto: () => T('Kanto'), johto: () => T('Johto'), hoenn: () => T('Hoenn'), sinnoh: () => T('Sinnoh') };
   /** The regions you have seen, in order. */
   const seenRegions = () => Object.keys(MAPS).filter(r => r === st.region || st.towns.some(t => t.visited && regionOf(t.loc) === r));
   /** The next region on the button (null when you have seen only this one). */
@@ -249,7 +263,7 @@ G.TownMapUI = (() => {
   function open(o = {}) {
     if (!el) build();
     return new Promise(res => {
-      const ORDER = [...Object.keys(AT), ...Object.keys(JOHTO.AT), ...Object.keys(HOENN.AT)];
+      const ORDER = [...Object.keys(AT), ...Object.keys(JOHTO.AT), ...Object.keys(HOENN.AT), ...Object.keys(SINNOH.AT)];
       const towns = (G.World && G.World.flyTargets ? G.World.flyTargets() : [])
         .filter(t => regionOf(t.loc)).sort((a, b) => ORDER.indexOf(a.loc) - ORDER.indexOf(b.loc));
       const m = G.World && G.World.map;
@@ -275,5 +289,5 @@ G.TownMapUI = (() => {
     });
   }
 
-  return { open, AT, ROADS, JOHTO, HOENN };
+  return { open, AT, ROADS, JOHTO, HOENN, SINNOH };
 })();

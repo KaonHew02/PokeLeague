@@ -89,5 +89,6 @@ G.I18n.add({
   "The sea is deep here. Would you like to use Dive?": "这里的海很深。要使用潜水吗？",
   "{mon} used Dive!": "{mon}使用了潜水！",
   "Light is filtering down from above. Would you like to use Dive?": "上方有光照下来。要使用潜水吗？",
-  "We battle two against two! Come back when you have two Pokémon that can fight.": "我们是二对二对战的！等你有两只能战斗的宝可梦再来吧。"
+  "We battle two against two! Come back when you have two Pokémon that can fight.": "我们是二对二对战的！等你有两只能战斗的宝可梦再来吧。",
+  "Dawn": "小光"
 }, "zh-Hans");

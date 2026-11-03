@@ -1,0 +1,28 @@
+/* Italian — Sinnoh: Sandgem Town and Professor Rowan's lab (chapter 44) */
+G.I18n.add({
+  "Now then, {player}. Your Pokédex, if you please.": "Dunque, {player}. Il tuo Pokédex, per favore.",
+  "...There. It will record the Pokémon of Sinnoh as well. Many of them evolve in ways you will not have seen before.": "...Ecco. Ora registrerà anche i Pokémon di Sinnoh. Molti si evolvono in modi che non avrai mai visto.",
+  "Hi! I am {assistant}, the professor's assistant. I help him by studying Pokémon all over Sinnoh.": "Ciao! Sono {assistant}, l'assistente del professore. Lo aiuto studiando i Pokémon in tutta Sinnoh.",
+  "These are for you. You will need them to catch the Pokémon of Sinnoh!": "Queste sono per te. Ti serviranno per catturare i Pokémon di Sinnoh!",
+  "And I am off! I am going to see everything in Sinnoh before you do, {player}!": "E io vado! Vedrò tutta Sinnoh prima di te, {player}!",
+  "North of Sandgem, Route 202 leads to Jubilife City. Once the road is cleared, your journey through Sinnoh begins there.": "A nord di Sabbiafine, il Percorso 202 porta a Giubilopoli. Quando la strada sarà libera, il tuo viaggio a Sinnoh comincerà da lì.",
+  "Sinnoh has Pokémon found nowhere else, and many that evolve in ways seen nowhere else. Study them well.": "Sinnoh ha Pokémon che non si trovano altrove, e molti che si evolvono come in nessun altro posto. Studiali bene.",
+  "And remember: Pokémon from other regions listen to you only up to the level your Sinnoh badges allow.": "E ricorda: i Pokémon di altre regioni ti obbediscono solo fino al livello consentito dalle tue medaglie di Sinnoh.",
+  "The ship sails back south to Lilycove City in Hoenn. Would you like to go?": "La nave torna a sud, a Porto Alghepoli, a Hoenn. Vuoi andare?",
+  "The ship sounded its horn and put out to sea.": "La nave suonò la sirena e prese il largo.",
+  "The ship sailed south for days and nights...": "La nave navigò verso sud per giorni e notti...",
+  "Professor Rowan? He left for Lake Verity early this morning, with his assistant.": "Il Professor Rowan? È partito per il Lago Verità stamattina presto, con il suo assistente.",
+  "Take Route 201 west out of town. The lake is at the far end of the route, past the way down to Twinleaf Town.": "Prendi il Percorso 201 a ovest del paese. Il lago è in fondo al percorso, dopo la strada che scende a Duefoglie.",
+  "Oh, and you will be staying in Twinleaf, with Barry's family. The professor arranged it all.": "Ah, e starai a Duefoglie, dalla famiglia di Barry. Il professore ha organizzato tutto.",
+  "The professor says a Pokédex is filled one meeting at a time. Let's both fill ours!": "Il professore dice che un Pokédex si riempie un incontro alla volta. Riempiamo i nostri!",
+  "Prof. Rowan": "Prof. Rowan",
+  "A tree came down across the road to Jubilife City in last night's storm. We are clearing it as fast as we can!": "Con la tempesta di ieri notte è caduto un albero sulla strada per Giubilopoli. Lo stiamo togliendo più in fretta che possiamo!",
+  "Professor Rowan studies how Pokémon evolve. He looks stern, but nobody in Sinnoh cares more about Pokémon.": "Il Professor Rowan studia come si evolvono i Pokémon. Sembra severo, ma nessuno a Sinnoh tiene ai Pokémon più di lui.",
+  "The sea south of town is Route 219. The Pokémon that swim out there are a lot tougher than the ones on land.": "Il mare a sud del paese è il Percorso 219. I Pokémon che nuotano laggiù sono molto più forti di quelli sulla terraferma.",
+  "The PCs in Sinnoh reach the same storage system as everywhere else. Your boxes are right where you left them.": "I PC di Sinnoh usano lo stesso sistema di memoria di tutti gli altri. I tuoi box sono dove li hai lasciati.",
+  "With the road north closed, the whole town is in here stocking up while we wait.": "Con la strada a nord chiusa, tutto il paese è qui a fare scorte mentre aspettiamo.",
+  "People in Sinnoh say three Pokémon sleep in three lakes. One of them is Lake Verity, just west of here.": "A Sinnoh si dice che tre Pokémon dormano in tre laghi. Uno di questi è il Lago Verità, appena a ovest di qui.",
+  "Professor Rowan frowns at everybody. But my Bidoof runs to him every time he walks past!": "Il Professor Rowan guarda tutti accigliato. Ma il mio Bidoof gli corre incontro ogni volta che passa!",
+  "Sandgem Town. A town that smells of the sea and the sand.": "Sabbiafine. Un paese che profuma di mare e di sabbia.",
+  "Research notes: \"Some Pokémon evolve only beside a Trainer they trust. What is it that they feel?\"": "Appunti di ricerca: «Alcuni Pokémon si evolvono solo accanto a un Allenatore di cui si fidano. Che cosa provano?»"
+}, "it");

@@ -124,5 +124,8 @@ G.I18n.add({
   "Thank you for playing! Every legend of Hoenn has met you now.": "Obrigado por jogar! Agora você já encontrou todas as lendas de Hoenn.",
   "Chapter 43 complete!": "Capítulo 43 concluído!",
   "{player} won seven battles in a row at the Battle Tower.": "{player} venceu sete batalhas seguidas na Battle Tower.",
-  "The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.": "A sequência continua: Anabel, a Salon Maiden, espera quem vencer vinte e uma batalhas seguidas."
+  "The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.": "A sequência continua: Anabel, a Salon Maiden, espera quem vencer vinte e uma batalhas seguidas.",
+  "Chapter 44 complete!": "Capítulo 44 concluído!",
+  "{player} sailed to the Sinnoh region, met Barry and Professor Rowan at Lake Verity, and chose a new partner from the professor's briefcase.": "{player} navegou até a região de Sinnoh, conheceu Barry e o Professor Rowan no Lago Verity e escolheu um novo parceiro da maleta do professor.",
+  "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "Obrigado por jogar! A Rota 202 e Jubilife chegam em uma próxima atualização."
 }, "pt-BR");

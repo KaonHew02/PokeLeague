@@ -742,6 +742,28 @@ test('balance: the rival on Route 103 (chapter 28), win rates of the three start
   for (const sp of ['treecko', 'torchic', 'mudkip']) assert.ok(table[sp + ' 9'] >= 0.5, sp + ' at Lv. 9');
 });
 
+test('balance: Barry on Route 201 (chapter 44), win rates of the three starters are printed', () => {
+  const { G } = world(1);
+  // Your starter alone against Barry's (Lv. 5, the one strong against yours), right after the Starly.
+  const rate = (sp, lvl) => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 31);
+      const me = [G.Mon.create(sp, lvl, { rng })], foe = [G.Mon.create(G.Sinnoh.COUNTER[sp], 5, { rng })];
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foe, trainer: { id: 'barry', name: 'Barry', ai: 'basic', items: {}, prize: 60 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 40;
+  };
+  const table = {};
+  for (const sp of [387, 390, 393]) for (const l of [5, 6]) table[G.SPECIES[sp].slug + ' ' + l] = rate(sp, l);
+  console.log('[balance] Barry on Route 201:', JSON.stringify(table));
+  // Losing is allowed (and does not stop the story); each starter has a fair chance.
+  for (const sp of ['turtwig', 'chimchar', 'piplup']) assert.ok(table[sp + ' 6'] >= 0.25, sp + ' at Lv. 6');
+});
+
 test('balance: the Battle Tower (chapter 43), win rates of a typical team at level 50 are printed', () => {
   const { G } = world(1);
   const rate = (foe, n = 30) => {
@@ -3229,6 +3251,62 @@ async function chapter43(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 44 after chapter 43: Birch's news, the ferry to Sandgem Town, Twinleaf and Barry, Lake Verity and the briefcase, Route 201. */
+async function chapter44(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  // Professor Birch passes on Professor Rowan's invitation; the ferry from Lilycove sails to Sandgem Town.
+  await run(st, 'birch-lab', 'hoenn.birch');
+  assert.ok(F.flag('sinnoh-invite'), "Rowan's invitation");
+  await run(st, 'lilycove', 'legends.ferry', [2]);
+  assert.equal(st.W.map, 'sandgem');
+  assert.ok(F.flag('sinnoh-arrived'));
+  await run(st, 'sandgem', npc(st, 'sandgem', 'sailor'), [0]);
+  assert.equal(st.W.map, 'lilycove', 'the ship sails back');
+  await run(st, 'lilycove', 'legends.ferry', [2]);
+  assert.equal(st.W.map, 'sandgem');
+  assert.equal(F.obeyCap('sinnoh'), null, 'everybody obeys until the Sinnoh journey begins');
+  // The lab: Professor Rowan is out at the lake. Route 201: his assistant keeps the way to the lake.
+  await run(st, 'rowan-lab', 'sinnoh.aide');
+  assert.ok(st.log.some(l => l.includes('Lake Verity')));
+  const gate = G.Maps.get('route201').npcs.find(p => p.id === 'dawn');
+  assert.ok(F.test(gate.if), 'Dawn (for a boy) stands on the way to the lake');
+  await run(st, 'route201', 'sinnoh.lake-gate');
+  // Twinleaf Town: Barry's mother, then Barry, who runs off to the lake.
+  await run(st, 'barry-house', 'sinnoh.barry-mom');
+  await run(st, 'twinleaf', 'sinnoh.barry');
+  assert.ok(F.flag('barry-met') && !F.test(gate.if), 'the way to the lake is open');
+  // Lake Verity: Rowan leaves his briefcase; Chimchar against a wild Starly (the party is full: it goes to the PC).
+  assert.equal(S.party.length, 6);
+  const levels = S.party.map(m => m.lvl).join();
+  const n = st.battles.length;
+  await run(st, 'lake-verity', 'sinnoh.lake', [1]);
+  const [starly, barry] = st.battles.slice(n);
+  assert.equal(starly.key, 'wild:starly');
+  assert.equal(starly.outcome, 'win');
+  assert.equal(starly.levels.join(), levels, 'only the Pokémon from the briefcase battled');
+  assert.ok(F.flag('sinnoh-briefcase') && F.flag('sinnoh-start'));
+  const chimchar = S.boxes.flat().find(m => m && m.sp === 390);
+  assert.ok(chimchar && chimchar.lvl >= 5 && chimchar.ot.name === S.player.name, 'Chimchar is yours, in the PC');
+  assert.equal(F.getVar('barry-starter'), 393, 'Barry takes Piplup, strong against Chimchar');
+  // Route 201: Barry, the two new partners alone; then the lab: a Pokédex for Sinnoh and five Poké Balls.
+  assert.equal(barry.key, 'route201:barry-201');
+  assert.equal(barry.levels.join(), levels, 'only the new partners battled');
+  console.log('[story] Barry on Route 201:', barry.outcome, 'with Chimchar at Lv.', chimchar.lvl);
+  assert.equal(F.obeyCap('sinnoh'), 20, 'no Sinnoh badge: up to Lv. 20');
+  assert.equal(F.obeyCap('hoenn'), null, 'Hoenn is done');
+  assert.ok(F.flag('barry-battled') && F.flag('sinnoh-dex') && F.flag('chapter-44-done'));
+  assert.equal(st.W.map, 'rowan-lab');
+  assert.ok(F.test(G.Maps.get('rowan-lab').npcs.find(p => p.id === 'dawn').if), 'Dawn stays at the lab');
+  // Back at Barry's house his mother heals you.
+  await run(st, 'barry-house', 'sinnoh.barry-mom');
+  assert.equal(S.player.lastHeal.map, 'barry-house');
+  const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
+  assert.equal(back.vars['barry-starter'], 393, "the save keeps Barry's starter");
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3310,7 +3388,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 43: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower", async () => {
+test("chapters 11 to 44: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and the start of Sinnoh", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3355,4 +3433,5 @@ test("chapters 11 to 43: Johto, from Professor Elm to Johto's League and its pos
   await chapter41(st);
   await chapter42(st);
   await chapter43(st);
+  await chapter44(st);
 });

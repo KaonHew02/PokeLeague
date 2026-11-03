@@ -10,7 +10,8 @@
  * Pokémon only obey up to the level of your Hoenn badges (flag hoenn-start: G.Field.obeyCap) and
  * gives it to you; the rival takes the one strong against it (save.rival3.starter). After the
  * battle on Route 103 Birch upgrades the Pokédex for Hoenn and the rival gives five Poké Balls
- * (flag hoenn-dex), then `ending(28)`.
+ * (flag hoenn-dex), then `ending(28)`. Chapter 44: once you are Hoenn's Champion, Birch passes on an
+ * invitation from Professor Rowan in Sinnoh (flag sinnoh-invite; the ferry from Lilycove, sinnoh/sandgem.js).
  */
 (() => {
   const T = s => G.T(s);
@@ -187,6 +188,17 @@
   async function birch(h) {
     const F = G.Field;
     if (!F.flag('hoenn-start')) return;
+    // Chapter 44: the Champion is invited to Sinnoh.
+    if (F.flag('hoenn-champion')) {
+      if (!F.flag('sinnoh-invite')) {
+        await h.say(T('{player}! The Champion of Hoenn, and a friend of my family. I could not be prouder!'), BIRCH);
+        await h.say(T('Now, an old friend of mine, Professor Rowan, studies how Pokémon evolve. He lives in Sandgem Town, in the Sinnoh region, far to the north.'), BIRCH);
+        await h.say(T('He wrote that he would like to meet a Trainer who knows Kanto, Johto and Hoenn. I told him I know just the one!'), BIRCH);
+        F.setFlag('sinnoh-invite');
+      }
+      await h.say(T("The ferry in Lilycove City's harbor sails to Sinnoh now. Professor Rowan's lab is in Sandgem Town, right by the pier."), BIRCH);
+      return;
+    }
     if (!F.flag('rival3-met')) {
       await h.say(T('{rival3} is on Route 103, north of Oldale Town. Go on, say hello!'), BIRCH);
       return;

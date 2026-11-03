@@ -26,7 +26,7 @@ G.I18n.add({
   "Swimming all the way to Cinnabar? Not before a battle!": "要一路游到紅蓮島？先跟我對戰再說！",
   "My stars faded...": "我的星星黯淡了……",
   "Keep going south, then west. The Seafoam Islands are halfway there.": "繼續往南，然後往西。雙子島就在半路上。",
-  "Barry": "巴里",
+  "Barry": "阿馴",
   "The islands ahead are freezing cold. Warm up with a battle!": "前面的島冷得要命。來場對戰暖暖身吧！",
   "Brr... I am shivering now.": "嗚……我冷得發抖了。",
   "The Seafoam Islands are two caves full of ice. Strong currents run through the deepest floor.": "雙子島是兩座滿是冰的洞窟。最深的一層有很強的水流。",

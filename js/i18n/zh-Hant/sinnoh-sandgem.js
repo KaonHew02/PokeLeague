@@ -1,0 +1,28 @@
+/* Traditional Chinese — Sinnoh: Sandgem Town and Professor Rowan's lab (chapter 44) */
+G.I18n.add({
+  "Now then, {player}. Your Pokédex, if you please.": "那麼，{player}，請把你的圖鑑給我。",
+  "...There. It will record the Pokémon of Sinnoh as well. Many of them evolve in ways you will not have seen before.": "……好了。現在它也能記錄神奧的寶可夢了。很多寶可夢的進化方式你恐怕從沒見過。",
+  "Hi! I am {assistant}, the professor's assistant. I help him by studying Pokémon all over Sinnoh.": "你好！我是博士的助手{assistant}。我在神奧各地研究寶可夢，幫博士的忙。",
+  "These are for you. You will need them to catch the Pokémon of Sinnoh!": "這些送給你。要抓神奧的寶可夢，少不了它們！",
+  "And I am off! I am going to see everything in Sinnoh before you do, {player}!": "那我先走啦！我要比你先看遍整個神奧，{player}！",
+  "North of Sandgem, Route 202 leads to Jubilife City. Once the road is cleared, your journey through Sinnoh begins there.": "真砂鎮北邊的202號道路通往祝慶市。等道路清理好了，你的神奧之旅就從那裡開始。",
+  "Sinnoh has Pokémon found nowhere else, and many that evolve in ways seen nowhere else. Study them well.": "神奧有別處見不到的寶可夢，也有很多以別處見不到的方式進化的寶可夢。好好研究吧。",
+  "And remember: Pokémon from other regions listen to you only up to the level your Sinnoh badges allow.": "還有，記住：來自其他地區的寶可夢，只會在你的神奧徽章允許的等級以內聽你的話。",
+  "The ship sails back south to Lilycove City in Hoenn. Would you like to go?": "這艘船會往南開回豐緣的水靜市。你要去嗎？",
+  "The ship sounded its horn and put out to sea.": "船鳴響汽笛，駛向了大海。",
+  "The ship sailed south for days and nights...": "船日夜不停地向南航行……",
+  "Professor Rowan? He left for Lake Verity early this morning, with his assistant.": "七代博士？他今天一大早就帶著助手去心齊湖了。",
+  "Take Route 201 west out of town. The lake is at the far end of the route, past the way down to Twinleaf Town.": "出了鎮子往西走201號道路。湖就在道路的盡頭，過了往雙葉鎮的岔路就是。",
+  "Oh, and you will be staying in Twinleaf, with Barry's family. The professor arranged it all.": "對了，你會住在雙葉鎮的阿馴家。博士都安排好了。",
+  "The professor says a Pokédex is filled one meeting at a time. Let's both fill ours!": "博士說，圖鑑要靠一次次的相遇慢慢填滿。我們一起努力吧！",
+  "Prof. Rowan": "七代博士",
+  "A tree came down across the road to Jubilife City in last night's storm. We are clearing it as fast as we can!": "昨晚的暴風雨把一棵樹颳倒在通往祝慶市的路上了。我們正在盡快清理！",
+  "Professor Rowan studies how Pokémon evolve. He looks stern, but nobody in Sinnoh cares more about Pokémon.": "七代博士在研究寶可夢的進化。他看起來很嚴肅，但在神奧沒有人比他更愛護寶可夢。",
+  "The sea south of town is Route 219. The Pokémon that swim out there are a lot tougher than the ones on land.": "鎮子南邊的海是219號水路。在那裡游泳的寶可夢比陸地上的厲害多了。",
+  "The PCs in Sinnoh reach the same storage system as everywhere else. Your boxes are right where you left them.": "神奧的電腦也連著同一個存儲系統。你的盒子都還在原來的地方。",
+  "With the road north closed, the whole town is in here stocking up while we wait.": "北邊的路封了，全鎮的人都跑來這裡囤東西，一邊等著通路。",
+  "People in Sinnoh say three Pokémon sleep in three lakes. One of them is Lake Verity, just west of here.": "神奧流傳著三隻寶可夢沉睡在三座湖裡的說法。其中一座就是這裡西邊的心齊湖。",
+  "Professor Rowan frowns at everybody. But my Bidoof runs to him every time he walks past!": "七代博士對誰都板著臉。可是每次他經過，我的大牙狸都會跑到他身邊！",
+  "Sandgem Town. A town that smells of the sea and the sand.": "真砂鎮。飄著海水與沙子氣味的小鎮。",
+  "Research notes: \"Some Pokémon evolve only beside a Trainer they trust. What is it that they feel?\"": "研究筆記：「有些寶可夢只有待在信任的訓練家身邊才會進化。牠們感受到的究竟是什麼？」"
+}, "zh-Hant");

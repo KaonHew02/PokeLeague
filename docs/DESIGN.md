@@ -1984,13 +1984,42 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
     Crush Grip, Grass Knot; Lunar Dance is a fallback like Healing Wish. Metronome may call the new moves
     (Whitney's Clefairy: her `[balance]` line moved a little).
   - **Tests:** `tests/gen4.test.cjs`; abilities, data and breeding tests for 493 species.
+- **Chapter 44** ✅, the start of Sinnoh (`js/content/sinnoh/`, translations `sinnoh-sandgem` and
+  `sinnoh-twinleaf`). Region `sinnoh`: the time of day outdoors, obedience by Sinnoh's badges 25-32 once
+  the journey begins (`obeyCap('sinnoh')`, flag sinnoh-start), the Town Map's fourth drawing
+  (`G.TownMapUI.SINNOH`: the towns of later chapters already placed; only Route 201 drawn). Script
+  conditions can test the player's gender (`'gender=f'`); `{assistant}` is Professor Rowan's assistant,
+  Dawn for a boy and Lucas for a girl (people `barry`, `rowan`, `dawn`, `lucas`). Story: once Hoenn's
+  Champion, Professor Birch passes on Rowan's invitation (flag sinnoh-invite, littleroot.js); the Lilycove
+  ferry's menu then also sails to the pier on Sandgem Town's beach (flag sinnoh-arrived; the sailor there
+  sails back). Sandgem (sandgem.js): Rowan's lab (an aide; Rowan is out at Lake Verity), a Pokémon
+  Center, a Mart, two houses; a worker keeps the road north to Route 202 closed (a fallen tree) in this
+  chapter. Route 201 (twinleaf.js) runs from Sandgem in the east to the lake in the west, with Twinleaf
+  Town to the south; the assistant stands on the way to the lake until you have met Barry outside his
+  house in Twinleaf (flag barry-met; his mother puts you up upstairs, and heals you once the journey has
+  begun). At the lakefront (map `lake-verity`) Rowan leaves without his briefcase and a wild Starly (Lv. 2)
+  attacks: Turtwig, Chimchar or Piplup (Lv. 5) from it battles alone (`h.wild` with `party`, flag
+  sinnoh-briefcase); Barry takes the one strong against yours (var barry-starter). Back on Route 201 Rowan
+  explains obedience and lets you keep it (party, else the PC), then Barry battles you with just the two
+  new partners (`h.battle(ref, { party: [mon], canLose: true })`, flag barry-battled); at the lab the
+  Pokédex records Sinnoh, the assistant gives five Poké Balls (flag sinnoh-dex), `ending(44)`. Platinum's
+  wild Pokémon (Route 201, Lake Verity before Team Galactic, Twinleaf's pond, Route 219's sea off
+  Sandgem). The keys "Barry" and "Lucas" were already the names of two trainers (a Kanto swimmer, a
+  Fallarbor hiker): they now carry the official names of Sinnoh's characters in every language.
+- **Balance:** a starter alone against Barry's at Lv. 5 wins 30-88% (Piplup against Turtwig is the hardest),
+  75-100% one level up; losing is allowed.
+- **Tests:** `tests/field.test.cjs` the whole chapter on the real maps (the ferry, the closed road north,
+  the assistant at the lake, Barry, the briefcase and Starly, Barry's battle, Lucas for a girl);
+  `tests/story.test.cjs` the chapter after the Battle Tower (the starter goes to the PC with a full
+  party) and Barry's balance line.
 
-### After chapter 43
+### After chapter 44
 
-The journey through Kanto, Johto and Hoenn is complete (Pokémon 1-386), with double battles, every
-legend of Hoenn and the Battle Tower. Ideas:
-1. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
+The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
+the Battle Tower, and Sinnoh has begun (Pokémon 1-493). Ideas:
+1. Sinnoh: Route 202 and Jubilife City, then Oreburgh's Gym (badges 25-32 still need their names and
+   colours in popup.js and store.js's sanitize).
+2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
-2. Engine features: multi battles with a partner (Steven at the Space Center), abilities outside
+3. Engine features: multi battles with a partner (Steven at the Space Center), abilities outside
    battle, Pokéblocks or another way to evolve Feebas, Repel steps.
-3. A fourth region needs Pokémon 387 and up (`tools/fetch_data.py`), their sprites and moves.

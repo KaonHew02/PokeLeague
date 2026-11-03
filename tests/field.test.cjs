@@ -2076,6 +2076,73 @@ function shove(W, later, dir, n) {
 }
 const walk = (W, dirs) => { for (const d of dirs) assert.equal(step(W, d), 'moved', d); };
 
+test('Sinnoh (chapter 44): the ferry to Sandgem, the way to the lake, Barry in Twinleaf, the briefcase at Lake Verity, Route 202 closed', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js', 'js/content/hoenn/evergrande.js', 'js/content/hoenn/postgame.js', 'js/content/hoenn/regis.js',
+                          'js/content/hoenn/legends.js', 'js/content/hoenn/tower.js', 'js/content/sinnoh/sandgem.js', 'js/content/sinnoh/twinleaf.js',
+                          'js/world/roam.js', 'js/world/tower.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+  F.setFlag('hoenn-champion');
+  F.giveMon('typhlosion', 60, { moves: ['flamethrower'] });              // the Champion's own team
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to); };
+  const answers = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  // The ferry in Lilycove, after Professor Birch's news: (no Eon Ticket) the Battle Tower, then Sandgem Town.
+  F.setFlag('sinnoh-invite');
+  answers.push(1);
+  W.load('lilycove', { x: 22, y: 21, dir: 'up' });
+  W.interact();
+  await until(() => W.map.id === 'sandgem');
+  assert.deepEqual([W.player.x, W.player.y], [14, 20], "on Sandgem's pier");
+  await until(() => F.flag('sinnoh-arrived') && !W.locked);
+  assert.equal(F.obeyCap('sinnoh'), null, 'everybody obeys until the journey begins');
+  // The road north to Route 202 is closed; Route 201 is west of town.
+  W.load('sandgem', { x: 12, y: 2, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'the worker on the road north');
+  W.load('sandgem', { x: 0, y: 6, dir: 'left' });
+  await cross('left', 'route201');
+  assert.deepEqual([W.player.x, W.player.y], [29, 6]);
+  // The assistant keeps the way to the lake; Twinleaf Town is south.
+  W.load('route201', { x: 2, y: 6, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked', 'Dawn stands on the way to the lake');
+  W.load('route201', { x: 5, y: 13, dir: 'down' });
+  await cross('down', 'twinleaf');
+  assert.deepEqual([W.player.x, W.player.y], [10, 0]);
+  // Barry, outside his house, runs off to the lake.
+  W.load('twinleaf', { x: 6, y: 6, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('barry-met'));
+  // Lake Verity: the scene starts a step in; Piplup from the briefcase against a Starly, then Barry on Route 201.
+  const got = [], fights = [];
+  W.onEncounter = async (sp, lvl, area, info) => { got.push([G.Maps.species(sp), lvl, info.player.party.map(m => m.sp)]); return 'win'; };
+  W.onTrainer = async (d, info) => { fights.push([d.id, d.team.map(t => t[0]).join(), info.party.map(m => m.sp).join(), info.canLose]); return 'win'; };
+  W.load('route201', { x: 2, y: 6, dir: 'left' });
+  assert.equal(step(W, 'left'), 'moved', 'the way to the lake is open');
+  assert.equal(step(W, 'left'), 'moved');
+  await cross('left', 'lake-verity');
+  assert.deepEqual([W.player.x, W.player.y], [19, 10]);
+  answers.push(2);
+  assert.equal(step(W, 'left'), 'moved');
+  await until(() => F.flag('chapter-44-done'));
+  assert.deepEqual(plain(got), [[396, 2, [393]]], 'Starly Lv. 2 against Piplup alone');
+  assert.deepEqual(plain(fights), [['barry-201', '387', '393', true]], "Barry's Turtwig against Piplup, losing allowed");
+  assert.equal(W.map.id, 'rowan-lab');
+  assert.deepEqual(plain(F.party().map(m => m.sp)), [157, 393], 'Piplup joins the team');
+  assert.equal(F.getVar('barry-starter'), 387);
+  assert.equal(F.obeyCap('sinnoh'), 20);
+  assert.ok(F.flag('sinnoh-dex') && F.count('poke-ball') >= 5);
+  // A girl meets Lucas instead of Dawn.
+  S.player.gender = 'f';
+  assert.equal(F.vars().assistant, 'Lucas');
+  assert.ok(F.test(G.Maps.get('rowan-lab').npcs.find(p => p.id === 'lucas').if));
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

@@ -69,7 +69,7 @@ G.I18n.add({
   "Kai": "Kai",
   "The river here is full of fish, and my Pokémon are full of fight!": "¡Este río está lleno de peces, y mis Pokémon, llenos de ganas de luchar!",
   "Barboach hides in the mud at the bottom of the river. They say it can feel an earthquake before it comes.": "Barboach se esconde en el barro del fondo del río. Dicen que puede sentir un terremoto antes de que llegue.",
-  "Lucas": "Lucas",
+  "Lucas": "Leo",
   "I am on my way to Meteor Falls, to see where the stars came down!": "¡Voy a la Cascada Meteoro, a ver dónde cayeron las estrellas!",
   "I am seeing stars...": "Veo las estrellas...",
   "Meteor Falls is through the cave mouth to the north-west. Bring sturdy boots!": "La Cascada Meteoro está pasando la boca de la cueva del noroeste. ¡Lleva botas resistentes!",

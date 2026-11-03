@@ -196,5 +196,6 @@ G.I18n.add({
   "Rain Badge": "雨滴徽章",
   "Ability": "特性",
   "Hoenn": "丰缘",
-  "{mon} roams near the blinking dot.": "{mon}在闪烁的点附近游荡。"
+  "{mon} roams near the blinking dot.": "{mon}在闪烁的点附近游荡。",
+  "Sinnoh": "神奥"
 }, "zh-Hans");

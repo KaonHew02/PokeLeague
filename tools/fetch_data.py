@@ -263,6 +263,11 @@ LOC_NAMES = {
     'southern-island':   ('Isla del Sur',       'Isola Remota',        '南方孤岛',   '南方孤島'),
     # Chapter 43.
     'hoenn-battle-tower': ('Torre Batalla',     'Torre Lotta',         '对战塔',     '對戰塔'),
+    # Sinnoh (chapter 44): PokeAPI has fr only.
+    'twinleaf-town':     ('Pueblo Hojaverde',   'Duefoglie',           '双叶镇',     '雙葉鎮'),
+    'sandgem-town':      ('Pueblo Arena',       'Sabbiafine',          '真砂镇',     '真砂鎮'),
+    'jubilife-city':     ('Ciudad Jubileo',     'Giubilopoli',         '祝庆市',     '祝慶市'),
+    'lake-verity':       ('Lago Veraz',         'Lago Verità',         '心齐湖',     '心齊湖'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}
@@ -276,7 +281,7 @@ def loc_extra(slug):
     if m:
         n = m.group(1)
         return (f'Ruta {n}', f'Percorso {n}', f'{n}号道路', f'{n}號道路')
-    m = re.fullmatch(r'(?:johto|hoenn)-route-(\d+)', slug)
+    m = re.fullmatch(r'(?:johto|hoenn|sinnoh)-route-(\d+)', slug)
     if m:
         n = m.group(1)
         return (f'Ruta {n}', f'Percorso {n}', f'{n}号道路', f'{n}號道路')

@@ -43,5 +43,9 @@ G.I18n.add({
   "Littleroot Town. A small town where new journeys take root.": "未白镇。新的旅程在这个小镇生根发芽。",
   "Professor Birch's Pokémon Lab.": "小田卷博士的宝可梦研究所。",
   "Field notes: \"Many of Hoenn's Pokémon live nowhere else. Others came from far away, like the Trainers who follow them...\"": "野外调查笔记：“丰缘的许多宝可梦在别处都见不到。也有一些是从远方来的，就像追随它们的训练家一样……”",
-  "Notebooks full of drawings of Pokémon, and the places where they were seen.": "笔记本里画满了宝可梦，还有看到它们的地方。"
+  "Notebooks full of drawings of Pokémon, and the places where they were seen.": "笔记本里画满了宝可梦，还有看到它们的地方。",
+  "{player}! The Champion of Hoenn, and a friend of my family. I could not be prouder!": "{player}！丰缘的冠军，也是我们家的朋友。我真是太骄傲了！",
+  "Now, an old friend of mine, Professor Rowan, studies how Pokémon evolve. He lives in Sandgem Town, in the Sinnoh region, far to the north.": "对了，我的老朋友七代博士在研究宝可梦是怎么进化的。他住在遥远北方神奥地区的真砂镇。",
+  "He wrote that he would like to meet a Trainer who knows Kanto, Johto and Hoenn. I told him I know just the one!": "他在信上说，想见一见熟悉关都、城都和丰缘的训练家。我跟他说，我正好认识一位！",
+  "The ferry in Lilycove City's harbor sails to Sinnoh now. Professor Rowan's lab is in Sandgem Town, right by the pier.": "水静市港口的渡轮现在开往神奥了。七代博士的研究所就在真砂镇，离码头很近。"
 }, "zh-Hans");

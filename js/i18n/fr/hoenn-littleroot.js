@@ -43,5 +43,9 @@ G.I18n.add({
   "Littleroot Town. A small town where new journeys take root.": "Bourg-en-Vol. Une petite ville où les nouveaux voyages prennent leur envol.",
   "Professor Birch's Pokémon Lab.": "Laboratoire Pokémon du Professeur Seko.",
   "Field notes: \"Many of Hoenn's Pokémon live nowhere else. Others came from far away, like the Trainers who follow them...\"": "Notes de terrain : « Beaucoup de Pokémon de Hoenn ne vivent nulle part ailleurs. D'autres sont venus de loin, comme les Dresseurs qui les suivent... »",
-  "Notebooks full of drawings of Pokémon, and the places where they were seen.": "Des carnets remplis de dessins de Pokémon et des endroits où ils ont été vus."
+  "Notebooks full of drawings of Pokémon, and the places where they were seen.": "Des carnets remplis de dessins de Pokémon et des endroits où ils ont été vus.",
+  "{player}! The Champion of Hoenn, and a friend of my family. I could not be prouder!": "{player} ! Le Maître de Hoenn, et un ami de ma famille. Je ne pourrais pas être plus fier !",
+  "Now, an old friend of mine, Professor Rowan, studies how Pokémon evolve. He lives in Sandgem Town, in the Sinnoh region, far to the north.": "Vois-tu, un vieil ami à moi, le Professeur Sorbier, étudie l'évolution des Pokémon. Il vit à Littorella, dans la région de Sinnoh, loin au nord.",
+  "He wrote that he would like to meet a Trainer who knows Kanto, Johto and Hoenn. I told him I know just the one!": "Il m'a écrit qu'il aimerait rencontrer un Dresseur qui connaît Kanto, Johto et Hoenn. Je lui ai dit que j'en connais un !",
+  "The ferry in Lilycove City's harbor sails to Sinnoh now. Professor Rowan's lab is in Sandgem Town, right by the pier.": "Le ferry du port de Nénucrique va maintenant jusqu'à Sinnoh. Le labo du Professeur Sorbier est à Littorella, tout près du quai."
 }, "fr");

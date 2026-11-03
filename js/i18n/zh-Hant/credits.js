@@ -124,5 +124,8 @@ G.I18n.add({
   "Thank you for playing! Every legend of Hoenn has met you now.": "感謝遊玩！豐緣所有的傳說都已經與你相遇。",
   "Chapter 43 complete!": "第四十三章完成！",
   "{player} won seven battles in a row at the Battle Tower.": "{player}在對戰塔取得了七連勝。",
-  "The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.": "連勝還在繼續：沙龍女主人莉拉正等著取得二十一連勝的人。"
+  "The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.": "連勝還在繼續：沙龍女主人莉拉正等著取得二十一連勝的人。",
+  "Chapter 44 complete!": "第四十四章完成！",
+  "{player} sailed to the Sinnoh region, met Barry and Professor Rowan at Lake Verity, and chose a new partner from the professor's briefcase.": "{player}乘船來到神奧地區，在心齊湖遇見了阿馴和七代博士，並從博士的公事包裡選出了新的夥伴。",
+  "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "感謝遊玩！202號道路和祝慶市將在之後的更新中登場。"
 }, "zh-Hant");

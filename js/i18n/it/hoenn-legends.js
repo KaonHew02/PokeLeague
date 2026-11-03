@@ -23,5 +23,8 @@ G.I18n.add({
   "Ready to sail back to Lilycove City?": "Pronto a tornare a Porto Alghepoli?",
   "The ship sailed back north to Lilycove City.": "La nave tornò a nord, a Porto Alghepoli.",
   "The ferry is running again! Where would you like to sail?": "Il traghetto è di nuovo in servizio! Dove vuoi andare?",
-  "The ship sailed out to the island of the Battle Tower...": "La nave salpò verso l'isola della Torre Lotta..."
+  "The ship sailed out to the island of the Battle Tower...": "La nave salpò verso l'isola della Torre Lotta...",
+  "The ship sailed north, far beyond the seas of Hoenn...": "La nave salpò verso nord, ben oltre i mari di Hoenn...",
+  "Here we are: Sandgem Town, in the Sinnoh region. Mind the sand in your shoes!": "Eccoci: Sabbiafine, nella regione di Sinnoh. Occhio alla sabbia nelle scarpe!",
+  "Professor Rowan's lab is the big building at the north end of town. You can't miss it.": "Il laboratorio del Professor Rowan è il grande edificio a nord del paese. Non puoi sbagliarti."
 }, "it");

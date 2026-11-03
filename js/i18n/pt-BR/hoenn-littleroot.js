@@ -43,5 +43,9 @@ G.I18n.add({
   "Littleroot Town. A small town where new journeys take root.": "Littleroot. Uma cidadezinha onde novas jornadas criam raízes.",
   "Professor Birch's Pokémon Lab.": "Laboratório Pokémon do Professor Birch.",
   "Field notes: \"Many of Hoenn's Pokémon live nowhere else. Others came from far away, like the Trainers who follow them...\"": "Notas de campo: \"Muitos Pokémon de Hoenn não vivem em nenhum outro lugar. Outros vieram de longe, como os Treinadores que os seguem...\"",
-  "Notebooks full of drawings of Pokémon, and the places where they were seen.": "Cadernos cheios de desenhos de Pokémon e dos lugares onde foram vistos."
+  "Notebooks full of drawings of Pokémon, and the places where they were seen.": "Cadernos cheios de desenhos de Pokémon e dos lugares onde foram vistos.",
+  "{player}! The Champion of Hoenn, and a friend of my family. I could not be prouder!": "{player}! Campeão de Hoenn e amigo da família. Não poderia estar mais orgulhoso!",
+  "Now, an old friend of mine, Professor Rowan, studies how Pokémon evolve. He lives in Sandgem Town, in the Sinnoh region, far to the north.": "Então, um velho amigo meu, o Professor Rowan, estuda como os Pokémon evoluem. Ele mora em Sandgem, na região de Sinnoh, bem ao norte.",
+  "He wrote that he would like to meet a Trainer who knows Kanto, Johto and Hoenn. I told him I know just the one!": "Ele escreveu que gostaria de conhecer um Treinador que conheça Kanto, Johto e Hoenn. Eu disse que conheço a pessoa certa!",
+  "The ferry in Lilycove City's harbor sails to Sinnoh now. Professor Rowan's lab is in Sandgem Town, right by the pier.": "A balsa do porto de Lilycove agora vai até Sinnoh. O laboratório do Professor Rowan fica em Sandgem, bem perto do píer."
 }, "pt-BR");

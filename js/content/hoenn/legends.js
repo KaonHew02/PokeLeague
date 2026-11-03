@@ -183,7 +183,18 @@
             ['fade', 'out', 0.6], ['sfx', 'horn'],
             ['say', 'The ship sailed out to the island of the Battle Tower...'],
             ['warp', 'battle-tower', 'pier']
-          ]]
+          ]],
+          // Sandgem Town in Sinnoh, after Professor Birch's news (chapter 44, sinnoh/sandgem.js).
+          [{ loc: 'sandgem-town' }, [
+            ['fade', 'out', 0.6], ['sfx', 'horn'],
+            ['say', 'The ship sailed north, far beyond the seas of Hoenn...'],
+            ['warp', 'sandgem', 'pier'],
+            ['if', '!sinnoh-arrived', [
+              ['setFlag', 'sinnoh-arrived'],
+              ['say', 'Here we are: Sandgem Town, in the Sinnoh region. Mind the sand in your shoes!', SAILOR],
+              ['say', "Professor Rowan's lab is the big building at the north end of town. You can't miss it.", SAILOR]
+            ]]
+          ], 'sinnoh-invite']
         ], SAILOR]
       ]]
     ],

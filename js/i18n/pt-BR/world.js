@@ -89,5 +89,6 @@ G.I18n.add({
   "The sea is deep here. Would you like to use Dive?": "O mar é fundo aqui. Gostaria de usar Dive?",
   "{mon} used Dive!": "{mon} usou Dive!",
   "Light is filtering down from above. Would you like to use Dive?": "A luz está entrando lá de cima. Gostaria de usar Dive?",
-  "We battle two against two! Come back when you have two Pokémon that can fight.": "Nós batalhamos dois contra dois! Volte quando tiver dois Pokémon que possam lutar."
+  "We battle two against two! Come back when you have two Pokémon that can fight.": "Nós batalhamos dois contra dois! Volte quando tiver dois Pokémon que possam lutar.",
+  "Dawn": "Dawn"
 }, "pt-BR");

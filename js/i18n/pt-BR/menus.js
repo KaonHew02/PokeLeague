@@ -196,5 +196,6 @@ G.I18n.add({
   "Rain Badge": "Insígnia Chuva",
   "Ability": "Habilidade",
   "Hoenn": "Hoenn",
-  "{mon} roams near the blinking dot.": "{mon} vaga perto do ponto que pisca."
+  "{mon} roams near the blinking dot.": "{mon} vaga perto do ponto que pisca.",
+  "Sinnoh": "Sinnoh"
 }, "pt-BR");

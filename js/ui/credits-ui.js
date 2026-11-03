@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 44) return { title: T('Chapter 44 complete!'),
+      done: fmt("{player} sailed to the Sinnoh region, met Barry and Professor Rowan at Lake Verity, and chose a new partner from the professor's briefcase.", { player }),
+      next: T('Thank you for playing! Route 202 and Jubilife City wait in a future update.') };
     if (n === 43) return { title: T('Chapter 43 complete!'),
       done: fmt('{player} won seven battles in a row at the Battle Tower.', { player }),
       next: T('The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.') };

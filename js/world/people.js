@@ -27,7 +27,7 @@ G.People = (() => {
                  'pryce', 'skier', 'boarder', 'clair', 'cooltrainerm', 'will', 'karen', 'birch', 'may', 'brendan',
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
-                 'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin'];
+                 'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -260,6 +260,16 @@ G.People = (() => {
     phoebe: { head: 'short', body: 'tee', legs: 'bare', h: '#2a2028', H: '#160e14', c: '#e88aa8', C: '#b8607e', p: '#3a3a52', P: '#26263a', k: '#7a3a5a' },
     // Chapter 43: Anabel, the Salon Maiden of the Battle Tower (pink hair, a dark outfit).
     anabel: { head: 'long', body: 'dress', legs: 'bare', h: '#f2a2c8', H: '#c87aa2', c: '#3a3448', C: '#262232', j: '#f2a2c8', J: '#c87aa2', k: '#3a3448' },
+    // Chapter 44 (Sinnoh): Barry (blond spikes, an orange jacket), Professor Rowan (white hair and beard, a dark
+    // coat), his assistants Dawn (a white beanie, navy hair, a pink skirt) and Lucas (a red beret, a blue jacket).
+    barry: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#f0d050', H: '#c0a030', j: '#f08a30', J: '#c06a20', c: '#f4f4f4', C: '#c8c8d0',
+             p: '#3a4a6a', P: '#26344e', k: '#3a8a4a' },
+    rowan: { head: 'birch', body: 'coat', legs: 'pants', h: '#ececf2', H: '#b4b4c0', j: '#4a3a4a', J: '#302630', c: '#f4f4f4', C: '#c8c8d0',
+             p: '#3a3a44', P: '#24242c', k: '#2a2020' },
+    dawn: { head: 'hat', body: 'dress', legs: 'bare', a: '#f4f4f4', A: '#c8c8d0', b: '#e85a8a', h: '#2a3a6a', H: '#1c2848',
+            c: '#2a2a32', C: '#16161c', j: '#e85a8a', J: '#b83a68', k: '#e85a8a' },
+    lucas: { head: 'cap', body: 'jacket', legs: 'pants', a: '#d83a3a', A: '#a02828', b: '#d83a3a', h: '#2a2028', H: '#160e14',
+             j: '#2a4a9a', J: '#1c3270', c: '#d83a3a', C: '#a02828', p: '#8a8a98', P: '#64646e', k: '#3a3a4a' },
     glacia: { head: 'long', body: 'dress', legs: 'bare', h: '#e8eef8', H: '#b8c4d8', c: '#6a8ad8', C: '#4a68b0', j: '#e8eef8', J: '#b8c4d8', k: '#4a68b0' },
     drake: { head: 'short', body: 'coat', legs: 'pants', h: '#d8d8e0', H: '#a8a8b4', j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0',
              p: '#2a3a6a', P: '#1c284a', k: '#1a1a22' },

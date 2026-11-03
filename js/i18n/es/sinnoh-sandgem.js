@@ -1,0 +1,28 @@
+/* Spanish — Sinnoh: Sandgem Town and Professor Rowan's lab (chapter 44) */
+G.I18n.add({
+  "Now then, {player}. Your Pokédex, if you please.": "Bien, {player}. Tu Pokédex, por favor.",
+  "...There. It will record the Pokémon of Sinnoh as well. Many of them evolve in ways you will not have seen before.": "...Listo. Ahora también registrará los Pokémon de Sinnoh. Muchos evolucionan de formas que no habrás visto nunca.",
+  "Hi! I am {assistant}, the professor's assistant. I help him by studying Pokémon all over Sinnoh.": "¡Hola! Soy {assistant}, ayudante del profesor. Le ayudo estudiando Pokémon por todo Sinnoh.",
+  "These are for you. You will need them to catch the Pokémon of Sinnoh!": "Esto es para ti. ¡Lo necesitarás para atrapar los Pokémon de Sinnoh!",
+  "And I am off! I am going to see everything in Sinnoh before you do, {player}!": "¡Y yo me voy! ¡Voy a ver todo Sinnoh antes que tú, {player}!",
+  "North of Sandgem, Route 202 leads to Jubilife City. Once the road is cleared, your journey through Sinnoh begins there.": "Al norte de Pueblo Arena, la Ruta 202 lleva a Ciudad Jubileo. Cuando despejen el camino, tu viaje por Sinnoh empezará allí.",
+  "Sinnoh has Pokémon found nowhere else, and many that evolve in ways seen nowhere else. Study them well.": "En Sinnoh hay Pokémon que no viven en ningún otro sitio, y muchos que evolucionan como en ningún otro lugar. Estúdialos bien.",
+  "And remember: Pokémon from other regions listen to you only up to the level your Sinnoh badges allow.": "Y recuerda: los Pokémon de otras regiones solo te obedecen hasta el nivel que permitan tus medallas de Sinnoh.",
+  "The ship sails back south to Lilycove City in Hoenn. Would you like to go?": "El barco vuelve al sur, a Ciudad Calagua, en Hoenn. ¿Quieres ir?",
+  "The ship sounded its horn and put out to sea.": "El barco hizo sonar la sirena y se hizo a la mar.",
+  "The ship sailed south for days and nights...": "El barco navegó hacia el sur durante días y noches...",
+  "Professor Rowan? He left for Lake Verity early this morning, with his assistant.": "¿El Profesor Serbal? Se fue al Lago Veraz esta mañana temprano, con su ayudante.",
+  "Take Route 201 west out of town. The lake is at the far end of the route, past the way down to Twinleaf Town.": "Sal del pueblo hacia el oeste por la Ruta 201. El lago está al final de la ruta, pasado el desvío a Pueblo Hojaverde.",
+  "Oh, and you will be staying in Twinleaf, with Barry's family. The professor arranged it all.": "Ah, y te alojarás en Pueblo Hojaverde, con la familia de Barry. El profesor lo ha organizado todo.",
+  "The professor says a Pokédex is filled one meeting at a time. Let's both fill ours!": "El profesor dice que una Pokédex se llena encuentro a encuentro. ¡Llenemos las nuestras!",
+  "Prof. Rowan": "Prof. Serbal",
+  "A tree came down across the road to Jubilife City in last night's storm. We are clearing it as fast as we can!": "Con la tormenta de anoche cayó un árbol en el camino a Ciudad Jubileo. ¡Lo estamos quitando lo más rápido que podemos!",
+  "Professor Rowan studies how Pokémon evolve. He looks stern, but nobody in Sinnoh cares more about Pokémon.": "El Profesor Serbal estudia cómo evolucionan los Pokémon. Parece serio, pero nadie en Sinnoh quiere más a los Pokémon.",
+  "The sea south of town is Route 219. The Pokémon that swim out there are a lot tougher than the ones on land.": "El mar al sur del pueblo es la Ruta 219. Los Pokémon que nadan allí son mucho más duros que los de tierra.",
+  "The PCs in Sinnoh reach the same storage system as everywhere else. Your boxes are right where you left them.": "Los PC de Sinnoh usan el mismo sistema de almacenamiento que los demás. Tus cajas están donde las dejaste.",
+  "With the road north closed, the whole town is in here stocking up while we wait.": "Con el camino del norte cerrado, todo el pueblo está aquí haciendo provisiones mientras esperamos.",
+  "People in Sinnoh say three Pokémon sleep in three lakes. One of them is Lake Verity, just west of here.": "En Sinnoh se dice que tres Pokémon duermen en tres lagos. Uno de ellos es el Lago Veraz, justo al oeste de aquí.",
+  "Professor Rowan frowns at everybody. But my Bidoof runs to him every time he walks past!": "El Profesor Serbal frunce el ceño a todo el mundo. ¡Pero mi Bidoof corre hacia él cada vez que pasa!",
+  "Sandgem Town. A town that smells of the sea and the sand.": "Pueblo Arena. Un pueblo con olor a mar y a arena.",
+  "Research notes: \"Some Pokémon evolve only beside a Trainer they trust. What is it that they feel?\"": "Notas de investigación: «Algunos Pokémon solo evolucionan junto a un Entrenador en quien confían. ¿Qué es lo que sienten?»"
+}, "es");

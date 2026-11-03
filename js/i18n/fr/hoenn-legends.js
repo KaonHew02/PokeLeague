@@ -23,5 +23,8 @@ G.I18n.add({
   "Ready to sail back to Lilycove City?": "Prêt à rentrer à Nénucrique ?",
   "The ship sailed back north to Lilycove City.": "Le bateau est reparti vers le nord, jusqu'à Nénucrique.",
   "The ferry is running again! Where would you like to sail?": "Le ferry fonctionne de nouveau ! Où veux-tu aller ?",
-  "The ship sailed out to the island of the Battle Tower...": "Le bateau a mis le cap sur l'île de la Tour de Combat..."
+  "The ship sailed out to the island of the Battle Tower...": "Le bateau a mis le cap sur l'île de la Tour de Combat...",
+  "The ship sailed north, far beyond the seas of Hoenn...": "Le bateau a mis le cap au nord, bien au-delà des mers de Hoenn...",
+  "Here we are: Sandgem Town, in the Sinnoh region. Mind the sand in your shoes!": "Nous y voilà : Littorella, dans la région de Sinnoh. Attention au sable dans tes chaussures !",
+  "Professor Rowan's lab is the big building at the north end of town. You can't miss it.": "Le labo du Professeur Sorbier, c'est le grand bâtiment au nord de la ville. Impossible de le manquer."
 }, "fr");

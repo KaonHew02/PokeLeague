@@ -140,7 +140,7 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { east: { map: 'dewford', offset: -6 } },
+    connect: { east: { map: 'dewford', offset: -6 }, west: { map: 'route105', offset: -28 } },
     warps: [{ x: 4, y: 1, to: 'granite-cave-1f', spot: 'mouth' }],
     spots: { mouth: [4, 2, 'down'] },
     signs: { '7,2': 'Granite Cave. Visitors must watch their step in the dark.' },

@@ -84,5 +84,6 @@ G.I18n.add({
   "Route 113. West: Fallarbor Town. Ash from Mt. Chimney falls on this road all year round.": "Percorso 113. Ovest: Brunifoglia. La cenere del Monte Camino cade su questa strada tutto l'anno.",
   "Fallarbor Town. A quiet farming town where the ash falls like soft snow.": "Brunifoglia. Un tranquillo paese di campagna dove la cenere cade come neve soffice.",
   "Pokémon Contest Hall. The stage where Pokémon show off their charm.": "Salone delle Gare Pokémon. Il palco dove i Pokémon mostrano il loro fascino.",
-  "Route 114. East: Fallarbor Town. North-west: Meteor Falls.": "Percorso 114. Est: Brunifoglia. Nord-ovest: Cascate Meteora."
+  "Route 114. East: Fallarbor Town. North-west: Meteor Falls.": "Percorso 114. Est: Brunifoglia. Nord-ovest: Cascate Meteora.",
+  "The sandstorm died down when the weather went back to normal. With goggles on, you can cross the desert now.": "La tempesta di sabbia si è calmata quando il tempo è tornato normale. Con gli occhialoni puoi attraversare il deserto, adesso."
 }, "it");

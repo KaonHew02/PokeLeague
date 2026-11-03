@@ -87,5 +87,6 @@ G.I18n.add({
   "Fortree City. A city of homes built high up among the trees.": "茵郁市。房子都建在高高树上的城市。",
   "Fortree City Pokémon Gym. Leader: Winona, who rides the wind with her bird Pokémon.": "茵郁市宝可梦道馆。馆主：娜琪，与鸟宝可梦一同乘风翱翔的人。",
   "Route 120. West: Fortree City. Over the bridge, the road turns south.": "120号道路。西：茵郁市。过了桥，道路转向南方。",
-  "South: Route 121, to Lilycove City.": "南：121号道路，通往水静市。"
+  "South: Route 121, to Lilycove City.": "南：121号道路，通往水静市。",
+  "Ancient Tomb. Nobody remembers who built it, or what sleeps inside.": "古代墓穴。没有人记得是谁建造了它，也不知道里面沉睡着什么。"
 }, "zh-Hans");

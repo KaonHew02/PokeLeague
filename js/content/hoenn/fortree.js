@@ -294,14 +294,18 @@
       'T............~~~~~~..,,......T',
       'T."""""""""..~~~~~~..,,."""".T',
       'T."""""""""..~~~~~~..,,."""".T',
-      'T."""""""""..~~~~~~..,,."""".T',
-      'T."""""""""..~~~~~~..,,."""".T',
-      'T."""""""""..~~~~~~..,,S"""".T',
-      'T............~~~~~~..,,......T',
+      'T.###""""""..~~~~~~..,,."""".T',
+      'T.###""""""..~~~~~~..,,."""".T',
+      'T.#O#""""""..~~~~~~..,,S"""".T',
+      'T....S.......~~~~~~..,,......T',
       'TTTTTTTTTTTTTTTTTTTTT,,TTTTTTT'
     ],
     connect: { west: { map: 'fortree', offset: 0 }, south: { map: 'route121', offset: 13 } },
+    // Chapter 41: the Ancient Tomb (regis.js).
+    warps: [{ x: 3, y: 17, to: 'ancient-tomb', spot: 'door' }],
+    spots: { tomb: [3, 18, 'down'] },
     signs: {
+      '5,18': 'Ancient Tomb. Nobody remembers who built it, or what sleeps inside.',
       '11,9': 'Route 120. West: Fortree City. Over the bridge, the road turns south.',
       '23,17': 'South: Route 121, to Lilycove City.'
     },

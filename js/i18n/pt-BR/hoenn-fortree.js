@@ -87,5 +87,6 @@ G.I18n.add({
   "Fortree City. A city of homes built high up among the trees.": "Fortree. Uma cidade de casas construídas no alto das árvores.",
   "Fortree City Pokémon Gym. Leader: Winona, who rides the wind with her bird Pokémon.": "Ginásio Pokémon de Fortree. Líder: Winona, que cavalga o vento com seus Pokémon pássaros.",
   "Route 120. West: Fortree City. Over the bridge, the road turns south.": "Rota 120. Oeste: Fortree. Depois da ponte, a estrada vira para o sul.",
-  "South: Route 121, to Lilycove City.": "Sul: Rota 121, para Lilycove."
+  "South: Route 121, to Lilycove City.": "Sul: Rota 121, para Lilycove.",
+  "Ancient Tomb. Nobody remembers who built it, or what sleeps inside.": "Ancient Tomb. Ninguém se lembra de quem o construiu, nem do que dorme lá dentro."
 }, "pt-BR");

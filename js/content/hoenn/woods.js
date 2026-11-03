@@ -52,7 +52,7 @@
       '~~~~~~~~~:::.::::............T',
       '~~~~~~~~~TTTTTTTTTTTTTTTTTTTTT'
     ],
-    connect: { east: { map: 'petalburg', offset: 18 }, north: { map: 'petalburg-woods', offset: 0 } },
+    connect: { east: { map: 'petalburg', offset: 18 }, north: { map: 'petalburg-woods', offset: 0 }, south: { map: 'route105', offset: 0 } },
     warps: [{ x: 14, y: 29, to: 'briney-house', spot: 'door' }],
     spots: { 'briney-door': [14, 30, 'down'], pier: [9, 30, 'left'] },
     signs: { '18,24': 'Route 104. North: Petalburg Woods. East: Petalburg City.' },

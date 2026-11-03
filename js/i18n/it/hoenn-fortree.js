@@ -87,5 +87,6 @@ G.I18n.add({
   "Fortree City. A city of homes built high up among the trees.": "Forestopoli. Una città di case costruite in alto tra gli alberi.",
   "Fortree City Pokémon Gym. Leader: Winona, who rides the wind with her bird Pokémon.": "Palestra Pokémon di Forestopoli. Capopalestra: Alice, che cavalca il vento con i suoi Pokémon uccello.",
   "Route 120. West: Fortree City. Over the bridge, the road turns south.": "Percorso 120. Ovest: Forestopoli. Oltre il ponte, la strada svolta a sud.",
-  "South: Route 121, to Lilycove City.": "Sud: Percorso 121, verso Porto Alghepoli."
+  "South: Route 121, to Lilycove City.": "Sud: Percorso 121, verso Porto Alghepoli.",
+  "Ancient Tomb. Nobody remembers who built it, or what sleeps inside.": "Tomba Antica. Nessuno ricorda chi l'abbia costruita, né cosa dorma al suo interno."
 }, "it");

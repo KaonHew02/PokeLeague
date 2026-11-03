@@ -80,6 +80,10 @@
  * Chapter 40: double-battle trainers (`double: true`) fight two against two; their `partner` stands
  * beside them (talking to either starts the battle). A trainer who is not a Gym Leader only takes on a
  * player with two Pokémon able to fight (else they do not spot you, and talking explains why).
+ * Chapter 41: `moveSpots` (G.World.moveSpots(mon) lists those where the player stands for a Pokémon that
+ * knows the move; the party menu offers them, G.World.useMoveSpot runs the script with ctx.mon); a
+ * `walkAround` runs its script once every tile of its edge was stepped on during one visit; a `desert`
+ * map meets wild Pokémon on any step, and its battles are in a sandstorm.
  * Chapter 15: berry trees (`y`): one to three berries once a day (the map's `berries`: [[x, y, item]]).
  * Chapter 14: the Bug-Catching Contest (maps with `contest: true` while flag contest-on,
  * G.Contest in contest.js): every step counts down, wild battles use the entrant and the Sport
@@ -238,6 +242,7 @@ G.World = (() => {
   let cut = new Set();                   // trees cut, whirlpools calmed and rocks smashed on this visit of the map ('x,y'); they come back
   let lit = false;                       // Flash used: dark caves stay lit until you leave them
   let sliding = null;                    // a spin tile sent the player this way (the Rocket Hideout)
+  let around = new Set();                // the edge tiles of the map's walkAround stepped on during this visit ('x,y')
   let icy = false;                       // ...or it is ice (Pryce's Gym): no spinning, it stops off the ice
   let surfing = false;                   // riding a Pokémon on the water (Surf)
   let climbing = false;                  // going up a waterfall (Waterfall) rather than down it
@@ -359,6 +364,7 @@ G.World = (() => {
     if (!m) { console.error('[World] unknown map ' + id); G.UI.toast('Unknown map: ' + id); return false; }
     map = m;
     cut = new Set();
+    around = new Set();
     sliding = null;
     climbing = false;
     strength = false;
@@ -415,6 +421,7 @@ G.World = (() => {
     const from = map;
     map = a.map;
     cut = new Set();
+    around = new Set();
     strength = false;
     if (!map.def.dark) lit = false;
     me.x -= nb.ox; me.y -= nb.oy; me.fx -= nb.ox; me.fy -= nb.oy;
@@ -623,6 +630,13 @@ G.World = (() => {
     else if (icy) sliding = null;
     if (!inf.ice && (inf.spin || (sliding && !inf.stop))) { if (slide(inf.spin || sliding)) return; }
     sliding = null; icy = false;
+    // Once around a room's edge (map `walkAround`, chapter 41): every tile of it, then its script.
+    const wa = map.def.walkAround;
+    if (wa && G.Field.test(wa.if) && (me.x === wa.x || me.y === wa.y || me.x === wa.x + wa.w - 1 || me.y === wa.y + wa.h - 1)
+        && me.x >= wa.x && me.y >= wa.y && me.x < wa.x + wa.w && me.y < wa.y + wa.h) {
+      around.add(M().key(me.x, me.y));
+      if (around.size === 2 * (wa.w + wa.h) - 4) { around = new Set(); G.Player.walk(null); runScript(wa.script, {}); return; }
+    }
     for (const t of map.triggers) {
       if (me.x >= t.x && me.y >= t.y && me.x < t.x + (t.w || 1) && me.y < t.y + (t.h || 1) && G.Field.test(t.if)) {
         G.Player.walk(null);
@@ -639,8 +653,8 @@ G.World = (() => {
     } else if (k === 'tall') {
       sfx('grass');
       if (maybeEncounter('walk')) return;
-    } else if (map.def.cave && !M().info(k).warp) {
-      // Caves (map `cave: true`): wild Pokémon on any step, as in Mt. Moon.
+    } else if ((map.def.cave || map.def.desert) && !M().info(k).warp) {
+      // Caves (map `cave: true`) and the desert: wild Pokémon on any step, as in Mt. Moon.
       if (maybeEncounter('walk')) return;
     }
     if (repelOut) { repelOut = false; runScript([['say', "The Repel's effect wore off..."]], {}); }
@@ -768,6 +782,7 @@ G.World = (() => {
     const sea = (surfing || fishing) && map.tileset === 'outdoor' && !map.def.cave;
     const rules = { canLose: !!canLose, where: map.loc || map.id, obeyCap: G.Field.obeyCap(map.def.region) };
     if (stormy()) rules.weather = 'rain';
+    if (map.def.desert) rules.weather = 'sand';                // the desert's sandstorm (chapter 41)
     if (d && d.double) rules.double = true;
     return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld', rules };
   }
@@ -1303,6 +1318,18 @@ G.World = (() => {
     if (!map || map.tileset !== 'outdoor' || map.def.cave || map.def.underwater || map.def.noFly || mustRide(map) || locks) return 'here';
     return null;
   }
+  /**
+   * A move used at a place (map `moveSpots`, chapter 41): the spots where the player stands now
+   * whose move this Pokémon knows (and whose `if` holds). The party menu offers them.
+   */
+  function moveSpots(mon) {
+    if (!map || !me || locks || !mon || mon.hp <= 0) return [];
+    return map.moveSpots.filter(t => me.x >= t.x && me.y >= t.y && me.x < t.x + (t.w || 1) && me.y < t.y + (t.h || 1)
+      && G.Field.test(t.if) && G.Mon.knows(mon, t.move));
+  }
+  /** Uses it: the spot's script runs (with the Pokémon as `mon`). */
+  function useMoveSpot(t, mon) { return runScript(t.script, { mon }); }
+
   /** Flies to a visited town: off the bike or the water, to its landing spot. */
   async function flyTo(id) {
     if (!visited(id)) return false;
@@ -1649,7 +1676,7 @@ G.World = (() => {
     onEncounter: null, onTrainer: null, wildForm: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, get surfing() { return surfing; }, keyOpen,
     barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, stormy,
-    get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo,
+    get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },
     get locked() { return locks > 0 || (G.Dialog && G.Dialog.open); }, get started() { return started; },

@@ -115,5 +115,8 @@ G.I18n.add({
   "Thank you for playing! The journey through Kanto, Johto and Hoenn is complete. Hoenn's Elite Four will battle you again, ten levels stronger, whenever you return.": "¡Gracias por jugar! El viaje por Kanto, Johto y Hoenn ha terminado. El Alto Mando de Hoenn volverá a luchar contigo, diez niveles más fuerte, cuando regreses.",
   "Chapter 40 complete!": "¡Capítulo 40 completado!",
   "{player} rode the currents from Pacifidlog to Slateport, fought two against two, and beat Steven deep in Meteor Falls.": "{player} se dejó llevar por las corrientes de Pueblo Oromar a Ciudad Portual, luchó dos contra dos y venció a Máximo en lo más profundo de la Cascada Meteoro.",
-  "Thank you for playing! Steven left a gift at his house in Mossdeep City.": "¡Gracias por jugar! Máximo dejó un regalo en su casa de Ciudad Algaria."
+  "Thank you for playing! Steven left a gift at his house in Mossdeep City.": "¡Gracias por jugar! Máximo dejó un regalo en su casa de Ciudad Algaria.",
+  "Chapter 41 complete!": "¡Capítulo 41 completado!",
+  "{player} read the braille of Hoenn's ruins, unsealed the chamber under the sea, and met Regirock, Regice and Registeel.": "{player} leyó el braille de las ruinas de Hoenn, abrió la cámara sellada bajo el mar y se encontró con Regirock, Regice y Registeel.",
+  "Groudon and Kyogre still sleep somewhere in Hoenn, and people say two Pokémon of red and blue soar over its skies...": "Groudon y Kyogre aún duermen en algún lugar de Hoenn, y dicen que dos Pokémon, uno rojo y otro azul, surcan sus cielos..."
 }, "es");

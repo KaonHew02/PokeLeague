@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 41) return { title: T('Chapter 41 complete!'),
+      done: fmt('{player} read the braille of Hoenn\'s ruins, unsealed the chamber under the sea, and met Regirock, Regice and Registeel.', { player }),
+      next: T('Groudon and Kyogre still sleep somewhere in Hoenn, and people say two Pokémon of red and blue soar over its skies...') };
     if (n === 40) return { title: T('Chapter 40 complete!'),
       done: fmt('{player} rode the currents from Pacifidlog to Slateport, fought two against two, and beat Steven deep in Meteor Falls.', { player }),
       next: T('Thank you for playing! Steven left a gift at his house in Mossdeep City.') };

@@ -19,7 +19,7 @@
   G.Maps.def(Object.assign({
     id: 'route111', loc: 'hoenn-route-111', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
-      'TTTTTTTTTTTTTTTTTTTTTTTT',
+      'TTTTTTTTTT:TTTTTTTTTTTTT',
       'T::::::::::::::::::::::T',
       'T::::::::::::::::::::::T',
       'T::::::::::::::::::::::T',
@@ -52,7 +52,7 @@
       'T.........,,...........T',
       'TTTTTTTTTT,,TTTTTTTTTTTT'
     ],
-    connect: { south: { map: 'mauville', offset: -18 }, west: { map: 'route112', offset: 0 } },
+    connect: { south: { map: 'mauville', offset: -18 }, west: { map: 'route112', offset: 0 }, north: { map: 'route111-desert', offset: 0 } },
     signs: {
       '12,5': 'North: the desert. A sandstorm blows there day and night, so the road is closed for now.',
       '12,29': 'Route 111. South: Mauville City. West: Route 112 and Mt. Chimney.'
@@ -71,7 +71,10 @@
         defeat: 'Snuffed out...',
         after: 'Fire types love the heat around Mt. Chimney. Lavaridge Town, at its foot, has the hottest Gym in Hoenn.' }
     ],
-    npcs: [{ id: 'traveller', who: 'hiker', x: 10, y: 3, dir: 'up', script: 'route111.desert' }],
+    // Chapter 41: once you are the Champion, the sandstorm calms and the hiker lets you into the desert (regis.js).
+    npcs: [{ id: 'traveller', who: 'hiker', x: 10, y: 1, dir: 'up', if: '!hoenn-champion', script: 'route111.desert' },
+           { id: 'traveller2', who: 'hiker', x: 12, y: 2, dir: 'left', if: 'hoenn-champion',
+             say: 'The sandstorm died down when the weather went back to normal. With goggles on, you can cross the desert now.' }],
     items: [{ x: 22, y: 29, item: 'hyper-potion', flag: 'route111-hyperpotion' }, { x: 1, y: 10, item: 'great-ball', flag: 'route111-greatball' }],
     encounters: { walk: '@hoenn-route-111-area' }
   }, HOENN));

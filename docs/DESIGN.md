@@ -1875,12 +1875,36 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   wins 0% at Lv. 62, about a quarter at 68, 80% at 74. The story test's team beats the new pairs,
   Steven, and takes the Beldum; `tests/double.test.cjs` the engine; `tests/field.test.cjs` the pairs,
   the currents (on a test map and from Pacifidlog to Slateport), the falls, Steven and the gift.
+- **Chapter 41** ✅, Hoenn after the League: the Regis. New map fields (maps.js): `moveSpots: [{ move,
+  x, y, w, h, if, script }]` (standing there, a Pokémon that knows the move can use it from the party
+  menu, where Fly then runs the script instead of the Town Map; field.js `moveSpots(mon)`,
+  `useMoveSpot`), `walkAround: { x, y, w, h, if, script }` (every tile of the rectangle's edge stepped
+  on during one visit; leaving the map starts over) and `desert: true` (wild Pokémon on any step, a
+  sandstorm in its battles, battle background `desert`). `G.U.braille(text)` writes English letters as
+  Unicode braille: each wall shows the dots, then what they say (a `{braille}` variable, never a key).
+  Route 105 (new sea route: Route 104's south water to Route 106's west; three swimmers, an islet with
+  the Island Cave and a ruin maniac's hints). North of Route 111, the hiker steps aside once you are
+  the Champion (the sandstorm calmed): the desert (`route111-desert`) and the Desert Ruins. Route 120
+  has the Ancient Tomb. Route 134 got deep water: its sea floor (`route134-uw`) has the doorway of the
+  Sealed Chamber. The ruins are Ruins of Alph-style halls (indoor, palette `ruins`; the braille door
+  is a `secret` panel whose warp opens on a flag). The Sealed Chamber: Dig at the far wall (flag
+  `sealed-chamber-dug`), then the inner braille with Wailord first and Relicanth last in the party
+  (flag `regis-unsealed`). Then, as in Emerald: in the Desert Ruins, Strength two steps right and two
+  down from the braille (`desert-ruins-open`); in the Island Cave, once around the hall
+  (`island-cave-open`); in the Ancient Tomb, Flash in the middle (`ancient-tomb-open`). Regirock,
+  Regice and Registeel wait behind them at level 40 (flags `regirock-met`...; run or lose and they
+  stay); once all three are met, `ending(41)`. Place names for the four places in `tools/fetch_data.py`
+  (`LOC_NAMES`). Files: `js/content/hoenn/regis.js` (translations `hoenn-regis`); `woods.js`,
+  `dewford.js`, `fallarbor.js`, `fortree.js`, `postgame.js` (Route 134's deep water).
+- **Tests:** `tests/field.test.cjs` the mechanisms on test maps and the whole chapter on the real maps
+  (the hiker, the desert, Dive into the chamber, the wrong and the right party order, each door, the
+  three battles); `tests/story.test.cjs` Route 105's swimmers and the Regis (beaten by the story team).
 
-### After chapter 40
+### After chapter 41
 
 The journey through Kanto, Johto and Hoenn is complete (Pokémon 1-386), with double battles. Ideas:
-1. Hoenn after the League: the Battle Tower or Battle Frontier (singles and doubles), Groudon and
-   Kyogre to catch (Terra and Marine Caves), Latias and Latios, the Regis.
+1. Hoenn after the League: Groudon and Kyogre to catch (Terra and Marine Caves), Latias and Latios
+   (roaming, Southern Island; chapter 42), the Battle Tower or Battle Frontier (singles and doubles).
 2. Engine features: multi battles with a partner (Steven at the Space Center), abilities outside
    battle, Pokéblocks or another way to evolve Feebas, Repel steps.
 3. A fourth region needs Pokémon 387 and up (`tools/fetch_data.py`), their sprites and moves.

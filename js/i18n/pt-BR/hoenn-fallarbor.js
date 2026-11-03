@@ -84,5 +84,6 @@ G.I18n.add({
   "Route 113. West: Fallarbor Town. Ash from Mt. Chimney falls on this road all year round.": "Rota 113. Oeste: Fallarbor. As cinzas do Mt. Chimney caem nesta estrada o ano inteiro.",
   "Fallarbor Town. A quiet farming town where the ash falls like soft snow.": "Fallarbor. Uma cidadezinha agrícola tranquila onde as cinzas caem como neve macia.",
   "Pokémon Contest Hall. The stage where Pokémon show off their charm.": "Salão de Concursos Pokémon. O palco onde os Pokémon mostram seu charme.",
-  "Route 114. East: Fallarbor Town. North-west: Meteor Falls.": "Rota 114. Leste: Fallarbor. Noroeste: Meteor Falls."
+  "Route 114. East: Fallarbor Town. North-west: Meteor Falls.": "Rota 114. Leste: Fallarbor. Noroeste: Meteor Falls.",
+  "The sandstorm died down when the weather went back to normal. With goggles on, you can cross the desert now.": "A tempestade de areia acalmou quando o tempo voltou ao normal. Com óculos de proteção, agora dá para atravessar o deserto."
 }, "pt-BR");

@@ -1,6 +1,7 @@
 /* ============ party-ui.js — the party screen ============
  *   G.PartyUI.open()                          from the start menu: Summary, Switch, and Fly for a
- *                                             Pokémon that knows it (G.TownMapUI picks the town)
+ *                                             Pokémon that knows it (G.TownMapUI picks the town);
+ *                                             where the map has a moveSpot, that move (G.World.moveSpots)
  *   await G.PartyUI.pick({ title, note })     -> index | null   choose one (items, TMs...)
  *       note(mon, i) -> a short label shown on the card instead of the HP ('Able', 'Learned'...)
  *       or null; disabled(mon, i) -> true greys it out.
@@ -76,8 +77,11 @@ G.PartyUI = (() => {
       return;
     }
     const m = party()[i];
-    const flies = G.Mon.knows(m, 'fly') && G.World && G.World.flyTo;
+    // A move that does something where you stand (map moveSpots, chapter 41): Strength, Flash, Dig, Fly...
+    const spots = st.mode === 'menu' && G.World && G.World.moveSpots ? G.World.moveSpots(m) : [];
+    const flies = G.Mon.knows(m, 'fly') && G.World && G.World.flyTo && !spots.some(t => t.move === 'fly');
     const v = await G.Popup.choose(G.Mon.name(m), [
+      ...spots.map((t, k) => ({ label: G.Names.move(t.move), value: 'spot:' + k })),
       ...(flies ? [{ label: G.Names.move('fly'), value: 'fly' }] : []),
       { label: T('Summary'), value: 'summary' },
       { label: T('Switch'), value: 'switch', disabled: party().length < 2 },
@@ -87,6 +91,11 @@ G.PartyUI = (() => {
     else if (v === 'switch') { st.moving = i; render(i); }
     else if (v === 'fly') await fly(m);
     else if (v === 'item') { await item(m); render(i); }
+    else if (typeof v === 'string' && v.startsWith('spot:')) {
+      finish(null);
+      G.UI.closeAll();
+      G.World.useMoveSpot(spots[+v.slice(5)], m);
+    }
   }
 
   /** Item (chapter 26): give it something to hold from the Bag, or take back what it holds. */

@@ -1701,6 +1701,166 @@ test('Hoenn (chapter 40): the currents west of Pacifidlog to Slateport, Steven b
   }
 });
 
+test('a move used at a place, a walk once around a room, braille (chapter 41)', async () => {
+  const { G, W } = world();
+  const F = G.Field;
+  assert.equal(G.U.braille('Dig here'), '⠙⠊⠛ ⠓⠑⠗⠑');
+  G.Script.def({ 't.spot': [['setFlag', 't-spot']], 't.around': [['setFlag', 't-around']] });
+  G.Maps.def({ id: 't-ruin', tileset: 'indoor', palette: 'ruins', rows: ['WWWWW', '+++++', '+++W+', '+++++', '+++++'],
+    spots: { start: [1, 2, 'up'] },
+    moveSpots: [{ move: 'strength', x: 3, y: 1, if: '!t-spot', script: 't.spot' }],
+    walkAround: { x: 0, y: 1, w: 5, h: 4, if: '!t-around', script: 't.around' } });
+  assert.deepEqual(plain(G.Maps.validate('t-ruin')), []);
+  G.Maps.def({ id: 't-bad', tileset: 'indoor', palette: 'ruins', rows: ['WWW', '+W+', '+++'], spots: { start: [0, 2] },
+    moveSpots: [{ move: 'no-such-move', x: 9, y: 1, script: 't.spot' }], walkAround: { x: 0, y: 1, w: 3, h: 2, script: 'nope' } });
+  const errs = plain(G.Maps.validate('t-bad')).join(' | ');
+  assert.match(errs, /moveSpot 0 .* outside/); assert.match(errs, /unknown move "no-such-move"/);
+  assert.match(errs, /edge tile 1,1 is a wall/); assert.match(errs, /walkAround: unknown script "nope"/);
+  F.giveMon('machop', 30, { moves: ['strength'] });
+  F.giveMon('zubat', 30, { moves: ['bite'] });
+  const [machop, zubat] = F.party();
+  W.debug.noEnc = true;
+  W.load('t-ruin', 'start');
+  assert.equal(W.moveSpots(machop).length, 0, 'not standing there');
+  W.load('t-ruin', { x: 3, y: 1, dir: 'up' });
+  assert.equal(W.moveSpots(machop).length, 1);
+  assert.equal(W.moveSpots(zubat).length, 0, 'it has to know the move');
+  machop.hp = 0;
+  assert.equal(W.moveSpots(machop).length, 0, 'a fainted Pokémon cannot');
+  machop.hp = 10;
+  await pump(W, W.useMoveSpot(W.moveSpots(machop)[0], machop));
+  assert.ok(F.flag('t-spot'));
+  assert.equal(W.moveSpots(machop).length, 0, 'its if');
+  // Once around the edge (14 tiles): nothing until the last one.
+  W.load('t-ruin', { x: 0, y: 1, dir: 'right' });
+  const path = ['right', 'right', 'right', 'right', 'down', 'down', 'down', 'left', 'left', 'left', 'left', 'up', 'up', 'up'];
+  path.forEach((d, i) => {
+    assert.equal(step(W, d), 'moved', 'step ' + i);
+    if (i < path.length - 1) assert.ok(!F.flag('t-around'), 'not yet at step ' + i);
+  });
+  for (let i = 0; i < 20; i++) { W.update(0.05); await tick(); }
+  assert.ok(F.flag('t-around'), 'once around');
+  // Leaving the map forgets the tiles walked so far.
+  F.clearFlag('t-around');
+  W.load('t-ruin', { x: 0, y: 1, dir: 'right' });
+  for (const d of path.slice(0, 10)) step(W, d);
+  W.load('t-ruin', { x: 0, y: 4, dir: 'up' });
+  for (const d of path.slice(11)) step(W, d);
+  for (let i = 0; i < 20; i++) { W.update(0.05); await tick(); }
+  assert.ok(!F.flag('t-around'), 'a new visit starts again');
+});
+
+test('Hoenn (chapter 41): Route 105, the desert, the Sealed Chamber under Route 134, the three ruins and the Regis', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js', 'js/content/hoenn/evergrande.js', 'js/content/hoenn/postgame.js', 'js/content/hoenn/regis.js']);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  F.save.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+  F.giveMon('wailord', 50, { moves: ['surf', 'dive', 'strength'] });
+  F.giveMon('sandslash', 45, { moves: ['dig'] });
+  F.giveMon('kadabra', 45, { moves: ['flash'] });
+  F.giveMon('relicanth', 45, { moves: ['rock-smash'] });
+  const [wailord, sandslash, kadabra] = F.party();
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 60; i++) { W.update(0.05); await tick(); } };
+  const wild = [];
+  W.onEncounter = async (sp, lvl) => { wild.push([G.Maps.species(sp), lvl]); return 'caught'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  for (const f of ['kyogre-awake', 'weather-calm']) F.setFlag(f);
+  const conn = (a, side) => G.Maps.get(a).def.connect[side].map;
+  assert.deepEqual([conn('route104', 'south'), conn('route105', 'north'), conn('route105', 'east'), conn('route106', 'west')],
+    ['route105', 'route104', 'route106', 'route105']);
+  assert.deepEqual([conn('route111', 'north'), conn('route111-desert', 'south')], ['route111-desert', 'route111']);
+  // Route 111: the hiker keeps you out of the desert until you are the Champion.
+  W.load('route111', { x: 10, y: 2, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked');
+  F.setFlag('hoenn-champion');
+  W.load('route111', { x: 10, y: 2, dir: 'up' });
+  for (let i = 0; i < 4 && W.map.id === 'route111'; i++) step(W, 'up');
+  assert.equal(W.map.id, 'route111-desert');
+  assert.ok(W.map.def.desert);
+  W.load('route111-desert', 'ruins');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'desert-ruins');
+  await settle();
+  // Before the chamber is opened, the ruins do not answer.
+  W.load('desert-ruins', { x: 8, y: 4, dir: 'down' });
+  assert.equal(W.moveSpots(wailord).length, 0);
+  // Under Route 134: Dive, swim to the doorway, into the Sealed Chamber.
+  W.load('route134', { x: 6, y: 16, dir: 'up' });
+  assert.ok(W.surfing);
+  await pump(W, W.interact());
+  assert.equal(W.map.id, 'route134-uw');
+  W.load('route134-uw', 'mouth');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'sealed-chamber');
+  await settle();
+  // Dig at the far wall.
+  W.load('sealed-chamber', { x: 6, y: 2, dir: 'up' });
+  assert.equal(W.moveSpots(wailord).length, 0, 'Wailord does not know Dig');
+  assert.equal(W.moveSpots(sandslash)[0].move, 'dig');
+  await pump(W, W.useMoveSpot(W.moveSpots(sandslash)[0], sandslash));
+  assert.ok(F.flag('sealed-chamber-dug'));
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'sealed-chamber-inner');
+  await settle();
+  // The key: Wailord first, Relicanth last.
+  W.load('sealed-chamber-inner', { x: 6, y: 2, dir: 'up' });
+  const p = F.party();
+  [p[0], p[3]] = [p[3], p[0]];
+  await pump(W, W.interact());
+  assert.ok(!F.flag('regis-unsealed'), 'the wrong order');
+  [p[0], p[3]] = [p[3], p[0]];
+  await pump(W, W.interact());
+  assert.ok(F.flag('regis-unsealed'));
+  // The Desert Ruins: two steps right and two down from the braille, then Strength.
+  W.load('desert-ruins', { x: 6, y: 2, dir: 'up' });
+  for (const d of ['right', 'right', 'down', 'down']) assert.equal(step(W, d), 'moved');
+  assert.deepEqual([W.player.x, W.player.y], [8, 4]);
+  await pump(W, W.useMoveSpot(W.moveSpots(wailord)[0], wailord));
+  assert.ok(F.flag('desert-ruins-open'));
+  W.load('desert-ruins', 'below');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'desert-ruins-inner');
+  await settle();
+  W.load('desert-ruins-inner', { x: 4, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('regirock-met'));
+  // Route 105: the islet's cave, and once around its hall.
+  W.load('route105', 'cave');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'island-cave');
+  await settle();
+  W.load('island-cave', { x: 0, y: 2, dir: 'right' });
+  const round = [].concat(Array(12).fill('right'), Array(8).fill('down'), Array(12).fill('left'), Array(8).fill('up'));
+  for (const d of round) assert.equal(step(W, d), 'moved');
+  await until(() => F.flag('island-cave-open'));
+  await settle();
+  W.load('island-cave-inner', { x: 4, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  assert.ok(F.flag('regice-met'));
+  // Route 120: the Ancient Tomb, and Flash in the middle.
+  W.load('route120', 'tomb');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'ancient-tomb');
+  await settle();
+  W.load('ancient-tomb', { x: 6, y: 6, dir: 'up' });
+  await pump(W, W.useMoveSpot(W.moveSpots(kadabra)[0], kadabra));
+  assert.ok(F.flag('ancient-tomb-open'));
+  W.load('ancient-tomb-inner', { x: 4, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  await until(() => F.flag('chapter-41-done'));
+  assert.deepEqual(wild, [[377, 40], [378, 40], [379, 40]]);
+});
+
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */
 function shove(W, later, dir, n) {
   for (let i = 0; i < n; i++) {

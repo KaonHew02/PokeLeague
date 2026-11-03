@@ -24,6 +24,10 @@
  *   carries you along until the water is calm; you cannot swim against it).
  *   Chapter 40: trainers with double: true (a double battle) and partner: { who, x, y, dir } (the
  *   second trainer of the pair, standing beside them).
+ *   Chapter 41: moveSpots: [{ move, x, y, w, h, if, script }] (standing there, a Pokémon that knows the
+ *   move can use it from the party menu: the script runs), walkAround: { x, y, w, h, if, script } (step
+ *   on every tile along the edge of that rectangle, then the script runs once), desert: true (wild
+ *   Pokémon on any step, and a sandstorm in its battles).
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
@@ -232,6 +236,7 @@ G.Maps = (() => {
       spots: d.spots || {},
       signs: d.signs || {},
       npcs: d.npcs || [], trainers: d.trainers || [], items: d.items || [], triggers: d.triggers || [],
+      moveSpots: d.moveSpots || [],
       encounters: d.encounters || {},
       warps: d.warps || [],
       warpAt: new Map((d.warps || []).map(w => [key(w.x, w.y), w]))
@@ -254,6 +259,16 @@ G.Maps = (() => {
   function chAt(m, x, y) { return inside(m, x, y) ? m.ch[y * m.w + x] : m.borderCh; }
   /** Can something stand here? (tiles only: people are checked by field.js) */
   function open(m, x, y) { return inside(m, x, y) && !m.solid[y * m.w + x]; }
+  /** The tiles along the edge of a rectangle { x, y, w, h } (a walkAround), each once. */
+  function edgeTiles(r) {
+    const out = [];
+    for (let y = r.y; y < r.y + r.h; y++) {
+      for (let x = r.x; x < r.x + r.w; x++) {
+        if (x === r.x || y === r.y || x === r.x + r.w - 1 || y === r.y + r.h - 1) out.push([x, y]);
+      }
+    }
+    return out;
+  }
   /** Ledge jump direction of this tile, or null. */
   function ledge(m, x, y) { const k = KINDS[kindAt(m, x, y)]; return k && k.ledge || null; }
   const info = kind => KINDS[kind] || KINDS.void;
@@ -512,6 +527,21 @@ G.Maps = (() => {
       if (!t.script) E.push(`trigger ${i} has no script`);
       else scriptRef(t.script, `trigger ${i}`);
     });
+    // Chapter 41: a move used at a place (party menu), and a walk once around a room's edge.
+    m.moveSpots.forEach((t, i) => {
+      const w = t.w || 1, h = t.h || 1;
+      if (!tileOk(t.x, t.y) || !tileOk(t.x + w - 1, t.y + h - 1)) E.push(`moveSpot ${i} (${where(t.x, t.y)} ${w}×${h}) is outside the map`);
+      if (!G.MOVES || !G.MOVES[t.move]) E.push(`moveSpot ${i}: unknown move "${t.move}"`);
+      if (!t.script) E.push(`moveSpot ${i} has no script`);
+      else scriptRef(t.script, `moveSpot ${i}`);
+    });
+    if (d.walkAround) {
+      const a = d.walkAround;
+      if (!tileOk(a.x, a.y) || !tileOk(a.x + a.w - 1, a.y + a.h - 1) || a.w < 2 || a.h < 2) E.push(`walkAround (${where(a.x, a.y)} ${a.w}×${a.h}) is outside the map or too small`);
+      else for (const [x, y] of edgeTiles(a)) if (!open(m, x, y)) E.push(`walkAround: the edge tile ${where(x, y)} is a ${kindAt(m, x, y)} tile`);
+      if (!a.script) E.push('walkAround has no script');
+      else scriptRef(a.script, 'walkAround');
+    }
     if (d.enter) scriptRef(d.enter, 'enter');
     // Fly: a town's landing spot.
     if (d.fly && !spot(m, d.fly.spot)) E.push(`fly: no spot "${d.fly.spot}"`);
@@ -602,7 +632,7 @@ G.Maps = (() => {
     });
   }
 
-  return { TS, KINDS, LEGEND, STAMPS, DIRS, OPP, SIDES, MOVES, WATERY, def, get, all, has, parse, validate,
+  return { TS, KINDS, LEGEND, STAMPS, DIRS, OPP, SIDES, MOVES, WATERY, def, get, all, has, parse, validate, edgeTiles,
            inside, kindAt, kindNear, chAt, open, ledge, info, spot, neighbour, neighbours, across, species, encounters, key,
            center, mart, get defs() { return defs; } };
 })();

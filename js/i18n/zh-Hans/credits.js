@@ -115,5 +115,8 @@ G.I18n.add({
   "Thank you for playing! The journey through Kanto, Johto and Hoenn is complete. Hoenn's Elite Four will battle you again, ten levels stronger, whenever you return.": "感谢游玩！关都、城都和丰缘的旅程到此完成。每当你回来，丰缘的四天王都会以高十级的实力再次与你对战。",
   "Chapter 40 complete!": "第四十章完成！",
   "{player} rode the currents from Pacifidlog to Slateport, fought two against two, and beat Steven deep in Meteor Falls.": "{player}顺着激流从暮水镇来到凯那市，进行了二对二的对战，还在流星瀑布深处打败了大吾。",
-  "Thank you for playing! Steven left a gift at his house in Mossdeep City.": "感谢游玩！大吾在绿岭市的家里留下了一份礼物。"
+  "Thank you for playing! Steven left a gift at his house in Mossdeep City.": "感谢游玩！大吾在绿岭市的家里留下了一份礼物。",
+  "Chapter 41 complete!": "第四十一章完成！",
+  "{player} read the braille of Hoenn's ruins, unsealed the chamber under the sea, and met Regirock, Regice and Registeel.": "{player}读懂了丰缘遗迹的点字，解开了海底石室的封印，遇见了雷吉洛克、雷吉艾斯和雷吉斯奇鲁。",
+  "Groudon and Kyogre still sleep somewhere in Hoenn, and people say two Pokémon of red and blue soar over its skies...": "固拉多和盖欧卡仍沉睡在丰缘的某处，而且听说有一红一蓝两只宝可梦在天空中翱翔……"
 }, "zh-Hans");

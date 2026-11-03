@@ -45,6 +45,12 @@ G.U = {
   /** Escapes text for innerHTML. */
   esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); },
 
+  /** English letters as Unicode braille dots ('DIG HERE' -> '⠙⠊⠛ ⠓⠑⠗⠑'): the walls of Hoenn's ruins (chapter 41). */
+  braille(s) {
+    const DOTS = '⠁⠃⠉⠙⠑⠋⠛⠓⠊⠚⠅⠇⠍⠝⠕⠏⠟⠗⠎⠞⠥⠧⠺⠭⠽⠵';
+    return String(s).toLowerCase().replace(/[a-z]/g, c => DOTS[c.charCodeAt(0) - 97]);
+  },
+
   /** Pokémon type colours (chips, HP of type icons, battle effects). */
   TYPE_COLOR: {
     normal: '#b0a99f', fire: '#ff7b3d', water: '#4b9bff', grass: '#5fcb6a',

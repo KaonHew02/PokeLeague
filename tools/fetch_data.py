@@ -236,6 +236,11 @@ LOC_NAMES = {
     'sky-pillar':        ('Pilar Celeste',      'Torre dei Cieli',     '天空柱',     '天空柱'),
     'hoenn-victory-road': ('Calle Victoria',    'Via Vittoria',        '冠军之路',   '冠軍之路'),
     'hoenn-pokemon-league': ('Liga Pokémon',    'Lega Pokémon',        '宝可梦联盟', '寶可夢聯盟'),
+    # Chapter 41.
+    'island-cave':       ('Cueva Insular',      'Grotta Insulare',     '小岛横穴',   '小島橫穴'),
+    'desert-ruins':      ('Ruinas del Desierto', 'Rovine Sabbiose',    '沙漠遗迹',   '沙漠遺跡'),
+    'ancient-tomb':      ('Tumba Antigua',      'Tomba Antica',        '古代墓穴',   '古代墓穴'),
+    'sealed-chamber':    ('Cámara Sellada',     'Sala Incisa',         '封印石室',   '封印石室'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

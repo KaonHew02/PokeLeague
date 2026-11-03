@@ -84,5 +84,6 @@ G.I18n.add({
   "Route 113. West: Fallarbor Town. Ash from Mt. Chimney falls on this road all year round.": "113號道路。西：秋葉鎮。煙囪山的火山灰一年到頭都落在這條路上。",
   "Fallarbor Town. A quiet farming town where the ash falls like soft snow.": "秋葉鎮。火山灰如細雪般飄落的寧靜農村。",
   "Pokémon Contest Hall. The stage where Pokémon show off their charm.": "寶可夢華麗大賽會場。寶可夢展現魅力的舞台。",
-  "Route 114. East: Fallarbor Town. North-west: Meteor Falls.": "114號道路。東：秋葉鎮。西北：流星瀑布。"
+  "Route 114. East: Fallarbor Town. North-west: Meteor Falls.": "114號道路。東：秋葉鎮。西北：流星瀑布。",
+  "The sandstorm died down when the weather went back to normal. With goggles on, you can cross the desert now.": "天氣恢復正常以後，沙暴也減弱了。現在戴上護目鏡，就能穿過沙漠了。"
 }, "zh-Hant");

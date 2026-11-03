@@ -3079,6 +3079,41 @@ async function chapter40(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+async function chapter41(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  // Route 105, between Route 104 and Route 106.
+  for (const t of G.Maps.get('route105').trainers) { await fight('route105', t.id); won(); }
+  // The Sealed Chamber under Route 134: Dig opens its far wall; with Wailord first and Relicanth last, the key.
+  await run(st, 'sealed-chamber', 'regis.sealed-dig', [], { mon: S.party[0] });
+  assert.ok(F.flag('sealed-chamber-dug'));
+  const team = S.party.slice();
+  const rng = G.RNG(41);
+  S.party.splice(0, S.party.length, G.Mon.create(369, 45, { rng }), G.Mon.create(321, 45, { rng }));
+  await run(st, 'sealed-chamber-inner', 'regis.sealed-key');
+  assert.ok(!F.flag('regis-unsealed'), 'Relicanth first: nothing happens');
+  S.party.reverse();
+  await run(st, 'sealed-chamber-inner', 'regis.sealed-key');
+  assert.ok(F.flag('regis-unsealed'), 'Wailord first, Relicanth last');
+  S.party.splice(0, S.party.length, ...team);
+  // The three doors, and the three behind them.
+  await run(st, 'desert-ruins', 'regis.desert-open', [], { mon: S.party[0] });
+  await run(st, 'island-cave', 'regis.island-open');
+  await run(st, 'ancient-tomb', 'regis.tomb-open', [], { mon: S.party[0] });
+  assert.ok(['desert-ruins-open', 'island-cave-open', 'ancient-tomb-open'].every(f => F.flag(f)));
+  for (const [mapId, id] of [['desert-ruins-inner', 'regirock'], ['island-cave-inner', 'regice'], ['ancient-tomb-inner', 'registeel']]) {
+    F.healAll();
+    await run(st, mapId, 'regis.' + id);
+    assert.ok(F.flag(id + '-met'), id);
+  }
+  console.log('[story] the Regis:', st.battles.slice(-3).map(b => b.key + ' ' + b.outcome).join(', '));
+  assert.ok(F.flag('chapter-41-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3160,7 +3195,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 40: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League and Steven", async () => {
+test("chapters 11 to 41: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, Steven and the Regis", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3202,4 +3237,5 @@ test("chapters 11 to 40: Johto, from Professor Elm to Johto's League and its pos
   await chapter38(st);
   await chapter39(st);
   await chapter40(st);
+  await chapter41(st);
 });

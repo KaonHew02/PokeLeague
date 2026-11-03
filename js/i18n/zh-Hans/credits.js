@@ -133,5 +133,8 @@ G.I18n.add({
   "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "感谢游玩！204号道路和苑之镇将在之后的更新中登场。",
   "Chapter 46 complete!": "第四十六章完成！",
   "{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.": "{player}把银河队赶出了苑之镇花田和山谷发电厂，和小菊一起穿过百代森林，并从菜种那里赢得了森林徽章。",
-  "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "感谢游玩！百代市的银河队大楼将在之后的更新中登场。"
+  "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "感谢游玩！百代市的银河队大楼将在之后的更新中登场。",
+  "Chapter 47 complete!": "第四十七章完成！",
+  "{player} freed a Clefairy from Team Galactic's Eterna Building, rode down Cycling Road, met Cyrus inside Mt. Coronet and earned the Relic Badge from Fantina.": "{player}从银河队百代大楼救出了皮皮，骑车冲下自行车道，在天冠山遇见了赤日，并从梅丽莎那里赢得了遗迹徽章。",
+  "Thank you for playing! Routes 209 and 212 wait in a future update.": "感谢游玩！209号道路和212号道路将在之后的更新中登场。"
 }, "zh-Hans");

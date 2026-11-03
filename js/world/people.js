@@ -28,7 +28,7 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -283,6 +283,14 @@ G.People = (() => {
     cheryl: { head: 'long', body: 'dress', legs: 'bare', h: '#4a3448', H: '#2e1e2c', c: '#e87a9a', C: '#b85a78', j: '#5a3a4a', J: '#3e2632', k: '#5a3a4a' },
     gardenia: { head: 'short', body: 'coat', legs: 'pants', h: '#e8803a', H: '#b85a20', j: '#3a8a3a', J: '#28682a', c: '#f4f4f4', C: '#c8c8d0',
                 p: '#3a3a4a', P: '#262632', k: '#5a3a2a' },
+    // Chapter 47: Commander Jupiter (purple hair, Team Galactic's white and grey), Cyrus (spiky blue hair, a grey
+    // coat), Fantina (long purple hair, a purple and gold dress), a Cyclist (a white helmet, a blue jersey).
+    jupiter: { head: 'short', body: 'dress', legs: 'bare', h: '#7a4aa8', H: '#563080', c: '#ececf2', C: '#b8b8c4', j: '#5a5a6a', J: '#3e3e4a', k: '#3a3a48' },
+    cyrus: { head: 'spiky', body: 'coat', legs: 'pants', h: '#3a5ab8', H: '#26408a', j: '#6a6a78', J: '#4a4a56', c: '#2a2a34', C: '#16161e',
+             p: '#3a3a44', P: '#24242c', k: '#1c1c24' },
+    fantina: { head: 'long', body: 'dress', legs: 'bare', h: '#7a3a9a', H: '#562476', c: '#8a3aa8', C: '#682a80', j: '#e8c040', J: '#b89020', k: '#5a2a6a' },
+    cyclist: { head: 'cap', body: 'tee', legs: 'pants', a: '#f0f0f8', A: '#c0c0cc', b: '#3ab8e8', h: '#5a3a2a', H: '#3e2618', c: '#3ab8e8', C: '#2a8ab8',
+               p: '#2a2a32', P: '#16161c', k: '#e85a3a' },
     glacia: { head: 'long', body: 'dress', legs: 'bare', h: '#e8eef8', H: '#b8c4d8', c: '#6a8ad8', C: '#4a68b0', j: '#e8eef8', J: '#b8c4d8', k: '#4a68b0' },
     drake: { head: 'short', body: 'coat', legs: 'pants', h: '#d8d8e0', H: '#a8a8b4', j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0',
              p: '#2a3a6a', P: '#1c284a', k: '#1a1a22' },

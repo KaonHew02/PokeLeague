@@ -70,5 +70,10 @@ G.I18n.add({
   "Welcome to the Eterna Gym! I am Gardenia, the Gym Leader, and I just love Grass-type Pokémon. A Champion of three regions? My Grass Pokémon will not wilt for anybody!": "歡迎來到百代道館！我是館主菜種，最喜歡草屬性的寶可夢了。三個地區的冠軍？我的草屬性寶可夢可不會為任何人枯萎！",
   "Amazing... You made my garden bloom in a whole new way!": "太厲害了……你讓我的花園以全新的方式綻放了！",
   "Route 205. East: Eterna City. West: Eterna Forest.": "205號道路。東：百代市　西：百代森林",
-  "An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.": "一座古老的寶可夢雕像。銘牌上寫著，它早在城市建成之前就在這裡了，雕的是神奧最古老的傳說中的寶可夢。"
+  "An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.": "一座古老的寶可夢雕像。銘牌上寫著，它早在城市建成之前就在這裡了，雕的是神奧最古老的傳說中的寶可夢。",
+  "Team Galactic grabbed my Clefairy right out of my shop and took it into that building!": "銀河隊從我店裡搶走了我的皮皮，帶進那棟大樓裡了！",
+  "I cannot fight them on my own. Please, help my Clefairy!": "我一個人對付不了他們。求求你，救救我的皮皮！",
+  "Oh, {player}! Team Galactic took the cycle shop owner's Clefairy into their building.": "啊，{player}！銀河隊把自行車店老闆的皮皮帶進他們的大樓了。",
+  "You beat me, so I know you are strong. Go on in! I will stay out here and make sure none of them sneak away.": "你打敗過我，我知道你很強。進去吧！我會守在外面，不讓他們任何人溜走。",
+  "Cycle Shop Owner": "自行車店老闆"
 }, "zh-Hant");

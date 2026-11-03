@@ -282,6 +282,10 @@ LOC_NAMES = {
     'ravaged-path':      ('Ravaged Path',       'Ravaged Path',        '荒芜小路',   '荒蕪小路'),
     'eterna-forest':     ('Bosque Vetusto',     'Bosco Evopoli',       '百代森林',   '百代森林'),
     'eterna-city':       ('Ciudad Vetusta',     'Evopoli',             '百代市',     '百代市'),
+    # Chapter 47.
+    'mt-coronet':        ('Monte Corona',       'Monte Corona',        '天冠山',     '天冠山'),
+    'hearthome-city':    ('Ciudad Corazón',     'Cuoripoli',           '家缘市',     '家緣市'),
+    'tg-eterna-bldg':    ('T.G. Eterna Bldg',   'T.G. Eterna Bldg',    '银河队百代大楼', '銀河隊百代大樓'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

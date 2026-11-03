@@ -5,7 +5,8 @@
  * Mining Museum, a house and Roark's Gym, locked until you have met him in the Oreburgh Mine south of
  * town (two floors with Workers; flag roark-met). Roark uses Rock types (Geodude, Onix, Cranidos);
  * beating him gives the Coal Badge (badge 25: Pokémon up to Lv. 25 obey in Sinnoh) and TM76 (Stealth
- * Rock), then `ending(45)`. Route 207 to the north opens in a later chapter. Platinum's wild Pokémon.
+ * Rock), then `ending(45)`. The way north to Route 207 opens once Team Galactic leaves Eterna City (chapter 47).
+ * Platinum's wild Pokémon.
  */
 (() => {
   const T = s => G.T(s);
@@ -90,8 +91,8 @@
     id: 'oreburgh', loc: 'oreburgh-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
     fly: { spot: 'center-door' },
     rows: [
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'T..................................T',
+      'TTTTTTTTTTTTTTTTT,TTTTTTTTTTTTTTTTTT',
+      'T................,.................T',
       'T................,,...GGGGGG.......T',
       'T....CCCCC.......,,...GGGGGG..####.T',
       'T....CCCCC.MMMM..,,...GGGGGG..####.T',
@@ -121,6 +122,7 @@
       'T##################################T',
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
+    connect: { north: { map: 'route207', offset: 12 } },
     warps: [
       { x: 3, y: 12, to: 'oreburgh-gate', spot: 'east' },
       { x: 17, y: 25, to: 'oreburgh-mine', spot: 'mouth' },
@@ -134,6 +136,9 @@
              'museum-door': [7, 20, 'down'], 'house-door': [25, 20, 'down'] },
     signs: { '15,10': 'Oreburgh City. A mining town whose coal warms all of Sinnoh.', '20,24': 'Oreburgh Mine. Mind your step!' },
     npcs: [
+      // Chapter 47: the muddy slope up to Route 207, passable once Team Galactic has left Eterna City.
+      { id: 'mud', who: 'hiker', x: 17, y: 1, dir: 'down', if: '!tg-eterna-done',
+        say: 'The slope up to Route 207 is all mud after the rain. Nobody can climb it right now. Try again later!' },
       { id: 'fan', who: 'youngster', x: 26, y: 8, dir: 'left', if: '!roark-met',
         say: 'Roark? He spends more time in the mine than in his Gym! Try the Oreburgh Mine, at the south end of town.' },
       { id: 'miner', who: 'engineer', x: 21, y: 15, move: 'wander', r: 2,

@@ -70,5 +70,10 @@ G.I18n.add({
   "Welcome to the Eterna Gym! I am Gardenia, the Gym Leader, and I just love Grass-type Pokémon. A Champion of three regions? My Grass Pokémon will not wilt for anybody!": "Bienvenue à l'Arène de Vestigion ! Je suis Flo, la Championne, et j'adore les Pokémon de type Plante. Un Maître de trois régions ? Mes Pokémon Plante ne faneront devant personne !",
   "Amazing... You made my garden bloom in a whole new way!": "Incroyable... Tu as fait fleurir mon jardin d'une toute nouvelle façon !",
   "Route 205. East: Eterna City. West: Eterna Forest.": "Route 205. Est : Vestigion. Ouest : Forêt Vestigion.",
-  "An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.": "Une statue ancienne d'un Pokémon. La plaque dit qu'elle était là bien avant la ville, et qu'elle représente un Pokémon des plus vieilles histoires de Sinnoh."
+  "An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.": "Une statue ancienne d'un Pokémon. La plaque dit qu'elle était là bien avant la ville, et qu'elle représente un Pokémon des plus vieilles histoires de Sinnoh.",
+  "Team Galactic grabbed my Clefairy right out of my shop and took it into that building!": "La Team Galaxie a enlevé mon Mélofée dans ma boutique et l'a emmené dans ce bâtiment !",
+  "I cannot fight them on my own. Please, help my Clefairy!": "Je ne peux pas les affronter seul. S'il te plaît, sauve mon Mélofée !",
+  "Oh, {player}! Team Galactic took the cycle shop owner's Clefairy into their building.": "Oh, {player} ! La Team Galaxie a emmené le Mélofée du patron du magasin de vélos dans son bâtiment.",
+  "You beat me, so I know you are strong. Go on in! I will stay out here and make sure none of them sneak away.": "Tu m'as battue, alors je sais que tu es fort. Vas-y, entre ! Je reste ici pour qu'aucun d'eux ne s'échappe.",
+  "Cycle Shop Owner": "Patron du magasin de vélos"
 }, "fr");

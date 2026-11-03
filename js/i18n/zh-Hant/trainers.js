@@ -55,5 +55,6 @@ G.I18n.add({
   "Salon Maiden": "沙龍女主人",
   "Worker": "工人",
   "Galactic Commander": "銀河隊幹部",
-  "Aroma Lady": "芳香小姐"
+  "Aroma Lady": "芳香小姐",
+  "Cyclist": "自行車手"
 }, "zh-Hant");

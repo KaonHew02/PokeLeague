@@ -73,5 +73,7 @@ G.TRAINER_CLASSES = {
   // Chapter 46
   'galactic-commander': { title: 'Galactic Commander', who: 'mars', prize: 50 },
   'aroma-lady':  { title: 'Aroma Lady', who: 'beauty', prize: 40 },
+  // Chapter 47
+  cyclist:       { title: 'Cyclist', who: 'cyclist', prize: 32 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

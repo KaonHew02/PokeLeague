@@ -814,6 +814,36 @@ test('balance: Mars at the windworks and Gardenia in Eterna (chapter 46), win ra
   assert.ok(table['prinplup 22 + staravia 20'] >= 0.45 && table['grotle 22 + staravia 20'] >= 0.5, 'Prinplup and Grotle with a Staravia');
 });
 
+test('balance: Jupiter in Eterna and Fantina in Hearthome (chapter 47), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const jupiter = leaderRate(G, 'tg-eterna-2f', 'jupiter');
+  const vsJupiter = {
+    'grotle 20': jupiter([[388, 20]]), 'grotle 22': jupiter([[388, 22]]), 'monferno 20': jupiter([[391, 20]]), 'monferno 22': jupiter([[391, 22]]),
+    'prinplup 20': jupiter([[394, 20]]), 'prinplup 22': jupiter([[394, 22]]),
+    'grotle 22 + staravia 20': jupiter([[388, 22], [397, 20]]), 'grotle 22 + luxio 20': jupiter([[388, 22], [404, 20]])
+  };
+  console.log('[balance] vs Jupiter:', JSON.stringify(vsJupiter));
+  const rate = leaderRate(G, 'hearthome-gym', 'fantina');
+  const table = {
+    'grotle 26': rate([[388, 26]]), 'grotle 28': rate([[388, 28]]), 'monferno 26': rate([[391, 26]]), 'monferno 28': rate([[391, 28]]),
+    'prinplup 26': rate([[394, 26]]), 'prinplup 28': rate([[394, 28]]),
+    'grotle 26 + staravia 24': rate([[388, 26], [397, 24]]), 'prinplup 26 + luxio 24': rate([[394, 26], [404, 24]]),
+    'monferno 26 + staravia 24': rate([[391, 26], [397, 24]]),
+    'monferno 28 + staravia 26 + luxio 26': rate([[391, 28], [397, 26], [404, 26]]),
+    'grotle 28 + staravia 26 + luxio 26': rate([[388, 28], [397, 26], [404, 26]]),
+    'prinplup 28 + staravia 26 + luxio 26': rate([[394, 28], [397, 26], [404, 26]]),
+    'monferno 30 + luxio 28': rate([[391, 30], [404, 28]])
+  };
+  console.log('[balance] vs Fantina:', JSON.stringify(table));
+  // Skuntank is Dark and Zubat resists Grass: Prinplup is ready alone, Grotle and Monferno like a friend.
+  assert.ok(vsJupiter['prinplup 22'] >= 0.6 && vsJupiter['monferno 22'] >= 0.35, 'Prinplup and Monferno against Jupiter');
+  assert.ok(vsJupiter['grotle 22 + staravia 20'] >= 0.55 && vsJupiter['grotle 22 + luxio 20'] >= 0.55, 'Grotle with a friend against Jupiter');
+  // Fantina's Ghosts dodge Normal and Fighting moves and put you to sleep or confuse you: a lone starter loses,
+  // a team of three wins about two times in three (as against Norman in Hoenn). Luxio's Bite helps.
+  for (const k of ['monferno 26', 'grotle 26', 'prinplup 26']) assert.ok(table[k] < 0.2, k + ' alone');
+  for (const sp of ['monferno', 'grotle', 'prinplup']) assert.ok(table[sp + ' 28 + staravia 26 + luxio 26'] >= 0.55, sp + ' with two friends');
+});
+
 test('balance: the Battle Tower (chapter 43), win rates of a typical team at level 50 are printed', () => {
   const { G } = world(1);
   const rate = (foe, n = 30) => {
@@ -3474,6 +3504,61 @@ async function chapter46(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 47 after chapter 46: Team Galactic's Eterna Building and Jupiter, the cycle shop, Cycling Road, Route 207,
+ *  Mt. Coronet and Cyrus, Route 208, Hearthome City and Fantina. */
+async function chapter47(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async (mapId, skip = []) => {
+    for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader' && !skip.includes(t.id))) { await fight(mapId, t.id); won(); }
+  };
+  // Eterna City: with the Forest Badge the building opens; the cycle shop's owner and Gardenia outside.
+  const door = G.Maps.get('eterna').warps.find(w => w.to === 'tg-eterna-1f');
+  assert.ok(F.test(door.if), 'the building is open');
+  await run(st, 'eterna', 'eterna.owner');
+  await run(st, 'eterna', 'eterna.gardenia-door');
+  lead(st, 391);
+  await all('tg-eterna-1f');
+  await all('tg-eterna-2f', ['jupiter']);
+  await fight('tg-eterna-2f', 'jupiter');
+  won();
+  console.log('[story] Jupiter in Eterna:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('tg-eterna-done'));
+  // The cycle shop's Moon Stone; Cycling Road and Route 207 are open.
+  const stones = F.count('moon-stone');
+  await run(st, 'eterna-cycle', 'tgeterna.owner');
+  assert.equal(F.count('moon-stone'), stones + 1);
+  assert.ok(!F.test(G.Maps.get('eterna').npcs.find(p => p.id === 'worker').if), 'Cycling Road is open');
+  assert.ok(!F.test(G.Maps.get('oreburgh').npcs.find(p => p.id === 'mud').if), 'so is the slope north of Oreburgh');
+  await all('route206');
+  await all('route207');
+  // Mt. Coronet: Cyrus. Route 208 and the Berry Master.
+  await run(st, 'mt-coronet-1f', 'coronet.cyrus');
+  assert.ok(F.flag('cyrus-coronet') && st.log.some(l => /My name is Cyrus/.test(l)));
+  await all('mt-coronet-1f');
+  const sitrus = F.count('sitrus-berry');
+  await run(st, 'berry-house', 'route208.berry-master');
+  assert.equal(F.count('sitrus-berry'), sitrus + 2);
+  await all('route208');
+  // Hearthome City: Fantina's Gym.
+  grind(st, 'route208', 30, 400);
+  await all('hearthome-gym');
+  F.healAll();
+  const money = S.player.money, tms = F.count('tm65');
+  await run(st, 'hearthome-gym', [['battle', 'hearthome-gym:fantina']]);
+  won();
+  console.log('[story] Fantina:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(S.player.badges.includes(29), 'the Relic Badge');
+  assert.equal(F.obeyCap('sinnoh'), 35, 'three Sinnoh badges: up to Lv. 35');
+  assert.equal(F.count('tm65'), tms + 1);
+  assert.equal(S.player.money - money, 2600);
+  assert.ok(F.flag('chapter-47-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3555,7 +3640,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 46: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its second Gym", async () => {
+test("chapters 11 to 47: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its third Gym", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3603,4 +3688,5 @@ test("chapters 11 to 46: Johto, from Professor Elm to Johto's League and its pos
   await chapter44(st);
   await chapter45(st);
   await chapter46(st);
+  await chapter47(st);
 });

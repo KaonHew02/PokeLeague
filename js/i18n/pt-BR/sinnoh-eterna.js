@@ -70,5 +70,10 @@ G.I18n.add({
   "Welcome to the Eterna Gym! I am Gardenia, the Gym Leader, and I just love Grass-type Pokémon. A Champion of three regions? My Grass Pokémon will not wilt for anybody!": "Bem-vindo ao Ginásio de Eterna! Eu sou Gardenia, a Líder, e adoro Pokémon do tipo Planta. Um Campeão de três regiões? Meus Pokémon de Planta não murcham para ninguém!",
   "Amazing... You made my garden bloom in a whole new way!": "Incrível... Você fez meu jardim florescer de um jeito totalmente novo!",
   "Route 205. East: Eterna City. West: Eterna Forest.": "Rota 205. Leste: Eterna. Oeste: Floresta de Eterna.",
-  "An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.": "Uma estátua antiga de um Pokémon. A placa diz que ela estava aqui muito antes da cidade, e que mostra um Pokémon das histórias mais antigas de Sinnoh."
+  "An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.": "Uma estátua antiga de um Pokémon. A placa diz que ela estava aqui muito antes da cidade, e que mostra um Pokémon das histórias mais antigas de Sinnoh.",
+  "Team Galactic grabbed my Clefairy right out of my shop and took it into that building!": "A Equipe Galáctica pegou meu Clefairy na minha loja e levou para aquele prédio!",
+  "I cannot fight them on my own. Please, help my Clefairy!": "Não consigo enfrentá-los sozinho. Por favor, ajude meu Clefairy!",
+  "Oh, {player}! Team Galactic took the cycle shop owner's Clefairy into their building.": "Ah, {player}! A Equipe Galáctica levou o Clefairy do dono da loja de bicicletas para o prédio deles.",
+  "You beat me, so I know you are strong. Go on in! I will stay out here and make sure none of them sneak away.": "Você me venceu, então sei que é forte. Pode entrar! Vou ficar aqui fora para nenhum deles fugir.",
+  "Cycle Shop Owner": "Dono da loja de bicicletas"
 }, "pt-BR");

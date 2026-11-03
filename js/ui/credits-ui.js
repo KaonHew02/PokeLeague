@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 47) return { title: T('Chapter 47 complete!'),
+      done: fmt("{player} freed a Clefairy from Team Galactic's Eterna Building, rode down Cycling Road, met Cyrus inside Mt. Coronet and earned the Relic Badge from Fantina.", { player }),
+      next: T('Thank you for playing! Routes 209 and 212 wait in a future update.') };
     if (n === 46) return { title: T('Chapter 46 complete!'),
       done: fmt('{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.', { player }),
       next: T("Thank you for playing! Team Galactic's building in Eterna City waits in a future update.") };

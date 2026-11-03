@@ -62,5 +62,6 @@ G.I18n.add({
   "Oreburgh City. A mining town whose coal warms all of Sinnoh.": "黑金市。用煤炭溫暖整個神奧的礦業城市。",
   "Oreburgh Mine. Mind your step!": "黑金礦山。注意腳下！",
   "A great lump of coal from the mine. Oreburgh's coal has kept Sinnoh warm for a hundred years.": "一大塊礦山出產的煤炭。黑金市的煤炭溫暖了神奧一百年。",
-  "A fossil from deep in the mine. Long ago, very different Pokémon lived in Sinnoh.": "從礦山深處挖出的化石。很久以前，神奧生活著和現在很不一樣的寶可夢。"
+  "A fossil from deep in the mine. Long ago, very different Pokémon lived in Sinnoh.": "從礦山深處挖出的化石。很久以前，神奧生活著和現在很不一樣的寶可夢。",
+  "The slope up to Route 207 is all mud after the rain. Nobody can climb it right now. Try again later!": "下過雨後，通往207號道路的坡全是爛泥。現在誰也爬不上去。晚點再來吧！"
 }, "zh-Hant");

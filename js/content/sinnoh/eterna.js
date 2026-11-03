@@ -5,7 +5,7 @@
  * goes (flag cheryl-done). The forest: a long way round with a loop and a dead end, Trainers (one pair
  * battles two at a time). Route 205 east of the forest leads to Eterna City: a Pokémon Center, a Mart, a
  * house, the statue of a Pokémon from Sinnoh's oldest stories, Team Galactic's building (guarded) and
- * the cycle shop (closed); Routes 211 and 206 are closed in this chapter. Gardenia uses Grass types
+ * the cycle shop (closed); Route 211 is closed (Route 206 and the building open in chapter 47, tgeterna.js). Gardenia uses Grass types
  * (Cherubi, Turtwig, Roserade); beating her gives the Forest Badge (badge 26: Pokémon up to Lv. 30 obey
  * in Sinnoh) and TM86 (Grass Knot), then `ending(46)`. Platinum's wild Pokémon.
  */
@@ -148,25 +148,30 @@
       'T................,T................T',
       'TTTTTTTTTTTTTTTTT,TTTTTTTTTTTTTTTTTT'
     ],
-    connect: { west: { map: 'route205e', offset: 7 } },
+    connect: { west: { map: 'route205e', offset: 7 }, south: { map: 'route206', offset: 8 } },
     warps: [
       { x: 6, y: 7, to: 'eterna-center', spot: 'door' },
       { x: 11, y: 7, to: 'eterna-mart', spot: 'door' },
       { x: 25, y: 7, to: 'eterna-gym', spot: 'door' },
-      { x: 6, y: 21, locked: 'eterna.galactic-door' },
-      { x: 25, y: 20, locked: 'eterna.cycle-closed' },
+      // Chapter 47: the building opens with the Forest Badge, the cycle shop once Team Galactic has gone.
+      { x: 6, y: 21, to: 'tg-eterna-1f', spot: 'door', if: 'badge:26', locked: 'eterna.galactic-door' },
+      { x: 25, y: 20, to: 'eterna-cycle', spot: 'door', if: 'tg-eterna-done', locked: 'eterna.cycle-closed' },
       { x: 13, y: 23, to: 'eterna-house', spot: 'door' }
     ],
-    spots: { 'center-door': [6, 8, 'down'], 'mart-door': [11, 8, 'down'], 'gym-door': [25, 8, 'down'], 'house-door': [13, 24, 'down'] },
+    spots: { 'center-door': [6, 8, 'down'], 'mart-door': [11, 8, 'down'], 'gym-door': [25, 8, 'down'], 'house-door': [13, 24, 'down'],
+             'tg-door': [6, 22, 'down'], 'cycle-door': [25, 21, 'down'] },
     signs: { '16,10': 'An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.' },
     npcs: [
       // Route 211 (east) and Route 206 (south) open in later chapters; Team Galactic's building is guarded.
       { id: 'hiker', who: 'hiker', x: 34, y: 13, dir: 'left',
         say: 'Rocks fell on the path to Mt. Coronet. Nobody gets through until they are cleared!' },
-      { id: 'worker', who: 'engineer', x: 17, y: 26, dir: 'up',
+      { id: 'worker', who: 'engineer', x: 17, y: 26, dir: 'up', if: '!tg-eterna-done',
         say: 'Cycling Road is closed for repairs. Come back when it is finished!' },
-      { id: 'grunt', who: 'galactic', x: 6, y: 22, dir: 'down',
+      { id: 'grunt', who: 'galactic', x: 6, y: 22, dir: 'down', if: '!badge:26',
         say: 'This is the Team Galactic Eterna Building. Members only. Scram, kid!' },
+      // Chapter 47: with the Forest Badge, the cycle shop's owner asks for help and Gardenia keeps watch.
+      { id: 'owner', who: 'gentleman', x: 27, y: 21, dir: 'left', if: ['badge:26', '!tg-eterna-done'], script: 'eterna.owner' },
+      { id: 'gardenia', who: 'gardenia', x: 5, y: 22, dir: 'right', if: ['badge:26', '!tg-eterna-done'], script: 'eterna.gardenia-door' },
       { id: 'barry', who: 'barry', x: 20, y: 12, dir: 'down', if: '!badge:26', script: 'eterna.barry' },
       { id: 'lady', who: 'beauty', x: 28, y: 15, move: 'wander', r: 2,
         say: 'Gardenia\'s Gym is full of plants. Some days you cannot even see the Trainers for the leaves!' }
@@ -275,6 +280,14 @@
     ],
     'eterna.galactic-door': [['say', 'The door is locked. A sign says: "Team Galactic Eterna Building. Staff only."']],
     'eterna.cycle-closed': [['say', 'The cycle shop is closed. A note on the door says: "Back soon!"']],
+    'eterna.owner': [
+      ['say', 'Team Galactic grabbed my Clefairy right out of my shop and took it into that building!', { name: 'Cycle Shop Owner' }],
+      ['say', 'I cannot fight them on my own. Please, help my Clefairy!', { name: 'Cycle Shop Owner' }]
+    ],
+    'eterna.gardenia-door': [
+      ['say', "Oh, {player}! Team Galactic took the cycle shop owner's Clefairy into their building.", GARDENIA],
+      ['say', 'You beat me, so I know you are strong. Go on in! I will stay out here and make sure none of them sneak away.', GARDENIA]
+    ],
     'eterna.barry': [
       ['say', 'Hey, {player}! I went through the forest in no time. Did you get lost?', BARRY],
       ['say', 'I am off to challenge Gardenia right now! Grass types do not stand a chance against my Starly!', BARRY]

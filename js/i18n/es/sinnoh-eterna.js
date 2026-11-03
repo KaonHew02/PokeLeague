@@ -70,5 +70,10 @@ G.I18n.add({
   "Welcome to the Eterna Gym! I am Gardenia, the Gym Leader, and I just love Grass-type Pokémon. A Champion of three regions? My Grass Pokémon will not wilt for anybody!": "¡Bienvenido al Gimnasio de Ciudad Vetusta! Soy Gardenia, la Líder, y me encantan los Pokémon de tipo Planta. ¿Un Campeón de tres regiones? ¡Mis Pokémon de tipo Planta no se marchitan ante nadie!",
   "Amazing... You made my garden bloom in a whole new way!": "Increíble... ¡Has hecho florecer mi jardín de una forma totalmente nueva!",
   "Route 205. East: Eterna City. West: Eterna Forest.": "Ruta 205. Este: Ciudad Vetusta. Oeste: Bosque Vetusto.",
-  "An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.": "Una antigua estatua de un Pokémon. La placa dice que ya estaba aquí mucho antes que la ciudad, y que representa a un Pokémon de las historias más antiguas de Sinnoh."
+  "An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.": "Una antigua estatua de un Pokémon. La placa dice que ya estaba aquí mucho antes que la ciudad, y que representa a un Pokémon de las historias más antiguas de Sinnoh.",
+  "Team Galactic grabbed my Clefairy right out of my shop and took it into that building!": "¡El Equipo Galaxia se llevó a mi Clefairy de mi tienda y lo metió en ese edificio!",
+  "I cannot fight them on my own. Please, help my Clefairy!": "No puedo enfrentarme a ellos yo solo. ¡Por favor, ayuda a mi Clefairy!",
+  "Oh, {player}! Team Galactic took the cycle shop owner's Clefairy into their building.": "¡Oh, {player}! El Equipo Galaxia se ha llevado al Clefairy del dueño de la tienda de bicis a su edificio.",
+  "You beat me, so I know you are strong. Go on in! I will stay out here and make sure none of them sneak away.": "Me venciste, así que sé que eres fuerte. ¡Entra! Yo me quedo aquí fuera para que no se escape ninguno.",
+  "Cycle Shop Owner": "Dueño de la tienda de bicis"
 }, "es");

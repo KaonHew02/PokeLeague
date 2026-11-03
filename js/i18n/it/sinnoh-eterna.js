@@ -70,5 +70,10 @@ G.I18n.add({
   "Welcome to the Eterna Gym! I am Gardenia, the Gym Leader, and I just love Grass-type Pokémon. A Champion of three regions? My Grass Pokémon will not wilt for anybody!": "Benvenuto alla Palestra di Evopoli! Sono Gardenia, la Capopalestra, e adoro i Pokémon di tipo Erba. Un Campione di tre regioni? I miei Pokémon Erba non appassiscono per nessuno!",
   "Amazing... You made my garden bloom in a whole new way!": "Incredibile... Hai fatto fiorire il mio giardino in un modo tutto nuovo!",
   "Route 205. East: Eterna City. West: Eterna Forest.": "Percorso 205. Est: Evopoli. Ovest: Bosco Evopoli.",
-  "An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.": "Un'antica statua di un Pokémon. La targa dice che si trovava qui molto prima della città, e che raffigura un Pokémon delle storie più antiche di Sinnoh."
+  "An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.": "Un'antica statua di un Pokémon. La targa dice che si trovava qui molto prima della città, e che raffigura un Pokémon delle storie più antiche di Sinnoh.",
+  "Team Galactic grabbed my Clefairy right out of my shop and took it into that building!": "Il Team Galassia ha preso il mio Clefairy dal negozio e l'ha portato in quel palazzo!",
+  "I cannot fight them on my own. Please, help my Clefairy!": "Non posso affrontarli da solo. Ti prego, aiuta il mio Clefairy!",
+  "Oh, {player}! Team Galactic took the cycle shop owner's Clefairy into their building.": "Oh, {player}! Il Team Galassia ha portato il Clefairy del proprietario del negozio di bici nel suo palazzo.",
+  "You beat me, so I know you are strong. Go on in! I will stay out here and make sure none of them sneak away.": "Mi hai battuta, quindi so che sei forte. Entra pure! Io resto qui fuori a controllare che nessuno scappi.",
+  "Cycle Shop Owner": "Proprietario del negozio di bici"
 }, "it");

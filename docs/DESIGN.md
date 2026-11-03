@@ -2074,12 +2074,36 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   ways, Gardenia); `tests/story.test.cjs` the chapter after chapter 45 and the balance lines for Mars and
   Gardenia.
 
-### After chapter 46
+- **Chapter 47** ✅, Sinnoh's third Gym in Platinum's order (`js/content/sinnoh/tgeterna.js` and
+  `hearthome.js`, translations `sinnoh-tgeterna` and `sinnoh-hearthome`; no engine change).
+  - **People and Trainers**: `jupiter`, `cyrus`, `fantina`, `cyclist`; the class `cyclist`.
+  - **Story**: with the Forest Badge the guard leaves Team Galactic's Eterna Building (its door, a locked
+    warp, opens on `badge:26`); outside, the cycle shop's owner (they took his Clefairy) and Gardenia.
+    1F: two grunts; 2F: a grunt and Commander Jupiter (Zubat 18, Skuntank 20; flag tg-eterna-done). Then
+    the cycle shop opens (the owner gives a Moon Stone: the player already rides Kanto's Bicycle), the
+    worker leaves the south of Eterna and the hiker the muddy slope north of Oreburgh City (both
+    `!tg-eterna-done`). Route 206 is Cycling Road (`bike: true`, `slope: 'down'`, between fences) with four
+    Cyclists; Route 207 joins it to Oreburgh and Mt. Coronet. Mt. Coronet 1F: a Hiker, and Cyrus, Team
+    Galactic's boss, who speaks of a new world and walks on (a trigger across the cave; flag cyrus-coronet).
+    Route 208 crosses a river; the Berry Master gives two Sitrus Berries (flag berry-master). Hearthome City:
+    a Center, a Mart, a house, the Gym; the Contest Hall and Amity Square are locked doors, Routes 209 and
+    212 closed by people. Fantina (Duskull 24, Haunter 24, Mismagius 26): the Relic Badge (badge 29, the
+    third Sinnoh badge: up to Lv. 35 obey), TM65 (Shadow Claw), `ending(47)`.
+- **Balance:** Prinplup beats Jupiter 73% at Lv. 22, Monferno 43%; Grotle needs a friend (65-75% with a
+  Staravia or a Luxio). Fantina's Ghosts dodge Normal and Fighting moves and sleep, confuse or burn: a lone
+  starter loses (0-10%), a team of three at Lv. 26-28 wins 65-73% (as against Norman in Hoenn); the gym
+  guide points at Luxio's Bite.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the door before and after the badge,
+  Jupiter, the Moon Stone, Cycling Road's ride and slope, the slope north of Oreburgh, Cyrus, Hearthome's
+  closed ways, Fantina); `tests/story.test.cjs` the chapter after chapter 46 and the balance lines for
+  Jupiter and Fantina.
+
+### After chapter 47
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) two badges are won. Ideas:
-1. Sinnoh: Team Galactic's Eterna Building (Jupiter), the bicycle, Route 206 and Cycling Road, Wayward
-   Cave, Mt. Coronet, Hearthome City and Fantina (the Relic Badge in Platinum's order).
+the Battle Tower; in Sinnoh (Pokémon 1-493) three badges are won. Ideas:
+1. Sinnoh: Route 209, Solaceon Town and its ruins, Route 210, Veilstone City and Maylene (the Cobble
+   Badge; TM60 Drain Punch), the Galactic HQ later; Wayward Cave and Route 211 to the north.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic;

@@ -62,5 +62,6 @@ G.I18n.add({
   "Oreburgh City. A mining town whose coal warms all of Sinnoh.": "Oreburgh. Uma cidade mineira cujo carvão aquece toda Sinnoh.",
   "Oreburgh Mine. Mind your step!": "Mina de Oreburgh. Cuidado onde pisa!",
   "A great lump of coal from the mine. Oreburgh's coal has kept Sinnoh warm for a hundred years.": "Um grande pedaço de carvão da mina. O carvão de Oreburgh aquece Sinnoh há cem anos.",
-  "A fossil from deep in the mine. Long ago, very different Pokémon lived in Sinnoh.": "Um fóssil das profundezas da mina. Há muito tempo, Pokémon muito diferentes viviam em Sinnoh."
+  "A fossil from deep in the mine. Long ago, very different Pokémon lived in Sinnoh.": "Um fóssil das profundezas da mina. Há muito tempo, Pokémon muito diferentes viviam em Sinnoh.",
+  "The slope up to Route 207 is all mud after the rain. Nobody can climb it right now. Try again later!": "A ladeira para a Rota 207 está cheia de lama depois da chuva. Ninguém consegue subir agora. Tente mais tarde!"
 }, "pt-BR");

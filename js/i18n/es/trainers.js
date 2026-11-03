@@ -55,5 +55,6 @@ G.I18n.add({
   "Salon Maiden": "Dama del Salón",
   "Worker": "Operario",
   "Galactic Commander": "Comandante Galaxia",
-  "Aroma Lady": "Dama Aroma"
+  "Aroma Lady": "Dama Aroma",
+  "Cyclist": "Ciclista"
 }, "es");

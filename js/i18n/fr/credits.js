@@ -133,5 +133,8 @@ G.I18n.add({
   "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "Merci d'avoir joué ! La Route 204 et Floraville arriveront dans une prochaine mise à jour.",
   "Chapter 46 complete!": "Chapitre 46 terminé !",
   "{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.": "{player} a chassé la Team Galaxie du pré de Floraville et de la centrale éolienne, a traversé la Forêt Vestigion avec Cheryl et a gagné le Badge Forêt de Flo.",
-  "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "Merci d'avoir joué ! Le bâtiment de la Team Galaxie à Vestigion arrivera dans une prochaine mise à jour."
+  "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "Merci d'avoir joué ! Le bâtiment de la Team Galaxie à Vestigion arrivera dans une prochaine mise à jour.",
+  "Chapter 47 complete!": "Chapitre 47 terminé !",
+  "{player} freed a Clefairy from Team Galactic's Eterna Building, rode down Cycling Road, met Cyrus inside Mt. Coronet and earned the Relic Badge from Fantina.": "{player} a libéré un Mélofée du bâtiment de la Team Galaxie, a dévalé la Piste Cyclable, a rencontré Hélio dans le Mont Couronné et a gagné le Badge Relique de Kiméra.",
+  "Thank you for playing! Routes 209 and 212 wait in a future update.": "Merci d'avoir joué ! Les Routes 209 et 212 arriveront dans une prochaine mise à jour."
 }, "fr");

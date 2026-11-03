@@ -2317,6 +2317,79 @@ test('Sinnoh (chapter 46): Route 204, the twins, the meadow and the key, the win
   assert.equal(F.count('tm86'), 1);
 });
 
+test('Sinnoh (chapter 47): the Eterna Building and Jupiter, the cycle shop, Cycling Road, the way north of Oreburgh, Cyrus, Hearthome, Fantina', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome'].map(f => `js/content/sinnoh/${f}.js`);
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
+  for (const f of ['sinnoh-start', 'sinnoh-dex', 'galactic-jubilife', 'barry-203', 'roark-met', 'mars-windworks', 'cheryl-done']) F.setFlag(f);
+  F.giveMon('monferno', 30, { moves: ['flame-wheel'] });
+  F.giveMon('luxio', 28, { moves: ['bite'] });
+  F.giveItem('bicycle', 1);
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
+  const fights = [];
+  W.onTrainer = async d => { fights.push(d.id); return 'win'; };
+  // Eterna: the building opens with the Forest Badge.
+  const door = G.Maps.get('eterna').warps.find(w => w.to === 'tg-eterna-1f');
+  assert.ok(!F.test(door.if), 'locked before the Forest Badge');
+  S.player.badges.push(26);
+  assert.ok(F.test(door.if));
+  W.load('eterna', { x: 6, y: 22, dir: 'up' });
+  await cross('up', 'tg-eterna-1f');
+  W.load('tg-eterna-1f', { x: 13, y: 3, dir: 'up' });
+  await cross('up', 'tg-eterna-2f');
+  W.load('tg-eterna-2f', { x: 7, y: 4, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('tg-eterna-done') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['jupiter']);
+  // The cycle shop opens: a Moon Stone.
+  W.load('eterna', { x: 25, y: 21, dir: 'up' });
+  await cross('up', 'eterna-cycle');
+  W.load('eterna-cycle', { x: 5, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  assert.equal(F.count('moon-stone'), 1);
+  // Cycling Road: on the Bicycle, rolling south.
+  W.load('eterna', { x: 17, y: 27, dir: 'down' });
+  await cross('down', 'route206');
+  assert.deepEqual([W.player.x, W.player.y], [9, 0]);
+  assert.ok(W.biking, 'Cycling Road puts you on the Bicycle');
+  const me = W.player;
+  G.Player.reset();
+  G.Player.update(0.02, me, W);
+  assert.ok(me.moving && me.dir === 'down', 'rolling down');
+  // The muddy way north of Oreburgh is open; Route 207 east to Mt. Coronet, and Cyrus.
+  W.load('oreburgh', { x: 17, y: 0, dir: 'up' });
+  await cross('up', 'route207');
+  assert.deepEqual([W.player.x, W.player.y], [5, 15]);
+  W.load('route207', { x: 26, y: 8, dir: 'right' });
+  await cross('right', 'mt-coronet-1f');
+  assert.deepEqual([W.player.x, W.player.y], [3, 12]);
+  W.load('mt-coronet-1f', { x: 15, y: 8, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => F.flag('cyrus-coronet') && !W.locked);
+  W.load('mt-coronet-1f', { x: 28, y: 12, dir: 'down' });
+  await cross('down', 'route208');
+  assert.deepEqual([W.player.x, W.player.y], [4, 7]);
+  W.load('route208', { x: 35, y: 7, dir: 'right' });
+  await cross('right', 'hearthome');
+  assert.deepEqual([W.player.x, W.player.y], [0, 13]);
+  // Hearthome: Routes 209 and 212 are closed.
+  W.load('hearthome', { x: 33, y: 13, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked', 'Route 209');
+  W.load('hearthome', { x: 17, y: 25, dir: 'down' });
+  assert.equal(step(W, 'down'), 'blocked', 'Route 212');
+  // Fantina: the Relic Badge, TM65, the end of the chapter.
+  W.load('hearthome-gym', { x: 6, y: 4, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('chapter-47-done') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['fantina']);
+  assert.ok(S.player.badges.includes(29));
+  assert.equal(F.obeyCap('sinnoh'), 35);
+  assert.equal(F.count('tm65'), 1);
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

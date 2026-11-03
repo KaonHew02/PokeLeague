@@ -83,6 +83,9 @@ G.Store = (() => {
   const STATUS = ['psn', 'tox', 'brn', 'par', 'slp', 'frz'];
   const knownSp = id => !G.SPECIES || !!G.SPECIES[id];
   const knownMove = id => typeof id === 'string' && (!G.MOVES || !!G.MOVES[id]);
+  /** Hoenn's gym leaders (map:id in `done`) and their badges: saves loaded before badges 17-24 were kept lost them. */
+  const HOENN_GYMS = { 'rustboro-gym:roxanne': 17, 'dewford-gym:brawly': 18, 'mauville-gym:wattson': 19, 'lavaridge-gym:flannery': 20,
+    'petalburg-gym:norman-gym': 21, 'fortree-gym:winona': 22, 'mossdeep-gym:tate': 23, 'sootopolis-gym:juan': 24 };
 
   let fixed = 0;
   /** A Pokémon as the game can use it, or null when it cannot be saved (unknown species, no moves). */
@@ -132,8 +135,8 @@ G.Store = (() => {
     Object.assign(out.player, {
       name: cleanName(p.name) || 'Red', gender: p.gender === 'f' ? 'f' : 'm',
       id: int(p.id, 0, 65535, d.player.id), money: int(p.money, 0, 999999, 3000),
-      // Kanto's badges are 1-8, Johto's 9-16.
-      badges: [...new Set((Array.isArray(p.badges) ? p.badges : []).filter(b => Number.isInteger(b) && b >= 1 && b <= 16))].sort((a, b) => a - b),
+      // Kanto's badges are 1-8, Johto's 9-16, Hoenn's 17-24.
+      badges: [...new Set((Array.isArray(p.badges) ? p.badges : []).filter(b => Number.isInteger(b) && b >= 1 && b <= 24))].sort((a, b) => a - b),
       map: typeof p.map === 'string' ? p.map : null, x: int(p.x, -999, 9999, 0), y: int(p.y, -999, 9999, 0),
       dir: DIRS.includes(p.dir) ? p.dir : 'down',
       lastHeal: obj(p.lastHeal) && typeof p.lastHeal.map === 'string'
@@ -195,6 +198,9 @@ G.Store = (() => {
     for (const k of ['flags', 'done']) {
       if (obj(s[k])) for (const [f, v] of Object.entries(s[k])) if (v) out[k][f] = 1;
     }
+    // A Hoenn badge lost to the old 1-16 limit comes back when its leader was beaten.
+    const won = Object.keys(HOENN_GYMS).filter(k => out.done[k]).map(k => HOENN_GYMS[k]);
+    if (won.some(b => !out.player.badges.includes(b))) out.player.badges = [...new Set(out.player.badges.concat(won))].sort((a, b) => a - b);
     if (obj(s.vars)) {
       for (const [k, v] of Object.entries(s.vars)) {
         if (typeof v === 'string' || typeof v === 'boolean' || (typeof v === 'number' && isFinite(v))) out.vars[k] = v;
@@ -297,7 +303,7 @@ G.Store = (() => {
     catch (e) { return { error: e.message === 'newer' ? 'newer' : 'bad' }; }
   }
 
-  return { V, APP, SLOTS, BOXES, BOX_SIZE, MAX_NAME, newSave, migrate, sanitize, fixMon, cleanName,
+  return { V, APP, SLOTS, BOXES, BOX_SIZE, MAX_NAME, HOENN_GYMS, newSave, migrate, sanitize, fixMon, cleanName,
            slots, load, write, remove, lastSlot, exportText, importText,
            get usedBackup() { return usedBackup; }, use(s) { storage = s; } };
 })();

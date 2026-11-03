@@ -192,6 +192,49 @@ test('export and import: round trip, and other files are refused', () => {
   assert.equal(G.Store.importText('"\ufeff"').error, 'bad');
 });
 
+test("Hoenn's badges (17-24) survive a save and load; ones lost to the old 1-16 limit come back from the beaten leaders", () => {
+  const { G } = fresh();
+  const s = G.Store.newSave({ name: 'May' });
+  s.party.push(mon(258, 30));
+  s.player.badges = [1, 9, 17, 18, 24];
+  G.Store.write(1, s);
+  assert.deepEqual(plain(G.Store.load(1).player.badges), [1, 9, 17, 18, 24]);
+  // A save from before the fix: Roxanne and Tate & Liza beaten, their badges gone.
+  s.player.badges = [1];
+  s.done = { 'rustboro-gym:roxanne': 1, 'mossdeep-gym:tate': 1, 'route104:gina-mia': 1 };
+  assert.deepEqual(plain(G.Store.sanitize(s).player.badges), [1, 17, 23]);
+  assert.equal(Object.keys(G.Store.HOENN_GYMS).length, 8);
+  assert.deepEqual(Object.values(G.Store.HOENN_GYMS).sort((a, b) => a - b), [17, 18, 19, 20, 21, 22, 23, 24]);
+});
+
+test('a hostile save file: no prototype pollution, every field is checked, names stay short text', () => {
+  const X = '<img src=x onerror=alert(1)>';
+  const bad = { sp: 25, lvl: 1e9, nick: X, moves: [{ id: 'thunderbolt', pp: 10 }, { id: X }], uid: X + X + X, status: X, gender: X, item: X, hp: X, ivs: [X, 1, 1, 1, 1, 1] };
+  const save = { app: 'PokeLeague', player: { name: X, badges: [1, 99, X], money: X, x: X }, rival: { name: X, starter: X },
+    party: [bad], bag: { [X]: 3, potion: 2 }, vars: { [X]: X, o: { x: 1 } }, fame: [{ party: [{ sp: 25, nick: X, lvl: X }] }] };
+  let text = JSON.stringify({ app: 'PokeLeague', kind: 'save', save });
+  text = text.replace('"nick":', '"__proto__":{"polluted":1},"constructor":{"prototype":{"polluted":1}},"nick":');
+  text = text.replace('"party":', '"__proto__":{"polluted":1},"party":');
+  const r = G.Store.importText(text);
+  assert.ok(r.save);
+  assert.equal(({}).polluted, undefined);
+  assert.equal(Object.prototype.polluted, undefined);
+  const p = r.save.party[0];
+  assert.equal(r.save.player.name, [...X].slice(0, G.Store.MAX_NAME).join(''));
+  assert.equal(p.nick.length <= G.Store.MAX_NAME, true);
+  assert.equal(p.lvl, 100);
+  assert.deepEqual(p.moves.map(m => m.id), ['thunderbolt']);
+  assert.equal(p.uid.length, 24);
+  assert.deepEqual([p.status, p.gender, p.item], [null, null, null]);
+  assert.equal(p.hp, G.Mon.maxHp(p));
+  assert.equal(p.ivs[0], 0);
+  assert.deepEqual(plain(r.save.player.badges), [1]);
+  assert.equal(r.save.player.money, 3000);
+  assert.deepEqual(plain(r.save.bag), { potion: 2 });
+  assert.equal(r.save.rival.starter, null);
+  assert.equal(r.save.fame[0].party[0].lvl, 1);
+});
+
 test('the PC: caught Pokémon go to the current box first, healed', () => {
   const { G } = fresh();
   const s = G.Store.newSave();

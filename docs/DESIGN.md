@@ -634,7 +634,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   overworld stores it). An evolution registers the new species in the Pokédex.
 - Not done yet: trainer sprites in the intro (`people.js` from M3).
 - Debug: `dev.html?debug&wild=sp:lvl[,sp:lvl]` or `&vs=...` (trainer), plus `&party=`,
-  `&items=`, `&seed=`, `&leader`, `&bg=cave`.
+  `&items=`, `&seed=`, `&leader`, `&bg=cave`. Only with js/debug.js (`G.Debug.on`): the published
+  index.html leaves it out, so these links do nothing there.
 
 
 - **Canvas:** the overworld, the battle scene (foe at dir 7 on the top-right platform,
@@ -698,7 +699,13 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   `remove(n)`, `lastSlot()`, `exportText(save)`, `importText(text)` → `{ save }` or
   `{ error: 'not-json' | 'other-app' | 'newer' | 'bad' }`, `migrate(s, to, steps)`, `sanitize(s)`
   (every field checked against `newSave()`: unknown species or moves dropped, HP and PP within
-  their maximum, a party over six spills into the PC, unknown items dropped), `cleanName(s)`.
+  their maximum, a party over six spills into the PC, unknown items dropped, badges 1-24; a Hoenn
+  badge whose leader is in `done` but missing from the badges, lost to the old 1-16 limit, comes
+  back: `HOENN_GYMS`), `cleanName(s)`.
+- **Safety:** an imported file is untrusted. `sanitize` rebuilds the save from `newSave()` (no
+  prototype pollution, names cut to 10 characters), every text the screens show goes through
+  `esc()` or `textContent`, and the Content-Security-Policy in dev.html lets only the game's own
+  scripts run. `tests/save.test.cjs` imports a hostile save.
 - **G.Session** (store.js): `begin(slot, save)`, `slot`, `save(slot?)`. Play time counts the
   seconds the page is visible in the overworld, a battle or an evolution. A new game is written
   at once; after that only the menu's Save writes (no autosave, as in the games).

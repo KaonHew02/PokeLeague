@@ -836,7 +836,8 @@ G.BattleUI = (() => {
   /** dev.html?debug&wild=... or &vs=...: starts a test battle instead of the title. -> started? */
   function debugFromUrl() {
     const q = new URLSearchParams(location.search);
-    if (!q.has('debug') || !(q.get('wild') || q.get('vs'))) return false;
+    // Only with js/debug.js (dev.html): the published page leaves it out, so a link cannot start a test battle there.
+    if (!(G.Debug && G.Debug.on) || !(q.get('wild') || q.get('vs'))) return false;
     const seed = q.has('seed') ? +q.get('seed') : G.RNG.seed();
     const rng = G.RNG(seed * 31 + 7);
     const party = parseTeam(q.get('party') || 'charmander:8', rng);

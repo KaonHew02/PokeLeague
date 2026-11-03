@@ -27,7 +27,8 @@ the map format and which files each milestone owns.
   chapter (docs/DESIGN.md section 10); a chapter ends with `G.CreditsUI.ending(n)`.
   Try a map in the browser with `dev.html?debug&map=<id>` (`map=sandbox` is the M3 test town).
 - Run: `python tools/serve.py` → http://localhost:8130/dev.html (PokéGo uses 8123). It is
-  `http.server` with no-cache headers, so edited scripts are never stale. `.claude/launch.json`
+  `http.server` with no-cache headers, so edited scripts are never stale. It answers only this
+  computer; `--lan` opens it to the local network (testing on a phone on the same Wi-Fi). `.claude/launch.json`
   has it as the `pokeleague` preview server.
 - A battle in the browser: http://localhost:8130/dev.html?debug&wild=pidgey:3&party=charmander:8
   (or `&vs=geodude:12,onix:14` for a trainer). In a hidden browser pane animation barely runs:

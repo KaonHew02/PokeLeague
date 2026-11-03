@@ -1692,6 +1692,13 @@ test('Hoenn (chapter 40): the currents west of Pacifidlog to Slateport, Steven b
   W.load('steven-house', { x: 5, y: 5, dir: 'up' });
   await pump(W, W.interact());
   assert.ok(F.flag('got-beldum') && F.party().length === n + 1 && F.party()[n].sp === 374);
+  // The save's repair table (store.js): each entry is a gym leader whose win script gives that badge.
+  for (const [key, n] of Object.entries(G.Store.HOENN_GYMS)) {
+    const [mapId, id] = key.split(':');
+    const t = G.Maps.get(mapId).trainers.find(x => x.id === id);
+    assert.ok(t && t.leader && t.win, key);
+    assert.ok(JSON.stringify(G.Script.get(t.win)).includes('["badge",' + n + ']'), key + ' gives badge ' + n);
+  }
 });
 
 /** Pushes the boulder in front n times (Strength on), following it after each push but the last. */

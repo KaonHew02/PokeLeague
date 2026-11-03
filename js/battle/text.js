@@ -78,6 +78,7 @@ G.BattleText = (() => {
       case 'trap': return fmt('{mon} is hurt by {move}!', { mon, move: G.Names.move(e.src) });
       case 'nightmare': return fmt('{mon} is locked in a nightmare!', { mon });
       case 'sand': return fmt('{mon} is buffeted by the sandstorm!', { mon });
+      case 'rocks': return fmt('Pointed stones dug into {mon}!', { mon });
       case 'hail': return fmt('{mon} is pelted by hail!', { mon });
       case 'ooze': return fmt('{mon} sucked up the liquid ooze!', { mon });
       case 'ability': return fmt('{mon} was hurt!', { mon });
@@ -98,6 +99,13 @@ G.BattleText = (() => {
       case 'pressure': return fmt('{mon} is exerting its {ability}!', { mon, ability });
       case 'damp': return fmt("{mon}'s {ability} prevents {move} from working!", { mon, ability, move: G.Names.move(e.move) });
       case 'rod': return fmt('{mon} took the attack with its {ability}!', { mon, ability });
+      // Generation 4 (chapter 44).
+      case 'mold-breaker': return fmt('{mon} breaks the mold!', { mon });
+      case 'slow-start': return fmt("{mon} can't get it going!", { mon });
+      case 'frisk': return fmt('{mon} frisked {target} and found its {item}!', { mon, target: who(b, e.target, e.tside), item: G.Names.item(e.item) });
+      case 'forewarn': return fmt('{mon} was alerted to {move}!', { mon, move: G.Names.move(e.move) });
+      case 'anticipation': return fmt('{mon} shuddered!', { mon });
+      case 'anger-point': return fmt('{mon} maxed its Attack!', { mon });
       default: return fmt("{mon}'s {ability}!", { mon, ability });
     }
   }
@@ -219,6 +227,14 @@ G.BattleText = (() => {
       case 'stockpile': return fmt('{mon} stockpiled {n}!', { mon, n: e.n });
       case 'haze': return fmt('All stat changes were eliminated!', {});
       case 'screensBroken': return fmt('The wall shattered!', {});
+      // Generation 4 moves (chapter 44).
+      case 'heartSwap': return fmt('{mon} switched stat changes with {target}!', { mon, target: who(b, e.target, e.tside) });
+      case 'rocks': return e.side === 0 ? fmt('Pointed stones float in the air around your team!', {}) : fmt('Pointed stones float in the air around the foe team!', {});
+      case 'rocksGone': return fmt('The pointed stones disappeared!', {});
+      case 'trickRoom': return fmt('{mon} twisted the dimensions!', { mon });
+      case 'trickRoomEnd': return fmt('The twisted dimensions returned to normal!', {});
+      case 'gravity': return fmt('Gravity intensified!', {});
+      case 'gravityEnd': return fmt('Gravity returned to normal!', {});
       case 'crash': return fmt('{mon} kept going and crashed!', { mon });
       case 'field': return fieldLine(e.side, e.effect, true);
       case 'fieldEnd': return fieldLine(e.side, e.effect, false);

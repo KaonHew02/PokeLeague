@@ -9,10 +9,10 @@ const DATA = ['js/data/types.js', 'js/data/species.js', 'js/data/moves.js', 'js/
 const { G } = boot(CORE.concat(DATA));
 const STATS6 = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 
-test('all 386 species of Kanto, Johto and Hoenn, with six base stats, valid types and a known growth rate', () => {
+test('all 493 species of Kanto, Johto, Hoenn and Sinnoh, with six base stats, valid types and a known growth rate', () => {
   const dex = Object.keys(G.SPECIES).map(Number).sort((a, b) => a - b);
-  assert.equal(dex.length, 386);
-  assert.equal(dex[0], 1); assert.equal(dex[385], 386);
+  assert.equal(dex.length, 493);
+  assert.equal(dex[0], 1); assert.equal(dex[492], 493);
   for (const [d, s] of Object.entries(G.SPECIES)) {
     assert.equal(s.base.length, 6, d);
     assert.ok(s.base.every(v => Number.isInteger(v) && v > 0), d);
@@ -52,7 +52,7 @@ test('evolutions: levels, stones, friendship, and trades turned into levels or i
   assert.deepEqual(evo(25), [{ to: 26, how: 'item', item: 'thunder-stone' }]);
   assert.deepEqual(evo(64), [{ to: 65, how: 'level', level: 36, via: 'trade' }]);
   assert.deepEqual(evo(67), [{ to: 68, how: 'level', level: 37, via: 'trade' }]);
-  assert.equal(G.SPECIES[133].evo.length, 5);                        // Eevee: three stones, Espeon by day, Umbreon by night
+  assert.equal(G.SPECIES[133].evo.length, 7);                        // Eevee: five stones (Leaf and Ice, chapter 44), Espeon by day, Umbreon by night
   assert.deepEqual(plain(G.SPECIES[133].evo.filter(e => e.how === 'friendship').map(e => e.time)), ['day', 'night']);
   assert.deepEqual(evo(42), [{ to: 169, how: 'friendship', min: 160 }]);   // Golbat -> Crobat
   assert.deepEqual(evo(95), [{ to: 208, how: 'item', item: 'metal-coat', via: 'trade' }]);   // Onix -> Steelix

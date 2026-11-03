@@ -186,5 +186,20 @@ G.I18n.add({
   "{mon} avoided the attack!": "{mon}躲开了攻击！",
   "{mon} is ready to help {target}!": "{mon}准备帮助{target}！",
   "{mon} became the center of attention!": "{mon}成为了众人瞩目的焦点！",
-  "{mon} tried to flee, but it could not get away!": "{mon}想要逃走，可是逃不掉！"
+  "{mon} tried to flee, but it could not get away!": "{mon}想要逃走，可是逃不掉！",
+  "Pointed stones dug into {mon}!": "尖锐的岩石扎进了{mon}的身体！",
+  "{mon} breaks the mold!": "{mon}打破了常规！",
+  "{mon} can't get it going!": "{mon}无法拿出干劲！",
+  "{mon} frisked {target} and found its {item}!": "{mon}察觉到了{target}携带的{item}！",
+  "{mon} was alerted to {move}!": "{mon}预知了{move}！",
+  "{mon} shuddered!": "{mon}发抖了！",
+  "{mon} maxed its Attack!": "{mon}的攻击提升到了最大！",
+  "{mon} switched stat changes with {target}!": "{mon}和{target}互换了能力变化！",
+  "Pointed stones float in the air around your team!": "我方队伍的周围浮起了尖锐的岩石！",
+  "Pointed stones float in the air around the foe team!": "对手队伍的周围浮起了尖锐的岩石！",
+  "The pointed stones disappeared!": "尖锐的岩石消失了！",
+  "{mon} twisted the dimensions!": "{mon}扭曲了时空！",
+  "The twisted dimensions returned to normal!": "扭曲的时空恢复正常了！",
+  "Gravity intensified!": "重力变强了！",
+  "Gravity returned to normal!": "重力恢复正常了！"
 }, "zh-Hans");

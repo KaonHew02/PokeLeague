@@ -1,5 +1,7 @@
 /* ============ damage.js — the damage formula (Generation 5 and later) ============
- *   G.Damage.calc({ lvl, pow, atk, def, stab, eff, crit, roll, burn, screen, weather, spread })
+ *   G.Damage.calc({ lvl, pow, atk, def, stab, eff, crit, roll, burn, screen, weather, spread, final })
+ *   stab and crit: true (×1.5) or the factor itself (Adaptability ×2, Sniper ×2.25, chapter 44);
+ *   final: the last factor (Tinted Lens, Filter, Solid Rock).
  *     -> damage (an integer)
  *
  *   base = floor(floor(floor(2·L/5 + 2) · P · A / D) / 50) + 2
@@ -21,12 +23,13 @@ G.Damage = (() => {
     let d = base(o.lvl, o.pow, o.atk, o.def);
     if (o.spread) d = Math.floor(d * o.spread);
     if (o.weather) d = Math.floor(d * o.weather);
-    if (o.crit) d = Math.floor(d * 1.5);
+    if (o.crit) d = Math.floor(d * (o.crit === true ? 1.5 : o.crit));
     d = Math.floor(d * (o.roll == null ? 100 : o.roll) / 100);
-    if (o.stab) d = Math.floor(d * 1.5);
+    if (o.stab) d = Math.floor(d * (o.stab === true ? 1.5 : o.stab));
     d = Math.floor(d * (o.eff == null ? 1 : o.eff));
     if (o.burn) d = Math.floor(d / 2);
     if (o.screen) d = Math.floor(d / 2);
+    if (o.final && o.final !== 1) d = Math.floor(d * o.final);
     return Math.max(1, d);
   }
 

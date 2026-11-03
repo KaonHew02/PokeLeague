@@ -252,19 +252,22 @@ G.Battle = (() => {
      *  its negative stage, defender its positive one. */
     stat(bm, key, opts = {}) {
       const raw = G.Mon.stats(bm.mon)[STAT_INDEX[key]];
-      let st = bm.stages[key];
+      let st = opts.noStages ? 0 : bm.stages[key];       // Unaware (chapter 44)
       if (opts.crit && opts.attacking) st = Math.max(0, st);
       if (opts.crit && opts.defending) st = Math.min(0, st);
       let v = Math.floor(Math.floor(raw * G.Held.statMult(bm.mon, key) * G.Abilities.statMult(this, bm, key)) * G.Stats.stage(st));
-      if (key === 'spe' && bm.mon.status === 'par') v = Math.floor(v / 2);
+      if (key === 'spe' && bm.mon.status === 'par' && bm.ability !== 'quick-feet') v = Math.floor(v / 2);
       return Math.max(1, v);
     }
 
     /** Type effectiveness against this battler (Foresight lets Normal and Fighting hit Ghosts; Levitate). */
-    eff(type, bm) {
-      if (type === 'ground' && bm.ability === 'levitate') return 0;
+    eff(type, bm, user) {
+      // Gravity (chapter 44) brings Flying types and Levitate down to the ground.
+      if (type === 'ground' && this.gravity) return G.Types.eff(type, bm.types.filter(t => t !== 'flying'));
+      if (type === 'ground' && G.Abilities.ab(this, bm) === 'levitate') return 0;        // (not against Mold Breaker)
       let types = bm.types;
-      if (bm.vol.foresight && (type === 'normal' || type === 'fighting')) types = types.filter(t => t !== 'ghost');
+      // Foresight, and Scrappy (chapter 44): Normal and Fighting moves hit Ghosts.
+      if ((bm.vol.foresight || G.Abilities.scrappy(user, type)) && (type === 'normal' || type === 'fighting')) types = types.filter(t => t !== 'ghost');
       return G.Types.eff(type, types);
     }
 
@@ -281,6 +284,7 @@ G.Battle = (() => {
     /** HP loss from a hit: a substitute takes it first; Endure / False Swipe leave 1 HP. */
     hurt(target, dmg, o = {}) {
       if (dmg <= 0) return 0;
+      if (G.Abilities.magicGuard(target, o.why)) return 0;          // Magic Guard (chapter 44)
       if (target.vol.substitute > 0 && o.user && o.user !== target && !o.ignoreSub) {
         const d = Math.min(dmg, target.vol.substitute);
         target.vol.substitute -= d;
@@ -329,7 +333,7 @@ G.Battle = (() => {
       if ((s === 'brn' && t.includes('fire')) || (s === 'par' && t.includes('electric')) || (s === 'frz' && t.includes('ice'))
           || ((s === 'psn' || s === 'tox') && (t.includes('poison') || t.includes('steel')))) return fail('immune');
       if (s === 'frz' && this.weatherNow() === 'sun') return fail('already');
-      if (G.Abilities.blocksStatus(target, s)) { if (!o.silent) G.Abilities.say(this, target, 'protect'); return false; }
+      if (G.Abilities.blocksStatus(target, s, this)) { if (!o.silent) G.Abilities.say(this, target, 'protect'); return false; }
       const foeSource = o.source && o.source.side !== target.side;
       if (foeSource && this.sideOf(target).field.safeguard) return fail('safeguard');
       if (foeSource && o.statusMove && target.vol.substitute) return fail('sub');
@@ -357,6 +361,7 @@ G.Battle = (() => {
     /** Stat stage change. o: { source, silent }. Mist and substitutes stop drops from the foe. */
     stage(target, stat, delta, o = {}) {
       if (!this.alive(target) || !delta) return false;
+      delta = G.Abilities.stageDelta(target, delta);                // Simple (chapter 44)
       const foeSource = o.source && o.source.side !== target.side;
       if (delta < 0 && foeSource && (this.sideOf(target).field.mist || (o.statusMove && target.vol.substitute))) {
         if (!o.silent) this.emit(this.sideOf(target).field.mist ? 'mistBlock' : 'fail', { side: target.side, uid: target.mon.uid });
@@ -417,13 +422,14 @@ G.Battle = (() => {
         const id = x.a.type === 'move' ? (x.a.id || (bm.mon.moves[x.a.slot] || {}).id) : null;
         return Object.assign(x, {
           bracket: x.a.type === 'move' || x.a.type === 'flee' ? 0 : 1,
+          stall: G.Abilities.stall(bm) ? 1 : 0,                                    // Stall (chapter 44)
           pri: id && G.MOVES[id] ? G.MOVES[id].pri : 0,
           quick: x.a.type === 'move' && G.Held.quick(this, bm) ? 1 : 0,          // Quick Claw
           spe: this.stat(bm, 'spe'), tie: this.rng.next()
         });
       });
-      acts.sort((p, q) => (q.bracket - p.bracket) || (q.bracket ? p.n - q.n : 0) || (q.pri - p.pri) || (q.quick - p.quick)
-                          || (q.spe - p.spe) || (p.tie - q.tie));
+      acts.sort((p, q) => (q.bracket - p.bracket) || (q.bracket ? p.n - q.n : 0) || (q.pri - p.pri) || (p.stall - q.stall) || (q.quick - p.quick)
+                          || (this.trickRoom ? p.spe - q.spe : q.spe - p.spe) || (p.tie - q.tie));      // Trick Room (chapter 44)
       this.insert(...acts.map(x => () => this.doAction(x.side, x.a)), () => this.endOfTurn());
     }
 
@@ -443,13 +449,14 @@ G.Battle = (() => {
         const id = x.a.type === 'move' ? (x.a.id || (x.bm.mon.moves[x.a.slot] || {}).id) : null;
         Object.assign(x, {
           bracket: x.a.type === 'move' || x.a.type === 'flee' ? 0 : 1,
+          stall: G.Abilities.stall(x.bm) ? 1 : 0,                                    // Stall (chapter 44)
           pri: id && G.MOVES[id] ? G.MOVES[id].pri : 0,
           quick: x.a.type === 'move' && G.Held.quick(this, x.bm) ? 1 : 0,          // Quick Claw
           spe: this.stat(x.bm, 'spe'), tie: this.rng.next()
         });
       }
-      acts.sort((p, q) => (q.bracket - p.bracket) || (q.bracket ? p.n - q.n : 0) || (q.pri - p.pri) || (q.quick - p.quick)
-                          || (q.spe - p.spe) || (p.tie - q.tie));
+      acts.sort((p, q) => (q.bracket - p.bracket) || (q.bracket ? p.n - q.n : 0) || (q.pri - p.pri) || (p.stall - q.stall) || (q.quick - p.quick)
+                          || (this.trickRoom ? p.spe - q.spe : q.spe - p.spe) || (p.tie - q.tie));      // Trick Room (chapter 44)
       this.choices = [];
       this.insert(...acts.map(x => () => this.doAction(x.side, x.a, x.bm)), () => this.endOfTurn());
     }
@@ -520,7 +527,7 @@ G.Battle = (() => {
         else { stop(); return say('frz'); }
       }
       if (bm.vol.disable && bm.vol.disable.move === id && !a.locked) { stop(); return say('disabled'); }
-      if (bm.vol.flinch && !G.Abilities.blocksFlinch(bm)) { stop(); return say('flinch'); }        // Inner Focus
+      if (bm.vol.flinch && !G.Abilities.blocksFlinch(bm)) { stop(); say('flinch'); return G.Abilities.steadfast(this, bm); }   // Inner Focus; Steadfast
       if (bm.vol.confusion) {
         bm.vol.confusion--;
         if (bm.vol.confusion <= 0) { bm.vol.confusion = 0; this.emit('confusionEnd', { side: bm.side, uid: mon.uid }); }
@@ -627,7 +634,8 @@ G.Battle = (() => {
           this.emit('weatherTick', { w: this.weather.w });
           for (const bm of order) {
             const safe = this.weather.w === 'sand' ? ['rock', 'ground', 'steel'] : ['ice'];
-            if (this.alive(bm) && !bm.types.some(t => safe.includes(t)) && !bm.vol.invuln)
+            const shelter = this.weather.w === 'hail' && (bm.ability === 'ice-body' || bm.ability === 'snow-cloak');   // (chapter 44)
+            if (this.alive(bm) && !bm.types.some(t => safe.includes(t)) && !bm.vol.invuln && !shelter)
               this.hurt(bm, Math.max(1, Math.floor(this.maxHp(bm) / 16)), { why: this.weather.w });
           }
         }
@@ -647,8 +655,14 @@ G.Battle = (() => {
         G.Held.endOfTurn(this, bm);
         G.Abilities.endOfTurn(this, bm);
         const st = bm.mon.status;
-        if (this.alive(bm) && (st === 'psn' || st === 'brn')) this.hurt(bm, Math.max(1, Math.floor(max / (st === 'psn' ? 8 : 16))), { why: st });
-        if (this.alive(bm) && st === 'tox') { bm.mon.tox = Math.min(15, bm.mon.tox + 1); this.hurt(bm, Math.max(1, Math.floor(max * bm.mon.tox / 16)), { why: 'tox' }); }
+        // Poison Heal (chapter 44): poison heals it by an eighth instead; Heatproof halves a burn's damage.
+        if (this.alive(bm) && (st === 'psn' || st === 'tox') && G.Abilities.poisonHeal(bm)) {
+          if (st === 'tox') bm.mon.tox = Math.min(15, bm.mon.tox + 1);
+          if (bm.mon.hp < max) this.heal(bm, max / 8, 'ability', { ability: bm.ability });
+        } else {
+          if (this.alive(bm) && (st === 'psn' || st === 'brn')) this.hurt(bm, Math.max(1, Math.floor(max / (st === 'psn' ? 8 : G.Abilities.heatproof(bm) ? 32 : 16))), { why: st });
+          if (this.alive(bm) && st === 'tox') { bm.mon.tox = Math.min(15, bm.mon.tox + 1); this.hurt(bm, Math.max(1, Math.floor(max * bm.mon.tox / 16)), { why: 'tox' }); }
+        }
         if (this.alive(bm) && bm.vol.nightmare) {
           if (bm.mon.status !== 'slp') bm.vol.nightmare = false;
           else this.hurt(bm, Math.max(1, Math.floor(max / 4)), { why: 'nightmare' });
@@ -677,6 +691,9 @@ G.Battle = (() => {
         }
         bm.turns++;
       }
+      // Trick Room and Gravity (chapter 44) wear off after five turns.
+      if (this.trickRoom && --this.trickRoom === 0) this.emit('trickRoomEnd', {});
+      if (this.gravity && --this.gravity === 0) this.emit('gravityEnd', {});
       // Reflect, Light Screen, Mist, Safeguard
       for (const s of this.sides) {
         for (const k of Object.keys(s.field)) {
@@ -749,6 +766,11 @@ G.Battle = (() => {
                           shiny: !!mon.shiny, gender: mon.gender, status: mon.status }, this.double ? { slot } : {}));
       // Those who faced a foe share its experience.
       for (const fo of this.foe.bms) for (const pl of this.player.bms) if (pl && fo && this.alive(pl) && this.alive(fo)) fo.participants.add(pl.mon.uid);
+      // Stealth Rock (chapter 44): an eighth of its HP, more or less by how Rock moves hit it.
+      if (this.started && side.rocks && this.alive(bm)) {
+        this.hurt(bm, Math.max(1, Math.floor(this.maxHp(bm) * G.Types.eff('rock', bm.types) / 8)), { why: 'rocks' });
+        if (bm.mon.hp <= 0) { this.afterAction(); return; }
+      }
       if (this.started && !o.noEntry) G.Abilities.switchIn(this, bm);
     }
 

@@ -112,8 +112,9 @@ G.DayCare = (() => {
   }
 
   let prevo = null;
-  // Babies hatched only with an incense (Generation 3): Azurill, Wynaut. Without it, their family's second stage.
-  const INCENSE = new Set([298, 360]);
+  // Babies hatched only with an incense: Azurill, Wynaut (Generation 3); Budew, Chingling, Bonsly, Mime Jr.,
+  // Happiny, Munchlax, Mantyke (Generation 4, chapter 44). Without it, their family's second stage.
+  const INCENSE = new Set([298, 360, 406, 433, 438, 439, 440, 446, 458]);
   /** The first stage of a species' family, among the game's species (Pikachu -> Pichu, Marill -> Marill). */
   function root(sp) {
     if (!prevo) {

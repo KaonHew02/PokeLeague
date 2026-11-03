@@ -66,7 +66,8 @@ in the same change.
 ```
 python tools/fetch_data.py --region kanto            # dex 1-151 (about 1,200 requests the first time)
 python tools/fetch_data.py --region johto            # dex 1-251, Kanto and Johto places
-python tools/fetch_data.py --region hoenn            # dex 1-386, and Hoenn's places and abilities (what js/data/ holds now)
+python tools/fetch_data.py --region hoenn            # dex 1-386, and Hoenn's places and abilities
+python tools/fetch_data.py --region sinnoh           # dex 1-493, and Sinnoh's places (what js/data/ holds now; chapter 44)
 python tools/fetch_data.py --region kanto --offline  # cache only; fails on a miss
 python tools/fetch_data.py --region kanto --refresh  # download again
 ```
@@ -1955,6 +1956,34 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Tests:** `tests/tower.test.cjs` (G.Tower and the two rules); `tests/field.test.cjs` the whole tower on
   the real maps (the ferry, the clauses, seven wins and BP, the streak going on, a loss, retiring,
   doubles, Anabel, the exchange, the ferry back); `tests/story.test.cjs` a first set and a Protein.
+
+- **Engine and data for chapter 44** (Sinnoh):
+  - **Data:** `--region sinnoh`: Pokémon 387-493 (Platinum's learnsets; TM compatibility by Platinum's
+    machine list; Generation 4 abilities, while 1-386 keep their Generation 3 ones), the moves they bring
+    (460 in all), Platinum's encounter tables (the Poké Radar and the second-slot tables left out), the
+    evolution items (Razor Claw and Fang, Shiny, Dusk, Dawn, Ice and Oval Stones, Protector, Electirizer,
+    Magmarizer, Dubious Disc, Reaper Cloth), sprites from SpriteCollab (`fetch_sprites.py 387 493`;
+    the credits list 59 artists). The Chinese Pokédex text of 122 Pokémon is not in PokeAPI: English.
+  - **Evolutions** (`evo_rule`, evolution.js): a level rule may need a held item (used up), the time of day,
+    a gender, a known move or a species in the party; a stone may need a gender. Place-based evolutions take
+    the later games' stones (Magnezone and Probopass with a Thunder Stone, Leafeon with a Leaf Stone,
+    Glaceon with an Ice Stone). The incense babies (Budew, Chingling, Bonsly, Mime Jr., Happiny, Munchlax,
+    Mantyke) do not hatch without an incense (daycare.js), like Azurill and Wynaut.
+  - **Abilities:** all 47 of Generation 4 (abilities.js; `KNOWN` 123): see its header. The battle asks for
+    STAB (Adaptability), critical hits (Super Luck, Sniper), a last factor (Tinted Lens, Filter, Solid Rock:
+    `G.Damage.calc({ final })`), Unaware (`b.stat(bm, key, { noStages })`), Simple (`b.stage`), Normalize,
+    Scrappy and Mold Breaker (`b.moldBreaker` while its move is used), No Guard, Stall (move order), Magic
+    Guard (`b.hurt` skips indirect damage), Poison Heal and Heatproof (the end of the turn), Klutz and
+    Unburden (held.js). Six new `ability` reasons: mold-breaker, slow-start, frisk, forewarn, anticipation,
+    anger-point. Held items: the Razor Claw raises the critical-hit stage, the Razor Fang may make the foe
+    flinch.
+  - **Moves:** Stealth Rock (`side.rocks`: an eighth of the HP on coming in, by Rock's effectiveness),
+    Trick Room (`b.trickRoom`, five turns: the slower moves first), Gravity (`b.gravity`, five turns: Ground
+    moves hit Flying types and Levitate, accuracy ×5/3, Fly, Bounce, Jump Kick... fail), Defog (evasion -1;
+    the target side's screens, Safeguard, Mist and Stealth Rock go), Acupressure, Heart Swap, Metal Burst,
+    Crush Grip, Grass Knot; Lunar Dance is a fallback like Healing Wish. Metronome may call the new moves
+    (Whitney's Clefairy: her `[balance]` line moved a little).
+  - **Tests:** `tests/gen4.test.cjs`; abilities, data and breeding tests for 493 species.
 
 ### After chapter 43
 

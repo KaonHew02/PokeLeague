@@ -7,6 +7,7 @@ After that the game never touches the internet: everything is local.
     python tools/fetch_data.py --region kanto            # dex 1-151
     python tools/fetch_data.py --region johto            # dex 1-251: Kanto (FireRed) and Johto (HeartGold)
     python tools/fetch_data.py --region hoenn            # dex 1-386: and Hoenn (Emerald), with abilities
+    python tools/fetch_data.py --region sinnoh           # dex 1-493: and Sinnoh (Platinum), Generation 4 abilities for 387+
     python tools/fetch_data.py --region kanto --offline  # cache only; fails on a miss
     python tools/fetch_data.py --region kanto --refresh  # download everything again
 
@@ -145,6 +146,21 @@ REGIONS['hoenn'] = dict(REGIONS['johto'], **{
     'regions': REGIONS['johto']['regions'] + [('hoenn', ['emerald', 'ruby', 'sapphire'])],
 })
 
+# Sinnoh (chapter 44) adds Pokémon 387-493 (Platinum's learnsets, TMs and tables; Generation 4 abilities)
+# and its places; Pokémon 1-386 keep their Generation 3 abilities, learnsets and TMs.
+REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
+    'dex': (1, 493),
+    'learnset_vg_from': REGIONS['hoenn']['learnset_vg_from'] + [(387, ['platinum', 'diamond-pearl', 'heartgold-soulsilver'])],
+    'tm_vg_fallbacks': ['emerald', 'platinum'],
+    'text_versions': REGIONS['hoenn']['text_versions'] + ['platinum', 'diamond', 'pearl'],
+    'text_vgs': REGIONS['hoenn']['text_vgs'] + ['platinum', 'diamond-pearl'],
+    'items': REGIONS['hoenn']['items'] + ['razor-claw', 'razor-fang', 'shiny-stone', 'dusk-stone', 'dawn-stone', 'ice-stone', 'oval-stone',
+                                          'protector', 'electirizer', 'magmarizer', 'dubious-disc', 'reaper-cloth'],
+    'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
+})
+# The first Pokémon whose abilities are those of Generation 4.
+GEN4_FROM = 387
+
 # Official place names PokeAPI lacks (it has en and fr, not es, it or Chinese).
 # Only names we are sure of; the rest falls back to English and is counted.
 #            es                       it                      zh-Hans      zh-Hant
@@ -272,7 +288,9 @@ def loc_extra(slug):
 
 
 # Encounter slots that need a swarm or the radio (HeartGold): left out. Times of day kept apart.
-SKIP_CONDITIONS = {'swarm-yes', 'radio-hoenn', 'radio-sinnoh'}
+SKIP_CONDITIONS = {'swarm-yes', 'radio-hoenn', 'radio-sinnoh',
+                   # Platinum: the Poké Radar and a Game Boy Advance game in the second slot
+                   'radar-on', 'slot2-ruby', 'slot2-sapphire', 'slot2-emerald', 'slot2-firered', 'slot2-leafgreen'}
 TIMES = ['morning', 'day', 'night']
 
 # Trade evolutions become level evolutions (there is no trading).
@@ -281,15 +299,15 @@ TRADE_LEVEL_OVERRIDE = {64: 36}          # Kadabra -> Alakazam
 BEAUTY_LEVEL = 35                        # Feebas -> Milotic (beauty needs Pokéblocks, not in this game)
 
 
-def ability_slots(p):
-    """The ability in each normal slot (no hidden one) in Generation 3: PokeAPI's past abilities undo the
-    later changes (Gengar's Levitate). -> [slot 1, slot 2] (slot 2 may be None)"""
+def ability_slots(p, gen='generation-iii'):
+    """The ability in each normal slot (no hidden one) in Generation 3 (or `gen`): PokeAPI's past abilities
+    undo the later changes (Gengar's Levitate). -> [slot 1, slot 2] (slot 2 may be None)"""
     order = ['generation-i', 'generation-ii', 'generation-iii', 'generation-iv', 'generation-v', 'generation-vi',
              'generation-vii', 'generation-viii', 'generation-ix']
     slots = {a['slot']: a['ability']['name'] for a in p['abilities'] if not a['is_hidden']}
     # Each past entry gives the abilities up to its generation: apply the latest first, the earliest last.
     for past in sorted(p.get('past_abilities', []), key=lambda x: -order.index(x['generation']['name'])):
-        if order.index(past['generation']['name']) < order.index('generation-iii'):
+        if order.index(past['generation']['name']) < order.index(gen):
             continue
         for a in past['abilities']:
             if a.get('is_hidden'):
@@ -455,7 +473,8 @@ def build(region):
             print(f'  ! {d} has no level-up learnset in {cfg["learnset_vg"]}')
         rows.sort()
         learn[d] = [[lvl, name] for lvl, _, name in rows]
-        for tvg in [cfg['tm_vg']] + ([cfg['tm_vg_fallback']] if cfg.get('tm_vg_fallback') else []):
+        fallbacks = cfg.get('tm_vg_fallbacks') or ([cfg['tm_vg_fallback']] if cfg.get('tm_vg_fallback') else [])
+        for tvg in [cfg['tm_vg']] + fallbacks:
             tm_moves[d] = sorted({m['move']['name'] for m in p['moves'] for vd in m['version_group_details']
                                   if vd['version_group']['name'] == tvg and vd['move_learn_method']['name'] == 'machine'})
             if tm_moves[d]:
@@ -529,12 +548,15 @@ def build(region):
 
     # ---- abilities (chapter 28): as in Generation 3 ----
     gen3_ab, ab_slugs = {}, set()
+    # Pokémon 387 and up (chapter 44): their Generation 4 abilities.
+    ab_gen = lambda d: 'generation-iv' if d >= GEN4_FROM else 'generation-iii'
     for d in dexes:
-        ab_slugs.update(a for a in ability_slots(pokemon[d]) if a)
+        ab_slugs.update(a for a in ability_slots(pokemon[d], ab_gen(d)) if a)
     ab_raw = dict(zip(sorted(ab_slugs), pmap(lambda n: get('ability', n), sorted(ab_slugs))))
     GEN3 = {'generation-i', 'generation-ii', 'generation-iii'}
     for d in dexes:
-        gen3_ab[d] = [a for a in ability_slots(pokemon[d]) if a and ab_raw.get(a) and ab_raw[a]['generation']['name'] in GEN3]
+        ok = GEN3 | ({'generation-iv'} if d >= GEN4_FROM else set())
+        gen3_ab[d] = [a for a in ability_slots(pokemon[d], ab_gen(d)) if a and ab_raw.get(a) and ab_raw[a]['generation']['name'] in ok]
     used_ab = sorted({a for v in gen3_ab.values() for a in v})
     names_ability = {a: names_of(ab_raw[a]['names'], 'ability', fallback=a) for a in used_ab}
     ab_txt = {a: texts_of(ab_raw[a].get('flavor_text_entries'), cfg, 'ability text', 'flavor_text', 'version_group') for a in used_ab}
@@ -746,13 +768,24 @@ def evo_rule(frm, to, details):
                 rec['time'] = d['time_of_day']
             if d.get('known_move'):
                 rec['move'] = d['known_move']['name']
+            # Chapter 44: level up holding an item (Gligar's Razor Fang at night), being a male or a female
+            # (Combee), with another species in the party (Mantyke with a Remoraid).
+            if d.get('held_item'):
+                rec['item'] = d['held_item']['name']
+            if d.get('gender'):
+                rec['gender'] = 'f' if d['gender'] == 1 else 'm'
+            if d.get('party_species'):
+                rec['party'] = url_id(d['party_species']['url'])
             if d.get('location'):
-                continue                       # place-based evolutions: not in Gen 1
+                continue                       # place-based evolutions (Mt. Coronet, the Moss Rock): not yet
             if d.get('min_beauty'):
                 rec = {'to': to, 'how': 'level', 'level': BEAUTY_LEVEL, 'via': 'beauty'}   # Feebas: no beauty here
             return rec
         if trig == 'use-item' and d.get('item'):
-            return {'to': to, 'how': 'item', 'item': d['item']['name']}
+            rec = {'to': to, 'how': 'item', 'item': d['item']['name']}
+            if d.get('gender'):
+                rec['gender'] = 'f' if d['gender'] == 1 else 'm'     # the Dawn Stone: a male Kirlia, a female Snorunt
+            return rec
         if trig == 'trade' and not d.get('held_item') and not d.get('trade_species'):
             return {'to': to, 'how': 'level', 'level': TRADE_LEVEL_OVERRIDE.get(frm, TRADE_LEVEL), 'via': 'trade'}
         if trig == 'trade' and d.get('held_item'):

@@ -186,5 +186,20 @@ G.I18n.add({
   "{mon} avoided the attack!": "{mon} ha evitato l'attacco!",
   "{mon} is ready to help {target}!": "{mon} è pronto ad aiutare {target}!",
   "{mon} became the center of attention!": "{mon} è al centro dell'attenzione!",
-  "{mon} tried to flee, but it could not get away!": "{mon} ha provato a fuggire, ma non ci è riuscito!"
+  "{mon} tried to flee, but it could not get away!": "{mon} ha provato a fuggire, ma non ci è riuscito!",
+  "Pointed stones dug into {mon}!": "Delle pietre aguzze colpiscono {mon}!",
+  "{mon} breaks the mold!": "{mon} rompe gli schemi!",
+  "{mon} can't get it going!": "{mon} non riesce a ingranare!",
+  "{mon} frisked {target} and found its {item}!": "{mon} ha perquisito {target} e ha trovato {item}!",
+  "{mon} was alerted to {move}!": "{mon} ha previsto {move}!",
+  "{mon} shuddered!": "{mon} rabbrividisce!",
+  "{mon} maxed its Attack!": "{mon} ha portato l'Attacco al massimo!",
+  "{mon} switched stat changes with {target}!": "{mon} ha scambiato le modifiche alle statistiche con {target}!",
+  "Pointed stones float in the air around your team!": "Delle pietre aguzze fluttuano intorno alla tua squadra!",
+  "Pointed stones float in the air around the foe team!": "Delle pietre aguzze fluttuano intorno alla squadra avversaria!",
+  "The pointed stones disappeared!": "Le pietre aguzze sono sparite!",
+  "{mon} twisted the dimensions!": "{mon} ha distorto le dimensioni!",
+  "The twisted dimensions returned to normal!": "Le dimensioni distorte sono tornate normali!",
+  "Gravity intensified!": "La gravità si è intensificata!",
+  "Gravity returned to normal!": "La gravità è tornata normale!"
 }, "it");

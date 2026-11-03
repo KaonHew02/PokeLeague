@@ -17,13 +17,13 @@ the map format and which files each milestone owns.
   Test the offline app on the built page (`http://localhost:8130/`), never dev.html. `node tools/make_icons.js`
   redraws the Home Screen icons in `assets/icons/`.
 - `node tools/sim_battle.js charmander:5 bulbasaur:5 --seed 1 [--trainer] [--lang zh-Hans]` — a battle in the terminal.
-- `python tools/fetch_data.py --region hoenn [--offline]` — regenerates js/data/ from PokeAPI (cached).
-  Use `hoenn` (dex 1–386, Kanto, Johto and Hoenn places, abilities): `--region johto` or `kanto` would
-  cut the data back to 251 or 151.
+- `python tools/fetch_data.py --region sinnoh [--offline]` — regenerates js/data/ from PokeAPI (cached).
+  Use `sinnoh` (dex 1–493, Kanto, Johto, Hoenn and Sinnoh places, abilities; Generation 4 abilities from 387):
+  `--region hoenn`, `johto` or `kanto` would cut the data back to 386, 251 or 151.
 - `node tools/map_check.js <map-id> | --all` — prints a map with its objects and checks it.
 - `tests/story.test.cjs` plays chapters 1 to 43 headless (real scripts and battle engine with an
   auto-player) and prints `[balance]` win rates against the Gym Leaders (Kanto's eight, Johto's eight, and Hoenn's eight), the Elite Four of Kanto, Johto and Hoenn
-  and Champions (and their rematches), Steven at Meteor Falls, the Regis, Hoenn's legends and the Battle Tower. `tests/double.test.cjs` covers double battles (`rules.double`), `tests/roam.test.cjs` roaming Pokémon (`rules.roamer`), `tests/tower.test.cjs` the Battle Tower (`G.Tower`, `rules.noExp`, `rules.noBag`). `tests/field.test.cjs` runs the overworld rules (field.js) without a screen. The game grows chapter by
+  and Champions (and their rematches), Steven at Meteor Falls, the Regis, Hoenn's legends and the Battle Tower. `tests/double.test.cjs` covers double battles (`rules.double`), `tests/roam.test.cjs` roaming Pokémon (`rules.roamer`), `tests/tower.test.cjs` the Battle Tower (`G.Tower`, `rules.noExp`, `rules.noBag`), `tests/gen4.test.cjs` Generation 4 abilities, moves and evolutions. `tests/field.test.cjs` runs the overworld rules (field.js) without a screen. The game grows chapter by
   chapter (docs/DESIGN.md section 10); a chapter ends with `G.CreditsUI.ending(n)`.
   Try a map in the browser with `dev.html?debug&map=<id>` (`map=sandbox` is the M3 test town).
 - Run: `python tools/serve.py` → http://localhost:8130/dev.html (PokéGo uses 8123). It is

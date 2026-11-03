@@ -27,7 +27,11 @@
  */
 G.Held = (() => {
   const fxOf = mon => (mon && mon.item && G.ITEM_FX[mon.item]) || null;
-  const kind = mon => { const fx = fxOf(mon); return (fx && fx.held) || null; };
+  // Klutz (chapter 44): its item does nothing in battle (an Exp. Share or a Lucky Egg still works).
+  const kind = mon => {
+    const fx = fxOf(mon), k = (fx && fx.held) || null;
+    return k && k !== 'exp-share' && k !== 'lucky-egg' && G.Abilities && G.Abilities.klutz(mon) ? null : k;
+  };
   const is = (mon, k) => kind(mon) === k;
 
   function power(mon, type) {
@@ -47,7 +51,7 @@ G.Held = (() => {
 
   function critBonus(mon) {
     const k = kind(mon);
-    if (k === 'scope-lens') return 1;
+    if (k === 'scope-lens' || k === 'razor-claw') return 1;
     if ((k === 'lucky-punch' && mon.sp === 113) || (k === 'stick' && mon.sp === 83)) return 2;
     return 0;
   }
@@ -60,7 +64,7 @@ G.Held = (() => {
   /** After a damaging move: King's Rock, Shell Bell. */
   function afterHit(b, user, target, M, total) {
     if (total <= 0) return;
-    if (is(user.mon, 'kings-rock') && !M.meta.flinch && b.alive(target) && !target.moved && b.rng.pct(10)) target.vol.flinch = true;
+    if ((is(user.mon, 'kings-rock') || is(user.mon, 'razor-fang')) && !M.meta.flinch && b.alive(target) && !target.moved && b.rng.pct(10)) target.vol.flinch = true;
     if (is(user.mon, 'shell-bell') && b.alive(user))
       b.heal(user, Math.max(1, Math.floor(total / 8)), 'held', { item: user.mon.item, held: 'shell-bell' });
   }
@@ -71,9 +75,11 @@ G.Held = (() => {
     const item = bm.mon.item, fx = G.ITEM_FX[item], max = b.maxHp(bm), st = bm.mon.status;
     if (fx.heal && bm.mon.hp * 2 <= max) {
       bm.mon.item = null;
+      if (bm.ability === 'unburden') bm.vol.unburden = true;              // Unburden (chapter 44)
       b.heal(bm, fx.heal === 'full' ? max : fx.heal, 'held', { item, held: 'berry' });
     } else if (fx.cure && st && (fx.cure === 'all' || fx.cure.includes(st))) {
       bm.mon.item = null;
+      if (bm.ability === 'unburden') bm.vol.unburden = true;
       bm.mon.status = null; bm.mon.slp = 0; bm.mon.tox = 0;
       b.emit('cure', { side: bm.side, uid: bm.mon.uid, item });
     }

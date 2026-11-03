@@ -73,6 +73,35 @@ G.SpecialMoves = (() => {
     'punishment':   { power: (b, u, t) => Math.min(200, 60 + 20 * Object.values(t.stages).reduce((n, v) => n + Math.max(0, v), 0)) },
     'wring-out':    { power: (b, u, t) => Math.max(1, Math.floor(120 * hpPct(t))) },
     'frustration':  { power: (b, u) => Math.max(1, Math.floor((255 - (u.mon.friendship || 0)) * 10 / 25)) },
+    // Generation 4 moves of Sinnoh's Pokémon (chapter 44).
+    'crush-grip':   { power: (b, u, t) => Math.max(1, Math.floor(120 * hpPct(t))) + 1 },
+    'grass-knot':   { power: (b, u, t) => { const kg = G.SPECIES[t.mon.sp].w / 10;
+                        return kg < 10 ? 20 : kg < 25 ? 40 : kg < 50 ? 60 : kg < 100 ? 80 : kg < 200 ? 100 : 120; } },
+    'metal-burst':  { fixed: (b, u) => (u.lastHit && u.lastHit.from !== u.side && u.lastHit.amt > 0 ? Math.floor(u.lastHit.amt * 3 / 2) : null) },
+    'acupressure':  { use: (b, u) => {
+                        const up = G.Battle.STAGES.filter(k => u.stages[k] < 6);
+                        if (!up.length) return fail(b);
+                        b.stage(u, up[b.rng.int(0, up.length - 1)], 2, { source: u }); return {}; } },
+    'heart-swap':   { use: (b, u, t) => {
+                        const mine = Object.assign({}, u.stages);
+                        Object.assign(u.stages, t.stages); Object.assign(t.stages, mine);
+                        b.emit('heartSwap', Object.assign({ target: t.mon.uid, tside: t.side }, me(u))); return {}; } },
+    'defog':        { use: (b, u, t) => {
+                        b.stage(t, 'eva', -1, { source: u });
+                        const s = b.sideOf(t), f = s.field;
+                        for (const k of ['reflect', 'lightScreen', 'safeguard', 'mist']) if (f[k]) { delete f[k]; b.emit('fieldEnd', { side: t.side, effect: k }); }
+                        if (s.rocks) { s.rocks = false; b.emit('rocksGone', { side: t.side }); }
+                        return {}; } },
+    'stealth-rock': { use: (b, u, t) => {
+                        const s = b.sideOf(t);
+                        if (s.rocks) return fail(b);
+                        s.rocks = true; b.emit('rocks', { side: t.side }); return {}; } },
+    'trick-room':   { use: (b, u) => {
+                        if (b.trickRoom) { b.trickRoom = 0; b.emit('trickRoomEnd', {}); return {}; }
+                        b.trickRoom = 5; b.emit('trickRoom', me(u)); return {}; } },
+    'gravity':      { use: b => {
+                        if (b.gravity) return fail(b);
+                        b.gravity = 5; b.emit('gravity', {}); return {}; } },
     'hidden-power': { power: (b, u) => hiddenPower(u.mon).pow, moveType: (b, u) => hiddenPower(u.mon).type },
     'facade':       { power: (b, u, t, M) => (['psn', 'tox', 'par', 'brn'].includes(u.mon.status) ? M.pow * 2 : M.pow) },
     // Eruption and Water Spout: weaker as the user's HP falls (150 at full HP).
@@ -107,7 +136,7 @@ G.SpecialMoves = (() => {
     // ---------- status moves with their own rules ----------
     'focus-energy': { use: (b, u) => { if (u.vol.focusEnergy) return fail(b); u.vol.focusEnergy = true; b.emit('pumped', me(u)); return {}; } },
     'rest':         { use: (b, u) => {
-                        if (u.mon.hp >= G.Mon.maxHp(u.mon) || u.mon.status === 'slp' || G.Abilities.blocksStatus(u, 'slp')) return fail(b);   // Insomnia
+                        if (u.mon.hp >= G.Mon.maxHp(u.mon) || u.mon.status === 'slp' || G.Abilities.blocksStatus(u, 'slp', b)) return fail(b);   // Insomnia
                         u.mon.status = 'slp'; u.mon.slp = 2; u.vol.nightmare = false;
                         b.emit('rest', me(u)); b.heal(u, G.Mon.maxHp(u.mon), 'rest'); return {}; } },
     'substitute':   { use: (b, u) => {
@@ -293,7 +322,7 @@ G.SpecialMoves = (() => {
     'baton-pass', 'camouflage', 'conversion-2', 'grudge', 'imprison', 'mimic', 'recycle', 'role-play',
     'skill-swap', 'snatch', 'spikes', 'taunt', 'torment', 'transform', 'trick', 'mud-sport', 'water-sport',
     'sketch', 'wish', 'assist', 'nature-power',
-    'aqua-ring', 'copycat', 'embargo', 'gastro-acid', 'guard-swap', 'heal-block', 'healing-wish', 'lucky-chant',
+    'aqua-ring', 'copycat', 'embargo', 'gastro-acid', 'guard-swap', 'heal-block', 'healing-wish', 'lunar-dance', 'lucky-chant',
     'magic-coat', 'magnet-rise', 'power-swap', 'power-trick', 'psycho-shift', 'tailwind', 'toxic-spikes', 'worry-seed',
     // damaging: just their damage (no delayed hit, uproar lock, item theft, switch hit)
     'future-sight', 'uproar', 'covet', 'thief', 'knock-off', 'pursuit', 'focus-punch', 'bide', 'present', 'triple-kick',

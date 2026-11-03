@@ -14,7 +14,7 @@ const often = (n, o, fn) => {
   return k / n;
 };
 
-test('every species has one or two Generation 3 abilities, each one named and known to the engine', () => {
+test('every species has one or two abilities (Generation 3; Generation 4 from 387), each one named and known to the engine', () => {
   for (const [d, S] of Object.entries(G.SPECIES)) {
     assert.ok(Array.isArray(S.ab) && S.ab.length >= 1 && S.ab.length <= 2, d);
     for (const a of S.ab) {
@@ -22,7 +22,7 @@ test('every species has one or two Generation 3 abilities, each one named and kn
       assert.ok(G.NAMES.ability[a], 'a name for ' + a);
     }
   }
-  assert.equal(G.Abilities.KNOWN.size, 76);
+  assert.equal(G.Abilities.KNOWN.size, 123);
   assert.equal(G.SPECIES[94].ab[0], 'levitate', 'Gengar floats in Generation 3');
 });
 

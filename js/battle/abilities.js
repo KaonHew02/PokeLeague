@@ -25,6 +25,21 @@
  * when an ability is at work, so battles where none is play as before. Events: `ability`
  * { side, uid, ability, why: 'show' | 'protect' | 'trace' | 'flash-fire' | 'type' | 'truant' | 'pressure' | 'damp',
  *   target, tside (Trace), to (the new type), move (Damp) } and heal with `why: 'ability'`.
+ *
+ * Generation 4 (chapter 44: the abilities of Pokémon 387-493, all 47):
+ *   statMult: Slow Start (Attack and Speed halved for five turns), Flower Gift (sun), Solar Power (sun),
+ *     Quick Feet, Unburden (Speed doubled once its item is gone)
+ *   powerMult(b, user, target, type, M, pow): Technician (60 or less ×1.5), Iron Fist, Reckless, Rivalry,
+ *     Heatproof, Dry Skin (fire ×1.25)        stab(bm): Adaptability (×2)
+ *   critBonus(bm): Super Luck   critMult(bm): Sniper   finalMult(b, user, target, eff): Tinted Lens, Filter, Solid Rock
+ *   accMult: Tangled Feet, Snow Cloak; alwaysHits(b, user, target): No Guard; unaware(b, bm): Unaware
+ *   stops: Motor Drive (Speed up), Dry Skin (heals) · stageDelta: Simple · moveType: Normalize · scrappy
+ *   switchIn: Download, Snow Warning (hail), Anticipation, Forewarn, Frisk, Mold Breaker, Slow Start
+ *   endOfTurn: Dry Skin, Hydration, Ice Body, Solar Power, Bad Dreams · Poison Heal, Magic Guard, Heatproof
+ *     (battle.js) · Steadfast, Anger Point (effects / battle) · Aftermath (contact) · Stall (move order)
+ *   Mold Breaker: while its move is being used (b.moldBreaker), the target's abilities are ignored.
+ *   Klutz (held.js: its item does nothing); Storm Drain draws Water moves in a double battle (effects.js).
+ *   No effect: Honey Gather, Multitype (no plates), Gluttony (no pinch berries in this game).
  */
 G.Abilities = (() => {
   // Moves that touch the target (Generation 3 and the later moves the game has); PokeAPI has no flag.
@@ -46,11 +61,14 @@ G.Abilities = (() => {
   const STATUS_BLOCK = { limber: ['par'], insomnia: ['slp'], 'vital-spirit': ['slp'], immunity: ['psn', 'tox'],
                          'water-veil': ['brn'], 'magma-armor': ['frz'] };
   const PINCH = { overgrow: 'grass', blaze: 'fire', torrent: 'water', swarm: 'bug' };
-  const WEATHER = { drizzle: 'rain', drought: 'sun', 'sand-stream': 'sand' };
+  const WEATHER = { drizzle: 'rain', drought: 'sun', 'sand-stream': 'sand', 'snow-warning': 'hail' };
+  // Iron Fist (chapter 44).
+  const PUNCH = new Set(['fire-punch', 'ice-punch', 'thunder-punch', 'mach-punch', 'mega-punch', 'comet-punch', 'dizzy-punch',
+    'dynamic-punch', 'focus-punch', 'hammer-arm', 'meteor-mash', 'shadow-punch', 'sky-uppercut', 'bullet-punch', 'drain-punch']);
   const FORECAST = { sun: 'fire', rain: 'water', hail: 'ice' };
   // Every ability of the game's Pokémon (Generation 3): each one is handled here, or knowingly has
   // no effect in a single battle (NO_EFFECT). tests/abilities.test.cjs checks the species data.
-  const NO_EFFECT = new Set(['stench', 'illuminate', 'pickup', 'sticky-hold']);
+  const NO_EFFECT = new Set(['stench', 'illuminate', 'pickup', 'sticky-hold', 'honey-gather', 'multitype', 'gluttony']);
   // Double battles (chapter 40): Plus and Minus (Special Attack ×1.5 beside the other one), Lightning
   // Rod (draws the Electric moves aimed at another Pokémon; effects.js), Intimidate on both foes.
   const KNOWN = new Set([...NO_EFFECT, 'plus', 'minus', 'lightning-rod', ...`air-lock arena-trap battle-armor blaze chlorophyll clear-body cloud-nine color-change
@@ -59,7 +77,11 @@ G.Abilities = (() => {
     marvel-scale natural-cure oblivious overgrow own-tempo poison-point pressure pure-power rain-dish rock-head rough-skin
     run-away sand-stream sand-veil serene-grace shadow-tag shed-skin shell-armor shield-dust soundproof speed-boost static
     sturdy suction-cups swarm swift-swim synchronize thick-fat torrent trace truant vital-spirit volt-absorb water-absorb
-    water-veil white-smoke wonder-guard`.split(/\s+/).filter(Boolean)]);
+    water-veil white-smoke wonder-guard
+    tangled-feet motor-drive rivalry steadfast snow-cloak anger-point unburden heatproof simple dry-skin download iron-fist
+    poison-heal adaptability skill-link hydration solar-power quick-feet normalize sniper magic-guard no-guard stall technician
+    leaf-guard klutz mold-breaker super-luck aftermath anticipation forewarn unaware tinted-lens filter slow-start scrappy
+    storm-drain ice-body solid-rock snow-warning frisk reckless flower-gift bad-dreams`.split(/\s+/).filter(Boolean)]);
 
   /** The ability of a Pokémon (not of a battler: see bm.ability). */
   function of(mon) {
@@ -73,6 +95,8 @@ G.Abilities = (() => {
   }
   const say = (b, bm, why, extra) => b.emit('ability', Object.assign({ side: bm.side, uid: bm.mon.uid, ability: bm.ability, why }, extra));
   const foeOf = (b, bm) => b.other(bm);
+  /** The ability of a target, unless the Pokémon using a move against it has Mold Breaker (chapter 44). */
+  const ab = (b, bm) => (b && b.moldBreaker && b.moldBreaker !== bm ? null : bm.ability);
   /** Every battler in the field (a double battle has up to four). */
   const active = b => (b.allActive ? b.allActive() : b.sides.map(s => s.bm).filter(Boolean));
 
@@ -86,9 +110,21 @@ G.Abilities = (() => {
   function statMult(b, bm, key) {
     const a = bm.ability, st = bm.mon.status;
     if (!a) return 1;
-    if (key === 'atk') return a === 'huge-power' || a === 'pure-power' ? 2 : a === 'hustle' || (a === 'guts' && st) ? 1.5 : 1;
+    const slow = a === 'slow-start' && b.turn < (bm.entered || 0) + 5;
+    if (key === 'atk') {
+      if (slow) return 0.5;
+      if (a === 'flower-gift' && weather(b) === 'sun') return 1.5;
+      return a === 'huge-power' || a === 'pure-power' ? 2 : a === 'hustle' || (a === 'guts' && st) ? 1.5 : 1;
+    }
     if (key === 'def') return a === 'marvel-scale' && st ? 1.5 : 1;
-    if (key === 'spe') { const w = weather(b); return (a === 'swift-swim' && w === 'rain') || (a === 'chlorophyll' && w === 'sun') ? 2 : 1; }
+    if (key === 'spd') return a === 'flower-gift' && weather(b) === 'sun' ? 1.5 : 1;
+    if (key === 'spa' && a === 'solar-power') return weather(b) === 'sun' ? 1.5 : 1;
+    if (key === 'spe') {
+      if (slow) return 0.5;
+      if (a === 'quick-feet') return st ? 1.5 : 1;
+      if (a === 'unburden') return bm.vol.unburden ? 2 : 1;
+      const w = weather(b); return (a === 'swift-swim' && w === 'rain') || (a === 'chlorophyll' && w === 'sun') ? 2 : 1;
+    }
     if (key === 'spa' && (a === 'plus' || a === 'minus') && b.double) {
       const al = b.ally(bm);
       return al && al.ability === (a === 'plus' ? 'minus' : 'plus') ? 1.5 : 1;
@@ -96,39 +132,68 @@ G.Abilities = (() => {
     return 1;
   }
 
-  function powerMult(b, user, target, type) {
+  function powerMult(b, user, target, type, M, pow) {
     let m = 1;
-    if (PINCH[user.ability] === type && user.mon.hp * 3 <= b.maxHp(user)) m *= 1.5;
+    const a = user.ability, t = ab(b, target), id = M ? G.BattleFx.idOf(M) : null;
+    if (PINCH[a] === type && user.mon.hp * 3 <= b.maxHp(user)) m *= 1.5;
     if (type === 'fire' && user.vol.flashFire) m *= 1.5;
-    if (target.ability === 'thick-fat' && (type === 'fire' || type === 'ice')) m *= 0.5;
+    if (t === 'thick-fat' && (type === 'fire' || type === 'ice')) m *= 0.5;
+    // Generation 4 (chapter 44).
+    if (a === 'technician' && pow != null && pow <= 60) m *= 1.5;
+    if (a === 'iron-fist' && PUNCH.has(id)) m *= 1.2;
+    if (a === 'reckless' && M && (M.meta.drain < 0 || id === 'jump-kick' || id === 'high-jump-kick')) m *= 1.2;
+    if (a === 'rivalry' && user.mon.gender && target.mon.gender) m *= user.mon.gender === target.mon.gender ? 1.25 : 0.75;
+    if (t === 'heatproof' && type === 'fire') m *= 0.5;
+    if (t === 'dry-skin' && type === 'fire') m *= 1.25;
+    return m;
+  }
+  /** Same-type attack bonus: Adaptability makes it ×2. */
+  const stab = bm => (bm.ability === 'adaptability' ? 2 : 1.5);
+  const critBonus = bm => (bm.ability === 'super-luck' ? 1 : 0);
+  /** A critical hit's damage: Sniper makes it ×1.5 more. */
+  const critMult = bm => (bm.ability === 'sniper' ? 2.25 : 1.5);
+  /** The last factor of the damage: Tinted Lens (not very effective ×2), Filter and Solid Rock (super effective ×0.75). */
+  function finalMult(b, user, target, eff) {
+    let m = 1;
+    if (user.ability === 'tinted-lens' && eff > 0 && eff < 1) m *= 2;
+    const t = ab(b, target);
+    if ((t === 'filter' || t === 'solid-rock') && eff > 1) m *= 0.75;
     return m;
   }
 
   function accMult(b, user, target, M) {
     let m = 1;
+    const t = ab(b, target);
     if (user.ability === 'compound-eyes') m *= 1.3;
     if (user.ability === 'hustle' && M.cat === 'physical') m *= 0.8;
-    if (target.ability === 'sand-veil' && weather(b) === 'sand') m *= 0.8;
+    if (t === 'sand-veil' && weather(b) === 'sand') m *= 0.8;
+    if (t === 'snow-cloak' && weather(b) === 'hail') m *= 0.8;
+    if (t === 'tangled-feet' && target.vol.confusion) m *= 0.5;
     return m;
   }
+  /** No Guard: every move by or against it hits. */
+  const alwaysHits = (b, user, target) => user.ability === 'no-guard' || target.ability === 'no-guard';
+  /** Unaware: the other Pokémon's stat stages do not count against it. */
+  const unaware = (b, bm) => ab(b, bm) === 'unaware';
 
-  const noCrit = bm => bm.ability === 'battle-armor' || bm.ability === 'shell-armor';
-  const noOhko = bm => bm.ability === 'sturdy';
+  const noCrit = (bm, b) => { const a = ab(b, bm); return a === 'battle-armor' || a === 'shell-armor'; };
+  const noOhko = (bm, b) => ab(b, bm) === 'sturdy';
   const noRecoil = bm => bm.ability === 'rock-head';
-  const shieldDust = bm => bm.ability === 'shield-dust';
+  const shieldDust = (bm, b) => ab(b, bm) === 'shield-dust';
   const chance = (bm, pct) => (bm.ability === 'serene-grace' ? Math.min(100, pct * 2) : pct);
 
   /** Would the target's ability stop this move? (Levitate is in b.eff already.) */
   function immune(user, target, M, type, eff) {
     const a = target.ability, id = G.BattleFx.idOf(M);
-    if (!a || target === user) return false;
+    if (!a || target === user || user.ability === 'mold-breaker') return false;
     if (a === 'soundproof' && SOUND.has(id)) return true;
     if (M.cat === 'status') {
-      if (a === 'volt-absorb' && type === 'electric' && M.meta.ail === 'paralysis') return true;
+      if ((a === 'volt-absorb' || a === 'motor-drive') && type === 'electric' && M.meta.ail === 'paralysis') return true;
       if (a === 'flash-fire' && type === 'fire' && M.meta.ail === 'burn') return true;
       return false;
     }
     if ((a === 'water-absorb' && type === 'water') || (a === 'volt-absorb' && type === 'electric') || (a === 'flash-fire' && type === 'fire')) return true;
+    if ((a === 'motor-drive' && type === 'electric') || (a === 'dry-skin' && type === 'water')) return true;
     return a === 'wonder-guard' && eff != null && eff <= 1 && !(G.SpecialMoves[id] || {}).typeless;
   }
 
@@ -136,9 +201,12 @@ G.Abilities = (() => {
   function stops(b, user, target, M, type, eff) {
     if (!immune(user, target, M, type, eff)) return false;
     const a = target.ability;
-    if (a === 'water-absorb' || a === 'volt-absorb') {
+    if (a === 'water-absorb' || a === 'volt-absorb' || a === 'dry-skin') {
       if (target.mon.hp < b.maxHp(target)) b.heal(target, b.maxHp(target) / 4, 'ability', { ability: a });
       else say(b, target, 'protect');
+    } else if (a === 'motor-drive') {
+      say(b, target, 'show');
+      b.stage(target, 'spe', 1, { source: target });
     } else if (a === 'flash-fire') {
       target.vol.flashFire = true;
       say(b, target, 'flash-fire');
@@ -148,7 +216,8 @@ G.Abilities = (() => {
 
   // ---------------- statuses and stat changes ----------------
 
-  const blocksStatus = (bm, s) => !!(STATUS_BLOCK[bm.ability] && STATUS_BLOCK[bm.ability].includes(s));
+  const blocksStatus = (bm, s, b) => !!(STATUS_BLOCK[bm.ability] && STATUS_BLOCK[bm.ability].includes(s))
+    || (bm.ability === 'leaf-guard' && !!b && weather(b) === 'sun');          // Leaf Guard (chapter 44)
   const blocksConfusion = bm => bm.ability === 'own-tempo';
   const blocksAttract = bm => bm.ability === 'oblivious';
   const blocksFlinch = bm => bm.ability === 'inner-focus';
@@ -166,6 +235,11 @@ G.Abilities = (() => {
   function contact(b, user, target, M) {
     const a = target.ability;
     if (!a || user === target || !b.alive(user) || !CONTACT.has(G.BattleFx.idOf(M))) return;
+    // Aftermath (chapter 44): knocked out by a touch, it hurts the attacker by a quarter (not with Damp out).
+    if (a === 'aftermath') {
+      if (target.mon.hp <= 0 && !damp(b, 'explosion')) { say(b, target, 'show'); b.hurt(user, Math.max(1, Math.floor(b.maxHp(user) / 4)), { why: 'ability' }); }
+      return;
+    }
     if (a === 'rough-skin') {
       say(b, target, 'show');
       b.hurt(user, Math.max(1, Math.floor(b.maxHp(user) / 16)), { why: 'ability' });
@@ -224,6 +298,24 @@ G.Abilities = (() => {
       b.emit('weather', { w: WEATHER[a] });
     }
     if (a === 'pressure') say(b, bm, 'pressure');
+    // Generation 4 (chapter 44).
+    if (a === 'mold-breaker' || a === 'slow-start') say(b, bm, a);
+    if (a === 'download' && foe && b.alive(foe)) {
+      const up = b.stat(foe, 'def') < b.stat(foe, 'spd') ? 'atk' : 'spa';
+      say(b, bm, 'show');
+      b.stage(bm, up, 1, { source: bm });
+    }
+    if (a === 'frisk' && foe && b.alive(foe) && foe.mon.item) say(b, bm, 'frisk', { item: foe.mon.item, target: foe.mon.uid, tside: foe.side });
+    if (a === 'forewarn' && foe && b.alive(foe)) {
+      // Its strongest move (the first of the strongest).
+      let best = null, bp = -1;
+      for (const m of foe.mon.moves) { const M = G.MOVES[m.id], p = M && M.pow ? M.pow : 0; if (p > bp) { bp = p; best = m.id; } }
+      if (best) say(b, bm, 'forewarn', { move: best, target: foe.mon.uid, tside: foe.side });
+    }
+    if (a === 'anticipation' && foe && b.alive(foe)) {
+      const scary = foe.mon.moves.some(m => { const M = G.MOVES[m.id]; return M && (M.meta.k === 'ohko' || (M.pow && G.Types.eff(M.type, bm.types) > 1)); });
+      if (scary) say(b, bm, 'anticipation');
+    }
     forecast(b);
   }
 
@@ -242,6 +334,21 @@ G.Abilities = (() => {
       b.emit('cure', { side: bm.side, uid: bm.mon.uid });
     }
     if (a === 'speed-boost' && bm.entered < b.turn && bm.stages.spe < 6) { say(b, bm, 'show'); b.stage(bm, 'spe', 1, { source: bm }); }
+    // Generation 4 (chapter 44).
+    const w = weather(b), max = b.maxHp(bm);
+    if (a === 'dry-skin' && w === 'rain' && bm.mon.hp < max) b.heal(bm, max / 8, 'ability', { ability: a });
+    if ((a === 'dry-skin' || a === 'solar-power') && w === 'sun') { say(b, bm, 'show'); b.hurt(bm, Math.max(1, Math.floor(max / 8)), { why: 'ability' }); }
+    if (a === 'ice-body' && w === 'hail' && b.alive(bm) && bm.mon.hp < max) b.heal(bm, max / 16, 'ability', { ability: a });
+    if (a === 'hydration' && w === 'rain' && bm.mon.status) {
+      say(b, bm, 'show');
+      bm.mon.status = null; bm.mon.slp = 0; bm.mon.tox = 0;
+      b.emit('cure', { side: bm.side, uid: bm.mon.uid });
+    }
+    if (a === 'bad-dreams') {
+      for (const f of (b.double ? b.foes(bm) : [foeOf(b, bm)])) {
+        if (f && b.alive(f) && f.mon.status === 'slp') { say(b, bm, 'show'); b.hurt(f, Math.max(1, Math.floor(b.maxHp(f) / 8)), { why: 'ability' }); }
+      }
+    }
   }
 
   /** Castform: Fire in the sun, Water in the rain, Ice in hail, Normal otherwise. */
@@ -281,11 +388,35 @@ G.Abilities = (() => {
     });
   }
   const runAway = bm => bm.ability === 'run-away';
+  // ---------------- Generation 4 helpers (chapter 44) ----------------
+  /** Simple: stat changes count double. */
+  const stageDelta = (bm, delta) => (bm.ability === 'simple' ? delta * 2 : delta);
+  /** Normalize: every move is Normal (Struggle stays typeless as it is). */
+  const moveType = (bm, type, id) => (bm.ability === 'normalize' && id !== 'struggle' ? 'normal' : type);
+  /** Scrappy: Normal and Fighting moves hit Ghost types. */
+  const scrappy = (bm, type) => !!bm && bm.ability === 'scrappy' && (type === 'normal' || type === 'fighting');
+  /** Steadfast: flinching raises its Speed. */
+  function steadfast(b, bm) { if (bm.ability === 'steadfast') { say(b, bm, 'show'); b.stage(bm, 'spe', 1, { source: bm }); } }
+  /** Anger Point: a critical hit maxes out its Attack. */
+  function angerPoint(b, bm) {
+    if (bm.ability !== 'anger-point' || !b.alive(bm) || bm.stages.atk >= 6) return;
+    say(b, bm, 'anger-point');
+    bm.stages.atk = 6;
+  }
+  const poisonHeal = bm => bm.ability === 'poison-heal';
+  /** Magic Guard: only direct hits hurt it (not poison, a burn, the weather, recoil, seeds...). */
+  const magicGuard = (bm, why) => bm.ability === 'magic-guard' && !!why && why !== 'hit' && why !== 'confusion';
+  const heatproof = bm => bm.ability === 'heatproof';
+  const stall = bm => bm.ability === 'stall';
+  const skillLink = bm => bm.ability === 'skill-link';
+  const klutz = mon => of(mon) === 'klutz';
   const suctionCups = bm => bm.ability === 'suction-cups';
   const liquidOoze = bm => bm.ability === 'liquid-ooze';
   const earlyBird = bm => bm.ability === 'early-bird';
 
-  return { CONTACT, SOUND, KNOWN, NO_EFFECT, of, weather, statMult, powerMult, accMult, noCrit, noOhko, noRecoil, shieldDust, chance, immune, stops,
+  return { CONTACT, SOUND, PUNCH, KNOWN, NO_EFFECT, of, weather, statMult, powerMult, accMult, noCrit, noOhko, noRecoil, shieldDust, chance, immune, stops,
            blocksStatus, blocksConfusion, blocksAttract, blocksFlinch, blocksDrop, afterStatus, contact, afterHit, switchIn, switchOut,
-           endOfTurn, forecast, truant, pressure, damp, traps, runAway, suctionCups, liquidOoze, earlyBird, say };
+           endOfTurn, forecast, truant, pressure, damp, traps, runAway, suctionCups, liquidOoze, earlyBird, say,
+           ab, stab, critBonus, critMult, finalMult, alwaysHits, unaware, stageDelta, moveType, scrappy, steadfast, angerPoint,
+           poisonHeal, magicGuard, heatproof, stall, skillLink, klutz };
 })();

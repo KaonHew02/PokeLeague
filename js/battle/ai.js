@@ -77,7 +77,7 @@ G.BattleAI = (() => {
     const tHp = Math.max(1, target.mon.hp);
     if (M.cat !== 'status') {
       const type = S.moveType ? S.moveType(b, user) : M.type;
-      const eff = S.typeless ? 1 : b.eff(type, target);
+      const eff = S.typeless ? 1 : b.eff(type, target, user);
       if (eff === 0 || (!S.typeless && G.Abilities.immune(user, target, M, type, eff))) return 0;
       if (M.meta.k === 'ohko' && G.Abilities.noOhko(target)) return 0;
       let est;
@@ -109,7 +109,7 @@ G.BattleAI = (() => {
         const s = id === 'toxic' ? 'tox' : G.BattleFx.AIL[ail], ty = target.types;
         if ((s === 'brn' && ty.includes('fire')) || (s === 'par' && ty.includes('electric')) || (s === 'frz' && ty.includes('ice'))
             || ((s === 'psn' || s === 'tox') && (ty.includes('poison') || ty.includes('steel')))) return 0;
-        if (b.sideOf(target).field.safeguard || G.Abilities.blocksStatus(target, s)) return 0;
+        if (b.sideOf(target).field.safeguard || G.Abilities.blocksStatus(target, s, b)) return 0;
         return { slp: 40, par: 32, psn: 24, brn: 28, frz: 30 }[G.BattleFx.AIL[ail]] || 20;
       }
       if (ail === 'confusion') return target.vol.confusion || G.Abilities.blocksConfusion(target) ? 0 : 22;

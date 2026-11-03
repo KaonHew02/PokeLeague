@@ -60,19 +60,30 @@ G.BattleFx = (() => {
     if (target && target.side !== user.side) {
       const follow = b.foes(user).find(f => f.vol.followMe);
       if (follow) one = follow;
-      else if (M.type === 'electric') {
-        const rod = b.allActive().find(x => x !== user && b.alive(x) && x.ability === 'lightning-rod');
+      else if (M.type === 'electric' || M.type === 'water') {
+        // Storm Drain (chapter 44) draws the Water moves as Lightning Rod does the Electric ones.
+        const draw = M.type === 'electric' ? 'lightning-rod' : 'storm-drain';
+        const rod = b.allActive().find(x => x !== user && b.alive(x) && x.ability === draw);
         if (rod && rod !== target) { one = rod; G.Abilities.say(b, rod, 'rod'); }
       }
     }
     return { list: one ? [one] : [] };
   }
 
+  /** A move used: while it is, a user with Mold Breaker ignores its targets' abilities (chapter 44). */
   function useMove(b, user, target, id, ctx = {}) {
+    const prev = b.moldBreaker;
+    b.moldBreaker = user.ability === 'mold-breaker' ? user : null;
+    try { return use(b, user, target, id, ctx); } finally { b.moldBreaker = prev; }
+  }
+  // Gravity (chapter 44): nothing leaves the ground.
+  const GROUNDED = new Set(['fly', 'bounce', 'jump-kick', 'high-jump-kick', 'splash', 'magnet-rise']);
+  function use(b, user, target, id, ctx = {}) {
     const M = G.MOVES[id];
     if (!M) { b.emit('fail', {}); return; }
     const S = G.SpecialMoves[id] || {};
     const who = { side: user.side, uid: user.mon.uid };
+    if (b.gravity && GROUNDED.has(id)) { b.emit('move', Object.assign({ move: id }, who)); b.emit('fail', {}); return; }
 
     // Two-turn moves: the first turn only charges.
     if (S.charge && ctx.locked !== 'charge') {
@@ -171,31 +182,37 @@ G.BattleFx = (() => {
   function endRampage(b, user, S) { if (S.rampage || S.roll) user.vol.rampage = null; user.vol.charging = null; user.vol.invuln = null; return false; }
 
   function accuracy(b, user, target, M, S) {
+    // No Guard (chapter 44): it hits, even in the sky or underground (a one-hit KO still needs the level).
+    if (G.Abilities.alwaysHits(b, user, target) && !(M.meta.k === 'ohko' && target.mon.lvl > user.mon.lvl)) return true;
     if (target.vol.invuln && !(S.hitsInvuln && S.hitsInvuln.includes(target.vol.invuln)) && !user.vol.lockOn) return false;
     if (user.vol.lockOn) return true;
     if (M.meta.k === 'ohko') return target.mon.lvl <= user.mon.lvl && b.rng.int(1, 100) <= user.mon.lvl - target.mon.lvl + 30;
     const acc = S.acc ? S.acc(b, user, target, M) : M.acc;
     if (acc == null) return true;
-    const eva = target.vol.foresight ? Math.min(0, target.stages.eva) : target.stages.eva;
-    const st = Math.max(-6, Math.min(6, user.stages.acc - eva));
+    // Unaware (chapter 44): the other one's accuracy or evasion stages do not count.
+    const eva = user.ability === 'unaware' ? 0 : target.vol.foresight ? Math.min(0, target.stages.eva) : target.stages.eva;
+    const st = Math.max(-6, Math.min(6, (G.Abilities.unaware(b, target) ? 0 : user.stages.acc) - eva));
     // Bright Powder; Compound Eyes, Hustle, Sand Veil
-    return b.rng.int(1, 100) <= Math.floor(acc * G.Stats.accStage(st) * G.Held.accMult(target.mon) * G.Abilities.accMult(b, user, target, M));
+    return b.rng.int(1, 100) <= Math.floor(acc * G.Stats.accStage(st) * G.Held.accMult(target.mon) * G.Abilities.accMult(b, user, target, M)
+                                           * (b.gravity ? 5 / 3 : 1));          // Gravity
   }
 
   /** One hit's damage: { dmg, crit } (power already known). spread: doubles, a move on both foes. */
   function hitDamage(b, user, target, M, S, pow, eff, type, spread) {
-    const stage = (M.meta.crit || 0) + (user.vol.focusEnergy ? 2 : 0) + G.Held.critBonus(user.mon);
-    const crit = b.rng.int(1, CRIT[Math.min(3, stage)]) === 1 && !G.Abilities.noCrit(target);     // Battle Armor, Shell Armor
+    const stage = (M.meta.crit || 0) + (user.vol.focusEnergy ? 2 : 0) + G.Held.critBonus(user.mon) + G.Abilities.critBonus(user);   // Super Luck
+    const crit = b.rng.int(1, CRIT[Math.min(3, stage)]) === 1 && !G.Abilities.noCrit(target, b);     // Battle Armor, Shell Armor
     const phys = M.cat === 'physical';
-    const atk = b.stat(user, phys ? 'atk' : 'spa', { crit, attacking: true });
-    const def = b.stat(target, phys ? 'def' : 'spd', { crit, defending: true });
+    // Unaware: the stages of the Pokémon facing it do not count.
+    const atk = b.stat(user, phys ? 'atk' : 'spa', { crit, attacking: true, noStages: G.Abilities.unaware(b, target) });
+    const def = b.stat(target, phys ? 'def' : 'spd', { crit, defending: true, noStages: user.ability === 'unaware' });
     const field = b.sideOf(target).field;
     const dmg = G.Damage.calc({
-      lvl: user.mon.lvl, pow: Math.floor(pow * G.Held.power(user.mon, type) * (S.typeless ? 1 : G.Abilities.powerMult(b, user, target, type))
+      lvl: user.mon.lvl, pow: Math.floor(pow * G.Held.power(user.mon, type) * (S.typeless ? 1 : G.Abilities.powerMult(b, user, target, type, M, pow))
                                 * (user.vol.helped ? 1.5 : 1)),                // Helping Hand
       spread,
-      atk, def, eff, crit, roll: b.rng.int(85, 100),
-      stab: !S.typeless && user.types.includes(type),
+      atk, def, eff, crit: crit && G.Abilities.critMult(user), roll: b.rng.int(85, 100),     // Sniper
+      stab: !S.typeless && user.types.includes(type) && G.Abilities.stab(user),              // Adaptability
+      final: S.typeless ? 1 : G.Abilities.finalMult(b, user, target, eff),                 // Tinted Lens, Filter, Solid Rock
       burn: phys && user.mon.status === 'brn' && user.ability !== 'guts',
       screen: !crit && (phys ? field.reflect : field.lightScreen) > 0,
       weather: S.typeless ? 1 : b.weatherMult(type)
@@ -208,13 +225,14 @@ G.BattleFx = (() => {
     const h = M.meta.hits;
     if (!h) return 1;
     if (h[0] === h[1]) return h[0];
+    if (h[0] === 2 && h[1] === 5 && G.Abilities.skillLink(user)) return 5;          // Skill Link
     if (h[0] === 2 && h[1] === 5) { const r = b.rng.int(1, 100); return r <= 35 ? 2 : r <= 70 ? 3 : r <= 85 ? 4 : 5; }
     return b.rng.int(h[0], h[1]);
   }
 
   function damaging(b, user, target, M, S, ctx) {
-    const type = S.moveType ? S.moveType(b, user) : M.type;
-    const eff = S.typeless ? 1 : b.eff(type, target);
+    const type = G.Abilities.moveType(user, S.moveType ? S.moveType(b, user) : M.type, idOf(M));      // Normalize
+    const eff = S.typeless ? 1 : b.eff(type, target, user);
     if (eff === 0) {
       b.emit('noEffect', { side: target.side, uid: target.mon.uid });
       if (S.onBlocked) S.onBlocked(b, user, target, M);
@@ -226,7 +244,7 @@ G.BattleFx = (() => {
       return { total: 0 };
     }
     if (S.beforeHit) S.beforeHit(b, user, target, M);
-    if (M.meta.k === 'ohko' && G.Abilities.noOhko(target)) { G.Abilities.say(b, target, 'protect'); return { total: 0 }; }   // Sturdy
+    if (M.meta.k === 'ohko' && G.Abilities.noOhko(target, b)) { G.Abilities.say(b, target, 'protect'); return { total: 0 }; }   // Sturdy
     if (M.meta.k === 'ohko') {
       const d = b.hurt(target, target.mon.hp, { user, move: M, eff: 1 });
       if (target.mon.hp <= 0) b.emit('ohko', {});
@@ -250,6 +268,7 @@ G.BattleFx = (() => {
       const sub = target.vol.substitute > 0;
       total += b.hurt(target, dmg, { user, move: M, crit, eff: S.fixed ? 1 : eff, leaveOne: S.leaveOne });
       done++;
+      if (crit && !sub) G.Abilities.angerPoint(b, target);         // Anger Point (chapter 44)
       if (!sub) G.Abilities.contact(b, user, target, M);          // Static, Rough Skin...
     }
     if (done > 1) b.emit('hits', { n: done });
@@ -268,7 +287,7 @@ G.BattleFx = (() => {
 
     // Secondary effects (not through a substitute, nor on Shield Dust); Serene Grace doubles their chance.
     const pct = p => G.Abilities.chance(user, p);
-    if (!subBefore && total > 0 && b.alive(target) && !G.Abilities.shieldDust(target)) {
+    if (!subBefore && total > 0 && b.alive(target) && !G.Abilities.shieldDust(target, b)) {
       const k = M.meta.k, ail = M.meta.ail;
       if (k === 'damage-ailment' && ail && b.rng.pct(pct(M.meta.ailP || M.eff || 100))) secondaryAilment(b, user, target, M, ail);
       if (M.meta.flinch && !target.moved && b.rng.pct(pct(M.meta.flinch))) target.vol.flinch = true;

@@ -109,6 +109,21 @@ G.ITEM_FX = {
   'deep-sea-scale': { evo: 1, field: 1, price: 2100, held: 'deep-sea-scale' },
   'dragon-scale':  { evo: 1, field: 1, price: 2100 },
   'up-grade':      { evo: 1, field: 1, price: 2100 },
+  // Chapter 44 (Sinnoh): stones, and the items a trade evolution needs (used like a stone here).
+  'shiny-stone':   { evo: 1, field: 1, price: 2100 },
+  'dusk-stone':    { evo: 1, field: 1, price: 2100 },
+  'dawn-stone':    { evo: 1, field: 1, price: 2100 },
+  'ice-stone':     { evo: 1, field: 1, price: 2100 },          // Glaceon (as in later games)
+  'protector':     { evo: 1, field: 1, price: 2100 },
+  'electirizer':   { evo: 1, field: 1, price: 2100 },
+  'magmarizer':    { evo: 1, field: 1, price: 2100 },
+  'dubious-disc':  { evo: 1, field: 1, price: 2100 },
+  'reaper-cloth':  { evo: 1, field: 1, price: 2100 },
+  // Held to evolve on a level up (Gligar's Razor Fang at night, Happiny's Oval Stone by day); in battle the
+  // Razor Claw raises the critical-hit stage and the Razor Fang may make the foe flinch.
+  'razor-claw':    { held: 'razor-claw', price: 2100 },
+  'razor-fang':    { held: 'razor-fang', price: 2100 },
+  'oval-stone':    { held: 'oval-stone', price: 2100 },
 
   // ---- TMs sold in shops (Celadon Department Store) ----
   'tm05':          { price: 1000 },

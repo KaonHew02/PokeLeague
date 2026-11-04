@@ -59,5 +59,6 @@ G.I18n.add({
   "Pastoria City. Home of the Great Marsh, where the mud runs deep.": "Verchamps. Foyer du Grand Marais, où la boue est profonde.",
   "A big statue of Croagunk. People here say it brings good luck.": "Une grande statue de Cradopaud. Les gens d'ici disent qu'elle porte bonheur.",
   "The Great Marsh. A Safari Game at the gate: ₽500 for 30 Safari Balls and 500 steps.": "Grand Marais. Safari à l'entrée : ₽500 pour 30 Safari Balls et 500 pas.",
-  "The Great Marsh. Throw Bait to calm a Pokémon, or a Rock to rile it up!": "Grand Marais. Lance un Appât pour calmer un Pokémon, ou un Caillou pour l'exciter !"
+  "The Great Marsh. Throw Bait to calm a Pokémon, or a Rock to rile it up!": "Grand Marais. Lance un Appât pour calmer un Pokémon, ou un Caillou pour l'exciter !",
+  "A lady named Cynthia came by, looking for you. She is at the lakefront, and she says the Psyduck on Route 210 need help!": "Une dame nommée Cynthia te cherchait. Elle est à la Rive Lac Courage, et elle dit que les Psykokwak de la Route 210 ont besoin d'aide !"
 }, "fr");

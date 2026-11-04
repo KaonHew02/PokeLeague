@@ -60,5 +60,8 @@ G.I18n.add({
   "Collector": "收藏家",
   "PI": "私家偵探",
   "Ruin Maniac": "遺跡迷",
-  "Tuber": "泳圈少年"
+  "Tuber": "泳圈少年",
+  "Ninja Boy": "忍者小子",
+  "Dragon Tamer": "馴龍師",
+  "Galactic Boss": "銀河隊首領"
 }, "zh-Hant");

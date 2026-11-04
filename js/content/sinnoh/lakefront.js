@@ -3,7 +3,8 @@
  * a Ruin Maniac whose tunnel is blocked, two Psychics. Valor Lakefront: the Hotel Grand Lake's lobby and the
  * Seven Stars restaurant; a guard closes the way to Lake Valor. After the bomb at the Great Marsh (pastoria.js,
  * flag marsh-bomb) the grunt stands before the hotel: Croagunk 31 (flag lakefront-grunt), then Crasher Wake
- * sends you back to Barry. Route 213 is a beach, with the hotel's locked cottages, down to Pastoria City.
+ * sends you back to Barry. Once he is beaten too, Cynthia waits here with a Secret Potion for the Psyduck on Route 210
+ * (chapter 50, flag cynthia-potion). Route 213 is a beach, with the hotel's locked cottages, down to Pastoria City.
  * Platinum's Trainers and wild Pokémon.
  */
 (() => {
@@ -11,6 +12,7 @@
   const SINNOH = { region: 'sinnoh' };
   const GRUNT = { name: 'Team Galactic Grunt' };
   const WAKE = { name: 'Crasher Wake' };
+  const CYNTHIA = { name: 'Cynthia' };
 
   // ---------------- Route 214 ----------------
   G.Maps.def(Object.assign({
@@ -145,7 +147,8 @@
         say: 'People come from all over Sinnoh to stay at the Hotel Grand Lake. The view is lovely.' },
       { id: 'boy', who: 'youngster', x: 24, y: 9, move: 'look',
         say: 'Seven Stars is the best restaurant in Sinnoh. I saved up for a whole year!' },
-      { id: 'wake', who: 'wake', x: 16, y: 11, dir: 'left', if: 'scripted' }
+      { id: 'wake', who: 'wake', x: 16, y: 11, dir: 'left', if: 'scripted' },
+      { id: 'cynthia', who: 'cynthia', x: 24, y: 11, dir: 'down', if: ['barry-pastoria', '!cynthia-potion'], script: 'lakefront.cynthia' }
     ],
     trainers: [
       { id: 'grunt-lakefront', who: 'galactic', cls: 'team-galactic', x: 11, y: 9, dir: 'down', sight: 3, if: ['marsh-bomb', '!lakefront-grunt'],
@@ -268,6 +271,14 @@
   G.Script.def({
     'route214.tunnel': [['say', 'Fresh rubble blocks the tunnel. A note says: "Still digging. Come back later!"']],
     'route213.cottage': [['say', 'The cottage is locked. A card on the door says: "Hotel Grand Lake guests only."']],
-    'lakefront.grunt-win': [['js', gruntWin]]
+    'lakefront.grunt-win': [['js', gruntWin]],
+    'lakefront.cynthia': [
+      ['say', 'So you are {player}. I am Cynthia. I study the old stories of Sinnoh, and Professor Rowan told me about you.', CYNTHIA],
+      ['say', 'I was heading north, but a crowd of Psyduck is blocking Route 210. Their heads ache so much that they cannot move.', CYNTHIA],
+      ['say', 'This Secret Potion will cure them. I have something to see to here by the lake first. Could you take it to them?', CYNTHIA],
+      ['fade', 'out', 0.3], ['setFlag', 'cynthia-potion'], ['fade', 'in', 0.3],
+      ['giveItem', 'secret-potion', 1],
+      ['say', 'Route 210 is north of Solaceon Town. I will meet you there!', CYNTHIA]
+    ]
   });
 })();

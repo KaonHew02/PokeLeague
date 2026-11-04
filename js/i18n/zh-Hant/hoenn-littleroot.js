@@ -45,7 +45,7 @@ G.I18n.add({
   "Field notes: \"Many of Hoenn's Pokémon live nowhere else. Others came from far away, like the Trainers who follow them...\"": "野外調查筆記：「豐緣的許多寶可夢在別處都見不到。也有一些是從遠方來的，就像追隨牠們的訓練家一樣……」",
   "Notebooks full of drawings of Pokémon, and the places where they were seen.": "筆記本裡畫滿了寶可夢，還有看到牠們的地方。",
   "{player}! The Champion of Hoenn, and a friend of my family. I could not be prouder!": "{player}！豐緣的冠軍，也是我們家的朋友。我真是太驕傲了！",
-  "Now, an old friend of mine, Professor Rowan, studies how Pokémon evolve. He lives in Sandgem Town, in the Sinnoh region, far to the north.": "對了，我的老朋友七代博士在研究寶可夢是怎麼進化的。他住在遙遠北方神奧地區的真砂鎮。",
+  "Now, an old friend of mine, Professor Rowan, studies how Pokémon evolve. He lives in Sandgem Town, in the Sinnoh region, far to the north.": "對了，我的老朋友七灶博士在研究寶可夢是怎麼進化的。他住在遙遠北方神奧地區的真砂鎮。",
   "He wrote that he would like to meet a Trainer who knows Kanto, Johto and Hoenn. I told him I know just the one!": "他在信上說，想見一見熟悉關都、城都和豐緣的訓練家。我跟他說，我正好認識一位！",
-  "The ferry in Lilycove City's harbor sails to Sinnoh now. Professor Rowan's lab is in Sandgem Town, right by the pier.": "水靜市港口的渡輪現在開往神奧了。七代博士的研究所就在真砂鎮，離碼頭很近。"
+  "The ferry in Lilycove City's harbor sails to Sinnoh now. Professor Rowan's lab is in Sandgem Town, right by the pier.": "水靜市港口的渡輪現在開往神奧了。七灶博士的研究所就在真砂鎮，離碼頭很近。"
 }, "zh-Hant");

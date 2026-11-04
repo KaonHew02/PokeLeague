@@ -46,7 +46,7 @@ G.I18n.add({
   "Kingler, show them your claws!": "巨鉗蟹，讓對手見識一下你的大鉗子！",
   "Snip snap... snapped.": "咔嚓咔嚓……折斷了。",
   "Cinnabar Island is just west of here. You can see the volcano from the water.": "紅蓮島就在這裡的西邊。從海上就能看到火山。",
-  "Cyrus": "賽勒斯",
+  "Cyrus": "赤日",
   "My birds flew me out here, and they will blow you away!": "我的鳥兒載我飛到這裡，牠們也會把你吹跑！",
   "They flew off without me...": "牠們丟下我飛走了……",
   "Birds rest on sandbanks like this one when they cross the sea.": "鳥兒飛越大海時，會在這樣的沙洲上休息。",

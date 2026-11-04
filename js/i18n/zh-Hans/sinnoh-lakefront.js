@@ -66,5 +66,10 @@ G.I18n.add({
   "Route 214. North: Veilstone City. South: Valor Lakefront.": "214号道路。北：帷幕市　南：立志湖畔",
   "Valor Lakefront. West: Lake Valor. South: Route 213.": "立志湖畔。西：立志湖　南：213号道路",
   "Hotel Grand Lake. Rest by the water, and leave your cares at the door.": "湖畔饭店。在水边好好休息，把烦恼留在门外。",
-  "Route 213. West: Pastoria City. North: Valor Lakefront.": "213号道路。西：湿原市　北：立志湖畔"
+  "Route 213. West: Pastoria City. North: Valor Lakefront.": "213号道路。西：湿原市　北：立志湖畔",
+  "So you are {player}. I am Cynthia. I study the old stories of Sinnoh, and Professor Rowan told me about you.": "你就是{player}吧。我叫竹兰，在研究神奥的古老传说。七灶博士跟我提起过你。",
+  "I was heading north, but a crowd of Psyduck is blocking Route 210. Their heads ache so much that they cannot move.": "我本来要往北走，但一群可达鸭堵住了210号道路。它们头痛得动不了。",
+  "This Secret Potion will cure them. I have something to see to here by the lake first. Could you take it to them?": "这瓶秘传之药能治好它们。我在湖边还有点事要办。你能帮我带过去吗？",
+  "Route 210 is north of Solaceon Town. I will meet you there!": "210号道路在随意镇的北边。我们在那里见！",
+  "Cynthia": "竹兰"
 }, "zh-Hans");

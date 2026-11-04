@@ -6,7 +6,7 @@ G.I18n.add({
   "Gotcha! The wild Bidoof was caught!": "抓到了！野生的大牙狸被收服了！",
   "Weaken it first, then throw. A sleeping or paralyzed Pokémon is even easier to catch!": "先削弱它，再扔球。睡着或麻痹的宝可梦更容易抓到！",
   "I will go on ahead to Jubilife City. See you there!": "我先去祝庆市了。那里见！",
-  "Come on, hand it over! Professor Rowan's notes on evolution. Team Galactic has a use for them.": "快交出来！七代博士关于进化的研究笔记。银河队用得着它。",
+  "Come on, hand it over! Professor Rowan's notes on evolution. Team Galactic has a use for them.": "快交出来！七灶博士关于进化的研究笔记。银河队用得着它。",
   "{player}! Over here! These two will not leave me alone!": "{player}！这边！这两个人一直缠着我！",
   "Who are you, another Trainer? Then we will deal with you both. You are mine!": "你是谁？又一个训练家？那就连你们两个一起收拾。你的对手是我！",
   "At the same time, {assistant} beat the other grunt!": "与此同时，{assistant}也打败了另一个手下！",

@@ -142,5 +142,8 @@ G.I18n.add({
   "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "Obrigado por jogar! A Rota 214 e Pastoria chegam em uma próxima atualização.",
   "Chapter 49 complete!": "Capítulo 49 concluído!",
   "{player} crossed Route 214 and the beach of Route 213, earned the Fen Badge from Crasher Wake, chased a Team Galactic bomber to Valor Lakefront and beat Barry in Pastoria City.": "{player} atravessou a Rota 214 e a praia da Rota 213, conquistou a Insígnia Pântano de Crasher Wake, perseguiu um recruta da Equipe Galáctica até o Valor Lakefront e venceu Barry em Pastoria.",
-  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Obrigado por jogar! O Lake Valor e Celestic chegam em uma próxima atualização."
+  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Obrigado por jogar! O Lake Valor e Celestic chegam em uma próxima atualização.",
+  "Chapter 50 complete!": "Capítulo 50 concluído!",
+  "{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.": "{player} curou os Psyduck com a Secret Potion de Cynthia, atravessou a neblina da Rota 210, enfrentou Cyrus nas ruínas de Celestic e levou o Old Charm para casa.",
+  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Obrigado por jogar! Canalave e Iron Island chegam em uma próxima atualização."
 }, "pt-BR");

@@ -59,5 +59,6 @@ G.I18n.add({
   "Pastoria City. Home of the Great Marsh, where the mud runs deep.": "Pratopoli. Casa della Gran Palude, dove il fango è profondo.",
   "A big statue of Croagunk. People here say it brings good luck.": "Una grande statua di Croagunk. La gente del posto dice che porta fortuna.",
   "The Great Marsh. A Safari Game at the gate: ₽500 for 30 Safari Balls and 500 steps.": "Gran Palude. Safari all'ingresso: ₽500 per 30 Safari Ball e 500 passi.",
-  "The Great Marsh. Throw Bait to calm a Pokémon, or a Rock to rile it up!": "Gran Palude. Lancia l'Esca per calmare un Pokémon, o un Sasso per agitarlo!"
+  "The Great Marsh. Throw Bait to calm a Pokémon, or a Rock to rile it up!": "Gran Palude. Lancia l'Esca per calmare un Pokémon, o un Sasso per agitarlo!",
+  "A lady named Cynthia came by, looking for you. She is at the lakefront, and she says the Psyduck on Route 210 need help!": "È passata una signora di nome Camilla che ti cercava. È al lago, e dice che gli Psyduck del Percorso 210 hanno bisogno d'aiuto!"
 }, "it");

@@ -2598,6 +2598,81 @@ test('Sinnoh (chapter 49): Route 214 after the Cobble Badge, the lakefront, Rout
   assert.ok(F.flag('barry-pastoria'));
 });
 
+test('Sinnoh (chapter 50): the Psyduck and the SecretPotion, the fog on Route 210, Celestic Town, the grunt at the ruins, Cyrus, the elder', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic'].map(f => `js/content/sinnoh/${f}.js`);
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
+  for (const f of ['sinnoh-start', 'sinnoh-dex', 'galactic-jubilife', 'barry-203', 'roark-met', 'mars-windworks', 'cheryl-done', 'tg-eterna-done', 'cyrus-coronet',
+                   'marsh-bomb', 'lakefront-grunt', 'barry-pastoria']) F.setFlag(f);
+  F.giveMon('infernape', 40, { moves: ['flame-wheel'] });
+  F.giveMon('luxray', 38, { moves: ['spark'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
+  const fights = [];
+  W.onTrainer = async d => { fights.push(d.id); return 'win'; };
+  // Without the SecretPotion the Psyduck stay.
+  W.load('route210s', { x: 9, y: 2, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'the Psyduck');
+  await pump(W, W.interact());
+  assert.ok(!F.flag('psyduck-cured'));
+  assert.equal(step(W, 'up'), 'blocked', 'still there');
+  // Wake sends you to the lakefront; Cynthia gives it.
+  W.load('pastoria', { x: 23, y: 12, dir: 'down' });
+  assert.equal(step(W, 'down'), 'blocked', 'Wake outside his Gym');
+  W.load('valor-lakefront', { x: 24, y: 12, dir: 'up' });
+  await pump(W, W.interact());
+  await until(() => F.flag('cynthia-potion') && !W.locked);
+  assert.equal(F.count('secret-potion'), 1);
+  assert.equal(step(W, 'up'), 'moved', 'Cynthia has gone');
+  // Back on Route 210: yes, and the way is open; Cynthia gives the Old Charm.
+  W.load('route210s', { x: 9, y: 2, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('psyduck-cured') && F.count('old-charm') === 1 && !W.locked);
+  assert.equal(F.count('secret-potion'), 0);
+  W.load('route210s', { x: 9, y: 2, dir: 'up' });
+  assert.ok(!W.foggy(), 'no fog south of the Psyduck');
+  assert.equal(step(W, 'up'), 'moved');
+  assert.equal(step(W, 'up'), 'moved');
+  await cross('up', 'route210n');
+  assert.deepEqual([W.player.x, W.player.y], [34, 29]);
+  assert.ok(W.foggy(), 'fog on Route 210');
+  // The Cafe Cabin; west over the bridge to Celestic Town, where Route 211 is closed.
+  W.load('route210n', 'cafe-door');
+  await cross('up', 'cafe-cabin');
+  W.load('route210n', { x: 0, y: 8, dir: 'left' });
+  await cross('left', 'celestic');
+  assert.deepEqual([W.player.x, W.player.y], [33, 10]);
+  assert.ok(!W.foggy(), 'no fog in town');
+  W.load('celestic', { x: 2, y: 10, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked', 'Route 211');
+  // The elder cannot take the charm yet.
+  W.load('celestic-elder', { x: 6, y: 4, dir: 'right' });
+  await pump(W, W.interact());
+  assert.equal(F.count('old-charm'), 1, 'not while they are in the ruins');
+  // The grunt stands in the mouth of the ruins.
+  W.load('celestic', { x: 15, y: 20, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked', 'the grunt');
+  W.interact();
+  await until(() => F.flag('celestic-grunt') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['grunt-celestic']);
+  W.load('celestic', { x: 16, y: 20, dir: 'up' });
+  await cross('up', 'celestic-ruins');
+  assert.deepEqual([W.player.x, W.player.y], [6, 9]);
+  // Cyrus before the mural.
+  W.load('celestic-ruins', { x: 6, y: 4, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('cyrus-celestic') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['cyrus']);
+  // The elder: TM51, the end of the chapter.
+  W.load('celestic-elder', { x: 6, y: 4, dir: 'right' });
+  W.interact();
+  await until(() => F.flag('chapter-50-done') && !W.locked);
+  assert.equal(F.count('old-charm'), 0);
+  assert.equal(F.count('tm51'), 1);
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

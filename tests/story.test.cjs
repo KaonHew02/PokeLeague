@@ -908,6 +908,24 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Cyrus in the Celestic Ruins (chapter 50), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'celestic-ruins', 'cyrus');
+  const table = {
+    'torterra 40': rate([[389, 40]]), 'infernape 40': rate([[392, 40]]), 'empoleon 40': rate([[395, 40]]),
+    'torterra 40 + luxray 38': rate([[389, 40], [405, 38]]), 'infernape 40 + luxray 38': rate([[392, 40], [405, 38]]), 'empoleon 40 + luxray 38': rate([[395, 40], [405, 38]]),
+    'torterra 40 + luxray 38 + staraptor 38': rate([[389, 40], [405, 38], [398, 38]]),
+    'infernape 40 + luxray 38 + staraptor 38': rate([[392, 40], [405, 38], [398, 38]]),
+    'empoleon 40 + luxray 38 + staraptor 38': rate([[395, 40], [405, 38], [398, 38]])
+  };
+  console.log('[balance] vs Cyrus in Celestic:', JSON.stringify(table));
+  // Platinum's team is a fair fight: a pair wins most of the time, a team of three nearly always.
+  for (const k of ['torterra', 'infernape', 'empoleon']) {
+    assert.ok(table[k + ' 40 + luxray 38'] >= 0.7, k + ' with a friend');
+    assert.ok(table[k + ' 40 + luxray 38 + staraptor 38'] >= 0.9, k + ' with two friends');
+  }
+});
+
 test('balance: the Battle Tower (chapter 43), win rates of a typical team at level 50 are printed', () => {
   const { G } = world(1);
   const rate = (foe, n = 30) => {
@@ -3744,6 +3762,53 @@ async function chapter49(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 50 after chapter 49: Cynthia's SecretPotion, the Psyduck and the Old Charm, Route 210 in the fog, Celestic Town,
+ *  the grunt and Cyrus in the ruins, the elder. */
+async function chapter50(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async (mapId, skip = []) => {
+    for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader' && !skip.includes(t.id))) { await fight(mapId, t.id); won(); }
+  };
+  const starter = () => lead(st, S.party.some(m => m.sp === 392) ? 392 : 391);
+  // Wake points at the lakefront, where Cynthia gives the SecretPotion.
+  assert.ok(F.test(G.Maps.get('pastoria').npcs.find(p => p.id === 'wake2').if), 'Wake has news');
+  await run(st, 'route210s', 'route210.psyduck');
+  assert.ok(!F.flag('psyduck-cured'), 'nothing to give them yet');
+  await run(st, 'valor-lakefront', npc(st, 'valor-lakefront', 'cynthia'));
+  assert.ok(F.flag('cynthia-potion') && F.count('secret-potion') === 1, 'the SecretPotion');
+  assert.ok(!F.test(G.Maps.get('pastoria').npcs.find(p => p.id === 'wake2').if), 'Wake has said it');
+  // The Psyduck are cured; Cynthia gives the Old Charm.
+  await run(st, 'route210s', 'route210.psyduck', [0]);
+  assert.ok(F.flag('psyduck-cured') && !F.count('secret-potion') && F.count('old-charm') === 1, 'the Old Charm');
+  // Route 210 in the fog.
+  assert.equal(G.Maps.get('route210n').def.fog, true, 'fog on Route 210');
+  starter();
+  await all('route210n');
+  // Celestic Town: the elder asks for help; the grunt; Cyrus in the ruins.
+  await run(st, 'celestic-elder', 'celestic.elder');
+  assert.equal(F.count('old-charm'), 1, 'not yet');
+  grind(st, 'route210n', 41, 500);
+  starter();
+  await fight('celestic', 'grunt-celestic');
+  won();
+  assert.ok(F.flag('celestic-grunt'));
+  await fight('celestic-ruins', 'cyrus');
+  won();
+  console.log('[story] Cyrus in Celestic:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('cyrus-celestic'));
+  // The elder: the Old Charm comes home, TM51, the end of the chapter.
+  const tms = F.count('tm51');
+  await run(st, 'celestic-elder', 'celestic.elder');
+  assert.equal(F.count('old-charm'), 0);
+  assert.equal(F.count('tm51'), tms + 1);
+  assert.ok(F.flag('chapter-50-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3825,7 +3890,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 49: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its fifth Gym", async () => {
+test("chapters 11 to 50: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to Celestic Town", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3876,4 +3941,5 @@ test("chapters 11 to 49: Johto, from Professor Elm to Johto's League and its pos
   await chapter47(st);
   await chapter48(st);
   await chapter49(st);
+  await chapter50(st);
 });

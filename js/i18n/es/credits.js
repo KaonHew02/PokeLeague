@@ -142,5 +142,8 @@ G.I18n.add({
   "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "¡Gracias por jugar! La Ruta 214 y Ciudad Pradera llegarán en una próxima actualización.",
   "Chapter 49 complete!": "¡Capítulo 49 completado!",
   "{player} crossed Route 214 and the beach of Route 213, earned the Fen Badge from Crasher Wake, chased a Team Galactic bomber to Valor Lakefront and beat Barry in Pastoria City.": "{player} cruzó la Ruta 214 y la playa de la Ruta 213, ganó la Medalla Ciénaga de Mananti, persiguió a un recluta del Equipo Galaxia hasta la Orilla Valor y venció a Barry en Ciudad Pradera.",
-  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "¡Gracias por jugar! El Lago Valor y Pueblo Caelestis llegarán en una próxima actualización."
+  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "¡Gracias por jugar! El Lago Valor y Pueblo Caelestis llegarán en una próxima actualización.",
+  "Chapter 50 complete!": "¡Capítulo 50 completado!",
+  "{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.": "{player} curó a los Psyduck con la Poción Secreta de Cintia, cruzó la niebla de la Ruta 210, se enfrentó a Helio en las ruinas de Pueblo Caelestis y devolvió el Talismán a su hogar.",
+  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "¡Gracias por jugar! Ciudad Canal y la Isla Hierro llegarán en una próxima actualización."
 }, "es");

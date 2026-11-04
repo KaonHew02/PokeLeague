@@ -66,5 +66,10 @@ G.I18n.add({
   "Route 214. North: Veilstone City. South: Valor Lakefront.": "Ruta 214. Norte: Ciudad Rocavelo. Sur: Orilla Valor.",
   "Valor Lakefront. West: Lake Valor. South: Route 213.": "Orilla Valor. Oeste: Lago Valor. Sur: Ruta 213.",
   "Hotel Grand Lake. Rest by the water, and leave your cares at the door.": "Hotel Gran Lago. Descansa junto al agua y deja tus preocupaciones en la puerta.",
-  "Route 213. West: Pastoria City. North: Valor Lakefront.": "Ruta 213. Oeste: Ciudad Pradera. Norte: Orilla Valor."
+  "Route 213. West: Pastoria City. North: Valor Lakefront.": "Ruta 213. Oeste: Ciudad Pradera. Norte: Orilla Valor.",
+  "So you are {player}. I am Cynthia. I study the old stories of Sinnoh, and Professor Rowan told me about you.": "Así que tú eres {player}. Soy Cintia. Estudio las viejas historias de Sinnoh, y el Profesor Serbal me ha hablado de ti.",
+  "I was heading north, but a crowd of Psyduck is blocking Route 210. Their heads ache so much that they cannot move.": "Iba hacia el norte, pero un grupo de Psyduck bloquea la Ruta 210. Les duele tanto la cabeza que no pueden moverse.",
+  "This Secret Potion will cure them. I have something to see to here by the lake first. Could you take it to them?": "Esta Poción Secreta los curará. Antes tengo algo que hacer aquí, junto al lago. ¿Podrías llevársela?",
+  "Route 210 is north of Solaceon Town. I will meet you there!": "La Ruta 210 está al norte de Pueblo Sosiego. ¡Nos vemos allí!",
+  "Cynthia": "Cintia"
 }, "es");

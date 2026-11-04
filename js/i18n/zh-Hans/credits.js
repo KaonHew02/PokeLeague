@@ -126,7 +126,7 @@ G.I18n.add({
   "{player} won seven battles in a row at the Battle Tower.": "{player}在对战塔取得了七连胜。",
   "The streak goes on: Anabel, the Salon Maiden, waits for whoever wins twenty-one in a row.": "连胜还在继续：沙龙女主人莉拉正等着取得二十一连胜的人。",
   "Chapter 44 complete!": "第四十四章完成！",
-  "{player} sailed to the Sinnoh region, met Barry and Professor Rowan at Lake Verity, and chose a new partner from the professor's briefcase.": "{player}乘船来到神奥地区，在心齐湖遇见了阿驯和七代博士，并从博士的公文包里选出了新的伙伴。",
+  "{player} sailed to the Sinnoh region, met Barry and Professor Rowan at Lake Verity, and chose a new partner from the professor's briefcase.": "{player}乘船来到神奥地区，在心齐湖遇见了阿驯和七灶博士，并从博士的公文包里选出了新的伙伴。",
   "Thank you for playing! Route 202 and Jubilife City wait in a future update.": "感谢游玩！202号道路和祝庆市将在之后的更新中登场。",
   "Chapter 45 complete!": "第四十五章完成！",
   "{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.": "{player}在祝庆市挺身对抗银河队，在203号道路再次和阿驯对战，在黑金矿山深处找到瓢太，并赢得了煤炭徽章。",
@@ -142,5 +142,8 @@ G.I18n.add({
   "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "感谢游玩！214号道路和湿原市将在之后的更新中登场。",
   "Chapter 49 complete!": "第四十九章完成！",
   "{player} crossed Route 214 and the beach of Route 213, earned the Fen Badge from Crasher Wake, chased a Team Galactic bomber to Valor Lakefront and beat Barry in Pastoria City.": "{player}穿过214号道路和213号道路的海滩，从吉宪那里赢得了湿地徽章，把银河队的炸弹手追到立志湖畔，并在湿原市打败了阿驯。",
-  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "感谢游玩！立志湖和神和镇将在之后的更新中登场。"
+  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "感谢游玩！立志湖和神和镇将在之后的更新中登场。",
+  "Chapter 50 complete!": "第五十章完成！",
+  "{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.": "{player}用竹兰的秘传之药治好了可达鸭，穿过210号道路的浓雾，在神和镇的遗迹与赤日交手，并把古代护符送回了家。",
+  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "感谢游玩！水脉市和钢铁岛将在之后的更新中登场。"
 }, "zh-Hans");

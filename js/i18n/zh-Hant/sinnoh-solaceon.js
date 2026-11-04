@@ -37,5 +37,10 @@ G.I18n.add({
   "Solaceon Ruins. Please do not touch the carvings.": "隨意遺跡。請勿觸摸石刻。",
   "A note on the shelf: \"Our cousins run the Day Care on Route 34 in Johto. A Pokémon left with one of us can be picked up at either!\"": "架子上的字條：「我們的表親在城都的34號道路經營培育屋。寄放在任何一邊的寶可夢，在兩邊都能領回！」",
   "Letters are carved all over the wall. Together they seem to say: \"Every life began from one, and every thread still leads back to it.\"": "牆上刻滿了文字。連起來似乎在說：「一切生命皆源於一，每一條線都仍通往那裡。」",
-  "Route 210. South: Solaceon Town. East: Route 215 and Veilstone City.": "210號道路。南：隨意鎮　東：215號道路、帷幕市"
+  "Route 210. South: Solaceon Town. East: Route 215 and Veilstone City.": "210號道路。南：隨意鎮　東：215號道路、帷幕市",
+  "Give them the {item}?": "要給牠們{item}嗎？",
+  "The Psyduck stopped holding their heads and waddled away, quacking happily!": "可達鴨們不再抱著頭，開心地嘎嘎叫著搖搖擺擺走了！",
+  "You cured them! Thank you, {player}. The road north is open again.": "你治好牠們了！謝謝你，{player}。往北的路又通了。",
+  "Could I ask one more favor? This Old Charm belongs to my grandmother, the elder of Celestic Town, past the fog to the west.": "能再拜託你一件事嗎？這個古代護符是我奶奶的。她是神和鎮的長老，穿過霧往西走就到了。",
+  "I hear Team Galactic has been seen near the ruins there. Please be careful.": "聽說有人在那裡的遺跡附近看到了銀河隊。請多加小心。"
 }, "zh-Hant");

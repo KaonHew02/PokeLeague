@@ -59,5 +59,6 @@ G.I18n.add({
   "Pastoria City. Home of the Great Marsh, where the mud runs deep.": "湿原市。大湿地的所在地，这里的烂泥可深了。",
   "A big statue of Croagunk. People here say it brings good luck.": "一座巨大的不良蛙雕像。这里的人说它能带来好运。",
   "The Great Marsh. A Safari Game at the gate: ₽500 for 30 Safari Balls and 500 steps.": "大湿地。入口受理狩猎：₽500，30个狩猎球，500步。",
-  "The Great Marsh. Throw Bait to calm a Pokémon, or a Rock to rile it up!": "大湿地。丢饵料能让宝可梦平静，丢石头能让它激动！"
+  "The Great Marsh. Throw Bait to calm a Pokémon, or a Rock to rile it up!": "大湿地。丢饵料能让宝可梦平静，丢石头能让它激动！",
+  "A lady named Cynthia came by, looking for you. She is at the lakefront, and she says the Psyduck on Route 210 need help!": "有位叫竹兰的女士来找过你。她在立志湖畔，说210号道路的可达鸭需要帮助！"
 }, "zh-Hans");

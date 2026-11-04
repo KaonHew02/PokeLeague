@@ -26,5 +26,5 @@ G.I18n.add({
   "The ship sailed out to the island of the Battle Tower...": "船向对战塔所在的小岛驶去……",
   "The ship sailed north, far beyond the seas of Hoenn...": "船向北驶去，远远离开了丰缘的海域……",
   "Here we are: Sandgem Town, in the Sinnoh region. Mind the sand in your shoes!": "到了：神奥地区的真砂镇。小心别让沙子跑进鞋里！",
-  "Professor Rowan's lab is the big building at the north end of town. You can't miss it.": "七代博士的研究所是镇子北边那栋大建筑，你不会错过的。"
+  "Professor Rowan's lab is the big building at the north end of town. You can't miss it.": "七灶博士的研究所是镇子北边那栋大建筑，你不会错过的。"
 }, "zh-Hans");

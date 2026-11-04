@@ -76,6 +76,9 @@
       { id: 'grunt', who: 'galactic', x: 17, y: 5, dir: 'down', if: ['badge:28', '!marsh-bomb'], script: 'pastoria.bomb' },
       { id: 'barry2', who: 'barry', x: 30, y: 14, dir: 'left', if: ['lakefront-grunt', '!barry-pastoria'], script: 'pastoria.barry' },
       { id: 'wake', who: 'wake', x: 17, y: 9, dir: 'up', if: 'scripted' },
+      // After the chapter 49 ending: where to go next (chapter 50).
+      { id: 'wake2', who: 'wake', x: 23, y: 13, dir: 'down', if: ['barry-pastoria', '!cynthia-potion'],
+        say: 'A lady named Cynthia came by, looking for you. She is at the lakefront, and she says the Psyduck on Route 210 need help!' },
       { id: 'girl', who: 'lass', x: 27, y: 15, move: 'look',
         say: 'Crasher Wake loves this town. He wrestles in the mud with the children every morning!' },
       { id: 'man', who: 'fisherman', x: 12, y: 22, move: 'wander', r: 2,

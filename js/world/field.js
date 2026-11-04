@@ -74,6 +74,7 @@
  * swim on that Pokémon's back over the sea floor (`underwater: true`: no follower, no Bicycle, no
  * Fly); seaweed (`"`) rolls the 'seaweed' table. A on the floor under deep water comes back up
  * (`surface`, the same tile).
+ * Chapter 50: fog (map `fog`) only changes how the map looks: it does not touch walking or battles.
  * Chapter 38: a storm (map `storm`: a condition) rains on the map and in its battles; on the sea
  * floor, `up: [{ x, y, w, h, to, spot }]` are places where coming up leads somewhere else (a lake
  * inside a crater: Sootopolis City).
@@ -1694,6 +1695,8 @@ G.World = (() => {
   const TINT = { morning: 'rgba(255,176,96,0.10)', day: null, night: 'rgba(14,22,70,0.40)' };
   /** A storm on this map (its `storm` condition holds, chapter 38): rain, a dark sky, rain in battle. */
   const stormy = (m = map) => !!(m && m.def.storm) && G.Field.test(m.def.storm);
+  /** Fog on this map (its `fog`, chapter 50). */
+  const foggy = (m = map) => !!(m && m.def.fog);
   const tint = () => under() ? 'rgba(10,40,120,0.30)' : stormy() ? 'rgba(20,28,60,0.38)'
     : (['johto', 'hoenn', 'sinnoh'].includes(map.def.region) && map.tileset === 'outdoor' && !map.def.cave && G.Clock
     ? TINT[G.Clock.period()] : null);
@@ -1701,7 +1704,7 @@ G.World = (() => {
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(), snow: !!map.def.snow, bubbles: under(), rain: stormy(),
+      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(), snow: !!map.def.snow, bubbles: under(), rain: stormy(), fog: foggy(),
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }
@@ -1711,7 +1714,7 @@ G.World = (() => {
     actor: id => actor(id, {}), host, debug,
     onEncounter: null, onTrainer: null, wildForm: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, get surfing() { return surfing; }, keyOpen,
-    barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, stormy,
+    barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, stormy, foggy,
     get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },

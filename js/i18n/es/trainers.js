@@ -60,5 +60,8 @@ G.I18n.add({
   "Collector": "Coleccionista",
   "PI": "Detective",
   "Ruin Maniac": "Ruinamaníaco",
-  "Tuber": "Niño Flotador"
+  "Tuber": "Niño Flotador",
+  "Ninja Boy": "Chico Ninja",
+  "Dragon Tamer": "Domadragones",
+  "Galactic Boss": "Jefe Galaxia"
 }, "es");

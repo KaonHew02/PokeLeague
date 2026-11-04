@@ -60,5 +60,8 @@ G.I18n.add({
   "Collector": "Collezionista",
   "PI": "Investigatore",
   "Ruin Maniac": "Rovinomane",
-  "Tuber": "Bagnante"
+  "Tuber": "Bagnante",
+  "Ninja Boy": "Piccolo Ninja",
+  "Dragon Tamer": "Domadraghi",
+  "Galactic Boss": "Capo Galassia"
 }, "it");

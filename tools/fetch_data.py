@@ -157,7 +157,7 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
     'tm_extra_vg': 'platinum',
     'text_versions': REGIONS['hoenn']['text_versions'] + ['platinum', 'diamond', 'pearl'],
     'text_vgs': REGIONS['hoenn']['text_vgs'] + ['platinum', 'diamond-pearl'],
-    'items': REGIONS['hoenn']['items'] + ['razor-claw', 'razor-fang', 'shiny-stone', 'dusk-stone', 'dawn-stone', 'ice-stone', 'oval-stone',
+    'items': REGIONS['hoenn']['items'] + ['old-charm', 'razor-claw', 'razor-fang', 'shiny-stone', 'dusk-stone', 'dawn-stone', 'ice-stone', 'oval-stone',
                                           'protector', 'electirizer', 'magmarizer', 'dubious-disc', 'reaper-cloth'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
@@ -295,6 +295,8 @@ LOC_NAMES = {
     'valor-lakefront':   ('Orilla Valor',       'Valor Lakefront',     '立志湖畔',   '立志湖畔'),
     'pastoria-city':     ('Ciudad Pradera',     'Pratopoli',           '湿原市',     '濕原市'),
     'great-marsh':       ('Gran Pantano',       'Gran Palude',         '大湿地',     '大濕地'),
+    # Chapter 50.
+    'celestic-town':     ('Pueblo Caelestis',   'Memoride',            '神和镇',     '神和鎮'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

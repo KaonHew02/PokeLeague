@@ -2162,13 +2162,35 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   `tests/story.test.cjs` the chapter after chapter 48 and the balance lines for Wake and Barry
   (`trainerRate` now reads held items); `tests/gen4.test.cjs` Brine.
 
-### After chapter 49
+- **Chapter 50** ✅, Celestic Town (`js/content/sinnoh/celestic.js`, translations `sinnoh-celestic`). No Gym:
+  the chapter ends when the Old Charm comes home.
+  - **Engine**: a map's `fog: true` (field.js `foggy`, render.js): a pale wash and drifting banks. It only
+    changes how the map looks, not walking or battles. Route 210 north has it.
+  - **People and Trainers**: `cynthia`; the classes `ninja-boy`, `dragon-tamer`, `galactic-boss`. The item
+    `old-charm`. The key `Cyrus` was an old Kanto Bird Keeper's; it now carries the boss's official names
+    (es Helio, fr Hélio, zh 赤日), as `Barry` did.
+  - **Story**: after Barry, Wake stands outside his Gym and sends you to the lakefront (`wake2`). Cynthia
+    gives the Secret Potion there (flag cynthia-potion, not a `secret-potion` flag: Johto uses that item
+    too). On Route 210 the Psyduck take it (flag psyduck-cured, script `route210.psyduck`), and Cynthia gives
+    the Old Charm for her grandmother. Route 210 north: six of Platinum's Trainers, the Cafe Cabin (Moomoo
+    Milk), a river and its bridge. Celestic Town: a Center, the elder's house, a house, the ruins; a person
+    closes Route 211. A grunt stands in the mouth of the ruins (Houndour 32, Golbat 30; flag celestic-grunt).
+    Inside, before the mural, Cyrus (Sneasel 34, Golbat 34, Murkrow 36 with a Sitrus Berry, a Hyper Potion;
+    flag cyrus-celestic). The elder takes the Old Charm back. In Platinum she gives HM03, which the player
+    has carried since Kanto, so she gives TM51 (Roost); then `ending(50)`.
+- **Balance:** Platinum's team, a fair fight as it is: alone at Lv. 40 Infernape wins 63%, Empoleon 43%,
+  Torterra 0%; with a Luxray 80-100%; a team of three 100%.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the Psyduck without and with the potion,
+  Cynthia, the fog only north of them, the Cafe Cabin, Route 211 closed, the elder waiting, the grunt in the
+  mouth of the ruins, Cyrus, the end); `tests/story.test.cjs` the chapter after chapter 49 and the balance
+  line for Cyrus.
+
+### After chapter 50
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) five badges are won. Ideas:
-1. Sinnoh: Cynthia's SecretPotion at Valor Lakefront, the Psyduck on Route 210, the fog north of them and
-   Celestic Town with Cyrus; Team Galactic's HQ in Veilstone and Lake Valor later; Route 212 back to
-   Hearthome; Canalave City and Byron; Wayward Cave and Route 211 to the north.
+the Battle Tower; in Sinnoh (Pokémon 1-493) five badges are won and Celestic Town is reached. Ideas:
+1. Sinnoh: Route 218, Canalave City, Iron Island and Byron (the Mine Badge); Team Galactic's HQ in Veilstone
+   and Lake Valor later; Route 212 back to Hearthome; Wayward Cave and Route 211 to the north.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic;

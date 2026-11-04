@@ -66,5 +66,10 @@ G.I18n.add({
   "Route 214. North: Veilstone City. South: Valor Lakefront.": "Route 214. Nord : Voilaroc. Sud : Rive Lac Courage.",
   "Valor Lakefront. West: Lake Valor. South: Route 213.": "Rive Lac Courage. Ouest : Lac Courage. Sud : Route 213.",
   "Hotel Grand Lake. Rest by the water, and leave your cares at the door.": "Hôtel Grand Lac. Reposez-vous au bord de l'eau et laissez vos soucis à la porte.",
-  "Route 213. West: Pastoria City. North: Valor Lakefront.": "Route 213. Ouest : Verchamps. Nord : Rive Lac Courage."
+  "Route 213. West: Pastoria City. North: Valor Lakefront.": "Route 213. Ouest : Verchamps. Nord : Rive Lac Courage.",
+  "So you are {player}. I am Cynthia. I study the old stories of Sinnoh, and Professor Rowan told me about you.": "Tu dois être {player}. Je suis Cynthia. J'étudie les vieilles histoires de Sinnoh, et le Professeur Sorbier m'a parlé de toi.",
+  "I was heading north, but a crowd of Psyduck is blocking Route 210. Their heads ache so much that they cannot move.": "J'allais vers le nord, mais une bande de Psykokwak bloque la Route 210. Ils ont si mal à la tête qu'ils ne peuvent plus bouger.",
+  "This Secret Potion will cure them. I have something to see to here by the lake first. Could you take it to them?": "Cette Potion Secrète les guérira. J'ai d'abord à faire ici, près du lac. Pourrais-tu la leur apporter ?",
+  "Route 210 is north of Solaceon Town. I will meet you there!": "La Route 210 est au nord de Bonville. On se retrouve là-bas !",
+  "Cynthia": "Cynthia"
 }, "fr");

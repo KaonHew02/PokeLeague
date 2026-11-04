@@ -81,5 +81,9 @@ G.TRAINER_CLASSES = {
   'ruin-maniac': { title: 'Ruin Maniac', who: 'hiker', prize: 48 },
   tuber:         { title: 'Tuber', who: 'youngster', prize: 4 },
   'tuber-f':     { title: 'Tuber', ctx: 'trainer-f', who: 'lass', prize: 4 },
+  // Chapter 50
+  'ninja-boy':   { title: 'Ninja Boy', who: 'youngster', prize: 8 },
+  'dragon-tamer': { title: 'Dragon Tamer', who: 'cooltrainerm', prize: 48 },
+  'galactic-boss': { title: 'Galactic Boss', who: 'cyrus', prize: 100 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

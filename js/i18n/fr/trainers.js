@@ -60,5 +60,8 @@ G.I18n.add({
   "Collector": "Collectionneur",
   "PI": "Détective",
   "Ruin Maniac": "Fan de Ruines",
-  "Tuber": "Petit Nageur"
+  "Tuber": "Petit Nageur",
+  "Ninja Boy": "Petit Ninja",
+  "Dragon Tamer": "Dresseur de Dragons",
+  "Galactic Boss": "Boss Galaxie"
 }, "fr");

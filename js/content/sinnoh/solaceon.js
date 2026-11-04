@@ -4,12 +4,14 @@
  * scripts as Route 34's: there is one Day Care in the save, so a Pokémon left in Solaceon can be taken
  * back in Johto and the other way round). Solaceon Ruins, south-east of town: a chamber of carved letters
  * where wild Unown of every letter float (G.Ruins.wildForm, johto/ruins.js). Route 210 north of town:
- * a crowd of Psyduck blocks the way north in this chapter; the way east is Route 215 (veilstone.js).
+ * a crowd of Psyduck blocks the way north until Cynthia's Secret Potion cures them (chapter 50: she gives it at
+ * Valor Lakefront, and here the Old Charm; flag psyduck-cured); the way east is Route 215 (veilstone.js).
  * Platinum's wild Pokémon.
  */
 (() => {
   const T = s => G.T(s);
   const SINNOH = { region: 'sinnoh' };
+  const CYNTHIA = { name: 'Cynthia' };
   const HOUSE = ['WWWWWWWWWWW', 'WWWWWWWWWWW', 'bb__p______', '___________', '____ttt____', '____ttt____', '___________', '____X______'];
 
   // ---------------- Route 209 ----------------
@@ -196,14 +198,13 @@
       'T........,,........T',
       'TTTTTTTTT,,TTTTTTTTT'
     ],
-    connect: { south: { map: 'solaceon', offset: -6 }, east: { map: 'route215', offset: 5 } },
+    connect: { south: { map: 'solaceon', offset: -6 }, east: { map: 'route215', offset: 5 }, north: { map: 'route210n', offset: -25 } },
     signs: { '11,21': 'Route 210. South: Solaceon Town. East: Route 215 and Veilstone City.' },
     npcs: [
-      // The way north opens in a later chapter.
-      { id: 'psyduck1', who: 'psyduck', mon: 'psyduck', x: 9, y: 1, dir: 'down', fixed: true,
-        say: 'A crowd of Psyduck is holding its heads and blocking the path. They will not budge.' },
-      { id: 'psyduck2', who: 'psyduck', mon: 'psyduck', x: 10, y: 1, dir: 'down', fixed: true,
-        say: 'A crowd of Psyduck is holding its heads and blocking the path. They will not budge.' }
+      // The way north opens with Cynthia's Secret Potion (chapter 50).
+      { id: 'psyduck1', who: 'psyduck', mon: 'psyduck', x: 9, y: 1, dir: 'down', fixed: true, if: '!psyduck-cured', script: 'route210.psyduck' },
+      { id: 'psyduck2', who: 'psyduck', mon: 'psyduck', x: 10, y: 1, dir: 'down', fixed: true, if: '!psyduck-cured', script: 'route210.psyduck' },
+      { id: 'cynthia', who: 'cynthia', x: 9, y: 6, dir: 'up', if: 'scripted' }
     ],
     trainers: [
       { id: 'joel', who: 'psychic', cls: 'psychic', name: 'Joel', x: 8, y: 6, dir: 'right', sight: 1, team: [['kadabra', 23]],
@@ -221,4 +222,31 @@
     ],
     encounters: { walk: '@sinnoh-route-210-south-towards-solaceon-town' }
   }, SINNOH));
+
+  /** The Psyduck: Cynthia's Secret Potion cures them, and she asks you to take the Old Charm to Celestic Town. */
+  async function psyduck(h) {
+    const F = G.Field, me = G.World.player;
+    await h.say(T('A crowd of Psyduck is holding its heads and blocking the path. They will not budge.'));
+    if (!F.flag('cynthia-potion') || !F.count('secret-potion')) return;
+    const vars = { item: G.Names.item('secret-potion') };
+    if (await h.choice(T('Give them the {item}?'), { vars }) !== 0) return;
+    F.takeItem('secret-potion', 1);
+    await h.fade('out', 0.3);
+    F.setFlag('psyduck-cured');
+    await h.fade('in', 0.3);
+    await h.say(T('The Psyduck stopped holding their heads and waddled away, quacking happily!'));
+    if (me) h.place('cynthia', me.x, me.y + 3, 'up');
+    h.show('cynthia');
+    if (me) { await h.walkTo('cynthia', me.x, me.y + 1); h.face('cynthia', 'up'); h.face('player', 'down'); }
+    await h.say(T('You cured them! Thank you, {player}. The road north is open again.'), CYNTHIA);
+    await h.say(T('Could I ask one more favor? This Old Charm belongs to my grandmother, the elder of Celestic Town, past the fog to the west.'), CYNTHIA);
+    F.giveItem('old-charm', 1);
+    const j = h.jingle('item');
+    await h.say(T('{player} received {item}!'), { vars: { item: G.Names.item('old-charm') } });
+    await j;
+    await h.say(T('I hear Team Galactic has been seen near the ruins there. Please be careful.'), CYNTHIA);
+    h.hide('cynthia');
+  }
+
+  G.Script.def({ 'route210.psyduck': [['js', psyduck]] });
 })();

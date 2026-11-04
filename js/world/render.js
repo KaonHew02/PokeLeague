@@ -282,6 +282,21 @@ G.WorldRender = (() => {
       }
       ctx.stroke();
     }
+    // Fog (map `fog`, chapter 50): a pale wash, and soft banks drifting across, the same ones every time.
+    if (S.fog) {
+      const t = performance.now() / 1000, WW = W + 2 * TS, HH = H + 2 * TS;
+      ctx.fillStyle = 'rgba(228,233,238,0.34)';
+      ctx.fillRect(L - TS, Tp - TS, WW, HH);
+      for (let i = 0; i < 10; i++) {
+        const a = (i * 0.6180339) % 1, c = (i * 0.4142135 + 0.3) % 1, r = TS * (3 + 3 * c);
+        const x = L - TS + ((a * WW + t * (6 + 8 * c)) % WW), y = Tp - TS + c * HH + Math.sin(t * 0.3 + i) * TS * 0.5;
+        const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, 'rgba(240,243,246,0.30)');
+        g.addColorStop(1, 'rgba(240,243,246,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+      }
+    }
     // The sea floor (Dive, chapter 37): bubbles rising, the same ones every time, wobbling.
     if (S.bubbles) {
       const t = performance.now() / 1000;

@@ -46,7 +46,7 @@ G.I18n.add({
   "Kingler, show them your claws!": "¡Kingler, enséñale tus pinzas!",
   "Snip snap... snapped.": "Chas, chas... se rompió.",
   "Cinnabar Island is just west of here. You can see the volcano from the water.": "La Isla Canela está justo al oeste. Desde el agua se ve el volcán.",
-  "Cyrus": "Cyrus",
+  "Cyrus": "Helio",
   "My birds flew me out here, and they will blow you away!": "Mis pájaros me trajeron volando hasta aquí, ¡y te van a llevar por delante!",
   "They flew off without me...": "Se fueron volando sin mí...",
   "Birds rest on sandbanks like this one when they cross the sea.": "Los pájaros descansan en bancos de arena como este cuando cruzan el mar.",

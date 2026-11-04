@@ -60,5 +60,8 @@ G.I18n.add({
   "Collector": "Colecionador",
   "PI": "Detetive",
   "Ruin Maniac": "Maníaco de Ruínas",
-  "Tuber": "Criança de Boia"
+  "Tuber": "Criança de Boia",
+  "Ninja Boy": "Garoto Ninja",
+  "Dragon Tamer": "Domador de Dragões",
+  "Galactic Boss": "Chefe Galáctico"
 }, "pt-BR");

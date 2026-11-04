@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 50) return { title: T('Chapter 50 complete!'),
+      done: fmt("{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.", { player }),
+      next: T('Thank you for playing! Canalave City and Iron Island wait in a future update.') };
     if (n === 49) return { title: T('Chapter 49 complete!'),
       done: fmt('{player} crossed Route 214 and the beach of Route 213, earned the Fen Badge from Crasher Wake, chased a Team Galactic bomber to Valor Lakefront and beat Barry in Pastoria City.', { player }),
       next: T('Thank you for playing! Lake Valor and Celestic Town wait in a future update.') };

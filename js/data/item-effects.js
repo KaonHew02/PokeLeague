@@ -193,6 +193,7 @@ G.ITEM_FX = {
   'oaks-parcel':   { key: 1 },
   'squirt-bottle': { key: 1 },
   'secret-potion': { key: 1 },
+  'old-charm':     { key: 1 },
   'red-scale':     { key: 1 },
   'basement-key':  { key: 1 },
   'clear-bell':    { key: 1 },

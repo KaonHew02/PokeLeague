@@ -142,5 +142,8 @@ G.I18n.add({
   "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "Grazie per aver giocato! Il Percorso 214 e Pratopoli arriveranno in un prossimo aggiornamento.",
   "Chapter 49 complete!": "Capitolo 49 completato!",
   "{player} crossed Route 214 and the beach of Route 213, earned the Fen Badge from Crasher Wake, chased a Team Galactic bomber to Valor Lakefront and beat Barry in Pastoria City.": "{player} ha attraversato il Percorso 214 e la spiaggia del Percorso 213, ha ottenuto la Medaglia Palude da Omar, ha inseguito una recluta del Team Galassia fino al lago e ha battuto Barry a Pratopoli.",
-  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Grazie per aver giocato! Il Lago Valore e Memoride arriveranno in un prossimo aggiornamento."
+  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Grazie per aver giocato! Il Lago Valore e Memoride arriveranno in un prossimo aggiornamento.",
+  "Chapter 50 complete!": "Capitolo 50 completato!",
+  "{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.": "{player} ha curato gli Psyduck con la Pozione Segreta di Camilla, ha attraversato la nebbia del Percorso 210, ha affrontato Cyrus nelle rovine di Memoride e ha riportato a casa l'Arcamuleto.",
+  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Grazie per aver giocato! Canalipoli e l'Isola Ferrosa arriveranno in un prossimo aggiornamento."
 }, "it");

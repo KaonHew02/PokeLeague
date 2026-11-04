@@ -59,5 +59,6 @@ G.I18n.add({
   "Pastoria City. Home of the Great Marsh, where the mud runs deep.": "Ciudad Pradera. Hogar del Gran Pantano, donde el barro es profundo.",
   "A big statue of Croagunk. People here say it brings good luck.": "Una gran estatua de Croagunk. La gente de aquí dice que trae buena suerte.",
   "The Great Marsh. A Safari Game at the gate: ₽500 for 30 Safari Balls and 500 steps.": "Gran Pantano. Safari en la entrada: ₽500 por 30 Safari Balls y 500 pasos.",
-  "The Great Marsh. Throw Bait to calm a Pokémon, or a Rock to rile it up!": "Gran Pantano. ¡Lanza Cebo para calmar a un Pokémon, o una Roca para alterarlo!"
+  "The Great Marsh. Throw Bait to calm a Pokémon, or a Rock to rile it up!": "Gran Pantano. ¡Lanza Cebo para calmar a un Pokémon, o una Roca para alterarlo!",
+  "A lady named Cynthia came by, looking for you. She is at the lakefront, and she says the Psyduck on Route 210 need help!": "Ha venido una mujer llamada Cintia preguntando por ti. Está en la Orilla Valor, ¡y dice que los Psyduck de la Ruta 210 necesitan ayuda!"
 }, "es");

@@ -37,5 +37,10 @@ G.I18n.add({
   "Solaceon Ruins. Please do not touch the carvings.": "Ruinas Sosiego. Por favor, no toques los grabados.",
   "A note on the shelf: \"Our cousins run the Day Care on Route 34 in Johto. A Pokémon left with one of us can be picked up at either!\"": "Una nota en la estantería: «Nuestros primos llevan la Guardería de la Ruta 34, en Johto. ¡Un Pokémon que dejes en una puedes recogerlo en cualquiera de las dos!»",
   "Letters are carved all over the wall. Together they seem to say: \"Every life began from one, and every thread still leads back to it.\"": "Hay letras talladas por toda la pared. Juntas parecen decir: «Toda vida nació de uno solo, y todos los hilos aún conducen a él.»",
-  "Route 210. South: Solaceon Town. East: Route 215 and Veilstone City.": "Ruta 210. Sur: Pueblo Sosiego. Este: Ruta 215 y Ciudad Rocavelo."
+  "Route 210. South: Solaceon Town. East: Route 215 and Veilstone City.": "Ruta 210. Sur: Pueblo Sosiego. Este: Ruta 215 y Ciudad Rocavelo.",
+  "Give them the {item}?": "¿Darles {item}?",
+  "The Psyduck stopped holding their heads and waddled away, quacking happily!": "¡Los Psyduck dejaron de sujetarse la cabeza y se alejaron contentos, graznando!",
+  "You cured them! Thank you, {player}. The road north is open again.": "¡Los has curado! Gracias, {player}. El camino al norte vuelve a estar abierto.",
+  "Could I ask one more favor? This Old Charm belongs to my grandmother, the elder of Celestic Town, past the fog to the west.": "¿Puedo pedirte otro favor? Este Talismán es de mi abuela, la anciana de Pueblo Caelestis, al oeste, pasada la niebla.",
+  "I hear Team Galactic has been seen near the ruins there. Please be careful.": "He oído que se ha visto al Equipo Galaxia cerca de las ruinas de allí. Ten cuidado, por favor."
 }, "es");

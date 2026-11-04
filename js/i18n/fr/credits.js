@@ -142,5 +142,8 @@ G.I18n.add({
   "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "Merci d'avoir joué ! La Route 214 et Verchamps arriveront dans une prochaine mise à jour.",
   "Chapter 49 complete!": "Chapitre 49 terminé !",
   "{player} crossed Route 214 and the beach of Route 213, earned the Fen Badge from Crasher Wake, chased a Team Galactic bomber to Valor Lakefront and beat Barry in Pastoria City.": "{player} a traversé la Route 214 et la plage de la Route 213, a gagné le Badge Palustre de Lovis, a poursuivi un sbire de la Team Galaxie jusqu'à la Rive Lac Courage et a battu Barry à Verchamps.",
-  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Merci d'avoir joué ! Le Lac Courage et Célestia arriveront dans une prochaine mise à jour."
+  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Merci d'avoir joué ! Le Lac Courage et Célestia arriveront dans une prochaine mise à jour.",
+  "Chapter 50 complete!": "Chapitre 50 terminé !",
+  "{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.": "{player} a guéri les Psykokwak avec la Potion Secrète de Cynthia, a traversé le brouillard de la Route 210, a affronté Hélio dans les ruines de Célestia et a rapporté le Vieux Grigri chez lui.",
+  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Merci d'avoir joué ! Joliberges et l'Île de Fer arriveront dans une prochaine mise à jour."
 }, "fr");

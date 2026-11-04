@@ -59,5 +59,6 @@ G.I18n.add({
   "Pastoria City. Home of the Great Marsh, where the mud runs deep.": "Pastoria. Lar do Great Marsh, onde a lama é funda.",
   "A big statue of Croagunk. People here say it brings good luck.": "Uma grande estátua de Croagunk. O pessoal daqui diz que dá sorte.",
   "The Great Marsh. A Safari Game at the gate: ₽500 for 30 Safari Balls and 500 steps.": "Great Marsh. Safari na entrada: ₽500 por 30 Safari Balls e 500 passos.",
-  "The Great Marsh. Throw Bait to calm a Pokémon, or a Rock to rile it up!": "Great Marsh. Jogue Isca para acalmar um Pokémon, ou uma Pedra para agitá-lo!"
+  "The Great Marsh. Throw Bait to calm a Pokémon, or a Rock to rile it up!": "Great Marsh. Jogue Isca para acalmar um Pokémon, ou uma Pedra para agitá-lo!",
+  "A lady named Cynthia came by, looking for you. She is at the lakefront, and she says the Psyduck on Route 210 need help!": "Uma moça chamada Cynthia veio procurar você. Ela está no Valor Lakefront e disse que os Psyduck da Rota 210 precisam de ajuda!"
 }, "pt-BR");

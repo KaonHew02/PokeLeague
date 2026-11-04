@@ -154,5 +154,8 @@ G.I18n.add({
   "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "Obrigado por jogar! O Mt. Coronet e Snowpoint chegam em uma próxima atualização.",
   "Chapter 53 complete!": "Capítulo 53 concluído!",
   "{player} crossed Mt. Coronet into the snow and won the Icicle Badge from Candice, but reached Lake Acuity too late: Commander Jupiter left with Uxie.": "{player} atravessou o Mt. Coronet até a neve e ganhou a Insígnia Pingente de Gelo de Candice, mas chegou tarde ao Lake Acuity: a Comandante Jupiter partiu com Uxie.",
-  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "Obrigado por jogar! A sede da Equipe Galáctica em Veilstone City chegará numa próxima atualização."
+  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "Obrigado por jogar! A sede da Equipe Galáctica em Veilstone City chegará numa próxima atualização.",
+  "Chapter 54 complete!": "Capítulo 54 concluído!",
+  "{player} joined Looker of the International Police, broke into Team Galactic's building in Veilstone, beat Cyrus and Saturn and set Uxie, Mesprit and Azelf free. But Cyrus has gone to Mt. Coronet with the Red Chain.": "{player} se juntou a Looker, da Polícia Internacional, invadiu o prédio da Equipe Galáctica em Veilstone City, venceu Cyrus e Saturn e libertou Uxie, Mesprit e Azelf. Mas Cyrus foi para o Mt. Coronet com a Red Chain.",
+  "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "Obrigado por jogar! O topo do Mt. Coronet espera você em uma próxima atualização."
 }, "pt-BR");

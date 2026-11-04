@@ -154,5 +154,8 @@ G.I18n.add({
   "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "感谢游玩！天冠山和雪峰市将在之后的更新中登场。",
   "Chapter 53 complete!": "第五十三章完成！",
   "{player} crossed Mt. Coronet into the snow and won the Icicle Badge from Candice, but reached Lake Acuity too late: Commander Jupiter left with Uxie.": "{player}穿过天冠山来到雪国，从小菘那里赢得了冰柱徽章，但赶到睿智湖时已经太迟：干部绅虹带着由克希离开了。",
-  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "感谢游玩！帷幕市的银河队总部将在之后的更新中登场。"
+  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "感谢游玩！帷幕市的银河队总部将在之后的更新中登场。",
+  "Chapter 54 complete!": "第五十四章完成！",
+  "{player} joined Looker of the International Police, broke into Team Galactic's building in Veilstone, beat Cyrus and Saturn and set Uxie, Mesprit and Azelf free. But Cyrus has gone to Mt. Coronet with the Red Chain.": "{player}和国际警察帅哥联手，闯入帷幕市的银河队大楼，打败了赤日和镇星，救出了由克希、艾姆利多和亚克诺姆。但赤日已经带着红色锁链去了天冠山。",
+  "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "感谢游玩！天冠山山顶将在之后的更新中等着你。"
 }, "zh-Hans");

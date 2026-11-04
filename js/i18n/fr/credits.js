@@ -154,5 +154,8 @@ G.I18n.add({
   "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "Merci d'avoir joué ! Le Mont Couronné et Frimapic arriveront dans une prochaine mise à jour.",
   "Chapter 53 complete!": "Chapitre 53 terminé !",
   "{player} crossed Mt. Coronet into the snow and won the Icicle Badge from Candice, but reached Lake Acuity too late: Commander Jupiter left with Uxie.": "{player} a traversé le Mont Couronné jusqu'à la neige et a gagné le Badge Glaçon de Gladys, mais est arrivé trop tard au Lac Savoir : la Commandante Jupiter est partie avec Créhelf.",
-  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "Merci d'avoir joué ! Le QG de la Team Galaxie à Voilaroc arrivera dans une prochaine mise à jour."
+  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "Merci d'avoir joué ! Le QG de la Team Galaxie à Voilaroc arrivera dans une prochaine mise à jour.",
+  "Chapter 54 complete!": "Chapitre 54 terminé !",
+  "{player} joined Looker of the International Police, broke into Team Galactic's building in Veilstone, beat Cyrus and Saturn and set Uxie, Mesprit and Azelf free. But Cyrus has gone to Mt. Coronet with the Red Chain.": "{player} a rejoint Beladonis de la Police Internationale, a pénétré dans le bâtiment de la Team Galaxie à Voilaroc, a battu Hélio et Saturne et a libéré Créhelf, Créfollet et Créfadet. Mais Hélio est parti au Mont Couronné avec la Chaîne Rouge.",
+  "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "Merci d'avoir joué ! Le sommet du Mont Couronné t'attend dans une future mise à jour."
 }, "fr");

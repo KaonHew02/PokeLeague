@@ -2963,6 +2963,146 @@ test('Sinnoh (chapter 53): Celestic to the snow, Hail in battle, Barry on the sl
   assert.equal(step(W, 'up'), 'moved');
 });
 
+test('Sinnoh (chapter 54): Looker, the warehouse, warp panels, the Galactic Key, the speech, Cyrus, Saturn and the three tanks', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 31 }, (_, i) => i + 1);
+  F.giveMon('infernape', 49, { moves: ['flame-wheel'] });
+  const until = async ok => { for (let i = 0; i < 600 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const walk = async dirs => { for (const d of dirs.split(' ')) { assert.equal(step(W, d), 'moved', d); await settle(); } };
+  const cross = async (dir, to) => { step(W, dir); await until(() => W.map.id === to && !W.locked); };
+  const at = (x, y) => assert.deepEqual([W.player.x, W.player.y], [x, y]);
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const talk = () => pump(W, W.interact());
+  const fights = [];
+  W.onTrainer = async d => { fights.push(d.id); return 'win'; };
+  // Before Lake Acuity the grunt keeps you out, and both doors are locked.
+  W.load('veilstone', { x: 26, y: 24, dir: 'up' });
+  await talk();
+  assert.ok(!F.flag('looker-key') && seen('grunt'));
+  W.load('veilstone', { x: 31, y: 6, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'the warehouse is locked');
+  await settle();
+  // After it he runs off, and Looker has the key to the warehouse.
+  F.setFlag('jupiter-acuity');
+  W.load('veilstone', { x: 26, y: 24, dir: 'up' });
+  await talk();
+  assert.ok(F.flag('looker-key') && !seen('grunt') && !seen('looker'));
+  W.load('veilstone', { x: 26, y: 23, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'the front door needs the Galactic Key');
+  await settle();
+  W.load('veilstone', { x: 31, y: 6, dir: 'up' });
+  await cross('up', 'galactic-warehouse');
+  at(7, 10);
+  // Looker opens the security door, and goes down first.
+  await walk('up up up');
+  at(7, 7);
+  assert.ok(!F.flag('looker-door'));
+  step(W, 'up');
+  await until(() => F.flag('looker-door') && !W.locked);
+  assert.ok(!seen('looker'));
+  await walk('up up up');
+  at(7, 3);
+  W.load('galactic-warehouse', 'stairs');
+  await cross('up', 'galactic-warehouse-b1f');
+  at(1, 3);
+  // Warp panels, there and back.
+  const panel = async (mapId, x, y, tx, ty) => {
+    W.load(mapId, { x, y: y - 1, dir: 'down' });
+    step(W, 'down');
+    await settle();
+    at(tx, ty);
+  };
+  await panel('galactic-warehouse-b1f', 5, 7, 9, 7);
+  await panel('galactic-warehouse-b1f', 9, 7, 5, 7);
+  await panel('galactic-warehouse-b1f', 2, 7, 19, 7);
+  await panel('galactic-warehouse-b1f', 19, 7, 2, 7);
+  await panel('galactic-hq-2f', 10, 7, 15, 7);
+  await panel('galactic-hq-2f', 15, 7, 10, 7);
+  // The door up to the building: the Card Key does nothing here, the Galactic Key does.
+  F.giveItem('card-key', 1);
+  // (A map without `doorKey`, like Silph Co., still wants the Card Key.)
+  G.Maps.def({ id: 't-door', tileset: 'indoor', palette: 'lab', rows: ['WWW', '+n+'], spots: { start: [0, 1, 'right'] } });
+  W.load('t-door', 'start');
+  await talk();
+  assert.ok(F.flag('door:t-door:1,1'), 'the Card Key opens its own doors');
+  W.load('galactic-warehouse-b1f', { x: 21, y: 5, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked');
+  await settle();
+  await talk();
+  assert.ok(!F.flag('door:galactic-warehouse-b1f:22,5'));
+  W.load('galactic-warehouse-b1f', { x: 21, y: 3, dir: 'up' });
+  await talk();
+  assert.equal(F.count('galactic-key'), 1, 'the key on the floor');
+  W.load('galactic-warehouse-b1f', { x: 21, y: 5, dir: 'right' });
+  await talk();
+  assert.ok(F.flag('door:galactic-warehouse-b1f:22,5'));
+  await walk('right right');
+  W.load('galactic-warehouse-b1f', 'from-above');
+  await cross('up', 'galactic-hq-1f');
+  at(1, 3);
+  // The front door opens from outside now.
+  W.load('veilstone', { x: 26, y: 23, dir: 'up' });
+  await cross('up', 'galactic-hq-1f');
+  at(10, 9);
+  W.load('galactic-hq-1f', 'from-above');
+  await cross('up', 'galactic-hq-2f');
+  at(1, 3);
+  W.load('galactic-hq-2f', 'from-above');
+  await cross('up', 'galactic-hq-3f');
+  at(19, 3);
+  // The speech, once.
+  W.load('galactic-hq-3f', { x: 16, y: 4, dir: 'left' });
+  await talk();
+  assert.ok(F.flag('door:galactic-hq-3f:15,4'));
+  assert.ok(seen('boss') && seen('crowd1'));
+  await walk('left');
+  step(W, 'left');
+  await until(() => F.flag('cyrus-speech') && !W.locked);
+  assert.ok(!seen('boss') && !seen('crowd1'));
+  at(14, 4);
+  await walk('right left');
+  // The warp panel to the laboratory has no power yet.
+  W.load('galactic-hq-4f', { x: 11, y: 5, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'switched off');
+  await settle();
+  W.load('galactic-hq-4f', { x: 7, y: 4, dir: 'up' });
+  fights.length = 0;
+  W.interact();
+  await until(() => F.flag('cyrus-hq') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['cyrus']);
+  assert.equal(F.count('master-ball'), 1);
+  assert.ok(!seen('cyrus'));
+  W.load('galactic-hq-4f', { x: 11, y: 5, dir: 'up' });
+  await cross('up', 'galactic-hq-lab');
+  at(10, 9);
+  // Saturn stands in the one way through.
+  assert.ok(seen('uxie') && seen('mesprit') && seen('azelf') && seen('saturn'));
+  W.load('galactic-hq-lab', { x: 9, y: 7, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('saturn-hq') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['saturn']);
+  await walk('up up');
+  at(9, 5);
+  assert.ok(seen('saturn2'));
+  // The switch frees the three, and the chapter ends.
+  W.load('galactic-hq-lab', { x: 15, y: 5, dir: 'right' });
+  await talk();
+  assert.ok(F.flag('trio-free') && F.flag('chapter-54-done'));
+  assert.ok(!seen('uxie') && !seen('mesprit') && !seen('azelf') && !seen('saturn2') && !seen('looker'));
+  W.load('galactic-hq-lab', { x: 15, y: 5, dir: 'right' });
+  assert.ok(!seen('uxie'));
+  await talk();
+  // The way out: the panel goes back to Cyrus's office.
+  W.load('galactic-hq-lab', { x: 10, y: 8, dir: 'down' });
+  await cross('down', 'galactic-hq-4f');
+  at(11, 4);
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

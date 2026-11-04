@@ -2,7 +2,7 @@
  * Chapter 48, the end of the chapter. Route 215, east of Route 210 (solaceon.js): it rains all the time
  * (`storm: true`: rain on the map and in its battles); Black Belts, a Battle Girl, a Cool Trainer.
  * Veilstone City, walled in by cliffs and dotted with meteorites: a Pokémon Center, the Veilstone Store
- * (a Mart with more on its shelves), a house and Maylene's Gym; Team Galactic's HQ (guarded) and the
+ * (a Mart with more on its shelves), a house and Maylene's Gym; Team Galactic's HQ and warehouse (galactichq.js) and the
  * Game Corner are closed; Route 214 to the south (lakefront.js) opens with the Cobble Badge. Maylene uses Fighting types
  * (Meditite, Machoke, Lucario); beating her gives the Cobble Badge (badge 27, the fourth Sinnoh badge:
  * Pokémon up to Lv. 40 obey in Sinnoh) and TM60 (Drain Punch), then `ending(48)`. Platinum's wild Pokémon.
@@ -66,10 +66,10 @@
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
       'T##............................####T',
       'T##..............,,............####T',
-      'T.......EEEEEEEE.,,....GGGGGG......T',
-      'T.CCCCC.EEEEEEEE.,,....GGGGGG......T',
-      'T.CCCCC.EEEEEEEE.,,....GGGGGG......T',
-      'T.CCCCC.EEEEEEEE.,,....GGGGGG......T',
+      'T.......EEEEEEEE.,,....GGGGGG.HHHH.T',
+      'T.CCCCC.EEEEEEEE.,,....GGGGGG.HHHH.T',
+      'T.CCCCC.EEEEEEEE.,,....GGGGGG.HDHH.T',
+      'T.CCCCC.EEEEEEEE.,,....GGGGGGS.....T',
       'T.CCDCC.EEEDEEEE.,,....GGDGGG......T',
       'T...,......,.....,,......,.........T',
       'T...,......,.....,,.##...,......###T',
@@ -97,22 +97,25 @@
       { x: 4, y: 7, to: 'veilstone-center', spot: 'door' },
       { x: 11, y: 7, to: 'veilstone-store', spot: 'door' },
       { x: 25, y: 7, to: 'veilstone-gym', spot: 'door' },
-      { x: 26, y: 22, locked: 'veilstone.galactic-hq' },
+      { x: 26, y: 22, to: 'galactic-hq-1f', spot: 'door', if: 'has:galactic-key', locked: 'veilstone.galactic-hq' },
+      { x: 31, y: 5, to: 'galactic-warehouse', spot: 'door', if: 'looker-key', locked: 'veilstone.warehouse' },
       { x: 5, y: 20, locked: 'veilstone.game-corner' },
       { x: 12, y: 23, to: 'veilstone-house', spot: 'door' }
     ],
-    spots: { 'center-door': [4, 8, 'down'], 'store-door': [11, 8, 'down'], 'gym-door': [25, 8, 'down'], 'house-door': [12, 24, 'down'] },
+    spots: { 'center-door': [4, 8, 'down'], 'store-door': [11, 8, 'down'], 'gym-door': [25, 8, 'down'], 'house-door': [12, 24, 'down'],
+             'warehouse-door': [31, 6, 'down'], 'hq-door': [26, 23, 'down'] },
     signs: {
       '15,11': 'Veilstone City. A city carved out of the rock, where stones fell from the sky.',
+      '29,6': 'Team Galactic Warehouse. Authorized members only.',
       '14,17': 'A meteorite. Long ago stones fell from the sky here, and the city grew up around them.',
       '22,10': 'A meteorite. Some say these stones came from a world beyond our own.'
     },
     npcs: [
-      // Route 214 opens with the Cobble Badge (chapter 49); Team Galactic's HQ is guarded.
+      // Route 214 opens with the Cobble Badge (chapter 49); Team Galactic's HQ is guarded until chapter 54.
       { id: 'south', who: 'hiker', x: 17, y: 26, dir: 'up', if: '!badge:27',
         say: 'Rocks slid onto Route 214 in the rain. The way south is closed for now.' },
-      { id: 'grunt', who: 'galactic', x: 26, y: 23, dir: 'down',
-        say: 'This is the headquarters of Team Galactic. Members only. Go away, kid!' },
+      { id: 'grunt', who: 'galactic', x: 26, y: 23, dir: 'down', if: '!looker-key', script: 'veilstone.grunt' },
+      { id: 'looker', who: 'looker', x: 26, y: 23, dir: 'down', if: 'scripted' },
       { id: 'lady', who: 'beauty', x: 28, y: 14, move: 'wander', r: 2,
         say: 'Team Galactic built their headquarters right here in town. Nobody knows what they do in there.' },
       { id: 'boy', who: 'youngster', x: 9, y: 11, move: 'look',
@@ -182,6 +185,8 @@
 
   G.Script.def({
     'veilstone.galactic-hq': [['say', 'The door is locked. A sign says: "Team Galactic HQ. Members only."']],
+    'veilstone.warehouse': [['say', 'The door of the warehouse is locked.']],
+    'veilstone.grunt': [['if', 'jupiter-acuity', [['call', 'galactic.key-drop']], [['say', 'This is the headquarters of Team Galactic. Members only. Go away, kid!']]]],
     'veilstone.game-corner': [['say', 'The Game Corner. A sign says: "Closed for renovations."']],
     'veilstone.gym-guide': [
       ['say', 'Hey, Champion! Maylene uses Fighting-type Pokémon.'],

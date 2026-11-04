@@ -158,7 +158,7 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
     'text_versions': REGIONS['hoenn']['text_versions'] + ['platinum', 'diamond', 'pearl'],
     'text_vgs': REGIONS['hoenn']['text_vgs'] + ['platinum', 'diamond-pearl'],
     'items': REGIONS['hoenn']['items'] + ['old-charm', 'razor-claw', 'razor-fang', 'shiny-stone', 'dusk-stone', 'dawn-stone', 'ice-stone', 'oval-stone',
-                                          'protector', 'electirizer', 'magmarizer', 'dubious-disc', 'reaper-cloth'],
+                                          'protector', 'electirizer', 'magmarizer', 'dubious-disc', 'reaper-cloth', 'galactic-key'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.
@@ -286,6 +286,7 @@ LOC_NAMES = {
     'mt-coronet':        ('Monte Corona',       'Monte Corona',        '天冠山',     '天冠山'),
     'hearthome-city':    ('Ciudad Corazón',     'Cuoripoli',           '家缘市',     '家緣市'),
     'tg-eterna-bldg':    ('T.G. Eterna Bldg',   'T.G. Eterna Bldg',    '银河队百代大楼', '銀河隊百代大樓'),
+    'galactic-hq':       ('Galactic HQ',        'Galactic HQ',         '银河队帷幕大楼', '銀河隊帷幕大樓'),
     # Chapter 48.
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),

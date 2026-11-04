@@ -50,5 +50,7 @@ G.I18n.add({
   "Route 215. East: Veilstone City. West: Route 210.": "Route 215. Est : Voilaroc. Ouest : Route 210.",
   "Veilstone City. A city carved out of the rock, where stones fell from the sky.": "Voilaroc. Une ville taillée dans la roche, là où des pierres sont tombées du ciel.",
   "A meteorite. Long ago stones fell from the sky here, and the city grew up around them.": "Une météorite. Il y a longtemps, des pierres sont tombées du ciel ici, et la ville s'est bâtie autour.",
-  "A meteorite. Some say these stones came from a world beyond our own.": "Une météorite. Certains disent que ces pierres viennent d'un monde au-delà du nôtre."
+  "A meteorite. Some say these stones came from a world beyond our own.": "Une météorite. Certains disent que ces pierres viennent d'un monde au-delà du nôtre.",
+  "The door of the warehouse is locked.": "La porte de l'entrepôt est verrouillée.",
+  "Team Galactic Warehouse. Authorized members only.": "Entrepôt de la Team Galaxie. Réservé aux membres autorisés."
 }, "fr");

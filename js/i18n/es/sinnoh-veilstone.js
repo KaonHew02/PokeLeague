@@ -50,5 +50,7 @@ G.I18n.add({
   "Route 215. East: Veilstone City. West: Route 210.": "Ruta 215. Este: Ciudad Rocavelo. Oeste: Ruta 210.",
   "Veilstone City. A city carved out of the rock, where stones fell from the sky.": "Ciudad Rocavelo. Una ciudad tallada en la roca, donde cayeron piedras del cielo.",
   "A meteorite. Long ago stones fell from the sky here, and the city grew up around them.": "Un meteorito. Hace mucho tiempo cayeron piedras del cielo aquí, y la ciudad creció a su alrededor.",
-  "A meteorite. Some say these stones came from a world beyond our own.": "Un meteorito. Hay quien dice que estas piedras vinieron de un mundo más allá del nuestro."
+  "A meteorite. Some say these stones came from a world beyond our own.": "Un meteorito. Hay quien dice que estas piedras vinieron de un mundo más allá del nuestro.",
+  "The door of the warehouse is locked.": "La puerta del almacén está cerrada.",
+  "Team Galactic Warehouse. Authorized members only.": "Almacén del Equipo Galaxia. Solo miembros autorizados."
 }, "es");

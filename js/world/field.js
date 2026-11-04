@@ -1084,12 +1084,13 @@ G.World = (() => {
     await j;
   }
 
-  /** A locked door: the Card Key opens it for good. */
+  /** A locked door: the map's key (the Card Key unless `doorKey` says otherwise) opens it for good. */
   async function cardKey(h, x, y) {
-    if (!G.Field.count('card-key')) { await h.say(G.T('The door is locked. A slot beside it reads: Card Key required.')); return; }
+    const key = map.def.doorKey || 'card-key', vars = { item: G.Names.item(key) };
+    if (!G.Field.count(key)) { await h.say(G.T('The door is locked. A slot beside it reads: {item} required.'), { vars }); return; }
     sfx('click');
     G.Field.setFlag('door:' + map.id + ':' + x + ',' + y);
-    await h.say(G.T('{player} used the Card Key. The door slid open!'));
+    await h.say(G.T('{player} used the {item}. The door slid open!'), { vars });
   }
 
   /** A boulder in front of you: Strength (with the Rainbow Badge, as in the games) lets you push it. */

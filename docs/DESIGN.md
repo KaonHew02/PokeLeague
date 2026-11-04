@@ -2262,12 +2262,37 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Lake Acuity); `tests/gen4.test.cjs` Avalanche and Blizzard in hail; `tests/story.test.cjs` the chapter after chapter 52
   and the balance line for Candice.
 
-### After chapter 53
+- **Chapter 54** ✅, Team Galactic's building (`js/content/sinnoh/galactichq.js`, translations `sinnoh-galactichq`). The chapter
+  ends in the laboratory, when the three lake Pokémon are free.
+  - **Engine**: the map field `doorKey: '<item>'` says which key opens the `n` doors of that map (`cardKey` in `field.js`; the
+    Card Key if there is none). The texts of those doors take `{item}`.
+  - **People and items**: `looker`; the key item `galactic-key`. The storage key stays with Looker, so it is no item.
+  - **Map**: a warehouse in the north-east of Veilstone City, `galactic-warehouse` and `-b1f`, then `galactic-hq-1f` to `-4f`
+    and `galactic-hq-lab`. The floors are joined by stairs, and warp panels join rooms of the same floor (a panel's spot is
+    the panel it lands on). The place name of the building is PokeAPI's `galactic-hq`; the warehouse is in Veilstone City.
+    The HM02 of Platinum's warehouse is left out (Fly comes from Kanto), and so are its Green Shard and Poké Doll (not in the
+    game). The X Defense of Scientist Fredrick is left out too: the AI only uses healing items.
+  - **Story**: after Lake Acuity the grunt at the door runs off (flag looker-key: Looker keeps asking until you say yes);
+    Looker opens the warehouse's security door (flag looker-door, and the door's own flag). The Galactic Key lies in the
+    basement and opens the doors of the building and its front door. On 3F Cyrus speaks to his grunts (flag cyrus-speech).
+    On 4F he says the speech was a lie, battles, gives the Master Ball and leaves for Mt. Coronet (flag cyrus-hq: the warp
+    panel to the laboratory works from then on). Saturn stands in the only way through (flag saturn-hq); the switch frees
+    Uxie, Mesprit and Azelf (flag trio-free), Looker comes, then `ending(54)`. Sources for the order of events: Platinum
+    walkthroughs (Cyrus before Saturn in two of three). None describes how the three are freed: that part is from memory.
+    Check it if a fuller source turns up. They cannot be caught yet; Platinum opens that after the Distortion World.
+- **Balance:** the teams and levels of Platinum (Saturn Golbat 42, Bronzor 42, Toxicroak 44; Cyrus Sneasel 44, Crobat 44,
+  Honchkrow 46), but Cyrus has one Super Potion instead of a Hyper Potion and a Full Restore. His 33% against Torterra,
+  Staraptor and Lucario rose to 70%. A team of three wins 70-100% against Cyrus and 100% against Saturn.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the grunt and the doors before and after Lake Acuity, the
+  warehouse scene, every warp panel, the Card Key against the Galactic Key, the front door, the speech once, the panel off and
+  on, Saturn in the way, the switch, the way out); `tests/story.test.cjs` the chapter after chapter 53 and the balance lines.
+
+### After chapter 54
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) seven badges are won and all three lake Pokémon taken. Ideas:
-1. Sinnoh: Team Galactic's HQ in Veilstone and Jupiter; Mt. Coronet and the Spear Pillar; Sunyshore City and the last Gym;
-   Route 212 back to Hearthome; Wayward Cave; Eterna's side of Route 211.
+the Battle Tower; in Sinnoh (Pokémon 1-493) seven badges are won and the three lake Pokémon are free. Ideas:
+1. Sinnoh: the peak of Mt. Coronet and the Spear Pillar (a multi battle beside Barry against Mars and Jupiter), the Distortion
+   World and Giratina; Sunyshore City and the last Gym; Route 212 back to Hearthome; Wayward Cave; Eterna's side of Route 211.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic;

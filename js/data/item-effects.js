@@ -196,6 +196,7 @@ G.ITEM_FX = {
   'old-charm':     { key: 1 },
   'red-scale':     { key: 1 },
   'basement-key':  { key: 1 },
+  'galactic-key':  { key: 1 },
   'clear-bell':    { key: 1 },
   'silver-wing':   { key: 1 },
   // Chapter 23: the Apricorn Box (from Kurt) and the Apricorns it holds (`stack`: the Bag shows how many).

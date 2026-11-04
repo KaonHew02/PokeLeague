@@ -50,5 +50,7 @@ G.I18n.add({
   "Route 215. East: Veilstone City. West: Route 210.": "215号道路。东：帷幕市　西：210号道路",
   "Veilstone City. A city carved out of the rock, where stones fell from the sky.": "帷幕市。在岩石中开凿出的城市，天上曾有石头落在这里。",
   "A meteorite. Long ago stones fell from the sky here, and the city grew up around them.": "陨石。很久以前，石头从天而降落在这里，城市就围绕着它们发展起来。",
-  "A meteorite. Some say these stones came from a world beyond our own.": "陨石。有人说，这些石头来自我们世界之外的另一个世界。"
+  "A meteorite. Some say these stones came from a world beyond our own.": "陨石。有人说，这些石头来自我们世界之外的另一个世界。",
+  "The door of the warehouse is locked.": "仓库的门锁着。",
+  "Team Galactic Warehouse. Authorized members only.": "银河队仓库。非授权成员禁止入内。"
 }, "zh-Hans");

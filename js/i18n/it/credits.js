@@ -154,5 +154,8 @@ G.I18n.add({
   "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "Grazie per aver giocato! Il Monte Corona e Nevepoli arriveranno in un prossimo aggiornamento.",
   "Chapter 53 complete!": "Capitolo 53 completato!",
   "{player} crossed Mt. Coronet into the snow and won the Icicle Badge from Candice, but reached Lake Acuity too late: Commander Jupiter left with Uxie.": "{player} ha attraversato il Monte Corona fino alla neve e ha vinto la Medaglia Ghiacciolo di Bianca, ma è arrivato tardi al Lago Acume: la Comandante Giove è partita con Uxie.",
-  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "Grazie per aver giocato! Il quartier generale del Team Galassia a Rupepoli arriverà in un prossimo aggiornamento."
+  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "Grazie per aver giocato! Il quartier generale del Team Galassia a Rupepoli arriverà in un prossimo aggiornamento.",
+  "Chapter 54 complete!": "Capitolo 54 completato!",
+  "{player} joined Looker of the International Police, broke into Team Galactic's building in Veilstone, beat Cyrus and Saturn and set Uxie, Mesprit and Azelf free. But Cyrus has gone to Mt. Coronet with the Red Chain.": "{player} ha aiutato Bellocchio della Polizia Internazionale, ha fatto irruzione nell'edificio del Team Galassia a Rupepoli, ha battuto Cyrus e Saturno e ha liberato Uxie, Mesprit e Azelf. Ma Cyrus è andato sul Monte Corona con la Catena Rossa.",
+  "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "Grazie per aver giocato! La cima del Monte Corona ti aspetta in un futuro aggiornamento."
 }, "it");

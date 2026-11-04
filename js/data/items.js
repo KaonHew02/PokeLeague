@@ -170,6 +170,7 @@ G.ITEMS = {
   magmarizer: {"id":300,"pocket":"items","cat":"evolution"},
   "dubious-disc": {"id":301,"pocket":"items","cat":"evolution"},
   "reaper-cloth": {"id":302,"pocket":"items","cat":"evolution"},
+  "galactic-key": {"id":417,"pocket":"key","cat":"plot-advancement"},
   hm01: {"id":397,"pocket":"tms","cat":"all-machines","move":"cut"},
   hm02: {"id":398,"pocket":"tms","cat":"all-machines","move":"fly"},
   hm03: {"id":399,"pocket":"tms","cat":"all-machines","move":"surf"},

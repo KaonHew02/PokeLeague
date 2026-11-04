@@ -28,7 +28,7 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -305,6 +305,9 @@ G.People = (() => {
     riley: { head: 'hat', body: 'coat', legs: 'pants', a: '#2a2a3a', A: '#16161e', b: '#4a6ac8', h: '#2a2028', H: '#160e14', j: '#2a4a8a', J: '#1c3268', c: '#e8e8f0', C: '#b8b8c4',
              p: '#2a2a3a', P: '#16161e', k: '#16161e' },
     // Chapter 52: Commander Saturn (blue hair, Team Galactic's white and grey).
+    // Chapter 54: Looker (dark hair, a long tan coat over a white shirt).
+    looker: { head: 'short', body: 'coat', legs: 'pants', h: '#3a2e24', H: '#261e18', j: '#b8986a', J: '#8a6e48', c: '#ececf2', C: '#b8b8c4',
+              p: '#4a4038', P: '#2e2820', k: '#2a2420' },
     saturn: { head: 'short', body: 'jacket', legs: 'pants', h: '#3a7ac8', H: '#28589a', j: '#ececf2', J: '#b8b8c4', c: '#5a5a6a', C: '#3e3e4a', p: '#c8c8d0', P: '#9898a4', k: '#3a3a48' },
     // Chapter 53: Candice (dark braids, a white top, a red scarf and a green skirt).
     candice: { head: 'long', body: 'dress', legs: 'bare', h: '#2a2438', H: '#1a1626', c: '#f4f4f4', C: '#c8c8d0', j: '#d83a3a', J: '#a82828', k: '#3a8a5a' },

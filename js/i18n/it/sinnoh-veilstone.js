@@ -50,5 +50,7 @@ G.I18n.add({
   "Route 215. East: Veilstone City. West: Route 210.": "Percorso 215. Est: Rupepoli. Ovest: Percorso 210.",
   "Veilstone City. A city carved out of the rock, where stones fell from the sky.": "Rupepoli. Una città scavata nella roccia, dove caddero pietre dal cielo.",
   "A meteorite. Long ago stones fell from the sky here, and the city grew up around them.": "Un meteorite. Molto tempo fa qui caddero pietre dal cielo, e la città crebbe intorno a loro.",
-  "A meteorite. Some say these stones came from a world beyond our own.": "Un meteorite. C'è chi dice che queste pietre vengano da un mondo oltre il nostro."
+  "A meteorite. Some say these stones came from a world beyond our own.": "Un meteorite. C'è chi dice che queste pietre vengano da un mondo oltre il nostro.",
+  "The door of the warehouse is locked.": "La porta del magazzino è chiusa.",
+  "Team Galactic Warehouse. Authorized members only.": "Magazzino del Team Galassia. Solo membri autorizzati."
 }, "it");

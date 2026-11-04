@@ -50,5 +50,7 @@ G.I18n.add({
   "Route 215. East: Veilstone City. West: Route 210.": "Rota 215. Leste: Veilstone. Oeste: Rota 210.",
   "Veilstone City. A city carved out of the rock, where stones fell from the sky.": "Veilstone. Uma cidade esculpida na rocha, onde pedras caíram do céu.",
   "A meteorite. Long ago stones fell from the sky here, and the city grew up around them.": "Um meteorito. Há muito tempo, pedras caíram do céu aqui, e a cidade cresceu em volta delas.",
-  "A meteorite. Some say these stones came from a world beyond our own.": "Um meteorito. Dizem que estas pedras vieram de um mundo além do nosso."
+  "A meteorite. Some say these stones came from a world beyond our own.": "Um meteorito. Dizem que estas pedras vieram de um mundo além do nosso.",
+  "The door of the warehouse is locked.": "A porta do depósito está trancada.",
+  "Team Galactic Warehouse. Authorized members only.": "Depósito da Equipe Galáctica. Somente membros autorizados."
 }, "pt-BR");

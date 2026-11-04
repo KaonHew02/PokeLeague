@@ -908,6 +908,32 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Saturn and Cyrus in the HQ (chapter 54), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const cyrus = leaderRate(G, 'galactic-hq-4f', 'cyrus'), saturn = leaderRate(G, 'galactic-hq-lab', 'saturn');
+  // Moves a player can have here (Surf, TM91 from Byron, TM72 from Candice).
+  const TOR = ['earthquake', 'crunch', 'razor-leaf', 'synthesis'], INF = ['flame-wheel', 'close-combat', 'mach-punch', 'punishment'];
+  const EMP = ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet'], LUX = ['crunch', 'thunder-fang', 'spark', 'roar'], STA = ['aerial-ace', 'close-combat', 'take-down', 'agility'];
+  const LUC = ['force-palm', 'metal-claw', 'bone-rush', 'quick-attack'], RAP = ['flame-wheel', 'stomp', 'fire-spin', 'take-down'];
+  const teams = {
+    'torterra 49': [[389, 49, TOR]], 'infernape 49': [[392, 49, INF]], 'empoleon 49': [[395, 49, EMP]],
+    'torterra 49 + luxray 47': [[389, 49, TOR], [405, 47, LUX]], 'infernape 49 + luxray 47': [[392, 49, INF], [405, 47, LUX]], 'empoleon 49 + luxray 47': [[395, 49, EMP], [405, 47, LUX]],
+    'torterra 49 + luxray 47 + staraptor 47': [[389, 49, TOR], [405, 47, LUX], [398, 47, STA]],
+    'infernape 49 + luxray 47 + staraptor 47': [[392, 49, INF], [405, 47, LUX], [398, 47, STA]],
+    'empoleon 49 + luxray 47 + staraptor 47': [[395, 49, EMP], [405, 47, LUX], [398, 47, STA]],
+    'torterra 49 + luxray 47 + rapidash 46': [[389, 49, TOR], [405, 47, LUX], [78, 46, RAP]],
+    'torterra 49 + staraptor 47 + lucario 44': [[389, 49, TOR], [398, 47, STA], [448, 44, LUC]]
+  };
+  const table = rate => Object.fromEntries(Object.entries(teams).map(([k, t]) => [k, rate(t)]));
+  const vsCyrus = table(cyrus), vsSaturn = table(saturn);
+  console.log('[balance] vs Saturn (HQ):', JSON.stringify(vsSaturn));
+  console.log('[balance] vs Cyrus (HQ):', JSON.stringify(vsCyrus));
+  for (const k of Object.keys(teams).filter(k => k.split('+').length === 3)) {
+    assert.ok(vsCyrus[k] >= 0.6, k + ' beats Cyrus at a normal difficulty');
+    assert.ok(vsSaturn[k] >= 0.6, k + ' beats Saturn at a normal difficulty');
+  }
+});
+
 test('balance: Candice (chapter 53), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = leaderRate(G, 'snowpoint-gym', 'candice');
@@ -4015,6 +4041,46 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 54 after chapter 53: Looker, the warehouse, the HQ, Cyrus, Saturn, the three lake Pokémon. */
+async function chapter54(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => {
+    for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls === 'team-galactic' || t.cls === 'scientist')) { await fight(mapId, t.id); won(); }
+  };
+  lead(st, S.party.some(m => m.sp === 392) ? 392 : 391);
+  // The grunt at the door runs off, and Looker opens the warehouse.
+  await run(st, 'veilstone', 'veilstone.grunt', [1, 0]);
+  assert.ok(F.flag('looker-key'), 'Looker asks again after a No');
+  await run(st, 'galactic-warehouse', 'galactic.looker-door');
+  assert.ok(F.flag('looker-door') && F.flag('door:galactic-warehouse:7,4'));
+  // The basement and the building.
+  await all('galactic-warehouse-b1f');
+  await all('galactic-hq-1f');
+  await all('galactic-hq-2f');
+  await run(st, 'galactic-hq-3f', 'galactic.speech');
+  assert.ok(F.flag('cyrus-speech'));
+  await all('galactic-hq-3f');
+  // Cyrus gives the Master Ball, and leaves.
+  const balls = F.count('master-ball');
+  await fight('galactic-hq-4f', 'cyrus');
+  won();
+  console.log('[story] Cyrus in the HQ:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('cyrus-hq'));
+  assert.equal(F.count('master-ball'), balls + 1);
+  await fight('galactic-hq-lab', 'saturn');
+  won();
+  console.log('[story] Saturn in the HQ:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('saturn-hq'));
+  // The switch.
+  await run(st, 'galactic-hq-lab', 'galactic.switch', [0]);
+  assert.ok(F.flag('trio-free') && F.flag('chapter-54-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -4151,4 +4217,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter51(st);
   await chapter52(st);
   await chapter53(st);
+  await chapter54(st);
 });

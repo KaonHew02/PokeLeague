@@ -2111,12 +2111,13 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
     way north (for a later chapter); east is Route 215, where it always rains (`storm: true`: rain on the
     map and in its battles). Veilstone City: a Center, the Veilstone Store (a Mart with more stock), a
     house, the meteorites (signs), the Gym; Team Galactic's HQ (a grunt in front of a locked door) and the
-    Game Corner (locked) are shut, and a Hiker closes Route 214. Maylene (Meditite 28, Machoke 29,
-    Lucario 32): the Cobble Badge (badge 27, the fourth Sinnoh badge: up to Lv. 40 obey), TM60 (Drain
+    Game Corner (locked) are shut, and a Hiker closes Route 214. Maylene (Meditite 27, Machoke 28,
+    Lucario 29): the Cobble Badge (badge 27, the fourth Sinnoh badge: up to Lv. 40 obey), TM60 (Drain
     Punch), `ending(48)`.
-- **Balance:** Platinum's team is kept. Lucario (Lv. 32, faster than the starters, Drain Punch and Bone
-  Rush) beats a lone starter (0-3% at Lv. 32-34) and resists Flying moves with its Steel, so a starter
-  with a Staravia still loses; a team of three with a Psychic type wins 58-85% (Kadabra, wild on Route
+- **Balance:** the team is below Platinum's (28, 29, 32), which only a team with a Psychic type could
+  beat: the levels were lowered after chapter 49, for a normal difficulty. Lucario is faster than the
+  starters and resists Flying moves with its Steel. Alone at Lv. 34, Monferno wins 43%, Prinplup 20%,
+  Grotle 0%; a team of three without a Psychic type wins 13-48%, with one 85-100% (Kadabra, wild on Route
   215; Croagunk takes four times the damage). The Center, the gym guide and the Trainers on the way point
   at Flying and Psychic moves, and at Fire, Fighting and Ground for Lucario.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (Hearthome's east before and after the
@@ -2137,8 +2138,8 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
     cottages are locked, two Swimmers wait in the water) down to Pastoria City: a Center, a Mart, a house,
     the Croagunk statue, the Gym; a person closes flooded Route 212. Crasher Wake's Gym is a pool crossed
     on one-tile walkways, with the Trainers in notches beside them, so nobody can be walked around (the
-    water-level puzzle is left out, as Fantina's and Maylene's are). Wake (Gyarados 33, Quagsire 34,
-    Floatzel 37 with a Sitrus Berry, two Hyper Potions): the Fen Badge (badge 28, the fifth Sinnoh badge:
+    water-level puzzle is left out, as Fantina's and Maylene's are). Wake (Gyarados 31, Quagsire 32,
+    Floatzel 34 with a Sitrus Berry, two Super Potions): the Fen Badge (badge 28, the fifth Sinnoh badge:
     up to Lv. 50 obey) and TM55 (Brine). The chapter goes on, as in Platinum: Barry at the Gym door points
     at the Great Marsh gate, a grunt there sets off a test bomb and runs from Wake (flag marsh-bomb); he
     stands before the hotel at the lakefront (Croagunk 31, flag lakefront-grunt), and Wake sends you back
@@ -2148,11 +2149,12 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
     Safari Balls and 500 steps, three areas. PokeAPI's `great-marsh-area-*` tables add up to 260%, so
     rows past 100% could never be met: the areas have their own tables (regulars 64%, and twelve Pokémon
     Platinum rotates by day, 3% each, all available every day).
-- **Balance:** Platinum's team, Hyper Potions included. Each of Wake's three falls to a team alone, but a
-  lone starter never gets through them (0%), and default moves are not enough either. With TM86 (Grass
-  Knot, from Gardenia) and a Luxray, Torterra wins 85% and Empoleon 60%. Infernape, weak to Water, is the
-  hard case: 10% with two or three, 70% with a team of four. Barry: lone starters 0-15%, a pair
-  38-90%, a team of three 100%. The Center, the gym guide and the Trainers point at Electric and Grass moves.
+- **Balance:** the team is below Platinum's (33, 34, 37, Hyper Potions), lowered after the chapter for a
+  normal difficulty. A lone starter still never gets through all three (0%). With TM86 (Grass Knot, from
+  Gardenia) and a Luxray, Torterra and Empoleon win nearly always; Infernape, weak to Water, wins 43% with
+  a Luxray and 63% with a Roselia as well. Teams on level-up moves alone, without Grass Knot, mostly lose (5-10% at Lv. 34-36). Barry: lone
+  starters 0-15%, a pair 38-90%, a team of three 100%. The Center, the gym guide and the Trainers point at
+  Electric and Grass moves.
   Fixing Brine moved one older number: Prinplup 34 against Maylene, 0% to 2.5% (it learns Brine at 33).
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (Veilstone's south before and after the
   badge, the blocked tunnel, Lake Valor and Route 212 closed, the locked cottages, a Safari Game with its

@@ -863,10 +863,12 @@ test('balance: Maylene in Veilstone (chapter 48), win rates of typical teams are
     'prinplup 32 + staravia 30 + luxio 30': rate([[394, 32], [397, 30], [404, 30]])
   };
   console.log('[balance] vs Maylene:', JSON.stringify(table));
-  // Maylene's Lucario (Lv. 32, faster, Drain Punch and Bone Rush) beats a lone starter, and Flying moves do not help
-  // against its Steel: a team of three with a Psychic type (Kadabra, wild on Route 215) wins more than half the time.
-  for (const k of ['monferno 34', 'grotle 34', 'prinplup 34']) assert.ok(table[k] < 0.1, k + ' alone');
-  for (const sp of ['monferno', 'grotle', 'prinplup']) assert.ok(table[sp + ' 32 + staravia 30 + kadabra 30'] >= 0.55, sp + ' with a Kadabra');
+  // Below Platinum's levels (28, 29, 32), for a normal difficulty. Lucario is fast and Flying moves do not help against
+  // its Steel; Monferno can take it alone now and then, a team of three about half the time, and a Psychic type
+  // (Kadabra, wild on Route 215) nearly always wins.
+  assert.ok(table['monferno 34'] >= 0.3 && table['prinplup 34'] >= 0.1, 'Monferno and Prinplup alone');
+  assert.ok(table['monferno 32 + staravia 30 + luxio 30'] >= 0.35 && table['prinplup 32 + staravia 30 + luxio 30'] >= 0.3, 'a team of three');
+  for (const sp of ['monferno', 'grotle', 'prinplup']) assert.ok(table[sp + ' 32 + staravia 30 + kadabra 30'] >= 0.75, sp + ' with a Kadabra');
 });
 
 test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typical teams are printed', () => {
@@ -898,10 +900,10 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
     'infernape 38 + luxray 36 + staraptor 36': vsPiplup([[392, 38], [405, 36], [398, 36]])
   };
   console.log('[balance] vs Barry in Pastoria:', JSON.stringify(vsBarry));
-  // Wake's three are each beaten alone, but a lone starter cannot get through all of them, with two Hyper Potions behind them.
-  // Electric and Grass moves are the way in. Infernape, weak to Water, is the hard case: it takes a team of four.
+  // Below Platinum's team (33, 34, 37, Hyper Potions), for a normal difficulty. A lone starter still cannot get through all
+  // three. With Electric and Grass moves two are enough; Infernape, weak to Water, likes a team of three.
   for (const k of ['torterra 38', 'infernape 38', 'empoleon 38']) assert.ok(table[k] < 0.1, k + ' alone');
-  for (const k of ['torterra + luxray', 'empoleon + luxray', 'infernape + luxray + roselia + staraptor']) assert.ok(table[k] >= 0.5, k);
+  for (const k of ['torterra + luxray', 'empoleon + luxray', 'infernape + luxray + roselia']) assert.ok(table[k] >= 0.55, k);
   // Barry: a team of three beats him nearly always.
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
@@ -3671,7 +3673,7 @@ async function chapter48(st) {
   assert.ok(S.player.badges.includes(27), 'the Cobble Badge');
   assert.equal(F.obeyCap('sinnoh'), 40, 'four Sinnoh badges: up to Lv. 40');
   assert.equal(F.count('tm60'), tms + 1);
-  assert.equal(S.player.money - money, 3200);
+  assert.equal(S.player.money - money, 2900);
   assert.ok(F.flag('chapter-48-done'));
   const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
   assert.ok(back.player.badges.includes(27), 'the save keeps the Cobble Badge');
@@ -3710,7 +3712,7 @@ async function chapter49(st) {
   assert.ok(S.player.badges.includes(28), 'the Fen Badge');
   assert.equal(F.obeyCap('sinnoh'), 50, 'five Sinnoh badges: up to Lv. 50');
   assert.equal(F.count('tm55'), tms + 1);
-  assert.equal(S.player.money - money, 3700);
+  assert.equal(S.player.money - money, 3400);
   // The Great Marsh: a Safari Game, and out of steps it ends at its own gate.
   const cash = S.player.money;
   await run(st, 'marsh-gate', 'marsh.attendant', [0]);

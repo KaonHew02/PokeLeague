@@ -63,5 +63,6 @@ G.I18n.add({
   "Tuber": "Bagnante",
   "Ninja Boy": "Piccolo Ninja",
   "Dragon Tamer": "Domadraghi",
-  "Galactic Boss": "Capo Galassia"
+  "Galactic Boss": "Capo Galassia",
+  "Team Galactic Commander": "Comandante Galassia"
 }, "it");

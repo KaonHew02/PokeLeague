@@ -148,5 +148,8 @@ G.I18n.add({
   "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Merci d'avoir joué ! Joliberges et l'Île de Fer arriveront dans une prochaine mise à jour.",
   "Chapter 51 complete!": "Chapitre 51 terminé !",
   "{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.": "{player} a traversé la mer jusqu'à Joliberges, a battu Barry sur le pont, a chassé la Team Galaxie de l'Île de Fer avec Armand et a gagné le Badge Mine de Charles.",
-  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Merci d'avoir joué ! La Team Galaxie à Voilaroc et Frimapic arriveront dans une prochaine mise à jour."
+  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Merci d'avoir joué ! La Team Galaxie à Voilaroc et Frimapic arriveront dans une prochaine mise à jour.",
+  "Chapter 52 complete!": "Chapitre 52 terminé !",
+  "{player} heard the old story of the three lakes, found Lake Valor drained by a bomb and beat Commanders Saturn and Mars, but Team Galactic got away with Azelf and Mesprit.": "{player} a entendu la vieille histoire des trois lacs, a trouvé le Lac Courage vidé par une bombe et a battu les Commandants Saturne et Mars, mais la Team Galaxie s'est enfuie avec Créfadet et Créfollet.",
+  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "Merci d'avoir joué ! Le Mont Couronné et Frimapic arriveront dans une prochaine mise à jour."
 }, "fr");

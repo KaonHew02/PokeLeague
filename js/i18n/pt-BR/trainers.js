@@ -63,5 +63,6 @@ G.I18n.add({
   "Tuber": "Criança de Boia",
   "Ninja Boy": "Garoto Ninja",
   "Dragon Tamer": "Domador de Dragões",
-  "Galactic Boss": "Chefe Galáctico"
+  "Galactic Boss": "Chefe Galáctico",
+  "Team Galactic Commander": "Comandante Galáctico"
 }, "pt-BR");

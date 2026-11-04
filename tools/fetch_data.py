@@ -300,6 +300,8 @@ LOC_NAMES = {
     # Chapter 51.
     'canalave-city':     ('Ciudad Canal',       'Canalipoli',          '水脉市',     '水脈市'),
     'iron-island':       ('Isla Hierro',        'Isola Ferrosa',       '钢铁岛',     '鋼鐵島'),
+    # Chapter 52.
+    'lake-acuity':       ('Lago Agudeza',       'Lago Acume',          '睿智湖',     '睿智湖'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

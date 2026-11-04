@@ -63,5 +63,6 @@ G.I18n.add({
   "Tuber": "泳圈少年",
   "Ninja Boy": "忍者小子",
   "Dragon Tamer": "驯龙师",
-  "Galactic Boss": "银河队首领"
+  "Galactic Boss": "银河队首领",
+  "Team Galactic Commander": "银河队干部"
 }, "zh-Hans");

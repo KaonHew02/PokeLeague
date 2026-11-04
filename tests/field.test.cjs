@@ -2785,6 +2785,85 @@ test('Sinnoh (chapter 51): Route 218 after chapter 50, Barry on the bridge, the 
   assert.equal(F.count('tm91'), 1);
 });
 
+test('Sinnoh (chapter 52): the meeting in the library, the bomb, Lake Valor and Saturn, Lake Verity and Mars', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes'].map(f => `js/content/sinnoh/${f}.js`);
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
+  for (const f of ['sinnoh-start', 'sinnoh-dex', 'sinnoh-briefcase', 'galactic-jubilife', 'barry-203', 'roark-met', 'mars-windworks', 'cheryl-done', 'tg-eterna-done', 'cyrus-coronet',
+                   'marsh-bomb', 'lakefront-grunt', 'barry-pastoria', 'cynthia-potion', 'psyduck-cured', 'cyrus-celestic', 'chapter-50-done', 'barry-canalave', 'riley-done']) F.setFlag(f);
+  F.giveMon('infernape', 46, { moves: ['flame-wheel'] });
+  F.giveMon('luxray', 44, { moves: ['spark'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const fights = [];
+  W.onTrainer = async d => { fights.push(d.id); return 'win'; };
+  // Before the Mine Badge nothing happens in the library, and nobody waits by the Gym.
+  W.load('canalave-library', 'door');
+  assert.ok(!seen('rowan'));
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => !W.locked);
+  assert.ok(!F.flag('lake-blast'));
+  W.load('canalave', { x: 9, y: 12, dir: 'down' });
+  assert.equal(step(W, 'down'), 'moved', 'nobody there yet');
+  // Lake Valor is still closed.
+  W.load('valor-lakefront', { x: 3, y: 12, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked', 'the guard');
+  // With the badge Dawn waits by the Gym, Lucas for a girl.
+  S.player.badges.push(30);
+  W.load('canalave', { x: 9, y: 12, dir: 'down' });
+  assert.ok(seen('dawn') && !seen('lucas'));
+  assert.equal(step(W, 'down'), 'blocked', 'Dawn');
+  S.player.gender = 'f';
+  W.refresh();
+  assert.ok(seen('lucas') && !seen('dawn'));
+  await pump(W, W.interact());
+  S.player.gender = 'm';
+  W.refresh();
+  // The meeting starts on the first step in, and the bomb ends it.
+  W.load('canalave-library', 'door');
+  assert.ok(seen('rowan') && seen('barry') && seen('dawn'));
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('lake-blast') && !W.locked);
+  assert.ok(!seen('rowan') && !seen('barry'), 'they have all gone');
+  // The guard has left: west to Lake Valor.
+  W.load('valor-lakefront', { x: 1, y: 12, dir: 'left' });
+  assert.equal(step(W, 'left'), 'moved');
+  await cross('left', 'lake-valor');
+  assert.deepEqual([W.player.x, W.player.y], [29, 10]);
+  // The grunt stands before the cavern until he is beaten.
+  W.load('lake-valor', { x: 14, y: 13, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('valor-gate') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['grunt-valor3']);
+  W.load('lake-valor', { x: 14, y: 11, dir: 'up' });
+  await cross('up', 'valor-cavern');
+  assert.deepEqual([W.player.x, W.player.y], [7, 8]);
+  // Lake Verity is quiet until Saturn falls.
+  W.load('lake-verity', { x: 9, y: 7, dir: 'up' });
+  assert.ok(!seen('mars') && !seen('dawn2'), 'nobody at Lake Verity yet');
+  assert.equal(step(W, 'up'), 'moved');
+  // Saturn in the cavern.
+  W.load('valor-cavern', { x: 7, y: 5, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('saturn-valor') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['saturn']);
+  assert.ok(!seen('saturn'), 'he has gone');
+  // Lake Verity: Team Galactic and Dawn are there now.
+  W.load('lake-verity', { x: 9, y: 7, dir: 'up' });
+  assert.ok(seen('mars') && seen('dawn2') && !seen('lucas2'));
+  assert.equal(step(W, 'up'), 'blocked', 'Mars');
+  W.interact();
+  await until(() => F.flag('chapter-52-done') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['mars']);
+  // Everybody has left.
+  W.load('lake-verity', { x: 9, y: 7, dir: 'up' });
+  assert.ok(!seen('mars') && !seen('dawn2') && !seen('grunt-verity1'));
+  assert.equal(step(W, 'up'), 'moved');
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

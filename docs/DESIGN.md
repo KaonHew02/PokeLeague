@@ -2213,12 +2213,33 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   after, the grunts in order, six Eggs and the wait, Byron); `tests/story.test.cjs` the chapter after
   chapter 50 and the balance lines for Barry and Byron.
 
-### After chapter 51
+- **Chapter 52** ✅, the lakes (`js/content/sinnoh/lakes.js`, translations `sinnoh-lakes`; no engine change). No
+  Gym: the chapter ends at Lake Verity.
+  - **People and Trainers**: `saturn`; the class `galactic-commander-m` (the title of Mars and Jupiter is
+    feminine in some languages).
+  - **Story**: with the Mine Badge the assistant (Dawn, or Lucas for a girl) waits by the Gym. In the
+    Canalave library a trigger on the first step in starts the meeting: Rowan tells of the three lakes until
+    the bomb (flag lake-blast) sends Barry to Lake Acuity, the assistant to Lake Verity and you to Lake
+    Valor. The guard leaves Valor Lakefront's west exit. Lake Valor is drained: Magikarp flop on the bed,
+    three grunts wait, the last in front of the cavern (flag valor-gate). In the cavern Commander Saturn
+    (Golbat 38, Bronzor 38, Toxicroak 40 with a Sitrus Berry; flag saturn-valor). At Lake Verity, on the map
+    from chapter 44, two grunts, the assistant and Commander Mars (Golbat 38, Bronzor 38, Purugly 40 with a
+    Sitrus Berry; flag mars-verity). Team Galactic gets away with Azelf and Mesprit, then `ending(52)`.
+  - Saturn's Chinese name 镇星 comes from one unofficial source (Moegirlpedia): check it if an official
+    source turns up.
+- **Balance:** Platinum's teams are fair at these levels: a team of three wins 100% against both. A pair
+  wins 5-78% against Saturn and 18-98% against Mars; Torterra is the weakest of the three starters here.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the library and the Gym door before and
+  after the badge, Dawn and Lucas, the meeting on the first step, the guard, the grunt in front of the
+  cavern, Lake Verity before and after Saturn, everybody gone at the end); `tests/story.test.cjs` the chapter
+  after chapter 51 and the balance lines for Saturn and Mars.
+
+### After chapter 52
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) six badges are won. Ideas:
-1. Sinnoh: Team Galactic's HQ in Veilstone, Lake Valor and the lakes; Route 211 and Mt. Coronet on the way
-   to Snowpoint City and Candice; Route 212 back to Hearthome; Wayward Cave.
+the Battle Tower; in Sinnoh (Pokémon 1-493) six badges are won and two of the lake Pokémon taken. Ideas:
+1. Sinnoh: Route 211 and Mt. Coronet, Routes 216 and 217 in the snow, Snowpoint City and Candice; Lake Acuity
+   and Barry; Team Galactic's HQ in Veilstone; Route 212 back to Hearthome; Wayward Cave.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic;

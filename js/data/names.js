@@ -1549,7 +1549,7 @@ G.NAMES = {
     "old-chateau": ["Old Chateau","Old Chateau","Vieux Château","Old Chateau","Old Chateau","Old Chateau"],
     "lake-verity": ["Lake Verity","Lago Veraz","Lac Vérité","Lago Verità","心齐湖","心齊湖"],
     "lake-valor": ["Lake Valor","Lago Valor","Lac Courage","Lago Valore","立志湖","立志湖"],
-    "lake-acuity": ["Lake Acuity","Lake Acuity","Lac Savoir","Lake Acuity","Lake Acuity","Lake Acuity"],
+    "lake-acuity": ["Lake Acuity","Lago Agudeza","Lac Savoir","Lago Acume","睿智湖","睿智湖"],
     "valor-lakefront": ["Valor Lakefront","Orilla Valor","Rive Lac Courage","Valor Lakefront","立志湖畔","立志湖畔"],
     "acuity-lakefront": ["Acuity Lakefront","Acuity Lakefront","Rive Lac Savoir","Acuity Lakefront","Acuity Lakefront","Acuity Lakefront"],
     "sinnoh-route-201": ["Route 201","Ruta 201","Route 201","Percorso 201","201号道路","201號道路"],

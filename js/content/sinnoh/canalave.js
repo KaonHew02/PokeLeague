@@ -106,6 +106,9 @@
     triggers: [{ x: 22, y: 14, w: 1, h: 2, if: '!barry-canalave', script: 'canalave.barry' }],
     npcs: [
       { id: 'barry', who: 'barry', x: 16, y: 14, dir: 'right', if: 'scripted' },
+      // Chapter 52: with the Mine Badge, the assistant sends you to the library (lakes.js).
+      { id: 'dawn', who: 'dawn', x: 9, y: 13, dir: 'up', if: ['badge:30', '!lake-blast', '!gender=f'], script: 'lakes.to-library' },
+      { id: 'lucas', who: 'lucas', x: 9, y: 13, dir: 'up', if: ['badge:30', '!lake-blast', 'gender=f'], script: 'lakes.to-library' },
       { id: 'sailor', who: 'sailor', x: 11, y: 23, dir: 'right', script: 'canalave.sailor' },
       { id: 'boy', who: 'youngster', x: 30, y: 15, move: 'look',
         say: 'The bridge goes up when big ships come through the canal. It is the best thing in town!' },
@@ -147,8 +150,16 @@
       '0,2': 'A book of old stories: "When the world began, there was only one egg. From it came the first Pokémon, and the first Pokémon made time and space."',
       '10,2': 'A book of old stories: "Three spirits sleep in Sinnoh\'s three lakes. They gave people knowledge, feeling and will."'
     },
-    npcs: [{ id: 'reader', who: 'gentleman', x: 5, y: 3, dir: 'down',
-             say: 'Every story in this library starts in Sinnoh. Strange, is it not?' }]
+    // Chapter 52: the meeting (lakes.js).
+    triggers: [{ x: 0, y: 6, w: 11, h: 1, if: ['badge:30', '!lake-blast'], script: 'lakes.meeting' }],
+    npcs: [
+      { id: 'reader', who: 'gentleman', x: 8, y: 3, dir: 'down',
+        say: 'Every story in this library starts in Sinnoh. Strange, is it not?' },
+      { id: 'rowan', who: 'rowan', x: 4, y: 3, dir: 'down', if: ['badge:30', '!lake-blast'], script: 'lakes.meeting' },
+      { id: 'dawn', who: 'dawn', x: 3, y: 4, dir: 'right', if: ['badge:30', '!lake-blast', '!gender=f'], script: 'lakes.meeting' },
+      { id: 'lucas', who: 'lucas', x: 3, y: 4, dir: 'right', if: ['badge:30', '!lake-blast', 'gender=f'], script: 'lakes.meeting' },
+      { id: 'barry', who: 'barry', x: 5, y: 4, dir: 'left', if: ['badge:30', '!lake-blast'], script: 'lakes.meeting' }
+    ]
   }, SINNOH));
 
   // ---------------- Byron's Gym ----------------

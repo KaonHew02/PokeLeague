@@ -85,5 +85,7 @@ G.TRAINER_CLASSES = {
   'ninja-boy':   { title: 'Ninja Boy', who: 'youngster', prize: 8 },
   'dragon-tamer': { title: 'Dragon Tamer', who: 'cooltrainerm', prize: 48 },
   'galactic-boss': { title: 'Galactic Boss', who: 'cyrus', prize: 100 },
+  // Chapter 52: Saturn (the other Commanders' title is feminine in some languages).
+  'galactic-commander-m': { title: 'Team Galactic Commander', who: 'saturn', prize: 50 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

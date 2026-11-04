@@ -148,5 +148,8 @@ G.I18n.add({
   "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Grazie per aver giocato! Canalipoli e l'Isola Ferrosa arriveranno in un prossimo aggiornamento.",
   "Chapter 51 complete!": "Capitolo 51 completato!",
   "{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.": "{player} ha attraversato il mare fino a Canalipoli, ha battuto Barry sul ponte, ha cacciato il Team Galassia dall'Isola Ferrosa con Marisio e ha ottenuto la Medaglia Miniera da Ferruccio.",
-  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Grazie per aver giocato! Il Team Galassia a Rupepoli e Nevepoli arriveranno in un prossimo aggiornamento."
+  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Grazie per aver giocato! Il Team Galassia a Rupepoli e Nevepoli arriveranno in un prossimo aggiornamento.",
+  "Chapter 52 complete!": "Capitolo 52 completato!",
+  "{player} heard the old story of the three lakes, found Lake Valor drained by a bomb and beat Commanders Saturn and Mars, but Team Galactic got away with Azelf and Mesprit.": "{player} ha ascoltato l'antica storia dei tre laghi, ha trovato il Lago Valore prosciugato da una bomba e ha battuto i Comandanti Saturno e Martes, ma il Team Galassia è fuggito con Azelf e Mesprit.",
+  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "Grazie per aver giocato! Il Monte Corona e Nevepoli arriveranno in un prossimo aggiornamento."
 }, "it");

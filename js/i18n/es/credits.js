@@ -148,5 +148,8 @@ G.I18n.add({
   "Thank you for playing! Canalave City and Iron Island wait in a future update.": "¡Gracias por jugar! Ciudad Canal y la Isla Hierro llegarán en una próxima actualización.",
   "Chapter 51 complete!": "¡Capítulo 51 completado!",
   "{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.": "{player} cruzó el mar hasta Ciudad Canal, venció a Barry en el puente, expulsó al Equipo Galaxia de la Isla Hierro junto a Quinoa y ganó la Medalla Mina de Acerón.",
-  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "¡Gracias por jugar! El Equipo Galaxia en Ciudad Rocavelo y Ciudad Puntaneva llegarán en una próxima actualización."
+  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "¡Gracias por jugar! El Equipo Galaxia en Ciudad Rocavelo y Ciudad Puntaneva llegarán en una próxima actualización.",
+  "Chapter 52 complete!": "¡Capítulo 52 completado!",
+  "{player} heard the old story of the three lakes, found Lake Valor drained by a bomb and beat Commanders Saturn and Mars, but Team Galactic got away with Azelf and Mesprit.": "{player} escuchó la vieja historia de los tres lagos, encontró el Lago Valor vaciado por una bomba y venció a los Comandantes Saturno y Venus, pero el Equipo Galaxia escapó con Azelf y Mesprit.",
+  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "¡Gracias por jugar! El Monte Corona y Ciudad Puntaneva llegarán en una próxima actualización."
 }, "es");

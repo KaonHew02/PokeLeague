@@ -41,5 +41,14 @@ G.I18n.add({
   "My big brother set out on his journey from Twinleaf last spring. Every Trainer in Sinnoh starts somewhere!": "Mon grand frère est parti de Bonaugure pour son voyage au printemps dernier. Chaque Dresseur de Sinnoh commence quelque part !",
   "Twinleaf Town. Where new leaves open, two by two.": "Bonaugure. Là où les jeunes feuilles s'ouvrent deux par deux.",
   "A tidy guest room. A note on the shelf says: \"Welcome to Sinnoh!\"": "Une chambre d'amis bien rangée. Un mot sur l'étagère dit : « Bienvenue à Sinnoh ! »",
-  "Route 201. East: Sandgem Town. South: Twinleaf Town. West: Lake Verity.": "Route 201. Est : Littorella. Sud : Bonaugure. Ouest : Lac Vérité."
+  "Route 201. East: Sandgem Town. South: Twinleaf Town. West: Lake Verity.": "Route 201. Est : Littorella. Sud : Bonaugure. Ouest : Lac Vérité.",
+  "Team Galactic got here first! I cannot get past them on my own.": "La Team Galaxie est arrivée la première ! Je ne peux pas passer sans aide.",
+  "Commander Mars said nobody comes through here!": "La Commandante Mars a dit que personne ne passe !",
+  "She will not be happy...": "Elle ne va pas être contente...",
+  "The lake is ours now.": "Le lac est à nous maintenant.",
+  "You again? Commander Mars will take care of you!": "Encore toi ? La Commandante Mars va s'occuper de toi !",
+  "Commander, help!": "Commandante, à l'aide !",
+  "Fine. Go and see how far you get.": "Bon. Va voir jusqu'où tu iras.",
+  "You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!": "Encore toi ? Je me souviens de toi à la centrale. Cette fois, j'ai une vraie raison de gagner. Voyons si tu peux m'arrêter !",
+  "Not again!": "Pas encore !"
 }, "fr");

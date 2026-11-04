@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 52) return { title: T('Chapter 52 complete!'),
+      done: fmt('{player} heard the old story of the three lakes, found Lake Valor drained by a bomb and beat Commanders Saturn and Mars, but Team Galactic got away with Azelf and Mesprit.', { player }),
+      next: T('Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.') };
     if (n === 51) return { title: T('Chapter 51 complete!'),
       done: fmt('{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.', { player }),
       next: T('Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.') };

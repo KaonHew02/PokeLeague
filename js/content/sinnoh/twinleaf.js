@@ -157,7 +157,31 @@
       { id: 'dawn', who: 'dawn', x: 10, y: 6, dir: 'up', if: ['barry-met', '!sinnoh-briefcase', '!gender=f'], script: 'sinnoh.lake' },
       { id: 'lucas', who: 'lucas', x: 10, y: 6, dir: 'up', if: ['barry-met', '!sinnoh-briefcase', 'gender=f'], script: 'sinnoh.lake' },
       { id: 'barry', who: 'barry', x: 17, y: 10, dir: 'left', if: 'scripted' },
-      { id: 'starly', who: 'starly', mon: 'starly', x: 15, y: 10, dir: 'right', fixed: true, if: 'scripted' }
+      { id: 'starly', who: 'starly', mon: 'starly', x: 15, y: 10, dir: 'right', fixed: true, if: 'scripted' },
+      // Chapter 52: the assistant, facing Team Galactic (lakes.js).
+      { id: 'dawn2', who: 'dawn', x: 8, y: 7, dir: 'right', if: ['saturn-valor', '!chapter-52-done', '!gender=f'],
+        say: 'Team Galactic got here first! I cannot get past them on my own.' },
+      { id: 'lucas2', who: 'lucas', x: 8, y: 7, dir: 'right', if: ['saturn-valor', '!chapter-52-done', 'gender=f'],
+        say: 'Team Galactic got here first! I cannot get past them on my own.' }
+    ],
+    trainers: [
+      { id: 'grunt-verity1', who: 'galactic', cls: 'team-galactic', x: 14, y: 7, dir: 'down', sight: 3, if: ['saturn-valor', '!mars-verity'],
+        team: [['croagunk', 37, ['swagger', 'mud-bomb', 'sucker-punch', 'nasty-plot']]],
+        before: 'Commander Mars said nobody comes through here!',
+        defeat: 'She will not be happy...',
+        after: 'The lake is ours now.' },
+      { id: 'grunt-verity2', who: 'galactic', cls: 'team-galactic', x: 9, y: 8, dir: 'down', sight: 2, if: ['saturn-valor', '!mars-verity'],
+        team: [['stunky', 35, ['feint', 'slash', 'toxic', 'night-slash']], ['houndour', 35, ['odor-sleuth', 'beat-up', 'fire-fang', 'feint-attack']]],
+        before: 'You again? Commander Mars will take care of you!',
+        defeat: 'Commander, help!',
+        after: 'Fine. Go and see how far you get.' },
+      { id: 'mars', who: 'mars', cls: 'galactic-commander', name: 'Mars', x: 9, y: 6, dir: 'down', sight: 1, ai: 'leader', if: ['saturn-valor', '!mars-verity'],
+        team: [['golbat', 38, ['air-cutter', 'bite', 'toxic', 'supersonic']],
+               ['bronzor', 38, ['gyro-ball', 'extrasensory', 'iron-defense', 'confuse-ray']],
+               ['purugly', 40, ['slash', 'feint-attack', 'hypnosis', 'fake-out'], 'sitrus-berry']],
+        before: 'You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!',
+        defeat: 'Not again!',
+        win: 'verity.mars-win' }
     ],
     encounters: { walk: '@lake-verity-before-galactic-intervention', water: '@lake-verity-before-galactic-intervention' }
   }, SINNOH));

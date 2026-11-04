@@ -148,5 +148,8 @@ G.I18n.add({
   "Thank you for playing! Canalave City and Iron Island wait in a future update.": "感謝遊玩！水脈市和鋼鐵島將在之後的更新中登場。",
   "Chapter 51 complete!": "第五十一章完成！",
   "{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.": "{player}渡海來到水脈市，在橋上打敗了阿馴，和亞玄一起把銀河隊趕出了鋼鐵島，並從東瓜那裡贏得了礦物徽章。",
-  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "感謝遊玩！帷幕市的銀河隊和雪峰市將在之後的更新中登場。"
+  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "感謝遊玩！帷幕市的銀河隊和雪峰市將在之後的更新中登場。",
+  "Chapter 52 complete!": "第五十二章完成！",
+  "{player} heard the old story of the three lakes, found Lake Valor drained by a bomb and beat Commanders Saturn and Mars, but Team Galactic got away with Azelf and Mesprit.": "{player}聽了三座湖的古老傳說，看到立志湖被炸彈炸乾，打敗了幹部鎮星和夥星，但銀河隊還是帶著亞克諾姆和艾姆利多逃走了。",
+  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "感謝遊玩！天冠山和雪峰市將在之後的更新中登場。"
 }, "zh-Hant");

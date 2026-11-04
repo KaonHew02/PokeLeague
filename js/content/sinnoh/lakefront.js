@@ -128,7 +128,7 @@
       'TTT.................,,.............T',
       'TTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTT'
     ],
-    connect: { north: { map: 'route214', offset: 6 }, south: { map: 'route213', offset: -24 } },
+    connect: { north: { map: 'route214', offset: 6 }, south: { map: 'route213', offset: -24 }, west: { map: 'lake-valor', offset: 2 } },
     warps: [
       { x: 11, y: 7, to: 'hotel-grand-lake', spot: 'door' },
       { x: 28, y: 6, to: 'seven-stars', spot: 'door' }
@@ -140,8 +140,8 @@
     },
     items: [{ x: 33, y: 2, item: 'tm85', flag: 'lakefront-tm85' }, { x: 5, y: 23, item: 'ultra-ball', flag: 'lakefront-ball' }],
     npcs: [
-      // Lake Valor opens in a later chapter.
-      { id: 'guard', who: 'officer', x: 2, y: 12, dir: 'right',
+      // Lake Valor opens with the bomb (chapter 52, lakes.js).
+      { id: 'guard', who: 'officer', x: 2, y: 12, dir: 'right', if: '!lake-blast',
         say: 'The way to Lake Valor is closed for now. Guests say something odd is going on at the shore.' },
       { id: 'lady', who: 'beauty', x: 16, y: 8, move: 'wander', r: 2,
         say: 'People come from all over Sinnoh to stay at the Hotel Grand Lake. The view is lovely.' },

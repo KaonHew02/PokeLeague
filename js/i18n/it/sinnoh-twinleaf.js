@@ -41,5 +41,14 @@ G.I18n.add({
   "My big brother set out on his journey from Twinleaf last spring. Every Trainer in Sinnoh starts somewhere!": "Mio fratello maggiore è partito da Duefoglie per il suo viaggio la primavera scorsa. Ogni Allenatore di Sinnoh comincia da qualche parte!",
   "Twinleaf Town. Where new leaves open, two by two.": "Duefoglie. Dove le foglie nuove si aprono a due a due.",
   "A tidy guest room. A note on the shelf says: \"Welcome to Sinnoh!\"": "Una stanza degli ospiti in ordine. Un biglietto sulla mensola dice: «Benvenuto a Sinnoh!»",
-  "Route 201. East: Sandgem Town. South: Twinleaf Town. West: Lake Verity.": "Percorso 201. Est: Sabbiafine. Sud: Duefoglie. Ovest: Lago Verità."
+  "Route 201. East: Sandgem Town. South: Twinleaf Town. West: Lake Verity.": "Percorso 201. Est: Sabbiafine. Sud: Duefoglie. Ovest: Lago Verità.",
+  "Team Galactic got here first! I cannot get past them on my own.": "Il Team Galassia è arrivato prima! Senza aiuto non riesco a superarli.",
+  "Commander Mars said nobody comes through here!": "La Comandante Martes ha detto che non passa nessuno!",
+  "She will not be happy...": "Non ne sarà felice...",
+  "The lake is ours now.": "Ora il lago è nostro.",
+  "You again? Commander Mars will take care of you!": "Ancora tu? La Comandante Martes si occuperà di te!",
+  "Commander, help!": "Comandante, aiuto!",
+  "Fine. Go and see how far you get.": "Va bene. Vediamo fin dove arrivi.",
+  "You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!": "Ancora tu? Mi ricordo di te alla centrale eolica. Stavolta ho un vero motivo per vincere. Vediamo se riesci a fermarmi!",
+  "Not again!": "Non di nuovo!"
 }, "it");

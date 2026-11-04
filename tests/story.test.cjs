@@ -908,6 +908,26 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Saturn and Mars at the lakes (chapter 52), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const teams = {
+    'torterra 44': [[389, 44]], 'infernape 44': [[392, 44]], 'empoleon 44': [[395, 44]],
+    'torterra 44 + luxray 42': [[389, 44], [405, 42]], 'infernape 44 + luxray 42': [[392, 44], [405, 42]], 'empoleon 44 + luxray 42': [[395, 44], [405, 42]],
+    'torterra 44 + luxray 42 + staraptor 42': [[389, 44], [405, 42], [398, 42]],
+    'infernape 44 + luxray 42 + staraptor 42': [[392, 44], [405, 42], [398, 42]],
+    'empoleon 44 + luxray 42 + staraptor 42': [[395, 44], [405, 42], [398, 42]]
+  };
+  const measure = rate => Object.fromEntries(Object.entries(teams).map(([k, t]) => [k, rate(t)]));
+  const saturn = measure(leaderRate(G, 'valor-cavern', 'saturn')), mars = measure(leaderRate(G, 'lake-verity', 'mars'));
+  console.log('[balance] vs Saturn:', JSON.stringify(saturn));
+  console.log('[balance] vs Mars at Lake Verity:', JSON.stringify(mars));
+  // Platinum's teams are fair at these levels: a team of three nearly always wins.
+  for (const k of ['torterra', 'infernape', 'empoleon']) {
+    assert.ok(saturn[k + ' 44 + luxray 42 + staraptor 42'] >= 0.8, k + ' with two friends against Saturn');
+    assert.ok(mars[k + ' 44 + luxray 42 + staraptor 42'] >= 0.8, k + ' with two friends against Mars');
+  }
+});
+
 test('balance: Barry in Canalave and Byron (chapter 51), win rates of typical teams are printed', () => {
   const { G } = world(1);
   // Barry's team depends on the starter you took (canalave.js).
@@ -3900,6 +3920,40 @@ async function chapter51(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 52 after chapter 51: the meeting in the library, Lake Valor drained, Saturn, Lake Verity, Mars. */
+async function chapter52(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async (mapId, skip = []) => {
+    for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader' && !skip.includes(t.id))) { await fight(mapId, t.id); won(); }
+  };
+  const starter = () => lead(st, S.party.some(m => m.sp === 392) ? 392 : 391);
+  // The library: Rowan's story, cut short by the bomb.
+  const guard = G.Maps.get('valor-lakefront').npcs.find(p => p.id === 'guard');
+  assert.ok(F.test(guard.if), 'the guard is still there');
+  await run(st, 'canalave', npc(st, 'canalave', 'dawn'));
+  await run(st, 'canalave-library', 'lakes.meeting');
+  assert.ok(F.flag('lake-blast') && !F.test(guard.if), 'the way to Lake Valor is open');
+  // Lake Valor: three grunts, then Saturn in the cavern.
+  starter();
+  await all('lake-valor');
+  assert.ok(F.flag('valor-gate'));
+  await fight('valor-cavern', 'saturn');
+  won();
+  console.log('[story] Saturn at Lake Valor:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('saturn-valor'));
+  // Lake Verity: two grunts, then Mars.
+  await all('lake-verity', ['mars']);
+  await fight('lake-verity', 'mars');
+  won();
+  console.log('[story] Mars at Lake Verity:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('mars-verity') && F.flag('chapter-52-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3981,7 +4035,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 51: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its sixth Gym", async () => {
+test("chapters 11 to 52: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to the lakes", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -4034,4 +4088,5 @@ test("chapters 11 to 51: Johto, from Professor Elm to Johto's League and its pos
   await chapter49(st);
   await chapter50(st);
   await chapter51(st);
+  await chapter52(st);
 });

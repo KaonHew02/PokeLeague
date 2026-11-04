@@ -41,5 +41,14 @@ G.I18n.add({
   "My big brother set out on his journey from Twinleaf last spring. Every Trainer in Sinnoh starts somewhere!": "我哥哥去年春天從雙葉鎮出發去旅行了。神奧的每個訓練家都是從某個地方起步的！",
   "Twinleaf Town. Where new leaves open, two by two.": "雙葉鎮。新葉兩兩舒展的地方。",
   "A tidy guest room. A note on the shelf says: \"Welcome to Sinnoh!\"": "整潔的客房。架子上的紙條寫著：「歡迎來到神奧！」",
-  "Route 201. East: Sandgem Town. South: Twinleaf Town. West: Lake Verity.": "201號道路。東：真砂鎮　南：雙葉鎮　西：心齊湖"
+  "Route 201. East: Sandgem Town. South: Twinleaf Town. West: Lake Verity.": "201號道路。東：真砂鎮　南：雙葉鎮　西：心齊湖",
+  "Team Galactic got here first! I cannot get past them on my own.": "銀河隊先到了！我一個人過不去。",
+  "Commander Mars said nobody comes through here!": "夥星幹部說了，誰也不准過去！",
+  "She will not be happy...": "她不會高興的……",
+  "The lake is ours now.": "這座湖現在是我們的了。",
+  "You again? Commander Mars will take care of you!": "又是你？夥星幹部會收拾你的！",
+  "Commander, help!": "幹部，救命！",
+  "Fine. Go and see how far you get.": "好吧。看你能走多遠。",
+  "You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!": "又是你？我記得你，在山谷發電廠見過。這次我有非贏不可的理由。看你攔不攔得住我！",
+  "Not again!": "怎麼又輸了！"
 }, "zh-Hant");

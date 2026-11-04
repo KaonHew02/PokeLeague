@@ -148,5 +148,8 @@ G.I18n.add({
   "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Obrigado por jogar! Canalave e Iron Island chegam em uma próxima atualização.",
   "Chapter 51 complete!": "Capítulo 51 concluído!",
   "{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.": "{player} atravessou o mar até Canalave, venceu Barry na ponte, expulsou a Equipe Galáctica de Iron Island com Riley e conquistou a Insígnia Mina de Byron.",
-  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Obrigado por jogar! A Equipe Galáctica em Veilstone e Snowpoint chegam em uma próxima atualização."
+  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Obrigado por jogar! A Equipe Galáctica em Veilstone e Snowpoint chegam em uma próxima atualização.",
+  "Chapter 52 complete!": "Capítulo 52 concluído!",
+  "{player} heard the old story of the three lakes, found Lake Valor drained by a bomb and beat Commanders Saturn and Mars, but Team Galactic got away with Azelf and Mesprit.": "{player} ouviu a velha história dos três lagos, encontrou o Lake Valor esvaziado por uma bomba e venceu os Comandantes Saturn e Mars, mas a Equipe Galáctica fugiu com Azelf e Mesprit.",
+  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "Obrigado por jogar! O Mt. Coronet e Snowpoint chegam em uma próxima atualização."
 }, "pt-BR");

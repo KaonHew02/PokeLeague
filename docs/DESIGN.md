@@ -2185,12 +2185,40 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   mouth of the ruins, Cyrus, the end); `tests/story.test.cjs` the chapter after chapter 49 and the balance
   line for Cyrus.
 
-### After chapter 50
+- **Chapter 51** ✅, Sinnoh's sixth Gym (`js/content/sinnoh/canalave.js` and `ironisland.js`, translations
+  `sinnoh-canalave` and `sinnoh-ironisland`; no engine change).
+  - **People and Trainers**: `byron`, `riley`.
+  - **Story**: a person closes Jubilife's west exit until `chapter-50-done`, so nobody reaches this story
+    early. Route 218 is land at both ends and the sea between, crossed with Surf. Canalave City: a canal and
+    its bridge; a Center, a Mart and a house to the east; the Gym, the library (two old stories) and the
+    harbour to the west. A trigger at the east end of the bridge brings Barry (five Pokémon by
+    `barry-starter`, flag barry-canalave), and nobody reaches the west without passing it. The Gym's door
+    is a locked warp until `riley-done`; the harbour's sailor sails to Iron Island and back. Iron Island: a
+    pier, the mouth of the mine, 1F, B1F, B2F (Platinum's five floors in three). On B1F Riley stands in a
+    one-tile way; he comes along (flag riley-with) and heals the team after each battle (`afterBattle`, as
+    Cheryl does: the engine has no multi battles). Two grunts wait at the end of B2F, one in a one-tile way
+    before the other (flags iron-grunt1, riley-done; Diamond and Pearl's teams, Serebii lists none for
+    Platinum). Riley gives a Riolu Egg (`G.DayCare.egg(447)`, flag riolu-egg); with six Eggs carried he waits
+    (flag riley-egg-wait) and gives it later. Byron's Gym: steel walls on the same plan as Wake's pool, the
+    lifts left out. Byron (Magneton 37, Steelix 38, Bastiodon 41 with a Sitrus Berry, a Hyper Potion, a Full
+    Restore): the Mine Badge (badge 30, the sixth Sinnoh badge: up to Lv. 60 obey), TM91 (Flash Cannon),
+    `ending(51)`.
+- **Balance:** Platinum's teams, fair at the levels a player reaches here (a sensible team of three should win
+  60% or more). Byron: Torterra with Earthquake wins alone (98%), Empoleon with
+  Surf too (80%); Infernape, weak to his Ground and Rock moves, wins 18% alone and 23% with a Luxray, but a
+  team of three wins 93-100% for every starter. Barry's five Pokémon beat most pairs (0-35%); a team of
+  three wins 70-88%.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (Jubilife's west before and after chapter
+  50, Barry once only on the bridge, the shut Gym, the boat both ways, no healing before Riley and healing
+  after, the grunts in order, six Eggs and the wait, Byron); `tests/story.test.cjs` the chapter after
+  chapter 50 and the balance lines for Barry and Byron.
+
+### After chapter 51
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) five badges are won and Celestic Town is reached. Ideas:
-1. Sinnoh: Route 218, Canalave City, Iron Island and Byron (the Mine Badge); Team Galactic's HQ in Veilstone
-   and Lake Valor later; Route 212 back to Hearthome; Wayward Cave and Route 211 to the north.
+the Battle Tower; in Sinnoh (Pokémon 1-493) six badges are won. Ideas:
+1. Sinnoh: Team Galactic's HQ in Veilstone, Lake Valor and the lakes; Route 211 and Mt. Coronet on the way
+   to Snowpoint City and Candice; Route 212 back to Hearthome; Wayward Cave.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic;

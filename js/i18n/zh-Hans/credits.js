@@ -145,5 +145,8 @@ G.I18n.add({
   "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "感谢游玩！立志湖和神和镇将在之后的更新中登场。",
   "Chapter 50 complete!": "第五十章完成！",
   "{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.": "{player}用竹兰的秘传之药治好了可达鸭，穿过210号道路的浓雾，在神和镇的遗迹与赤日交手，并把古代护符送回了家。",
-  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "感谢游玩！水脉市和钢铁岛将在之后的更新中登场。"
+  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "感谢游玩！水脉市和钢铁岛将在之后的更新中登场。",
+  "Chapter 51 complete!": "第五十一章完成！",
+  "{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.": "{player}渡海来到水脉市，在桥上打败了阿驯，和亚玄一起把银河队赶出了钢铁岛，并从东瓜那里赢得了矿物徽章。",
+  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "感谢游玩！帷幕市的银河队和雪峰市将在之后的更新中登场。"
 }, "zh-Hans");

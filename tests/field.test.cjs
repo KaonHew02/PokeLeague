@@ -2673,6 +2673,118 @@ test('Sinnoh (chapter 50): the Psyduck and the SecretPotion, the fog on Route 21
   assert.equal(F.count('tm51'), 1);
 });
 
+test('Sinnoh (chapter 51): Route 218 after chapter 50, Barry on the bridge, the shut Gym, the boat, Riley and his healing, the grunts, the Riolu Egg, Byron', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland'].map(f => `js/content/sinnoh/${f}.js`);
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, D = G.DayCare;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
+  for (const f of ['sinnoh-start', 'sinnoh-dex', 'galactic-jubilife', 'barry-203', 'roark-met', 'mars-windworks', 'cheryl-done', 'tg-eterna-done', 'cyrus-coronet',
+                   'marsh-bomb', 'lakefront-grunt', 'barry-pastoria', 'cynthia-potion', 'psyduck-cured', 'cyrus-celestic']) F.setFlag(f);
+  F.setVar('barry-starter', 393);
+  F.giveMon('infernape', 44, { moves: ['flame-wheel'] });
+  F.giveMon('luxray', 42, { moves: ['spark'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
+  const fights = [];
+  W.onTrainer = async d => { fights.push(d.id); return 'win'; };
+  // Jubilife: Route 218 is closed until chapter 50 is over.
+  W.load('jubilife', { x: 2, y: 13, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked', 'closed before the end of chapter 50');
+  F.setFlag('chapter-50-done');
+  W.refresh();
+  assert.equal(step(W, 'left'), 'moved');
+  assert.equal(step(W, 'left'), 'moved');
+  await cross('left', 'route218');
+  assert.deepEqual([W.player.x, W.player.y], [39, 7]);
+  W.load('route218', { x: 0, y: 7, dir: 'left' });
+  await cross('left', 'canalave');
+  assert.deepEqual([W.player.x, W.player.y], [39, 14]);
+  // Barry stops you at the bridge.
+  W.load('canalave', { x: 23, y: 14, dir: 'left' });
+  assert.equal(step(W, 'left'), 'moved');
+  await until(() => F.flag('barry-canalave') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['barry-canalave']);
+  W.load('canalave', { x: 23, y: 15, dir: 'left' });
+  assert.equal(step(W, 'left'), 'moved');
+  await until(() => !W.locked);
+  assert.deepEqual(fights, [], 'only once');
+  // The Gym is shut.
+  W.load('canalave', { x: 9, y: 11, dir: 'up' });
+  step(W, 'up');
+  await until(() => !W.locked);
+  assert.equal(W.map.id, 'canalave', 'Byron is away');
+  // The boat to Iron Island, and down the mine.
+  W.load('canalave', { x: 12, y: 23, dir: 'left' });
+  W.interact();
+  await until(() => W.map.id === 'iron-island' && !W.locked);
+  assert.deepEqual([W.player.x, W.player.y], [11, 17]);
+  W.load('iron-island', { x: 12, y: 9, dir: 'up' });
+  await cross('up', 'iron-1f');
+  assert.deepEqual([W.player.x, W.player.y], [10, 10]);
+  W.load('iron-1f', { x: 18, y: 4, dir: 'up' });
+  await cross('up', 'iron-b1f');
+  assert.deepEqual([W.player.x, W.player.y], [3, 4]);
+  // Before Riley comes along, nobody heals you.
+  const mon = F.party()[0];
+  mon.hp = 1;
+  W.load('iron-b1f', { x: 7, y: 8, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => fights.includes('lawrence') && !W.locked);
+  assert.equal(mon.hp, 1, 'no healing yet');
+  fights.splice(0);
+  // Riley stands in the way, and comes along.
+  W.load('iron-b1f', { x: 13, y: 8, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked', 'Riley');
+  W.interact();
+  await until(() => F.flag('riley-with') && !W.locked);
+  assert.equal(step(W, 'right'), 'moved', 'he has joined you');
+  // After each battle his Lucario heals the team.
+  W.load('iron-b1f', { x: 18, y: 10, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => fights.includes('summer-iron') && !W.locked);
+  assert.equal(mon.hp, G.Mon.maxHp(mon), 'healed');
+  fights.splice(0);
+  W.load('iron-b1f', { x: 26, y: 13, dir: 'down' });
+  await cross('down', 'iron-b2f');
+  assert.deepEqual([W.player.x, W.player.y], [3, 4]);
+  // The first grunt blocks the way to the second.
+  W.load('iron-b2f', { x: 3, y: 13, dir: 'down' });
+  assert.equal(step(W, 'down'), 'blocked', 'the first grunt');
+  W.interact();
+  await until(() => F.flag('iron-grunt1') && !W.locked);
+  assert.equal(step(W, 'down'), 'moved', 'he has run');
+  fights.splice(0);
+  // With six Eggs carried, Riley waits; with room, he gives the Riolu Egg.
+  const full = [];
+  while (D.eggs().length < D.MAX_EGGS) { const e = D.egg(172); D.eggs().push(e); full.push(e); }
+  W.load('iron-b2f', { x: 6, y: 16, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => F.flag('riley-done') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['grunt-iron2']);
+  assert.ok(!F.flag('riolu-egg') && F.flag('riley-egg-wait'), 'no room for it');
+  D.eggs().splice(0);
+  W.load('iron-b2f', { x: 13, y: 16, dir: 'right' });
+  W.interact();
+  await until(() => F.flag('riolu-egg') && !W.locked);
+  assert.equal(D.eggs().length, 1);
+  assert.equal(D.eggs()[0].mon.sp, 447, 'Riolu');
+  // Back by boat: the Gym is open, and Byron gives the Mine Badge.
+  W.load('iron-island', { x: 11, y: 17, dir: 'right' });
+  W.interact();
+  await until(() => W.map.id === 'canalave' && !W.locked);
+  assert.deepEqual([W.player.x, W.player.y], [12, 23]);
+  W.load('canalave', 'gym-door');
+  await cross('up', 'canalave-gym');
+  W.load('canalave-gym', { x: 7, y: 4, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('chapter-51-done') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['byron']);
+  assert.ok(S.player.badges.includes(30));
+  assert.equal(F.obeyCap('sinnoh'), 60);
+  assert.equal(F.count('tm91'), 1);
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

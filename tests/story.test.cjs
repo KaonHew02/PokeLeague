@@ -908,6 +908,38 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Barry in Canalave and Byron (chapter 51), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  // Barry's team depends on the starter you took (canalave.js).
+  const barry = team => trainerRate(G, { id: 'barry', name: 'Barry', team });
+  const vsTurtwig = barry([['staraptor', 36], ['floatzel', 35], ['heracross', 37], ['rapidash', 35], ['torterra', 38]]);
+  const vsChimchar = barry([['staraptor', 36], ['floatzel', 35], ['heracross', 37], ['roserade', 35], ['infernape', 38]]);
+  const vsPiplup = barry([['staraptor', 36], ['roserade', 35], ['heracross', 37], ['rapidash', 35], ['empoleon', 38]]);
+  const vsBarry = {
+    'empoleon 42 + luxray 40': vsTurtwig([[395, 42], [405, 40]]), 'torterra 42 + luxray 40': vsChimchar([[389, 42], [405, 40]]),
+    'infernape 42 + luxray 40': vsPiplup([[392, 42], [405, 40]]),
+    'empoleon 42 + luxray 40 + staraptor 40': vsTurtwig([[395, 42], [405, 40], [398, 40]]),
+    'torterra 42 + luxray 40 + staraptor 40': vsChimchar([[389, 42], [405, 40], [398, 40]]),
+    'infernape 42 + luxray 40 + staraptor 40': vsPiplup([[392, 42], [405, 40], [398, 40]])
+  };
+  console.log('[balance] vs Barry in Canalave:', JSON.stringify(vsBarry));
+  const rate = leaderRate(G, 'canalave-gym', 'byron');
+  const TORTERRA = [389, 44, ['earthquake', 'crunch', 'grass-knot', 'leech-seed']], INFERNAPE = [392, 44, ['flame-wheel', 'close-combat', 'mach-punch', 'grass-knot']];
+  const EMPOLEON = [395, 44, ['surf', 'grass-knot', 'metal-claw', 'swagger']];
+  const table = {
+    'torterra 44': rate([TORTERRA]), 'infernape 44': rate([INFERNAPE]), 'empoleon 44': rate([EMPOLEON]),
+    'torterra + luxray 42': rate([TORTERRA, [405, 42]]), 'infernape + luxray 42': rate([INFERNAPE, [405, 42]]), 'empoleon + luxray 42': rate([EMPOLEON, [405, 42]]),
+    'torterra + luxray 42 + staraptor 42': rate([TORTERRA, [405, 42], [398, 42]]),
+    'infernape + luxray 42 + staraptor 42': rate([INFERNAPE, [405, 42], [398, 42]]),
+    'empoleon + luxray 42 + staraptor 42': rate([EMPOLEON, [405, 42], [398, 42]])
+  };
+  console.log('[balance] vs Byron:', JSON.stringify(table));
+  // Platinum's teams are fair at these levels. Barry has five Pokémon, so a pair struggles and a team of three wins.
+  for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 42 + luxray 40 + staraptor 40'] >= 0.6, k + ' with two friends');
+  // Byron: Earthquake and Surf make short work of him; Infernape, weak to his Ground and Rock moves, likes friends.
+  for (const k of ['torterra', 'infernape', 'empoleon']) assert.ok(table[k + ' + luxray 42 + staraptor 42'] >= 0.8, k + ' with two friends');
+});
+
 test('balance: Cyrus in the Celestic Ruins (chapter 50), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = leaderRate(G, 'celestic-ruins', 'cyrus');
@@ -3809,6 +3841,65 @@ async function chapter50(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 51 after chapter 50: Route 218, Canalave City and Barry, Iron Island with Riley, the Riolu Egg, Byron. */
+async function chapter51(st) {
+  const { G, S } = st;
+  const F = G.Field, D = G.DayCare;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async (mapId, skip = []) => {
+    for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader' && !skip.includes(t.id))) { await fight(mapId, t.id); won(); }
+  };
+  const starter = () => lead(st, S.party.some(m => m.sp === 392) ? 392 : 391);
+  // Jubilife's road west opened after chapter 50.
+  assert.ok(!F.test(G.Maps.get('jubilife').npcs.find(p => p.id === 'west').if), 'Route 218 is open');
+  starter();
+  await all('route218');
+  // Canalave City: Barry on the bridge. The Gym is shut.
+  grind(st, 'route218', 44, 500);
+  starter();
+  F.healAll();
+  await run(st, 'canalave', 'canalave.barry');
+  assert.equal(last().key, 'canalave:barry-canalave');
+  won();
+  console.log('[story] Barry in Canalave:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('barry-canalave'));
+  const door = G.Maps.get('canalave').warps.find(w => w.to === 'canalave-gym');
+  assert.ok(!F.test(door.if), 'the Gym is shut');
+  // Iron Island: Riley comes along; the grunts at the bottom; the Riolu Egg.
+  await run(st, 'canalave', 'canalave.sailor', [0]);
+  await all('iron-b1f');
+  await run(st, 'iron-b1f', 'iron.riley');
+  assert.ok(F.flag('riley-with'));
+  await all('iron-b2f', ['grunt-iron1', 'grunt-iron2']);
+  await fight('iron-b2f', 'grunt-iron1');
+  won();
+  assert.ok(F.flag('iron-grunt1'));
+  const eggs = D.eggs().length;
+  await fight('iron-b2f', 'grunt-iron2');
+  won();
+  assert.ok(F.flag('riley-done') && F.flag('riolu-egg') && F.test(door.if), 'the egg, and the Gym is open');
+  assert.equal(D.eggs().length, eggs + 1);
+  assert.equal(D.eggs()[eggs].mon.sp, 447, 'Riolu');
+  await run(st, 'iron-island', 'iron.sailor', [0]);
+  // Byron's Gym.
+  await all('canalave-gym');
+  F.healAll();
+  const money = S.player.money, tms = F.count('tm91');
+  await run(st, 'canalave-gym', [['battle', 'canalave-gym:byron']]);
+  won();
+  console.log('[story] Byron:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(S.player.badges.includes(30), 'the Mine Badge');
+  assert.equal(F.obeyCap('sinnoh'), 60, 'six Sinnoh badges: up to Lv. 60');
+  assert.equal(F.count('tm91'), tms + 1);
+  assert.equal(S.player.money - money, 100 * Math.max(...G.Maps.get('canalave-gym').trainers.find(t => t.id === 'byron').team.map(t => t[1])));
+  assert.ok(F.flag('chapter-51-done'));
+  const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
+  assert.ok(back.player.badges.includes(30), 'the save keeps the Mine Badge');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3890,7 +3981,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 50: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to Celestic Town", async () => {
+test("chapters 11 to 51: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its sixth Gym", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3942,4 +4033,5 @@ test("chapters 11 to 50: Johto, from Professor Elm to Johto's League and its pos
   await chapter48(st);
   await chapter49(st);
   await chapter50(st);
+  await chapter51(st);
 });

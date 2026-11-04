@@ -28,7 +28,7 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -299,6 +299,11 @@ G.People = (() => {
     // Chapter 50: Cynthia (long blonde hair, a long black coat).
     cynthia: { head: 'long', body: 'coat', legs: 'pants', h: '#f0dc88', H: '#c4ac58', j: '#22222a', J: '#121218', c: '#3a3a44', C: '#24242c',
                p: '#22222a', P: '#121218', k: '#121218' },
+    // Chapter 51: Byron (a miner's helmet like his son's, in red, a brown jacket), Riley (a dark hat, a long blue coat).
+    byron: { head: 'cap', body: 'jacket', legs: 'pants', a: '#c8403a', A: '#982c28', b: '#982c28', h: '#6a4228', H: '#4a2c18', j: '#7a5230', J: '#5a3a20', c: '#e8d8b0', C: '#c0b088',
+             p: '#3a3a4a', P: '#262632', k: '#2a2020' },
+    riley: { head: 'hat', body: 'coat', legs: 'pants', a: '#2a2a3a', A: '#16161e', b: '#4a6ac8', h: '#2a2028', H: '#160e14', j: '#2a4a8a', J: '#1c3268', c: '#e8e8f0', C: '#b8b8c4',
+             p: '#2a2a3a', P: '#16161e', k: '#16161e' },
     glacia: { head: 'long', body: 'dress', legs: 'bare', h: '#e8eef8', H: '#b8c4d8', c: '#6a8ad8', C: '#4a68b0', j: '#e8eef8', J: '#b8c4d8', k: '#4a68b0' },
     drake: { head: 'short', body: 'coat', legs: 'pants', h: '#d8d8e0', H: '#a8a8b4', j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0',
              p: '#2a3a6a', P: '#1c284a', k: '#1a1a22' },

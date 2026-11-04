@@ -49,5 +49,6 @@ G.I18n.add({
   "Jubilife City. The busiest city in Sinnoh, where people and Pokémon come together.": "Ciudad Jubileo. La ciudad más animada de Sinnoh, donde se reúnen personas y Pokémon.",
   "Trainer Tips: the Oreburgh Gym is east of here, past Route 203 and Oreburgh Gate.": "Consejos de Entrenador: el Gimnasio de Ciudad Pirita está al este, pasados la Ruta 203 y la Puerta Pirita.",
   "The blackboard says: \"Some Pokémon evolve when they level up holding an item, some only by day or only by night, and some once they know a certain move.\"": "La pizarra dice: «Algunos Pokémon evolucionan al subir de nivel con un objeto equipado, otros solo de día o solo de noche, y otros cuando conocen cierto movimiento».",
-  "The blackboard says: \"The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve.\"": "La pizarra dice: «La Piedra Día, la Piedra Noche y la Piedra Alba hacen evolucionar a ciertos Pokémon»."
+  "The blackboard says: \"The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve.\"": "La pizarra dice: «La Piedra Día, la Piedra Noche y la Piedra Alba hacen evolucionar a ciertos Pokémon».",
+  "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "No salen barcos a Ciudad Canal, y hoy el mar de la Ruta 218 está demasiado agitado. Mejor vuelve otro día."
 }, "es");

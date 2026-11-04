@@ -145,5 +145,8 @@ G.I18n.add({
   "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Merci d'avoir joué ! Le Lac Courage et Célestia arriveront dans une prochaine mise à jour.",
   "Chapter 50 complete!": "Chapitre 50 terminé !",
   "{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.": "{player} a guéri les Psykokwak avec la Potion Secrète de Cynthia, a traversé le brouillard de la Route 210, a affronté Hélio dans les ruines de Célestia et a rapporté le Vieux Grigri chez lui.",
-  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Merci d'avoir joué ! Joliberges et l'Île de Fer arriveront dans une prochaine mise à jour."
+  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Merci d'avoir joué ! Joliberges et l'Île de Fer arriveront dans une prochaine mise à jour.",
+  "Chapter 51 complete!": "Chapitre 51 terminé !",
+  "{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.": "{player} a traversé la mer jusqu'à Joliberges, a battu Barry sur le pont, a chassé la Team Galaxie de l'Île de Fer avec Armand et a gagné le Badge Mine de Charles.",
+  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Merci d'avoir joué ! La Team Galaxie à Voilaroc et Frimapic arriveront dans une prochaine mise à jour."
 }, "fr");

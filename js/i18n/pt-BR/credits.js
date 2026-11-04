@@ -145,5 +145,8 @@ G.I18n.add({
   "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Obrigado por jogar! O Lake Valor e Celestic chegam em uma próxima atualização.",
   "Chapter 50 complete!": "Capítulo 50 concluído!",
   "{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.": "{player} curou os Psyduck com a Secret Potion de Cynthia, atravessou a neblina da Rota 210, enfrentou Cyrus nas ruínas de Celestic e levou o Old Charm para casa.",
-  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Obrigado por jogar! Canalave e Iron Island chegam em uma próxima atualização."
+  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Obrigado por jogar! Canalave e Iron Island chegam em uma próxima atualização.",
+  "Chapter 51 complete!": "Capítulo 51 concluído!",
+  "{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.": "{player} atravessou o mar até Canalave, venceu Barry na ponte, expulsou a Equipe Galáctica de Iron Island com Riley e conquistou a Insígnia Mina de Byron.",
+  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Obrigado por jogar! A Equipe Galáctica em Veilstone e Snowpoint chegam em uma próxima atualização."
 }, "pt-BR");

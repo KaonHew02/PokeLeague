@@ -92,7 +92,7 @@
       'T....,...........,,......,.....ff..T',
       'T....,...........,,......,.........T',
       'T....,.........S.,,......,.........T',
-      'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+      ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
       'T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
       'T................,,................T',
       'T..BBBBBB........,,..CCCCC.........T',
@@ -110,7 +110,7 @@
       'T................,,................T',
       'TTTTTTTTTTTTTTTTT,,TTTTTTTTTTTTTTTTT'
     ],
-    connect: { south: { map: 'route202', offset: 8 }, east: { map: 'route203', offset: 7 }, north: { map: 'route204s', offset: 8 } },
+    connect: { south: { map: 'route202', offset: 8 }, east: { map: 'route203', offset: 7 }, north: { map: 'route204s', offset: 8 }, west: { map: 'route218', offset: 6 } },
     warps: [
       { x: 5, y: 6, locked: 'jubilife.tv' },
       { x: 25, y: 7, locked: 'jubilife.poketch' },
@@ -127,6 +127,9 @@
     triggers: [{ x: 1, y: 26, w: 34, h: 1, if: '!galactic-jubilife', script: 'jubilife.galactic' }],
     npcs: [
       // Route 204 opens with the Coal Badge (chapter 46, floaroma.js).
+      // Route 218 opens after chapter 50, so that nobody reaches Canalave City's story early.
+      { id: 'west', who: 'sailor', x: 1, y: 13, dir: 'right', if: '!chapter-50-done',
+        say: 'The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.' },
       { id: 'worker', who: 'engineer', x: 17, y: 1, dir: 'down', if: '!badge:25',
         say: 'Rocks came down on the path to Route 204. We are clearing them, but it will take a while!' },
       // Team Galactic and the assistant, until you step in.

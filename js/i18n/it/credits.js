@@ -145,5 +145,8 @@ G.I18n.add({
   "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Grazie per aver giocato! Il Lago Valore e Memoride arriveranno in un prossimo aggiornamento.",
   "Chapter 50 complete!": "Capitolo 50 completato!",
   "{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.": "{player} ha curato gli Psyduck con la Pozione Segreta di Camilla, ha attraversato la nebbia del Percorso 210, ha affrontato Cyrus nelle rovine di Memoride e ha riportato a casa l'Arcamuleto.",
-  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Grazie per aver giocato! Canalipoli e l'Isola Ferrosa arriveranno in un prossimo aggiornamento."
+  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "Grazie per aver giocato! Canalipoli e l'Isola Ferrosa arriveranno in un prossimo aggiornamento.",
+  "Chapter 51 complete!": "Capitolo 51 completato!",
+  "{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.": "{player} ha attraversato il mare fino a Canalipoli, ha battuto Barry sul ponte, ha cacciato il Team Galassia dall'Isola Ferrosa con Marisio e ha ottenuto la Medaglia Miniera da Ferruccio.",
+  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Grazie per aver giocato! Il Team Galassia a Rupepoli e Nevepoli arriveranno in un prossimo aggiornamento."
 }, "it");

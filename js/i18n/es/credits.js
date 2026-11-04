@@ -145,5 +145,8 @@ G.I18n.add({
   "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "¡Gracias por jugar! El Lago Valor y Pueblo Caelestis llegarán en una próxima actualización.",
   "Chapter 50 complete!": "¡Capítulo 50 completado!",
   "{player} cured the Psyduck with Cynthia's Secret Potion, crossed the fog of Route 210, faced Cyrus in the ruins of Celestic Town and brought the Old Charm home.": "{player} curó a los Psyduck con la Poción Secreta de Cintia, cruzó la niebla de la Ruta 210, se enfrentó a Helio en las ruinas de Pueblo Caelestis y devolvió el Talismán a su hogar.",
-  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "¡Gracias por jugar! Ciudad Canal y la Isla Hierro llegarán en una próxima actualización."
+  "Thank you for playing! Canalave City and Iron Island wait in a future update.": "¡Gracias por jugar! Ciudad Canal y la Isla Hierro llegarán en una próxima actualización.",
+  "Chapter 51 complete!": "¡Capítulo 51 completado!",
+  "{player} crossed the sea to Canalave City, beat Barry on the bridge, drove Team Galactic out of Iron Island with Riley and earned the Mine Badge from Byron.": "{player} cruzó el mar hasta Ciudad Canal, venció a Barry en el puente, expulsó al Equipo Galaxia de la Isla Hierro junto a Quinoa y ganó la Medalla Mina de Acerón.",
+  "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "¡Gracias por jugar! El Equipo Galaxia en Ciudad Rocavelo y Ciudad Puntaneva llegarán en una próxima actualización."
 }, "es");

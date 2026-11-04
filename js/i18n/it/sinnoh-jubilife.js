@@ -49,5 +49,6 @@ G.I18n.add({
   "Jubilife City. The busiest city in Sinnoh, where people and Pokémon come together.": "Giubilopoli. La città più vivace di Sinnoh, dove persone e Pokémon si incontrano.",
   "Trainer Tips: the Oreburgh Gym is east of here, past Route 203 and Oreburgh Gate.": "Consigli per Allenatori: la Palestra di Mineropoli è a est, oltre il Percorso 203 e il Varco Mineropoli.",
   "The blackboard says: \"Some Pokémon evolve when they level up holding an item, some only by day or only by night, and some once they know a certain move.\"": "La lavagna dice: «Alcuni Pokémon si evolvono salendo di livello con uno strumento, altri solo di giorno o solo di notte, altri quando conoscono una certa mossa».",
-  "The blackboard says: \"The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve.\"": "La lavagna dice: «La Pietrabrillo, la Neropietra e la Pietralbore fanno evolvere certi Pokémon»."
+  "The blackboard says: \"The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve.\"": "La lavagna dice: «La Pietrabrillo, la Neropietra e la Pietralbore fanno evolvere certi Pokémon».",
+  "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "Le barche per Canalipoli non partono, e oggi il mare del Percorso 218 è troppo mosso. Meglio tornare un'altra volta."
 }, "it");

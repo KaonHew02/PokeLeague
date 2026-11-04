@@ -49,5 +49,6 @@ G.I18n.add({
   "Jubilife City. The busiest city in Sinnoh, where people and Pokémon come together.": "Féli-Cité. La ville la plus animée de Sinnoh, où humains et Pokémon se rencontrent.",
   "Trainer Tips: the Oreburgh Gym is east of here, past Route 203 and Oreburgh Gate.": "Conseil aux Dresseurs : l'Arène de Charbourg est à l'est, après la Route 203 et l'Entrée Charbourg.",
   "The blackboard says: \"Some Pokémon evolve when they level up holding an item, some only by day or only by night, and some once they know a certain move.\"": "Le tableau dit : « Certains Pokémon évoluent en montant de niveau avec un objet tenu, d'autres seulement le jour ou seulement la nuit, d'autres une fois qu'ils connaissent une certaine capacité. »",
-  "The blackboard says: \"The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve.\"": "Le tableau dit : « La Pierre Éclat, la Pierre Nuit et la Pierre Aube font chacune évoluer certains Pokémon. »"
+  "The blackboard says: \"The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve.\"": "Le tableau dit : « La Pierre Éclat, la Pierre Nuit et la Pierre Aube font chacune évoluer certains Pokémon. »",
+  "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "Les bateaux pour Joliberges ne partent pas, et la mer de la Route 218 est trop agitée aujourd'hui. Reviens une autre fois."
 }, "fr");

@@ -71,7 +71,7 @@ G.I18n.add({
   "On a good day you can ski from here all the way to the lake.": "Num dia bom dá para esquiar daqui até o lago.",
   "Lexie": "Lexie",
   "This is my mountain. Lost in the snow? Too bad!": "Esta montanha é minha. Perdeu-se na neve? Que pena!",
-  "Eevee turn into Glaceon near a certain icy rock on this road.": "Os Eevee viram Glaceon perto de uma certa pedra gelada desta estrada.",
+  "Glaceon can freeze the air around it. It is the perfect friend for a long winter.": "O Glaceon consegue congelar o ar ao redor. É o amigo perfeito para um longo inverno.",
   "Bjorn": "Bjorn",
   "Nobody comes up here! Finally, somebody to battle!": "Ninguém vem até aqui! Finalmente alguém para batalhar!",
   "I should have asked you to wait a bit.": "Eu devia ter pedido para você esperar um pouco.",

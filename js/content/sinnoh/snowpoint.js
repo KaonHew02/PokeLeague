@@ -224,7 +224,7 @@
       { id: 'lexie', who: 'skier', cls: 'skier', name: 'Lexie', x: 5, y: 22, dir: 'right', sight: 3, team: [['piloswine', 37], ['glaceon', 37]],
         before: 'This is my mountain. Lost in the snow? Too bad!',
         defeat: 'Now I am the one who is lost.',
-        after: 'Eevee turn into Glaceon near a certain icy rock on this road.' },
+        after: 'Glaceon can freeze the air around it. It is the perfect friend for a long winter.' },
       { id: 'bjorn', who: 'boarder', cls: 'skier-m', name: 'Bjorn', x: 21, y: 5, dir: 'left', sight: 3, team: [['swinub', 36], ['sneasel', 38]],
         before: 'Nobody comes up here! Finally, somebody to battle!',
         defeat: 'I should have asked you to wait a bit.',

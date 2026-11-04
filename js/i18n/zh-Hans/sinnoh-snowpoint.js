@@ -71,7 +71,7 @@ G.I18n.add({
   "On a good day you can ski from here all the way to the lake.": "天气好的时候，可以从这里一路滑到湖边。",
   "Lexie": "莱克西",
   "This is my mountain. Lost in the snow? Too bad!": "这是我的地盘。在雪里迷路了？真可惜！",
-  "Eevee turn into Glaceon near a certain icy rock on this road.": "伊布在这条路上某块冰冷的岩石旁边会进化成冰伊布。",
+  "Glaceon can freeze the air around it. It is the perfect friend for a long winter.": "冰伊布能把周围的空气冻住。漫长的冬天有它陪伴最好不过了。",
   "Bjorn": "比约恩",
   "Nobody comes up here! Finally, somebody to battle!": "这里从来没人来！终于有对手了！",
   "I should have asked you to wait a bit.": "早知道就让你等一下了。",

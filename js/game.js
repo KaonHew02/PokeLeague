@@ -142,7 +142,7 @@ G.Game = (() => {
       const sky = c.createLinearGradient(0, 0, 0, v.h);
       sky.addColorStop(0, '#2c5fb8'); sky.addColorStop(0.55, '#8fc2f0'); sky.addColorStop(0.62, '#5aa84a'); sky.addColorStop(1, '#2f6e2f');
       c.fillStyle = sky; c.fillRect(0, 0, v.w, v.h);
-      const k = Math.max(1, Math.round(G.Camera.scale));
+      const k = Math.max(1, Math.round(G.Camera.base));
       walkers.sort((p, q) => p.y - q.y);
       for (const m of walkers) {
         const x = m.x * v.w, y = m.y * v.h;

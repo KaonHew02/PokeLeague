@@ -1,14 +1,15 @@
 /* ============ battle.css — battle HUD, text box and menus (battle-ui.js) ============
- * Everything sits in #frame over the battle canvas; 1em follows the frame width.
+ * Everything sits in #frame over the battle canvas; 1em follows --cw (base.css).
  * Layout (fractions of the frame): foe box top-left, your box right above the
  * text box, the text box along the bottom, menus on the right of the text box.
+ * Boxes take their width from --cw, so they keep their size on a wide phone.
  */
 .scr.battle-scr { padding: 0; display: block; pointer-events: none; animation: none; }
 .battle-scr > * { pointer-events: auto; }
 
 /* ---------- Pokémon boxes ---------- */
 .bt-box {
-  position: absolute; width: 44%;
+  position: absolute; width: calc(var(--cw) * .44);
   padding: .35em .6em .4em; border-radius: .5em;
   background: linear-gradient(180deg, #f8f6e8, #e2dcc4);
   border: .14em solid #3a3428; box-shadow: .18em .18em 0 rgba(0,0,0,.35);
@@ -16,15 +17,15 @@
   transition: opacity .25s, transform .25s;
 }
 .bt-box.out { opacity: 0; transform: translateX(-.8em); }
-.bt-foe { left: 3%; top: 5%; }
-.bt-me { right: 3%; top: 49%; }
+.bt-foe { left: max(3%, var(--sl)); top: 5%; }
+.bt-me { right: max(3%, var(--sr)); top: 49%; }
 .bt-me.out { transform: translateX(.8em); }
 /* Doubles (chapter 40): two smaller boxes a side. */
-.battle-scr.double .bt-box { width: 36%; font-size: .64em; padding: .25em .5em .3em; }
+.battle-scr.double .bt-box { width: calc(var(--cw) * .36); font-size: .64em; padding: .25em .5em .3em; }
 .battle-scr.double .bt-foe { top: 3%; }
-.battle-scr.double .bt-foe2 { left: 3%; top: 12.5%; }
+.battle-scr.double .bt-foe2 { left: max(3%, var(--sl)); top: 12.5%; }
 .battle-scr.double .bt-me { top: 48%; }
-.battle-scr.double .bt-me2 { right: 3%; top: 60.5%; }
+.battle-scr.double .bt-me2 { right: max(3%, var(--sr)); top: 60.5%; }
 .battle-scr.double .bt-me2.out { transform: translateX(.8em); }
 .bt-name { display: flex; align-items: baseline; gap: .35em; font-weight: 700; }
 .bt-name .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -46,18 +47,18 @@
 /* ---------- text box and menus ---------- */
 .bt-text {
   position: absolute; left: 0; right: 0; bottom: 0; height: 27%;
-  padding: .5em .8em; box-sizing: border-box;
+  padding: .5em max(.8em, var(--sr)) max(.5em, var(--sb)) max(.8em, var(--sl)); box-sizing: border-box;
   background: linear-gradient(180deg, #2c519f, #1a3170); border-top: .19em solid var(--edge);
   box-shadow: inset 0 0 0 .12em var(--edge-in);
   font-size: .95em; line-height: 1.3; text-shadow: .1em .1em 0 var(--shadow);
   cursor: pointer;
 }
-.bt-text .more { position: absolute; right: .8em; bottom: .4em; width: 0; height: 0;
+.bt-text .more { position: absolute; right: max(.8em, var(--sr)); bottom: max(.4em, var(--sb)); width: 0; height: 0;
   border: .35em solid transparent; border-top-color: #fff; border-bottom: 0; animation: bt-blink .6s steps(2) infinite; }
 @keyframes bt-blink { 50% { opacity: 0; } }
 .bt-menu {
-  position: absolute; right: 0; bottom: 0; height: 27%; width: 46%;
-  display: grid; grid-template-columns: 1fr 1fr; gap: .2em; padding: .35em;
+  position: absolute; right: 0; bottom: 0; height: 27%; width: calc(var(--cw) * .46 + var(--sr));
+  display: grid; grid-template-columns: 1fr 1fr; gap: .2em; padding: .35em max(.35em, var(--sr)) max(.35em, var(--sb)) .35em;
   background: #f8f6e8; border: .19em solid #3a3428; border-bottom: 0; border-right: 0; border-radius: .5em 0 0 0;
 }
 .bt-menu .menu-item, .bt-moves .menu-item { color: #2a2620; text-shadow: none; font-size: .9em; padding: .1em .3em .1em 1.2em; }
@@ -66,7 +67,8 @@
 .bt-moves .menu-item.pad-focus, .bt-moves .menu-item:hover { background: rgba(0,0,0,.08); }
 .bt-moves {
   position: absolute; left: 0; right: 0; bottom: 0; height: 27%;
-  display: grid; grid-template-columns: 1fr 1fr 34%; grid-template-rows: 1fr 1fr; gap: .15em .3em; padding: .3em .5em;
+  display: grid; grid-template-columns: 1fr 1fr 34%; grid-template-rows: 1fr 1fr; gap: .15em .3em;
+  padding: .3em max(.5em, var(--sr)) max(.3em, var(--sb)) max(.5em, var(--sl));
   background: #f8f6e8; border-top: .19em solid #3a3428; color: #2a2620;
 }
 .bt-moves .menu-item { border-left: .3em solid var(--t, #999); border-radius: .2em; }
@@ -77,7 +79,7 @@
 .bt-back { position: absolute; right: .4em; top: .4em; }
 
 /* lists over the scene: bag, party, forget-a-move */
-.bt-list { position: absolute; right: 3%; top: 5%; bottom: 30%; width: 56%; display: flex; flex-direction: column;
+.bt-list { position: absolute; right: max(3%, var(--sr)); top: 5%; bottom: 30%; width: calc(var(--cw) * .56); display: flex; flex-direction: column;
   padding: .45em .55em; font-size: .85em; }
 .bt-list h4 { margin: 0 0 .3em; font-size: .95em; }
 .bt-list .menu-list { overflow: auto; flex: 1; }
@@ -88,9 +90,10 @@
 .bt-list .menu-item .mini i { display: block; height: 100%; background: #3ec85a; }
 .bt-list .menu-item .mini i.mid { background: #f0c020; } .bt-list .menu-item .mini i.low { background: #f04030; }
 .bt-list .menu-item.fainted { opacity: .55; }
-.bt-yesno { position: absolute; right: 3%; bottom: 30%; width: 22%; padding: .4em .5em; }
+.bt-yesno { position: absolute; right: max(3%, var(--sr)); bottom: 30%; width: calc(var(--cw) * .22); padding: .4em .5em; }
 
 /* ---------- evolution text box ---------- */
-.evo-text { position: absolute; left: 0; right: 0; bottom: 0; height: 22%; padding: .5em .8em;
+.evo-text { position: absolute; left: 0; right: 0; bottom: 0; height: 22%;
+  padding: .5em max(.8em, var(--sr)) max(.5em, var(--sb)) max(.8em, var(--sl));
   background: linear-gradient(180deg, #2c519f, #1a3170); border-top: .19em solid var(--edge);
   font-size: .95em; text-shadow: .1em .1em 0 var(--shadow); z-index: 60; }

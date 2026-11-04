@@ -2,9 +2,10 @@
  * Blue boxes with a double white border, like PMD's menus (from PokéGo), and
  * a local pixel font (Pixelify Sans, OFL).
  *
- * Everything lives in #frame, a 3:2 box that scales with the window. Inside
- * it 1em follows the frame's width (container units), so menus grow with
- * the game like the pixel art does.
+ * Everything lives in #frame, which fills the window (at least 3:2, so a phone
+ * held upright keeps a wide game; at most 2.4:1). Inside it 1em follows
+ * --cw, the width of a 3:2 box of the frame's height, so menus grow with the
+ * game like the pixel art does and keep their size on a wide phone.
  */
 /* Pixelify Sans with redrawn digits (from PokéGo's tools/make_font.py). */
 @font-face {
@@ -33,6 +34,14 @@
   --green: #5fe08a;
   --shadow: #0a1430;
   --font: 'Pixelify', 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+  /* For use inside #frame: container units on #frame itself would measure the window. */
+  --cw: min(100cqw, 150cqh);
+  /* The notch and the home bar: the map runs under them, the interface stays clear. */
+  --sl: 0px; --sr: 0px; --sb: 0px;
+}
+/* Only sideways: upright, the frame sits in the middle, far from them. */
+@media (orientation: landscape) {
+  :root { --sl: env(safe-area-inset-left, 0px); --sr: env(safe-area-inset-right, 0px); --sb: env(safe-area-inset-bottom, 0px); }
 }
 :root:lang(zh-Hant) { --font: 'Pixelify', 'Segoe UI', system-ui, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans CJK TC', sans-serif; }
 
@@ -58,22 +67,23 @@ input { font: inherit; }
   position: fixed;
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  width: min(100vw, 150vh);
-  width: min(100vw, 150dvh);
-  aspect-ratio: 3 / 2;
+  width: min(100vw, 240vh);
+  height: min(100vh, 66.667vw);
+  width: min(100vw, 240dvh);
+  height: min(100dvh, 66.667vw);
   overflow: hidden;
   background: #000;
   container-type: size;
 }
-/* On the children: container units on #frame itself would measure the window. */
-#frame > * { font-size: clamp(10px, 3.4cqw, 30px); }
+#frame > * { font-size: clamp(10px, calc(var(--cw) * .034), 30px); }
 #game { display: block; position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
 
 /* ---------- screens ---------- */
 .scr {
   position: absolute; inset: 0; z-index: 20;
   display: flex; align-items: center; justify-content: center;
-  padding: 4%;
+  --pad: calc(var(--cw) * .04);
+  padding: var(--pad) max(var(--pad), var(--sr)) max(var(--pad), var(--sb)) max(var(--pad), var(--sl));
   animation: fade .18s ease-out;
 }
 .scr.dim { background: radial-gradient(circle at 50% 40%, rgba(10,20,50,.55), rgba(3,6,16,.88)); }
@@ -177,8 +187,8 @@ input { font: inherit; }
   text-shadow: .06em .06em 0 #a55f00, .12em .12em 0 var(--shadow);
 }
 .title-logo .t2 { margin-top: .35em; color: #fff; text-shadow: .1em .1em 0 var(--shadow); font-size: .9em; }
-.title-menu { min-width: 40%; padding: .5em .7em; }
-.title-foot { position: absolute; bottom: 1.5%; left: 0; right: 0; margin: 0; text-align: center; font-size: .6em; color: #eaf2ff; text-shadow: .12em .12em 0 #000; }
+.title-menu { min-width: calc(var(--cw) * .4); padding: .5em .7em; }
+.title-foot { position: absolute; bottom: max(1.5%, var(--sb)); left: 0; right: 0; margin: 0; text-align: center; font-size: .6em; color: #eaf2ff; text-shadow: .12em .12em 0 #000; }
 .credits { max-width: 92%; font-size: .8em; }
 
 /* ---------- loading and "tap to start" (full window, over everything) ---------- */

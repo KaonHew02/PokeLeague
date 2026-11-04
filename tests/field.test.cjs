@@ -26,7 +26,7 @@ function world(extra = []) {
   ctx.document = { getElementById: () => el(), createElement: () => el() };
   Object.assign(G, {
     WorldRender: { prepare() {}, draw() {} },
-    Camera: { snap() {}, w: 480, h: 320, scale: 1, left: () => 0, top: () => 0 },
+    Camera: { snap() {}, fitRoom() {}, w: 480, h: 320, scale: 1, left: () => 0, top: () => 0 },
     Audio: { sfx() {}, music() {}, jingle: () => Promise.resolve() },
     Dialog: { open: false, tick() {}, say: () => Promise.resolve(), ask: () => Promise.resolve(0) },
     UI: { toast() {}, anyOpen: () => false, closeAll() {} },

@@ -12,7 +12,7 @@
 .icon-btn svg { width: 100%; height: 100%; }
 .icon-btn:hover { filter: brightness(1.15); }
 .icon-btn.off { color: #ffb0b8; }
-.title-mute { position: absolute; top: 3%; right: 2.5%; }
+.title-mute { position: absolute; top: 3%; right: max(2.5%, var(--sr)); }
 
 /* ---------- chips (choices) and switches ---------- */
 .chips { display: flex; flex-wrap: wrap; gap: .3em; }
@@ -79,7 +79,7 @@ kbd {
 
 /* ---------- popups (popup.js) ---------- */
 .scr.pop-scr { background: rgba(3,6,16,.35); }
-.box.pop { min-width: 40%; max-width: 80%; padding: .6em .9em; }
+.box.pop { min-width: calc(var(--cw) * .4); max-width: 80%; padding: .6em .9em; }
 .pop-t { margin: 0 0 .4em !important; white-space: pre-line; }
 .pop-say p { white-space: pre-line; }
 .scr.pop-right { justify-content: flex-end; }
@@ -110,8 +110,8 @@ kbd {
 .slots-foot { margin-top: .4em; }
 
 /* ---------- start menu ---------- */
-.scr.start-scr { justify-content: flex-end; align-items: flex-start; padding: 2.5% 2.5%; }
-.box.start-box { min-width: 30%; padding: .45em .5em; }
+.scr.start-scr { justify-content: flex-end; align-items: flex-start; --pad: calc(var(--cw) * .025); }
+.box.start-box { min-width: calc(var(--cw) * .3); padding: .45em .5em; }
 .start-box .menu-item { font-size: 1em; padding-top: .2em; padding-bottom: .2em; }
 
 /* ---------- trainer card ---------- */

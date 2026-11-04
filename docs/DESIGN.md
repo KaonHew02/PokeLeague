@@ -48,15 +48,20 @@ in the same change.
 | `G.Pad` | the controller; feeds `G.Btn`. There are **no on-screen buttons**: phones play by tapping (see section 4) |
 | `G.Offline` | offline play: `init()` registers `sw.js` (published `index.html` only, never `dev.html` or file://); `status()` → null or `{ state: checking/missing/loading/ready/failed, done, total }`; `check()` counts the cached sprites again (Settings calls it); `download()` fetches every sprite sheet the cache lacks; `on(fn)`; `spriteUrls()`. Opened from the Home Screen it downloads by itself. `sw.js` keeps the shell (the list `tools/build.js` writes into it) in `pokeleague-shell-<build>` and sprites in `pokeleague-sprites-<sprites-meta hash>`; the page comes from the network first, the cache when offline. `manifest.json` and `assets/icons/` (from `tools/make_icons.js`) make it a Home Screen app |
 | `G.Sprites` | `PX=2, Animator(dex, scale, shiny)` with `.dir .loop(anim) .play(anim, {hold}) .update(dt) .draw(ctx, x, y, {flash, softFlash, alpha})`; also `preload(dexes)`, `drawShadow`, `bodyHeight`, `DIR4`, `hasShiny`. Rows: 0 Down … 3 UpRight … 7 DownLeft |
-| `G.Camera` | `VIEW_W=480, VIEW_H=320` (15×10 tiles of 32), `resize, snap(x,y), follow, kick, apply(ctx), left(), top(), sees()` |
+| `G.Camera` | `VIEW_W=480, VIEW_H=320` (at least 15×10 tiles of 32; a wider screen sees more to the sides), `resize, fitRoom(w, h), snap(x,y), follow, kick, apply(ctx), left(), top(), sees()`. `scale` is what is drawn, `base` the scale without a room's zoom |
 | `G.Types` | `LIST, CHART, eff(atkType, defTypes), label(m)` |
 | `G.UI` | `open(id, {onBack, focus}), close(id), closeAll(), isOpen, anyOpen, top, toast(msg), typeChips(types), sprite(cv, dex, opts), spriteCanvas(...)` |
 | `G.Game` | `define(name, {enter, exit, update(dt, {ui}), render(ctx, view, dt)}), setMode(name, arg), mode, view {w, h, dpr}, canvas` |
 | `G.TitleUI` | `open()`. Continue and New game call `G.NewGame.continue()` / `.start()` (M5) |
 | `G.OptionsUI` | Settings like PokéGo's: `open(tab)` with tabs game (language, text speed, battle animations, battle style, follower), sound (music, effects, mute), controls (keyboard, mouse, phone, controller), display (full screen, less shaking); `close()`; `muteButton(el)` makes a quick mute toggle. The start menu (M5) opens it too |
 
-- **Frame:** `#frame` is a 3:2 box holding `<canvas id="game">` and every `.scr` screen.
-  Inside it, CSS `em` follows the frame width (container units).
+- **Frame:** `#frame` fills the window (from 3:2, so a phone held upright keeps a wide game, up to
+  2.4:1) and holds `<canvas id="game">` and every `.scr` screen. Inside it, CSS `em` follows `--cw`,
+  the width of a 3:2 box of the frame's height: fonts and battle boxes keep their size on a wide phone.
+  `--sl`, `--sr`, `--sb` are the notch and the home bar in landscape: the canvas runs under them, the
+  interface keeps clear of them. A battle spreads over the width (`feet()`), its platforms do not.
+- **Rooms:** an interior that fits whole in the normal 15×10 view is drawn bigger to fill the screen
+  (`G.Camera.fitRoom`, at most `MAX_ZOOM` = ×1.5). A bigger interior keeps the normal view and scrolls.
 - **Input:** while a DOM screen is open, `game.js` sends the buttons to `G.Nav`, and the
   mode's `update` gets `{ ui: true }`. A screen with `data-noinput` (for example a dialog
   box that reads `G.Btn` itself) is skipped by Nav.

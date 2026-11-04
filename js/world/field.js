@@ -413,15 +413,17 @@ G.World = (() => {
     safariHud();
   }
 
-  /** The camera follows the player; a small interior stays centred (no black above its walls). */
+  /** The camera follows the player; a small interior stays centred and fills the screen (no black above its walls). */
   function snapCamera() {
     if (!me) return;
     let x = me.wx, y = me.wy - 8;
     if (map && map.tileset !== 'outdoor') {
-      const W = map.w * TS, H = map.h * TS, vw = G.Camera.w, vh = G.Camera.h;
+      const W = map.w * TS, H = map.h * TS;
+      G.Camera.fitRoom(W, H);
+      const vw = G.Camera.w, vh = G.Camera.h;
       x = W <= vw ? W / 2 : G.U.clamp(x, vw / 2, W - vw / 2);
       y = H <= vh ? H / 2 : G.U.clamp(y, vh / 2, H - vh / 2);
-    }
+    } else G.Camera.fitRoom();
     G.Camera.snap(x, y);
   }
 

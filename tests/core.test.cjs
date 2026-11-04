@@ -3,6 +3,36 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { boot, CORE } = require('./helpers.cjs');
 
+test('the camera: a wide screen sees more; a room that fits whole fills the screen, without hiding any of it', () => {
+  const { G } = boot(CORE.concat('js/core/camera.js'));
+  const C = G.Camera, tile = 32;
+  C.resize(844, 390, 1);                                   // an iPhone held sideways
+  assert.equal(C.h, 320);
+  assert.ok(C.w > 15 * tile, 'more of the map to the sides');
+  const base = C.scale;
+  assert.equal(C.base, base);
+
+  C.fitRoom(11 * tile, 8 * tile);                          // the usual house: as tall as the screen
+  assert.equal(C.scale, 390 / (8 * tile));
+  assert.equal(C.h, 8 * tile);
+  assert.ok(C.w >= 11 * tile);
+
+  C.fitRoom(6 * tile, 5 * tile);                           // a lift: no bigger than MAX_ZOOM
+  assert.equal(C.scale, base * C.MAX_ZOOM);
+
+  C.fitRoom(13 * tile, 12 * tile);                         // taller than the view: it scrolls at the normal size
+  assert.equal(C.scale, base);
+
+  C.fitRoom(11 * tile, 8 * tile);
+  C.resize(390, 260, 1);                                   // turning the phone keeps the room's fit
+  assert.equal(C.scale, Math.min(390 / (11 * tile), 260 / (8 * tile)));
+  assert.equal(C.base, 390 / 480);
+
+  C.fitRoom();                                             // back outdoors
+  assert.equal(C.scale, C.base);
+  assert.equal(C.w, 480);
+});
+
 test('the same seed gives the same sequence; int() stays inside its bounds', () => {
   const { G } = boot(CORE);
   const a = G.RNG(42), b = G.RNG(42), c = G.RNG(43);

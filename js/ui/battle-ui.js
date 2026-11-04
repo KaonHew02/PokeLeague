@@ -772,8 +772,9 @@ G.BattleUI = (() => {
     ctx.fillStyle = g; ctx.fillRect(0, v.h * 0.5, v.w, v.h * 0.5);
     // platforms (doubles: one each, a little smaller)
     const slots = dbl() ? [1, 0] : [0], k = dbl() ? 0.7 : 1;
+    const stage = Math.min(v.w, v.h * 1.5);                    // a wide screen spreads them out, not their size
     for (const side of [1, 0]) for (const slot of slots) {
-      const f = feet(side, slot), rx = v.w * (side ? 0.17 : 0.2) * k, ry = v.h * (side ? 0.045 : 0.055) * k;
+      const f = feet(side, slot), rx = stage * (side ? 0.17 : 0.2) * k, ry = v.h * (side ? 0.045 : 0.055) * k;
       ctx.fillStyle = c.rim; ctx.beginPath(); ctx.ellipse(f.x, f.y + ry * 0.25, rx, ry, 0, 0, 6.2832); ctx.fill();
       ctx.fillStyle = c.pad; ctx.beginPath(); ctx.ellipse(f.x, f.y, rx * 0.94, ry * 0.8, 0, 0, 6.2832); ctx.fill();
     }

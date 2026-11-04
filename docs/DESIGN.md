@@ -344,6 +344,13 @@ fight has one slot (one against two). Helpers: `b.allActive()`, `b.foes(bm)`, `b
   the first, per-slot forced switches; the "used" event carries `tuid` (the chosen target) for
   the animation. `dev.html?debug&vs=...&party=...&double` and `tools/sim_battle.js --trainer
   --double` start one.
+- **Multi battles (chapter 55):** `G.Battle.create({ partner: { name, party } })` in a double battle: the player in slot 0, the
+  partner in slot 1. In the battle `player.party` is the player's Pokémon then the partner's, a new array, so the save's
+  party stays as it was and the player's indexes do not change (`b.mine(i)`, `b.partner.first`). Only slot 0 is asked; the AI
+  plays slot 1 as a `basic` trainer and its next Pokémon comes in by itself. The player switches to and uses items on their
+  own only, and only they get experience. The side loses when neither has a Pokémon left, so the player's team can be down
+  when a battle is won: a script that uses a partner heals afterwards. `rules.tag`: two foes in one battle, their teams
+  alternating in `team`, each refilling only their own slot. From a script: `h.battle(ref, { partner: { name, team }, rules: { tag: true } })`.
 - **Overworld:** a trainer with `double: true` battles two against two, its `partner: { who, x, y,
   dir }` stands beside it (talking to it is talking to the trainer; maps.js checks its tile). One
   who is not a Gym Leader needs two of your Pokémon able to fight: else it does not spot you, and
@@ -2292,13 +2299,35 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   warehouse scene, every warp panel, the Card Key against the Galactic Key, the front door, the speech once, the panel off and
   on, Saturn in the way, the switch, the way out); `tests/story.test.cjs` the chapter after chapter 53 and the balance lines.
 
-### After chapter 54
+- **Chapter 55** ✅, the way up Mt. Coronet and the Spear Pillar (`js/content/sinnoh/coronet.js`, translations `sinnoh-coronet`). The
+  chapter ends before the rift, with the Distortion World still to come.
+  - **Engine**: multi battles (section on double battles above).
+  - **Map**: a ladder in `mt-coronet-1f`, open once the lake Pokémon are free (flag trio-free), with a hiker beside it. `coronet-2f`,
+    `-4f`, `-snow` (Hail in battle), `-5f`, `-6f`, `-top`, then `spear-pillar`. Platinum's way needs Rock Climb, which the game
+    does not have, so these are plain caves, and fewer of them: the grunts of Platinum's 3F are on `coronet-2f`, those of its Tunnel
+    Room on `coronet-top`. Its wild Pokémon are kept. B1F and the Iceberg Ruins are not there. Left out: the Adamant and
+    Lustrous Orbs and the Black Flute (not in the game).
+  - **Story**: two grunts fill the way in the Spear Pillar and fight two against two (flag pillar-grunts). `pillar.ritual`: Cyrus calls
+    Dialga and Palkia with the Red Chain, Mars and Jupiter stand in the way, Barry runs in, heals the team and fights beside you
+    (team by `barry-starter`, class `galactic-commanders`; both teams are on the map's `def`, for the balance test). A loss is a normal
+    blackout and the scene starts again. After the win a shadow shakes the pillars, Dialga and Palkia vanish, a rift takes Cyrus,
+    Mars and Jupiter leave, Cynthia names Giratina, Barry stays on guard (flag pillar-done), then `ending(55)`. The rift (the
+    pad under Cyrus's feet, `pillar.rift`) stays shut until the next chapter. Sources for the order of events: Platinum walkthroughs.
+    They give the order only: the wording, Barry's heal, and how Cyrus and the Commanders leave are from memory. Check them if a
+    fuller source turns up.
+- **Balance:** the teams and levels of Platinum. Barry's six Pokémon carry a lot of it: a team of three wins 100%, a team of two
+  98-100%, and a Pokémon alone 38-100%.
+- **Tests:** `tests/double.test.cjs` the rules of multi battles and `rules.tag`; `tests/field.test.cjs` the chapter on the real maps (the
+  ladder before and after, every link, the grunts, a loss and a win at the Spear Pillar, the partner's team by Barry's starter, the rift);
+  `tests/story.test.cjs` the chapter after chapter 54 and the balance line.
+
+### After chapter 55
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) seven badges are won and the three lake Pokémon are free. Ideas:
-1. Sinnoh: the peak of Mt. Coronet and the Spear Pillar (a multi battle beside Barry against Mars and Jupiter), the Distortion
-   World and Giratina; Sunyshore City and the last Gym; Route 212 back to Hearthome; Wayward Cave; Eterna's side of Route 211.
+the Battle Tower; in Sinnoh (Pokémon 1-493) seven badges are won and Cyrus has gone through the rift at the Spear Pillar. Ideas:
+1. Sinnoh: the Distortion World, Cyrus and Giratina, Sendoff Spring; Sunyshore City and the last Gym; Route 212 back to Hearthome;
+   Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
-3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic;
+3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;
    Cheryl in Eterna Forest), abilities outside battle, Pokéblocks or another way to evolve Feebas, Repel steps.

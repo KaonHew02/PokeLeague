@@ -116,10 +116,11 @@ async function fight(st, ref, o, h) {
   } else key = W.map + ':' + d.id;
   const cls = G.TRAINER_CLASSES[d.cls] || {};
   const rng = G.RNG(W.seed * 977 + st.battles.length);
-  const party = d.team.map(([sp, lvl, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(sp), lvl, { rng, moves }), item ? { item } : {}));
+  const team = list => list.map(([sp, lvl, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(sp), lvl, { rng, moves }), item ? { item } : {}));
+  const party = team(d.team), partner = o && o.partner ? { name: o.partner.name, party: team(o.partner.team) } : undefined;
   // o.party / o.rules / o.record (the Battle Tower, chapter 43): copies fight, with more rules, and are not recorded.
   const b = G.Battle.create({ kind: 'trainer', seed: W.seed * 31 + st.battles.length,
-    player: { name: S.player.name, id: S.player.id, party: (o && o.party) || S.party, bag: o && o.party ? {} : S.bag },
+    player: { name: S.player.name, id: S.player.id, party: (o && o.party) || S.party, bag: o && o.party ? {} : S.bag }, partner,
     foe: { party, trainer: { id: key, name: d.name || '', ai: d.ai || (d.leader ? 'leader' : 'basic'), items: d.items || {}, prize: d.prize != null ? d.prize : cls.prize } },
     rules: Object.assign({ canLose: !!(o && o.canLose), obeyCap: obeyCap(st), double: !!d.double }, o && o.rules) });
   b.start();
@@ -906,6 +907,39 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['torterra + luxray', 'empoleon + luxray', 'infernape + luxray + roselia']) assert.ok(table[k] >= 0.55, k);
   // Barry: a team of three beats him nearly always.
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
+});
+
+test('balance: Mars and Jupiter beside Barry (chapter 55), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const def = G.Maps.get('spear-pillar').def, L = def.commanders;
+  const mk = (list, rng) => list.map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), item ? { item } : {}));
+  const rate = (team, starter) => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} }, partner: { name: 'Barry', party: mk(def.barryTeams[starter], rng) },
+        foe: { party: mk(L.team, rng), trainer: { id: 'commanders', name: L.name, ai: 'leader', items: {}, prize: 50 } }, rules: { double: true, tag: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 40;
+  };
+  const TOR = ['earthquake', 'crunch', 'razor-leaf', 'synthesis'], INF = ['flame-wheel', 'close-combat', 'mach-punch', 'punishment'];
+  const EMP = ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet'], LUX = ['crunch', 'thunder-fang', 'spark', 'roar'], STA = ['aerial-ace', 'close-combat', 'take-down', 'agility'];
+  const LUC = ['force-palm', 'metal-claw', 'bone-rush', 'quick-attack'];
+  // The player's starter, and Barry's by the rule of the game (his beats yours).
+  const teams = {
+    'torterra 51': [[[389, 51, TOR]], 390], 'infernape 51': [[[392, 51, INF]], 393], 'empoleon 51': [[[395, 51, EMP]], 387],
+    'torterra 51 + luxray 49': [[[389, 51, TOR], [405, 49, LUX]], 390], 'infernape 51 + luxray 49': [[[392, 51, INF], [405, 49, LUX]], 393], 'empoleon 51 + luxray 49': [[[395, 51, EMP], [405, 49, LUX]], 387],
+    'torterra 51 + luxray 49 + staraptor 49': [[[389, 51, TOR], [405, 49, LUX], [398, 49, STA]], 390],
+    'infernape 51 + luxray 49 + staraptor 49': [[[392, 51, INF], [405, 49, LUX], [398, 49, STA]], 393],
+    'empoleon 51 + luxray 49 + staraptor 49': [[[395, 51, EMP], [405, 49, LUX], [398, 49, STA]], 387],
+    'torterra 51 + staraptor 49 + lucario 46': [[[389, 51, TOR], [398, 49, STA], [448, 46, LUC]], 390]
+  };
+  const table = Object.fromEntries(Object.entries(teams).map(([k, [t, s]]) => [k, rate(t, s)]));
+  console.log('[balance] vs Mars and Jupiter, beside Barry:', JSON.stringify(table));
+  for (const k of Object.keys(teams).filter(k => k.split('+').length === 3)) assert.ok(table[k] >= 0.6, k + ' wins at a normal difficulty');
 });
 
 test('balance: Saturn and Cyrus in the HQ (chapter 54), win rates of typical teams are printed', () => {
@@ -4041,6 +4075,33 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 55 after chapter 54: up Mt. Coronet, the Spear Pillar, Mars and Jupiter beside Barry. */
+async function chapter55(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => {
+    for (const t of G.Maps.get(mapId).trainers) { await fight(mapId, t.id); won(); }
+  };
+  lead(st, S.party.some(m => m.sp === 392) ? 392 : 391);
+  await run(st, 'mt-coronet-1f', 'coronet.climber');
+  for (const id of ['coronet-2f', 'coronet-4f', 'coronet-5f', 'coronet-6f', 'coronet-top']) await all(id);
+  await fight('spear-pillar', 'pair');
+  won();
+  assert.ok(F.flag('pillar-grunts'));
+  F.healAll();
+  await run(st, 'spear-pillar', 'pillar.ritual');
+  assert.equal(last().key, 'spear-pillar:commanders');
+  won();
+  console.log('[story] Mars and Jupiter:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(S.party.every(m => m.hp > 0), 'everybody is healed after the battle');
+  assert.equal(S.party.length <= 6, true, "Barry's Pokémon never join the party");
+  assert.ok(F.flag('pillar-done') && F.flag('chapter-55-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 54 after chapter 53: Looker, the warehouse, the HQ, Cyrus, Saturn, the three lake Pokémon. */
 async function chapter54(st) {
   const { G, S } = st;
@@ -4218,4 +4279,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter52(st);
   await chapter53(st);
   await chapter54(st);
+  await chapter55(st);
 });

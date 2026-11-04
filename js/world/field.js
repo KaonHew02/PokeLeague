@@ -915,7 +915,8 @@ G.World = (() => {
   /**
    * A trainer battle through the M4 hook. ref: a trainer def, 'id' on this map or 'map:id'.
    * o.canLose; o.party (chapter 43: the Battle Tower's copies fight instead of the party, with no Bag),
-   * o.rules (more battle rules), o.record: false (not marked as done: a trainer met only once).
+   * o.rules (more battle rules), o.record: false (not marked as done: a trainer met only once),
+   * o.partner { name, team } (chapter 55: a multi battle beside someone; the battle must be a double one).
    */
   async function battle(ref, o = {}) {
     let d = ref, key = o.key;
@@ -933,8 +934,9 @@ G.World = (() => {
       let r;
       const opts = battleOpts(o.canLose, d);
       if (o.rules) Object.assign(opts.rules, o.rules);
+      if (o.partner) opts.partner = o.partner;
       const me = o.party ? Object.assign(battler(), { party: o.party, bag: {} }) : battler();
-      if (api.onTrainer) r = await api.onTrainer(d, { map: map.id, key, canLose: !!o.canLose, party: o.party || null, rules: opts.rules });
+      if (api.onTrainer) r = await api.onTrainer(d, { map: map.id, key, canLose: !!o.canLose, party: o.party || null, rules: opts.rules, partner: o.partner || null });
       else if (G.BattleUI && G.BattleUI.trainer) r = await G.BattleUI.trainer(me, battleTrainer(d, key), opts);
       else r = await fallbackBattle(trainerName(d) || G.Names.pretty(d.id));
       out = settle(r);

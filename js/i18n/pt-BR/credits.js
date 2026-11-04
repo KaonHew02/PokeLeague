@@ -157,5 +157,8 @@ G.I18n.add({
   "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "Obrigado por jogar! A sede da Equipe Galáctica em Veilstone City chegará numa próxima atualização.",
   "Chapter 54 complete!": "Capítulo 54 concluído!",
   "{player} joined Looker of the International Police, broke into Team Galactic's building in Veilstone, beat Cyrus and Saturn and set Uxie, Mesprit and Azelf free. But Cyrus has gone to Mt. Coronet with the Red Chain.": "{player} se juntou a Looker, da Polícia Internacional, invadiu o prédio da Equipe Galáctica em Veilstone City, venceu Cyrus e Saturn e libertou Uxie, Mesprit e Azelf. Mas Cyrus foi para o Mt. Coronet com a Red Chain.",
-  "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "Obrigado por jogar! O topo do Mt. Coronet espera você em uma próxima atualização."
+  "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "Obrigado por jogar! O topo do Mt. Coronet espera você em uma próxima atualização.",
+  "Chapter 55 complete!": "Capítulo 55 concluído!",
+  "{player} climbed Mt. Coronet to the Spear Pillar and beat Mars and Jupiter beside Barry. But a great shadow took Cyrus through a rift in the air, and Cynthia is ready to follow.": "{player} subiu o Mt. Coronet até o Spear Pillar e venceu Mars e Jupiter ao lado de Barry. Mas uma grande sombra levou Cyrus por uma fenda no ar, e Cynthia está pronta para segui-lo.",
+  "Thank you for playing! The world behind the rift waits in a future update.": "Obrigado por jogar! O mundo além da fenda espera você em uma próxima atualização."
 }, "pt-BR");

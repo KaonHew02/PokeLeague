@@ -287,6 +287,7 @@ LOC_NAMES = {
     'hearthome-city':    ('Ciudad Corazón',     'Cuoripoli',           '家缘市',     '家緣市'),
     'tg-eterna-bldg':    ('T.G. Eterna Bldg',   'T.G. Eterna Bldg',    '银河队百代大楼', '銀河隊百代大樓'),
     'galactic-hq':       ('Galactic HQ',        'Galactic HQ',         '银河队帷幕大楼', '銀河隊帷幕大樓'),
+    'spear-pillar':      ('Columnas Lanza',     'Vetta Lancia',        '枪之柱',     '槍之柱'),
     # Chapter 48.
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),

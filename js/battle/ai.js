@@ -11,6 +11,7 @@
  * Double battles (chapter 40): choose(b, side, slot) scores each move against each foe and aims at the
  * best one; a move on both foes counts both (half damage each), Earthquake counts its partner against it
  * (unless the partner cannot be hit), Helping Hand is worth something when the partner can attack.
+ * A multi battle (chapter 55): the player's partner plays like a 'basic' trainer.
  */
 G.BattleAI = (() => {
   function usable(bm) {
@@ -42,7 +43,7 @@ G.BattleAI = (() => {
     const foes = b.foes(bm);
     const aim = t => (t ? { side: t.side, slot: t.slot || 0 } : undefined);
     if (!moves.length) return { type: 'move', id: 'struggle', target: aim(foes[0]) };
-    const ai = side.trainer ? side.trainer.ai || 'basic' : 'random';
+    const ai = side === b.player ? 'basic' : side.trainer ? side.trainer.ai || 'basic' : 'random';
     if (ai === 'leader') { const it = healItem(b, side, slot); if (it) return it; }
     const scored = [];
     for (const x of moves) {

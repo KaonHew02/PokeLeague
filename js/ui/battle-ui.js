@@ -15,7 +15,7 @@
  *   G.BattleUI.wild(player, sp, lvl, opts)       a wild battle against one new Pokémon (sp: dex number or slug)
  *   G.BattleUI.trainer(player, trainer, opts)    trainer = { id, name, title, ai, prize, items, leader,
  *                                                            team: [[sp, lvl, moves?, item?], ...] }
- *       (item: a held item, chapter 27)
+ *       (item: a held item, chapter 27); opts.partner = { name, team } (a multi battle, chapter 55)
  *   G.BattleUI.safari(player, sp, lvl, opts)     the Safari Zone (safari.js): Ball / Bait / Rock / Run
  *   (the overworld calls these from its encounter / trainer hooks; opts as for start())
  *
@@ -528,7 +528,7 @@ G.BattleUI = (() => {
   }
 
   function partyRows(filter) {
-    return b.player.party.map((m, i) => {
+    return b.player.party.filter((m, i) => b.mine(i)).map((m, i) => {
       const max = G.Mon.maxHp(m), f = m.hp / max;
       return { value: i, cls: m.hp <= 0 ? 'fainted' : '', disabled: filter ? !filter(m, i) : false,
         html: `<span class="grow">${esc(G.Mon.name(m))}</span><span class="meta">${esc(fmt('Lv. {n}', { n: m.lvl }))}</span>`
@@ -701,7 +701,7 @@ G.BattleUI = (() => {
     scene = { bg: opts.bg || 'grass' };
     const seed = opts.seed == null ? G.RNG.seed() : opts.seed;
     b = opts.kind === 'safari' ? G.Safari.create({ seed, player: opts.player, foe: opts.foe, rules: opts.rules })
-      : G.Battle.create({ kind: opts.kind, seed, player: opts.player, foe: opts.foe, rules: opts.rules });
+      : G.Battle.create({ kind: opts.kind, seed, player: opts.player, foe: opts.foe, partner: opts.partner, rules: opts.rules });
     // Doubles: the second pair of boxes, smaller boxes all round.
     root.classList.toggle('double', !!b.double);
     for (const id of ['bt-foe2', 'bt-me2']) $(id).classList.toggle('hidden', !b.double);
@@ -878,8 +878,9 @@ G.BattleUI = (() => {
 
   function trainer(player, t, opts = {}) {
     const rng = G.RNG(opts.seed == null ? G.RNG.seed() : opts.seed + 1);
-    const party = t.team.map(([sp, lvl, moves, item]) => Object.assign(G.Mon.create(spId(sp), lvl, { rng, moves }), item ? { item } : {}));
-    return start(Object.assign({ kind: 'trainer', player, foe: { party, trainer: t } }, opts));
+    const team = list => list.map(([sp, lvl, moves, item]) => Object.assign(G.Mon.create(spId(sp), lvl, { rng, moves }), item ? { item } : {}));
+    const party = team(t.team), partner = opts.partner ? { name: opts.partner.name, party: team(opts.partner.team) } : undefined;
+    return start(Object.assign({ kind: 'trainer', player, foe: { party, trainer: t } }, opts, { partner }));
   }
 
   function init() {

@@ -157,5 +157,8 @@ G.I18n.add({
   "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "Grazie per aver giocato! Il quartier generale del Team Galassia a Rupepoli arriverà in un prossimo aggiornamento.",
   "Chapter 54 complete!": "Capitolo 54 completato!",
   "{player} joined Looker of the International Police, broke into Team Galactic's building in Veilstone, beat Cyrus and Saturn and set Uxie, Mesprit and Azelf free. But Cyrus has gone to Mt. Coronet with the Red Chain.": "{player} ha aiutato Bellocchio della Polizia Internazionale, ha fatto irruzione nell'edificio del Team Galassia a Rupepoli, ha battuto Cyrus e Saturno e ha liberato Uxie, Mesprit e Azelf. Ma Cyrus è andato sul Monte Corona con la Catena Rossa.",
-  "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "Grazie per aver giocato! La cima del Monte Corona ti aspetta in un futuro aggiornamento."
+  "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "Grazie per aver giocato! La cima del Monte Corona ti aspetta in un futuro aggiornamento.",
+  "Chapter 55 complete!": "Capitolo 55 completato!",
+  "{player} climbed Mt. Coronet to the Spear Pillar and beat Mars and Jupiter beside Barry. But a great shadow took Cyrus through a rift in the air, and Cynthia is ready to follow.": "{player} ha scalato il Monte Corona fino alla Vetta Lancia e ha battuto Martes e Giove insieme a Barry. Ma una grande ombra ha portato via Cyrus attraverso una fenditura, e Camilla è pronta a seguirlo.",
+  "Thank you for playing! The world behind the rift waits in a future update.": "Grazie per aver giocato! Il mondo oltre la fenditura ti aspetta in un futuro aggiornamento."
 }, "it");

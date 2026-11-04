@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 55) return { title: T('Chapter 55 complete!'),
+      done: fmt('{player} climbed Mt. Coronet to the Spear Pillar and beat Mars and Jupiter beside Barry. But a great shadow took Cyrus through a rift in the air, and Cynthia is ready to follow.', { player }),
+      next: T('Thank you for playing! The world behind the rift waits in a future update.') };
     if (n === 54) return { title: T('Chapter 54 complete!'),
       done: fmt('{player} joined Looker of the International Police, broke into Team Galactic\'s building in Veilstone, beat Cyrus and Saturn and set Uxie, Mesprit and Azelf free. But Cyrus has gone to Mt. Coronet with the Red Chain.', { player }),
       next: T('Thank you for playing! The peak of Mt. Coronet waits in a future update.') };

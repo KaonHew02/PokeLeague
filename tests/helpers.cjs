@@ -52,8 +52,9 @@ function duel(G, o) {
   const party = [o.me].concat(o.mine || []).map(mk);
   const foes = [o.foe].concat(o.foes || []).map(mk);
   const trainer = o.trainer || (o.kind === 'trainer' ? { id: 't', name: 'T', ai: 'basic', prize: 20 } : null);
+  const partner = o.partner ? { name: 'Barry', party: o.partner.map(mk) } : undefined;
   const b = G.Battle.create({ kind: trainer ? 'trainer' : 'wild', seed: o.seed == null ? 1 : o.seed,
-                              player: { name: 'Red', party, bag: o.bag || {} }, foe: { party: foes, trainer }, rules: o.rules });
+                              player: { name: 'Red', party, bag: o.bag || {} }, foe: { party: foes, trainer }, partner, rules: o.rules });
   const events = b.start();
   return { b, party, foes, events };
 }

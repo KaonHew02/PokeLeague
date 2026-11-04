@@ -157,3 +157,81 @@ test('both of the player\'s Pokémon that faced a foe share its experience; the 
   };
   assert.equal(play(), play());
 });
+
+// ---------------- Multi battles beside a partner (chapter 55) ----------------
+
+const tag = (me, mate, foes, o = {}) => dbl(me, foes, Object.assign({ partner: mate, rules: { double: true, tag: true } }, o));
+const faint = (b, side, slot) => { b.sides[side].bms[slot].mon.hp = 1; };
+
+test('a partner fights in the second slot: only the first one is asked, the computer plays the other', () => {
+  const { b, events, party } = tag([['pikachu', 30, ['tackle']], ['eevee', 30, ['tackle']]], [['staraptor', 30, ['aerial-ace']], ['heracross', 30, ['tackle']]],
+    [['snorlax', 50, ['splash']], ['snorlax', 50, ['splash']]]);
+  assert.equal(party.length, 2, 'the real party is left alone');
+  assert.equal(b.player.party.length, 4);
+  assert.deepEqual(plain(events.filter(e => e.type === 'send' && e.side === 0).map(e => e.sp)), [25, 398]);
+  assert.deepEqual(plain(b.prompt), { kind: 'action', slot: 0 });
+  const ev = b.act({ type: 'move', slot: 0, target: at(1, 0) });
+  assert.equal(moves(ev).length, 4, 'all four acted after one choice');
+  assert.ok(ev.some(e => e.type === 'move' && e.move === 'aerial-ace'), 'the partner chose its own move');
+  assert.equal(b.prompt.kind, 'action');
+  assert.equal(b.prompt.slot, 0);
+});
+
+test("a partner's Pokémon cannot be switched in by the player, and items only reach the player's own", () => {
+  const { b } = tag([['pikachu', 30, ['tackle']], ['eevee', 30, ['tackle']]], [['staraptor', 30, ['splash']], ['heracross', 30, ['splash']]],
+    [['rattata', 30, ['splash']], ['zubat', 30, ['splash']]], { bag: { potion: 2 } });
+  assert.deepEqual(plain(b.options(0).switchable), [1]);
+  assert.equal(b.act({ type: 'switch', to: 3 })[0].reason, 'bad-switch');
+  b.player.party[3].hp = 1;
+  assert.equal(b.act({ type: 'item', item: 'potion', target: 3 })[0].reason, 'bad-item');
+  assert.deepEqual(plain(b.prompt), { kind: 'action', slot: 0 }, 'still the same choice');
+});
+
+test("the partner's next Pokémon comes in by itself; the player chooses their own, from their own", () => {
+  const { b } = tag([['pikachu', 30, ['memento']], ['eevee', 30, ['tackle']]], [['stunky', 30, ['memento']], ['heracross', 30, ['splash']]],
+    [['snorlax', 90, ['splash']], ['snorlax', 90, ['splash']]]);
+  b.act({ type: 'move', slot: 0, target: at(1, 0) });
+  assert.equal(b.prompt.kind, 'switch');
+  assert.equal(b.prompt.slot, 0);
+  assert.equal(b.answer({ switchTo: 3 })[0].reason, 'bad-switch', "the partner's are refused");
+  const ev = b.answer({ switchTo: 1 });
+  assert.deepEqual(plain(ev.filter(e => e.type === 'send' && e.side === 0).map(e => [e.sp, e.slot])), [[133, 0], [214, 1]], 'Heracross, with nobody asked');
+  assert.deepEqual(plain(b.prompt), { kind: 'action', slot: 0 });
+});
+
+test('only the player gets experience, and the partner fights on when the team is down; both down is a loss', () => {
+  // The foe falls to the partner: the player's Pokémon shares it, the partner's get nothing.
+  let d = tag([['pikachu', 30, ['splash']]], [['machamp', 80, ['karate-chop']]], [['rattata', 5, ['splash']], ['rattata', 5, ['splash']]]);
+  const mate = d.b.player.party[1], exp = mate.exp;
+  const ev = d.b.act({ type: 'move', slot: 0, target: at(1, 0) });
+  assert.ok(ev.some(e => e.type === 'exp' && e.uid === d.party[0].uid));
+  assert.ok(!ev.some(e => e.type === 'exp' && e.uid === mate.uid));
+  assert.equal(mate.exp, exp);
+  // The player's team falls: no more questions, and the partner wins alone.
+  d = tag([['pikachu', 30, ['splash']]], [['machamp', 80, ['karate-chop']]], [['golem', 60, ['earthquake']], ['rattata', 5, ['splash']]]);
+  faint(d.b, 0, 0);
+  d.b.act({ type: 'move', slot: 0 });
+  assert.ok(d.party[0].hp <= 0);
+  assert.equal(d.b.result && d.b.result.outcome, 'win', 'the partner finished it');
+  // Both down.
+  d = tag([['pikachu', 30, ['splash']]], [['caterpie', 2, ['splash']]], [['golem', 90, ['earthquake']], ['golem', 90, ['earthquake']]]);
+  faint(d.b, 0, 0);
+  d.b.act({ type: 'move', slot: 0 });
+  assert.equal(d.b.result && d.b.result.outcome, 'lose');
+});
+
+test('two foes (rules.tag) each refill their own slot, and a slot stays empty when its trainer is out', () => {
+  const { b } = tag([['machamp', 90, ['karate-chop']]], [['machamp', 90, ['splash']]],
+    [['rattata', 5, ['splash']], ['zubat', 5, ['splash']], ['raticate', 5, ['splash']], ['golbat', 5, ['splash']], ['pidgey', 5, ['splash']]]);
+  assert.deepEqual(plain(b.foe.bms.map(x => x.mon.sp)), [19, 41]);
+  // Slot 1 falls first: it takes the second trainer's next one (Golbat), not the first free one in the party.
+  let ev = b.act({ type: 'move', slot: 0, target: at(1, 1) });
+  assert.deepEqual(plain(ev.filter(e => e.type === 'send' && e.side === 1).map(e => [e.sp, e.slot])), [[42, 1]]);
+  // Its trainer is out after that: the slot stays empty, and the other one goes on.
+  ev = b.act({ type: 'move', slot: 0, target: at(1, 1) });
+  assert.deepEqual(plain(ev.filter(e => e.type === 'send' && e.side === 1)), []);
+  assert.ok(!b.result);
+  assert.ok(!b.alive(b.foe.bms[1]));
+  ev = b.act({ type: 'move', slot: 0, target: at(1, 0) });
+  assert.deepEqual(plain(ev.filter(e => e.type === 'send' && e.side === 1).map(e => [e.sp, e.slot])), [[20, 0]]);
+});

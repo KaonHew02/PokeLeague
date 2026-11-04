@@ -1595,7 +1595,7 @@ G.NAMES = {
     "hearthome-city": ["Hearthome City","Ciudad Corazón","Unionpolis","Cuoripoli","家缘市","家緣市"],
     "veilstone-city": ["Veilstone City","Ciudad Rocavelo","Voilaroc","Rupepoli","帷幕市","帷幕市"],
     "snowpoint-city": ["Snowpoint City","Ciudad Puntaneva","Frimapic","Nevepoli","雪峰市","雪峰市"],
-    "spear-pillar": ["Spear Pillar","Spear Pillar","Colonnes Lances","Spear Pillar","Spear Pillar","Spear Pillar"],
+    "spear-pillar": ["Spear Pillar","Columnas Lanza","Colonnes Lances","Vetta Lancia","枪之柱","槍之柱"],
     "pal-park": ["Pal Park","Pal Park","Parc des Amis","Pal Park","Pal Park","Pal Park"],
     "amity-square": ["Amity Square","Amity Square","Square Paisible","Amity Square","Amity Square","Amity Square"],
     "floaroma-meadow": ["Floaroma Meadow","Prado Aromaflor","Pré Floraville","Floaroma Meadow","苑之镇花田","苑之鎮花田"],

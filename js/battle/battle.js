@@ -6,9 +6,11 @@
  *   const b = G.Battle.create({ kind: 'wild' | 'trainer', seed,
  *     player: { name, id, party, bag },            // live references: the battle changes them
  *     foe:    { party, trainer: { id, name, title, ai: 'basic' | 'leader', items: {potion: 1}, prize: 20 } | null },
+ *     partner: { name, party } (a multi battle, doubles only: see below),
  *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', noCatch: false, forceCatch: false (debug),
  *               fishing: false (hooked with a rod: the Lure Ball), weather: 'rain' (the overworld's, for the whole battle),
- *               double: false (two Pokémon a side, trainers only), roamer: false (a roaming wild Pokémon that flees),
+ *               double: false (two Pokémon a side, trainers only), tag: false (doubles: two foes, one slot each),
+               roamer: false (a roaming wild Pokémon that flees),
  *               noExp: false (no Exp. Points), noBag: false (no items or balls from the Bag: the Battle Tower) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
@@ -34,6 +36,13 @@
  * forced: true, slot }), or stays empty. A player with only one Pokémon able to fight has one slot.
  * Singles keep their own code paths: the same seed and choices give the same battle as before.
  *
+ * Multi battles (chapter 55, o.partner): the player's side is the player in slot 0 and a partner in slot 1. Inside the
+ * battle player.party is the player's Pokémon then the partner's, so the player's indexes do not change (the party array
+ * of the save stays as it was). Only slot 0 is asked; the AI plays slot 1 and its next Pokémon comes in by itself. The
+ * player can only switch to, or use items on, their own, and only they get experience. The side loses when neither has a
+ * Pokémon left: with the player's team down the partner fights on. rules.tag: the foe's party alternates between two
+ * trainers (first, second, first...), and each refills only their own slot.
+ *
  * A roaming Pokémon (chapter 42, rules.roamer: Latias or Latios): unless it is held (Mean Look, Block,
  * Spider Web, a binding move, Ingrain, Shadow Tag, Arena Trap), it chooses { type: 'flee' }, which goes in
  * the order of a move with no priority; asleep, frozen, flinching or fully paralysed it cannot, and held
@@ -56,7 +65,9 @@ G.Battle = (() => {
       this.double = !!this.rules.double && this.kind === 'trainer';
       if (this.double) this.rules.shift = false;
       const pl = o.player, fo = o.foe;
-      this.player = { side: 0, name: pl.name || 'Player', id: pl.id || 0, party: pl.party, bag: pl.bag || {}, bms: [], actives: [], field: {} };
+      this.partner = this.double && o.partner ? { name: o.partner.name, first: pl.party.length } : null;
+      const party = this.partner ? pl.party.concat(o.partner.party) : pl.party;
+      this.player = { side: 0, name: pl.name || 'Player', id: pl.id || 0, party, bag: pl.bag || {}, bms: [], actives: [], field: {} };
       this.foe = { side: 1, party: fo.party, trainer: fo.trainer || null, items: Object.assign({}, fo.trainer && fo.trainer.items), bms: [], actives: [], field: {} };
       this.sides = [this.player, this.foe];
       // The first slot under its singles names.
@@ -83,7 +94,9 @@ G.Battle = (() => {
       } else {
         // Two each (one when only one can fight), the foe's first.
         for (const sd of [this.foe, this.player]) {
-          sd.party.map((m, i) => i).filter(i => sd.party[i].hp > 0).slice(0, 2).forEach((i, slot) => this.sendOut(sd, i, { slot }));
+          const up = sd.party.map((m, i) => i).filter(i => sd.party[i].hp > 0);
+          const two = sd === this.player && this.partner ? [up.find(i => this.mine(i)), up.find(i => !this.mine(i))] : up.slice(0, 2);
+          two.forEach((i, slot) => { if (i != null) this.sendOut(sd, i, { slot }); });
         }
       }
       // Abilities on entry, the faster first (the player's on a tie).
@@ -101,7 +114,7 @@ G.Battle = (() => {
       const trapped = this.trapped(bm) || G.Abilities.traps(this, bm);     // Shadow Tag, Arena Trap, Magnet Pull
       return {
         moves, struggle: !moves.some(m => m.usable),
-        switchable: this.player.party.map((m, i) => i).filter(i => !this.player.actives.includes(i) && this.player.party[i].hp > 0
+        switchable: this.player.party.map((m, i) => i).filter(i => this.mine(i) && !this.player.actives.includes(i) && this.player.party[i].hp > 0
                                                                 && !this.choices.some(c => c && c.type === 'switch' && c.to === i)),
         canSwitch: !trapped, canRun: this.kind === 'wild' && (!trapped || G.Abilities.runAway(bm)),
         canBall: this.kind === 'wild' && !this.rules.noCatch, trapped
@@ -151,7 +164,7 @@ G.Battle = (() => {
     chooser(from = 0) {
       for (let k = from; k < this.player.bms.length; k++) {
         const bm = this.player.bms[k];
-        if (this.alive(bm) && !this.lockedAction(bm)) return k;
+        if (this.alive(bm) && !this.lockedAction(bm) && !(this.partner && k === 1)) return k;
       }
       return null;
     }
@@ -163,7 +176,7 @@ G.Battle = (() => {
       const k = this.prompt.kind;
       if ((k === 'switch' || k === 'shift') && ans.switchTo != null && ans.switchTo >= 0) {
         const m = this.player.party[ans.switchTo];
-        if (!m || m.hp <= 0 || this.player.actives.includes(ans.switchTo)) return [{ type: 'error', reason: 'bad-switch' }];
+        if (!m || m.hp <= 0 || this.player.actives.includes(ans.switchTo) || !this.mine(ans.switchTo)) return [{ type: 'error', reason: 'bad-switch' }];
       }
       if (k === 'switch' && !(ans.switchTo >= 0)) return [{ type: 'error', reason: 'must-switch' }];
       this.prompt = null; this.pending = null;
@@ -186,6 +199,7 @@ G.Battle = (() => {
         if (this.double) {
           // Each of the player's battlers chooses, unless it acts on its own (charging, recharging, rampaging).
           this.choices = this.player.bms.map(bm => this.lockedAction(bm));
+          if (this.partner && this.alive(this.player.bms[1]) && !this.choices[1]) this.choices[1] = G.BattleAI.choose(this, this.player, 1);
           const first = this.chooser(0);
           if (first == null) { const choices = this.choices.slice(); this.queue.push(() => this.runTurnDouble(choices)); continue; }
           this.prompt = { kind: 'action', slot: first };
@@ -232,6 +246,8 @@ G.Battle = (() => {
     allActive() { return this.player.bms.concat(this.foe.bms).filter(Boolean); }
     /** The foes still standing. */
     foes(bm) { return this.sides[1 - bm.side].bms.filter(f => this.alive(f)); }
+    /** A multi battle: is this party index one of the player's own, not the partner's? */
+    mine(i) { return !this.partner || i < this.partner.first; }
     /** Doubles: the partner still standing, else null. */
     ally(bm) { const a = this.double ? this.sides[bm.side].bms.find(x => x && x !== bm) : null; return a && this.alive(a) ? a : null; }
     /** The battler of a Pokémon in the field, else null. */
@@ -406,6 +422,7 @@ G.Battle = (() => {
       if (a.type === 'item') {
         const fx = G.ITEM_FX[a.item];
         if (!fx || !fx.battle || fx.ball || !(bag[a.item] > 0)) return 'bad-item';
+        if (a.target != null && !this.mine(a.target)) return 'bad-item';
         return G.BattleItems.canUse(this, this.player, a, this.double ? this.player.bms[this.prompt.slot] : undefined) ? null : 'no-effect';
       }
       return 'bad-action';
@@ -731,14 +748,19 @@ G.Battle = (() => {
       this.player.bms.forEach((bm, slot) => {
         if (!bm || !bm.fainted) return;
         steps.push(() => {
-          const free = this.player.party.some((m, i) => m.hp > 0 && !this.player.actives.includes(i));
+          if (this.partner && slot === 1) {                     // the partner's next Pokémon comes in by itself
+            const next = this.player.party.findIndex((m, i) => !this.mine(i) && m.hp > 0);
+            if (next >= 0) this.sendOut(this.player, next, { slot });
+            return;
+          }
+          const free = this.player.party.some((m, i) => this.mine(i) && m.hp > 0 && !this.player.actives.includes(i));
           if (free) this.ask({ kind: 'switch', forced: true, slot }, ans => this.switchIn(this.player, ans.switchTo, slot));
         });
       });
       this.foe.bms.forEach((bm, slot) => {
         if (!bm || !bm.fainted) return;
         steps.push(() => {
-          const next = this.foe.party.findIndex((m, i) => m.hp > 0 && !this.foe.actives.includes(i));
+          const next = this.foe.party.findIndex((m, i) => m.hp > 0 && !this.foe.actives.includes(i) && (!this.rules.tag || i % 2 === slot));
           if (next >= 0) this.sendOut(this.foe, next, { slot });
         });
       });
@@ -827,7 +849,7 @@ G.Battle = (() => {
     /** Experience for a fainted foe: those who fought share it; with Exp. Share holders, they get half
      *  and the holders the other half (Generation 2-4). A Lucky Egg gives its holder 1.5×. */
     expSteps(foeBm) {
-      const party = this.player.party;
+      const party = this.player.party.filter((m, i) => this.mine(i));
       const parts = party.filter(m => m.hp > 0 && foeBm.participants.has(m.uid));
       if (!parts.length) return [];
       const sharers = party.filter(m => m.hp > 0 && G.Held.is(m, 'exp-share'));

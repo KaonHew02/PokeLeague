@@ -117,6 +117,7 @@ G.BattleText = (() => {
         if (b.kind === 'wild' || b.kind === 'safari') { const f = b.foe.party[0]; return fmt('Wild {mon} appeared!', { mon: G.Mon.name(f) }); }
         return fmt('{trainer} would like to battle!', { trainer: trainerName(b) });
       case 'send':
+        if (e.side === 0 && b.partner && e.slot === 1) return fmt('{trainer} sent out {mon}!', { trainer: b.partner.name, mon: plain(b, e.uid) });
         if (e.side === 0) return fmt('Go! {mon}!', { mon: plain(b, e.uid) });
         return b.kind === 'trainer' ? fmt('{trainer} sent out {mon}!', { trainer: trainerName(b), mon: plain(b, e.uid) }) : null;
       case 'withdraw': return e.side === 0 ? fmt('{mon}, come back!', { mon: plain(b, e.uid) }) : fmt('{trainer} withdrew {mon}!', { trainer: trainerName(b), mon: plain(b, e.uid) });

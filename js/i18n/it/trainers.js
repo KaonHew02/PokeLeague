@@ -64,5 +64,6 @@ G.I18n.add({
   "Ninja Boy": "Piccolo Ninja",
   "Dragon Tamer": "Domadraghi",
   "Galactic Boss": "Capo Galassia",
-  "Team Galactic Commander": "Comandante Galassia"
+  "Team Galactic Commander": "Comandante Galassia",
+  "Galactic Commanders": "Comandanti Galassia"
 }, "it");

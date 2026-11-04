@@ -64,5 +64,6 @@ G.I18n.add({
   "Ninja Boy": "忍者小子",
   "Dragon Tamer": "馴龍師",
   "Galactic Boss": "銀河隊首領",
-  "Team Galactic Commander": "銀河隊幹部"
+  "Team Galactic Commander": "銀河隊幹部",
+  "Galactic Commanders": "銀河隊幹部"
 }, "zh-Hant");

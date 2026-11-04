@@ -157,5 +157,8 @@ G.I18n.add({
   "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "感谢游玩！帷幕市的银河队总部将在之后的更新中登场。",
   "Chapter 54 complete!": "第五十四章完成！",
   "{player} joined Looker of the International Police, broke into Team Galactic's building in Veilstone, beat Cyrus and Saturn and set Uxie, Mesprit and Azelf free. But Cyrus has gone to Mt. Coronet with the Red Chain.": "{player}和国际警察帅哥联手，闯入帷幕市的银河队大楼，打败了赤日和镇星，救出了由克希、艾姆利多和亚克诺姆。但赤日已经带着红色锁链去了天冠山。",
-  "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "感谢游玩！天冠山山顶将在之后的更新中等着你。"
+  "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "感谢游玩！天冠山山顶将在之后的更新中等着你。",
+  "Chapter 55 complete!": "第五十五章完成！",
+  "{player} climbed Mt. Coronet to the Spear Pillar and beat Mars and Jupiter beside Barry. But a great shadow took Cyrus through a rift in the air, and Cynthia is ready to follow.": "{player}登上天冠山抵达枪之柱，和阿驯一起打败了伙星和绅虹。但巨大的影子把赤日拖进了空气中的裂缝，竹兰正准备追进去。",
+  "Thank you for playing! The world behind the rift waits in a future update.": "感谢游玩！裂缝背后的世界将在之后的更新中等着你。"
 }, "zh-Hans");

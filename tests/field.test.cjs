@@ -3103,6 +3103,100 @@ test('Sinnoh (chapter 54): Looker, the warehouse, warp panels, the Galactic Key,
   at(11, 4);
 });
 
+test('Sinnoh (chapter 55): the ladder, the way up, Hail in the snow, the grunts at the Spear Pillar, the ritual, a loss and a win beside Barry', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 31 }, (_, i) => i + 1);
+  S.player.lastHeal = { map: 'veilstone-center', spot: 'mat' };
+  F.setFlag('cyrus-coronet');
+  F.setVar('barry-starter', 393);
+  F.giveMon('infernape', 51, { moves: ['flame-wheel'] });
+  F.giveMon('luxray', 49, { moves: ['spark'] });
+  const until = async ok => { for (let i = 0; i < 800 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const cross = async (dir, to) => { step(W, dir); await until(() => W.map.id === to && !W.locked); };
+  const at = (x, y) => assert.deepEqual([W.player.x, W.player.y], [x, y]);
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const talk = () => pump(W, W.interact());
+  const fights = [], infos = [];
+  let result = 'win';
+  W.onTrainer = async (d, info) => { fights.push(d.id); infos.push(info); return result; };
+  // The ladder opens when the lake Pokémon are free.
+  W.load('mt-coronet-1f', { x: 14, y: 4, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'fallen rocks');
+  await settle();
+  F.setFlag('trio-free');
+  await cross('up', 'coronet-2f');
+  at(2, 14);
+  // Each way up, and back down.
+  const link = async (from, x, y, dir, to, tx, ty) => { W.load(from, { x, y, dir }); await cross(dir, to); at(tx, ty); };
+  await link('coronet-2f', 2, 14, 'down', 'mt-coronet-1f', 14, 4);
+  await link('coronet-2f', 25, 3, 'up', 'coronet-4f', 3, 13);
+  await link('coronet-4f', 3, 13, 'left', 'coronet-2f', 25, 3);
+  await link('coronet-4f', 15, 3, 'up', 'coronet-snow', 6, 11);
+  await link('coronet-snow', 6, 11, 'up', 'coronet-4f', 15, 3);
+  await link('coronet-snow', 21, 3, 'up', 'coronet-5f', 10, 11);
+  await link('coronet-5f', 10, 11, 'down', 'coronet-snow', 21, 3);
+  await link('coronet-5f', 3, 3, 'up', 'coronet-6f', 3, 8);
+  await link('coronet-6f', 3, 8, 'left', 'coronet-5f', 3, 3);
+  await link('coronet-6f', 14, 3, 'up', 'coronet-top', 3, 9);
+  await link('coronet-top', 3, 9, 'left', 'coronet-6f', 14, 3);
+  await link('coronet-top', 22, 3, 'up', 'spear-pillar', 8, 15);
+  await link('spear-pillar', 8, 15, 'down', 'coronet-top', 22, 3);
+  // Hail outside.
+  const snow = G.Maps.get('coronet-snow').def;
+  assert.ok(snow.snow && snow.hail);
+  // The two grunts fill the way, and fight two against two.
+  W.load('spear-pillar', { x: 8, y: 15, dir: 'up' });
+  assert.ok(seen('pair') && seen('cyrus') && seen('mars') && seen('jupiter') && !seen('dialga') && !seen('barry'));
+  await settle();
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('pillar-grunts') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['pair']);
+  assert.ok(infos.splice(0)[0].rules.double);
+  assert.ok(!seen('pair'));
+  // The ritual. A loss: back at the last place you healed, and it can all happen again.
+  result = 'lose';
+  W.load('spear-pillar', { x: 8, y: 11, dir: 'up' });
+  await settle();
+  step(W, 'up');
+  await until(() => W.map.id === 'veilstone-center' && !W.locked);
+  assert.deepEqual(fights.splice(0), ['commanders']);
+  let info = infos.splice(0)[0];
+  assert.ok(info.rules.double && info.rules.tag);
+  assert.equal(info.partner.team.length, 6);
+  assert.equal(info.partner.team[5][0], 'empoleon', "Barry's starter");
+  assert.ok(!F.flag('pillar-done'));
+  // A win.
+  result = 'win';
+  F.party()[0].hp = 1;
+  W.load('spear-pillar', { x: 8, y: 11, dir: 'up' });
+  assert.ok(seen('cyrus') && !seen('barry'));
+  await settle();
+  step(W, 'up');
+  await until(() => F.flag('chapter-55-done') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['commanders']);
+  assert.ok(F.party().every(m => m.hp === G.Mon.maxHp(m)), 'Barry healed the team');
+  // Who is left, and the rift stays shut.
+  W.load('spear-pillar', { x: 8, y: 9, dir: 'up' });
+  assert.ok(!seen('cyrus') && !seen('mars') && !seen('jupiter') && !seen('dialga') && !seen('palkia'));
+  assert.ok(seen('barry') && seen('cynthia'));
+  W.load('spear-pillar', { x: 8, y: 6, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'not yet');
+  await settle();
+  at(8, 6);
+  assert.deepEqual(fights, []);
+  // Nobody stands in the way out.
+  for (const x of [8, 9]) {
+    W.load('spear-pillar', { x, y: 11, dir: 'down' });
+    for (let i = 0; i < 3; i++) { assert.equal(step(W, 'down'), 'moved', 'row ' + (12 + i)); await settle(); }
+    at(x, 14);
+  }
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

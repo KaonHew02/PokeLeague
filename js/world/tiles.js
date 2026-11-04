@@ -109,6 +109,11 @@ G.Tiles = (() => {
     wood: ['#4a3e5a', '#42364e', '#524664'], woodLine: '#2a2236', tile: ['#3c3250', '#352c48'], grout: '#2a2238',
     rug: ['#5a3a7a', '#7a5a9a', '#3a2458'], counter: ['#5a5070', '#463c5a', '#2e2640'],
     mat: ['#5a3a7a', '#7a5a9a'], screen: '#68d0f8' };
+  // The Distortion World (chapter 56): islands of cold violet stone in the dark.
+  PALETTES.distortion = { floor: 'tile', wallTop: ['#14101e', '#1a1426'], paper: ['#3a3050', '#342a48'], trim: '#5a4a78', base: '#1e182c',
+    wood: ['#4a4068', '#42385e', '#524872'], woodLine: '#2a2240', tile: ['#4e4670', '#463e66'], grout: '#2e2848',
+    rug: ['#5a3a7a', '#7a5a9a', '#3a2458'], counter: ['#5a5070', '#463c5a', '#2e2640'],
+    mat: ['#5a3a7a', '#7a5a9a'], screen: '#68d0f8' };
   // The Rocket Hideout: cold grey metal.
   PALETTES.hideout = { floor: 'tile', wallTop: ['#262a32', '#30343e'], paper: ['#7a8292', '#707888'], trim: '#a2aab8', base: '#3a404c',
     wood: ['#8a8e98', '#7a7e88', '#9a9ea8'], woodLine: '#5a5e68', tile: ['#b2bac6', '#a6aeba'], grout: '#8a92a0',

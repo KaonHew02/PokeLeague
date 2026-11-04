@@ -31,7 +31,6 @@ G.I18n.add({
   "Somebody just did.": "Qualcuno ci è appena riuscito.",
   "I have never seen the boss look happy before today. It was not a nice thing to see.": "Non avevo mai visto il capo felice prima di oggi. Non è stato un bello spettacolo.",
   "Nothing is getting past me while I watch this place. Go on, you will be late!": "Finché sorveglio io questo posto, non passa nessuno. Vai, farai tardi!",
-  "We go in together when you are ready. There is no sense in rushing into a world like that.": "Entreremo insieme quando sarà il momento. Non ha senso precipitarsi in un mondo come quello.",
   "Mars and Jupiter": "Martes e Giove",
   "The boss has begun, and nobody is to disturb him. It will take both of us to make sure of that!": "Il capo ha iniziato, e nessuno deve disturbarlo. Per questo siamo in due!",
   "Both of us were not enough!": "Nemmeno in due è bastato!",
@@ -63,5 +62,6 @@ G.I18n.add({
   "People in white uniforms came through in a great hurry. They cleared the rocks and went up that ladder!": "Sono passate persone in uniforme bianca, di gran fretta. Hanno spostato le rocce e sono salite da quella scala!",
   "The way up the mountain is closed by a rockfall. Nobody has been to the peak in years.": "Una frana ha chiuso la strada verso l'alto. Da anni nessuno va in vetta.",
   "The boss will not be pleased. Not that he is ever pleased.": "Il capo non sarà contento. Non che lo sia mai.",
-  "The rift twists the air around it. It is not safe to go in yet. Cynthia is waiting until you are ready.": "La fenditura distorce l'aria intorno. Non è ancora sicuro entrare. Camilla aspetta il momento giusto."
+  "The rift has closed. Only a faint shimmer is left in the air.": "La fenditura si è chiusa. Nell'aria resta solo un debole bagliore.",
+  "Step into the rift when you are ready. I will be right behind you.": "Entra nella fenditura quando sarà il momento. Sarò subito dietro di te."
 }, "it");

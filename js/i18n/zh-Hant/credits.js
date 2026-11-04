@@ -160,5 +160,8 @@ G.I18n.add({
   "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "感謝遊玩！天冠山山頂將在之後的更新中等著你。",
   "Chapter 55 complete!": "第五十五章完成！",
   "{player} climbed Mt. Coronet to the Spear Pillar and beat Mars and Jupiter beside Barry. But a great shadow took Cyrus through a rift in the air, and Cynthia is ready to follow.": "{player}登上天冠山抵達槍之柱，和阿馴一起打敗了伙星和紳虹。但巨大的影子把赤日拖進了空氣中的裂縫，竹蘭正準備追進去。",
-  "Thank you for playing! The world behind the rift waits in a future update.": "感謝遊玩！裂縫背後的世界將在之後的更新中等著你。"
+  "Thank you for playing! The world behind the rift waits in a future update.": "感謝遊玩！裂縫背後的世界將在之後的更新中等著你。",
+  "Chapter 56 complete!": "第五十六章完成！",
+  "{player} crossed the Distortion World beside Cynthia, beat Cyrus for the last time and faced Giratina. The distortion has stopped, and {player} came back to the world at Sendoff Spring.": "{player}和竹蘭一起穿過毀壞的世界，最後一次打敗了赤日，並面對了騎拉帝納。扭曲已經平息，{player}從送泉回到了現實世界。",
+  "Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.": "感謝遊玩！七灶博士和通往濱海市的路將在之後的更新中等著你。"
 }, "zh-Hant");

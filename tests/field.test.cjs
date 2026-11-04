@@ -3104,7 +3104,7 @@ test('Sinnoh (chapter 54): Looker, the warehouse, warp panels, the Galactic Key,
 });
 
 test('Sinnoh (chapter 55): the ladder, the way up, Hail in the snow, the grunts at the Spear Pillar, the ritual, a loss and a win beside Barry', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3180,14 +3180,10 @@ test('Sinnoh (chapter 55): the ladder, the way up, Hail in the snow, the grunts 
   await until(() => F.flag('chapter-55-done') && !W.locked);
   assert.deepEqual(fights.splice(0), ['commanders']);
   assert.ok(F.party().every(m => m.hp === G.Mon.maxHp(m)), 'Barry healed the team');
-  // Who is left, and the rift stays shut.
+  // Who is left.
   W.load('spear-pillar', { x: 8, y: 9, dir: 'up' });
   assert.ok(!seen('cyrus') && !seen('mars') && !seen('jupiter') && !seen('dialga') && !seen('palkia'));
   assert.ok(seen('barry') && seen('cynthia'));
-  W.load('spear-pillar', { x: 8, y: 6, dir: 'up' });
-  assert.equal(step(W, 'up'), 'blocked', 'not yet');
-  await settle();
-  at(8, 6);
   assert.deepEqual(fights, []);
   // Nobody stands in the way out.
   for (const x of [8, 9]) {
@@ -3195,6 +3191,164 @@ test('Sinnoh (chapter 55): the ladder, the way up, Hail in the snow, the grunts 
     for (let i = 0; i < 3; i++) { assert.equal(step(W, 'down'), 'moved', 'row ' + (12 + i)); await settle(); }
     at(x, 14);
   }
+});
+
+test('Sinnoh (chapter 56): the rift, the islands, the boulders, Cyrus, Giratina, Sendoff Spring, Turnback Cave and the tunnel', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W, later } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 31 }, (_, i) => i + 1);
+  S.player.lastHeal = { map: 'veilstone-center', spot: 'mat' };
+  for (const f of ['pillar-grunts', 'pillar-done', 'chapter-55-done']) F.setFlag(f);
+  F.giveMon('infernape', 52, { moves: ['flame-wheel', 'strength'] });
+  const until = async ok => { for (let i = 0; i < 900 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const cross = async (dir, to) => { step(W, dir); await until(() => W.map.id === to && !W.locked); };
+  const at = (x, y) => assert.deepEqual([W.player.x, W.player.y], [x, y]);
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const talk = () => pump(W, W.interact());
+  const wilds = [], fights = [];
+  let wild = 'win';
+  W.onTrainer = async d => { fights.push(d.id); return 'win'; };
+  W.onEncounter = async (sp, lvl) => { wilds.push([sp, lvl]); return wild; };
+  // The rift, and the first island: Cynthia and the shadow, once.
+  W.load('spear-pillar', { x: 8, y: 6, dir: 'up' });
+  assert.ok(seen('cynthia') && seen('barry'));
+  await cross('up', 'distortion-1');
+  await until(() => F.flag('distortion-entered') && !W.locked);
+  at(10, 9);
+  assert.ok(!seen('cynthia'));
+  // The void cannot be walked into, and the panel leads back out.
+  W.load('distortion-1', { x: 8, y: 9, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked');
+  W.load('distortion-1', { x: 10, y: 8, dir: 'down' });
+  await cross('down', 'spear-pillar');
+  at(8, 6);
+  // Island to island.
+  W.load('distortion-1', { x: 11, y: 3, dir: 'up' });
+  await cross('up', 'distortion-2');
+  await until(() => F.flag('distortion-guides') && !W.locked);
+  at(3, 2);
+  assert.ok(!seen('uxie') && !seen('cynthia'));
+  const panel = async (x, y, dir, tx, ty) => {
+    W.load('distortion-2', { x, y, dir });
+    step(W, dir);
+    await settle();
+    at(tx, ty);
+  };
+  await panel(6, 3, 'down', 3, 8);
+  await panel(3, 7, 'down', 6, 4);
+  await panel(6, 9, 'down', 19, 2);
+  await panel(19, 1, 'down', 6, 10);
+  await panel(23, 3, 'down', 19, 8);
+  await panel(19, 7, 'down', 23, 4);
+  W.load('distortion-2', { x: 23, y: 9, dir: 'down' });
+  await cross('down', 'distortion-3');
+  at(20, 6);
+  // The panel down stays dark until the three holes are full.
+  assert.ok(seen('uxie') && seen('mesprit') && seen('azelf') && seen('cynthia'));
+  W.load('distortion-3', { x: 10, y: 7, dir: 'down' });
+  assert.equal(step(W, 'down'), 'blocked', 'dark');
+  await settle();
+  // Walking into a hole drops you back to the start.
+  W.load('distortion-3', { x: 3, y: 3, dir: 'up' });
+  await cross('up', 'distortion-3');
+  await settle();
+  at(20, 6);
+  // Real pushes with Strength.
+  const push = async (dir, n) => {
+    for (let i = 0; i < n; i++) {
+      later(1000);
+      assert.equal(step(W, dir), 'blocked', 'a push does not move the player');
+      if (i < n - 1) { later(1000); assert.equal(step(W, dir), 'moved'); await settle(); }
+    }
+  };
+  const walk = async dirs => { for (const d of dirs.split(' ')) { assert.equal(step(W, d), 'moved', d); await settle(); } };
+  W.load('distortion-3', { x: 3, y: 5, dir: 'up' });
+  W.strength = true;
+  await settle();
+  await push('up', 2);
+  assert.ok(F.flag('pit:distortion-3:3,2'), 'the west pit');
+  W.load('distortion-3', { x: 3, y: 3, dir: 'up' });
+  assert.ok(!seen('uxie'), 'Uxie has gone');
+  // Leaving the map puts a boulder back, so these two are pushed in one visit.
+  W.load('distortion-3', { x: 7, y: 5, dir: 'right' });
+  W.strength = true;
+  await settle();
+  await push('right', 2);
+  await walk('down right right');
+  await push('up', 3);
+  assert.ok(F.flag('pit:distortion-3:10,2'), 'the middle pit');
+  W.load('distortion-3', { x: 19, y: 5, dir: 'left' });
+  W.strength = true;
+  await settle();
+  await push('left', 1);
+  await walk('down left left');
+  await push('up', 3);
+  assert.ok(F.flag('pit:distortion-3:17,2'), 'the east pit');
+  // A filled hole is floor.
+  W.load('distortion-3', { x: 3, y: 3, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await settle();
+  at(3, 2);
+  // Cynthia heals the team at the bottom.
+  F.party()[0].hp = 1;
+  W.load('distortion-3', { x: 10, y: 7, dir: 'down' });
+  await cross('down', 'distortion-4');
+  await until(() => F.flag('distortion-heal') && !W.locked);
+  assert.equal(F.party()[0].hp, G.Mon.maxHp(F.party()[0]));
+  // Cyrus. A loss to Giratina leaves it there, and it can be faced again.
+  wild = 'lose';
+  W.load('distortion-4', { x: 8, y: 6, dir: 'up' });
+  await settle();
+  W.interact();
+  await until(() => W.map.id === 'veilstone-center' && !W.locked);
+  assert.deepEqual(fights.splice(0), ['cyrus']);
+  assert.deepEqual(wilds.splice(0), [[487, 47]]);
+  assert.ok(F.flag('cyrus-distortion') && !F.flag('giratina-met') && !F.flag('distortion-done'));
+  // Beaten this time: on to Sendoff Spring, and it waits in Turnback Cave.
+  wild = 'win';
+  W.load('distortion-4', { x: 8, y: 4, dir: 'up' });
+  assert.ok(seen('giratina') && !seen('cyrus'));
+  await settle();
+  W.interact();
+  await until(() => W.map.id === 'sendoff-spring' && F.flag('chapter-56-done') && !W.locked);
+  assert.deepEqual(wilds.splice(0), [[487, 47]]);
+  assert.ok(F.flag('giratina-met') && !F.flag('giratina-caught'));
+  at(15, 9);
+  assert.ok(!seen('cynthia'));
+  // The rift has closed, and nobody is left at the Spear Pillar.
+  W.load('spear-pillar', { x: 8, y: 6, dir: 'up' });
+  assert.ok(!seen('cynthia') && !seen('barry'));
+  assert.equal(step(W, 'up'), 'blocked', 'closed');
+  await settle();
+  // Turnback Cave: as often as it takes.
+  W.load('sendoff-spring', { x: 10, y: 3, dir: 'up' });
+  await cross('up', 'turnback-cave');
+  at(7, 7);
+  assert.ok(seen('giratina'));
+  W.load('turnback-cave', { x: 7, y: 4, dir: 'up' });
+  await talk();
+  assert.deepEqual(wilds.splice(0), [[487, 47]]);
+  assert.ok(!seen('giratina') && !F.flag('giratina-caught'), 'it sank away');
+  W.load('turnback-cave', { x: 7, y: 4, dir: 'up' });
+  assert.ok(seen('giratina'), 'and came back');
+  wild = 'caught';
+  await talk();
+  assert.ok(F.flag('giratina-caught'));
+  W.load('turnback-cave', { x: 7, y: 4, dir: 'up' });
+  assert.ok(!seen('giratina'), 'for good');
+  // The way home: the spring, the path, the tunnel to Route 214 and back.
+  W.load('sendoff-spring', { x: 15, y: 14, dir: 'down' });
+  await cross('down', 'spring-path');
+  at(10, 0);
+  W.load('spring-path', { x: 10, y: 6, dir: 'down' });
+  await cross('down', 'route214');
+  at(5, 42);
+  await cross('up', 'spring-path');
+  at(10, 6);
 });
 
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {

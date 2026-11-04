@@ -124,7 +124,7 @@ G.Maps = (() => {
       U: 'spin-up', D: 'spin-down', L: 'spin-left', R: 'spin-right', o: 'spin-stop', i: 'invisible',
       n: 'keydoor', w: 'pad',
       O: 'pit', y: 'bars', j: 'statue', z: 'quiz',
-      a: 'abyss', c: 'rubble', I: 'ice'
+      a: 'abyss', c: 'rubble', I: 'ice', v: 'void'
     }
   };
   /** Buildings drawn as stamps: footprint in tiles (stamps.js paints them). */

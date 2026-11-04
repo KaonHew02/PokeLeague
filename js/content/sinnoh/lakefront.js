@@ -64,7 +64,8 @@
       'TTTTTTTTTTTTTT,,TTTTTTTTTTTTTT'
     ],
     connect: { north: { map: 'veilstone', offset: -3 }, south: { map: 'valor-lakefront', offset: -6 } },
-    warps: [{ x: 5, y: 41, locked: 'route214.tunnel' }],
+    warps: [{ x: 5, y: 41, to: 'spring-path', spot: 'tunnel', if: 'distortion-done', locked: 'route214.tunnel' }],
+    spots: { spring: [5, 42, 'down'] },
     signs: { '16,2': 'Route 214. North: Veilstone City. South: Valor Lakefront.' },
     items: [{ x: 26, y: 4, item: 'max-repel', flag: 'route214-repel' }, { x: 3, y: 34, item: 'big-mushroom', flag: 'route214-mushroom' }],
     trainers: [

@@ -31,7 +31,6 @@ G.I18n.add({
   "Somebody just did.": "Quelqu'un vient d'y arriver.",
   "I have never seen the boss look happy before today. It was not a nice thing to see.": "Je n'avais jamais vu le chef heureux avant aujourd'hui. Ce n'était pas agréable à voir.",
   "Nothing is getting past me while I watch this place. Go on, you will be late!": "Rien ne passera tant que je surveille cet endroit. Vas-y, tu vas être en retard !",
-  "We go in together when you are ready. There is no sense in rushing into a world like that.": "Nous entrerons ensemble quand tout sera en ordre. Inutile de se précipiter dans un tel monde.",
   "Mars and Jupiter": "Mars et Jupiter",
   "The boss has begun, and nobody is to disturb him. It will take both of us to make sure of that!": "Le chef a commencé, et personne ne doit le déranger. Nous sommes là tous les deux pour ça !",
   "Both of us were not enough!": "Même à deux, ça n'a pas suffi !",
@@ -63,5 +62,6 @@ G.I18n.add({
   "People in white uniforms came through in a great hurry. They cleared the rocks and went up that ladder!": "Des gens en uniforme blanc sont passés en grande hâte. Ils ont dégagé les rochers et ont pris cette échelle !",
   "The way up the mountain is closed by a rockfall. Nobody has been to the peak in years.": "Un éboulement ferme la voie vers le haut. Personne n'est allé au sommet depuis des années.",
   "The boss will not be pleased. Not that he is ever pleased.": "Le chef ne sera pas content. Non pas qu'il le soit jamais.",
-  "The rift twists the air around it. It is not safe to go in yet. Cynthia is waiting until you are ready.": "La faille tord l'air autour d'elle. Il n'est pas encore sûr d'entrer. Cynthia attend que tout soit en ordre."
+  "The rift has closed. Only a faint shimmer is left in the air.": "La faille s'est refermée. Il ne reste qu'un léger miroitement dans l'air.",
+  "Step into the rift when you are ready. I will be right behind you.": "Entre dans la faille quand tout sera en ordre. Je serai juste derrière toi."
 }, "fr");

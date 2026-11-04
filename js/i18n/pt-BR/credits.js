@@ -160,5 +160,8 @@ G.I18n.add({
   "Thank you for playing! The peak of Mt. Coronet waits in a future update.": "Obrigado por jogar! O topo do Mt. Coronet espera você em uma próxima atualização.",
   "Chapter 55 complete!": "Capítulo 55 concluído!",
   "{player} climbed Mt. Coronet to the Spear Pillar and beat Mars and Jupiter beside Barry. But a great shadow took Cyrus through a rift in the air, and Cynthia is ready to follow.": "{player} subiu o Mt. Coronet até o Spear Pillar e venceu Mars e Jupiter ao lado de Barry. Mas uma grande sombra levou Cyrus por uma fenda no ar, e Cynthia está pronta para segui-lo.",
-  "Thank you for playing! The world behind the rift waits in a future update.": "Obrigado por jogar! O mundo além da fenda espera você em uma próxima atualização."
+  "Thank you for playing! The world behind the rift waits in a future update.": "Obrigado por jogar! O mundo além da fenda espera você em uma próxima atualização.",
+  "Chapter 56 complete!": "Capítulo 56 concluído!",
+  "{player} crossed the Distortion World beside Cynthia, beat Cyrus for the last time and faced Giratina. The distortion has stopped, and {player} came back to the world at Sendoff Spring.": "{player} atravessou o Distortion World ao lado de Cynthia, venceu Cyrus pela última vez e enfrentou Giratina. A distorção parou, e {player} voltou ao mundo em Sendoff Spring.",
+  "Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.": "Obrigado por jogar! O Professor Rowan e o caminho para Sunyshore City esperam você em uma próxima atualização."
 }, "pt-BR");

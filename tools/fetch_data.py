@@ -288,6 +288,10 @@ LOC_NAMES = {
     'tg-eterna-bldg':    ('T.G. Eterna Bldg',   'T.G. Eterna Bldg',    '银河队百代大楼', '銀河隊百代大樓'),
     'galactic-hq':       ('Galactic HQ',        'Galactic HQ',         '银河队帷幕大楼', '銀河隊帷幕大樓'),
     'spear-pillar':      ('Columnas Lanza',     'Vetta Lancia',        '枪之柱',     '槍之柱'),
+    'distortion-world':  ('Mundo Distorsión',   'Mondo Distorto',      '毁坏的世界', '毀壞的世界'),
+    'sendoff-spring':    ('Fuente Despedida',   'Fonte Saluto',        '送泉',       '送泉'),
+    'spring-path':       ('Vía Manantial',      'Sentiero Fonte',      '隐泉之路',   '隱泉之路'),
+    'turnback-cave':     ('Cueva Retorno',      'Grotta Ritorno',      '归途洞窟',   '歸途洞窟'),
     # Chapter 48.
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),

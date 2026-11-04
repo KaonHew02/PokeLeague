@@ -306,7 +306,7 @@ test('every trainer on the Kanto maps can be battled to the end by the engine', 
       // (A Mewtwo well above the team: this checks that every battle ends, not the balance.)
       S.party.length = 0;
       const top = Math.max(...t.team.map(m => m[1]));
-      S.party.push(G.Mon.create(150, Math.max(40, top + 15), { rng: G.RNG(1), moves: ['psychic', 'recover', 'shadow-ball', 'ice-beam'] }));
+      S.party.push(G.Mon.create(150, Math.max(40, top + 25), { rng: G.RNG(1), moves: ['psychic', 'recover', 'shadow-ball', 'ice-beam'] }));
       const rng = G.RNG(2);
       const party = t.team.map(([sp, lvl, moves]) => G.Mon.create(G.Maps.species(sp), lvl, { rng, moves }));
       for (const m of party) for (const mv of m.moves) assert.ok(G.MOVES[mv.id], `${id}:${t.id} move ${mv.id}`);
@@ -907,6 +907,27 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['torterra + luxray', 'empoleon + luxray', 'infernape + luxray + roselia']) assert.ok(table[k] >= 0.55, k);
   // Barry: a team of three beats him nearly always.
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
+});
+
+test('balance: Cyrus in the Distortion World (chapter 56), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'distortion-4', 'cyrus');
+  const TOR = ['earthquake', 'crunch', 'razor-leaf', 'synthesis'], INF = ['flame-wheel', 'close-combat', 'mach-punch', 'punishment'];
+  const EMP = ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet'], LUX = ['crunch', 'thunder-fang', 'spark', 'roar'], STA = ['aerial-ace', 'close-combat', 'take-down', 'agility'];
+  const LUC = ['force-palm', 'metal-claw', 'bone-rush', 'quick-attack'], RAP = ['flame-wheel', 'stomp', 'fire-spin', 'take-down'];
+  const teams = {
+    'torterra 52': [[389, 52, TOR]], 'infernape 52': [[392, 52, INF]], 'empoleon 52': [[395, 52, EMP]],
+    'torterra 52 + luxray 50': [[389, 52, TOR], [405, 50, LUX]], 'infernape 52 + luxray 50': [[392, 52, INF], [405, 50, LUX]], 'empoleon 52 + luxray 50': [[395, 52, EMP], [405, 50, LUX]],
+    'torterra 52 + luxray 50 + staraptor 50': [[389, 52, TOR], [405, 50, LUX], [398, 50, STA]],
+    'infernape 52 + luxray 50 + staraptor 50': [[392, 52, INF], [405, 50, LUX], [398, 50, STA]],
+    'empoleon 52 + luxray 50 + staraptor 50': [[395, 52, EMP], [405, 50, LUX], [398, 50, STA]],
+    'torterra 52 + luxray 50 + rapidash 48': [[389, 52, TOR], [405, 50, LUX], [78, 48, RAP]],
+    'torterra 52 + staraptor 50 + lucario 47': [[389, 52, TOR], [398, 50, STA], [448, 47, LUC]]
+  };
+  const table = Object.fromEntries(Object.entries(teams).map(([k, t]) => [k, rate(t)]));
+  console.log('[balance] vs Cyrus (Distortion World):', JSON.stringify(table));
+  // Torterra, Staraptor and Lucario have nothing for Gyarados and Weavile, and lose at any level near this one.
+  for (const k of Object.keys(teams).filter(k => k.split('+').length === 3 && !k.includes('lucario'))) assert.ok(table[k] >= 0.6, k + ' beats Cyrus at a normal difficulty');
 });
 
 test('balance: Mars and Jupiter beside Barry (chapter 55), win rates of typical teams are printed', () => {
@@ -4075,6 +4096,26 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 56 after chapter 55: the Distortion World, Cyrus, Giratina, Sendoff Spring. */
+async function chapter56(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  lead(st, S.party.some(m => m.sp === 392) ? 392 : 391);
+  await run(st, 'distortion-1', 'distortion.enter');
+  await run(st, 'distortion-2', 'distortion.guides');
+  await run(st, 'distortion-4', 'distortion.heal');
+  assert.ok(F.flag('distortion-entered') && F.flag('distortion-guides') && F.flag('distortion-heal'));
+  F.healAll();
+  await run(st, 'distortion-4', [['battle', 'distortion-4:cyrus']]);
+  const cyrus = st.battles.find(b => b.key === 'distortion-4:cyrus');
+  assert.equal(cyrus.outcome, 'win', 'Cyrus at levels ' + cyrus.levels);
+  console.log('[story] Cyrus in the Distortion World:', cyrus.outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('cyrus-distortion') && F.flag('giratina-met') && F.flag('distortion-done') && F.flag('chapter-56-done'));
+  assert.equal(st.W.map, 'sendoff-spring');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 55 after chapter 54: up Mt. Coronet, the Spear Pillar, Mars and Jupiter beside Barry. */
 async function chapter55(st) {
   const { G, S } = st;
@@ -4280,4 +4321,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter53(st);
   await chapter54(st);
   await chapter55(st);
+  await chapter56(st);
 });

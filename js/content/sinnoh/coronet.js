@@ -5,7 +5,7 @@
  * Pokémon are kept. At the Spear Pillar two grunts stop you in a double battle (flag pillar-grunts). Then Cyrus calls Dialga
  * and Palkia with the Red Chain, Mars and Jupiter stand in the way, Barry runs in, heals your team and fights beside you (a
  * multi battle: `partner`, `rules.tag`). After it a great shadow shakes the pillars, Dialga and Palkia vanish, a rift
- * takes Cyrus, and Cynthia arrives (flag pillar-done), then `ending(55)`. The rift stays closed until the next chapter.
+ * takes Cyrus, and Cynthia arrives (flag pillar-done), then `ending(55)`. The rift leads to the Distortion World (distortion.js).
  */
 (() => {
   const T = s => G.T(s);
@@ -256,8 +256,8 @@
       'W++++++++++++++++W',
       'WWWWWWWW^WWWWWWWWW'
     ],
-    warps: [{ x: 8, y: 16, to: 'coronet-top', spot: 'from-above' }, { x: 8, y: 5, locked: 'pillar.rift' }],
-    spots: { 'from-below': [8, 15, 'up'] },
+    warps: [{ x: 8, y: 16, to: 'coronet-top', spot: 'from-above' }, { x: 8, y: 5, to: 'distortion-1', spot: 'start', if: '!distortion-done', locked: 'pillar.rift-closed' }],
+    spots: { 'from-below': [8, 15, 'up'], rift: [8, 6, 'down'] },
     triggers: [{ x: 1, y: 10, w: 16, h: 1, if: ['pillar-grunts', '!pillar-done'], script: 'pillar.ritual' }],
     npcs: [
       { id: 'cyrus', who: 'cyrus', x: 8, y: 5, dir: 'up', if: '!pillar-done', script: 'pillar.ritual' },
@@ -265,8 +265,8 @@
       { id: 'jupiter', who: 'jupiter', x: 10, y: 7, dir: 'down', if: '!pillar-done', script: 'pillar.ritual' },
       { id: 'dialga', who: 'dialga', mon: 'dialga', x: 6, y: 3, dir: 'down', fixed: true, if: 'scripted' },
       { id: 'palkia', who: 'palkia', mon: 'palkia', x: 11, y: 3, dir: 'down', fixed: true, if: 'scripted' },
-      { id: 'barry', who: 'barry', x: 11, y: 12, dir: 'up', if: 'pillar-done', say: 'Nothing is getting past me while I watch this place. Go on, you will be late!' },
-      { id: 'cynthia', who: 'cynthia', x: 6, y: 12, dir: 'up', if: 'pillar-done', say: 'We go in together when you are ready. There is no sense in rushing into a world like that.' }
+      { id: 'barry', who: 'barry', x: 11, y: 12, dir: 'up', if: ['pillar-done', '!distortion-done'], say: 'Nothing is getting past me while I watch this place. Go on, you will be late!' },
+      { id: 'cynthia', who: 'cynthia', x: 6, y: 12, dir: 'up', if: ['pillar-done', '!distortion-done'], say: 'Step into the rift when you are ready. I will be right behind you.' }
     ],
     trainers: [
       grunt({ id: 'pair', x: 8, y: 13, dir: 'down', sight: 2, double: true, partner: { who: 'galactic', x: 9, y: 13, dir: 'down' }, if: '!pillar-grunts',
@@ -343,6 +343,6 @@
       ['fade', 'out', 0.3], ['setFlag', 'pillar-grunts'], ['fade', 'in', 0.3]
     ],
     'pillar.ritual': [['js', ritual]],
-    'pillar.rift': [['say', 'The rift twists the air around it. It is not safe to go in yet. Cynthia is waiting until you are ready.']]
+    'pillar.rift-closed': [['say', 'The rift has closed. Only a faint shimmer is left in the air.']]
   });
 })();

@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 56) return { title: T('Chapter 56 complete!'),
+      done: fmt('{player} crossed the Distortion World beside Cynthia, beat Cyrus for the last time and faced Giratina. The distortion has stopped, and {player} came back to the world at Sendoff Spring.', { player }),
+      next: T('Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.') };
     if (n === 55) return { title: T('Chapter 55 complete!'),
       done: fmt('{player} climbed Mt. Coronet to the Spear Pillar and beat Mars and Jupiter beside Barry. But a great shadow took Cyrus through a rift in the air, and Cynthia is ready to follow.', { player }),
       next: T('Thank you for playing! The world behind the rift waits in a future update.') };

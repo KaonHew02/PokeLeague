@@ -31,7 +31,6 @@ G.I18n.add({
   "Somebody just did.": "Alguien acaba de hacerlo.",
   "I have never seen the boss look happy before today. It was not a nice thing to see.": "Nunca había visto al jefe contento hasta hoy. No fue agradable de ver.",
   "Nothing is getting past me while I watch this place. Go on, you will be late!": "Mientras yo vigile este sitio, aquí no pasa nadie. ¡Venga, que llegas tarde!",
-  "We go in together when you are ready. There is no sense in rushing into a world like that.": "Entraremos juntos cuando lo tengas todo a punto. No tiene sentido precipitarse en un mundo así.",
   "Mars and Jupiter": "Venus y Ceres",
   "The boss has begun, and nobody is to disturb him. It will take both of us to make sure of that!": "El jefe ha empezado, y nadie debe molestarlo. ¡Para eso estamos los dos!",
   "Both of us were not enough!": "¡Ni siquiera los dos hemos bastado!",
@@ -63,5 +62,6 @@ G.I18n.add({
   "People in white uniforms came through in a great hurry. They cleared the rocks and went up that ladder!": "Pasó gente con uniformes blancos a toda prisa. ¡Apartaron las rocas y subieron por esa escalera!",
   "The way up the mountain is closed by a rockfall. Nobody has been to the peak in years.": "Un desprendimiento ha cerrado el camino hacia arriba. Hace años que nadie sube a la cima.",
   "The boss will not be pleased. Not that he is ever pleased.": "Al jefe no le va a gustar. Aunque nunca le gusta nada.",
-  "The rift twists the air around it. It is not safe to go in yet. Cynthia is waiting until you are ready.": "La grieta retuerce el aire a su alrededor. Aún no es seguro entrar. Cintia espera a que todo esté a punto."
+  "The rift has closed. Only a faint shimmer is left in the air.": "La grieta se ha cerrado. Solo queda un leve brillo en el aire.",
+  "Step into the rift when you are ready. I will be right behind you.": "Entra en la grieta cuando lo tengas todo a punto. Iré justo detrás de ti."
 }, "es");

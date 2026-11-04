@@ -31,7 +31,6 @@ G.I18n.add({
   "Somebody just did.": "剛剛就有人做到了。",
   "I have never seen the boss look happy before today. It was not a nice thing to see.": "我今天才第一次看到首領高興的樣子。那可不是什麼好景象。",
   "Nothing is getting past me while I watch this place. Go on, you will be late!": "有我守著這裡，什麼也別想過去。快去吧，要遲到了！",
-  "We go in together when you are ready. There is no sense in rushing into a world like that.": "等你準備好，我們一起進去。闖進那樣的世界，急不得。",
   "Mars and Jupiter": "伙星和紳虹",
   "The boss has begun, and nobody is to disturb him. It will take both of us to make sure of that!": "首領已經開始了，誰也不許打擾。我們兩個就是為這個守在這裡的！",
   "Both of us were not enough!": "我們兩個都不夠！",
@@ -63,5 +62,6 @@ G.I18n.add({
   "People in white uniforms came through in a great hurry. They cleared the rocks and went up that ladder!": "剛才有一群穿白制服的人急匆匆地過來，搬開落石，從那個梯子上去了！",
   "The way up the mountain is closed by a rockfall. Nobody has been to the peak in years.": "上山的路被落石封住了。已經好多年沒人上過山頂了。",
   "The boss will not be pleased. Not that he is ever pleased.": "首領不會高興的。雖說他也從沒高興過。",
-  "The rift twists the air around it. It is not safe to go in yet. Cynthia is waiting until you are ready.": "裂縫周圍的空氣都扭曲了。現在進去還不安全。竹蘭在等你準備好。"
+  "The rift has closed. Only a faint shimmer is left in the air.": "裂縫已經閉合，空氣中只剩下一點微光。",
+  "Step into the rift when you are ready. I will be right behind you.": "準備好了就走進裂縫吧。我就跟在你後面。"
 }, "zh-Hant");

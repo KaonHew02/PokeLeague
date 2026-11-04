@@ -2312,21 +2312,42 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
     (team by `barry-starter`, class `galactic-commanders`; both teams are on the map's `def`, for the balance test). A loss is a normal
     blackout and the scene starts again. After the win a shadow shakes the pillars, Dialga and Palkia vanish, a rift takes Cyrus,
     Mars and Jupiter leave, Cynthia names Giratina, Barry stays on guard (flag pillar-done), then `ending(55)`. The rift (the
-    pad under Cyrus's feet, `pillar.rift`) stays shut until the next chapter. Sources for the order of events: Platinum walkthroughs.
+    pad under Cyrus's feet) leads to the Distortion World (chapter 56). Sources for the order of events: Platinum walkthroughs.
     They give the order only: the wording, Barry's heal, and how Cyrus and the Commanders leave are from memory. Check them if a
     fuller source turns up.
 - **Balance:** the teams and levels of Platinum. Barry's six Pokémon carry a lot of it: a team of three wins 100%, a team of two
   98-100%, and a Pokémon alone 38-100%.
 - **Tests:** `tests/double.test.cjs` the rules of multi battles and `rules.tag`; `tests/field.test.cjs` the chapter on the real maps (the
-  ladder before and after, every link, the grunts, a loss and a win at the Spear Pillar, the partner's team by Barry's starter, the rift);
+  ladder before and after, every link, the grunts, a loss and a win at the Spear Pillar, the partner's team by Barry's starter);
   `tests/story.test.cjs` the chapter after chapter 54 and the balance line.
 
-### After chapter 55
+- **Chapter 56** ✅, the Distortion World, Sendoff Spring and Turnback Cave (`js/content/sinnoh/distortion.js`, translations
+  `sinnoh-distortion`). The chapter ends at Sendoff Spring.
+  - **Engine**: the indoor tile `v` (`void`: solid, black), the palette `distortion` and the battle background `distortion`.
+  - **Map**: Platinum's floors turn over and you walk on walls, which a game seen from above cannot show, so here it is islands
+    in the dark joined by warp panels: `distortion-1` to `-4` for its 1F to B7F. `distortion-1` has a panel back to the Spear Pillar,
+    so a team with no Strength can leave and return. `distortion-3`: any boulder fills any pit (in Platinum each has its
+    own), and leaving the map puts back a boulder that has not fallen. `sendoff-spring`, `spring-path`, and `turnback-cave`, which is
+    one room instead of Platinum's maze. The tunnel of Route 214 opens to the spring path (flag distortion-done).
+  - **Story**: see the header of the file for the flags. Cynthia heals the team before and after Cyrus. Giratina is level 47: caught,
+    beaten or fled from, the story goes on; lost to, it stays and the rift stays open. One that was not caught waits in Turnback Cave,
+    and comes back each time you leave it, until caught. It is the Altered form here, the only one in the game's data, where
+    Platinum has the Origin Forme. The sources give the order of events; the wording, that Cynthia heals, and Cyrus staying behind are from memory.
+    The lake Pokémon cannot be caught yet (Platinum opens that now: left for later).
+  - **Names**: from Pokémon Central and WikiDex, for es, it and Chinese; the Chinese for Sendoff Spring is 送泉.
+- **Balance:** Cyrus has Platinum's five Pokémon two levels lower (Houndoom 43, Honchkrow 45, Crobat 44, Gyarados 44, Weavile 46) and one
+  Super Potion instead of two Full Restores. With Platinum's team a team of three won 30-77%; now 62-95%. Torterra, Staraptor and
+  Lucario still lose every time, at any level tried (down to 41-44): they have nothing for Gyarados and Weavile.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the rift, the void, the way back, every panel, real pushes of the three
+  boulders, a pit that drops you and a filled one, the heal, a loss to Giratina and a second try, the rift closed, Turnback Cave until
+  it is caught, the way out to Route 214); `tests/story.test.cjs` the chapter after chapter 55 and the balance line.
+
+### After chapter 56
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) seven badges are won and Cyrus has gone through the rift at the Spear Pillar. Ideas:
-1. Sinnoh: the Distortion World, Cyrus and Giratina, Sendoff Spring; Sunyshore City and the last Gym; Route 212 back to Hearthome;
-   Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
+the Battle Tower; in Sinnoh (Pokémon 1-493) seven badges are won and Team Galactic is finished. Ideas:
+1. Sinnoh: Professor Rowan, Route 222, Sunyshore City and the last Gym; the League; the lake Pokémon (Uxie and Azelf in their caverns,
+   Mesprit roaming); Route 212 back to Hearthome; Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

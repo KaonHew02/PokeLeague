@@ -56,5 +56,9 @@ G.I18n.add({
   "Worker": "工人",
   "Galactic Commander": "银河队干部",
   "Aroma Lady": "芳香小姐",
-  "Cyclist": "自行车手"
+  "Cyclist": "自行车手",
+  "Collector": "收藏家",
+  "PI": "私家侦探",
+  "Ruin Maniac": "遗迹迷",
+  "Tuber": "泳圈少年"
 }, "zh-Hans");

@@ -33,7 +33,8 @@
  * that Pokémon (Actor.ride) until stepping back on land; water rolls the map's 'surf' table.
  * The Safari Zone (maps with `safari: true` while flag safari-on): every step counts down var
  * safari-steps, wild Pokémon meet you in a Safari battle (G.BattleUI.safari), and the game ends
- * (script safari.timeup / safari.out-of-balls) when the steps or the Safari Balls run out.
+ * (script safari.timeup / safari.out-of-balls) when the steps or the Safari Balls run out; a map's
+ * `safariScripts: 'marsh'` uses marsh.timeup / marsh.out-of-balls instead (Sinnoh's Great Marsh).
  * Chapter 7: boulders (map `boulders`) move when pushed after Strength is used (with the Rainbow
  * Badge), until you leave the map; one pushed into a pit falls through for good (flags
  * rock:<map>:<id> and pit:<map>:<x>,<y>; the pit is floor from then on). Fast water (`rapids`)
@@ -627,7 +628,7 @@ G.World = (() => {
       const left = (+G.Field.getVar('safari-steps') || 0) - 1;
       G.Field.setVar('safari-steps', Math.max(0, left));
       safariHud();
-      if (left <= 0) { G.Player.walk(null); runScript('safari.timeup', {}); return; }
+      if (left <= 0) { G.Player.walk(null); runScript(safariScript('timeup'), {}); return; }
     }
     // Spin tiles: an arrow sends the player sliding (spinning) until a stop tile or a wall.
     const inf = M().info(k);
@@ -785,7 +786,7 @@ G.World = (() => {
       else if (!m || m.hp <= 0) await runScript('contest.fainted', {});
     }
     else if (out === 'lose') await blackout();
-    else if (safariOn()) { safariHud(); if (!G.Field.count('safari-ball')) await runScript('safari.out-of-balls', {}); }
+    else if (safariOn()) { safariHud(); if (!G.Field.count('safari-ball')) await runScript(safariScript('out-of-balls'), {}); }
     else await afterBattle(out);
     return out;
   }
@@ -1373,6 +1374,8 @@ G.World = (() => {
   }
 
   const safariOn = () => !!(map && map.def.safari && G.Field.flag('safari-on'));
+  /** The script that ends this zone's game: 'safari.timeup', or the map's own (the Great Marsh). */
+  const safariScript = name => (map.def.safariScripts || 'safari') + '.' + name;
   const contestOn = () => !!(map && map.def.contest && G.Contest && G.Contest.on());
   /** Safari Balls (or the contest's Sport Balls) and steps left, in a corner, while a game is on. */
   function safariHud() {

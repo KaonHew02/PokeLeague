@@ -483,7 +483,7 @@ function trainerRate(G, L) {
     for (let s = 1; s <= 40; s++) {
       const rng = G.RNG(s * 19);
       const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
-      const foes = L.team.map(([x, l, moves]) => G.Mon.create(G.Maps.species(x), l, { rng, moves }));
+      const foes = L.team.map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), item ? { item } : {}));
       const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
         foe: { party: foes, trainer: { id, name: L.name, ai: 'leader', items: L.items || {}, prize: 100 } }, rules: { double: !!L.double } });
       b.start();
@@ -867,6 +867,43 @@ test('balance: Maylene in Veilstone (chapter 48), win rates of typical teams are
   // against its Steel: a team of three with a Psychic type (Kadabra, wild on Route 215) wins more than half the time.
   for (const k of ['monferno 34', 'grotle 34', 'prinplup 34']) assert.ok(table[k] < 0.1, k + ' alone');
   for (const sp of ['monferno', 'grotle', 'prinplup']) assert.ok(table[sp + ' 32 + staravia 30 + kadabra 30'] >= 0.55, sp + ' with a Kadabra');
+});
+
+test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'pastoria-gym', 'wake');
+  // A starter with TM86 (Grass Knot, from Gardenia), and the Luxray and Roselia of Sinnoh's routes.
+  const TORTERRA = [389, 38, ['grass-knot', 'earthquake', 'crunch', 'leech-seed']], INFERNAPE = [392, 38, ['grass-knot', 'flame-wheel', 'mach-punch', 'feint']];
+  const EMPOLEON = [395, 38, ['grass-knot', 'metal-claw', 'bubble-beam', 'swagger']];
+  const LUXRAY = [405, 36, ['spark', 'bite', 'swagger', 'roar']], ROSELIA = [315, 36, ['magical-leaf', 'mega-drain', 'stun-spore', 'poison-sting']];
+  const STARAPTOR = [398, 36, ['aerial-ace', 'close-combat', 'take-down', 'whirlwind']];
+  const table = {
+    'torterra 38': rate([[389, 38]]), 'infernape 38': rate([[392, 38]]), 'empoleon 38': rate([[395, 38]]),
+    'torterra + luxray': rate([TORTERRA, LUXRAY]), 'infernape + luxray': rate([INFERNAPE, LUXRAY]), 'empoleon + luxray': rate([EMPOLEON, LUXRAY]),
+    'torterra + luxray + staraptor': rate([TORTERRA, LUXRAY, STARAPTOR]), 'empoleon + luxray + roselia': rate([EMPOLEON, LUXRAY, ROSELIA]),
+    'infernape + luxray + roselia': rate([INFERNAPE, LUXRAY, ROSELIA]), 'infernape + luxray + roselia + staraptor': rate([INFERNAPE, LUXRAY, ROSELIA, STARAPTOR])
+  };
+  console.log('[balance] vs Crasher Wake:', JSON.stringify(table));
+  // Barry's team depends on the starter you took (pastoria.js).
+  const barry = team => trainerRate(G, { id: 'barry', name: 'Barry', team });
+  const vsTurtwig = barry([['staravia', 34], ['buizel', 32], ['ponyta', 32], ['grotle', 36]]);
+  const vsChimchar = barry([['staravia', 34], ['buizel', 32], ['roselia', 32], ['monferno', 36]]);
+  const vsPiplup = barry([['staravia', 34], ['roselia', 32], ['ponyta', 32], ['prinplup', 36]]);
+  const vsBarry = {
+    'empoleon 38': vsTurtwig([[395, 38]]), 'torterra 38': vsChimchar([[389, 38]]), 'infernape 38': vsPiplup([[392, 38]]),
+    'empoleon 38 + luxray 36': vsTurtwig([[395, 38], [405, 36]]), 'torterra 38 + luxray 36': vsChimchar([[389, 38], [405, 36]]),
+    'infernape 38 + luxray 36': vsPiplup([[392, 38], [405, 36]]),
+    'empoleon 38 + luxray 36 + staraptor 36': vsTurtwig([[395, 38], [405, 36], [398, 36]]),
+    'torterra 38 + luxray 36 + staraptor 36': vsChimchar([[389, 38], [405, 36], [398, 36]]),
+    'infernape 38 + luxray 36 + staraptor 36': vsPiplup([[392, 38], [405, 36], [398, 36]])
+  };
+  console.log('[balance] vs Barry in Pastoria:', JSON.stringify(vsBarry));
+  // Wake's three are each beaten alone, but a lone starter cannot get through all of them, with two Hyper Potions behind them.
+  // Electric and Grass moves are the way in. Infernape, weak to Water, is the hard case: it takes a team of four.
+  for (const k of ['torterra 38', 'infernape 38', 'empoleon 38']) assert.ok(table[k] < 0.1, k + ' alone');
+  for (const k of ['torterra + luxray', 'empoleon + luxray', 'infernape + luxray + roselia + staraptor']) assert.ok(table[k] >= 0.5, k);
+  // Barry: a team of three beats him nearly always.
+  for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
 test('balance: the Battle Tower (chapter 43), win rates of a typical team at level 50 are printed', () => {
@@ -3641,6 +3678,70 @@ async function chapter48(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 49 after chapter 48: Route 214, Valor Lakefront, Route 213, Pastoria City and Crasher Wake, a Safari Game in
+ *  the Great Marsh, the bomb and the grunt, Barry. */
+async function chapter49(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async (mapId, skip = []) => {
+    for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader' && !skip.includes(t.id))) { await fight(mapId, t.id); won(); }
+  };
+  // Monferno leads, or Infernape once it evolves.
+  const starter = () => lead(st, S.party.some(m => m.sp === 392) ? 392 : 391);
+  // Veilstone's road south opened with the Cobble Badge.
+  assert.ok(!F.test(G.Maps.get('veilstone').npcs.find(p => p.id === 'south').if), 'Route 214 is open');
+  starter();
+  await all('route214');
+  const grunt = G.Maps.get('valor-lakefront').trainers.find(t => t.id === 'grunt-lakefront');
+  assert.ok(!F.test(grunt.if), 'nobody before the hotel yet');
+  await all('route213');
+  // Pastoria City: Crasher Wake's Gym.
+  grind(st, 'route213', 38, 500);
+  starter();
+  await all('pastoria-gym');
+  F.healAll();
+  const money = S.player.money, tms = F.count('tm55');
+  await run(st, 'pastoria-gym', [['battle', 'pastoria-gym:wake']]);
+  won();
+  console.log('[story] Crasher Wake:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(S.player.badges.includes(28), 'the Fen Badge');
+  assert.equal(F.obeyCap('sinnoh'), 50, 'five Sinnoh badges: up to Lv. 50');
+  assert.equal(F.count('tm55'), tms + 1);
+  assert.equal(S.player.money - money, 3700);
+  // The Great Marsh: a Safari Game, and out of steps it ends at its own gate.
+  const cash = S.player.money;
+  await run(st, 'marsh-gate', 'marsh.attendant', [0]);
+  assert.ok(F.flag('safari-on') && F.count('safari-ball') === 30 && +F.getVar('safari-steps') === 500, 'a Safari Game');
+  assert.equal(S.player.money, cash - 500);
+  await run(st, 'great-marsh-1', 'marsh.timeup');
+  assert.ok(!F.flag('safari-on') && !F.count('safari-ball'), 'the game is over');
+  for (const id of ['great-marsh-1', 'great-marsh-2', 'great-marsh-3']) {
+    const t = G.Maps.encounters(G.Maps.get(id), 'walk');
+    assert.equal(t.mons.reduce((n, r) => n + r[3], 0), 100, id + ' adds up');
+  }
+  // Barry at the Gym door, the test bomb at the marsh gate, the grunt at the lakefront.
+  await run(st, 'pastoria', npc(st, 'pastoria', 'barry'));
+  assert.ok(!F.flag('marsh-bomb'));
+  await run(st, 'pastoria', npc(st, 'pastoria', 'grunt'));
+  assert.ok(F.flag('marsh-bomb') && F.test(grunt.if), 'the grunt ran to the lakefront');
+  await fight('valor-lakefront', 'grunt-lakefront');
+  won();
+  assert.ok(F.flag('lakefront-grunt'));
+  // Barry: the end of the chapter.
+  F.healAll();
+  await run(st, 'pastoria', npc(st, 'pastoria', 'barry2'));
+  assert.equal(last().key, 'pastoria:barry-pastoria');
+  won();
+  console.log('[story] Barry in Pastoria:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('barry-pastoria') && F.flag('chapter-49-done'));
+  const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
+  assert.ok(back.player.badges.includes(28), 'the save keeps the Fen Badge');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -3722,7 +3823,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 48: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its fourth Gym", async () => {
+test("chapters 11 to 49: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its fifth Gym", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -3772,4 +3873,5 @@ test("chapters 11 to 48: Johto, from Professor Elm to Johto's League and its pos
   await chapter46(st);
   await chapter47(st);
   await chapter48(st);
+  await chapter49(st);
 });

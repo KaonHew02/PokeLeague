@@ -56,5 +56,9 @@ G.I18n.add({
   "Worker": "Operaio",
   "Galactic Commander": "Comandante Galassia",
   "Aroma Lady": "Aromadama",
-  "Cyclist": "Ciclista"
+  "Cyclist": "Ciclista",
+  "Collector": "Collezionista",
+  "PI": "Investigatore",
+  "Ruin Maniac": "Rovinomane",
+  "Tuber": "Bagnante"
 }, "it");

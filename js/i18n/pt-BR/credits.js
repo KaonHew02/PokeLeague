@@ -139,5 +139,8 @@ G.I18n.add({
   "Thank you for playing! Routes 209 and 212 wait in a future update.": "Obrigado por jogar! As Rotas 209 e 212 chegam em uma próxima atualização.",
   "Chapter 48 complete!": "Capítulo 48 concluído!",
   "{player} crossed Route 209 to Solaceon Town, met the Unown of the Solaceon Ruins, braved the rain on Route 215 and earned the Cobble Badge from Maylene.": "{player} atravessou a Rota 209 até Solaceon, conheceu os Unown das Solaceon Ruins, enfrentou a chuva da Rota 215 e conquistou a Insígnia Pedregulho de Maylene.",
-  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "Obrigado por jogar! A Rota 214 e Pastoria chegam em uma próxima atualização."
+  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "Obrigado por jogar! A Rota 214 e Pastoria chegam em uma próxima atualização.",
+  "Chapter 49 complete!": "Capítulo 49 concluído!",
+  "{player} crossed Route 214 and the beach of Route 213, earned the Fen Badge from Crasher Wake, chased a Team Galactic bomber to Valor Lakefront and beat Barry in Pastoria City.": "{player} atravessou a Rota 214 e a praia da Rota 213, conquistou a Insígnia Pântano de Crasher Wake, perseguiu um recruta da Equipe Galáctica até o Valor Lakefront e venceu Barry em Pastoria.",
+  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Obrigado por jogar! O Lake Valor e Celestic chegam em uma próxima atualização."
 }, "pt-BR");

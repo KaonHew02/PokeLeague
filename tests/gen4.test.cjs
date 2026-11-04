@@ -224,6 +224,18 @@ test('moves: Stealth Rock on coming in, Trick Room, Gravity, Defog, Acupressure,
   assert.ok(S['crush-grip'].power(null, null, Object.assign(d.b.foe.bm)) >= 1 && t && full);
 });
 
+test('Brine doubles against a target at half its HP or less', () => {
+  const pow = G.MOVES.brine.pow;
+  assert.equal(hit(['floatzel', 50, ['brine']]).c.pow, pow, 'full HP');
+  const low = (hp, want) => {
+    const d = duel(G, { me: ['floatzel', 50, ['brine']], foe: ['snorlax', 50, ['splash']], seed: 3 });
+    d.foes[0].hp = hp(G.Mon.maxHp(d.foes[0]));
+    assert.equal(calcs(() => d.b.act({ type: 'move', slot: 0 }))[0].pow, want);
+  };
+  low(m => Math.floor(m / 2), pow * 2);
+  low(m => Math.floor(m / 2) + 1, pow);
+});
+
 test('evolutions: a held item at night, a gender with a stone, a known move, a species in the party', () => {
   const mk = (sp, lvl, o) => Object.assign(G.Mon.create(sp, lvl, { rng: G.RNG(sp) }), o);
   const gligar = mk(207, 30, { item: 'razor-fang' });

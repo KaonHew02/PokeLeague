@@ -28,7 +28,7 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -293,6 +293,9 @@ G.People = (() => {
                p: '#2a2a32', P: '#16161c', k: '#e85a3a' },
     // Chapter 48: Maylene (short pink hair, a blue and white fighter's top, bare feet).
     maylene: { head: 'short', body: 'tee', legs: 'bare', h: '#f07aa8', H: '#c0507e', c: '#4a7ad8', C: '#3458a8', p: '#f4f4f4', P: '#c8c8d0', k: '#e8b890' },
+    // Chapter 49: Crasher Wake (a wrestler's mask, yellow over the face and blue on top; a blue suit, yellow gloves and boots).
+    wake: { head: 'short', body: 'tee', legs: 'pants', h: '#2a6ac8', H: '#1e4a90', s: '#f0c838', S: '#c09a20', c: '#2a6ac8', C: '#1e4a90',
+            p: '#2a6ac8', P: '#1e4a90', k: '#f0c838' },
     glacia: { head: 'long', body: 'dress', legs: 'bare', h: '#e8eef8', H: '#b8c4d8', c: '#6a8ad8', C: '#4a68b0', j: '#e8eef8', J: '#b8c4d8', k: '#4a68b0' },
     drake: { head: 'short', body: 'coat', legs: 'pants', h: '#d8d8e0', H: '#a8a8b4', j: '#2a3a6a', J: '#1c284a', c: '#f4f4f4', C: '#c8c8d0',
              p: '#2a3a6a', P: '#1c284a', k: '#1a1a22' },

@@ -21,9 +21,9 @@ the map format and which files each milestone owns.
   Use `sinnoh` (dex 1–493, Kanto, Johto, Hoenn and Sinnoh places, abilities; Generation 4 abilities from 387):
   `--region hoenn`, `johto` or `kanto` would cut the data back to 386, 251 or 151.
 - `node tools/map_check.js <map-id> | --all` — prints a map with its objects and checks it.
-- `tests/story.test.cjs` plays chapters 1 to 48 headless (real scripts and battle engine with an
+- `tests/story.test.cjs` plays chapters 1 to 49 headless (real scripts and battle engine with an
   auto-player) and prints `[balance]` win rates against the Gym Leaders (Kanto's eight, Johto's eight, and Hoenn's eight), the Elite Four of Kanto, Johto and Hoenn
-  and Champions (and their rematches), Steven at Meteor Falls, the Regis, Hoenn's legends, the Battle Tower, Sinnoh's rival Barry, Roark, Mars, Gardenia, Jupiter, Fantina and Maylene. `tests/double.test.cjs` covers double battles (`rules.double`), `tests/roam.test.cjs` roaming Pokémon (`rules.roamer`), `tests/tower.test.cjs` the Battle Tower (`G.Tower`, `rules.noExp`, `rules.noBag`), `tests/gen4.test.cjs` Generation 4 abilities, moves and evolutions. `tests/field.test.cjs` runs the overworld rules (field.js) without a screen. The game grows chapter by
+  and Champions (and their rematches), Steven at Meteor Falls, the Regis, Hoenn's legends, the Battle Tower, Sinnoh's rival Barry, Roark, Mars, Gardenia, Jupiter, Fantina, Maylene, Crasher Wake and Barry in Pastoria. `tests/double.test.cjs` covers double battles (`rules.double`), `tests/roam.test.cjs` roaming Pokémon (`rules.roamer`), `tests/tower.test.cjs` the Battle Tower (`G.Tower`, `rules.noExp`, `rules.noBag`), `tests/gen4.test.cjs` Generation 4 abilities, moves and evolutions. `tests/field.test.cjs` runs the overworld rules (field.js) without a screen. The game grows chapter by
   chapter (docs/DESIGN.md section 10); a chapter ends with `G.CreditsUI.ending(n)`.
   Try a map in the browser with `dev.html?debug&map=<id>` (`map=sandbox` is the M3 test town).
 - Run: `python tools/serve.py` → http://localhost:8130/dev.html (PokéGo uses 8123). It is

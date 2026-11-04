@@ -3,7 +3,7 @@
  * (`storm: true`: rain on the map and in its battles); Black Belts, a Battle Girl, a Cool Trainer.
  * Veilstone City, walled in by cliffs and dotted with meteorites: a Pokémon Center, the Veilstone Store
  * (a Mart with more on its shelves), a house and Maylene's Gym; Team Galactic's HQ (guarded) and the
- * Game Corner are closed, and so is Route 214 to the south in this chapter. Maylene uses Fighting types
+ * Game Corner are closed; Route 214 to the south (lakefront.js) opens with the Cobble Badge. Maylene uses Fighting types
  * (Meditite, Machoke, Lucario); beating her gives the Cobble Badge (badge 27, the fourth Sinnoh badge:
  * Pokémon up to Lv. 40 obey in Sinnoh) and TM60 (Drain Punch), then `ending(48)`. Platinum's wild Pokémon.
  */
@@ -92,7 +92,7 @@
       'T................,,................T',
       'TTTTTTTTTTTTTTTTT,TTTTTTTTTTTTTTTTTT'
     ],
-    connect: { west: { map: 'route215', offset: 6 } },
+    connect: { west: { map: 'route215', offset: 6 }, south: { map: 'route214', offset: 3 } },
     warps: [
       { x: 4, y: 7, to: 'veilstone-center', spot: 'door' },
       { x: 11, y: 7, to: 'veilstone-store', spot: 'door' },
@@ -108,8 +108,8 @@
       '22,10': 'A meteorite. Some say these stones came from a world beyond our own.'
     },
     npcs: [
-      // Route 214 opens in a later chapter; Team Galactic's HQ is guarded.
-      { id: 'south', who: 'hiker', x: 17, y: 26, dir: 'up',
+      // Route 214 opens with the Cobble Badge (chapter 49); Team Galactic's HQ is guarded.
+      { id: 'south', who: 'hiker', x: 17, y: 26, dir: 'up', if: '!badge:27',
         say: 'Rocks slid onto Route 214 in the rain. The way south is closed for now.' },
       { id: 'grunt', who: 'galactic', x: 26, y: 23, dir: 'down',
         say: 'This is the headquarters of Team Galactic. Members only. Go away, kid!' },

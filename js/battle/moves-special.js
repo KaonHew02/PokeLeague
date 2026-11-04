@@ -111,6 +111,8 @@ G.SpecialMoves = (() => {
     'smelling-salts': { power: (b, u, t, M) => (t.mon.status === 'par' ? M.pow * 2 : M.pow),
                         after: (b, u, t) => { if (b.alive(t) && t.mon.status === 'par') { t.mon.status = null; b.emit('cure', { side: t.side, uid: t.mon.uid }); } } },
     'revenge':      { power: (b, u, t, M) => (u.lastHit && u.lastHit.from !== u.side ? M.pow * 2 : M.pow) },
+    // Brine (TM55): double against a target at half its HP or less.
+    'brine':        { power: (b, u, t, M) => (t.mon.hp * 2 <= b.maxHp(t) ? M.pow * 2 : M.pow) },
     // Rollout rolls on for five turns (a miss stops it), doubling each time; twice as hard after Defense Curl.
     'rollout':      { roll: true, power: (b, u, t, M) => M.pow * 2 ** rolls(u, 'rollout') * (u.vol.curl ? 2 : 1) },
     'ice-ball':     { roll: true, power: (b, u, t, M) => M.pow * 2 ** rolls(u, 'ice-ball') * (u.vol.curl ? 2 : 1) },

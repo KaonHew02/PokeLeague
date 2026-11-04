@@ -2125,13 +2125,48 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   `tests/story.test.cjs` the chapter after chapter 47 (a Pokémon left in Solaceon is taken back on Route
   34, all 26 letters) and the balance line for Maylene.
 
-### After chapter 48
+- **Chapter 49** ✅, Sinnoh's fifth Gym (`js/content/sinnoh/lakefront.js` and `pastoria.js`, translations
+  `sinnoh-lakefront` and `sinnoh-pastoria`).
+  - **Engine**: a map's `safariScripts: 'marsh'` (field.js) ends the zone's game with `marsh.timeup` and
+    `marsh.out-of-balls` instead of `safari.*`, which go back to Kanto's gate. Brine doubles against a
+    target at half its HP or less (moves-special.js).
+  - **People and Trainers**: `wake`; the classes `collector`, `pi`, `ruin-maniac`, `tuber`, `tuber-f`.
+  - **Story**: Veilstone's Hiker leaves with the Cobble Badge (`!badge:27`). Route 214 south (six of
+    Platinum's Trainers; the Ruin Maniac's tunnel is a locked warp). Valor Lakefront: the Hotel Grand
+    Lake's lobby, the Seven Stars restaurant, a guard closing Lake Valor. Route 213 is a beach (the hotel's
+    cottages are locked, two Swimmers wait in the water) down to Pastoria City: a Center, a Mart, a house,
+    the Croagunk statue, the Gym; a person closes flooded Route 212. Crasher Wake's Gym is a pool crossed
+    on one-tile walkways, with the Trainers in notches beside them, so nobody can be walked around (the
+    water-level puzzle is left out, as Fantina's and Maylene's are). Wake (Gyarados 33, Quagsire 34,
+    Floatzel 37 with a Sitrus Berry, two Hyper Potions): the Fen Badge (badge 28, the fifth Sinnoh badge:
+    up to Lv. 50 obey) and TM55 (Brine). The chapter goes on, as in Platinum: Barry at the Gym door points
+    at the Great Marsh gate, a grunt there sets off a test bomb and runs from Wake (flag marsh-bomb); he
+    stands before the hotel at the lakefront (Croagunk 31, flag lakefront-grunt), and Wake sends you back
+    to Barry in Pastoria (his team by `barry-starter`: Staravia 34, two at 32, his starter's evolution 36;
+    flag barry-pastoria), then `ending(49)`.
+  - **The Great Marsh**: a Safari Zone (`safari: true`, `G.BattleUI.safari`, `safari.end`), ₽500 for 30
+    Safari Balls and 500 steps, three areas. PokeAPI's `great-marsh-area-*` tables add up to 260%, so
+    rows past 100% could never be met: the areas have their own tables (regulars 64%, and twelve Pokémon
+    Platinum rotates by day, 3% each, all available every day).
+- **Balance:** Platinum's team, Hyper Potions included. Each of Wake's three falls to a team alone, but a
+  lone starter never gets through them (0%), and default moves are not enough either. With TM86 (Grass
+  Knot, from Gardenia) and a Luxray, Torterra wins 85% and Empoleon 60%. Infernape, weak to Water, is the
+  hard case: 10% with two or three, 70% with a team of four. Barry: lone starters 0-15%, a pair
+  38-90%, a team of three 100%. The Center, the gym guide and the Trainers point at Electric and Grass moves.
+  Fixing Brine moved one older number: Prinplup 34 against Maylene, 0% to 2.5% (it learns Brine at 33).
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (Veilstone's south before and after the
+  badge, the blocked tunnel, Lake Valor and Route 212 closed, the locked cottages, a Safari Game with its
+  price, steps and areas, rare Pokémon, time up at the marsh's own gate, Wake, the bomb, the grunt, Barry);
+  `tests/story.test.cjs` the chapter after chapter 48 and the balance lines for Wake and Barry
+  (`trainerRate` now reads held items); `tests/gen4.test.cjs` Brine.
+
+### After chapter 49
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) four badges are won. Ideas:
-1. Sinnoh: Route 214, Valor Lakefront and Pastoria City with Crasher Wake (the Fen Badge), the Great
-   Marsh; Team Galactic's HQ in Veilstone later; Route 210 north (the Psyduck), Celestic Town; Wayward
-   Cave and Route 211 to the north.
+the Battle Tower; in Sinnoh (Pokémon 1-493) five badges are won. Ideas:
+1. Sinnoh: Cynthia's SecretPotion at Valor Lakefront, the Psyduck on Route 210, the fog north of them and
+   Celestic Town with Cyrus; Team Galactic's HQ in Veilstone and Lake Valor later; Route 212 back to
+   Hearthome; Canalave City and Byron; Wayward Cave and Route 211 to the north.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic;

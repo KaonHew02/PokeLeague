@@ -75,5 +75,11 @@ G.TRAINER_CLASSES = {
   'aroma-lady':  { title: 'Aroma Lady', who: 'beauty', prize: 40 },
   // Chapter 47
   cyclist:       { title: 'Cyclist', who: 'cyclist', prize: 32 },
+  // Chapter 49
+  collector:     { title: 'Collector', who: 'pokemaniac', prize: 64 },
+  pi:            { title: 'PI', who: 'gentleman', prize: 60 },
+  'ruin-maniac': { title: 'Ruin Maniac', who: 'hiker', prize: 48 },
+  tuber:         { title: 'Tuber', who: 'youngster', prize: 4 },
+  'tuber-f':     { title: 'Tuber', ctx: 'trainer-f', who: 'lass', prize: 4 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

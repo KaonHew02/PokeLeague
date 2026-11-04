@@ -2482,6 +2482,122 @@ test('Sinnoh (chapter 48): Route 209 after the Relic Badge, the Day Care in Sola
   assert.equal(F.count('tm60'), 1);
 });
 
+test('Sinnoh (chapter 49): Route 214 after the Cobble Badge, the lakefront, Route 213, Pastoria, a Safari Game in the Great Marsh, Wake, the bomb, the grunt, Barry', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria'].map(f => `js/content/sinnoh/${f}.js`);
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29];
+  for (const f of ['sinnoh-start', 'sinnoh-dex', 'galactic-jubilife', 'barry-203', 'roark-met', 'mars-windworks', 'cheryl-done', 'tg-eterna-done', 'cyrus-coronet']) F.setFlag(f);
+  F.setVar('barry-starter', 393);
+  F.money(5000);
+  F.giveMon('infernape', 38, { moves: ['flame-wheel'] });
+  F.giveMon('luxray', 36, { moves: ['spark'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
+  const fights = [];
+  W.onTrainer = async d => { fights.push(d.id); return 'win'; };
+  // Veilstone: Route 214 opens with the Cobble Badge.
+  W.load('veilstone', { x: 17, y: 25, dir: 'down' });
+  assert.equal(step(W, 'down'), 'blocked', 'closed before the Cobble Badge');
+  S.player.badges.push(27);
+  W.refresh();
+  assert.equal(step(W, 'down'), 'moved');
+  assert.equal(step(W, 'down'), 'moved');
+  await cross('down', 'route214');
+  assert.deepEqual([W.player.x, W.player.y], [14, 0]);
+  // The tunnel is blocked; south to Valor Lakefront.
+  W.load('route214', { x: 5, y: 42, dir: 'up' });
+  step(W, 'up');
+  await until(() => !W.locked);
+  assert.equal(W.map.id, 'route214', 'the tunnel is blocked');
+  W.load('route214', { x: 14, y: 43, dir: 'down' });
+  await cross('down', 'valor-lakefront');
+  assert.deepEqual([W.player.x, W.player.y], [20, 0]);
+  // Lake Valor is closed; the hotel and the restaurant are open; nobody stands before the hotel.
+  W.load('valor-lakefront', { x: 3, y: 12, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked', 'Lake Valor');
+  W.load('valor-lakefront', { x: 11, y: 10, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved', 'no grunt yet');
+  assert.equal(step(W, 'up'), 'moved');
+  await cross('up', 'hotel-grand-lake');
+  W.load('valor-lakefront', 'restaurant-door');
+  await cross('up', 'seven-stars');
+  // Route 213: the locked cottages, west to Pastoria.
+  W.load('valor-lakefront', { x: 20, y: 25, dir: 'down' });
+  await cross('down', 'route213');
+  assert.deepEqual([W.player.x, W.player.y], [44, 0]);
+  W.load('route213', { x: 31, y: 5, dir: 'up' });
+  step(W, 'up');
+  await until(() => !W.locked);
+  assert.equal(W.map.id, 'route213', 'the cottage is locked');
+  W.load('route213', { x: 0, y: 6, dir: 'left' });
+  await cross('left', 'pastoria');
+  assert.deepEqual([W.player.x, W.player.y], [37, 14]);
+  W.load('pastoria', { x: 2, y: 14, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked', 'Route 212');
+  // The Great Marsh: the gate sells a Safari Game.
+  W.load('pastoria', 'gate-door');
+  await cross('up', 'marsh-gate');
+  const money = S.player.money;
+  W.load('marsh-gate', { x: 3, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  await until(() => W.map.id === 'great-marsh-1' && !W.locked);
+  assert.equal(S.player.money, money - 500);
+  assert.equal(F.count('safari-ball'), 30);
+  assert.equal(+F.getVar('safari-steps'), 500);
+  // Every step counts, the areas join up, and the rare Pokémon turn up.
+  W.load('great-marsh-1', { x: 14, y: 17, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  assert.equal(+F.getVar('safari-steps'), 499);
+  W.load('great-marsh-1', { x: 14, y: 0, dir: 'up' });
+  await cross('up', 'great-marsh-2');
+  W.load('great-marsh-2', { x: 14, y: 0, dir: 'up' });
+  await cross('up', 'great-marsh-3');
+  const met = new Set();
+  W.onEncounter = async sp => { met.add(G.Maps.species(sp)); return 'run'; };
+  W.debug.noEnc = false;
+  F.setVar('safari-steps', 99999);
+  W.load('great-marsh-3', { x: 5, y: 15, dir: 'right' });
+  W.seed(5);
+  for (let i = 0; i < 6000 && met.size < 12; i++) { step(W, i % 2 ? 'left' : 'right'); await until(() => !W.locked); }
+  W.debug.noEnc = true;
+  assert.ok(met.size >= 12, 'met ' + met.size);
+  // Out of steps: back at the marsh's own gate, not Kanto's.
+  F.setVar('safari-steps', 1);
+  W.load('great-marsh-1', { x: 14, y: 17, dir: 'up' });
+  step(W, 'up');
+  await until(() => W.map.id === 'marsh-gate' && !W.locked);
+  assert.ok(!F.flag('safari-on') && !F.count('safari-ball'), 'the game is over');
+  // Wake: the Fen Badge and TM55.
+  W.load('pastoria-gym', { x: 7, y: 4, dir: 'up' });
+  W.interact();
+  await until(() => S.player.badges.includes(28) && !W.locked);
+  assert.deepEqual(fights.splice(0).filter(id => id !== 'kirby'), ['wake']);
+  assert.equal(F.obeyCap('sinnoh'), 50);
+  assert.equal(F.count('tm55'), 1);
+  assert.ok(!F.flag('chapter-49-done'), 'not the end of the chapter yet');
+  // Barry at the Gym door; the grunt and his test bomb at the marsh gate.
+  W.load('pastoria', { x: 22, y: 12, dir: 'down' });
+  await pump(W, W.interact());
+  W.load('pastoria', { x: 17, y: 6, dir: 'up' });
+  W.interact();
+  await until(() => F.flag('marsh-bomb') && !W.locked);
+  // He is caught at the lakefront: Croagunk, and Wake sends you back.
+  W.load('valor-lakefront', { x: 10, y: 12, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => F.flag('lakefront-grunt') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['grunt-lakefront']);
+  W.load('valor-lakefront', { x: 11, y: 10, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved', 'the grunt is gone');
+  // Barry: the end of the chapter.
+  W.load('pastoria', { x: 29, y: 14, dir: 'right' });
+  W.interact();
+  await until(() => F.flag('chapter-49-done') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['barry-pastoria']);
+  assert.ok(F.flag('barry-pastoria'));
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

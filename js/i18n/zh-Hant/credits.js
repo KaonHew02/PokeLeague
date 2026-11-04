@@ -139,5 +139,8 @@ G.I18n.add({
   "Thank you for playing! Routes 209 and 212 wait in a future update.": "感謝遊玩！209號道路和212號道路將在之後的更新中登場。",
   "Chapter 48 complete!": "第四十八章完成！",
   "{player} crossed Route 209 to Solaceon Town, met the Unown of the Solaceon Ruins, braved the rain on Route 215 and earned the Cobble Badge from Maylene.": "{player}穿過209號道路來到隨意鎮，在隨意遺跡見到了未知圖騰，冒雨走過215號道路，並從阿李那裡贏得了圓石徽章。",
-  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "感謝遊玩！214號道路和濕原市將在之後的更新中登場。"
+  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "感謝遊玩！214號道路和濕原市將在之後的更新中登場。",
+  "Chapter 49 complete!": "第四十九章完成！",
+  "{player} crossed Route 214 and the beach of Route 213, earned the Fen Badge from Crasher Wake, chased a Team Galactic bomber to Valor Lakefront and beat Barry in Pastoria City.": "{player}穿過214號道路和213號道路的海灘，從吉憲那裡贏得了濕地徽章，把銀河隊的炸彈手追到立志湖畔，並在濕原市打敗了阿馴。",
+  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "感謝遊玩！立志湖和神和鎮將在之後的更新中登場。"
 }, "zh-Hant");

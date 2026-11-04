@@ -290,6 +290,11 @@ LOC_NAMES = {
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),
     'veilstone-city':    ('Ciudad Rocavelo',    'Rupepoli',            '帷幕市',     '帷幕市'),
+    # Chapter 49.
+    'lake-valor':        ('Lago Valor',         'Lago Valore',         '立志湖',     '立志湖'),
+    'valor-lakefront':   ('Orilla Valor',       'Valor Lakefront',     '立志湖畔',   '立志湖畔'),
+    'pastoria-city':     ('Ciudad Pradera',     'Pratopoli',           '湿原市',     '濕原市'),
+    'great-marsh':       ('Gran Pantano',       'Gran Palude',         '大湿地',     '大濕地'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

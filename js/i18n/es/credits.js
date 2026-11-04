@@ -139,5 +139,8 @@ G.I18n.add({
   "Thank you for playing! Routes 209 and 212 wait in a future update.": "¡Gracias por jugar! Las Rutas 209 y 212 llegarán en una próxima actualización.",
   "Chapter 48 complete!": "¡Capítulo 48 completado!",
   "{player} crossed Route 209 to Solaceon Town, met the Unown of the Solaceon Ruins, braved the rain on Route 215 and earned the Cobble Badge from Maylene.": "{player} cruzó la Ruta 209 hasta Pueblo Sosiego, conoció a los Unown de las Ruinas Sosiego, desafió la lluvia de la Ruta 215 y ganó la Medalla Adoquín de Brega.",
-  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "¡Gracias por jugar! La Ruta 214 y Ciudad Pradera llegarán en una próxima actualización."
+  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "¡Gracias por jugar! La Ruta 214 y Ciudad Pradera llegarán en una próxima actualización.",
+  "Chapter 49 complete!": "¡Capítulo 49 completado!",
+  "{player} crossed Route 214 and the beach of Route 213, earned the Fen Badge from Crasher Wake, chased a Team Galactic bomber to Valor Lakefront and beat Barry in Pastoria City.": "{player} cruzó la Ruta 214 y la playa de la Ruta 213, ganó la Medalla Ciénaga de Mananti, persiguió a un recluta del Equipo Galaxia hasta la Orilla Valor y venció a Barry en Ciudad Pradera.",
+  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "¡Gracias por jugar! El Lago Valor y Pueblo Caelestis llegarán en una próxima actualización."
 }, "es");

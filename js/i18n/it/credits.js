@@ -139,5 +139,8 @@ G.I18n.add({
   "Thank you for playing! Routes 209 and 212 wait in a future update.": "Grazie per aver giocato! I Percorsi 209 e 212 arriveranno in un prossimo aggiornamento.",
   "Chapter 48 complete!": "Capitolo 48 completato!",
   "{player} crossed Route 209 to Solaceon Town, met the Unown of the Solaceon Ruins, braved the rain on Route 215 and earned the Cobble Badge from Maylene.": "{player} ha attraversato il Percorso 209 fino a Flemminia, ha incontrato gli Unown delle rovine di Flemminia, ha sfidato la pioggia del Percorso 215 e ha ottenuto la Medaglia Ciottolo da Marzia.",
-  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "Grazie per aver giocato! Il Percorso 214 e Pratopoli arriveranno in un prossimo aggiornamento."
+  "Thank you for playing! Route 214 and Pastoria City wait in a future update.": "Grazie per aver giocato! Il Percorso 214 e Pratopoli arriveranno in un prossimo aggiornamento.",
+  "Chapter 49 complete!": "Capitolo 49 completato!",
+  "{player} crossed Route 214 and the beach of Route 213, earned the Fen Badge from Crasher Wake, chased a Team Galactic bomber to Valor Lakefront and beat Barry in Pastoria City.": "{player} ha attraversato il Percorso 214 e la spiaggia del Percorso 213, ha ottenuto la Medaglia Palude da Omar, ha inseguito una recluta del Team Galassia fino al lago e ha battuto Barry a Pratopoli.",
+  "Thank you for playing! Lake Valor and Celestic Town wait in a future update.": "Grazie per aver giocato! Il Lago Valore e Memoride arriveranno in un prossimo aggiornamento."
 }, "it");

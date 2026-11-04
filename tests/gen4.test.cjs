@@ -236,6 +236,25 @@ test('Brine doubles against a target at half its HP or less', () => {
   low(m => Math.floor(m / 2) + 1, pow);
 });
 
+test('Avalanche doubles after a hit this turn, and Blizzard never misses in hail', () => {
+  const pow = G.MOVES.avalanche.pow;
+  assert.equal(hit(['abomasnow', 50, ['avalanche']]).c.pow, pow, 'nobody hit it');
+  const d = duel(G, { me: ['abomasnow', 50, ['avalanche']], foe: ['snorlax', 50, ['tackle']], seed: 3 });
+  const both = calcs(() => d.b.act({ type: 'move', slot: 0 }));
+  assert.equal(both[both.length - 1].pow, pow * 2, 'it moved after the hit');
+  const hits = w => {
+    let n = 0;
+    for (let s = 1; s <= 40; s++) {
+      const { b } = duel(G, { me: ['dewgong', 50, ['blizzard']], foe: ['snorlax', 50, ['splash']], seed: s });
+      if (w) b.weather = { w, turns: Infinity };
+      n += calcs(() => b.act({ type: 'move', slot: 0 })).length;
+    }
+    return n;
+  };
+  assert.ok(hits(null) < 40, 'it can miss');
+  assert.equal(hits('hail'), 40, 'not in hail');
+});
+
 test('evolutions: a held item at night, a gender with a stone, a known move, a species in the party', () => {
   const mk = (sp, lvl, o) => Object.assign(G.Mon.create(sp, lvl, { rng: G.RNG(sp) }), o);
   const gligar = mk(207, 30, { item: 'razor-fang' });

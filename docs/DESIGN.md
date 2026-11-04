@@ -2234,12 +2234,40 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   cavern, Lake Verity before and after Saturn, everybody gone at the end); `tests/story.test.cjs` the chapter
   after chapter 51 and the balance lines for Saturn and Mars.
 
-### After chapter 52
+- **Chapter 53** ✅, the north (`js/content/sinnoh/snowpoint.js`, translations `sinnoh-snowpoint`). The chapter ends at
+  Lake Acuity, after the Gym, the order of Platinum.
+  - **Engine**: the map field `hail: true` (Hail in every battle there, in `battleOpts`, written like the desert's
+    sandstorm); with `snow: true` and the `snow` palette for Routes 216 and 217, Acuity Lakefront and Lake Acuity.
+    Snowpoint City has snow but no Hail. Avalanche (twice as hard after a hit this turn, like Revenge) and Blizzard
+    (never misses in hail, like Thunder in rain) in `moves-special.js`.
+  - **People and Trainers**: `candice`. The class `skier-m`: the title of `skier` is a woman's in some languages, so it
+    moved to the context `trainer-f`.
+  - **Map**: after chapter 52 the hiker leaves Celestic Town's west exit. Route 211 East, `mt-coronet-north` (one room for
+    Mt. Coronet's way north; Platinum has no Trainers there), Routes 216 (with a lodge that heals) and 217, Acuity
+    Lakefront, Snowpoint City. Eterna's side of Route 211 stays closed.
+  - **Story**: on the lakefront Barry stops you (flag barry-lakefront) and stands in the only slope up to the lake until you
+    have the Icicle Badge (31). Rock Climb does not exist in this game, so the slope is a story gate and the parts of
+    Route 216 that need it are not there. Candice's Gym is three sheets of ice with a gate of rocks at each end (the
+    generator checks by search that the Leader and the door can be reached from everywhere on the ice). She gives TM72.
+    At Lake Acuity Barry has just lost to Jupiter; she leaves with Uxie, with no battle (flag jupiter-acuity), Barry goes
+    to train (flag barry-acuity), then `ending(53)`. Only a Diamond and Pearl walkthrough could be read for this scene:
+    check it if a Platinum source turns up.
+- **Balance:** Candice is one level below Platinum (Sneasel 39, Piloswine 39, Abomasnow 41, Froslass 43 with a Sitrus
+  Berry) with one Super Potion instead of a Hyper Potion and a Full Restore; Isaiah and Anton are one level lower too (43), so
+  her ace stays the top level in the Gym. With moves a player can have, a team of three wins 88-100% with Infernape or
+  Empoleon. Torterra is four times weak to Ice: with a Fire or Fighting friend it wins 68-78%, but Torterra, Luxray and
+  Staraptor only 10%, and even much lower levels did not bring that team near 60%.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (Celestic's west exit before and after chapter 52, every
+  link to the lakefront, Hail in a battle, the lodge, Barry before and after the badge, the whole Gym with real slides,
+  Lake Acuity); `tests/gen4.test.cjs` Avalanche and Blizzard in hail; `tests/story.test.cjs` the chapter after chapter 52
+  and the balance line for Candice.
+
+### After chapter 53
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) six badges are won and two of the lake Pokémon taken. Ideas:
-1. Sinnoh: Route 211 and Mt. Coronet, Routes 216 and 217 in the snow, Snowpoint City and Candice; Lake Acuity
-   and Barry; Team Galactic's HQ in Veilstone; Route 212 back to Hearthome; Wayward Cave.
+the Battle Tower; in Sinnoh (Pokémon 1-493) seven badges are won and all three lake Pokémon taken. Ideas:
+1. Sinnoh: Team Galactic's HQ in Veilstone and Jupiter; Mt. Coronet and the Spear Pillar; Sunyshore City and the last Gym;
+   Route 212 back to Hearthome; Wayward Cave; Eterna's side of Route 211.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: multi battles with a partner (Steven at the Space Center; Dawn against Team Galactic;

@@ -128,7 +128,7 @@
       'T................................T',
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
-    connect: { east: { map: 'route210n', offset: 2 } },
+    connect: { east: { map: 'route210n', offset: 2 }, west: { map: 'route211e', offset: 1 } },
     warps: [
       { x: 6, y: 6, to: 'celestic-center', spot: 'door' },
       { x: 13, y: 6, to: 'celestic-elder', spot: 'door' },
@@ -141,8 +141,8 @@
       '11,13': 'The Celestic Ruins. Nobody remembers who built them.'
     },
     npcs: [
-      // Route 211 opens in a later chapter.
-      { id: 'west', who: 'hiker', x: 1, y: 10, dir: 'right',
+      // Route 211 opens after chapter 52 (snowpoint.js).
+      { id: 'west', who: 'hiker', x: 1, y: 10, dir: 'right', if: '!chapter-52-done',
         say: 'Route 211 climbs into Mt. Coronet from here. The rocks are loose today, so you had better stay in town.' },
       { id: 'boy', who: 'youngster', x: 26, y: 12, move: 'look',
         say: 'Those people in the space suits showed up this morning. They want something in the ruins!' },

@@ -55,7 +55,7 @@ G.Abilities = (() => {
     volt-tackle leaf-blade bounce poison-tail astonish aerial-ace dive uproar dragon-rush zen-headbutt iron-head x-scissor
     night-slash shadow-claw poison-jab wake-up-slap hammer-arm close-combat force-palm brave-bird flare-blitz wood-hammer
     head-smash u-turn thunder-fang ice-fang fire-fang aqua-jet aqua-tail bullet-punch sucker-punch shadow-sneak
-    crush-grip power-whip gyro-ball bug-bite pluck assurance payback punishment drain-punch`.split(/\s+/).filter(Boolean));
+    crush-grip power-whip gyro-ball bug-bite pluck assurance payback punishment drain-punch avalanche`.split(/\s+/).filter(Boolean));
   const SOUND = new Set(['growl', 'roar', 'sing', 'supersonic', 'screech', 'snore', 'uproar', 'metal-sound', 'grass-whistle',
                          'hyper-voice', 'perish-song', 'heal-bell']);
   const STATUS_BLOCK = { limber: ['par'], insomnia: ['slp'], 'vital-spirit': ['slp'], immunity: ['psn', 'tox'],

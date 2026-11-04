@@ -151,5 +151,8 @@ G.I18n.add({
   "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Grazie per aver giocato! Il Team Galassia a Rupepoli e Nevepoli arriveranno in un prossimo aggiornamento.",
   "Chapter 52 complete!": "Capitolo 52 completato!",
   "{player} heard the old story of the three lakes, found Lake Valor drained by a bomb and beat Commanders Saturn and Mars, but Team Galactic got away with Azelf and Mesprit.": "{player} ha ascoltato l'antica storia dei tre laghi, ha trovato il Lago Valore prosciugato da una bomba e ha battuto i Comandanti Saturno e Martes, ma il Team Galassia è fuggito con Azelf e Mesprit.",
-  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "Grazie per aver giocato! Il Monte Corona e Nevepoli arriveranno in un prossimo aggiornamento."
+  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "Grazie per aver giocato! Il Monte Corona e Nevepoli arriveranno in un prossimo aggiornamento.",
+  "Chapter 53 complete!": "Capitolo 53 completato!",
+  "{player} crossed Mt. Coronet into the snow and won the Icicle Badge from Candice, but reached Lake Acuity too late: Commander Jupiter left with Uxie.": "{player} ha attraversato il Monte Corona fino alla neve e ha vinto la Medaglia Ghiacciolo di Bianca, ma è arrivato tardi al Lago Acume: la Comandante Giove è partita con Uxie.",
+  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "Grazie per aver giocato! Il quartier generale del Team Galassia a Rupepoli arriverà in un prossimo aggiornamento."
 }, "it");

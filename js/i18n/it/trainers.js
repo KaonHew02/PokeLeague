@@ -37,7 +37,7 @@ G.I18n.add({
   "Pokéfan": "Pokéfan",
   "Kimono Girl": "Ragazza Kimono",
   "Medium": "Medium",
-  "Skier": "Sciatrice",
+  "Skier": "Sciatore",
   "Boarder": "Snowboarder",
   "Team Rocket Executive": "Admin Team Rocket",
   "School Kid": "Scolaro",

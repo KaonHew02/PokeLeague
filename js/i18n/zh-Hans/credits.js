@@ -151,5 +151,8 @@ G.I18n.add({
   "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "感谢游玩！帷幕市的银河队和雪峰市将在之后的更新中登场。",
   "Chapter 52 complete!": "第五十二章完成！",
   "{player} heard the old story of the three lakes, found Lake Valor drained by a bomb and beat Commanders Saturn and Mars, but Team Galactic got away with Azelf and Mesprit.": "{player}听了三座湖的古老传说，看到立志湖被炸弹炸干，打败了干部镇星和伙星，但银河队还是带着亚克诺姆和艾姆利多逃走了。",
-  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "感谢游玩！天冠山和雪峰市将在之后的更新中登场。"
+  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "感谢游玩！天冠山和雪峰市将在之后的更新中登场。",
+  "Chapter 53 complete!": "第五十三章完成！",
+  "{player} crossed Mt. Coronet into the snow and won the Icicle Badge from Candice, but reached Lake Acuity too late: Commander Jupiter left with Uxie.": "{player}穿过天冠山来到雪国，从小菘那里赢得了冰柱徽章，但赶到睿智湖时已经太迟：干部绅虹带着由克希离开了。",
+  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "感谢游玩！帷幕市的银河队总部将在之后的更新中登场。"
 }, "zh-Hans");

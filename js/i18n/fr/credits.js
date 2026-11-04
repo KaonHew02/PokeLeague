@@ -151,5 +151,8 @@ G.I18n.add({
   "Thank you for playing! Team Galactic in Veilstone and Snowpoint City wait in a future update.": "Merci d'avoir joué ! La Team Galaxie à Voilaroc et Frimapic arriveront dans une prochaine mise à jour.",
   "Chapter 52 complete!": "Chapitre 52 terminé !",
   "{player} heard the old story of the three lakes, found Lake Valor drained by a bomb and beat Commanders Saturn and Mars, but Team Galactic got away with Azelf and Mesprit.": "{player} a entendu la vieille histoire des trois lacs, a trouvé le Lac Courage vidé par une bombe et a battu les Commandants Saturne et Mars, mais la Team Galaxie s'est enfuie avec Créfadet et Créfollet.",
-  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "Merci d'avoir joué ! Le Mont Couronné et Frimapic arriveront dans une prochaine mise à jour."
+  "Thank you for playing! Mt. Coronet and Snowpoint City wait in a future update.": "Merci d'avoir joué ! Le Mont Couronné et Frimapic arriveront dans une prochaine mise à jour.",
+  "Chapter 53 complete!": "Chapitre 53 terminé !",
+  "{player} crossed Mt. Coronet into the snow and won the Icicle Badge from Candice, but reached Lake Acuity too late: Commander Jupiter left with Uxie.": "{player} a traversé le Mont Couronné jusqu'à la neige et a gagné le Badge Glaçon de Gladys, mais est arrivé trop tard au Lac Savoir : la Commandante Jupiter est partie avec Créhelf.",
+  "Thank you for playing! Team Galactic's headquarters in Veilstone waits in a future update.": "Merci d'avoir joué ! Le QG de la Team Galaxie à Voilaroc arrivera dans une prochaine mise à jour."
 }, "fr");

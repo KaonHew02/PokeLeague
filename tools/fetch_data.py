@@ -302,6 +302,9 @@ LOC_NAMES = {
     'iron-island':       ('Isla Hierro',        'Isola Ferrosa',       '钢铁岛',     '鋼鐵島'),
     # Chapter 52.
     'lake-acuity':       ('Lago Agudeza',       'Lago Acume',          '睿智湖',     '睿智湖'),
+    # Chapter 53.
+    'snowpoint-city':    ('Ciudad Puntaneva',   'Nevepoli',            '雪峰市',     '雪峰市'),
+    'acuity-lakefront':  ('Orilla Agudeza',     'Acuity Lakefront',    '睿智湖畔',   '睿智湖畔'),
 }
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}

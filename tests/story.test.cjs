@@ -908,6 +908,27 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Candice (chapter 53), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'snowpoint-gym', 'candice');
+  // Moves a player can have here (Surf, TM91 from Byron); Torterra is four times weak to Ice, so it needs a Fire or Fighting friend.
+  const TOR = ['earthquake', 'crunch', 'razor-leaf', 'synthesis'], INF = ['flame-wheel', 'close-combat', 'mach-punch', 'punishment'];
+  const EMP = ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet'], LUX = ['crunch', 'thunder-fang', 'spark', 'roar'], STA = ['aerial-ace', 'close-combat', 'take-down', 'agility'];
+  const LUC = ['force-palm', 'metal-claw', 'bone-rush', 'quick-attack'], RAP = ['flame-wheel', 'stomp', 'fire-spin', 'take-down'];
+  const teams = {
+    'torterra 47 + luxray 45': [[389, 47, TOR], [405, 45, LUX]], 'infernape 47 + luxray 45': [[392, 47, INF], [405, 45, LUX]], 'empoleon 47 + luxray 45': [[395, 47, EMP], [405, 45, LUX]],
+    'torterra 47 + luxray 45 + staraptor 45': [[389, 47, TOR], [405, 45, LUX], [398, 45, STA]],
+    'infernape 47 + luxray 45 + staraptor 45': [[392, 47, INF], [405, 45, LUX], [398, 45, STA]],
+    'empoleon 47 + luxray 45 + staraptor 45': [[395, 47, EMP], [405, 45, LUX], [398, 45, STA]],
+    'torterra 47 + luxray 45 + rapidash 44': [[389, 47, TOR], [405, 45, LUX], [78, 44, RAP]],
+    'torterra 47 + staraptor 45 + lucario 42': [[389, 47, TOR], [398, 45, STA], [448, 42, LUC]]
+  };
+  const table = Object.fromEntries(Object.entries(teams).map(([k, t]) => [k, rate(t)]));
+  console.log('[balance] vs Candice:', JSON.stringify(table));
+  for (const k of ['infernape 47 + luxray 45 + staraptor 45', 'empoleon 47 + luxray 45 + staraptor 45', 'torterra 47 + luxray 45 + rapidash 44', 'torterra 47 + staraptor 45 + lucario 42'])
+    assert.ok(table[k] >= 0.6, k + ' wins at a normal difficulty');
+});
+
 test('balance: Saturn and Mars at the lakes (chapter 52), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const teams = {
@@ -3954,6 +3975,46 @@ async function chapter52(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 53 after chapter 52: Route 211, the snow, Candice, Lake Acuity. */
+async function chapter53(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => {
+    for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); }
+  };
+  const starter = () => lead(st, S.party.some(m => m.sp === 392) ? 392 : 391);
+  // The hiker has left Celestic Town's west exit.
+  assert.ok(!F.test(G.Maps.get('celestic').npcs.find(p => p.id === 'west').if), 'the way west is open');
+  starter();
+  await all('route211e');
+  await all('route216');
+  await run(st, 'route216-lodge', 'route216.lodge');
+  await all('route217');
+  // Barry stands in the slope, and sends you to the Gym.
+  const barry = G.Maps.get('acuity-lakefront').npcs.find(p => p.id === 'barry');
+  assert.ok(F.test(barry.if));
+  await run(st, 'acuity-lakefront', 'snowpoint.barry-slope');
+  assert.ok(F.flag('barry-lakefront'));
+  // Candice.
+  await all('snowpoint-gym');
+  await fight('snowpoint-gym', 'candice');
+  won();
+  console.log('[story] Candice:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(S.player.badges.includes(31), 'the Icicle Badge');
+  assert.equal(F.obeyCap('sinnoh'), 70);
+  assert.equal(F.count('tm72'), 1);
+  assert.ok(!F.test(barry.if), 'Barry has left the slope');
+  // Lake Acuity: Jupiter leaves with Uxie.
+  await run(st, 'lake-acuity', 'acuity.jupiter');
+  assert.ok(F.flag('jupiter-acuity') && F.flag('barry-acuity') && F.flag('chapter-53-done'));
+  const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
+  assert.ok(back.player.badges.includes(31), 'the save keeps the Icicle Badge');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 test('chapter 4: Flash, Rock Tunnel, Lavender Town, Celadon City and the Rainbow Badge', async () => {
   const st = world(3);
   await chapter1(st);
@@ -4035,7 +4096,7 @@ test('chapter 10: the Power Plant, the Elite Four again, Cerulean Cave and Mewtw
   await chapter10(st);
 });
 
-test("chapters 11 to 52: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to the lakes", async () => {
+test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its post-game, Mt. Silver, then Hoenn to its League, its legends and the Battle Tower, and Sinnoh to its seventh Gym and Lake Acuity", async () => {
   const st = world(3);
   await chapter1(st);
   await chapter2(st);
@@ -4089,4 +4150,5 @@ test("chapters 11 to 52: Johto, from Professor Elm to Johto's League and its pos
   await chapter50(st);
   await chapter51(st);
   await chapter52(st);
+  await chapter53(st);
 });

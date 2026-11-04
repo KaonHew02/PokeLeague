@@ -32,7 +32,7 @@ G.TRAINER_CLASSES = {
   pokefan:       { title: 'Pokéfan', who: 'pokefan', prize: 60 },
   'kimono-girl': { title: 'Kimono Girl', who: 'kimono', prize: 40 },
   medium:        { title: 'Medium', who: 'channeler', prize: 32 },
-  skier:         { title: 'Skier', who: 'skier', prize: 40 },
+  skier:         { title: 'Skier', ctx: 'trainer-f', who: 'skier', prize: 40 },
   boarder:       { title: 'Boarder', who: 'boarder', prize: 40 },
   executive:     { title: 'Team Rocket Executive', who: 'rocket', prize: 60 },
   scientist:     { title: 'Scientist', who: 'scientist', prize: 48 },
@@ -87,5 +87,6 @@ G.TRAINER_CLASSES = {
   'galactic-boss': { title: 'Galactic Boss', who: 'cyrus', prize: 100 },
   // Chapter 52: Saturn (the other Commanders' title is feminine in some languages).
   'galactic-commander-m': { title: 'Team Galactic Commander', who: 'saturn', prize: 50 },
+  'skier-m':     { title: 'Skier', who: 'boarder', prize: 40 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

@@ -2864,6 +2864,105 @@ test('Sinnoh (chapter 52): the meeting in the library, the bomb, Lake Valor and 
   assert.equal(step(W, 'up'), 'moved');
 });
 
+test('Sinnoh (chapter 53): Celestic to the snow, Hail in battle, Barry on the slope, the ice of the Gym, Candice, Lake Acuity', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint'].map(f => `js/content/sinnoh/${f}.js`);
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+  for (const f of ['sinnoh-start', 'sinnoh-dex', 'sinnoh-briefcase', 'galactic-jubilife', 'barry-203', 'roark-met', 'mars-windworks', 'cheryl-done', 'tg-eterna-done', 'cyrus-coronet',
+                   'marsh-bomb', 'lakefront-grunt', 'barry-pastoria', 'cynthia-potion', 'psyduck-cured', 'cyrus-celestic', 'chapter-50-done', 'barry-canalave', 'riley-done',
+                   'lake-blast', 'valor-gate', 'saturn-valor', 'mars-verity']) F.setFlag(f);
+  F.giveMon('infernape', 47, { moves: ['flame-wheel'] });
+  F.giveMon('luxray', 45, { moves: ['spark'] });
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
+  const at = (x, y) => assert.deepEqual([W.player.x, W.player.y], [x, y]);
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const fights = [], weather = [];
+  W.onTrainer = async (d, info) => { fights.push(d.id); weather.push(info.rules.weather); return 'win'; };
+  // Celestic Town: the hiker stays until chapter 52 is over.
+  W.load('celestic', { x: 2, y: 10, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked', 'the hiker');
+  F.setFlag('chapter-52-done');
+  W.load('celestic', { x: 1, y: 10, dir: 'left' });
+  assert.equal(step(W, 'left'), 'moved');
+  await cross('left', 'route211e');
+  at(29, 9);
+  // Route 211, Mt. Coronet, Routes 216 and 217 to the lakefront.
+  W.load('route211e', { x: 6, y: 7, dir: 'up' });
+  await cross('up', 'mt-coronet-north');
+  at(28, 12);
+  W.load('mt-coronet-north', { x: 3, y: 12, dir: 'down' });
+  await cross('down', 'route216');
+  at(38, 8);
+  W.load('route216', { x: 6, y: 1, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await cross('up', 'route217');
+  at(14, 33);
+  W.load('route217', { x: 18, y: 1, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await cross('up', 'acuity-lakefront');
+  at(14, 21);
+  // Hail in a battle on Route 216, and the lodge heals.
+  W.load('route216', { x: 29, y: 10, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await until(() => fights.length === 1 && !W.locked);
+  assert.deepEqual([fights.splice(0), weather.splice(0)], [['bradley'], ['hail']]);
+  for (const id of ['route216', 'route217', 'acuity-lakefront', 'lake-acuity']) assert.ok(G.Maps.get(id).def.hail && G.Maps.get(id).def.snow, id);
+  assert.ok(G.Maps.get('snowpoint').def.snow && !G.Maps.get('snowpoint').def.hail, 'no Hail in town');
+  F.party()[0].hp = 1;
+  W.load('route216-lodge', { x: 7, y: 4, dir: 'up' });
+  await pump(W, W.interact());
+  assert.equal(F.party()[0].hp, G.Mon.maxHp(F.party()[0]));
+  // Barry calls you on the way to the town, then stays in the slope.
+  W.load('acuity-lakefront', { x: 14, y: 13, dir: 'up' });
+  assert.ok(seen('barry'));
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('barry-lakefront') && !W.locked);
+  W.load('acuity-lakefront', { x: 14, y: 10, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'Barry');
+  W.load('acuity-lakefront', { x: 28, y: 11, dir: 'right' });
+  assert.equal(step(W, 'right'), 'moved');
+  await cross('right', 'snowpoint');
+  at(0, 15);
+  // The Gym: the way over the ice, with real slides; the Trainers on the platforms stop you.
+  W.load('snowpoint-gym', 'door');
+  const way = 'up up left up right up up right right right right up right right right right up up left up right up up left left up left left up up right down right up left up up left left left left';
+  for (const d of way.split(' ')) {
+    step(W, d);
+    for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; }
+  }
+  at(7, 3);
+  assert.deepEqual(fights.splice(0).sort(), ['alicia', 'brenna', 'isaiah', 'sergio']);
+  assert.equal(step(W, 'up'), 'blocked', 'Candice');
+  W.player.dir = 'up';
+  W.interact();
+  await until(() => S.player.badges.includes(31) && !W.locked);
+  assert.deepEqual(fights.splice(0), ['candice']);
+  assert.equal(F.obeyCap('sinnoh'), 70);
+  assert.equal(F.count('tm72'), 1);
+  // Barry has gone up, and the slope is open.
+  W.load('acuity-lakefront', { x: 14, y: 10, dir: 'up' });
+  assert.ok(!seen('barry'));
+  assert.equal(step(W, 'up'), 'moved');
+  W.load('acuity-lakefront', { x: 14, y: 1, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await cross('up', 'lake-acuity');
+  at(13, 21);
+  // Lake Acuity: Jupiter leaves with Uxie, Barry goes to train, and the chapter ends.
+  assert.ok(seen('jupiter') && seen('grunt1') && seen('barry'));
+  W.load('lake-acuity', { x: 13, y: 19, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('chapter-53-done') && !W.locked);
+  assert.ok(F.flag('jupiter-acuity') && F.flag('barry-acuity'));
+  assert.deepEqual(fights, [], 'no battle at the lake');
+  // Everybody has left.
+  W.load('lake-acuity', { x: 13, y: 17, dir: 'up' });
+  assert.ok(!seen('jupiter') && !seen('grunt1') && !seen('barry'));
+  assert.equal(step(W, 'up'), 'moved');
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

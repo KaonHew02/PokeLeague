@@ -803,6 +803,7 @@ G.World = (() => {
     const rules = { canLose: !!canLose, where: map.loc || map.id, obeyCap: G.Field.obeyCap(map.def.region) };
     if (stormy()) rules.weather = 'rain';
     if (map.def.desert) rules.weather = 'sand';                // the desert's sandstorm (chapter 41)
+    if (map.def.hail) rules.weather = 'hail';                  // the snow of northern Sinnoh (chapter 53)
     if (d && d.double) rules.double = true;
     return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld', rules };
   }

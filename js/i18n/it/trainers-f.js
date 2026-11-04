@@ -2,5 +2,6 @@
 G.I18n.add({
   "Tuber": "Bagnante",
   "Swimmer": "Nuotatrice",
-  "Cool Trainer": "Fantallenatrice"
+  "Cool Trainer": "Fantallenatrice",
+  "Skier": "Sciatrice"
 }, "it", "trainer-f");

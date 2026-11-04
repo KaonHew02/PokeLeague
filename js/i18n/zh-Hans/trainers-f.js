@@ -2,5 +2,6 @@
 G.I18n.add({
   "Tuber": "泳圈少女",
   "Swimmer": "比基尼大姐姐",
-  "Cool Trainer": "精英训练家"
+  "Cool Trainer": "精英训练家",
+  "Skier": "滑雪者"
 }, "zh-Hans", "trainer-f");

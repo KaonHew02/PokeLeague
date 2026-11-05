@@ -24,5 +24,9 @@ G.I18n.add({
   "People in Sinnoh say three Pokémon sleep in three lakes. One of them is Lake Verity, just west of here.": "神奧流傳著三隻寶可夢沉睡在三座湖裡的說法。其中一座就是這裡西邊的心齊湖。",
   "Professor Rowan frowns at everybody. But my Bidoof runs to him every time he walks past!": "七灶博士對誰都板著臉。可是每次他經過，我的大牙狸都會跑到他身邊！",
   "Sandgem Town. A town that smells of the sea and the sand.": "真砂鎮。飄著海水與沙子氣味的小鎮。",
-  "Research notes: \"Some Pokémon evolve only beside a Trainer they trust. What is it that they feel?\"": "研究筆記：「有些寶可夢只有待在信任的訓練家身邊才會進化。牠們感受到的究竟是什麼？」"
+  "Research notes: \"Some Pokémon evolve only beside a Trainer they trust. What is it that they feel?\"": "研究筆記：「有些寶可夢只有待在信任的訓練家身邊才會進化。牠們感受到的究竟是什麼？」",
+  "{player}! Cynthia was here, and she has told me all of it. A world behind our own, and you walked through it.": "{player}！竹蘭來過了，全都告訴我了。我們世界背後的世界，你竟然走了一趟。",
+  "In all my years I never thought to see the old stories proved. I shall be writing about this for the rest of my life.": "我這一輩子都沒想到能看到古老的傳說得到證實。這件事夠我寫到老了。",
+  "Team Galactic is finished, and the quakes around Mt. Coronet have stopped. I have told them to open the road east of Valor Lakefront again.": "銀河隊已經完了，天冠山一帶的地震也停了。我已經請他們重新開放立志湖畔東邊的路。",
+  "Sunyshore City lies at the end of it, and with it the last Gym in Sinnoh. Go on, then. There is still a journey to finish.": "路的盡頭是濱海市，那裡有神奧最後一個道館。去吧。你的旅程還沒有結束。"
 }, "zh-Hant");

@@ -88,6 +88,10 @@ G.TRAINER_CLASSES = {
   // Chapter 52: Saturn (the other Commanders' title is feminine in some languages).
   'galactic-commander-m': { title: 'Team Galactic Commander', who: 'saturn', prize: 50 },
   'galactic-commanders': { title: 'Galactic Commanders', who: 'mars', prize: 50 },
+  'rich-boy':    { title: 'Rich Boy', who: 'gentleman', prize: 120 },
+  policeman:     { title: 'Policeman', who: 'officer', prize: 40 },
+  'poke-kid':    { title: 'Poké Kid', who: 'lass', prize: 16 },
+  'school-kid-f': { title: 'School Kid', ctx: 'trainer-f', who: 'lass', prize: 20 },
   'skier-m':     { title: 'Skier', who: 'boarder', prize: 40 },
   leader:        { title: 'Leader', who: 'brock', prize: 100 }
 };

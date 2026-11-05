@@ -65,5 +65,8 @@ G.I18n.add({
   "Dragon Tamer": "馴龍師",
   "Galactic Boss": "銀河隊首領",
   "Team Galactic Commander": "銀河隊幹部",
-  "Galactic Commanders": "銀河隊幹部"
+  "Galactic Commanders": "銀河隊幹部",
+  "Rich Boy": "大少爺",
+  "Policeman": "警察",
+  "Poké Kid": "寶可夢小孩"
 }, "zh-Hant");

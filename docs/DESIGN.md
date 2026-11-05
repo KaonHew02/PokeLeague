@@ -2342,12 +2342,32 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   boulders, a pit that drops you and a filled one, the heal, a loss to Giratina and a second try, the rift closed, Turnback Cave until
   it is caught, the way out to Route 214); `tests/story.test.cjs` the chapter after chapter 55 and the balance line.
 
-### After chapter 56
+- **Chapter 57** ✅, Route 222, Sunyshore City and the last Gym (`js/content/sinnoh/sunyshore.js`, translations `sinnoh-sunyshore`). The
+  chapter ends on the beach, with Jasmine.
+  - **People and classes**: `volkner`, `flint`; the classes `rich-boy`, `policeman`, `poke-kid`, `school-kid-f`. "Flint" is already a key
+    (Kanto's Flint, with his own names), so the Elite Four's is "Elite Four Flint".
+  - **Map**: Valor Lakefront opens to the east; two guards stand there until Professor Rowan has heard the story (flag rowan-report).
+    `route222`, `pikachu-club`, `sunyshore` and its buildings, `vista-lighthouse` and `-top`, `sunyshore-gym`. Route 223 stays closed. Not in
+    the game, so left out: Quick Ball, Heart Scale, Zap Plate; also the berry trees, the Size Contest, ribbons, seals and Pokétch apps.
+  - **Gym**: Platinum's switches turn walkways. Here nine rooms are joined by gates (`bars`), and five plates (`o`, with `triggers`) flip the
+    flags sun-red, sun-blue and sun-yellow. Every step can be undone, so nobody gets shut in. The map generator searched for the layout and
+    solves it: 16 moves and 5 presses, through all nine rooms.
+  - **Story**: Flint stops you at the city gate (flag flint-met); the Gym is shut until you talk to Volkner at the top of the lighthouse (flag
+    volkner-met). Beacon Badge (32): `obeyCap` is null, every Pokémon obeys. TM57. Jasmine on the beach gives HM07 if you do not have it
+    (flag got-hm07, shared with Pryce's chapter), then `ending(57)`. No source says what Rowan says after the Distortion World, or that the road was closed:
+    the guards and his words are from memory or made up for this game.
+- **Balance:** Volkner is two levels below Platinum (Jolteon 44, Raichu 44, Luxray 46, Electivire 48 with a Sitrus Berry) with one Super Potion
+  instead of a Hyper Potion and a Full Restore, so his ace is level with the top Trainers in the Gym (48). At Platinum's levels a team of three won
+  30-70%; now 80-97%, without any Ground type needed.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the guards before and after Rowan, every link, Flint once, the Gym shut and
+  open, the whole Gym with real plates, the badge, Jasmine and the HM); `tests/story.test.cjs` the chapter after chapter 56 and the balance line.
+
+### After chapter 57
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) seven badges are won and Team Galactic is finished. Ideas:
-1. Sinnoh: Professor Rowan, Route 222, Sunyshore City and the last Gym; the League; the lake Pokémon (Uxie and Azelf in their caverns,
-   Mesprit roaming); Route 212 back to Hearthome; Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
+the Battle Tower; in Sinnoh (Pokémon 1-493) all eight badges are won and Team Galactic is finished. Ideas:
+1. Sinnoh: Route 223, Victory Road and the League; the lake Pokémon (Uxie and Azelf in their caverns, Mesprit roaming); Route 212 back to
+   Hearthome; Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

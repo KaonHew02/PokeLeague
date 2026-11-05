@@ -1527,7 +1527,7 @@ G.NAMES = {
     "canalave-city": ["Canalave City","Ciudad Canal","Joliberges","Canalipoli","水脉市","水脈市"],
     "eterna-city": ["Eterna City","Ciudad Vetusta","Vestigion","Evopoli","百代市","百代市"],
     "pastoria-city": ["Pastoria City","Ciudad Pradera","Verchamps","Pratopoli","湿原市","濕原市"],
-    "sunyshore-city": ["Sunyshore City","Sunyshore City","Rivamar","Sunyshore City","Sunyshore City","Sunyshore City"],
+    "sunyshore-city": ["Sunyshore City","Ciudad Marina","Rivamar","Arenipoli","滨海市","濱海市"],
     "sinnoh-pokemon-league": ["Pokémon League","Pokémon League","Ligue Pokémon","Pokémon League","Pokémon League","Pokémon League"],
     "oreburgh-mine": ["Oreburgh Mine","Mina Pirita","Mine Charbourg","Miniera di Mineropoli","黑金矿山","黑金礦山"],
     "valley-windworks": ["Valley Windworks","Valle Eólico","Les Eoliennes","Valley Windworks","山谷发电厂","山谷發電廠"],

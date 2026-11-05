@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 57) return { title: T('Chapter 57 complete!'),
+      done: fmt('{player} told Professor Rowan the whole story, followed the coast to Sunyshore City, woke Volkner from his boredom and won the Beacon Badge, the last of the eight badges of Sinnoh.', { player }),
+      next: T('Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.') };
     if (n === 56) return { title: T('Chapter 56 complete!'),
       done: fmt('{player} crossed the Distortion World beside Cynthia, beat Cyrus for the last time and faced Giratina. The distortion has stopped, and {player} came back to the world at Sendoff Spring.', { player }),
       next: T('Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.') };

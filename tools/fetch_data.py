@@ -289,6 +289,7 @@ LOC_NAMES = {
     'galactic-hq':       ('Galactic HQ',        'Galactic HQ',         '银河队帷幕大楼', '銀河隊帷幕大樓'),
     'spear-pillar':      ('Columnas Lanza',     'Vetta Lancia',        '枪之柱',     '槍之柱'),
     'distortion-world':  ('Mundo Distorsión',   'Mondo Distorto',      '毁坏的世界', '毀壞的世界'),
+    'sunyshore-city':    ('Ciudad Marina',      'Arenipoli',           '滨海市',     '濱海市'),
     'sendoff-spring':    ('Fuente Despedida',   'Fonte Saluto',        '送泉',       '送泉'),
     'spring-path':       ('Vía Manantial',      'Sentiero Fonte',      '隐泉之路',   '隱泉之路'),
     'turnback-cave':     ('Cueva Retorno',      'Grotta Ritorno',      '归途洞窟',   '歸途洞窟'),

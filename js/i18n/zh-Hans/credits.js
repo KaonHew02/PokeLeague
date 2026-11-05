@@ -163,5 +163,8 @@ G.I18n.add({
   "Thank you for playing! The world behind the rift waits in a future update.": "感谢游玩！裂缝背后的世界将在之后的更新中等着你。",
   "Chapter 56 complete!": "第五十六章完成！",
   "{player} crossed the Distortion World beside Cynthia, beat Cyrus for the last time and faced Giratina. The distortion has stopped, and {player} came back to the world at Sendoff Spring.": "{player}和竹兰一起穿过毁坏的世界，最后一次打败了赤日，并面对了骑拉帝纳。扭曲已经平息，{player}从送泉回到了现实世界。",
-  "Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.": "感谢游玩！七灶博士和通往滨海市的路将在之后的更新中等着你。"
+  "Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.": "感谢游玩！七灶博士和通往滨海市的路将在之后的更新中等着你。",
+  "Chapter 57 complete!": "第五十七章完成！",
+  "{player} told Professor Rowan the whole story, followed the coast to Sunyshore City, woke Volkner from his boredom and won the Beacon Badge, the last of the eight badges of Sinnoh.": "{player}向七灶博士讲完了经过，沿着海岸来到滨海市，让电次摆脱了无聊，赢得了灯塔徽章，集齐了神奥的八枚徽章。",
+  "Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.": "感谢游玩！通往神奥宝可梦联盟的路将在之后的更新中等着你。"
 }, "zh-Hans");

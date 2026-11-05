@@ -163,5 +163,8 @@ G.I18n.add({
   "Thank you for playing! The world behind the rift waits in a future update.": "¡Gracias por jugar! El mundo tras la grieta te espera en una futura actualización.",
   "Chapter 56 complete!": "¡Capítulo 56 completado!",
   "{player} crossed the Distortion World beside Cynthia, beat Cyrus for the last time and faced Giratina. The distortion has stopped, and {player} came back to the world at Sendoff Spring.": "{player} cruzó el Mundo Distorsión junto a Cintia, venció a Helio por última vez y se enfrentó a Giratina. La distorsión se ha detenido, y {player} volvió al mundo por la Fuente Despedida.",
-  "Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.": "¡Gracias por jugar! El Profesor Serbal y el camino a Ciudad Marina te esperan en una futura actualización."
+  "Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.": "¡Gracias por jugar! El Profesor Serbal y el camino a Ciudad Marina te esperan en una futura actualización.",
+  "Chapter 57 complete!": "¡Capítulo 57 completado!",
+  "{player} told Professor Rowan the whole story, followed the coast to Sunyshore City, woke Volkner from his boredom and won the Beacon Badge, the last of the eight badges of Sinnoh.": "{player} contó toda la historia al Profesor Serbal, siguió la costa hasta Ciudad Marina, sacó a Lectro de su aburrimiento y ganó la Medalla Faro, la última de las ocho de Sinnoh.",
+  "Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.": "¡Gracias por jugar! El camino a la Liga Pokémon de Sinnoh te espera en una futura actualización."
 }, "es");

@@ -28,7 +28,7 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -305,6 +305,11 @@ G.People = (() => {
     riley: { head: 'hat', body: 'coat', legs: 'pants', a: '#2a2a3a', A: '#16161e', b: '#4a6ac8', h: '#2a2028', H: '#160e14', j: '#2a4a8a', J: '#1c3268', c: '#e8e8f0', C: '#b8b8c4',
              p: '#2a2a3a', P: '#16161e', k: '#16161e' },
     // Chapter 52: Commander Saturn (blue hair, Team Galactic's white and grey).
+    // Chapter 57: Volkner (spiky blond hair, a blue jacket), Flint of the Elite Four (a great red crest of hair, a dark jacket).
+    volkner: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#f0d048', H: '#c0a020', j: '#3a6ac8', J: '#26489a', c: '#f4f4f4', C: '#c8c8d0',
+               p: '#2a2a3a', P: '#16161e', k: '#2a2a34' },
+    flint: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#e84a2a', H: '#b02e18', j: '#3a3a44', J: '#24242c', c: '#e8c040', C: '#b89020',
+             p: '#3a3a44', P: '#24242c', k: '#1c1c24' },
     // Chapter 54: Looker (dark hair, a long tan coat over a white shirt).
     looker: { head: 'short', body: 'coat', legs: 'pants', h: '#3a2e24', H: '#261e18', j: '#b8986a', J: '#8a6e48', c: '#ececf2', C: '#b8b8c4',
               p: '#4a4038', P: '#2e2820', k: '#2a2420' },

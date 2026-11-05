@@ -71,5 +71,6 @@ G.I18n.add({
   "I was heading north, but a crowd of Psyduck is blocking Route 210. Their heads ache so much that they cannot move.": "Stavo andando a nord, ma un gruppo di Psyduck blocca il Percorso 210. Hanno così mal di testa che non riescono a muoversi.",
   "This Secret Potion will cure them. I have something to see to here by the lake first. Could you take it to them?": "Questa Pozione Segreta li curerà. Prima ho una cosa da fare qui al lago. Potresti portargliela tu?",
   "Route 210 is north of Solaceon Town. I will meet you there!": "Il Percorso 210 è a nord di Flemminia. Ci vediamo lì!",
-  "Cynthia": "Camilla"
+  "Cynthia": "Camilla",
+  "The road to Sunyshore City is closed. It will only open when Professor Rowan in Sandgem gives the word.": "La strada per Arenipoli è chiusa. Riaprirà solo quando darà il via il Professor Rowan, a Sabbiafine."
 }, "it");

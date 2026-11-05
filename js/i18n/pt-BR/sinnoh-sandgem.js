@@ -24,5 +24,9 @@ G.I18n.add({
   "People in Sinnoh say three Pokémon sleep in three lakes. One of them is Lake Verity, just west of here.": "Em Sinnoh dizem que três Pokémon dormem em três lagos. Um deles é o Lago Verity, logo a oeste daqui.",
   "Professor Rowan frowns at everybody. But my Bidoof runs to him every time he walks past!": "O Professor Rowan fecha a cara para todo mundo. Mas meu Bidoof corre até ele toda vez que ele passa!",
   "Sandgem Town. A town that smells of the sea and the sand.": "Sandgem. Uma cidade com cheiro de mar e de areia.",
-  "Research notes: \"Some Pokémon evolve only beside a Trainer they trust. What is it that they feel?\"": "Notas de pesquisa: \"Alguns Pokémon só evoluem ao lado de um Treinador em quem confiam. O que será que sentem?\""
+  "Research notes: \"Some Pokémon evolve only beside a Trainer they trust. What is it that they feel?\"": "Notas de pesquisa: \"Alguns Pokémon só evoluem ao lado de um Treinador em quem confiam. O que será que sentem?\"",
+  "{player}! Cynthia was here, and she has told me all of it. A world behind our own, and you walked through it.": "{player}! Cynthia esteve aqui e me contou tudo. Um mundo por trás do nosso, e você o atravessou.",
+  "In all my years I never thought to see the old stories proved. I shall be writing about this for the rest of my life.": "Em todos os meus anos, nunca pensei ver as velhas histórias comprovadas. Vou escrever sobre isso pelo resto da vida.",
+  "Team Galactic is finished, and the quakes around Mt. Coronet have stopped. I have told them to open the road east of Valor Lakefront again.": "A Equipe Galáctica acabou, e os tremores ao redor do Mt. Coronet pararam. Pedi que reabrissem a estrada a leste de Valor Lakefront.",
+  "Sunyshore City lies at the end of it, and with it the last Gym in Sinnoh. Go on, then. There is still a journey to finish.": "No fim dela fica Sunyshore City, com o último Ginásio de Sinnoh. Vá, então. Ainda há uma jornada a terminar."
 }, "pt-BR");

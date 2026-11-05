@@ -65,5 +65,8 @@ G.I18n.add({
   "Dragon Tamer": "Domador de Dragões",
   "Galactic Boss": "Chefe Galáctico",
   "Team Galactic Commander": "Comandante Galáctico",
-  "Galactic Commanders": "Comandantes Galácticas"
+  "Galactic Commanders": "Comandantes Galácticas",
+  "Rich Boy": "Rich Boy",
+  "Policeman": "Policeman",
+  "Poké Kid": "Poké Kid"
 }, "pt-BR");

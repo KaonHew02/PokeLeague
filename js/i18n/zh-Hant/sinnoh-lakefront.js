@@ -71,5 +71,6 @@ G.I18n.add({
   "I was heading north, but a crowd of Psyduck is blocking Route 210. Their heads ache so much that they cannot move.": "我本來要往北走，但一群可達鴨堵住了210號道路。牠們頭痛得動不了。",
   "This Secret Potion will cure them. I have something to see to here by the lake first. Could you take it to them?": "這瓶秘傳之藥能治好牠們。我在湖邊還有點事要辦。你能幫我帶過去嗎？",
   "Route 210 is north of Solaceon Town. I will meet you there!": "210號道路在隨意鎮的北邊。我們在那裡見！",
-  "Cynthia": "竹蘭"
+  "Cynthia": "竹蘭",
+  "The road to Sunyshore City is closed. It will only open when Professor Rowan in Sandgem gives the word.": "通往濱海市的路封閉了。要等真砂鎮的七灶博士發話才會開放。"
 }, "zh-Hant");

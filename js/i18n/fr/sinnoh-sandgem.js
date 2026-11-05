@@ -24,5 +24,9 @@ G.I18n.add({
   "People in Sinnoh say three Pokémon sleep in three lakes. One of them is Lake Verity, just west of here.": "À Sinnoh, on dit que trois Pokémon dorment dans trois lacs. L'un d'eux est le Lac Vérité, juste à l'ouest d'ici.",
   "Professor Rowan frowns at everybody. But my Bidoof runs to him every time he walks past!": "Le Professeur Sorbier fronce les sourcils devant tout le monde. Mais mon Keunotor court vers lui chaque fois qu'il passe !",
   "Sandgem Town. A town that smells of the sea and the sand.": "Littorella. Une ville qui sent la mer et le sable.",
-  "Research notes: \"Some Pokémon evolve only beside a Trainer they trust. What is it that they feel?\"": "Notes de recherche : « Certains Pokémon n'évoluent qu'auprès d'un Dresseur en qui ils ont confiance. Que ressentent-ils ? »"
+  "Research notes: \"Some Pokémon evolve only beside a Trainer they trust. What is it that they feel?\"": "Notes de recherche : « Certains Pokémon n'évoluent qu'auprès d'un Dresseur en qui ils ont confiance. Que ressentent-ils ? »",
+  "{player}! Cynthia was here, and she has told me all of it. A world behind our own, and you walked through it.": "{player} ! Cynthia est passée, et elle m'a tout raconté. Un monde derrière le nôtre, et tu l'as traversé.",
+  "In all my years I never thought to see the old stories proved. I shall be writing about this for the rest of my life.": "En toutes ces années, je n'aurais jamais cru voir les vieux récits confirmés. J'écrirai là-dessus jusqu'à la fin de mes jours.",
+  "Team Galactic is finished, and the quakes around Mt. Coronet have stopped. I have told them to open the road east of Valor Lakefront again.": "La Team Galaxie est finie, et les secousses autour du Mont Couronné ont cessé. J'ai demandé qu'on rouvre la route à l'est de la Rive Lac Courage.",
+  "Sunyshore City lies at the end of it, and with it the last Gym in Sinnoh. Go on, then. There is still a journey to finish.": "Rivamar est au bout, avec la dernière Arène de Sinnoh. Va. Tu as encore un voyage à finir."
 }, "fr");

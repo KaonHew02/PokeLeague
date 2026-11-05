@@ -147,6 +147,16 @@
   }
 
   async function rowan(h) {
+    const F = G.Field;
+    // After the Distortion World (chapter 57): he hears the story, and the road to Sunyshore City opens.
+    if (F.flag('distortion-done') && !F.flag('rowan-report')) {
+      await h.say(T('{player}! Cynthia was here, and she has told me all of it. A world behind our own, and you walked through it.'), ROWAN);
+      await h.say(T('In all my years I never thought to see the old stories proved. I shall be writing about this for the rest of my life.'), ROWAN);
+      await h.say(T('Team Galactic is finished, and the quakes around Mt. Coronet have stopped. I have told them to open the road east of Valor Lakefront again.'), ROWAN);
+      await h.say(T('Sunyshore City lies at the end of it, and with it the last Gym in Sinnoh. Go on, then. There is still a journey to finish.'), ROWAN);
+      F.setFlag('rowan-report');
+      return;
+    }
     await h.say(T('Sinnoh has Pokémon found nowhere else, and many that evolve in ways seen nowhere else. Study them well.'), ROWAN);
     await h.say(T('And remember: Pokémon from other regions listen to you only up to the level your Sinnoh badges allow.'), ROWAN);
   }

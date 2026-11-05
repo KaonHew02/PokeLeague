@@ -3351,6 +3351,133 @@ test('Sinnoh (chapter 56): the rift, the islands, the boulders, Cyrus, Giratina,
   at(10, 6);
 });
 
+test('Sinnoh (chapter 57): Rowan, the road east, Sunyshore City, Flint, the lighthouse, the gates of the Gym, Volkner, Jasmine', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 31 }, (_, i) => i + 1);
+  for (const f of ['sinnoh-start', 'distortion-done', 'chapter-56-done']) F.setFlag(f);
+  F.giveMon('infernape', 54, { moves: ['flame-wheel'] });
+  const until = async ok => { for (let i = 0; i < 900 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const cross = async (dir, to) => { step(W, dir); await until(() => W.map.id === to && !W.locked); };
+  const walk = async dirs => { for (const d of dirs.split(' ')) { assert.equal(step(W, d), 'moved', d + ' at ' + W.player.x + ',' + W.player.y); await settle(); } };
+  const at = (x, y) => assert.deepEqual([W.player.x, W.player.y], [x, y]);
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const talk = () => pump(W, W.interact());
+  const fights = [];
+  W.onTrainer = async d => { fights.push(d.id); return 'win'; };
+  // The guards at the end of Valor Lakefront, before and after Professor Rowan hears the story.
+  W.load('valor-lakefront', { x: 34, y: 12, dir: 'right' });
+  assert.ok(seen('east1') && seen('east2'));
+  assert.equal(step(W, 'right'), 'blocked', 'a guard');
+  W.load('rowan-lab', { x: 6, y: 4, dir: 'up' });
+  await talk();
+  assert.ok(F.flag('rowan-report'));
+  W.load('valor-lakefront', { x: 34, y: 12, dir: 'right' });
+  assert.ok(!seen('east1') && !seen('east2'));
+  await walk('right');
+  await cross('right', 'route222');
+  at(0, 7);
+  // Back, and on to the city.
+  await cross('left', 'valor-lakefront');
+  at(35, 12);
+  W.load('route222', { x: 63, y: 8, dir: 'right' });
+  await cross('right', 'sunyshore');
+  at(0, 15);
+  await walk('right right');
+  assert.ok(seen('flint'));
+  // Flint, once.
+  step(W, 'right');
+  await until(() => F.flag('flint-met') && !W.locked);
+  assert.ok(!seen('flint'));
+  // The Gym is shut until Volkner has been found.
+  W.load('sunyshore', 'gym-door');
+  assert.equal(step(W, 'up'), 'blocked', 'gone out');
+  await settle();
+  W.load('sunyshore', 'light-door');
+  await cross('up', 'vista-lighthouse');
+  at(5, 7);
+  W.load('vista-lighthouse', 'lift');
+  await cross('up', 'vista-lighthouse-top');
+  at(5, 2);
+  assert.ok(seen('volkner'));
+  W.load('vista-lighthouse-top', { x: 5, y: 4, dir: 'down' });
+  await talk();
+  assert.ok(F.flag('volkner-met') && !seen('volkner'));
+  W.load('sunyshore', 'gym-door');
+  await cross('up', 'sunyshore-gym');
+  at(9, 18);
+  // The gates, with real plates: the way the generator found, through all nine rooms.
+  const gate = (x, y) => W.barsOpen(x, y);
+  assert.ok(gate(6, 15) && !gate(12, 15) && !gate(9, 13), 'the start');
+  assert.ok(!gate(9, 5), 'the Leader is shut away');
+  await walk('up up up left left left');
+  at(6, 15);
+  await walk('left left');
+  at(4, 15);
+  await walk('left');
+  assert.ok(F.flag('sun-blue'), 'a plate');
+  await settle();
+  assert.ok(!gate(6, 15) && gate(3, 13), 'the way back is shut, the way up is open');
+  await walk('up up up up');
+  at(3, 11);
+  await walk('up up up');
+  at(3, 8);
+  await walk('up');
+  assert.ok(!F.flag('sun-blue'), 'another plate of the same power');
+  await settle();
+  assert.ok(gate(9, 9) && !gate(3, 13));
+  await walk('right right right right right right');
+  at(9, 7);
+  await walk('down down down');
+  at(9, 10);
+  await walk('down');
+  assert.ok(F.flag('sun-blue'));
+  await settle();
+  await walk('down down down');
+  at(9, 14);
+  // (Tiera has stepped up to battle, so round her.)
+  await walk('down right right right');
+  at(12, 15);
+  await walk('right right');
+  at(14, 15);
+  await walk('right');
+  assert.ok(F.flag('sun-red'));
+  await settle();
+  await walk('up up up up');
+  at(15, 11);
+  await walk('up up up');
+  at(15, 8);
+  await walk('up');
+  assert.ok(F.flag('sun-yellow'));
+  await settle();
+  assert.ok(gate(12, 7) && gate(9, 5), 'all the way to the Leader');
+  await walk('left left left left left left');
+  at(9, 7);
+  await walk('up up up');
+  at(9, 4);
+  // Volkner, the badge, and every Pokémon obeys.
+  W.player.dir = 'up';
+  W.interact();
+  await until(() => S.player.badges.includes(32) && !W.locked);
+  assert.ok(fights.includes('volkner'));
+  assert.equal(F.obeyCap('sinnoh'), null);
+  assert.equal(F.count('tm57'), 1);
+  await walk('down');
+  at(9, 5);
+  // Jasmine on the beach: the HM if you have none, then the end of the chapter.
+  W.load('sunyshore', { x: 20, y: 4, dir: 'up' });
+  assert.ok(seen('jasmine'));
+  step(W, 'up');
+  await until(() => F.flag('chapter-57-done') && !W.locked);
+  assert.ok(F.flag('jasmine-beach') && F.flag('got-hm07'));
+  assert.equal(F.count('hm07'), 1);
+  assert.ok(!seen('jasmine'));
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

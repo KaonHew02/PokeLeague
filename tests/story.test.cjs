@@ -909,6 +909,28 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Volkner (chapter 57), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const rate = leaderRate(G, 'sunyshore-gym', 'volkner');
+  // Moves a player can have here. Torterra's Earthquake is the way in; the others lean on what they have.
+  const TOR = ['earthquake', 'crunch', 'razor-leaf', 'synthesis'], INF = ['flame-wheel', 'close-combat', 'mach-punch', 'punishment'];
+  const EMP = ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet'], LUX = ['crunch', 'thunder-fang', 'spark', 'roar'], STA = ['aerial-ace', 'close-combat', 'take-down', 'agility'];
+  const GAS = ['earthquake', 'surf', 'mud-bomb', 'recover'], LUC = ['force-palm', 'metal-claw', 'bone-rush', 'quick-attack'];
+  const teams = {
+    'torterra 54': [[389, 54, TOR]], 'infernape 54': [[392, 54, INF]], 'empoleon 54': [[395, 54, EMP]],
+    'torterra 54 + luxray 52': [[389, 54, TOR], [405, 52, LUX]], 'infernape 54 + luxray 52': [[392, 54, INF], [405, 52, LUX]], 'empoleon 54 + luxray 52': [[395, 54, EMP], [405, 52, LUX]],
+    'torterra 54 + luxray 52 + staraptor 52': [[389, 54, TOR], [405, 52, LUX], [398, 52, STA]],
+    'infernape 54 + luxray 52 + staraptor 52': [[392, 54, INF], [405, 52, LUX], [398, 52, STA]],
+    'empoleon 54 + luxray 52 + staraptor 52': [[395, 54, EMP], [405, 52, LUX], [398, 52, STA]],
+    'infernape 54 + gastrodon 50 + staraptor 52': [[392, 54, INF], [423, 50, GAS], [398, 52, STA]],
+    'empoleon 54 + gastrodon 50 + staraptor 52': [[395, 54, EMP], [423, 50, GAS], [398, 52, STA]],
+    'torterra 54 + staraptor 52 + lucario 49': [[389, 54, TOR], [398, 52, STA], [448, 49, LUC]]
+  };
+  const table = Object.fromEntries(Object.entries(teams).map(([k, t]) => [k, rate(t)]));
+  console.log('[balance] vs Volkner:', JSON.stringify(table));
+  for (const k of Object.keys(teams).filter(k => k.split('+').length === 3)) assert.ok(table[k] >= 0.6, k + ' beats Volkner at a normal difficulty');
+});
+
 test('balance: Cyrus in the Distortion World (chapter 56), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = leaderRate(G, 'distortion-4', 'cyrus');
@@ -4096,6 +4118,38 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 57 after chapter 56: Professor Rowan, Route 222, Sunyshore City, Volkner, Jasmine. */
+async function chapter57(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => {
+    for (const t of G.Maps.get(mapId).trainers.filter(t => t.cls !== 'leader')) { await fight(mapId, t.id); won(); }
+  };
+  lead(st, S.party.some(m => m.sp === 392) ? 392 : 391);
+  await run(st, 'rowan-lab', 'sinnoh.rowan');
+  assert.ok(F.flag('rowan-report'), 'the road east is open');
+  await all('route222');
+  await all('pikachu-club');
+  await run(st, 'sunyshore', 'sunyshore.flint');
+  await run(st, 'vista-lighthouse-top', 'sunyshore.volkner-top');
+  assert.ok(F.flag('flint-met') && F.flag('volkner-met'));
+  await all('sunyshore-gym');
+  await fight('sunyshore-gym', 'volkner');
+  won();
+  console.log('[story] Volkner:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(S.player.badges.includes(32), 'the Beacon Badge');
+  assert.equal(F.obeyCap('sinnoh'), null, 'every Pokémon obeys');
+  assert.equal(F.count('tm57'), 1);
+  await run(st, 'sunyshore', 'sunyshore.jasmine');
+  assert.ok(F.flag('jasmine-beach') && F.flag('chapter-57-done') && F.flag('got-hm07'));
+  const back = G.Store.sanitize(JSON.parse(JSON.stringify(S)));
+  assert.ok(back.player.badges.includes(32), 'the save keeps the Beacon Badge');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 56 after chapter 55: the Distortion World, Cyrus, Giratina, Sendoff Spring. */
 async function chapter56(st) {
   const { G, S } = st;
@@ -4322,4 +4376,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter54(st);
   await chapter55(st);
   await chapter56(st);
+  await chapter57(st);
 });

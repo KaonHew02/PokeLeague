@@ -65,5 +65,8 @@ G.I18n.add({
   "Dragon Tamer": "Domadraghi",
   "Galactic Boss": "Capo Galassia",
   "Team Galactic Commander": "Comandante Galassia",
-  "Galactic Commanders": "Comandanti Galassia"
+  "Galactic Commanders": "Comandanti Galassia",
+  "Rich Boy": "Riccone",
+  "Policeman": "Poliziotto",
+  "Poké Kid": "Pokébimba"
 }, "it");

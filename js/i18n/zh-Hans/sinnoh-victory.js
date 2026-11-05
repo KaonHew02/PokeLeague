@@ -100,5 +100,4 @@ G.I18n.add({
   "All six of them are ready. This is the real one, {player}. Here we go!": "六只全都准备好了。这才是真正的对决，{player}。来吧！",
   "...That was everything I had. And you are still standing.": "……我已经用尽全力了。而你还站着。",
   "All right. I get it. You are the one who goes first through those doors, and I will be right behind you. You had better not lose in there!": "好吧，我明白了。先走进那扇门的是你，我会紧跟在后面。你要是在里面输了，我绝不放过你！",
-  "The great doors are shut. A notice says they will open when the Elite Four are ready.": "大门紧闭。告示上写着，四天王准备好之后才会开门。"
 }, "zh-Hans");

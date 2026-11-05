@@ -169,5 +169,8 @@ G.I18n.add({
   "Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.": "Grazie per aver giocato! La strada per la Lega Pokémon di Sinnoh ti aspetta in un futuro aggiornamento.",
   "Chapter 58 complete!": "Capitolo 58 completato!",
   "{player} surfed Route 223, climbed the waterfall, crossed Victory Road and beat Barry for the last time, before the doors of the Pokémon League of Sinnoh.": "{player} ha solcato il Percorso 223, ha risalito la cascata, ha attraversato Via Vittoria e ha battuto Barry per l'ultima volta, davanti alle porte della Lega Pokémon di Sinnoh.",
-  "Thank you for playing! The Elite Four and the Champion of Sinnoh wait in a future update.": "Grazie per aver giocato! I Superquattro e la Campionessa di Sinnoh ti aspettano in un futuro aggiornamento."
+  "Thank you for playing! The Elite Four and the Champion of Sinnoh wait in a future update.": "Grazie per aver giocato! I Superquattro e la Campionessa di Sinnoh ti aspettano in un futuro aggiornamento.",
+  "Chapter 59 complete!": "Capitolo 59 completato!",
+  "{player} beat Aaron, Bertha, Flint and Lucian, won the great battle with Cynthia and entered the Hall of Fame as the Champion of Sinnoh.": "{player} ha battuto Aaron, Terrie, Vulcano e Luciano, ha vinto la grande lotta con Camilla e ha raggiunto la Sala d'Onore come Campione di Sinnoh.",
+  "Thank you for playing! The story of Sinnoh is told. What comes after it waits in a future update.": "Grazie per aver giocato! La storia di Sinnoh è conclusa. Quello che viene dopo ti aspetta in un futuro aggiornamento."
 }, "it");

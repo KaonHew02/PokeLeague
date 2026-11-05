@@ -1,7 +1,7 @@
 /* Brazilian Portuguese — Sinnoh: Route 222, Sunyshore City, Vista Lighthouse and the Sunyshore Gym (chapter 57) */
 G.I18n.add({
   "Volkner": "Volkner",
-  "Elite Four Flint": "Elite Four Flint",
+  "Elite Four Flint": "Elite dos Quatro Flint",
   "Brett": "Brett",
   "Alec": "Alec",
   "Nicola": "Nicola",

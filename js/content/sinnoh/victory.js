@@ -371,7 +371,7 @@
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
     warps: [
-      { x: 15, y: 8, locked: 'sleague.closed' },
+      { x: 15, y: 8, to: 'sinnoh-league-lobby', spot: 'door' },
       { x: 25, y: 9, to: 'sinnoh-league-center', spot: 'door' },
       { x: 15, y: 19, to: 'sinnoh-victory-1f', spot: 'exit' }
     ],
@@ -407,7 +407,6 @@
 
   G.Script.def({
     'victory.shut': [['say', 'An officer stands in the way. "Only Trainers with all eight badges of Sinnoh may enter Victory Road."']],
-    'sleague.barry': [['js', barry]],
-    'sleague.closed': [['say', 'The great doors are shut. A notice says they will open when the Elite Four are ready.']]
+    'sleague.barry': [['js', barry]]
   });
 })();

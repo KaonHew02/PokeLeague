@@ -3479,7 +3479,7 @@ test('Sinnoh (chapter 57): Rowan, the road east, Sunyshore City, Flint, the ligh
 });
 
 test('Sinnoh (chapter 58): the sea north of Sunyshore, the waterfall, the Beacon Badge, Victory Road with its boulder and lake, Barry', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W, later } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3574,10 +3574,90 @@ test('Sinnoh (chapter 58): the sea north of Sunyshore, the waterfall, the Beacon
   assert.deepEqual(fights.splice(0), ['barry-league']);
   assert.equal(G.Maps.get('sinnoh-league').def.barryTeams[393][5][0], 'empoleon');
   assert.ok(F.flag('barry-league') && !seen('barry'));
+  // Chapter 59 opens the doors behind him.
   W.load('sinnoh-league', { x: 15, y: 9, dir: 'up' });
-  assert.equal(step(W, 'up'), 'blocked', 'shut');
+  await cross('up', 'sinnoh-league-lobby');
+  at(7, 9);
+});
+
+test("Sinnoh's League (chapter 59): the lobby and its guard, doors that open after a win, Cynthia, the Hall of Fame, home, then ten levels up", async () => {
+  const { G, W } = world(['js/content/kanto/league.js', ...['twinleaf', 'victory', 'league'].map(f => 'js/content/sinnoh/' + f + '.js')]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 32 }, (_, i) => i + 1);
+  F.setFlag('barry-league');
+  F.giveMon('empoleon', 58, { moves: ['surf'] });
+  const until = async ok => { for (let i = 0; i < 900 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const fights = [];
+  W.onTrainer = async d => { fights.push([d.id, Math.max(...d.team.map(t => t[1]))]); return 'win'; };
+  const ROOMS = [['aaron-room', 'aaron', 53], ['bertha-room', 'bertha', 55], ['flint-room', 'flint', 57], ['lucian-room', 'lucian', 57]];
+  // The doors of the League lead to the lobby, and the lobby's mat leads back out.
+  W.load('sinnoh-league', { x: 15, y: 9, dir: 'up' });
+  step(W, 'up');
+  await until(() => W.map.id === 'sinnoh-league-lobby' && !W.locked);
+  W.load('sinnoh-league-lobby', { x: 7, y: 8, dir: 'down' });
+  step(W, 'down');
+  await until(() => W.map.id === 'sinnoh-league' && !W.locked);
+  assert.deepEqual([W.player.x, W.player.y], [15, 9]);
+  // The guard's question: Yes opens the way.
+  W.load('sinnoh-league-lobby', 'guard');
+  W.player.face('up');
+  await pump(W, W.interact());
+  await until(() => W.map.id === 'aaron-room');
   await settle();
-  at(15, 9);
+  // Each room stays shut until its Trainer is beaten.
+  for (const [room, id, top] of ROOMS) {
+    W.load(room, { x: 5, y: 3, dir: 'up' });
+    await settle();
+    assert.equal(W.map.id, room);
+    step(W, 'up');
+    await settle();
+    await settle();
+    assert.equal(W.map.id, room, 'shut before ' + id);
+    W.load(room, { x: 5, y: 5, dir: 'up' });
+    await pump(W, W.interact());
+    await until(() => F.flag('se4-' + id));
+    await settle();
+    assert.deepEqual(fights[fights.length - 1], [id, top]);
+    W.load(room, { x: 5, y: 3, dir: 'up' });
+    assert.equal(step(W, 'up'), 'moved', 'the door opens after ' + id);
+    await until(() => W.map.id !== room);
+    await settle();
+  }
+  assert.equal(W.map.id, 'cynthia-room');
+  assert.ok(seen('cynthia') && !seen('rowan'));
+  // Cynthia, then Professor Rowan, the Hall of Fame and home.
+  W.load('cynthia-room', { x: 5, y: 9, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => F.flag('chapter-59-done'));
+  assert.deepEqual(fights[fights.length - 1], ['cynthia-champion', 57]);
+  assert.ok(F.flag('sinnoh-champion'));
+  assert.equal(W.map.id, 'barry-house-2f');
+  assert.equal(S.fame.length, 1);
+  assert.equal(S.fame[0].party[0].sp, 395);
+  // Back in the first room everything starts over, ten levels up.
+  fights.length = 0;
+  W.load('sinnoh-league-lobby', 'guard');
+  W.player.face('up');
+  await pump(W, W.interact());
+  await until(() => W.map.id === 'aaron-room' && !W.locked);
+  await settle();
+  assert.ok(!F.flag('se4-aaron') && !F.flag('se4-lucian') && !F.flag('se4-champion'));
+  for (const [room, id, top] of ROOMS) {
+    W.load(room, { x: 5, y: 5, dir: 'up' });
+    await pump(W, W.interact());
+    await until(() => F.flag('se4-' + id));
+    await settle();
+    assert.deepEqual(fights[fights.length - 1], [id + '2', top + 10]);
+  }
+  W.load('cynthia-room', { x: 5, y: 9, dir: 'up' });
+  assert.ok(seen('cynthia'));
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'barry-house-2f' && !W.locked);
+  assert.deepEqual(fights[fights.length - 1], ['cynthia-champion2', 67]);
+  assert.equal(S.fame.length, 2);
 });
 
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {

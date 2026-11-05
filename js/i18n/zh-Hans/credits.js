@@ -169,5 +169,8 @@ G.I18n.add({
   "Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.": "感谢游玩！通往神奥宝可梦联盟的路将在之后的更新中等着你。",
   "Chapter 58 complete!": "第五十八章完成！",
   "{player} surfed Route 223, climbed the waterfall, crossed Victory Road and beat Barry for the last time, before the doors of the Pokémon League of Sinnoh.": "{player}冲浪穿过223号水路，爬上瀑布，走过冠军之路，在神奥宝可梦联盟的大门前最后一次打败了阿驯。",
-  "Thank you for playing! The Elite Four and the Champion of Sinnoh wait in a future update.": "感谢游玩！神奥的四天王和冠军将在之后的更新中等着你。"
+  "Thank you for playing! The Elite Four and the Champion of Sinnoh wait in a future update.": "感谢游玩！神奥的四天王和冠军将在之后的更新中等着你。",
+  "Chapter 59 complete!": "第五十九章完成！",
+  "{player} beat Aaron, Bertha, Flint and Lucian, won the great battle with Cynthia and entered the Hall of Fame as the Champion of Sinnoh.": "{player}打败了阿柳、菊野、大叶和悟松，赢下了与竹兰的大战，以神奥冠军的身份进入了殿堂。",
+  "Thank you for playing! The story of Sinnoh is told. What comes after it waits in a future update.": "感谢游玩！神奥的故事讲完了。接下来的内容将在之后的更新中等着你。"
 }, "zh-Hans");

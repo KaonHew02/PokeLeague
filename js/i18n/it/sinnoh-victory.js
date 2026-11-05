@@ -100,5 +100,4 @@ G.I18n.add({
   "All six of them are ready. This is the real one, {player}. Here we go!": "Sono pronti tutti e sei. Questa è quella vera, {player}. Si comincia!",
   "...That was everything I had. And you are still standing.": "...Era tutto ciò che avevo. E tu sei ancora in piedi.",
   "All right. I get it. You are the one who goes first through those doors, and I will be right behind you. You had better not lose in there!": "Va bene. Ho capito. Tocca a te varcare quelle porte, e io sarò subito dietro. Non azzardarti a perdere!",
-  "The great doors are shut. A notice says they will open when the Elite Four are ready.": "I grandi portoni sono chiusi. Un avviso dice che si apriranno quando i Superquattro saranno pronti."
 }, "it");

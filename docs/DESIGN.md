@@ -2377,11 +2377,28 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the sea link, a real climb of the waterfall, the Beacon Badge at the mouth, every link, real pushes onto the plate,
   the double battle, the lake, Barry, the shut doors); `tests/story.test.cjs` the chapter after chapter 57 and the balance line.
 
-### After chapter 58
+- **Chapter 59** ✅, Sinnoh's Pokémon League (`js/content/sinnoh/league.js`, translations `sinnoh-league`). The end of Sinnoh's story: it closes with `ending(59)`.
+  - **Map**: the doors of `sinnoh-league` open onto `sinnoh-league-lobby` (nurse, shop, guard), then `aaron-room`, `bertha-room`, `flint-room`, `lucian-room`,
+    `cynthia-room` and `sinnoh-fame`. Each room is the hall of the other Leagues with something of its Trainer in it (plants, rubble, statues, shelves). A door opens
+    after its win (flags `se4-aaron`, `-bertha`, `-flint`, `-lucian`, `-champion`), and the first room's `enter` (`sleague.start`) clears them, so every run starts over.
+  - **Names**: the keys "Aaron" and "Flint" are people in Kanto, so the four are `name: 'Elite Four Aaron'` and so on with no `cls`, like Flint in Sunyshore, and `prize: 100` by hand.
+    Spanish Alecrán, Gaia, Fausto, Delos; French Aaron, Terry, Adrien, Lucio; Italian Aaron, Terrie, Vulcano, Luciano.
+  - **Story**: Cynthia has only ever said she studies old stories; here she tells you she is the Champion. After her win Professor Rowan walks in, and both take you to the Hall of Fame
+    (`save.fame`, flag `sinnoh-champion`), then home to `barry-house-2f`.
+  - **Rematches**: with `sinnoh-champion` everybody battles with a team ten levels up (`aaron2`..., `cynthia-champion2`, held items kept); a win is another entry in the Hall of Fame, no ending.
+  - **Left out**: the National Pokédex, the Battle Zone and whatever else comes after the League; Dialga and Palkia.
+- **Balance:** measured with a team of **six**, as the player asked (the starter 58, Luxray and Staraptor 56, Gastrodon, Lucario and Floatzel 54, with level-up moves and Surf, Earthquake, Ice Fang), each
+  battle alone with a fresh team. Aaron, Bertha and Flint keep Platinum's levels and lose to that team 2% of the time or less. Lucian is three levels lower (his Gallade two), 78-90%; at Platinum's levels 28-75%.
+  Cynthia is six levels lower (Garchomp five: 57, the top of the League with Flint and Lucian), with one Full Restore where Platinum has four, 65-70%; at Platinum's levels 0-5%. Garchomp decides it: a level more
+  costs about 20 points, and a team with no Ice move loses to him nearly always. The auto-player never switches or uses items, so a real player does better.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the doors, the mat back out, the guard's Yes, each door shut until its win, Cynthia, the Hall of Fame, home, the second run ten levels up);
+  `tests/story.test.cjs` the chapter after chapter 58 and the balance lines, asserting 60% or more in every battle and both rematches measured.
 
-The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) all eight badges are won and the League stands open ahead. Ideas:
-1. Sinnoh: the Elite Four, Cynthia and the Hall of Fame; the lake Pokémon (Uxie and Azelf in their caverns, Mesprit roaming); Route 212 back to
+### After chapter 59
+
+The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
+the Battle Tower. Ideas:
+1. Sinnoh after the League: the National Pokédex and the Battle Zone; the lake Pokémon (Uxie and Azelf in their caverns, Mesprit roaming), Dialga and Palkia; Route 212 back to
    Hearthome; Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.

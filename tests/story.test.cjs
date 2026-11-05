@@ -909,6 +909,47 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test("balance: Sinnoh's Elite Four and Cynthia (chapter 59), win rates of teams of six are printed", () => {
+  const { G } = world(1);
+  // A Sinnoh team of six at the League: the starter at 58 and Pokémon met along the way a few levels lower, with moves a player can have.
+  const TOR = [389, 58, ['earthquake', 'crunch', 'giga-drain', 'synthesis']], INF = [392, 58, ['flare-blitz', 'close-combat', 'mach-punch', 'punishment']];
+  const EMP = [395, 58, ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet']];
+  const LUX = [405, 56, ['crunch', 'thunder-fang', 'discharge', 'roar']], STA = [398, 56, ['brave-bird', 'close-combat', 'aerial-ace', 'agility']];
+  const GAS = [423, 54, ['earthquake', 'surf', 'muddy-water', 'recover']], LUC = [448, 54, ['aura-sphere', 'close-combat', 'extreme-speed', 'dragon-pulse']];
+  const FLO = [419, 54, ['surf', 'crunch', 'aqua-jet', 'ice-fang']];
+  const TEAMS = { 'torterra 58 + 5': [TOR, LUX, STA, GAS, LUC, FLO], 'infernape 58 + 5': [INF, LUX, STA, GAS, LUC, FLO], 'empoleon 58 + 5': [EMP, LUX, STA, GAS, LUC, FLO] };
+  const fight = (foe, items, me) => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const mine = me.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const foes = foe.map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), item ? { item } : {}));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: mine, bag: {} },
+        foe: { party: foes, trainer: { id: 'x', name: 'X', ai: 'leader', items: Object.assign({}, items), prize: 100 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return Math.round(wins / 40 * 100) / 100;
+  };
+  const member = (room, id) => G.Maps.get(room).trainers.find(t => t.id === id);
+  const CY = G.SinnohLeague;
+  const FOES = { aaron: member('aaron-room', 'aaron'), bertha: member('bertha-room', 'bertha'), flint: member('flint-room', 'flint'),
+                 lucian: member('lucian-room', 'lucian'), cynthia: { team: CY.cynthiaTeam(false), items: CY.CYNTHIA_ITEMS } };
+  const table = {};
+  for (const [name, foe] of Object.entries(FOES)) {
+    table[name] = {};
+    for (const [k, t] of Object.entries(TEAMS)) table[name][k] = fight(foe.team, foe.items, t);
+  }
+  console.log("[balance] vs Sinnoh's Elite Four:", JSON.stringify(table));
+  const up = t => t.map(([sp, l, m]) => [sp, l + 10, m]);
+  const again = { lucian: fight(member('lucian-room', 'lucian2').team, member('lucian-room', 'lucian2').items, up(TEAMS['torterra 58 + 5'])),
+                  cynthia: fight(CY.cynthiaTeam(true), CY.CYNTHIA_ITEMS, up(TEAMS['torterra 58 + 5'])) };
+  console.log('[balance] Sinnoh rematches ten levels up:', JSON.stringify(again));
+  // Normal difficulty: a sensible team of six wins each battle, fresh, at least six times in ten.
+  for (const id of Object.keys(FOES)) for (const k of Object.keys(TEAMS)) assert.ok(table[id][k] >= 0.6, id + ', ' + k);
+  assert.ok(again.lucian >= 0.6 && again.cynthia >= 0.6, 'the rematches');
+});
+
 test('balance: Barry before the League (chapter 58), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const teamsOf = G.Maps.get('sinnoh-league').def.barryTeams;
@@ -4139,6 +4180,40 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 59 after chapter 58: the doors of the League, the Elite Four, Cynthia, the Hall of Fame, home and the rematches. */
+async function chapter59(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const RUN = [['aaron-room', 'aaron'], ['bertha-room', 'bertha'], ['flint-room', 'flint'], ['lucian-room', 'lucian']];
+  // The four rooms in a row, then Cynthia.
+  await run(st, 'aaron-room', 'sleague.start');
+  for (const [room, id] of RUN) {
+    await fight(room, id);
+    won();
+    assert.ok(F.flag('se4-' + id), id);
+  }
+  F.healAll();
+  const fame = (S.fame || []).length;
+  await run(st, 'cynthia-room', 'sleague.champion');
+  assert.equal(last().key, 'cynthia-room:cynthia-champion');
+  won();
+  console.log('[story] Cynthia: won at levels', last().levels.join());
+  assert.deepEqual(plain(last().team), plain(G.SinnohLeague.cynthiaTeam(false)));
+  assert.ok(F.flag('se4-champion') && F.flag('sinnoh-champion') && F.flag('chapter-59-done'));
+  assert.equal(S.fame.length, fame + 1, 'the Hall of Fame');
+  assert.equal(S.fame[fame].party.length, S.party.length);
+  assert.equal(st.W.map, 'barry-house-2f', 'home in Twinleaf Town');
+  // The rematches: everybody ten levels up, the first room starts the run over.
+  await run(st, 'aaron-room', 'sleague.start');
+  assert.ok(!F.flag('se4-aaron') && !F.flag('se4-champion'));
+  assert.equal(G.Maps.get('lucian-room').trainers.find(t => t.id === 'lucian2').team[4][1], 67);
+  assert.equal(G.SinnohLeague.cynthiaTeam(true)[5][1], 67);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 58 after chapter 57: Route 223, Victory Road, Barry in front of the League. */
 async function chapter58(st) {
   const { G, S } = st;
@@ -4423,4 +4498,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter56(st);
   await chapter57(st);
   await chapter58(st);
+  await chapter59(st);
 });

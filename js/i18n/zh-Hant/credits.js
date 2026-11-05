@@ -166,5 +166,8 @@ G.I18n.add({
   "Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.": "感謝遊玩！七灶博士和通往濱海市的路將在之後的更新中等著你。",
   "Chapter 57 complete!": "第五十七章完成！",
   "{player} told Professor Rowan the whole story, followed the coast to Sunyshore City, woke Volkner from his boredom and won the Beacon Badge, the last of the eight badges of Sinnoh.": "{player}向七灶博士講完了經過，沿著海岸來到濱海市，讓電次擺脫了無聊，贏得了燈塔徽章，集齊了神奧的八枚徽章。",
-  "Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.": "感謝遊玩！通往神奧寶可夢聯盟的路將在之後的更新中等著你。"
+  "Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.": "感謝遊玩！通往神奧寶可夢聯盟的路將在之後的更新中等著你。",
+  "Chapter 58 complete!": "第五十八章完成！",
+  "{player} surfed Route 223, climbed the waterfall, crossed Victory Road and beat Barry for the last time, before the doors of the Pokémon League of Sinnoh.": "{player}衝浪穿過223號水路，爬上瀑布，走過冠軍之路，在神奧寶可夢聯盟的大門前最後一次打敗了阿馴。",
+  "Thank you for playing! The Elite Four and the Champion of Sinnoh wait in a future update.": "感謝遊玩！神奧的四天王和冠軍將在之後的更新中等著你。"
 }, "zh-Hant");

@@ -166,5 +166,8 @@ G.I18n.add({
   "Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.": "Merci d'avoir joué ! Le Professeur Sorbier et la route de Rivamar t'attendent dans une future mise à jour.",
   "Chapter 57 complete!": "Chapitre 57 terminé !",
   "{player} told Professor Rowan the whole story, followed the coast to Sunyshore City, woke Volkner from his boredom and won the Beacon Badge, the last of the eight badges of Sinnoh.": "{player} a tout raconté au Professeur Sorbier, a suivi la côte jusqu'à Rivamar, a tiré Tanguy de son ennui et a gagné le Badge Phare, le dernier des huit badges de Sinnoh.",
-  "Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.": "Merci d'avoir joué ! La route de la Ligue Pokémon de Sinnoh t'attend dans une future mise à jour."
+  "Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.": "Merci d'avoir joué ! La route de la Ligue Pokémon de Sinnoh t'attend dans une future mise à jour.",
+  "Chapter 58 complete!": "Chapitre 58 terminé !",
+  "{player} surfed Route 223, climbed the waterfall, crossed Victory Road and beat Barry for the last time, before the doors of the Pokémon League of Sinnoh.": "{player} a parcouru le Chenal 223, a gravi la cascade, a traversé la Route Victoire et a battu Barry une dernière fois, devant les portes de la Ligue Pokémon de Sinnoh.",
+  "Thank you for playing! The Elite Four and the Champion of Sinnoh wait in a future update.": "Merci d'avoir joué ! Le Conseil 4 et la Maître de Sinnoh t'attendent dans une future mise à jour."
 }, "fr");

@@ -2362,11 +2362,26 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the guards before and after Rowan, every link, Flint once, the Gym shut and
   open, the whole Gym with real plates, the badge, Jasmine and the HM); `tests/story.test.cjs` the chapter after chapter 56 and the balance line.
 
-### After chapter 57
+- **Chapter 58** ✅, Route 223, Victory Road and the gates of the League (`js/content/sinnoh/victory.js`, translations `sinnoh-victory`). The chapter
+  ends in front of the League's doors.
+  - **Classes**: `veteran`, `double-team`.
+  - **Map**: Sunyshore City's sea runs north into `route223`, up a waterfall to `league-south` (a Center, no Fly) and the mouth of Victory Road, shut
+    without the Beacon Badge so that surfing cannot skip Volkner. Platinum's Victory Road needs Rock Climb: here `sinnoh-victory-1f` (two parts with solid rock between them),
+    `-2f` (a boulder on a plate opens the rock wall) and `-b1f` (a lake to Surf over), then back to 1F's north part and out to `sinnoh-league`
+    (the League building, a Center, Fly). The generator checks by search that each part is reached only the right way. The doors of the League are locked until the next chapter.
+    Left out: Dive Ball and Heart Scale (not in the game), the part of Victory Road opened by the National Pokédex.
+  - **Writing trainers**: `i18n_keys` only sees literal `before:`, `defeat:`, `after:` and `name:` fields, so trainers built through a helper with its arguments are not translated. Write them out.
+  - **Story**: Barry stands before the doors (a trigger across the whole road, flag barry-league). His lines are written for this game.
+- **Balance:** Barry has Platinum's six Pokémon, four levels lower (Staraptor 44, Floatzel or Roserade 43, Heracross 44, Rapidash or Roserade 43, Snorlax 45, his starter 47). At
+  Platinum's levels a team of three won 8-60% against six; now 60-100%. Teams of one or two still lose to him most of the time.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the sea link, a real climb of the waterfall, the Beacon Badge at the mouth, every link, real pushes onto the plate,
+  the double battle, the lake, Barry, the shut doors); `tests/story.test.cjs` the chapter after chapter 57 and the balance line.
+
+### After chapter 58
 
 The journey through Kanto, Johto and Hoenn is complete, with double battles, every legend of Hoenn and
-the Battle Tower; in Sinnoh (Pokémon 1-493) all eight badges are won and Team Galactic is finished. Ideas:
-1. Sinnoh: Route 223, Victory Road and the League; the lake Pokémon (Uxie and Azelf in their caverns, Mesprit roaming); Route 212 back to
+the Battle Tower; in Sinnoh (Pokémon 1-493) all eight badges are won and the League stands open ahead. Ideas:
+1. Sinnoh: the Elite Four, Cynthia and the Hall of Fame; the lake Pokémon (Uxie and Azelf in their caverns, Mesprit roaming); Route 212 back to
    Hearthome; Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.

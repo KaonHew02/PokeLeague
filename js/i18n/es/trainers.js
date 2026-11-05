@@ -68,5 +68,7 @@ G.I18n.add({
   "Galactic Commanders": "Comandantes Galaxia",
   "Rich Boy": "Niño Rico",
   "Policeman": "Policía",
-  "Poké Kid": "Pokéniña"
+  "Poké Kid": "Pokéniña",
+  "Veteran": "Veterano",
+  "Double Team": "Pareja"
 }, "es");

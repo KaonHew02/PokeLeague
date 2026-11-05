@@ -89,6 +89,8 @@ G.TRAINER_CLASSES = {
   'galactic-commander-m': { title: 'Team Galactic Commander', who: 'saturn', prize: 50 },
   'galactic-commanders': { title: 'Galactic Commanders', who: 'mars', prize: 50 },
   'rich-boy':    { title: 'Rich Boy', who: 'gentleman', prize: 120 },
+  veteran:       { title: 'Veteran', who: 'gentleman', prize: 80 },
+  'double-team': { title: 'Double Team', who: 'cooltrainerm', prize: 48 },
   policeman:     { title: 'Policeman', who: 'officer', prize: 40 },
   'poke-kid':    { title: 'Poké Kid', who: 'lass', prize: 16 },
   'school-kid-f': { title: 'School Kid', ctx: 'trainer-f', who: 'lass', prize: 20 },

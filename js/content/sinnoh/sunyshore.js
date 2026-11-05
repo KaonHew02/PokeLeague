@@ -152,7 +152,7 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { west: { map: 'route222', offset: 7 } },
+    connect: { west: { map: 'route222', offset: 7 }, north: { map: 'route223', offset: 10 } },
     warps: [
       { x: 8, y: 12, to: 'sunyshore-center', spot: 'door' },
       { x: 14, y: 12, to: 'sunyshore-mart', spot: 'door' },

@@ -166,5 +166,8 @@ G.I18n.add({
   "Thank you for playing! Professor Rowan and the road to Sunyshore City wait in a future update.": "Grazie per aver giocato! Il Professor Rowan e la strada per Arenipoli ti aspettano in un futuro aggiornamento.",
   "Chapter 57 complete!": "Capitolo 57 completato!",
   "{player} told Professor Rowan the whole story, followed the coast to Sunyshore City, woke Volkner from his boredom and won the Beacon Badge, the last of the eight badges of Sinnoh.": "{player} ha raccontato tutto al Professor Rowan, ha seguito la costa fino ad Arenipoli, ha scosso Corrado dalla noia e ha vinto la Medaglia Faro, l'ultima delle otto di Sinnoh.",
-  "Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.": "Grazie per aver giocato! La strada per la Lega Pokémon di Sinnoh ti aspetta in un futuro aggiornamento."
+  "Thank you for playing! The road to the Pokémon League of Sinnoh waits in a future update.": "Grazie per aver giocato! La strada per la Lega Pokémon di Sinnoh ti aspetta in un futuro aggiornamento.",
+  "Chapter 58 complete!": "Capitolo 58 completato!",
+  "{player} surfed Route 223, climbed the waterfall, crossed Victory Road and beat Barry for the last time, before the doors of the Pokémon League of Sinnoh.": "{player} ha solcato il Percorso 223, ha risalito la cascata, ha attraversato Via Vittoria e ha battuto Barry per l'ultima volta, davanti alle porte della Lega Pokémon di Sinnoh.",
+  "Thank you for playing! The Elite Four and the Champion of Sinnoh wait in a future update.": "Grazie per aver giocato! I Superquattro e la Campionessa di Sinnoh ti aspettano in un futuro aggiornamento."
 }, "it");

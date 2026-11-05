@@ -909,6 +909,27 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Barry before the League (chapter 58), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const teamsOf = G.Maps.get('sinnoh-league').def.barryTeams;
+  const rate = (team, starter) => trainerRate(G, { id: 'barry-league', name: 'Barry', team: teamsOf[starter], items: {} })(team);
+  const TOR = ['earthquake', 'crunch', 'razor-leaf', 'synthesis'], INF = ['flame-wheel', 'close-combat', 'mach-punch', 'punishment'];
+  const EMP = ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet'], LUX = ['crunch', 'thunder-fang', 'spark', 'roar'], STA = ['aerial-ace', 'close-combat', 'take-down', 'agility'];
+  const LUC = ['force-palm', 'metal-claw', 'bone-rush', 'quick-attack'];
+  // The player's starter, and Barry's by the rule of the game (his beats yours).
+  const teams = {
+    'torterra 56': [[[389, 56, TOR]], 390], 'infernape 56': [[[392, 56, INF]], 393], 'empoleon 56': [[[395, 56, EMP]], 387],
+    'torterra 56 + luxray 54': [[[389, 56, TOR], [405, 54, LUX]], 390], 'infernape 56 + luxray 54': [[[392, 56, INF], [405, 54, LUX]], 393], 'empoleon 56 + luxray 54': [[[395, 56, EMP], [405, 54, LUX]], 387],
+    'torterra 56 + luxray 54 + staraptor 54': [[[389, 56, TOR], [405, 54, LUX], [398, 54, STA]], 390],
+    'infernape 56 + luxray 54 + staraptor 54': [[[392, 56, INF], [405, 54, LUX], [398, 54, STA]], 393],
+    'empoleon 56 + luxray 54 + staraptor 54': [[[395, 56, EMP], [405, 54, LUX], [398, 54, STA]], 387],
+    'torterra 56 + staraptor 54 + lucario 52': [[[389, 56, TOR], [398, 54, STA], [448, 52, LUC]], 390]
+  };
+  const table = Object.fromEntries(Object.entries(teams).map(([k, [t, s]]) => [k, rate(t, s)]));
+  console.log('[balance] vs Barry (League):', JSON.stringify(table));
+  for (const k of Object.keys(teams).filter(k => k.split('+').length === 3)) assert.ok(table[k] >= 0.6, k + ' beats Barry at a normal difficulty');
+});
+
 test('balance: Volkner (chapter 57), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const rate = leaderRate(G, 'sunyshore-gym', 'volkner');
@@ -4118,6 +4139,30 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 58 after chapter 57: Route 223, Victory Road, Barry in front of the League. */
+async function chapter58(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  const all = async mapId => {
+    for (const t of G.Maps.get(mapId).trainers) { await fight(mapId, t.id); won(); }
+  };
+  lead(st, S.party.some(m => m.sp === 392) ? 392 : 391);
+  await all('route223');
+  await all('sinnoh-victory-1f');
+  await all('sinnoh-victory-2f');
+  await all('sinnoh-victory-b1f');
+  F.healAll();
+  await run(st, 'sinnoh-league', 'sleague.barry');
+  assert.equal(last().key, 'sinnoh-league:barry-league');
+  won();
+  console.log('[story] Barry at the League:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('barry-league') && F.flag('chapter-58-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 57 after chapter 56: Professor Rowan, Route 222, Sunyshore City, Volkner, Jasmine. */
 async function chapter57(st) {
   const { G, S } = st;
@@ -4377,4 +4422,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter55(st);
   await chapter56(st);
   await chapter57(st);
+  await chapter58(st);
 });

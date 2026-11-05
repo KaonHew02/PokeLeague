@@ -68,5 +68,7 @@ G.I18n.add({
   "Galactic Commanders": "银河队干部",
   "Rich Boy": "大少爷",
   "Policeman": "警察",
-  "Poké Kid": "宝可梦小孩"
+  "Poké Kid": "宝可梦小孩",
+  "Veteran": "老练训练家",
+  "Double Team": "双人组"
 }, "zh-Hans");

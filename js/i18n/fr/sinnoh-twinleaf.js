@@ -51,5 +51,6 @@ G.I18n.add({
   "Fine. Go and see how far you get.": "Bon. Va voir jusqu'où tu iras.",
   "You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!": "Encore toi ? Je me souviens de toi à la centrale. Cette fois, j'ai une vraie raison de gagner. Voyons si tu peux m'arrêter !",
   "Not again!": "Pas encore !",
-  "Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.": "Ah, et le Professeur Sorbier a appelé, Maître. Il te demande de passer à son labo à Littorella quand tu seras reposé."
+  "Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.": "Ah, et le Professeur Sorbier a appelé, Maître. Il te demande de passer à son labo à Littorella quand tu seras reposé.",
+  "Barry ran off to some place called the Battle Zone. There is a ship from Snowpoint City, he says. He left without his lunch, of course.": "Barry a filé dans un endroit appelé l'Île de Combat. Il dit qu'il y a un bateau à Frimapic. Il est parti sans son déjeuner, bien sûr."
 }, "fr");

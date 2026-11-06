@@ -51,5 +51,6 @@ G.I18n.add({
   "Fine. Go and see how far you get.": "Vale. A ver hasta dónde llegas.",
   "You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!": "¿Otra vez tú? Te recuerdo de la central eólica. Esta vez tengo un buen motivo para ganar. ¡A ver si puedes detenerme!",
   "Not again!": "¡Otra vez no!",
-  "Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.": "Ah, y el Profesor Serbal ha llamado, Campeón. Dice que vayas a su laboratorio en Pueblo Arena cuando hayas descansado."
+  "Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.": "Ah, y el Profesor Serbal ha llamado, Campeón. Dice que vayas a su laboratorio en Pueblo Arena cuando hayas descansado.",
+  "Barry ran off to some place called the Battle Zone. There is a ship from Snowpoint City, he says. He left without his lunch, of course.": "Barry se fue corriendo a un sitio llamado Zona Batalla. Dice que hay un barco desde Ciudad Puntaneva. Se fue sin comer, claro."
 }, "es");

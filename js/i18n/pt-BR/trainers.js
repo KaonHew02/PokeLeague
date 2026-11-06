@@ -70,5 +70,6 @@ G.I18n.add({
   "Policeman": "Policeman",
   "Poké Kid": "Poké Kid",
   "Veteran": "Veteran",
-  "Double Team": "Double Team"
+  "Double Team": "Double Team",
+  "Pokémon Ranger": "Pokémon Ranger"
 }, "pt-BR");

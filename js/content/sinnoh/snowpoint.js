@@ -11,6 +11,7 @@
 (() => {
   const T = s => G.T(s);
   const SINNOH = { region: 'sinnoh' };
+  const SAILOR = { name: 'Sailor' };
   const CAVE = { tileset: 'outdoor', palette: 'cave', music: 'cave', battleBg: 'cave', border: '#', cave: true, escape: true, region: 'sinnoh' };
   const SNOW = { tileset: 'outdoor', palette: 'snow', music: 'route', battleBg: 'ice', border: 'T', snow: true, hail: true, region: 'sinnoh' };
   const HOUSE = ['WWWWWWWWWWW', 'WWWWWWWWWWW', 'bb__p______', '___________', '____ttt____', '____ttt____', '___________', '____X______'];
@@ -337,9 +338,9 @@
       'T........HHHH....,......HHHH.......T',
       'T........HDHH....,......HDHH.......T',
       'T.........,,,,,,,,,,,,,,,,.........T',
-      'T..................................T',
-      'T..................................T',
-      'T..................................T',
+      'T................,.S...............T',
+      'T~~~~~~~~~~~~~~~~=~~~~~~~~~~~~~~~~~T',
+      'T~~~~~~~~~~~~~~~~=~~~~~~~~~~~~~~~~~T',
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
     connect: { west: { map: 'acuity-lakefront', offset: 4 } },
@@ -350,13 +351,15 @@
       { x: 10, y: 20, to: 'snowpoint-house', spot: 'door' },
       { x: 25, y: 20, to: 'snowpoint-house2', spot: 'door' }
     ],
-    spots: { 'center-door': [7, 11, 'down'], 'mart-door': [25, 11, 'down'], 'gym-door': [17, 11, 'down'], 'house-door': [10, 21, 'down'], 'house2-door': [25, 21, 'down'] },
+    spots: { harbor: [17, 23, 'down'], 'center-door': [7, 11, 'down'], 'mart-door': [25, 11, 'down'], 'gym-door': [17, 11, 'down'], 'house-door': [10, 21, 'down'], 'house2-door': [25, 21, 'down'] },
     signs: {
       '3,14': 'Snowpoint City. The town where the snow never melts.',
       '19,12': 'Snowpoint City Gym. Leader: Candice, who never lets the cold win.',
-      '30,3': 'North: Snowpoint Temple. No entry.'
+      '30,3': 'North: Snowpoint Temple. No entry.',
+      '19,22': 'Snowpoint Harbor. The ship sails to the Battle Zone.'
     },
     npcs: [
+      { id: 'sailor', who: 'sailor', x: 17, y: 24, dir: 'up', script: 'snowpoint.sailor' },
       { id: 'temple', who: 'gentleman', x: 31, y: 3, dir: 'down',
         say: 'Snowpoint Temple lies beyond this point. It is older than the town, and only the Gym Leader may go inside.' },
       { id: 'boy', who: 'youngster', x: 13, y: 13, move: 'look',
@@ -532,6 +535,20 @@
       ['giveItem', 'tm72', 1],
       ['say', 'With that badge you can go up the slope to Lake Acuity. People say they have seen strange grey uniforms up there.', CANDICE]
     ],
-    'acuity.jupiter': [['js', jupiter]]
+    'acuity.jupiter': [['js', jupiter]],
+    // Chapter 61: the ship to the Battle Zone (battlezone.js).
+    'snowpoint.sailor': [
+      ['if', 'sinnoh-champion', [
+        ['choice', 'Ahoy, Champion! Shall I take you to the Battle Zone?', [
+          ['fade', 'out', 0.6], ['sfx', 'horn'],
+          ['say', 'The ship sailed out across the northern sea...'],
+          ['warp', 'fight-area', 'pier']
+        ], [
+          ['say', 'Any time. The sea is not going anywhere.', SAILOR]
+        ], SAILOR]
+      ], [
+        ['say', 'This ship goes to the Battle Zone, and only Trainers who have beaten the Pokémon League may board.', SAILOR]
+      ]]
+    ]
   });
 })();

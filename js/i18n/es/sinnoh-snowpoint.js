@@ -115,5 +115,9 @@ G.I18n.add({
   "Lake Acuity. Its waters are said to be the home of a spirit of knowledge.": "Lago Agudeza. Se dice que en sus aguas vive un espíritu del saber.",
   "Snowpoint City. The town where the snow never melts.": "Ciudad Puntaneva. La ciudad donde la nieve nunca se derrite.",
   "Snowpoint City Gym. Leader: Candice, who never lets the cold win.": "Gimnasio de Ciudad Puntaneva. Líder: Inverna, a quien el frío nunca vence.",
-  "North: Snowpoint Temple. No entry.": "Norte: Templo Puntaneva. Prohibido el paso."
+  "North: Snowpoint Temple. No entry.": "Norte: Templo Puntaneva. Prohibido el paso.",
+  "Ahoy, Champion! Shall I take you to the Battle Zone?": "¡Ah del barco, Campeón! ¿Te llevo a la Zona Batalla?",
+  "The ship sailed out across the northern sea...": "El barco zarpó por el mar del norte...",
+  "This ship goes to the Battle Zone, and only Trainers who have beaten the Pokémon League may board.": "Este barco va a la Zona Batalla, y solo pueden subir los Entrenadores que hayan vencido a la Liga Pokémon.",
+  "Snowpoint Harbor. The ship sails to the Battle Zone.": "Puerto de Ciudad Puntaneva. El barco va a la Zona Batalla."
 }, "es");

@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 61) return { title: T('Chapter 61 complete!'),
+      done: fmt('{player} sailed to the Battle Zone, beat Flint and Volkner beside Barry in Fight Area, and followed Route 225 to the Survival Area.', { player }),
+      next: T('Thank you for playing! The road to the volcano waits in a future update.') };
     if (n === 60) return { title: T('Chapter 60 complete!'),
       done: fmt('{player} received the National Pokédex from Professor Rowan, found the two orbs in Mt. Coronet and faced Dialga and Palkia at the Spear Pillar.', { player }),
       next: T('Thank you for playing! The Battle Zone and the rest of Sinnoh wait in a future update.') };

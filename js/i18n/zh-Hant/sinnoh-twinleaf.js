@@ -51,5 +51,6 @@ G.I18n.add({
   "Fine. Go and see how far you get.": "好吧。看你能走多遠。",
   "You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!": "又是你？我記得你，在山谷發電廠見過。這次我有非贏不可的理由。看你攔不攔得住我！",
   "Not again!": "怎麼又輸了！",
-  "Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.": "對了，七灶博士打過電話來，冠軍。他說你休息好了就去真砂鎮的研究所找他。"
+  "Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.": "對了，七灶博士打過電話來，冠軍。他說你休息好了就去真砂鎮的研究所找他。",
+  "Barry ran off to some place called the Battle Zone. There is a ship from Snowpoint City, he says. He left without his lunch, of course.": "阿馴跑去一個叫對戰地帶的地方了。他說雪峰市有船去。午飯當然又沒帶。"
 }, "zh-Hant");

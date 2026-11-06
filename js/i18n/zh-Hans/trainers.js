@@ -70,5 +70,6 @@ G.I18n.add({
   "Policeman": "警察",
   "Poké Kid": "宝可梦小孩",
   "Veteran": "老练训练家",
-  "Double Team": "双人组"
+  "Double Team": "双人组",
+  "Pokémon Ranger": "宝可梦巡护员"
 }, "zh-Hans");

@@ -3479,7 +3479,7 @@ test('Sinnoh (chapter 57): Rowan, the road east, Sunyshore City, Flint, the ligh
 });
 
 test('Sinnoh (chapter 58): the sea north of Sunyshore, the waterfall, the Beacon Badge, Victory Road with its boulder and lake, Barry', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W, later } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3661,7 +3661,7 @@ test("Sinnoh's League (chapter 59): the lobby and its guard, doors that open aft
 });
 
 test("Sinnoh after the League (chapter 60): the National Pokédex, three caves, a second roaming Pokémon, the orbs, Dialga and Palkia", async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3814,6 +3814,104 @@ test("Sinnoh after the League (chapter 60): the National Pokédex, three caves, 
   assert.ok(F.flag('dialga-caught'));
   W.load('spear-pillar', { x: 6, y: 4, dir: 'up' });
   assert.ok(!seen('dialga2'));
+});
+
+test('the Battle Zone (chapter 61): the ship, Flint and Volkner beside Barry, Route 225 over the river, the Survival Area', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 32 }, (_, i) => i + 1);
+  S.player.surf = 1;
+  S.player.lastHeal = { map: 'snowpoint-center', spot: 'mat' };
+  F.setVar('barry-starter', 393);
+  F.giveMon('empoleon', 62, { moves: ['surf', 'cut'] });
+  F.giveMon('luxray', 60, { moves: ['spark'] });
+  const until = async ok => { for (let i = 0; i < 900 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const cross = async (dir, to) => { step(W, dir); await until(() => W.map.id === to && !W.locked); };
+  const at = (x, y) => assert.deepEqual([W.player.x, W.player.y], [x, y]);
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const talk = () => pump(W, W.interact());
+  const fights = [], partners = [];
+  let answer = 'win';
+  W.onTrainer = async (d, info) => { fights.push(d.id); partners.push(info && info.partner && info.partner.team); return answer; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  // The sailor waits for a Champion.
+  W.load('snowpoint', 'harbor');
+  W.player.face('down');
+  await talk();
+  assert.equal(W.map.id, 'snowpoint');
+  F.setFlag('sinnoh-champion');
+  await talk();
+  await until(() => W.map.id === 'fight-area' && !W.locked);
+  at(15, 22);
+  // Off the pier: Barry, the Frontier, the multi battle.
+  W.player.face('up');
+  W.load('fight-area', { x: 15, y: 20, dir: 'up' });
+  await settle();
+  answer = 'lose';
+  step(W, 'up');
+  await until(() => fights.length === 1);
+  await settle();
+  assert.ok(!F.flag('fight-zone-met'), 'lost: it happens again');
+  answer = 'win';
+  W.load('fight-area', { x: 15, y: 20, dir: 'up' });
+  await settle();
+  step(W, 'up');
+  await until(() => F.flag('fight-zone-met') && !W.locked);
+  assert.deepEqual(fights.splice(0), ['flint-volkner', 'flint-volkner']);
+  assert.equal(G.Maps.get('fight-area').def.barryTeams[393][5][0], 'empoleon');
+  assert.ok(!seen('barry') && seen('flint') && seen('volkner'));
+  // The Frontier stays shut; a gift in the mart; back to Snowpoint and over again.
+  W.load('fight-area', { x: 7, y: 7, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'shut');
+  await settle();
+  W.load('fight-mart', { x: 5, y: 5, dir: 'right' });
+  await talk();
+  assert.equal(F.count('scope-lens'), 1);
+  await talk();
+  assert.equal(F.count('scope-lens'), 1, 'only once');
+  W.load('fight-area', 'pier');
+  W.player.face('right');
+  await talk();
+  await until(() => W.map.id === 'snowpoint' && !W.locked);
+  at(17, 23);
+  // Route 225: north from Fight Area; a walker stops at the river.
+  W.load('fight-area', { x: 15, y: 0, dir: 'up' });
+  await cross('up', 'route225');
+  at(15, 45);
+  W.load('route225', { x: 15, y: 28, dir: 'down' });
+  await settle();
+  W.player.face('up');
+  W.load('route225', { x: 15, y: 28, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'the river');
+  W.load('route225', { x: 15, y: 24, dir: 'up' });
+  assert.ok(W.surfing);
+  assert.equal(step(W, 'up'), 'moved');
+  await settle();
+  assert.ok(!W.surfing, 'ashore');
+  // The Trainers spot you on the road.
+  W.load('route225', { x: 15, y: 9, dir: 'up' });
+  await settle();
+  step(W, 'up');
+  await until(() => fights.includes('quinn') && !W.locked);
+  // East into the Survival Area, and Barry.
+  W.load('route225', { x: 29, y: 5, dir: 'right' });
+  await cross('right', 'survival-area');
+  at(0, 9);
+  W.load('survival-area', { x: 1, y: 9, dir: 'right' });
+  await settle();
+  step(W, 'right');
+  await until(() => F.flag('chapter-61-done') && !W.locked);
+  assert.ok(F.flag('survival-barry') && seen('barry'));
+  // The road east is shut; the Battleground has nobody to fight yet.
+  W.load('survival-area', { x: 30, y: 9, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked', 'the rockfall');
+  W.load('survival-ground', 'door');
+  assert.ok(seen('clerk'));
+  for (const id of ['fight-area', 'survival-area']) assert.ok(G.Maps.get(id).def.fly, id + ' can be flown to');
 });
 
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {

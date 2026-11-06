@@ -175,5 +175,8 @@ G.I18n.add({
   "Thank you for playing! The story of Sinnoh is told. What comes after it waits in a future update.": "Obrigado por jogar! A história de Sinnoh está contada. O que vem depois espera por você em uma atualização futura.",
   "Chapter 60 complete!": "Capítulo 60 concluído!",
   "{player} received the National Pokédex from Professor Rowan, found the two orbs in Mt. Coronet and faced Dialga and Palkia at the Spear Pillar.": "{player} recebeu a Pokédex Nacional do Professor Rowan, encontrou as duas esferas no Mt. Coronet e enfrentou Dialga e Palkia no Spear Pillar.",
-  "Thank you for playing! The Battle Zone and the rest of Sinnoh wait in a future update.": "Obrigado por jogar! A Battle Zone e o resto de Sinnoh esperam por você em uma atualização futura."
+  "Thank you for playing! The Battle Zone and the rest of Sinnoh wait in a future update.": "Obrigado por jogar! A Battle Zone e o resto de Sinnoh esperam por você em uma atualização futura.",
+  "Chapter 61 complete!": "Capítulo 61 concluído!",
+  "{player} sailed to the Battle Zone, beat Flint and Volkner beside Barry in Fight Area, and followed Route 225 to the Survival Area.": "{player} navegou até a Battle Zone, venceu Flint e Volkner ao lado de Barry na Fight Area e seguiu a Route 225 até a Survival Area.",
+  "Thank you for playing! The road to the volcano waits in a future update.": "Obrigado por jogar! A estrada para o vulcão espera por você em uma atualização futura."
 }, "pt-BR");

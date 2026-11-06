@@ -296,6 +296,9 @@ LOC_NAMES = {
     'sendoff-spring':    ('Fuente Despedida',   'Fonte Saluto',        '送泉',       '送泉'),
     'spring-path':       ('Vía Manantial',      'Sentiero Fonte',      '隐泉之路',   '隱泉之路'),
     'turnback-cave':     ('Cueva Retorno',      'Grotta Ritorno',      '归途洞窟',   '歸途洞窟'),
+    # Chapter 61.
+    'fight-area':        ('Zona Combate',       'Area Lotta',          '战斗区',     '戰鬥區'),
+    'survival-area':     ('Zona Sobrevivir',    'Area Sopravvivenza',  '生存区',     '生存區'),
     # Chapter 48.
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),

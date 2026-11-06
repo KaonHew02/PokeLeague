@@ -909,6 +909,37 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Flint and Volkner beside Barry (chapter 61), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const def = G.Maps.get('fight-area').def, L = def.flintVolkner;
+  const mk = (list, rng) => list.map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), item ? { item } : {}));
+  const rate = (team, starter) => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} }, partner: { name: 'Barry', party: mk(def.barryTeams[starter], rng) },
+        foe: { party: mk(L.team, rng), trainer: { id: L.id, name: L.name, ai: 'leader', items: Object.assign({}, L.items), prize: 100 } }, rules: { double: true, tag: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 40;
+  };
+  const TOR = [389, 60, ['earthquake', 'crunch', 'giga-drain', 'synthesis']], INF = [392, 60, ['flare-blitz', 'close-combat', 'mach-punch', 'punishment']];
+  const EMP = [395, 60, ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet']];
+  const LUX = [405, 58, ['crunch', 'thunder-fang', 'discharge', 'roar']], STA = [398, 58, ['brave-bird', 'close-combat', 'aerial-ace', 'agility']];
+  // The player's starter, and Barry's by the rule of the game (his beats yours).
+  const teams = {
+    'torterra 60': [[TOR], 390], 'infernape 60': [[INF], 393], 'empoleon 60': [[EMP], 387],
+    'torterra 60 + luxray 58': [[TOR, LUX], 390], 'infernape 60 + luxray 58': [[INF, LUX], 393], 'empoleon 60 + luxray 58': [[EMP, LUX], 387],
+    'torterra 60 + luxray 58 + staraptor 58': [[TOR, LUX, STA], 390], 'infernape 60 + luxray 58 + staraptor 58': [[INF, LUX, STA], 393],
+    'empoleon 60 + luxray 58 + staraptor 58': [[EMP, LUX, STA], 387]
+  };
+  const table = Object.fromEntries(Object.entries(teams).map(([k, [t, s]]) => [k, rate(t, s)]));
+  console.log('[balance] vs Flint and Volkner, beside Barry:', JSON.stringify(table));
+  for (const k of Object.keys(teams).filter(k => k.split('+').length === 3)) assert.ok(table[k] >= 0.6, k + ' at a normal difficulty');
+});
+
 test("balance: Sinnoh's legends (chapter 60), win rates of a team of six are printed", () => {
   const { G } = world(1);
   // The team that beat the League, four levels on.
@@ -4210,6 +4241,30 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 61 after chapter 60: the ship to the Battle Zone, Flint and Volkner beside Barry, Route 225, the Survival Area. */
+async function chapter61(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  await run(st, 'barry-house', 'sinnoh.barry-mom');
+  await run(st, 'snowpoint', 'snowpoint.sailor', [0]);
+  assert.equal(st.W.map, 'fight-area');
+  F.healAll();
+  await run(st, 'fight-area', 'bzone.arrival');
+  assert.equal(last().key, 'fight-area:flint-volkner');
+  won();
+  console.log('[story] Flint and Volkner:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('fight-zone-met'));
+  await run(st, 'fight-mart', 'bzone.granny');
+  assert.equal(F.count('scope-lens') >= 1, true);
+  for (const t of G.Maps.get('route225').trainers) { await fight('route225', t.id); won(); }
+  await run(st, 'survival-area', 'bzone.barry');
+  assert.ok(F.flag('survival-barry') && F.flag('chapter-61-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 60 after chapter 59: the National Pokédex, the lake Pokémon, the orbs, Dialga and Palkia. */
 async function chapter60(st) {
   const { G, S } = st;
@@ -4564,4 +4619,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter58(st);
   await chapter59(st);
   await chapter60(st);
+  await chapter61(st);
 });

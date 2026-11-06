@@ -115,5 +115,9 @@ G.I18n.add({
   "Lake Acuity. Its waters are said to be the home of a spirit of knowledge.": "Lac Savoir. On dit qu'un esprit du savoir vit dans ses eaux.",
   "Snowpoint City. The town where the snow never melts.": "Frimapic. La ville où la neige ne fond jamais.",
   "Snowpoint City Gym. Leader: Candice, who never lets the cold win.": "Arène de Frimapic. Championne : Gladys, que le froid ne bat jamais.",
-  "North: Snowpoint Temple. No entry.": "Nord : Temple Frimapic. Entrée interdite."
+  "North: Snowpoint Temple. No entry.": "Nord : Temple Frimapic. Entrée interdite.",
+  "Ahoy, Champion! Shall I take you to the Battle Zone?": "Ohé, Maître ! Je t'emmène sur l'Île de Combat ?",
+  "The ship sailed out across the northern sea...": "Le bateau a pris le large sur la mer du nord...",
+  "This ship goes to the Battle Zone, and only Trainers who have beaten the Pokémon League may board.": "Ce bateau va sur l'Île de Combat, et seuls les Dresseurs qui ont vaincu la Ligue Pokémon peuvent monter.",
+  "Snowpoint Harbor. The ship sails to the Battle Zone.": "Port de Frimapic. Le bateau va sur l'Île de Combat."
 }, "fr");

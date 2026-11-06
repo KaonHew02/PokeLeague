@@ -84,6 +84,9 @@ G.TRAINER_CLASSES = {
   // Chapter 50
   'ninja-boy':   { title: 'Ninja Boy', who: 'youngster', prize: 8 },
   'dragon-tamer': { title: 'Dragon Tamer', who: 'cooltrainerm', prize: 48 },
+  // Chapter 61
+  ranger:        { title: 'Pokémon Ranger', who: 'ranger', prize: 48 },
+  'ranger-f':    { title: 'Pokémon Ranger', ctx: 'trainer-f', who: 'rangerf', prize: 48 },
   'galactic-boss': { title: 'Galactic Boss', who: 'cyrus', prize: 100 },
   // Chapter 52: Saturn (the other Commanders' title is feminine in some languages).
   'galactic-commander-m': { title: 'Team Galactic Commander', who: 'saturn', prize: 50 },

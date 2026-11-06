@@ -115,5 +115,9 @@ G.I18n.add({
   "Lake Acuity. Its waters are said to be the home of a spirit of knowledge.": "Lago Acume. Si dice che nelle sue acque viva uno spirito della conoscenza.",
   "Snowpoint City. The town where the snow never melts.": "Nevepoli. La città dove la neve non si scioglie mai.",
   "Snowpoint City Gym. Leader: Candice, who never lets the cold win.": "Palestra di Nevepoli. Capopalestra: Bianca, che non si fa mai vincere dal freddo.",
-  "North: Snowpoint Temple. No entry.": "Nord: Tempio di Nevepoli. Vietato l'ingresso."
+  "North: Snowpoint Temple. No entry.": "Nord: Tempio di Nevepoli. Vietato l'ingresso.",
+  "Ahoy, Champion! Shall I take you to the Battle Zone?": "Ehilà, Campione! Ti porto alla Zona Lotta?",
+  "The ship sailed out across the northern sea...": "La nave è salpata attraverso il mare del nord...",
+  "This ship goes to the Battle Zone, and only Trainers who have beaten the Pokémon League may board.": "Questa nave va alla Zona Lotta, e possono salire solo gli Allenatori che hanno battuto la Lega Pokémon.",
+  "Snowpoint Harbor. The ship sails to the Battle Zone.": "Porto di Nevepoli. La nave va alla Zona Lotta."
 }, "it");

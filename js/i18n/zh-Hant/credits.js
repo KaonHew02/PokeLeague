@@ -175,5 +175,8 @@ G.I18n.add({
   "Thank you for playing! The story of Sinnoh is told. What comes after it waits in a future update.": "感謝遊玩！神奧的故事講完了。接下來的內容將在之後的更新中等著你。",
   "Chapter 60 complete!": "第六十章完成！",
   "{player} received the National Pokédex from Professor Rowan, found the two orbs in Mt. Coronet and faced Dialga and Palkia at the Spear Pillar.": "{player}從七灶博士那裡得到了全國圖鑑，在天冠山找到了兩顆寶珠，並在槍之柱面對了帝牙盧卡和帕路奇亞。",
-  "Thank you for playing! The Battle Zone and the rest of Sinnoh wait in a future update.": "感謝遊玩！戰鬥區和神奧的其他地方將在之後的更新中等著你。"
+  "Thank you for playing! The Battle Zone and the rest of Sinnoh wait in a future update.": "感謝遊玩！對戰地帶和神奧的其他地方將在之後的更新中等著你。",
+  "Chapter 61 complete!": "第六十一章完成！",
+  "{player} sailed to the Battle Zone, beat Flint and Volkner beside Barry in Fight Area, and followed Route 225 to the Survival Area.": "{player}坐船來到對戰地帶，在戰鬥區和阿馴一起打敗了大葉和電次，又沿著225號道路走到了生存區。",
+  "Thank you for playing! The road to the volcano waits in a future update.": "感謝遊玩！通往火山的路將在之後的更新中等著你。"
 }, "zh-Hant");

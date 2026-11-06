@@ -295,6 +295,9 @@
         ['say', 'There you go! Off with you, and keep an eye on Barry for me, will you?'],
         ['if', ['sinnoh-champion', '!national-dex'], [
           ['say', 'Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.']
+        ]],
+        ['if', ['national-dex', '!fight-zone-met'], [
+          ['say', 'Barry ran off to some place called the Battle Zone. There is a ship from Snowpoint City, he says. He left without his lunch, of course.']
         ]]
       ], [
         ['say', 'Oh! You must be {player}. Professor Rowan asked us to put you up while you are in Sinnoh. Welcome to Twinleaf!'],

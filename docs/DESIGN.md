@@ -2410,11 +2410,22 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (shut caves, Surf to the islands, the National Pokédex, Mesprit on a real route beside a roaming Latias, the save, beaten and caught, orbs hidden until the elder, the pillar in both orders);
   `tests/held.test.cjs` the orbs; `tests/gen4.test.cjs` the rest turn; `tests/story.test.cjs` the chapter after chapter 59 and the balance line.
 
-### After chapter 60
+- **Chapter 61** ✅, the Battle Zone: Fight Area, Route 225 and the Survival Area (`js/content/sinnoh/battlezone.js`, translations `sinnoh-battlezone`). It ends with `ending(61)` in the Survival Area.
+  - **Classes**: `ranger`, `ranger-f` (and their pictures).
+  - **Map**: Snowpoint City has a sea and a pier in the south; once you are Sinnoh's Champion its sailor sails to `fight-area` (and back). Fight Area: a Center, a mart (the Scope Lens from an old woman), a house, the Battle Frontier with its doors locked.
+    `route225` goes north: ledges, a river to Surf, a gap in a cliff, a pocket behind a Cut tree, then east into `survival-area`, where Platinum uses Rock Climb. The generator checks by search that the river stops a walker and the pocket needs Cut.
+    The Survival Area: a Center, a mart, the Battleground (`survival-ground`, no battles yet), a house, the shard tutor's house (he is out). A rockfall closes the road east until the next chapter. Fight Area and the Survival Area can be flown to, and they are on the Town Map.
+    Route 225 has no Surf table in the data, so its river has no wild Pokémon.
+  - **Story**: off the pier Barry takes you to the Battle Frontier, where Flint and Volkner want a multi battle beside him (flag `fight-zone-met`; lost, it all happens again from the pier). Barry's team by `barry-starter`, as `fight-area`'s `def.barryTeams`, and theirs as `def.flintVolkner`, one of each in turn. Barry waits in the Survival Area (flag `survival-barry`).
+  - **Left out**: Route 230, the reporter and the cameraman, the Super Rod (you have had one since Kanto), Lax Incense, the Green Shard and the berries (not in the game).
+- **Balance:** Flint and Volkner have Platinum's levels, with their four Full Restores: a team of three beside Barry wins 97-100%, a lone Infernape 40%. Nothing was lowered. Route 225's Trainers are Platinum's.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the sailor, Barry, losing and winning, the Frontier's doors, the gift, the way back, the river, a Trainer, the link east, the rockfall); `tests/story.test.cjs` the chapter after chapter 60 and the balance line.
+
+### After chapter 61
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower. Ideas:
-1. Sinnoh after the League: the Battle Zone, Stark Mountain and Heatran; Lake Valor filling up again (a map that changes with a flag); Route 212 back to
+1. Sinnoh after the League: Routes 226 and 227, Stark Mountain and Heatran; the Battleground; the Resort Area; Lake Valor filling up again (a map that changes with a flag); Route 212 back to
    Hearthome; Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.

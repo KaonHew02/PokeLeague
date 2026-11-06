@@ -50,5 +50,6 @@ G.I18n.add({
   "Commander, help!": "幹部，救命！",
   "Fine. Go and see how far you get.": "好吧。看你能走多遠。",
   "You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!": "又是你？我記得你，在山谷發電廠見過。這次我有非贏不可的理由。看你攔不攔得住我！",
-  "Not again!": "怎麼又輸了！"
+  "Not again!": "怎麼又輸了！",
+  "Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.": "對了，七灶博士打過電話來，冠軍。他說你休息好了就去真砂鎮的研究所找他。"
 }, "zh-Hant");

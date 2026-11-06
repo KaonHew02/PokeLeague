@@ -47,5 +47,10 @@ G.I18n.add({
   "Route 210. West: Celestic Town. South: Solaceon Town. Mind the fog!": "Percorso 210. Ovest: Memoride. Sud: Flemminia. Attenzione alla nebbia!",
   "Celestic Town. A quiet town that keeps the old stories of Sinnoh.": "Memoride. Una cittadina tranquilla che custodisce le antiche storie di Sinnoh.",
   "The Celestic Ruins. Nobody remembers who built them.": "Rovine di Memoride. Nessuno ricorda chi le abbia costruite.",
-  "A mural of two great Pokémon, face to face. One seems to hold back time, the other to bend space itself.": "Un murale con due grandi Pokémon, faccia a faccia. Uno sembra fermare il tempo, l'altro piegare lo spazio."
+  "A mural of two great Pokémon, face to face. One seems to hold back time, the other to bend space itself.": "Un murale con due grandi Pokémon, faccia a faccia. Uno sembra fermare il tempo, l'altro piegare lo spazio.",
+  "So here is the new Champion. My Cynthia speaks of nothing else. I have been waiting for you.": "Ecco il nuovo Campione. La mia Camilla non parla d'altro. Ti stavo aspettando.",
+  "You saw {dialga} and {palkia} at the Spear Pillar, dragged there by a chain. That is not how the old stories say they should be met.": "Hai visto {dialga} e {palkia} alla Vetta Lancia, trascinati da una catena. Le antiche storie non dicono che vadano incontrati così.",
+  "The mural in our ruins shows two orbs, the {adamant} and the {lustrous}. They were left long ago in Mt. Coronet, on the way up to the peak.": "Il murale delle nostre rovine mostra due sfere, la {adamant} e la {lustrous}. Furono lasciate tanto tempo fa sul Monte Corona, lungo la salita alla vetta.",
+  "Find them and carry them to the Spear Pillar. To one who comes without a chain, the masters of time and space may yet answer.": "Trovale e portale alla Vetta Lancia. A chi arriva senza catene, i signori del tempo e dello spazio potrebbero ancora rispondere.",
+  "The orbs lie in Mt. Coronet, on the way up to the Spear Pillar. Mind your step up there.": "Le sfere sono sul Monte Corona, lungo la salita alla Vetta Lancia. Fai attenzione lassù."
 }, "it");

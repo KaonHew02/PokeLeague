@@ -168,7 +168,7 @@
         defeat: 'Spoiled.',
         after: 'What do you mean, a place for us? Of course there is a place for us. The boss said so.' })
     ],
-    items: [{ x: 24, y: 2, item: 'tm02', flag: 'coronet-5f-tm02' }],
+    items: [{ x: 24, y: 2, item: 'tm02', flag: 'coronet-5f-tm02' }, { x: 22, y: 11, item: 'adamant-orb', flag: 'coronet-adamant', if: 'elder-orbs' }],
     encounters: { walk: '@mt-coronet-5f' }
   }));
 
@@ -195,6 +195,7 @@
         defeat: 'I think you took mine.',
         after: 'Can you feel the mountain shaking? It started when the boss went up.' })
     ],
+    items: [{ x: 3, y: 6, item: 'lustrous-orb', flag: 'coronet-lustrous', if: 'elder-orbs' }],
     encounters: { walk: '@mt-coronet-6f' }
   }));
 
@@ -265,6 +266,9 @@
       { id: 'jupiter', who: 'jupiter', x: 10, y: 7, dir: 'down', if: '!pillar-done', script: 'pillar.ritual' },
       { id: 'dialga', who: 'dialga', mon: 'dialga', x: 6, y: 3, dir: 'down', fixed: true, if: 'scripted' },
       { id: 'palkia', who: 'palkia', mon: 'palkia', x: 11, y: 3, dir: 'down', fixed: true, if: 'scripted' },
+      // Chapter 60 (legends.js): each answers its orb.
+      { id: 'dialga2', who: 'dialga', mon: 'dialga', x: 6, y: 3, dir: 'down', fixed: true, if: ['done:coronet-5f:coronet-adamant', '!dialga-caught'], script: 'slegends.dialga' },
+      { id: 'palkia2', who: 'palkia', mon: 'palkia', x: 11, y: 3, dir: 'down', fixed: true, if: ['done:coronet-6f:coronet-lustrous', '!palkia-caught'], script: 'slegends.palkia' },
       { id: 'barry', who: 'barry', x: 11, y: 12, dir: 'up', if: ['pillar-done', '!distortion-done'], say: 'Nothing is getting past me while I watch this place. Go on, you will be late!' },
       { id: 'cynthia', who: 'cynthia', x: 6, y: 12, dir: 'up', if: ['pillar-done', '!distortion-done'], say: 'Step into the rift when you are ready. I will be right behind you.' }
     ],

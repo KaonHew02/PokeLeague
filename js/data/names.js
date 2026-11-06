@@ -1116,6 +1116,8 @@ G.NAMES = {
     "devon-scope": ["Devon Scope","Detector Devon","Devon Scope","Devonscopio","得文侦测镜","得文偵測鏡"],
     "eon-ticket": ["Eon Ticket","Ticket Eón","Passe Éon","Biglietto Eone","无限船票","無限船票"],
     "old-charm": ["Old Charm","Talismán","Vieux Grigri","Arcamuleto","古代护符","古代護符"],
+    "adamant-orb": ["Adamant Orb","Diamansfera","Orbe Adamant","Adamasfera","金刚宝珠","金剛寶珠"],
+    "lustrous-orb": ["Lustrous Orb","Lustresfera","Orbe Perlé","Splendisfera","白玉宝珠","白玉寶珠"],
     "razor-claw": ["Razor Claw","Garra Afilada","Griffe Rasoir","Affilartigli","锐利之爪","銳利之爪"],
     "razor-fang": ["Razor Fang","Colmillo Agudo","Croc Rasoir","Affilodente","锐利之牙","銳利之牙"],
     "shiny-stone": ["Shiny Stone","Piedra Día","Pierre Éclat","Pietrabrillo","光之石","光之石"],

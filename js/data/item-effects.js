@@ -171,6 +171,9 @@ G.ITEM_FX = {
   'metal-powder':  { held: 'metal-powder' },
   'lucky-punch':   { held: 'lucky-punch' },
   'stick':         { held: 'stick' },
+  // Chapter 60: 1.2× two types' moves, in the hands of one Pokémon only.
+  'adamant-orb':   { held: 'orb', sp: 483, types: ['dragon', 'steel'] },
+  'lustrous-orb':  { held: 'orb', sp: 484, types: ['dragon', 'water'] },
   // 1.2× the power of one type's moves (and Metal Coat above).
   'silk-scarf':    { held: 'boost', type: 'normal',   price: 2000 },
   'charcoal':      { held: 'boost', type: 'fire',     price: 2000 },

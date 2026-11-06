@@ -136,10 +136,10 @@
     id: 'lake-verity', loc: 'lake-verity', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       'TTTTTTTTTTTTTTTTTTTT',
-      'TTT~~~~~~~~~~~TTTTTT',
-      'TT~~~~~~~~~~~~~TTTTT',
-      'TT~~~~~~~~~~~~~~TTTT',
-      'TT~~~~~~~~~~~~~~TTTT',
+      'TTT~~~~####~~~TTTTTT',
+      'TT~~~~~####~~~~TTTTT',
+      'TT~~~~~#O##~~~~~TTTT',
+      'TT~~~~~:::~~~~~~TTTT',
       'TT::~~~~~~~~~~~::TTT',
       'TT::::::::::::::::TT',
       'TT................TT',
@@ -151,6 +151,8 @@
       'TTTTTTTTTTTTTTTTTTTT'
     ],
     connect: { east: { map: 'route201', offset: 4 } },
+    warps: [{ x: 8, y: 3, to: 'verity-cavern', spot: 'door', if: 'sinnoh-champion', locked: 'slegends.cave-shut' }],
+    spots: { cave: [8, 4, 'down'] },
     triggers: [{ x: 18, y: 10, w: 1, h: 1, if: ['barry-met', '!sinnoh-briefcase'], script: 'sinnoh.lake' }],
     npcs: [
       { id: 'rowan', who: 'rowan', x: 9, y: 6, dir: 'up', if: ['barry-met', '!sinnoh-briefcase'], script: 'sinnoh.lake' },
@@ -290,7 +292,10 @@
         ['say', '{player}, you look worn out. Sit down and rest a while.'],
         ['heal'], ['lastHeal', 'mom'],
         ['jingle', 'heal'],
-        ['say', 'There you go! Off with you, and keep an eye on Barry for me, will you?']
+        ['say', 'There you go! Off with you, and keep an eye on Barry for me, will you?'],
+        ['if', ['sinnoh-champion', '!national-dex'], [
+          ['say', 'Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.']
+        ]]
       ], [
         ['say', 'Oh! You must be {player}. Professor Rowan asked us to put you up while you are in Sinnoh. Welcome to Twinleaf!'],
         ['say', 'Your room is upstairs. Make yourself at home.'],

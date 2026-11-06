@@ -50,5 +50,6 @@ G.I18n.add({
   "Commander, help!": "Comandante, aiuto!",
   "Fine. Go and see how far you get.": "Va bene. Vediamo fin dove arrivi.",
   "You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!": "Ancora tu? Mi ricordo di te alla centrale eolica. Stavolta ho un vero motivo per vincere. Vediamo se riesci a fermarmi!",
-  "Not again!": "Non di nuovo!"
+  "Not again!": "Non di nuovo!",
+  "Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.": "Ah, il Professor Rowan ha chiamato, Campione. Dice di andare al suo laboratorio a Sabbiafine quando ti sarai riposato."
 }, "it");

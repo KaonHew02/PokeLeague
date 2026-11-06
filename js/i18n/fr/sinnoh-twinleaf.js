@@ -50,5 +50,6 @@ G.I18n.add({
   "Commander, help!": "Commandante, à l'aide !",
   "Fine. Go and see how far you get.": "Bon. Va voir jusqu'où tu iras.",
   "You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!": "Encore toi ? Je me souviens de toi à la centrale. Cette fois, j'ai une vraie raison de gagner. Voyons si tu peux m'arrêter !",
-  "Not again!": "Pas encore !"
+  "Not again!": "Pas encore !",
+  "Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.": "Ah, et le Professeur Sorbier a appelé, Maître. Il te demande de passer à son labo à Littorella quand tu seras reposé."
 }, "fr");

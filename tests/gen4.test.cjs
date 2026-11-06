@@ -255,6 +255,20 @@ test('Avalanche doubles after a hit this turn, and Blizzard never misses in hail
   assert.equal(hits('hail'), 40, 'not in hail');
 });
 
+test('Giga Impact, Rock Wrecker and Roar of Time leave the user resting, as Hyper Beam does (chapter 60)', () => {
+  for (const [sp, id] of [['garchomp', 'giga-impact'], ['rhyperior', 'rock-wrecker'], ['dialga', 'roar-of-time']]) {
+    // Some seed makes it hit; the turn after a hit plays on its own, resting.
+    let rested = false;
+    for (let seed = 1; seed <= 6 && !rested; seed++) {
+      const { b } = duel(G, { me: [sp, 60, [id, 'tackle']], foe: ['blissey', 100, ['splash']], seed });
+      const ev = b.act({ type: 'move', slot: 0 });
+      if (!ev.some(e => e.type === 'damage' && e.side === 1)) continue;
+      rested = ev.some(e => e.type === 'cantMove' && e.why === 'recharge');
+    }
+    assert.ok(rested, id);
+  }
+});
+
 test('evolutions: a held item at night, a gender with a stone, a known move, a species in the party', () => {
   const mk = (sp, lvl, o) => Object.assign(G.Mon.create(sp, lvl, { rng: G.RNG(sp) }), o);
   const gligar = mk(207, 30, { item: 'razor-fang' });

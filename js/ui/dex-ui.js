@@ -1,7 +1,7 @@
 /* ============ dex-ui.js — the Pokédex ============
  *   G.DexUI.open()
  *   G.Dex.seen(sp) · G.Dex.caught(sp) · G.Dex.counts() -> { seen, caught }   (the battle HUD asks too)
- * A list up to the highest number seen; the entry under the cursor shows on the
+ * A list up to the highest number seen (all of it with the National Pokédex, chapter 60); the entry under the cursor shows on the
  * right: sprite, category, types, height, weight and the Pokédex text once it is
  * caught (only the sprite and name when just seen). A click plays its cry.
  */
@@ -61,7 +61,7 @@ G.DexUI = (() => {
     el.querySelector('.dex-count').textContent = fmt('Seen {s} · Owned {c}', { s: c.seen, c: c.caught });
     el.querySelector('[data-back]').textContent = T('Back');
     const all = Object.keys(G.SPECIES).map(Number).sort((a, b) => a - b);
-    const top = Math.max(1, ...all.filter(sp => G.Dex.seen(sp)));
+    const top = G.Field.flag('national-dex') ? all[all.length - 1] : Math.max(1, ...all.filter(sp => G.Dex.seen(sp)));
     const list = el.querySelector('.dex-list');
     list.innerHTML = all.filter(sp => sp <= top).map(sp => {
       const seen = G.Dex.seen(sp), caught = G.Dex.caught(sp);

@@ -47,5 +47,10 @@ G.I18n.add({
   "Route 210. West: Celestic Town. South: Solaceon Town. Mind the fog!": "Rota 210. Oeste: Celestic. Sul: Solaceon. Cuidado com a neblina!",
   "Celestic Town. A quiet town that keeps the old stories of Sinnoh.": "Celestic. Uma cidade tranquila que guarda as velhas histórias de Sinnoh.",
   "The Celestic Ruins. Nobody remembers who built them.": "Ruínas de Celestic. Ninguém lembra quem as construiu.",
-  "A mural of two great Pokémon, face to face. One seems to hold back time, the other to bend space itself.": "Um mural de dois grandes Pokémon, frente a frente. Um parece deter o tempo; o outro, curvar o espaço."
+  "A mural of two great Pokémon, face to face. One seems to hold back time, the other to bend space itself.": "Um mural de dois grandes Pokémon, frente a frente. Um parece deter o tempo; o outro, curvar o espaço.",
+  "So here is the new Champion. My Cynthia speaks of nothing else. I have been waiting for you.": "Então aqui está o novo Campeão. Minha Cynthia não fala de outra coisa. Eu estava esperando por você.",
+  "You saw {dialga} and {palkia} at the Spear Pillar, dragged there by a chain. That is not how the old stories say they should be met.": "Você viu {dialga} e {palkia} no Spear Pillar, arrastados por uma corrente. Não é assim que as velhas histórias dizem que devem ser encontrados.",
+  "The mural in our ruins shows two orbs, the {adamant} and the {lustrous}. They were left long ago in Mt. Coronet, on the way up to the peak.": "O mural das nossas ruínas mostra duas esferas, a {adamant} e a {lustrous}. Elas foram deixadas há muito tempo no Mt. Coronet, no caminho para o topo.",
+  "Find them and carry them to the Spear Pillar. To one who comes without a chain, the masters of time and space may yet answer.": "Encontre-as e leve-as ao Spear Pillar. A quem vem sem correntes, os senhores do tempo e do espaço talvez ainda respondam.",
+  "The orbs lie in Mt. Coronet, on the way up to the Spear Pillar. Mind your step up there.": "As esferas estão no Mt. Coronet, no caminho para o Spear Pillar. Cuidado lá em cima."
 }, "pt-BR");

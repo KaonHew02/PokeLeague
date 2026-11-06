@@ -1,6 +1,7 @@
 /* ============ held.js — held items in battle (chapter 26) ============
  * A Pokémon may hold one item (mon.item). What it does is G.ITEM_FX[item].held:
  *   'boost' (+ type)  its moves of that type have 1.2× power (Charcoal, Mystic Water…, Metal Coat, Silk Scarf)
+ *   'orb' (+ sp, types)  the same for those types, only for that Pokémon (the Adamant Orb on Dialga, the Lustrous Orb on Palkia)
  *   'berry'           eaten when its HP falls to half or less (fx.heal) or it gets a status the berry cures
  *                     (fx.cure); then it is gone
  *   'leftovers'       1/16 of its max HP back at the end of each turn
@@ -36,6 +37,7 @@ G.Held = (() => {
 
   function power(mon, type) {
     const fx = fxOf(mon);
+    if (fx && fx.held === 'orb') return mon.sp === fx.sp && fx.types.includes(type) ? 1.2 : 1;
     return fx && fx.held === 'boost' && fx.type === type ? 1.2 : 1;
   }
 

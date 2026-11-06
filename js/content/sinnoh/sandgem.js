@@ -157,6 +157,19 @@
       F.setFlag('rowan-report');
       return;
     }
+    // After the League (chapter 60): the National Pokédex, the lakes and the elder (legends.js).
+    if (F.flag('sinnoh-champion') && !F.flag('national-dex')) {
+      const vars = { uxie: G.Names.mon(480), mesprit: G.Names.mon(481), azelf: G.Names.mon(482) };
+      await h.say(T('Hm! The Champion of Sinnoh, in my lab. Let me have a look at that Pokédex of yours.'), ROWAN);
+      await h.say(T('As I thought. Pokémon from Kanto to Sinnoh, all in one little machine. It has outgrown any one region.'), ROWAN);
+      F.setFlag('national-dex');
+      const j = h.jingle('item');
+      await h.say(T("{player}'s Pokédex was upgraded to the National Pokédex! It now lists every Pokémon known."));
+      await j;
+      await h.say(T('Now listen. {uxie}, {mesprit} and {azelf} have gone home to their lakes, and each has a cave there. Lake Valor\'s you can walk to. For the other two you will have to Surf.'), Object.assign({}, ROWAN, { vars }));
+      await h.say(T('And the elder of Celestic Town has been asking for you. Something to do with the Spear Pillar. Do not keep her waiting.'), ROWAN);
+      return;
+    }
     await h.say(T('Sinnoh has Pokémon found nowhere else, and many that evolve in ways seen nowhere else. Study them well.'), ROWAN);
     await h.say(T('And remember: Pokémon from other regions listen to you only up to the level your Sinnoh badges allow.'), ROWAN);
   }

@@ -158,6 +158,8 @@ G.ITEMS = {
   "devon-scope": {"id":542,"pocket":"key","cat":"gameplay"},
   "eon-ticket": {"id":534,"pocket":"key","cat":"event-items"},
   "old-charm": {"id":416,"pocket":"key","cat":"plot-advancement"},
+  "adamant-orb": {"id":112,"pocket":"items","cat":"species-specific"},
+  "lustrous-orb": {"id":113,"pocket":"items","cat":"species-specific"},
   "razor-claw": {"id":303,"pocket":"items","cat":"held-items"},
   "razor-fang": {"id":304,"pocket":"items","cat":"held-items"},
   "shiny-stone": {"id":107,"pocket":"items","cat":"evolution"},

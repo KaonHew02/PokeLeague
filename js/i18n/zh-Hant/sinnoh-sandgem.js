@@ -28,5 +28,10 @@ G.I18n.add({
   "{player}! Cynthia was here, and she has told me all of it. A world behind our own, and you walked through it.": "{player}！竹蘭來過了，全都告訴我了。我們世界背後的世界，你竟然走了一趟。",
   "In all my years I never thought to see the old stories proved. I shall be writing about this for the rest of my life.": "我這一輩子都沒想到能看到古老的傳說得到證實。這件事夠我寫到老了。",
   "Team Galactic is finished, and the quakes around Mt. Coronet have stopped. I have told them to open the road east of Valor Lakefront again.": "銀河隊已經完了，天冠山一帶的地震也停了。我已經請他們重新開放立志湖畔東邊的路。",
-  "Sunyshore City lies at the end of it, and with it the last Gym in Sinnoh. Go on, then. There is still a journey to finish.": "路的盡頭是濱海市，那裡有神奧最後一個道館。去吧。你的旅程還沒有結束。"
+  "Sunyshore City lies at the end of it, and with it the last Gym in Sinnoh. Go on, then. There is still a journey to finish.": "路的盡頭是濱海市，那裡有神奧最後一個道館。去吧。你的旅程還沒有結束。",
+  "Hm! The Champion of Sinnoh, in my lab. Let me have a look at that Pokédex of yours.": "嗯！神奧的冠軍來我的研究所了。讓我看看你的圖鑑。",
+  "As I thought. Pokémon from Kanto to Sinnoh, all in one little machine. It has outgrown any one region.": "果然。從關都到神奧的寶可夢，全在這台小機器裡。一個地區已經裝不下它了。",
+  "{player}'s Pokédex was upgraded to the National Pokédex! It now lists every Pokémon known.": "{player}的圖鑑升級成了全國圖鑑！現在所有已知的寶可夢都會列出來。",
+  "Now listen. {uxie}, {mesprit} and {azelf} have gone home to their lakes, and each has a cave there. Lake Valor's you can walk to. For the other two you will have to Surf.": "聽好。{uxie}、{mesprit}和{azelf}都回到了各自的湖，每個湖都有一個洞穴。立志湖的走路就能到，另外兩個要用衝浪。",
+  "And the elder of Celestic Town has been asking for you. Something to do with the Spear Pillar. Do not keep her waiting.": "還有，神和鎮的長老一直在找你，好像和槍之柱有關。別讓她等太久。"
 }, "zh-Hant");

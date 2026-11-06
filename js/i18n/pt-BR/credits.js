@@ -172,5 +172,8 @@ G.I18n.add({
   "Thank you for playing! The Elite Four and the Champion of Sinnoh wait in a future update.": "Obrigado por jogar! A Elite Four e a Campeã de Sinnoh esperam você em uma próxima atualização.",
   "Chapter 59 complete!": "Capítulo 59 concluído!",
   "{player} beat Aaron, Bertha, Flint and Lucian, won the great battle with Cynthia and entered the Hall of Fame as the Champion of Sinnoh.": "{player} venceu Aaron, Bertha, Flint e Lucian, ganhou a grande batalha contra Cynthia e entrou no Hall da Fama como Campeão de Sinnoh.",
-  "Thank you for playing! The story of Sinnoh is told. What comes after it waits in a future update.": "Obrigado por jogar! A história de Sinnoh está contada. O que vem depois espera por você em uma atualização futura."
+  "Thank you for playing! The story of Sinnoh is told. What comes after it waits in a future update.": "Obrigado por jogar! A história de Sinnoh está contada. O que vem depois espera por você em uma atualização futura.",
+  "Chapter 60 complete!": "Capítulo 60 concluído!",
+  "{player} received the National Pokédex from Professor Rowan, found the two orbs in Mt. Coronet and faced Dialga and Palkia at the Spear Pillar.": "{player} recebeu a Pokédex Nacional do Professor Rowan, encontrou as duas esferas no Mt. Coronet e enfrentou Dialga e Palkia no Spear Pillar.",
+  "Thank you for playing! The Battle Zone and the rest of Sinnoh wait in a future update.": "Obrigado por jogar! A Battle Zone e o resto de Sinnoh esperam por você em uma atualização futura."
 }, "pt-BR");

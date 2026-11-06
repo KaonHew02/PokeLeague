@@ -92,6 +92,7 @@
     ],
     warps: [{ x: 7, y: 9, to: 'lake-valor', spot: 'cave' }],
     spots: { door: [7, 8, 'up'] },
+    npcs: [{ id: 'azelf', who: 'azelf', mon: 'azelf', x: 7, y: 4, dir: 'down', fixed: true, if: ['sinnoh-champion', '!azelf-caught'], script: 'slegends.azelf' }],
     trainers: [
       { id: 'saturn', who: 'saturn', cls: 'galactic-commander-m', name: 'Saturn', x: 7, y: 4, dir: 'down', sight: 2, ai: 'leader', if: '!saturn-valor',
         team: [['golbat', 38, ['air-cutter', 'bite', 'toxic', 'supersonic']],

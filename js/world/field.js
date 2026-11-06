@@ -353,7 +353,7 @@ G.World = (() => {
       if (a.forced != null) a.visible = a.forced;
       else a.visible = G.Field.test(a.def.if);
     }
-    for (const it of items) it.got = G.Field.isDone(it.key);
+    for (const it of items) it.got = G.Field.isDone(it.key) || !G.Field.test(it.def.if);   // `if`: not there yet (chapter 60)
   }
 
   function makeFollower() {
@@ -741,7 +741,7 @@ G.World = (() => {
     if (!wild) return false;
     // The roaming Pokémon on this route (chapter 42): one wild encounter in four is it.
     const rm = (method === 'walk' || method === 'surf') && G.Roam && G.Roam.meets(rng, map.id);
-    if (rm) Object.assign(wild, { sp: rm.sp, lvl: rm.lvl, roamer: true });
+    if (rm) Object.assign(wild, { sp: rm.sp, lvl: rm.lvl, roamer: rm });
     const lead = G.Field.lead();
     if (G.Field.save.repel > 0 && lead && wild.lvl < lead.lvl) return false;
     G.Player.walk(null);
@@ -769,7 +769,7 @@ G.World = (() => {
         if (wild.form) o.form = wild.form;
         if (wild.moves) o.moves = wild.moves;
         if (wild.shiny) o.shinyOdds = 1;
-        if (wild.roamer) { o.mon = G.Field.save.roamer.mon; o.rules.roamer = true; }
+        if (wild.roamer) { o.mon = wild.roamer; o.rules.roamer = true; }
         r = await G.BattleUI.wild(me, wild.sp, wild.lvl, o);
       }
       else r = await fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) }));
@@ -778,8 +778,8 @@ G.World = (() => {
     } finally { locks--; }
     G.Field.lastBattle = out;
     if (wild.roamer && G.Roam) {
-      G.Roam.after(out, rng);
-      if (out === 'caught' && G.Script.get('legends.done')) await runScript('legends.done', {});
+      const region = G.Roam.after(out, rng, wild.roamer);
+      if (out === 'caught' && region === 'hoenn' && G.Script.get('legends.done')) await runScript('legends.done', {});
     }
     if (contest) {
       safariHud();

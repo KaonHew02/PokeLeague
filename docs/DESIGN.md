@@ -2394,11 +2394,27 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the doors, the mat back out, the guard's Yes, each door shut until its win, Cynthia, the Hall of Fame, home, the second run ten levels up);
   `tests/story.test.cjs` the chapter after chapter 58 and the balance lines, asserting 60% or more in every battle and both rematches measured.
 
-### After chapter 59
+- **Chapter 60** ✅, Sinnoh after the League: the National Pokédex, the lake Pokémon, Dialga and Palkia (`js/content/sinnoh/legends.js`, translations `sinnoh-legends`). It ends with `ending(60)`.
+  - **Data**: `adamant-orb` and `lustrous-orb` (fetch_data.py). `held: 'orb'` (item-effects.js, held.js): 1.2× Dragon and Steel on Dialga, Dragon and Water on Palkia.
+  - **Engine**: Giga Impact, Rock Wrecker and Roar of Time now leave the user resting, as Hyper Beam does (only Hyper Beam did; Blast Burn and its like are not in the game's data). Items on the ground take an `if`.
+    `G.Roam` has a place per region (`save.roamer`, `save.sinnohRoamer`), so Mesprit never pushes out a Latias still roaming: `start(sp, lvl, rng, region)`, `where(region)`, `of(region)`, `routes(region)`,
+    `after(outcome, rng, mon)` returns the region. Sinnoh's routes may have a suffix (`route210n`); Hoenn's rule stays as it was, so its rolls do not change. The Town Map shows Sinnoh's in pink.
+    With flag `national-dex` the Pokédex list runs to the last number.
+  - **Map**: Lake Verity and Lake Acuity have an island with a cave and a beach: Surf there. The mouths are shut until `sinnoh-champion`. `verity-cavern`, `acuity-cavern`; Azelf uses `valor-cavern`.
+  - **Story**: Barry's mother sends you to Professor Rowan (flag `national-dex`, with no count of Pokémon seen, as some places are not in the game yet). Uxie and Azelf at level 50; beaten or run from they are back when you come back, until caught
+    (flags `uxie-caught`, `azelf-caught`; Platinum gives one try). Mesprit cries and roams (`mesprit-met`, `mesprit-caught`), `seen` from the start. The elder (`elder-orbs`) makes the orbs appear (Mt. Coronet 5F and 6F, on the way up; the guides differ on where Platinum has them);
+    each orb found (rule `done:`) brings its Pokémon to the Spear Pillar at level 70 (`dialga-met`, `palkia-met`, `-caught`). Both met: `ending(60)`. The lakes need not come first.
+  - **Left out**: Lake Valor stays dry (a map cannot change with a flag), the new wild Pokémon of the National Pokédex, the Battle Zone, Heatran, Arceus, the Griseous Orb.
+- **Balance:** a team of six, four levels on from the League's: Uxie, Azelf and Mesprit 100%, Dialga 100%, Palkia 95-100%, at Platinum's levels. Giga Impact and Rock Wrecker resting changed four older lines a little: Volkner's teams of three 80-97% to 87-100%,
+  Cyrus in the Distortion World 60-95%, Flint 100%, Cynthia 65-68% and 73% in the rematch. All stay at 60% or more.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (shut caves, Surf to the islands, the National Pokédex, Mesprit on a real route beside a roaming Latias, the save, beaten and caught, orbs hidden until the elder, the pillar in both orders);
+  `tests/held.test.cjs` the orbs; `tests/gen4.test.cjs` the rest turn; `tests/story.test.cjs` the chapter after chapter 59 and the balance line.
+
+### After chapter 60
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower. Ideas:
-1. Sinnoh after the League: the National Pokédex and the Battle Zone; the lake Pokémon (Uxie and Azelf in their caverns, Mesprit roaming), Dialga and Palkia; Route 212 back to
+1. Sinnoh after the League: the Battle Zone, Stark Mountain and Heatran; Lake Valor filling up again (a map that changes with a flag); Route 212 back to
    Hearthome; Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.

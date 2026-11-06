@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 60) return { title: T('Chapter 60 complete!'),
+      done: fmt('{player} received the National Pokédex from Professor Rowan, found the two orbs in Mt. Coronet and faced Dialga and Palkia at the Spear Pillar.', { player }),
+      next: T('Thank you for playing! The Battle Zone and the rest of Sinnoh wait in a future update.') };
     if (n === 59) return { title: T('Chapter 59 complete!'),
       done: fmt('{player} beat Aaron, Bertha, Flint and Lucian, won the great battle with Cynthia and entered the Hall of Fame as the Champion of Sinnoh.', { player }),
       next: T('Thank you for playing! The story of Sinnoh is told. What comes after it waits in a future update.') };

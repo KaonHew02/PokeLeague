@@ -6,7 +6,7 @@
  * the maps with a `fly` landing spot (G.World.flyTargets); a click on the drawing picks one too.
  * It shows the region you are in (map `region`, Kanto by default); once you have been to another
  * one, a button goes round the regions you have seen (Fly crosses between them).
- * A roaming Pokémon once met (chapter 42, G.Roam.where()) blinks on its route: red Latias, blue Latios.
+ * A roaming Pokémon once met (chapter 42, G.Roam.where()) blinks on its route: red Latias, blue Latios, pink Mesprit.
  */
 G.TownMapUI = (() => {
   const esc = s => G.U.esc(s);
@@ -176,11 +176,11 @@ G.TownMapUI = (() => {
     const [a, b] = [line[0], line[line.length - 1]];
     return [PAD + ((a[0] + b[0]) / 2 + 0.5) * CELL, PAD + ((a[1] + b[1]) / 2 + 0.5) * CELL];
   }
-  /** The roaming Pokémon, once met: { at: [x, y], sp } on the Hoenn drawing, or null. */
+  /** The roaming Pokémon of the region on show, once met: { at: [x, y], sp } on the drawing, or null. */
   function roamer() {
-    const id = st.region === 'hoenn' && G.Roam && G.Roam.where();
+    const id = G.Roam && G.Roam.where(st.region);
     const at = id && G.Maps.has(id) ? middle(G.Maps.get(id).loc) : null;
-    return at ? { at, sp: G.Field.save.roamer.mon.sp } : null;
+    return at ? { at, sp: G.Roam.of(st.region).mon.sp } : null;
   }
 
   /** The drawing as large as its corner of the screen allows (the canvas keeps its own pixels). */
@@ -225,7 +225,7 @@ G.TownMapUI = (() => {
     const ro = roamer();
     if (ro && !blink) {
       c.fillStyle = '#20242c'; c.beginPath(); c.arc(ro.at[0], ro.at[1], 5.5, 0, 6.2832); c.fill();
-      c.fillStyle = ro.sp === 380 ? '#f05068' : '#5080f0'; c.beginPath(); c.arc(ro.at[0], ro.at[1], 4, 0, 6.2832); c.fill();
+      c.fillStyle = ro.sp === 380 ? '#f05068' : ro.sp === 481 ? '#f080c8' : '#5080f0'; c.beginPath(); c.arc(ro.at[0], ro.at[1], 4, 0, 6.2832); c.fill();
     }
     const me = here();
     if (me && (!st.fly || blink)) {

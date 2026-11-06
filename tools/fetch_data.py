@@ -157,7 +157,7 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
     'tm_extra_vg': 'platinum',
     'text_versions': REGIONS['hoenn']['text_versions'] + ['platinum', 'diamond', 'pearl'],
     'text_vgs': REGIONS['hoenn']['text_vgs'] + ['platinum', 'diamond-pearl'],
-    'items': REGIONS['hoenn']['items'] + ['old-charm', 'razor-claw', 'razor-fang', 'shiny-stone', 'dusk-stone', 'dawn-stone', 'ice-stone', 'oval-stone',
+    'items': REGIONS['hoenn']['items'] + ['old-charm', 'adamant-orb', 'lustrous-orb', 'razor-claw', 'razor-fang', 'shiny-stone', 'dusk-stone', 'dawn-stone', 'ice-stone', 'oval-stone',
                                           'protector', 'electirizer', 'magmarizer', 'dubious-disc', 'reaper-cloth', 'galactic-key'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })

@@ -909,6 +909,36 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test("balance: Sinnoh's legends (chapter 60), win rates of a team of six are printed", () => {
+  const { G } = world(1);
+  // The team that beat the League, four levels on.
+  const TOR = [389, 62, ['earthquake', 'crunch', 'giga-drain', 'synthesis']], INF = [392, 62, ['flare-blitz', 'close-combat', 'mach-punch', 'punishment']];
+  const EMP = [395, 62, ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet']];
+  const LUX = [405, 60, ['crunch', 'thunder-fang', 'discharge', 'roar']], STA = [398, 60, ['brave-bird', 'close-combat', 'aerial-ace', 'agility']];
+  const GAS = [423, 58, ['earthquake', 'surf', 'muddy-water', 'recover']], LUC = [448, 58, ['aura-sphere', 'close-combat', 'extreme-speed', 'dragon-pulse']];
+  const FLO = [419, 58, ['surf', 'crunch', 'aqua-jet', 'ice-fang']];
+  const TEAMS = { 'torterra 62 + 5': [TOR, LUX, STA, GAS, LUC, FLO], 'infernape 62 + 5': [INF, LUX, STA, GAS, LUC, FLO], 'empoleon 62 + 5': [EMP, LUX, STA, GAS, LUC, FLO] };
+  const fight = (sp, lvl, me) => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const mine = me.map(([x, l, moves]) => G.Mon.create(x, l, { rng, moves }));
+      const b = G.Battle.create({ kind: 'wild', seed: s, player: { name: 'Red', party: mine, bag: {} }, foe: { party: [G.Mon.create(sp, lvl, { rng, wild: true })] } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return Math.round(wins / 40 * 100) / 100;
+  };
+  const FOES = { uxie: [480, 50], azelf: [482, 50], mesprit: [481, 50], dialga: [483, 70], palkia: [484, 70] };
+  const table = {};
+  for (const [name, [sp, lvl]] of Object.entries(FOES)) {
+    table[name] = {};
+    for (const [k, t] of Object.entries(TEAMS)) table[name][k] = fight(sp, lvl, t);
+  }
+  console.log("[balance] vs Sinnoh's legends:", JSON.stringify(table));
+  for (const id of Object.keys(FOES)) for (const k of Object.keys(TEAMS)) assert.ok(table[id][k] >= 0.6, id + ', ' + k);
+});
+
 test("balance: Sinnoh's Elite Four and Cynthia (chapter 59), win rates of teams of six are printed", () => {
   const { G } = world(1);
   // A Sinnoh team of six at the League: the starter at 58 and Pokémon met along the way a few levels lower, with moves a player can have.
@@ -4180,6 +4210,40 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 60 after chapter 59: the National Pokédex, the lake Pokémon, the orbs, Dialga and Palkia. */
+async function chapter60(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  await run(st, 'barry-house', 'sinnoh.barry-mom');
+  await run(st, 'rowan-lab', 'sinnoh.rowan');
+  assert.ok(F.flag('national-dex'));
+  // Uxie and Azelf: beaten, they wait for another try.
+  for (const [map, id] of [['acuity-cavern', 'uxie'], ['valor-cavern', 'azelf']]) {
+    F.healAll();
+    await run(st, map, 'slegends.' + id);
+    assert.equal(last().outcome, 'win', id);
+    assert.ok(!F.flag(id + '-caught'));
+  }
+  // Mesprit runs, and roams Sinnoh.
+  await run(st, 'verity-cavern', 'slegends.mesprit');
+  assert.ok(F.flag('mesprit-met') && S.sinnohRoamer.mon.sp === 481 && S.sinnohRoamer.mon.lvl === 50 && S.sinnohRoamer.seen);
+  assert.ok(G.Roam.routes('sinnoh').includes(S.sinnohRoamer.map));
+  // The elder, the orbs and the Spear Pillar.
+  await run(st, 'celestic-elder', 'celestic.elder');
+  assert.ok(F.flag('elder-orbs'));
+  for (const [id, other, sp] of [['dialga', 'palkia', 483], ['palkia', 'dialga', 484]]) {
+    F.healAll();
+    await run(st, 'spear-pillar', 'slegends.' + id);
+    assert.equal(last().key, 'wild:' + sp);
+    assert.equal(last().outcome, 'win', id + ' at levels ' + last().levels);
+    assert.ok(F.flag(id + '-met'));
+    assert.equal(!!F.flag('chapter-60-done'), F.flag(other + '-met') === true, 'the chapter ends with the second');
+  }
+  console.log('[story] Dialga and Palkia:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 59 after chapter 58: the doors of the League, the Elite Four, Cynthia, the Hall of Fame, home and the rematches. */
 async function chapter59(st) {
   const { G, S } = st;
@@ -4499,4 +4563,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter57(st);
   await chapter58(st);
   await chapter59(st);
+  await chapter60(st);
 });

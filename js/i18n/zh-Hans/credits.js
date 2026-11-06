@@ -172,5 +172,8 @@ G.I18n.add({
   "Thank you for playing! The Elite Four and the Champion of Sinnoh wait in a future update.": "感谢游玩！神奥的四天王和冠军将在之后的更新中等着你。",
   "Chapter 59 complete!": "第五十九章完成！",
   "{player} beat Aaron, Bertha, Flint and Lucian, won the great battle with Cynthia and entered the Hall of Fame as the Champion of Sinnoh.": "{player}打败了阿柳、菊野、大叶和悟松，赢下了与竹兰的大战，以神奥冠军的身份进入了殿堂。",
-  "Thank you for playing! The story of Sinnoh is told. What comes after it waits in a future update.": "感谢游玩！神奥的故事讲完了。接下来的内容将在之后的更新中等着你。"
+  "Thank you for playing! The story of Sinnoh is told. What comes after it waits in a future update.": "感谢游玩！神奥的故事讲完了。接下来的内容将在之后的更新中等着你。",
+  "Chapter 60 complete!": "第六十章完成！",
+  "{player} received the National Pokédex from Professor Rowan, found the two orbs in Mt. Coronet and faced Dialga and Palkia at the Spear Pillar.": "{player}从七灶博士那里得到了全国图鉴，在天冠山找到了两颗宝珠，并在枪之柱面对了帝牙卢卡和帕路奇亚。",
+  "Thank you for playing! The Battle Zone and the rest of Sinnoh wait in a future update.": "感谢游玩！战斗区和神奥的其他地方将在之后的更新中等着你。"
 }, "zh-Hans");

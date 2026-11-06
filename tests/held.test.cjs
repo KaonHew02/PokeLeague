@@ -20,6 +20,21 @@ test('a type item makes that type 1.2× stronger; other types and holders of not
   assert.equal(hit('charcoal', 'scratch'), hit(null, 'scratch'), 'only Fire moves');
 });
 
+test("the Adamant Orb and the Lustrous Orb (chapter 60): 1.2× two types, in the hands of Dialga and Palkia only", () => {
+  const hit = (sp, item, move) => {
+    const { b } = duel(G, { me: [sp, 70, [move], hold(item)], foe: ['snorlax', 70, ['splash']], seed: 4 });
+    return damage(b.act({ type: 'move', slot: 0 }), 1)[0];
+  };
+  for (const [sp, item, moves, other] of [['dialga', 'adamant-orb', ['dragon-claw', 'flash-cannon'], 'surf'], ['palkia', 'lustrous-orb', ['dragon-claw', 'surf'], 'flash-cannon']]) {
+    for (const m of moves) {
+      const plain = hit(sp, null, m), boosted = hit(sp, item, m);
+      assert.ok(boosted > plain && boosted <= Math.ceil(plain * 1.25), `${sp}, ${m}: ${plain} -> ${boosted}`);
+    }
+    assert.equal(hit(sp, item, other), hit(sp, null, other), 'not the other type');
+  }
+  assert.equal(hit('dialga', 'lustrous-orb', 'dragon-claw'), hit('dialga', null, 'dragon-claw'), "not in another Pokémon's hands");
+});
+
 test('berries are eaten when needed: HP at half or less, or the status they cure', () => {
   // Oran Berry: below half after the hit, it heals 10 and is gone.
   const { b, party } = duel(G, { me: ['pidgey', 10, ['splash'], hold('oran-berry')], foe: ['rattata', 10, ['tackle']], seed: 2 });

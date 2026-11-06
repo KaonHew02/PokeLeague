@@ -3479,7 +3479,7 @@ test('Sinnoh (chapter 57): Rowan, the road east, Sunyshore City, Flint, the ligh
 });
 
 test('Sinnoh (chapter 58): the sea north of Sunyshore, the waterfall, the Beacon Badge, Victory Road with its boulder and lake, Barry', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W, later } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3658,6 +3658,162 @@ test("Sinnoh's League (chapter 59): the lobby and its guard, doors that open aft
   await until(() => W.map.id === 'barry-house-2f' && !W.locked);
   assert.deepEqual(fights[fights.length - 1], ['cynthia-champion2', 67]);
   assert.equal(S.fame.length, 2);
+});
+
+test("Sinnoh after the League (chapter 60): the National Pokédex, three caves, a second roaming Pokémon, the orbs, Dialga and Palkia", async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 32 }, (_, i) => i + 1);
+  S.player.surf = 1;
+  S.player.lastHeal = { map: 'veilstone-center', spot: 'mat' };
+  for (const f of ['sinnoh-start', 'saturn-valor', 'pillar-done', 'distortion-done', 'rowan-report', 'chapter-50-done']) F.setFlag(f);
+  F.giveMon('empoleon', 62, { moves: ['surf', 'strength'] });
+  const until = async ok => { for (let i = 0; i < 900 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const talk = () => pump(W, W.interact());
+  const wild = [];
+  let answer = 'win';
+  W.onEncounter = async (sp, lvl, area, info) => { wild.push([G.Maps.species(sp), lvl, !!info.roamer]); return answer; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  // Before the Hall of Fame the two caves are shut, and only a surfer reaches their islands.
+  for (const [map, x, y] of [['lake-verity', 8, 4], ['lake-acuity', 13, 9]]) {
+    W.load(map, { x, y, dir: 'up' });
+    await settle();
+    assert.equal(step(W, 'up'), 'blocked', map + ': shut');
+    await settle();
+  }
+  W.load('lake-verity', { x: 8, y: 6, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked', 'water');
+  // Professor Rowan: the National Pokédex.
+  F.setFlag('sinnoh-champion');
+  W.load('rowan-lab', { x: 6, y: 4, dir: 'up' });
+  await talk();
+  assert.ok(F.flag('national-dex'));
+  // Lake Verity: by Surf to the island, into the cave. Mesprit runs.
+  W.load('lake-verity', { x: 8, y: 5, dir: 'up' });
+  assert.ok(W.surfing);
+  assert.equal(step(W, 'up'), 'moved');
+  await settle();
+  assert.ok(!W.surfing, 'ashore on the island');
+  step(W, 'up');
+  await until(() => W.map.id === 'verity-cavern' && !W.locked);
+  assert.ok(seen('mesprit'));
+  S.roamer = { mon: G.Mon.create(380, 40, { rng: G.RNG(1), wild: true }), map: 'route101', seen: false };
+  W.load('verity-cavern', { x: 7, y: 5, dir: 'up' });
+  await talk();
+  assert.ok(F.flag('mesprit-met') && !seen('mesprit'));
+  assert.equal(S.dex.seen[481], 1);
+  const R = S.sinnohRoamer;
+  assert.ok(R.mon.sp === 481 && R.mon.lvl === 50 && R.seen);
+  const routes = G.Roam.routes('sinnoh');
+  assert.ok(routes.includes(R.map) && routes.includes('route210n') && routes.includes('route201'));
+  assert.ok(!routes.includes('route101'));
+  assert.equal(G.Roam.where('sinnoh'), R.map);
+  assert.equal(G.Roam.where(), null, 'Latias has not been met');
+  assert.equal(G.Store.sanitize(JSON.parse(JSON.stringify(S))).sinnohRoamer.mon.sp, 481);
+  // Out of the cave, back on the beach.
+  W.load('verity-cavern', { x: 7, y: 8, dir: 'down' });
+  step(W, 'down');
+  await until(() => W.map.id === 'lake-verity' && !W.locked);
+  assert.deepEqual([W.player.x, W.player.y], [8, 4]);
+  // It moves with every change of map, only ever in Sinnoh; Latias stays in Hoenn.
+  const went = new Set();
+  for (let i = 0; i < 30; i++) { W.load(i % 2 ? 'route201' : 'route202', 'start'); went.add(S.sinnohRoamer.map); }
+  assert.ok(went.size > 3 && [...went].every(m => routes.includes(m)));
+  assert.ok(!routes.includes(S.roamer.map), 'Latias: ' + S.roamer.map);
+  assert.ok(!seen('mesprit'));
+  W.load('verity-cavern', 'door');
+  assert.ok(!seen('mesprit'), 'it does not come back to the cave');
+  // Met on a route: fled, then caught. Latias stays roaming, and Hoenn's chapter does not end.
+  W.load('route201', 'start');
+  const m = W.map;
+  const grass = (() => { for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w - 1; x++) if (G.Maps.kindAt(m, x, y) === 'tall' && G.Maps.kindAt(m, x + 1, y) === 'tall') return [x, y]; })();
+  const meet = async () => {
+    W.load('route201', { x: grass[0], y: grass[1], dir: 'right' });
+    S.sinnohRoamer.map = 'route201';
+    W.debug.noEnc = false;
+    const n = wild.length;
+    for (let i = 0; i < 900 && !(wild.length > n && wild[wild.length - 1][2]); i++) {
+      if (!W.locked && !W.player.moving) { step(W, i % 2 ? 'left' : 'right'); S.sinnohRoamer && (S.sinnohRoamer.map = 'route201'); }
+      W.update(0.05); await tick();
+    }
+    W.debug.noEnc = true;
+    await settle();
+    assert.deepEqual(wild[wild.length - 1], [481, 50, true]);
+  };
+  answer = 'run';
+  await meet();
+  assert.ok(S.sinnohRoamer && !F.flag('mesprit-caught'));
+  answer = 'caught';
+  await meet();
+  assert.equal(S.sinnohRoamer, null);
+  assert.ok(F.flag('mesprit-caught') && !F.flag('roamer-caught') && !F.flag('chapter-42-done'));
+  assert.equal(S.roamer.mon.sp, 380);
+  // Lake Acuity: Uxie, beaten, comes back; caught, it is gone.
+  W.load('lake-acuity', { x: 13, y: 10, dir: 'up' });
+  assert.ok(W.surfing);
+  step(W, 'up');
+  await settle();
+  step(W, 'up');
+  await until(() => W.map.id === 'acuity-cavern' && !W.locked);
+  for (const [id, map] of [['uxie', 'acuity-cavern'], ['azelf', 'valor-cavern']]) {
+    answer = 'win';
+    W.load(map, { x: 7, y: 5, dir: 'up' });
+    assert.ok(seen(id));
+    await talk();
+    assert.deepEqual(wild[wild.length - 1], [id === 'uxie' ? 480 : 482, 50, false]);
+    assert.ok(!seen(id) && !F.flag(id + '-caught'));
+    W.load(map, { x: 7, y: 5, dir: 'up' });
+    assert.ok(seen(id), 'it came back');
+    answer = 'caught';
+    await talk();
+    assert.ok(F.flag(id + '-caught'));
+    W.load(map, { x: 7, y: 5, dir: 'up' });
+    assert.ok(!seen(id));
+  }
+  // Lake Valor's cave is a walk away.
+  W.load('lake-valor', 'cave');
+  step(W, 'up');
+  await until(() => W.map.id === 'valor-cavern' && !W.locked);
+  // No orb on the mountain until the elder has spoken, and nothing at the Spear Pillar.
+  W.load('coronet-5f', { x: 22, y: 10, dir: 'down' });
+  assert.equal(step(W, 'down'), 'moved', 'nothing there yet');
+  await settle();
+  W.load('spear-pillar', 'from-below');
+  assert.ok(!seen('dialga2') && !seen('palkia2'));
+  W.load('celestic-elder', { x: 6, y: 4, dir: 'right' });
+  await talk();
+  assert.ok(F.flag('elder-orbs'));
+  for (const [map, x, y, item] of [['coronet-5f', 22, 10, 'adamant-orb'], ['coronet-6f', 3, 5, 'lustrous-orb']]) {
+    W.load(map, { x, y, dir: 'down' });
+    assert.equal(step(W, 'down'), 'blocked', item);
+    await talk();
+    assert.equal(F.count(item), 1, item);
+  }
+  // The Spear Pillar: beaten or caught, the second one ends the chapter.
+  answer = 'win';
+  W.load('spear-pillar', { x: 6, y: 4, dir: 'up' });
+  assert.ok(seen('dialga2') && seen('palkia2'));
+  await talk();
+  assert.deepEqual(wild[wild.length - 1], [483, 70, false]);
+  assert.ok(F.flag('dialga-met') && !F.flag('dialga-caught') && !seen('dialga2') && !F.flag('chapter-60-done'));
+  answer = 'run';
+  W.load('spear-pillar', { x: 11, y: 4, dir: 'up' });
+  await talk();
+  assert.ok(!F.flag('palkia-met') && seen('palkia2'), 'run from, it stays');
+  answer = 'caught';
+  await talk();
+  assert.ok(F.flag('palkia-met') && F.flag('palkia-caught') && F.flag('chapter-60-done'));
+  W.load('spear-pillar', { x: 6, y: 4, dir: 'up' });
+  assert.ok(seen('dialga2') && !seen('palkia2'));
+  await talk();
+  assert.ok(F.flag('dialga-caught'));
+  W.load('spear-pillar', { x: 6, y: 4, dir: 'up' });
+  assert.ok(!seen('dialga2'));
 });
 
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {

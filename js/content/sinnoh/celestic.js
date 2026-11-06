@@ -205,6 +205,20 @@
   /** The elder: the Old Charm comes home, and the chapter ends. */
   async function elder(h) {
     const F = G.Field;
+    // Chapter 60: with the National Pokédex she tells of the two orbs (legends.js).
+    if (F.flag('national-dex') && !F.flag('elder-orbs')) {
+      const vars = { adamant: G.Names.item('adamant-orb'), lustrous: G.Names.item('lustrous-orb'), dialga: G.Names.mon(483), palkia: G.Names.mon(484) };
+      await h.say(T('So here is the new Champion. My Cynthia speaks of nothing else. I have been waiting for you.'), ELDER);
+      await h.say(T('You saw {dialga} and {palkia} at the Spear Pillar, dragged there by a chain. That is not how the old stories say they should be met.'), Object.assign({}, ELDER, { vars }));
+      await h.say(T('The mural in our ruins shows two orbs, the {adamant} and the {lustrous}. They were left long ago in Mt. Coronet, on the way up to the peak.'), Object.assign({}, ELDER, { vars }));
+      await h.say(T('Find them and carry them to the Spear Pillar. To one who comes without a chain, the masters of time and space may yet answer.'), ELDER);
+      F.setFlag('elder-orbs');
+      return;
+    }
+    if (F.flag('elder-orbs') && !F.flag('chapter-60-done')) {
+      await h.say(T('The orbs lie in Mt. Coronet, on the way up to the Spear Pillar. Mind your step up there.'), ELDER);
+      return;
+    }
     if (F.flag('chapter-50-done') || !F.count('old-charm')) {
       await h.say(T('The ruins have stood for longer than anyone can remember. We only look after them.'), ELDER);
       return;

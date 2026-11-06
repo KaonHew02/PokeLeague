@@ -26,6 +26,9 @@ G.SpecialMoves = (() => {
 
     // ---------- recharge and rampage ----------
     'hyper-beam':  { recharge: true },
+    'giga-impact': { recharge: true },
+    'rock-wrecker': { recharge: true },
+    'roar-of-time': { recharge: true },
     'thrash':      { rampage: true },
     'petal-dance': { rampage: true },
     'outrage':     { rampage: true },

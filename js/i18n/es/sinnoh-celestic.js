@@ -47,5 +47,10 @@ G.I18n.add({
   "Route 210. West: Celestic Town. South: Solaceon Town. Mind the fog!": "Ruta 210. Oeste: Pueblo Caelestis. Sur: Pueblo Sosiego. ¡Cuidado con la niebla!",
   "Celestic Town. A quiet town that keeps the old stories of Sinnoh.": "Pueblo Caelestis. Un pueblo tranquilo que guarda las viejas historias de Sinnoh.",
   "The Celestic Ruins. Nobody remembers who built them.": "Ruinas de Pueblo Caelestis. Nadie recuerda quién las construyó.",
-  "A mural of two great Pokémon, face to face. One seems to hold back time, the other to bend space itself.": "Un mural de dos grandes Pokémon, cara a cara. Uno parece detener el tiempo; el otro, doblar el espacio."
+  "A mural of two great Pokémon, face to face. One seems to hold back time, the other to bend space itself.": "Un mural de dos grandes Pokémon, cara a cara. Uno parece detener el tiempo; el otro, doblar el espacio.",
+  "So here is the new Champion. My Cynthia speaks of nothing else. I have been waiting for you.": "Así que este es el nuevo Campeón. Mi Cintia no habla de otra cosa. Te estaba esperando.",
+  "You saw {dialga} and {palkia} at the Spear Pillar, dragged there by a chain. That is not how the old stories say they should be met.": "Viste a {dialga} y {palkia} en las Columnas Lanza, arrastrados por una cadena. Las viejas historias no dicen que deban conocerse así.",
+  "The mural in our ruins shows two orbs, the {adamant} and the {lustrous}. They were left long ago in Mt. Coronet, on the way up to the peak.": "El mural de nuestras ruinas muestra dos esferas, la {adamant} y la {lustrous}. Hace mucho quedaron en el Monte Corona, en el camino a la cima.",
+  "Find them and carry them to the Spear Pillar. To one who comes without a chain, the masters of time and space may yet answer.": "Encuéntralas y llévalas a las Columnas Lanza. A quien llega sin cadenas, los señores del tiempo y el espacio quizá le respondan.",
+  "The orbs lie in Mt. Coronet, on the way up to the Spear Pillar. Mind your step up there.": "Las esferas están en el Monte Corona, en el camino a las Columnas Lanza. Ten cuidado allí arriba."
 }, "es");

@@ -50,7 +50,7 @@ test('a Bug-Catching Contest saved halfway keeps its entrant, balls, steps and c
 test('a new save has the documented shape', () => {
   const s = G.Store.newSave({ name: 'Ash', gender: 'f', rival: 'Gary', id: 70000 });
   assert.deepEqual(Object.keys(s).sort(), ['app', 'bag', 'box', 'boxes', 'contest', 'created', 'daycare', 'daycareEgg', 'dex', 'done', 'eggs', 'fame', 'flags', 'party', 'player', 'playTime',
-    'repel', 'rival', 'rival2', 'rival3', 'roamer', 'savedAt', 'v', 'vars'].sort());
+    'repel', 'rival', 'rival2', 'rival3', 'roamer', 'savedAt', 'sinnohRoamer', 'v', 'vars'].sort());
   assert.equal(s.app, 'PokeLeague');
   assert.equal(s.player.name, 'Ash');
   assert.equal(s.player.gender, 'f');

@@ -47,5 +47,10 @@ G.I18n.add({
   "Route 210. West: Celestic Town. South: Solaceon Town. Mind the fog!": "210號道路。西：神和鎮　南：隨意鎮　小心大霧！",
   "Celestic Town. A quiet town that keeps the old stories of Sinnoh.": "神和鎮。守護著神奧古老傳說的寧靜小鎮。",
   "The Celestic Ruins. Nobody remembers who built them.": "神和遺跡。沒有人記得是誰建造的。",
-  "A mural of two great Pokémon, face to face. One seems to hold back time, the other to bend space itself.": "壁畫上有兩隻巨大的寶可夢相對而立。一隻彷彿能止住時間，另一隻彷彿能扭曲空間。"
+  "A mural of two great Pokémon, face to face. One seems to hold back time, the other to bend space itself.": "壁畫上有兩隻巨大的寶可夢相對而立。一隻彷彿能止住時間，另一隻彷彿能扭曲空間。",
+  "So here is the new Champion. My Cynthia speaks of nothing else. I have been waiting for you.": "這就是新冠軍啊。我家竹蘭整天都在說你。我一直在等你。",
+  "You saw {dialga} and {palkia} at the Spear Pillar, dragged there by a chain. That is not how the old stories say they should be met.": "你在槍之柱見到的{dialga}和{palkia}，是被鎖鏈拖來的。古老的傳說裡，不該這樣與牠們相見。",
+  "The mural in our ruins shows two orbs, the {adamant} and the {lustrous}. They were left long ago in Mt. Coronet, on the way up to the peak.": "我們遺跡的壁畫上有兩顆寶珠：{adamant}和{lustrous}。它們很久以前就留在天冠山裡，在通往山頂的路上。",
+  "Find them and carry them to the Spear Pillar. To one who comes without a chain, the masters of time and space may yet answer.": "找到它們，帶到槍之柱去。對不帶鎖鏈而來的人，時間和空間的主宰也許會回應。",
+  "The orbs lie in Mt. Coronet, on the way up to the Spear Pillar. Mind your step up there.": "寶珠就在天冠山裡，在去槍之柱的路上。上山要當心。"
 }, "zh-Hant");

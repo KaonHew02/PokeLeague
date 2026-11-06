@@ -47,5 +47,10 @@ G.I18n.add({
   "Route 210. West: Celestic Town. South: Solaceon Town. Mind the fog!": "Route 210. Ouest : Célestia. Sud : Bonville. Attention au brouillard !",
   "Celestic Town. A quiet town that keeps the old stories of Sinnoh.": "Célestia. Une ville paisible qui garde les vieilles histoires de Sinnoh.",
   "The Celestic Ruins. Nobody remembers who built them.": "Ruines de Célestia. Personne ne se souvient de qui les a bâties.",
-  "A mural of two great Pokémon, face to face. One seems to hold back time, the other to bend space itself.": "Une fresque de deux grands Pokémon, face à face. L'un semble retenir le temps, l'autre plier l'espace."
+  "A mural of two great Pokémon, face to face. One seems to hold back time, the other to bend space itself.": "Une fresque de deux grands Pokémon, face à face. L'un semble retenir le temps, l'autre plier l'espace.",
+  "So here is the new Champion. My Cynthia speaks of nothing else. I have been waiting for you.": "Voici donc le nouveau Maître. Ma Cynthia ne parle que de ça. Je t'attendais.",
+  "You saw {dialga} and {palkia} at the Spear Pillar, dragged there by a chain. That is not how the old stories say they should be met.": "Tu as vu {dialga} et {palkia} aux Colonnes Lances, traînés là par une chaîne. Ce n'est pas ainsi que les vieilles histoires disent de les rencontrer.",
+  "The mural in our ruins shows two orbs, the {adamant} and the {lustrous}. They were left long ago in Mt. Coronet, on the way up to the peak.": "La fresque de nos ruines montre deux orbes, l'{adamant} et l'{lustrous}. Ils ont été laissés il y a longtemps au Mont Couronné, sur le chemin du sommet.",
+  "Find them and carry them to the Spear Pillar. To one who comes without a chain, the masters of time and space may yet answer.": "Trouve-les et porte-les aux Colonnes Lances. À celui qui vient sans chaîne, les maîtres du temps et de l'espace répondront peut-être.",
+  "The orbs lie in Mt. Coronet, on the way up to the Spear Pillar. Mind your step up there.": "Les orbes sont au Mont Couronné, sur le chemin des Colonnes Lances. Fais attention là-haut."
 }, "fr");

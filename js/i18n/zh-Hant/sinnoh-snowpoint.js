@@ -116,8 +116,8 @@ G.I18n.add({
   "Snowpoint City. The town where the snow never melts.": "雪峰市。積雪永不融化的城市。",
   "Snowpoint City Gym. Leader: Candice, who never lets the cold win.": "雪峰市道館。館主：絕不輸給嚴寒的小菘。",
   "North: Snowpoint Temple. No entry.": "北：雪峰神殿。禁止進入。",
-  "Ahoy, Champion! Shall I take you to the Battle Zone?": "喂，冠軍！要我送你去對戰地帶嗎？",
+  "Ahoy, Champion! Shall I take you to the Battle Zone?": "喂，冠軍！要我送你去對戰特區嗎？",
   "The ship sailed out across the northern sea...": "船駛入了北方的海……",
-  "This ship goes to the Battle Zone, and only Trainers who have beaten the Pokémon League may board.": "這條船開往對戰地帶，只有打敗過寶可夢聯盟的訓練家才能上船。",
-  "Snowpoint Harbor. The ship sails to the Battle Zone.": "雪峰市港口。此船開往對戰地帶。"
+  "This ship goes to the Battle Zone, and only Trainers who have beaten the Pokémon League may board.": "這條船開往對戰特區，只有打敗過寶可夢聯盟的訓練家才能上船。",
+  "Snowpoint Harbor. The ship sails to the Battle Zone.": "雪峰市港口。此船開往對戰特區。"
 }, "zh-Hant");

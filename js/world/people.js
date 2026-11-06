@@ -28,7 +28,7 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -319,6 +319,9 @@ G.People = (() => {
     // Chapter 61: Pokémon Rangers (a green jacket and a red scarf colour).
     ranger: { head: 'cap', body: 'jacket', legs: 'pants', h: '#5a3a24', H: '#3e2818', j: '#4a7a4a', J: '#345a34', c: '#d84a3a', C: '#a83428', p: '#6a5a44', P: '#4a3e2e', k: '#2e2a24' },
     rangerf: { head: 'long', body: 'jacket', legs: 'pants', h: '#a8603a', H: '#7c4426', j: '#4a7a4a', J: '#345a34', c: '#d84a3a', C: '#a83428', p: '#6a5a44', P: '#4a3e2e', k: '#2e2a24' },
+    // Chapter 62: Buck (spiky red hair like his brother Flint, a dark jacket over orange), Charon (white hair, a scientist's long coat).
+    buck: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#d8482a', H: '#a8321c', j: '#2e2e38', J: '#1c1c24', c: '#e8873a', C: '#b8642a', p: '#6a5a44', P: '#4a3e2e', k: '#2e2a24' },
+    charon: { head: 'short', body: 'coat', legs: 'pants', h: '#d4d4dc', H: '#a4a4b0', j: '#ececf2', J: '#b8b8c4', c: '#e8873a', C: '#b8642a', p: '#4a4a56', P: '#30303a', k: '#22222a' },
     // Chapter 54: Looker (dark hair, a long tan coat over a white shirt).
     looker: { head: 'short', body: 'coat', legs: 'pants', h: '#3a2e24', H: '#261e18', j: '#b8986a', J: '#8a6e48', c: '#ececf2', C: '#b8b8c4',
               p: '#4a4038', P: '#2e2820', k: '#2a2420' },

@@ -60,15 +60,16 @@ G.I18n.add({
   "There you are, {player}! What took you so long? I have already been all over town!": "¡Ahí estás, {player}! ¿Por qué has tardado tanto? ¡Yo ya he recorrido todo el pueblo!",
   "They call this the Survival Area, and only the toughest Trainers come here. So I am staying, obviously!": "Esto se llama Zona Sobrevivir, y solo vienen los Entrenadores más duros. ¡Así que me quedo, claro!",
   "That big building is the Battleground. When it opens, every Gym Leader in Sinnoh is going to come here to battle.": "Ese edificio grande es el Campo de Batalla. Cuando abra, todos los Líderes de Gimnasio de Sinnoh vendrán aquí a combatir.",
-  "And the road east goes to a volcano, but a rockfall has closed it. As soon as they clear it, I am going up there. You had better come too!": "Y el camino del este va a un volcán, pero un derrumbe lo ha cerrado. En cuanto lo despejen, subo. ¡Más te vale venir también!",
   "I am training here until that road opens. Next time we meet, I will be the one fighting you, not beside you!": "Entrenaré aquí hasta que abran ese camino. ¡La próxima vez lucharé contra ti, no a tu lado!",
   "Survival Area. A town for Trainers who want to find their limits.": "Zona Sobrevivir. Un pueblo para Entrenadores que quieren conocer sus límites.",
-  "Route 226 is closed. A rockfall has blocked the road east.": "Ruta 226 cerrada. Un derrumbe ha bloqueado el camino del este.",
-  "It will take a while to clear these rocks. There is a lot of mountain up there, and it keeps moving.": "Despejar estas rocas llevará un tiempo. Ahí arriba hay mucha montaña, y no deja de moverse.",
   "Everyone here is training for something. Nobody can quite remember what.": "Aquí todos entrenan para algo. Nadie recuerda bien para qué.",
   "I buy Full Heals by the crate. You never know what is living on that volcano.": "Compro Curas Totales por cajas. Nunca se sabe qué vive en ese volcán.",
   "This is the Battleground. One day the Gym Leaders of Sinnoh will meet here to battle anyone who asks. We are not quite ready for them yet.": "Este es el Campo de Batalla. Algún día los Líderes de Gimnasio de Sinnoh se reunirán aquí para combatir con quien lo pida. Aún no estamos listos.",
   "I came all this way to see Roark battle, and he is not here! I can wait. I have sandwiches.": "¡He venido hasta aquí para ver combatir a Roco y no está! Puedo esperar. Tengo bocadillos.",
   "My grandson has gone off to the volcano again. He says the mountain talks to him. It only ever says one thing to me: stay away.": "Mi nieto se ha vuelto a ir al volcán. Dice que la montaña le habla. A mí solo me dice una cosa: no te acerques.",
-  "A note on the table says: \"Gone to look for shards. Back when I have enough.\"": "Una nota sobre la mesa dice: \"Me fui a buscar fragmentos. Vuelvo cuando tenga suficientes.\""
+  "A note on the table says: \"Gone to look for shards. Back when I have enough.\"": "Una nota sobre la mesa dice: \"Me fui a buscar fragmentos. Vuelvo cuando tenga suficientes.\"",
+  "And the road east goes to a volcano, over the sea. I am training here first, so do not you dare go up there and have all the fun!": "Y el camino del este va a un volcán, cruzando el mar. Yo voy a entrenar aquí primero, ¡así que ni se te ocurra subir y divertirte sin mí!",
+  "We have only just cleared this road. A lot of mountain came down here, and it keeps moving.": "Acabamos de despejar este camino. Aquí cayó mucha montaña, y sigue moviéndose.",
+  "My grandson came home covered in soot, carrying the seal of the mountain under his arm. That boy will be the end of me.": "Mi nieto volvió a casa cubierto de hollín, con el sello de la montaña bajo el brazo. Ese chico va a acabar conmigo.",
+  "East: Route 226. Beyond the sea, Stark Mountain.": "Este: Ruta 226. Más allá del mar, Montaña Dura."
 }, "es");

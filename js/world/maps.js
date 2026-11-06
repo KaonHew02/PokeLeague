@@ -28,6 +28,8 @@
  *   move can use it from the party menu: the script runs), walkAround: { x, y, w, h, if, script } (step
  *   on every tile along the edge of that rectangle, then the script runs once), desert: true (wild
  *   Pokémon on any step, and a sandstorm in its battles).
+ *   Chapter 62: ally: { if, name, team } (fights beside you against the map's double-battle trainers) and
+ *   companion: { if, who, name, say } (walks behind you in place of your Pokémon).
  *   Chapter 46: afterBattle: { if, script } (after each battle on the map with a trainer standing there
  *   or a wild Pokémon, unless it was lost: Cheryl heals the team in Eterna Forest).
  *
@@ -546,6 +548,11 @@ G.Maps = (() => {
     }
     if (d.enter) scriptRef(d.enter, 'enter');
     if (d.afterBattle) scriptRef(d.afterBattle.script, 'afterBattle');      // chapter 46
+    if (d.ally && (!d.ally.name || !(d.ally.team || []).length)) E.push('ally: needs a name and a team');      // chapter 62
+    if (d.companion) {
+      if (!d.companion.say) E.push('companion: has nothing to say');
+      if (known && !known.includes(d.companion.who)) E.push(`companion: unknown sprite "${d.companion.who}"`);
+    }
     // Fly: a town's landing spot.
     if (d.fly && !spot(m, d.fly.spot)) E.push(`fly: no spot "${d.fly.spot}"`);
     if (d.slope && !DIRS[d.slope]) E.push(`slope: bad direction "${d.slope}"`);

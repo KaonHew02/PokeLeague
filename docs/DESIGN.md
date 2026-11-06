@@ -2421,11 +2421,22 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Flint and Volkner have Platinum's levels, with their four Full Restores: a team of three beside Barry wins 97-100%, a lone Infernape 40%. Nothing was lowered. Route 225's Trainers are Platinum's.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the sailor, Barry, losing and winning, the Frontier's doors, the gift, the way back, the river, a Trainer, the link east, the rockfall); `tests/story.test.cjs` the chapter after chapter 60 and the balance line.
 
-### After chapter 61
+- **Chapter 62** ✅, Stark Mountain: Routes 226 and 227 and the mountain (`js/content/sinnoh/stark.js`, translations `sinnoh-stark`). It ends with `ending(62)` when Heatran is caught or beaten.
+  - **Engine**: a map's `ally: { if, name, team }` fights beside you against its double-battle trainers (`field.js` `battle()` adds `partner` and `rules.tag`; one Pokémon able to fight is then enough). A map's `companion: { if, who, name, say }` walks behind you in place of your Pokémon (`makeFollower`, exported so a script can change it at once).
+  - **People**: `buck`, `charon`.
+  - **Map**: the Survival Area's road now runs east through the rocks (its sign, worker and Barry's line changed). `route226` (place `sinnoh-sea-route-226`): land, the sea to Surf with an islet, the far shore, north to `route227` (palette `fiery`, so no water there and no Surf table). `stark-mountain` outside (can be flown to), then `stark-entrance`, `stark-inside` and `stark-deep`. Platinum's Rock Climb becomes Surf, Rock Smash (the entrance, `stark-inside`'s west corridor, three optional pockets) and Strength (a boulder in `stark-inside`'s east corridor). The generator checks each of these by search, and that lava is ringed by rock, so nobody can Surf on it.
+  - **Story**: Buck meets you at the top of `stark-inside`'s first corridor (flags `buck-met`, `buck-along`): he walks behind you, fights beside you with Claydol Lv. 63 and heals the team after each battle (`afterBattle`). The sixteen Trainers are eight pairs in `double-team`, paired by Serebii's order (only Keenan is marked as a double partner there). In `stark-deep` Mars and Jupiter fight you and Buck (`def.commanders`, `def.buckTeam`; lost, it all happens again), leave Team Galactic, and Charon brags about the Magma Stone until Looker, in a grunt's uniform, arrests him (flag `charon-caught`). Buck goes home; in `survival-house` he says he has put the stone back (flag `magma-stone-back`), and only then `heatran` stands in `stark-deep` at Lv. 50. Run or lose and it stays; beaten, it is back when you come back; caught: flag `heatran-caught`.
+  - **Not certain**: the sources say Mars and Jupiter both fight you, not how; a multi battle beside Buck is my reading. They say Looker was in disguise, not as what.
+  - **Left out**: the house on the sea and its trade, the Dowsing Machine's items, swarms and the Poké Radar, the Lagging Tail, Life Orb, Iron Ball, Flame Plate and Yellow Shard (not in the game).
+- **Names corrected**: Jupiter is 岁星 (歲星), Mars in Traditional 夥星, the Battle Zone 对战特区 (對戰特區), the Battleground 对决场 (對決場).
+- **Balance:** Mars and Jupiter have Platinum's levels: a team of three beside Buck wins 70-78%, one Pokémon alone with him 0-25%. Nothing was lowered. Surf also hits Buck's Claydol: Empoleon's team with Surf wins 33%, with Hydro Pump (Lv. 59) 70%, so the test team has that. Heatran at Lv. 50: 100% for a team of six.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the road east, the sea, the hollow, the links, a swimmer, Buck behind you, a pair beside him, the healing, losing and winning in the deepest room, Buck at home, Heatran run from, beaten and caught); `tests/story.test.cjs` the chapter after chapter 61 and the balance lines.
+
+### After chapter 62
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower. Ideas:
-1. Sinnoh after the League: Routes 226 and 227, Stark Mountain and Heatran; the Battleground; the Resort Area; Lake Valor filling up again (a map that changes with a flag); Route 212 back to
+1. Sinnoh after the League: the Battleground and its rematches; Routes 228 to 230 and the Resort Area; Lake Valor filling up again (a map that changes with a flag); Route 212 back to
    Hearthome; Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.

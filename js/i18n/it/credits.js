@@ -178,5 +178,8 @@ G.I18n.add({
   "Thank you for playing! The Battle Zone and the rest of Sinnoh wait in a future update.": "Grazie per aver giocato! La Zona Lotta e il resto di Sinnoh ti aspettano in un futuro aggiornamento.",
   "Chapter 61 complete!": "Capitolo 61 completato!",
   "{player} sailed to the Battle Zone, beat Flint and Volkner beside Barry in Fight Area, and followed Route 225 to the Survival Area.": "{player} ha navigato fino alla Zona Lotta, ha battuto Vulcano e Corrado al fianco di Barry nell'Area Lotta e ha seguito il Percorso 225 fino all'Area Sopravvivenza.",
-  "Thank you for playing! The road to the volcano waits in a future update.": "Grazie per aver giocato! La strada per il vulcano ti aspetta in un futuro aggiornamento."
+  "Thank you for playing! The road to the volcano waits in a future update.": "Grazie per aver giocato! La strada per il vulcano ti aspetta in un futuro aggiornamento.",
+  "Chapter 62 complete!": "Capitolo 62 completato!",
+  "{player} crossed the sea to Stark Mountain, fought beside Buck, saw Team Galactic end for good and met Heatran in the deepest room.": "{player} ha attraversato il mare fino al Monte Ostile, ha lottato al fianco di Chicco, ha visto la fine del Team Galassia e ha incontrato Heatran nella sala più profonda.",
+  "Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.": "Grazie per aver giocato! Il Campo Lotta e il resto della Zona Lotta ti aspettano in un futuro aggiornamento."
 }, "it");

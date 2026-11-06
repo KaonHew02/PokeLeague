@@ -178,5 +178,8 @@ G.I18n.add({
   "Thank you for playing! The Battle Zone and the rest of Sinnoh wait in a future update.": "Obrigado por jogar! A Battle Zone e o resto de Sinnoh esperam por você em uma atualização futura.",
   "Chapter 61 complete!": "Capítulo 61 concluído!",
   "{player} sailed to the Battle Zone, beat Flint and Volkner beside Barry in Fight Area, and followed Route 225 to the Survival Area.": "{player} navegou até a Battle Zone, venceu Flint e Volkner ao lado de Barry na Fight Area e seguiu a Route 225 até a Survival Area.",
-  "Thank you for playing! The road to the volcano waits in a future update.": "Obrigado por jogar! A estrada para o vulcão espera por você em uma atualização futura."
+  "Thank you for playing! The road to the volcano waits in a future update.": "Obrigado por jogar! A estrada para o vulcão espera por você em uma atualização futura.",
+  "Chapter 62 complete!": "Capítulo 62 concluído!",
+  "{player} crossed the sea to Stark Mountain, fought beside Buck, saw Team Galactic end for good and met Heatran in the deepest room.": "{player} cruzou o mar até Stark Mountain, lutou ao lado do Buck, viu o fim da Equipe Galáctica e encontrou Heatran na sala mais funda.",
+  "Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.": "Obrigado por jogar! O Battleground e o resto da Battle Zone esperam por você em uma atualização futura."
 }, "pt-BR");

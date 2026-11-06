@@ -356,10 +356,16 @@ G.World = (() => {
     for (const it of items) it.got = G.Field.isDone(it.key) || !G.Field.test(it.def.if);   // `if`: not there yet (chapter 60)
   }
 
+  /** Chapter 62: the map's `companion: { if, who, say }`, someone who walks behind you in place of your Pokémon. */
+  const companion = () => { const c = map && map.def.companion; return c && G.Field.test(c.if) ? c : null; };
+
   function makeFollower() {
-    const lead = G.Field.lead();
-    if (!lead || surfing || under() || G.Settings.get('follower') === false) { follower = null; return; }
-    if (!follower || follower.mon !== lead.sp) follower = new G.Actor({ id: 'follower', mon: lead.sp, shiny: !!lead.shiny });
+    const lead = G.Field.lead(), friend = surfing ? null : companion();
+    if (friend) { if (!follower || follower.who !== friend.who) follower = new G.Actor({ id: 'follower', who: friend.who }); }
+    else {
+      if (!lead || surfing || under() || G.Settings.get('follower') === false) { follower = null; return; }
+      if (!follower || follower.mon !== lead.sp) follower = new G.Actor({ id: 'follower', mon: lead.sp, shiny: !!lead.shiny });
+    }
     // One tile behind the player, if there is room; else under the player (hidden) until the first step.
     const [dx, dy] = M().DIRS[M().OPP[me.dir]];
     const bx = me.x + dx, by = me.y + dy;
@@ -852,8 +858,11 @@ G.World = (() => {
     return false;
   }
 
+  /** Chapter 62: the map's `ally: { if, name, team }` fights beside you against its double-battle trainers (a multi battle). */
+  const allyFor = d => { const a = map && map.def.ally; return d && d.double && a && G.Field.test(a.if) ? a : null; };
+
   /** Doubles (chapter 40): a trainer (not a Gym Leader) who wants two of yours, when you have fewer. */
-  const needsTwo = d => !!(d && d.double && !d.leader && G.Field.party().filter(m => m.hp > 0).length < 2);
+  const needsTwo = d => !!(d && d.double && !d.leader && !allyFor(d) && G.Field.party().filter(m => m.hp > 0).length < 2);
 
   async function trainerBattle(t, seen) {
     locks++;
@@ -928,6 +937,8 @@ G.World = (() => {
       if (!d) { console.error('[World] no trainer ' + ref); return 'win'; }
     }
     key = key || map.id + ':' + d.id;
+    const ally = o.partner ? null : allyFor(d);
+    if (ally) o = Object.assign({}, o, { partner: { name: G.T(ally.name), team: ally.team }, rules: Object.assign({ tag: true }, o.rules) });
     locks++;
     let out;
     try {
@@ -1021,6 +1032,8 @@ G.World = (() => {
   const FOLLOW_LINES = [['say', '{mon} looks happy to be with you.'], ['say', '{mon} is enjoying the walk.'],
                         ['say', '{mon} sniffs the air curiously.'], ['say', '{mon} gives you a cheerful look.']];
   function talkFollower() {
+    const friend = companion();
+    if (friend) { follower.face(M().OPP[me.dir]); return runScript([['say', friend.say, { name: friend.name }]], {}); }
     const lead = G.Field.lead();
     if (!lead) return null;
     follower.face(M().OPP[me.dir]);
@@ -1719,7 +1732,7 @@ G.World = (() => {
     start, warp, load, tryStep, arrived, interact, openMenu, repath, sfx, song, refresh, runScript, battle, blackout, update,
     actor: id => actor(id, {}), host, debug,
     onEncounter: null, onTrainer: null, wildForm: null,
-    get map() { return map; }, get player() { return me; }, get follower() { return follower; }, get surfing() { return surfing; }, keyOpen,
+    get map() { return map; }, get player() { return me; }, get follower() { return follower; }, makeFollower, get surfing() { return surfing; }, keyOpen,
     barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, stormy, foggy,
     get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },

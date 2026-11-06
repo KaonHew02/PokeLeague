@@ -52,5 +52,5 @@ G.I18n.add({
   "You again? I remember you from the windworks. This time I have a real reason to win. Let us see if you can stop me!": "又是你？我记得你，在山谷发电厂见过。这次我有非赢不可的理由。看你拦不拦得住我！",
   "Not again!": "怎么又输了！",
   "Oh, and Professor Rowan called for you, Champion. He says to come to his lab in Sandgem Town when you have rested.": "对了，七灶博士打过电话来，冠军。他说你休息好了就去真砂镇的研究所找他。",
-  "Barry ran off to some place called the Battle Zone. There is a ship from Snowpoint City, he says. He left without his lunch, of course.": "阿驯跑去一个叫对战地带的地方了。他说雪峰市有船去。午饭当然又没带。"
+  "Barry ran off to some place called the Battle Zone. There is a ship from Snowpoint City, he says. He left without his lunch, of course.": "阿驯跑去一个叫对战特区的地方了。他说雪峰市有船去。午饭当然又没带。"
 }, "zh-Hans");

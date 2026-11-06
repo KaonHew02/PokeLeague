@@ -3,7 +3,7 @@
  * come off the pier and takes you to the Battle Frontier, shut for now, where Flint and Volkner want a battle: a multi battle beside Barry
  * (flag fight-zone-met; lost, it all happens again). Platinum's teams for all four. Route 225 goes north over a river and through a gap in a cliff,
  * where Platinum needs Rock Climb, to the Survival Area: a Center, a mart, the Battleground (no battles yet), a house, the shard tutor's house
- * (he is out). The road east to Route 226 is closed by a rockfall until the next chapter. Barry waits in town (flag survival-barry), then `ending(61)`.
+ * (he is out). The road east goes on to Route 226 (stark.js). Barry waits in town (flag survival-barry), then `ending(61)`.
  * Left out: Route 230, the reporter and the cameraman, Lax Incense and the Green Shard (not in the game), the Super Rod (you have had one since Kanto).
  */
 (() => {
@@ -219,8 +219,8 @@
       'T.....CCDCC...MDMM....BBDBBB.....T',
       'T.......,......,........,......###',
       'T...S...,......,........,....S.###',
-      ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,###',
-      ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,###',
+      ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
+      ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
       'T..............................###',
       'T..............................###',
       'T......HHHH....HHHH..............T',
@@ -233,7 +233,7 @@
       'T................................T',
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
-    connect: { west: { map: 'route225', offset: 4 } },
+    connect: { west: { map: 'route225', offset: 4 }, east: { map: 'route226', offset: -3 } },
     warps: [
       { x: 8, y: 6, to: 'survival-center', spot: 'door' },
       { x: 15, y: 6, to: 'survival-mart', spot: 'door' },
@@ -244,13 +244,13 @@
     spots: { 'center-door': [8, 7, 'down'], 'mart-door': [15, 7, 'down'], 'ground-door': [24, 7, 'down'],
              'house-door': [8, 16, 'down'], 'tutor-door': [16, 16, 'down'] },
     signs: { '4,8': 'Survival Area. A town for Trainers who want to find their limits.',
-             '29,8': 'Route 226 is closed. A rockfall has blocked the road east.' },
+             '29,8': 'East: Route 226. Beyond the sea, Stark Mountain.' },
     items: [{ x: 30, y: 18, item: 'rare-candy', flag: 'survival-candy' }, { x: 3, y: 18, item: 'tm42', flag: 'survival-tm42' }],
     triggers: [{ x: 2, y: 9, w: 1, h: 2, if: '!survival-barry', script: 'bzone.barry' }],
     npcs: [
       { id: 'barry', who: 'barry', x: 12, y: 8, dir: 'left', script: 'bzone.barry' },
-      { id: 'worker', who: 'engineer', x: 28, y: 10, dir: 'right',
-        say: 'It will take a while to clear these rocks. There is a lot of mountain up there, and it keeps moving.' }
+      { id: 'worker', who: 'engineer', x: 28, y: 11, dir: 'right',
+        say: 'We have only just cleared this road. A lot of mountain came down here, and it keeps moving.' }
     ]
   }, SINNOH));
 
@@ -284,8 +284,11 @@
     id: 'survival-house', loc: 'survival-area', tileset: 'indoor', palette: 'house', music: 'town', battleBg: 'indoor', rows: HOUSE,
     warps: [{ x: 4, y: 7, to: 'survival-area', spot: 'house-door' }],
     spots: { door: [4, 7, 'up'] },
-    npcs: [{ id: 'man', who: 'gentleman', x: 7, y: 4, dir: 'left',
-             say: 'My grandson has gone off to the volcano again. He says the mountain talks to him. It only ever says one thing to me: stay away.' }]
+    npcs: [{ id: 'man', who: 'gentleman', x: 7, y: 4, dir: 'left', if: '!charon-caught',
+             say: 'My grandson has gone off to the volcano again. He says the mountain talks to him. It only ever says one thing to me: stay away.' },
+           { id: 'man2', who: 'gentleman', x: 7, y: 4, dir: 'left', if: 'charon-caught',
+             say: 'My grandson came home covered in soot, carrying the seal of the mountain under his arm. That boy will be the end of me.' },
+           { id: 'buck', who: 'buck', x: 3, y: 5, dir: 'right', if: 'charon-caught', script: 'stark.buck-home' }]
   }, SINNOH));
 
   G.Maps.def(Object.assign({
@@ -348,7 +351,7 @@
     await h.say(T('There you are, {player}! What took you so long? I have already been all over town!'), BARRY);
     await h.say(T('They call this the Survival Area, and only the toughest Trainers come here. So I am staying, obviously!'), BARRY);
     await h.say(T('That big building is the Battleground. When it opens, every Gym Leader in Sinnoh is going to come here to battle.'), BARRY);
-    await h.say(T('And the road east goes to a volcano, but a rockfall has closed it. As soon as they clear it, I am going up there. You had better come too!'), BARRY);
+    await h.say(T('And the road east goes to a volcano, over the sea. I am training here first, so do not you dare go up there and have all the fun!'), BARRY);
     await h.walkTo('barry', 12, 8);
     h.face('barry', 'left');
     F.setFlag('survival-barry');

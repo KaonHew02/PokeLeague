@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 62) return { title: T('Chapter 62 complete!'),
+      done: fmt('{player} crossed the sea to Stark Mountain, fought beside Buck, saw Team Galactic end for good and met Heatran in the deepest room.', { player }),
+      next: T('Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.') };
     if (n === 61) return { title: T('Chapter 61 complete!'),
       done: fmt('{player} sailed to the Battle Zone, beat Flint and Volkner beside Barry in Fight Area, and followed Route 225 to the Survival Area.', { player }),
       next: T('Thank you for playing! The road to the volcano waits in a future update.') };

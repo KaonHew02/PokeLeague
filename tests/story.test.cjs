@@ -909,6 +909,53 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Mars and Jupiter beside Buck, and Heatran (chapter 62), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const def = G.Maps.get('stark-deep').def, L = def.commanders;
+  const mk = (list, rng) => list.map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), item ? { item } : {}));
+  const rate = team => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} }, partner: { name: 'Buck', party: mk(def.buckTeam, rng) },
+        foe: { party: mk(L.team, rng), trainer: { id: L.id, name: L.name, ai: 'leader', items: {}, prize: 100 } }, rules: { double: true, tag: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 40;
+  };
+  const TOR = [389, 62, ['earthquake', 'crunch', 'giga-drain', 'synthesis']], INF = [392, 62, ['flare-blitz', 'close-combat', 'mach-punch', 'punishment']];
+  // Surf also hits Buck's Claydol, so a player beside him uses Hydro Pump instead.
+  const EMP = [395, 62, ['hydro-pump', 'drill-peck', 'flash-cannon', 'aqua-jet']];
+  const LUX = [405, 60, ['crunch', 'thunder-fang', 'discharge', 'roar']], STA = [398, 60, ['brave-bird', 'close-combat', 'aerial-ace', 'agility']];
+  const GAS = [423, 58, ['earthquake', 'surf', 'muddy-water', 'recover']], LUC = [448, 58, ['aura-sphere', 'close-combat', 'extreme-speed', 'dragon-pulse']];
+  const FLO = [419, 58, ['surf', 'crunch', 'aqua-jet', 'ice-fang']];
+  const teams = {
+    'torterra 62': [TOR], 'infernape 62': [INF], 'empoleon 62': [EMP],
+    'torterra 62 + luxray 60 + staraptor 60': [TOR, LUX, STA], 'infernape 62 + luxray 60 + staraptor 60': [INF, LUX, STA],
+    'empoleon 62 + luxray 60 + staraptor 60': [EMP, LUX, STA]
+  };
+  const table = Object.fromEntries(Object.entries(teams).map(([k, t]) => [k, rate(t)]));
+  console.log('[balance] vs Mars and Jupiter, beside Buck:', JSON.stringify(table));
+  for (const k of Object.keys(teams).filter(k => k.split('+').length === 3)) assert.ok(table[k] >= 0.6, k + ' at a normal difficulty');
+  const six = { 'torterra 62 + 5': [TOR, LUX, STA, GAS, LUC, FLO], 'infernape 62 + 5': [INF, LUX, STA, GAS, LUC, FLO], 'empoleon 62 + 5': [EMP, LUX, STA, GAS, LUC, FLO] };
+  const heatran = me => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const mine = me.map(([x, l, moves]) => G.Mon.create(x, l, { rng, moves }));
+      const b = G.Battle.create({ kind: 'wild', seed: s, player: { name: 'Red', party: mine, bag: {} }, foe: { party: [G.Mon.create(485, 50, { rng, wild: true })] } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 40;
+  };
+  const legend = Object.fromEntries(Object.entries(six).map(([k, t]) => [k, heatran(t)]));
+  console.log('[balance] vs Heatran:', JSON.stringify(legend));
+  for (const k of Object.keys(six)) assert.ok(legend[k] >= 0.6, 'Heatran, ' + k);
+});
+
 test('balance: Flint and Volkner beside Barry (chapter 61), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const def = G.Maps.get('fight-area').def, L = def.flintVolkner;
@@ -4241,6 +4288,37 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 62 after chapter 61: Routes 226 and 227, Stark Mountain beside Buck, Mars and Jupiter, Charon, Heatran. */
+async function chapter62(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  for (const m of ['route226', 'route227', 'stark-mountain']) for (const t of G.Maps.get(m).trainers) { await fight(m, t.id); won(); }
+  await run(st, 'stark-inside', 'stark.buck');
+  assert.ok(F.flag('buck-along'));
+  const def = G.Maps.get('stark-inside').def, beside = { partner: { name: 'Buck', team: def.ally.team }, rules: { tag: true } };
+  for (const t of G.Maps.get('stark-inside').trainers) {
+    F.healAll();
+    await run(st, 'stark-inside', [['js', h => h.battle('stark-inside:' + t.id, beside)]]);
+    won();
+  }
+  F.healAll();
+  await run(st, 'stark-deep', 'stark.charon');
+  assert.equal(last().key, 'stark-deep:commanders');
+  won();
+  console.log('[story] Mars and Jupiter at Stark Mountain:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.ok(F.flag('charon-caught') && !F.flag('buck-along'));
+  await run(st, 'survival-house', 'stark.buck-home');
+  assert.ok(F.flag('magma-stone-back'));
+  F.healAll();
+  await run(st, 'stark-deep', 'stark.heatran');
+  assert.equal(last().key, 'wild:485');
+  assert.ok(F.flag('chapter-62-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 61 after chapter 60: the ship to the Battle Zone, Flint and Volkner beside Barry, Route 225, the Survival Area. */
 async function chapter61(st) {
   const { G, S } = st;
@@ -4620,4 +4698,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter59(st);
   await chapter60(st);
   await chapter61(st);
+  await chapter62(st);
 });

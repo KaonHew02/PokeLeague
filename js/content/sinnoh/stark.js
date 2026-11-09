@@ -39,21 +39,21 @@
       'T.S...........................:~~~~~~~~~~~~~~~~:.S,,...T',
       ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,:~~~~~~~~~~~~~~~~:,,,,...T',
       ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,:~~~~~~~~~~~~~~~~:,,,,...T',
-      'T.............................:~~~~~~~~~~~~~~~~:.......T',
-      'T........T............T.......:~~~~~~~~~~~~~~~~:"""""""T',
-      'T."""""""......"""""""""""""..:~~~~~~~~~~~~~~~~:"""""""T',
-      'T.""""""".####."""""""""""""..:~~~~~~~~~~~~~~~~:"""""""T',
-      'T.""""""".####."""""""""""""..:~~~~~~~~~~~~~~~~:"""""""T',
-      'T.""""""".####."""""""""""""..:~~~~~~~~~~~~~~~~:"""""""T',
-      'T.""""""".####."""""""""""""..:~~~~~~~~~~~~~~~~:"""""""T',
-      'T.""""""".####."""""""""""""..:~~~~~~~~~~~~~~~~:"""""""T',
-      'T.........####................:~~~~~~~~~~~~~~~~:.......T',
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
+      'T.............................:~~~~~~~~~~~~~~~~:..,,...T',
+      'T........T............T.......:~~~~~~~~~~~~~~~~:"",,"""T',
+      'T."""""""......"""""""""""""..:~~~~~~~~~~~~~~~~:"",,"""T',
+      'T.""""""".####."""""""""""""..:~~~~~~~~~~~~~~~~:"",,"""T',
+      'T.""""""".####."""""""""""""..:~~~~~~~~~~~~~~~~:"",,"""T',
+      'T.""""""".####."""""""""""""..:~~~~~~~~~~~~~~~~:"",,"""T',
+      'T.""""""".####."""""""""""""..:~~~~~~~~~~~~~~~~:"",,"""T',
+      'T.""""""".####."""""""""""""..:~~~~~~~~~~~~~~~~:"",,"""T',
+      'T.........####................:~~~~~~~~~~~~~~~~:..,,...T',
+      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT,,TTTT'
     ],
-    connect: { west: { map: 'survival-area', offset: 3 }, north: { map: 'route227', offset: 36 } },
+    connect: { west: { map: 'survival-area', offset: 3 }, north: { map: 'route227', offset: 36 }, south: { map: 'route228', offset: 36 } },
     encounters: { walk: '@sinnoh-sea-route-226-area', water: '@sinnoh-sea-route-226-area' },
     signs: { '2,11': 'Route 226. East: the sea. Beyond it, the road to Stark Mountain.',
-             '49,11': 'Route 226. North: Route 227 to Stark Mountain. West: the sea and the Survival Area.' },
+             '49,11': 'Route 226. North: Route 227 to Stark Mountain. South: Route 228. West: the sea and the Survival Area.' },
     items: [{ x: 25, y: 5, item: 'carbos', flag: 'route226-carbos' }, { x: 38, y: 6, item: 'tm53', flag: 'route226-tm53' }],
     npcs: [{ id: 'hiker', who: 'hiker', x: 49, y: 3, move: 'look', say: 'See the smoke up north? That is Stark Mountain. People say it has not slept in a long time.' }],
     trainers: [
@@ -488,12 +488,14 @@
     const F = G.Field;
     if (F.flag('magma-stone-back')) {
       await h.say(T('The mountain is quiet again, but something is awake down there. Be careful, {player}.'), BUCK);
+      await h.say(T('And Grandfather\'s Battleground is open to you now. The Gym Leaders come there to battle, and some days so do I!'), BUCK);
       return;
     }
     await h.say(T('{player}! You made it. I showed the stone to Grandfather, and he went white.'), BUCK);
     await h.say(T('He says it holds down the heart of the mountain. So I ran all the way back and put it where it was.'), BUCK);
     await h.say(T('The shaking stopped. But I felt something looking at me from the lava, in the deepest room. Something huge.'), BUCK);
     await h.say(T('If anyone can face it, you can. Go and see!'), BUCK);
+    await h.say(T('And Grandfather\'s Battleground is open to you now. The Gym Leaders come there to battle, and some days so do I!'), BUCK);
     F.setFlag('magma-stone-back');
   }
 

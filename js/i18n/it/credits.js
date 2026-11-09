@@ -181,5 +181,8 @@ G.I18n.add({
   "Thank you for playing! The road to the volcano waits in a future update.": "Grazie per aver giocato! La strada per il vulcano ti aspetta in un futuro aggiornamento.",
   "Chapter 62 complete!": "Capitolo 62 completato!",
   "{player} crossed the sea to Stark Mountain, fought beside Buck, saw Team Galactic end for good and met Heatran in the deepest room.": "{player} ha attraversato il mare fino al Monte Ostile, ha lottato al fianco di Chicco, ha visto la fine del Team Galassia e ha incontrato Heatran nella sala più profonda.",
-  "Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.": "Grazie per aver giocato! Il Campo Lotta e il resto della Zona Lotta ti aspettano in un futuro aggiornamento."
+  "Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.": "Grazie per aver giocato! Il Campo Lotta e il resto della Zona Lotta ti aspettano in un futuro aggiornamento.",
+  "Chapter 63 complete!": "Capitolo 63 completato!",
+  "{player} crossed the sandstorm on Route 228, walked the shore to the Resort Area and found the Gym Leaders of Sinnoh waiting at the Battleground.": "{player} ha attraversato la tempesta di sabbia del Percorso 228, ha seguito la costa fino all'Area Svago e ha trovato i Capipalestra di Sinnoh ad aspettarlo al Campo Lotta.",
+  "Thank you for playing! The rest of Sinnoh waits in a future update.": "Grazie per aver giocato! Il resto di Sinnoh ti aspetta in un futuro aggiornamento."
 }, "it");

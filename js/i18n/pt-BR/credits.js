@@ -181,5 +181,8 @@ G.I18n.add({
   "Thank you for playing! The road to the volcano waits in a future update.": "Obrigado por jogar! A estrada para o vulcão espera por você em uma atualização futura.",
   "Chapter 62 complete!": "Capítulo 62 concluído!",
   "{player} crossed the sea to Stark Mountain, fought beside Buck, saw Team Galactic end for good and met Heatran in the deepest room.": "{player} cruzou o mar até Stark Mountain, lutou ao lado do Buck, viu o fim da Equipe Galáctica e encontrou Heatran na sala mais funda.",
-  "Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.": "Obrigado por jogar! O Battleground e o resto da Battle Zone esperam por você em uma atualização futura."
+  "Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.": "Obrigado por jogar! O Battleground e o resto da Battle Zone esperam por você em uma atualização futura.",
+  "Chapter 63 complete!": "Capítulo 63 concluído!",
+  "{player} crossed the sandstorm on Route 228, walked the shore to the Resort Area and found the Gym Leaders of Sinnoh waiting at the Battleground.": "{player} atravessou a tempestade de areia da Route 228, seguiu a costa até a Resort Area e encontrou os Líderes de Ginásio de Sinnoh esperando no Battleground.",
+  "Thank you for playing! The rest of Sinnoh waits in a future update.": "Obrigado por jogar! O resto de Sinnoh espera por você em uma atualização futura."
 }, "pt-BR");

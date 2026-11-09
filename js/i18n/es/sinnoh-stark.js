@@ -109,6 +109,7 @@ G.I18n.add({
   "And there you go.": "Y ahí vas tú.",
   "Go on, then. Whatever is at the bottom of this mountain, it has been waiting for a long time.": "Adelante, pues. Sea lo que sea lo que hay en el fondo de esta montaña, lleva mucho tiempo esperando.",
   "Route 226. East: the sea. Beyond it, the road to Stark Mountain.": "Ruta 226. Este: el mar. Más allá, el camino a Montaña Dura.",
-  "Route 226. North: Route 227 to Stark Mountain. West: the sea and the Survival Area.": "Ruta 226. Norte: Ruta 227 a Montaña Dura. Oeste: el mar y Zona Sobrevivir.",
-  "Route 227. North: Stark Mountain. Mind the ash.": "Ruta 227. Norte: Montaña Dura. Cuidado con la ceniza."
+  "Route 227. North: Stark Mountain. Mind the ash.": "Ruta 227. Norte: Montaña Dura. Cuidado con la ceniza.",
+  "And Grandfather's Battleground is open to you now. The Gym Leaders come there to battle, and some days so do I!": "Y el Campo de Batalla de mi abuelo ya está abierto para ti. Los Líderes de Gimnasio van allí a combatir, ¡y algunos días yo también!",
+  "Route 226. North: Route 227 to Stark Mountain. South: Route 228. West: the sea and the Survival Area.": "Ruta 226. Norte: Ruta 227 a Montaña Dura. Sur: Ruta 228. Oeste: el mar y Zona Sobrevivir."
 }, "es");

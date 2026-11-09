@@ -2432,12 +2432,21 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Mars and Jupiter have Platinum's levels: a team of three beside Buck wins 70-78%, one Pokémon alone with him 0-25%. Nothing was lowered. Surf also hits Buck's Claydol: Empoleon's team with Surf wins 33%, with Hydro Pump (Lv. 59) 70%, so the test team has that. Heatran at Lv. 50: 100% for a team of six.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the road east, the sea, the hollow, the links, a swimmer, Buck behind you, a pair beside him, the healing, losing and winning in the deepest room, Buck at home, Heatran run from, beaten and caught); `tests/story.test.cjs` the chapter after chapter 61 and the balance lines.
 
-### After chapter 62
+- **Chapter 63** ✅, the rest of the Battle Zone: Routes 228, 229 and 230 and the Resort Area (`js/content/sinnoh/resort.js`, translations `sinnoh-resort`), the Battleground (`js/content/sinnoh/battleground.js`, translations `sinnoh-battleground`). It ends with `ending(63)` the first time you walk into the Resort Area (flag `resort-welcome`).
+  - **Engine**: a map's `sandstorm: true` (Route 228) draws blowing sand (`render.js`) and makes its battles a sandstorm. A trainer's name is translated in the context `trainer-name` first (`js/i18n/<lang>/trainer-names.js`): the Swimmer Kurt is not Johto's Kurt, whose Chinese name is another.
+  - **Map**: `route226` has a road south from its far shore to `route228` (sand, rock, a pond with an islet, three walls of rock), then `route229` (flowers, a grove behind a Cut tree, the sea in the west), then `resort-area` (a villa and the Ribbon Syndicate with their doors shut, no Center as in Platinum; it can be flown to). `route230` is the sea from Route 229 west to Fight Area's sea (`fight-area` connects east), with an island and a hollow behind a cracked rock.
+  - **The Battleground**: `survival-ground` moved to `battleground.js` and grew to eleven places. Once `magma-stone-back` is set, four of the eight Gym Leaders, Cheryl (if `cheryl-with`), Riley and Buck come each day (`G.Battleground.today()`: a G.RNG from the device's date and the player id; flags `bg-<id>`, var `bg-day`); each battles once a day (their `done` marks are cleared when a new day's four are drawn). On the first day (var `bg-first`) Buck and Cheryl are always there. Talk to battle; the clerk names the day's four. Mira and Marley are not in the game yet. Buck at home now mentions it.
+  - **Names corrected**: Cheryl is 芽米 in Chinese (it was 小菊).
+  - **Left out**: the villa, the Ribbon Syndicate and its massages, Pokémon Kid Ariel, Rock Peak Ruins, the tutor of the strongest moves, the shard tutor, Barry's weekend battles, the Dowsing Machine's items, berries, the Shed Shell and the shards (not in the game).
+- **Balance:** the Battleground is measured like the Elite Four: a sensible team of six, each battle alone and fresh, at least 60%. With Platinum's levels Crasher Wake (45%), Candice (38%) and Riley (55%) fell short, so Wake and Riley are two levels lower and Candice four: now 70-100% for every one. Hyper Potions in place of the Full Restores made no difference. A team of three is printed for reference. Joanna's two teams on Route 230 are both marked as rematches on Serebii; the weaker one is her first.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the road south, the sandstorm in battle, the rock and the tree, the Resort Area's welcome and shut villa, the sea to Route 230 and Fight Area, the Battleground: nobody before the stone, the first day, the same four all day, once a day, other days, Cheryl only after Eterna Forest); `tests/story.test.cjs` the chapter after chapter 62 (every Trainer on the routes, the eleven of the Battleground) and the balance lines.
+
+### After chapter 63
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
-the Battle Tower. Ideas:
-1. Sinnoh after the League: the Battleground and its rematches; Routes 228 to 230 and the Resort Area; Lake Valor filling up again (a map that changes with a flag); Route 212 back to
-   Hearthome; Wayward Cave; Eterna's side of Route 211; Mt. Coronet B1F.
+the Battle Tower, and the whole Battle Zone. Ideas:
+1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Route 212 back to
+   Hearthome; Wayward Cave and Mira (then she comes to the Battleground); Eterna's side of Route 211; Mt. Coronet B1F; the villa.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

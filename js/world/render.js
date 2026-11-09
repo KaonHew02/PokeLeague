@@ -268,6 +268,19 @@ G.WorldRender = (() => {
         ctx.fillRect(Math.round(x), Math.round(y), s, s);
       }
     }
+    // A sandstorm (map `sandstorm`, Route 228, chapter 63): a dusty wash and grains blowing sideways, the same ones every time.
+    if (S.sand) {
+      const t = performance.now() / 1000, WW = W + 2 * TS, HH = H + 2 * TS;
+      ctx.fillStyle = 'rgba(176,132,70,0.26)';
+      ctx.fillRect(L - TS, Tp - TS, WW, HH);
+      for (let i = 0; i < 140; i++) {
+        const a = (i * 0.6180339) % 1, c = (i * 0.4142135 + 0.3) % 1, v = 260 + 180 * a;
+        const x = L - TS + ((a * WW + t * v) % WW), y = Tp - TS + ((c * HH + Math.sin(t * 1.3 + i) * TS * 0.6 + t * 18) % HH + HH) % HH;
+        // Light grains and darker ones, so they show over sand and grass alike.
+        ctx.fillStyle = i % 3 ? 'rgba(255,246,222,0.85)' : 'rgba(132,92,44,0.6)';
+        ctx.fillRect(Math.round(x), Math.round(y), PX * (3 + (i % 4)), PX);
+      }
+    }
     // A storm (map `storm`, chapter 38): rain slanting down, the same streaks every time.
     if (S.rain) {
       const t = performance.now() / 1000, WW = W + 2 * TS, HH = H + 2 * TS;

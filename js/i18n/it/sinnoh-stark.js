@@ -109,6 +109,7 @@ G.I18n.add({
   "And there you go.": "Ed ecco che vai.",
   "Go on, then. Whatever is at the bottom of this mountain, it has been waiting for a long time.": "Vai, allora. Qualunque cosa ci sia in fondo a questa montagna, aspetta da molto tempo.",
   "Route 226. East: the sea. Beyond it, the road to Stark Mountain.": "Percorso 226. Est: il mare. Oltre, la strada per il Monte Ostile.",
-  "Route 226. North: Route 227 to Stark Mountain. West: the sea and the Survival Area.": "Percorso 226. Nord: Percorso 227 per il Monte Ostile. Ovest: il mare e l'Area Sopravvivenza.",
-  "Route 227. North: Stark Mountain. Mind the ash.": "Percorso 227. Nord: Monte Ostile. Attenzione alla cenere."
+  "Route 227. North: Stark Mountain. Mind the ash.": "Percorso 227. Nord: Monte Ostile. Attenzione alla cenere.",
+  "And Grandfather's Battleground is open to you now. The Gym Leaders come there to battle, and some days so do I!": "E il Campo Lotta di mio nonno ora è aperto per te. I Capipalestra vengono a lottare lì, e certi giorni anch'io!",
+  "Route 226. North: Route 227 to Stark Mountain. South: Route 228. West: the sea and the Survival Area.": "Percorso 226. Nord: Percorso 227 per il Monte Ostile. Sud: Percorso 228. Ovest: il mare e l'Area Sopravvivenza."
 }, "it");

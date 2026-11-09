@@ -28,6 +28,7 @@
  *   move can use it from the party menu: the script runs), walkAround: { x, y, w, h, if, script } (step
  *   on every tile along the edge of that rectangle, then the script runs once), desert: true (wild
  *   Pokémon on any step, and a sandstorm in its battles).
+ *   Chapter 63: sandstorm: true (Route 228: blowing sand on the screen, a sandstorm in its battles).
  *   Chapter 62: ally: { if, name, team } (fights beside you against the map's double-battle trainers) and
  *   companion: { if, who, name, say } (walks behind you in place of your Pokémon).
  *   Chapter 46: afterBattle: { if, script } (after each battle on the map with a trainer standing there

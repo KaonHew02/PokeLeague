@@ -2,7 +2,7 @@
  * Chapter 61. Once you are Sinnoh's Champion the sailor on Snowpoint City's pier (snowpoint.js) sails to Fight Area. Barry runs up as you
  * come off the pier and takes you to the Battle Frontier, shut for now, where Flint and Volkner want a battle: a multi battle beside Barry
  * (flag fight-zone-met; lost, it all happens again). Platinum's teams for all four. Route 225 goes north over a river and through a gap in a cliff,
- * where Platinum needs Rock Climb, to the Survival Area: a Center, a mart, the Battleground (no battles yet), a house, the shard tutor's house
+ * where Platinum needs Rock Climb, to the Survival Area: a Center, a mart, the Battleground (battleground.js), a house, the shard tutor's house
  * (he is out). The road east goes on to Route 226 (stark.js). Barry waits in town (flag survival-barry), then `ending(61)`.
  * Left out: Route 230, the reporter and the cameraman, Lax Incense and the Green Shard (not in the game), the Super Rod (you have had one since Kanto).
  */
@@ -59,7 +59,7 @@
       'T~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       'T~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { north: { map: 'route225', offset: 0 } },
+    connect: { north: { map: 'route225', offset: 0 }, east: { map: 'route230', offset: 2 } },
     warps: [
       { x: 7, y: 6, locked: 'bzone.frontier' },
       { x: 7, y: 14, to: 'fight-center', spot: 'door' },
@@ -267,18 +267,6 @@
     npcs: [{ id: 'shopper', who: 'hiker', x: 6, y: 5, move: 'look', say: 'I buy Full Heals by the crate. You never know what is living on that volcano.' }]
   }).region = 'sinnoh';
 
-  G.Maps.def(Object.assign({
-    id: 'survival-ground', loc: 'survival-area', tileset: 'indoor', palette: 'gym', music: 'gym', battleBg: 'indoor',
-    rows: ['WWWWWWWWWWW', 'WWWWWWWWWWW', '___________', '___rrrrr___', '___rrrrr___', '___rrrrr___', '___________', '____X______'],
-    warps: [{ x: 4, y: 7, to: 'survival-area', spot: 'ground-door' }],
-    spots: { door: [4, 7, 'up'] },
-    npcs: [
-      { id: 'clerk', who: 'clerk', x: 2, y: 3, dir: 'right',
-        say: 'This is the Battleground. One day the Gym Leaders of Sinnoh will meet here to battle anyone who asks. We are not quite ready for them yet.' },
-      { id: 'fan', who: 'youngster', x: 8, y: 5, dir: 'left',
-        say: 'I came all this way to see Roark battle, and he is not here! I can wait. I have sandwiches.' }
-    ]
-  }, SINNOH));
 
   G.Maps.def(Object.assign({
     id: 'survival-house', loc: 'survival-area', tileset: 'indoor', palette: 'house', music: 'town', battleBg: 'indoor', rows: HOUSE,

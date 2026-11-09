@@ -909,6 +909,42 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: the Battleground (chapter 63), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const TEAMS = G.Battleground.TEAMS;
+  const mk = (list, rng) => list.map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), item ? { item } : {}));
+  const NO_ITEMS = ['maylene', 'wake'];
+  const rate = (id, team) => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: mk(TEAMS[id], rng), trainer: { id, name: id, ai: 'leader', items: NO_ITEMS.includes(id) ? {} : { 'full-restore': 2 }, prize: 120 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return Math.round(wins / 40 * 100) / 100;
+  };
+  // The team that crossed Stark Mountain, a few levels on.
+  const TOR = [389, 65, ['earthquake', 'crunch', 'giga-drain', 'synthesis']], INF = [392, 65, ['flare-blitz', 'close-combat', 'mach-punch', 'punishment']];
+  const EMP = [395, 65, ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet']];
+  const LUX = [405, 63, ['crunch', 'thunder-fang', 'discharge', 'roar']], STA = [398, 63, ['brave-bird', 'close-combat', 'aerial-ace', 'agility']];
+  const GAS = [423, 61, ['earthquake', 'surf', 'muddy-water', 'recover']], LUC = [448, 61, ['aura-sphere', 'close-combat', 'extreme-speed', 'dragon-pulse']];
+  const FLO = [419, 61, ['surf', 'crunch', 'aqua-jet', 'ice-fang']];
+  const SIX = { 'torterra 65 + 5': [TOR, LUX, STA, GAS, LUC, FLO], 'infernape 65 + 5': [INF, LUX, STA, GAS, LUC, FLO], 'empoleon 65 + 5': [EMP, LUX, STA, GAS, LUC, FLO] };
+  const THREE = { 'torterra 65 + 2': [TOR, LUX, STA], 'infernape 65 + 2': [INF, LUX, STA], 'empoleon 65 + 2': [EMP, LUX, STA] };
+  const six = {}, three = {};
+  for (const id of G.Battleground.POOL) {
+    six[id] = {}; three[id] = {};
+    for (const [k, t] of Object.entries(SIX)) six[id][k] = rate(id, t);
+    for (const [k, t] of Object.entries(THREE)) three[id][k] = rate(id, t);
+  }
+  console.log('[balance] vs the Battleground, teams of six:', JSON.stringify(six));
+  console.log('[balance] vs the Battleground, teams of three (for reference):', JSON.stringify(three));
+  for (const id of G.Battleground.POOL) for (const k of Object.keys(SIX)) assert.ok(six[id][k] >= 0.6, id + ', ' + k);
+});
+
 test('balance: Mars and Jupiter beside Buck, and Heatran (chapter 62), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const def = G.Maps.get('stark-deep').def, L = def.commanders;
@@ -4288,6 +4324,23 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 63 after chapter 62: Routes 228, 229 and 230, the Battleground, the Resort Area. */
+async function chapter63(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  for (const m of ['route228', 'route229', 'route230']) for (const t of G.Maps.get(m).trainers) { await fight(m, t.id); won(); }
+  // The Battleground: each of the eleven once, whoever the day brings.
+  const results = {};
+  for (const t of G.Maps.get('survival-ground').trainers) { await fight('survival-ground', t.id); results[t.id] = last().outcome; }
+  console.log('[story] the Battleground:', JSON.stringify(results), 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  await run(st, 'resort-area', 'resort.arrive');
+  assert.ok(F.flag('resort-welcome') && F.flag('chapter-63-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 62 after chapter 61: Routes 226 and 227, Stark Mountain beside Buck, Mars and Jupiter, Charon, Heatran. */
 async function chapter62(st) {
   const { G, S } = st;
@@ -4699,4 +4752,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter60(st);
   await chapter61(st);
   await chapter62(st);
+  await chapter63(st);
 });

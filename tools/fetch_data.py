@@ -301,6 +301,8 @@ LOC_NAMES = {
     'survival-area':     ('Zona Sobrevivir',    'Area Sopravvivenza',  '生存区',     '生存區'),
     'sinnoh-sea-route-226': ('Ruta 226',        'Percorso 226',        '226号水路',  '226號水路'),
     'stark-mountain':    ('Montaña Dura',       'Monte Ostile',        '严酷山',     '嚴酷山'),
+    'sinnoh-sea-route-230': ('Ruta 230',        'Percorso 230',        '230号水路',  '230號水路'),
+    'resort-area':       ('Área Relax',         'Area Svago',          '名胜区',     '名勝區'),
     # Chapter 48.
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),

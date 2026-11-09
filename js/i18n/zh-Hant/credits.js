@@ -132,7 +132,7 @@ G.I18n.add({
   "{player} stood up to Team Galactic in Jubilife City, beat Barry again on Route 203, found Roark deep in the Oreburgh Mine and earned the Coal Badge.": "{player}在祝慶市挺身對抗銀河隊，在203號道路再次和阿馴對戰，在黑金礦山深處找到瓢太，並贏得了煤炭徽章。",
   "Thank you for playing! Route 204 and Floaroma Town wait in a future update.": "感謝遊玩！204號道路和苑之鎮將在之後的更新中登場。",
   "Chapter 46 complete!": "第四十六章完成！",
-  "{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.": "{player}把銀河隊趕出了苑之鎮花田和山谷發電廠，和小菊一起穿過百代森林，並從菜種那裡贏得了森林徽章。",
+  "{player} drove Team Galactic out of Floaroma Meadow and the Valley Windworks, crossed Eterna Forest with Cheryl and earned the Forest Badge from Gardenia.": "{player}把銀河隊趕出了苑之鎮花田和山谷發電廠，和芽米一起穿過百代森林，並從菜種那裡贏得了森林徽章。",
   "Thank you for playing! Team Galactic's building in Eterna City waits in a future update.": "感謝遊玩！百代市的銀河隊大樓將在之後的更新中登場。",
   "Chapter 47 complete!": "第四十七章完成！",
   "{player} freed a Clefairy from Team Galactic's Eterna Building, rode down Cycling Road, met Cyrus inside Mt. Coronet and earned the Relic Badge from Fantina.": "{player}從銀河隊百代大樓救出了皮皮，騎車衝下自行車道，在天冠山遇見了赤日，並從梅麗莎那裡贏得了遺跡徽章。",
@@ -181,5 +181,8 @@ G.I18n.add({
   "Thank you for playing! The road to the volcano waits in a future update.": "感謝遊玩！通往火山的路將在之後的更新中等著你。",
   "Chapter 62 complete!": "第六十二章完成！",
   "{player} crossed the sea to Stark Mountain, fought beside Buck, saw Team Galactic end for good and met Heatran in the deepest room.": "{player}渡海來到嚴酷山，和麥可並肩作戰，見證了銀河隊的終結，並在最深處的房間遇到了席多藍恩。",
-  "Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.": "感謝遊玩！對決場和對戰特區的其他地方將在之後的更新中等著你。"
+  "Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.": "感謝遊玩！對決場和對戰特區的其他地方將在之後的更新中等著你。",
+  "Chapter 63 complete!": "第六十三章完成！",
+  "{player} crossed the sandstorm on Route 228, walked the shore to the Resort Area and found the Gym Leaders of Sinnoh waiting at the Battleground.": "{player}穿過228號道路的沙暴，沿著海岸走到名勝區，還在對決場遇到了等著對戰的神奧道館館主們。",
+  "Thank you for playing! The rest of Sinnoh waits in a future update.": "感謝遊玩！神奧的其他地方將在之後的更新中等著你。"
 }, "zh-Hant");

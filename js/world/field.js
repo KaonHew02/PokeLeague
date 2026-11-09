@@ -810,7 +810,7 @@ G.World = (() => {
     const sea = (surfing || fishing) && map.tileset === 'outdoor' && !map.def.cave;
     const rules = { canLose: !!canLose, where: map.loc || map.id, obeyCap: G.Field.obeyCap(map.def.region) };
     if (stormy()) rules.weather = 'rain';
-    if (map.def.desert) rules.weather = 'sand';                // the desert's sandstorm (chapter 41)
+    if (map.def.desert || map.def.sandstorm) rules.weather = 'sand';   // the desert's sandstorm (chapter 41), Route 228's (chapter 62)
     if (map.def.hail) rules.weather = 'hail';                  // the snow of northern Sinnoh (chapter 53)
     if (d && d.double) rules.double = true;
     return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld', rules };
@@ -900,6 +900,8 @@ G.World = (() => {
     if (a && out !== 'lose' && G.Field.test(a.if)) await runScript(a.script, {});
   }
 
+  /** A trainer's name is looked up in the context "trainer-name" first (chapter 63: a Swimmer named Kurt is not
+   *  Johto's Kurt, whose Chinese name is another), then as any other text. */
   /** The class label ('Bug Catcher'): G.TRAINER_CLASSES (M6), else the class id made readable. */
   function classTitle(d) {
     const cls = G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls];
@@ -910,13 +912,13 @@ G.World = (() => {
   function trainerName(d) {
     if (!d.name) return null;
     const label = classTitle(d);
-    return label ? G.T(label, classCtx(d)) + ' ' + G.T(d.name) : G.T(d.name);
+    return label ? G.T(label, classCtx(d)) + ' ' + G.T(d.name, 'trainer-name') : G.T(d.name, 'trainer-name');
   }
 
   /** A map trainer as G.BattleUI.trainer wants it. */
   function battleTrainer(d, key) {
     const cls = (G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls]) || {};
-    return { id: key, name: d.name ? G.T(d.name) : '', title: classTitle(d), titleCtx: classCtx(d), who: d.who, cls: d.cls,
+    return { id: key, name: d.name ? G.T(d.name, 'trainer-name') : '', title: classTitle(d), titleCtx: classCtx(d), who: d.who, cls: d.cls,
              ai: d.ai || (d.leader ? 'leader' : 'basic'), prize: d.prize != null ? d.prize : cls.prize,
              items: d.items || {}, leader: !!d.leader, team: d.team, music: d.music || null };
   }
@@ -1723,7 +1725,7 @@ G.World = (() => {
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(), snow: !!map.def.snow, bubbles: under(), rain: stormy(), fog: foggy(),
+      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(), snow: !!map.def.snow, sand: !!map.def.sandstorm, bubbles: under(), rain: stormy(), fog: foggy(),
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }

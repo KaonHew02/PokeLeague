@@ -109,6 +109,7 @@ G.I18n.add({
   "And there you go.": "你也要走了。",
   "Go on, then. Whatever is at the bottom of this mountain, it has been waiting for a long time.": "去吧。不管這座山的最深處有什麼，牠已經等了很久了。",
   "Route 226. East: the sea. Beyond it, the road to Stark Mountain.": "226號水路。東：大海。海的那邊是通往嚴酷山的路。",
-  "Route 226. North: Route 227 to Stark Mountain. West: the sea and the Survival Area.": "226號水路。北：227號道路通往嚴酷山。西：大海和生存區。",
-  "Route 227. North: Stark Mountain. Mind the ash.": "227號道路。北：嚴酷山。小心火山灰。"
+  "Route 227. North: Stark Mountain. Mind the ash.": "227號道路。北：嚴酷山。小心火山灰。",
+  "And Grandfather's Battleground is open to you now. The Gym Leaders come there to battle, and some days so do I!": "爺爺的對決場現在也向你開放了。道館館主們會去那裡對戰，有些日子我也會去！",
+  "Route 226. North: Route 227 to Stark Mountain. South: Route 228. West: the sea and the Survival Area.": "226號水路。北：227號道路通往嚴酷山。南：228號道路。西：大海和生存區。"
 }, "zh-Hant");

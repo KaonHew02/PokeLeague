@@ -3479,7 +3479,7 @@ test('Sinnoh (chapter 57): Rowan, the road east, Sunyshore City, Flint, the ligh
 });
 
 test('Sinnoh (chapter 58): the sea north of Sunyshore, the waterfall, the Beacon Badge, Victory Road with its boulder and lake, Barry', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W, later } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3661,7 +3661,7 @@ test("Sinnoh's League (chapter 59): the lobby and its guard, doors that open aft
 });
 
 test("Sinnoh after the League (chapter 60): the National Pokédex, three caves, a second roaming Pokémon, the orbs, Dialga and Palkia", async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3817,7 +3817,7 @@ test("Sinnoh after the League (chapter 60): the National Pokédex, three caves, 
 });
 
 test('the Battle Zone (chapter 61): the ship, Flint and Volkner beside Barry, Route 225 over the river, the Survival Area', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3913,7 +3913,7 @@ test('the Battle Zone (chapter 61): the ship, Flint and Volkner beside Barry, Ro
 });
 
 test('Stark Mountain (chapter 62): over the sea, Buck beside you, the end of Team Galactic, Heatran', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -4035,6 +4035,120 @@ test('Stark Mountain (chapter 62): over the sea, Buck beside you, the end of Tea
   assert.ok(F.flag('heatran-caught'));
   W.load('stark-deep', { x: 10, y: 4, dir: 'up' });
   assert.ok(!seen('heatran'));
+});
+
+test('the end of the Battle Zone (chapter 63): Route 228 in a sandstorm, Route 229, the Resort Area, Route 230, the Battleground', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 32 }, (_, i) => i + 1);
+  S.player.surf = 1;
+  S.player.lastHeal = { map: 'survival-center', spot: 'mat' };
+  F.giveMon('empoleon', 66, { moves: ['surf', 'rock-smash', 'cut'] });
+  F.giveMon('luxray', 64, { moves: ['spark'] });
+  const until = async ok => { for (let i = 0; i < 900 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const cross = async (dir, to) => { step(W, dir); await until(() => W.map.id === to && !W.locked); };
+  const at = (x, y) => assert.deepEqual([W.player.x, W.player.y], [x, y]);
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const talk = () => pump(W, W.interact());
+  const fights = [], rules = [];
+  W.onTrainer = async (d, info) => { fights.push(d.id); rules.push(info && info.rules); return 'win'; };
+  G.Dialog.ask = () => Promise.resolve(0);
+  // South from Route 226 into the sandstorm; its battles are in a sandstorm too.
+  W.load('route226', { x: 50, y: 23, dir: 'down' });
+  await cross('down', 'route228');
+  at(14, 0);
+  W.load('route228', { x: 14, y: 4, dir: 'down' });
+  await settle();
+  step(W, 'down');
+  await until(() => fights.includes('jose') && !W.locked);
+  assert.equal(rules.at(-1).weather, 'sand');
+  W.load('route228', { x: 22, y: 28, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked', 'the cracked rock');
+  await settle();
+  // Route 229, the grove behind a tree, and the Resort Area.
+  W.load('route228', { x: 14, y: 45, dir: 'down' });
+  await cross('down', 'route229');
+  at(14, 0);
+  W.load('route229', { x: 11, y: 20, dir: 'down' });
+  assert.equal(step(W, 'down'), 'blocked', 'the tree');
+  await settle();
+  W.load('route229', { x: 24, y: 29, dir: 'down' });
+  await cross('down', 'resort-area');
+  at(24, 0);
+  await settle();
+  step(W, 'down');
+  await until(() => F.flag('chapter-63-done') && !W.locked);
+  assert.ok(F.flag('resort-welcome') && G.Maps.get('resort-area').def.fly);
+  W.load('resort-area', { x: 6, y: 9, dir: 'up' });
+  step(W, 'up');
+  await settle();
+  assert.equal(W.map.id, 'resort-area', 'the villa is shut');
+  // West over the sea to Fight Area.
+  W.load('route229', { x: 6, y: 12, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked', 'the sea');
+  await settle();
+  W.load('route229', { x: 0, y: 12, dir: 'left' });
+  assert.ok(W.surfing);
+  await cross('left', 'route230');
+  at(59, 4);
+  W.load('route230', { x: 29, y: 10, dir: 'down' });
+  assert.equal(step(W, 'down'), 'blocked', 'the cracked rock on the island');
+  await settle();
+  W.load('route230', { x: 0, y: 10, dir: 'left' });
+  await cross('left', 'fight-area');
+  at(33, 12);
+  // The Battleground: nobody before Buck has put the stone back.
+  G.Clock.day = () => '2026-11-10';
+  const enterGround = async () => { W.load('survival-area', 'ground-door'); W.player.face('up'); step(W, 'up'); await until(() => W.map.id === 'survival-ground' && !W.locked); };
+  await enterGround();
+  assert.equal(G.Battleground.roster().length, 0);
+  assert.ok(!G.Battleground.POOL.some(seen) && seen('fan') && !seen('fan2'));
+  F.setFlag('magma-stone-back');
+  F.setFlag('cheryl-with');
+  F.setFlag('riley-done');
+  await enterGround();
+  const first = G.Battleground.roster();
+  assert.equal(first.length, 4);
+  assert.ok(first.includes('buck') && first.includes('cheryl'), 'Buck and Cheryl on the first day');
+  assert.deepEqual(G.Battleground.POOL.filter(seen), first);
+  await enterGround();
+  assert.deepEqual(G.Battleground.roster(), first, 'the same all day');
+  // Each battles once a day.
+  const def = id => G.Maps.get('survival-ground').trainers.find(t => t.id === id);
+  const face = id => { const t = def(id); W.load('survival-ground', { x: t.x, y: t.y + 1, dir: 'up' }); };
+  fights.length = 0;
+  face('buck');
+  await talk();
+  await settle();
+  await talk();
+  await settle();
+  assert.deepEqual(fights, ['buck'], 'once a day');
+  assert.ok(F.isDone('survival-ground:buck'));
+  // The next day: four more (not always Buck and Cheryl), and yesterday's battles are forgotten.
+  const days = {};
+  for (const d of ['2026-11-11', '2026-11-12', '2026-11-13', '2026-11-14']) {
+    G.Clock.day = () => d;
+    await enterGround();
+    days[d] = G.Battleground.roster();
+    assert.equal(days[d].length, 4);
+    assert.ok(!F.isDone('survival-ground:buck'), 'a new day');
+  }
+  assert.ok(Object.values(days).some(r => !(r.includes('buck') && r.includes('cheryl'))));
+  assert.ok(new Set(Object.values(days).flat()).size > 4, 'different people on different days');
+  // Without Cheryl's walk in Eterna Forest, she never comes.
+  F.clearFlag('cheryl-with');
+  for (const d of ['2026-11-15', '2026-11-16', '2026-11-17', '2026-11-18', '2026-11-19']) {
+    G.Clock.day = () => d;
+    await enterGround();
+    assert.ok(!G.Battleground.roster().includes('cheryl'));
+  }
+  // The clerk names the day's four.
+  W.load('survival-ground', { x: 2, y: 9, dir: 'left' });
+  await talk();
 });
 
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {

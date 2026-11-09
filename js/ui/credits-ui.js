@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 63) return { title: T('Chapter 63 complete!'),
+      done: fmt('{player} crossed the sandstorm on Route 228, walked the shore to the Resort Area and found the Gym Leaders of Sinnoh waiting at the Battleground.', { player }),
+      next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };
     if (n === 62) return { title: T('Chapter 62 complete!'),
       done: fmt('{player} crossed the sea to Stark Mountain, fought beside Buck, saw Team Galactic end for good and met Heatran in the deepest room.', { player }),
       next: T('Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.') };

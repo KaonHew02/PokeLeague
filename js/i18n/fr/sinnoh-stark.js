@@ -109,6 +109,7 @@ G.I18n.add({
   "And there you go.": "Et te voilà parti.",
   "Go on, then. Whatever is at the bottom of this mountain, it has been waiting for a long time.": "Vas-y, alors. Quoi qu'il y ait au fond de cette montagne, ça attend depuis longtemps.",
   "Route 226. East: the sea. Beyond it, the road to Stark Mountain.": "Chenal 226. Est : la mer. Au-delà, la route du Mont Abrupt.",
-  "Route 226. North: Route 227 to Stark Mountain. West: the sea and the Survival Area.": "Chenal 226. Nord : Route 227 vers le Mont Abrupt. Ouest : la mer et l'Aire de Survie.",
-  "Route 227. North: Stark Mountain. Mind the ash.": "Route 227. Nord : Mont Abrupt. Attention à la cendre."
+  "Route 227. North: Stark Mountain. Mind the ash.": "Route 227. Nord : Mont Abrupt. Attention à la cendre.",
+  "And Grandfather's Battleground is open to you now. The Gym Leaders come there to battle, and some days so do I!": "Et le Terrain de Combat de mon grand-père t'est ouvert maintenant. Les Champions d'Arène viennent s'y battre, et certains jours moi aussi !",
+  "Route 226. North: Route 227 to Stark Mountain. South: Route 228. West: the sea and the Survival Area.": "Chenal 226. Nord : Route 227 vers le Mont Abrupt. Sud : Route 228. Ouest : la mer et l'Aire de Survie."
 }, "fr");

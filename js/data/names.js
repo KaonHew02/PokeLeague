@@ -1547,7 +1547,7 @@ G.NAMES = {
     "snowpoint-temple": ["Snowpoint Temple","Snowpoint Temple","Temple Frimapic","Snowpoint Temple","Snowpoint Temple","Snowpoint Temple"],
     "wayward-cave": ["Wayward Cave","Wayward Cave","Grotte Revèche","Wayward Cave","Wayward Cave","Wayward Cave"],
     "ruin-maniac-cave": ["Ruin Maniac Cave","Ruin Maniac Cave","Grotte Ruinem.","Ruin Maniac Cave","Ruin Maniac Cave","Ruin Maniac Cave"],
-    "trophy-garden": ["Trophy Garden","Trophy Garden","Jardin Trophée","Trophy Garden","Trophy Garden","Trophy Garden"],
+    "trophy-garden": ["Trophy Garden","Trophy Garden","Jardin Trophée","Trophy Garden","自豪的后院","自豪的後院"],
     "iron-island": ["Iron Island","Isla Hierro","Ile de Fer","Isola Ferrosa","钢铁岛","鋼鐵島"],
     "old-chateau": ["Old Chateau","Old Chateau","Vieux Château","Old Chateau","Old Chateau","Old Chateau"],
     "lake-verity": ["Lake Verity","Lago Veraz","Lac Vérité","Lago Verità","心齐湖","心齊湖"],

@@ -184,5 +184,7 @@ G.I18n.add({
   "Thank you for playing! The Battleground and the rest of the Battle Zone wait in a future update.": "Obrigado por jogar! O Battleground e o resto da Battle Zone esperam por você em uma atualização futura.",
   "Chapter 63 complete!": "Capítulo 63 concluído!",
   "{player} crossed the sandstorm on Route 228, walked the shore to the Resort Area and found the Gym Leaders of Sinnoh waiting at the Battleground.": "{player} atravessou a tempestade de areia da Route 228, seguiu a costa até a Resort Area e encontrou os Líderes de Ginásio de Sinnoh esperando no Battleground.",
-  "Thank you for playing! The rest of Sinnoh waits in a future update.": "Obrigado por jogar! O resto de Sinnoh espera por você em uma atualização futura."
+  "Thank you for playing! The rest of Sinnoh waits in a future update.": "Obrigado por jogar! O resto de Sinnoh espera por você em uma atualização futura.",
+  "Chapter 64 complete!": "Capítulo 64 concluído!",
+  "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player} percorreu a Route 212 de Hearthome City a Pastoria City sob sol e chuva, batalhou com as empregadas da Pokémon Mansion e conheceu o Sr. Backlot."
 }, "pt-BR");

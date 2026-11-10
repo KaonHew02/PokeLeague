@@ -1,6 +1,6 @@
 /* ============ pastoria.js — Pastoria City, Crasher Wake's Gym and the Great Marsh ============
  * Chapter 49, the end of the chapter. Pastoria City: a Pokémon Center, a Mart, a house, the Croagunk statue and the
- * Gym; Route 212 to the west is flooded. Crasher Wake uses Water types (Gyarados, Quagsire, Floatzel); his pool is
+ * Gym; Route 212 to the west is flooded until the Fen Badge (route212.js). Crasher Wake uses Water types (Gyarados, Quagsire, Floatzel); his pool is
  * crossed on walkways, and Trainers stand beside them, so nobody can be walked around. He gives the Fen Badge (badge
  * 28, the fifth Sinnoh badge: Pokémon up to Lv. 50 obey in Sinnoh) and TM55 (Brine). Then Barry tells you of a man
  * at the Great Marsh gate: a grunt sets off a test bomb and runs (flag marsh-bomb) to Valor Lakefront (lakefront.js,
@@ -54,7 +54,7 @@
       'T~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~T',
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
-    connect: { east: { map: 'route213', offset: 8 } },
+    connect: { east: { map: 'route213', offset: 8 }, west: { map: 'route212s', offset: 0 } },
     warps: [
       { x: 6, y: 11, to: 'pastoria-center', spot: 'door' },
       { x: 12, y: 11, to: 'pastoria-mart', spot: 'door' },
@@ -69,8 +69,8 @@
       '19,6': 'The Great Marsh. A Safari Game at the gate: ₽500 for 30 Safari Balls and 500 steps.'
     },
     npcs: [
-      // Route 212 opens in a later chapter.
-      { id: 'west', who: 'gentleman', x: 1, y: 14, dir: 'right',
+      // Route 212 opens with the Fen Badge (route212.js, chapter 64).
+      { id: 'west', who: 'gentleman', x: 1, y: 14, dir: 'right', if: '!badge:28',
         say: 'Route 212 is flooded after all this rain. Better wait until the water goes down.' },
       { id: 'barry', who: 'barry', x: 22, y: 13, dir: 'up', if: ['badge:28', '!marsh-bomb'], script: 'pastoria.barry-bomb' },
       { id: 'grunt', who: 'galactic', x: 17, y: 5, dir: 'down', if: ['badge:28', '!marsh-bomb'], script: 'pastoria.bomb' },

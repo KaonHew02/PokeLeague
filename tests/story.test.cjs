@@ -4324,6 +4324,21 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 64 after chapter 63: Route 212, the Pokémon Mansion, Mr. Backlot. */
+async function chapter64(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const fight = async (mapId, id) => { F.healAll(); await run(st, mapId, [['battle', mapId + ':' + id]]); };
+  let n = 0;
+  for (const m of ['route212n', 'route212s', 'pokemon-mansion']) for (const t of G.Maps.get(m).trainers) { await fight(m, t.id); won(); n++; }
+  console.log('[story] Route 212 and the Pokémon Mansion:', n, 'Trainers beaten with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  await run(st, 'pokemon-mansion', 'r212.backlot');
+  assert.ok(F.flag('backlot-met') && F.flag('chapter-64-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 63 after chapter 62: Routes 228, 229 and 230, the Battleground, the Resort Area. */
 async function chapter63(st) {
   const { G, S } = st;
@@ -4753,4 +4768,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter61(st);
   await chapter62(st);
   await chapter63(st);
+  await chapter64(st);
 });

@@ -71,5 +71,9 @@ G.I18n.add({
   "Poké Kid": "Pokéniña",
   "Veteran": "Veterano",
   "Double Team": "Pareja",
-  "Pokémon Ranger": "Guarda Pokémon"
+  "Pokémon Ranger": "Guarda Pokémon",
+  "Maid": "Doncella",
+  "Lady": "Damisela",
+  "Socialite": "Dama",
+  "Parasol Lady": "Dama Parasol"
 }, "es");

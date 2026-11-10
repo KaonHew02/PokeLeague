@@ -92,6 +92,11 @@ G.TRAINER_CLASSES = {
   'galactic-commander-m': { title: 'Team Galactic Commander', who: 'saturn', prize: 50 },
   'galactic-commanders': { title: 'Galactic Commanders', who: 'mars', prize: 50 },
   'rich-boy':    { title: 'Rich Boy', who: 'gentleman', prize: 120 },
+  // Chapter 64: the Pokémon Mansion and Route 212.
+  maid:          { title: 'Maid', who: 'maid', prize: 40 },
+  lady:          { title: 'Lady', who: 'lady', prize: 160 },
+  socialite:     { title: 'Socialite', who: 'socialite', prize: 200 },
+  'parasol-lady': { title: 'Parasol Lady', who: 'parasol', prize: 32 },
   veteran:       { title: 'Veteran', who: 'gentleman', prize: 80 },
   'double-team': { title: 'Double Team', who: 'cooltrainerm', prize: 48 },
   policeman:     { title: 'Policeman', who: 'officer', prize: 40 },

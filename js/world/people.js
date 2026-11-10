@@ -28,7 +28,7 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -321,6 +321,12 @@ G.People = (() => {
     rangerf: { head: 'long', body: 'jacket', legs: 'pants', h: '#a8603a', H: '#7c4426', j: '#4a7a4a', J: '#345a34', c: '#d84a3a', C: '#a83428', p: '#6a5a44', P: '#4a3e2e', k: '#2e2a24' },
     // Chapter 62: Buck (spiky red hair like his brother Flint, a dark jacket over orange), Charon (white hair, a scientist's long coat).
     buck: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#d8482a', H: '#a8321c', j: '#2e2e38', J: '#1c1c24', c: '#e8873a', C: '#b8642a', p: '#6a5a44', P: '#4a3e2e', k: '#2e2a24' },
+    // Chapter 64: a Maid (black dress, white apron), a Lady (blonde, a pink dress), a Socialite (dark hair, a purple gown),
+    // a Parasol Lady (long brown hair, a white dress).
+    maid: { head: 'long', body: 'dress', legs: 'bare', h: '#6a4a32', H: '#4a3020', c: '#f4f4f4', C: '#c8c8d0', j: '#2a2a34', J: '#16161e', k: '#1a1a1a' },
+    lady: { head: 'long', body: 'dress', legs: 'bare', h: '#f0d878', H: '#c8ac4c', c: '#f4a8c4', C: '#d07c9c', j: '#f4a8c4', J: '#d07c9c', k: '#f4f4f4' },
+    socialite: { head: 'short', body: 'dress', legs: 'bare', h: '#3a2a3a', H: '#22161e', c: '#8a4ab0', C: '#683488', j: '#8a4ab0', J: '#683488', k: '#3a2a3a' },
+    parasol: { head: 'long', body: 'dress', legs: 'bare', h: '#8a5a3a', H: '#5e3c24', c: '#f8f8f4', C: '#d8d8d0', j: '#f8f8f4', J: '#d8d8d0', k: '#e8a8b8' },
     charon: { head: 'short', body: 'coat', legs: 'pants', h: '#d4d4dc', H: '#a4a4b0', j: '#ececf2', J: '#b8b8c4', c: '#e8873a', C: '#b8642a', p: '#4a4a56', P: '#30303a', k: '#22222a' },
     // Chapter 54: Looker (dark hair, a long tan coat over a white shirt).
     looker: { head: 'short', body: 'coat', legs: 'pants', h: '#3a2e24', H: '#261e18', j: '#b8986a', J: '#8a6e48', c: '#ececf2', C: '#b8b8c4',

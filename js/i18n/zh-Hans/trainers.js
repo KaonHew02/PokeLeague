@@ -71,5 +71,9 @@ G.I18n.add({
   "Poké Kid": "宝可梦小孩",
   "Veteran": "老练训练家",
   "Double Team": "双人组",
-  "Pokémon Ranger": "宝可梦巡护员"
+  "Pokémon Ranger": "宝可梦巡护员",
+  "Maid": "女仆",
+  "Lady": "千金小姐",
+  "Socialite": "女士",
+  "Parasol Lady": "阳伞姐姐"
 }, "zh-Hans");

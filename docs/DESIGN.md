@@ -2441,12 +2441,21 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** the Battleground is measured like the Elite Four: a sensible team of six, each battle alone and fresh, at least 60%. With Platinum's levels Crasher Wake (45%), Candice (38%) and Riley (55%) fell short, so Wake and Riley are two levels lower and Candice four: now 70-100% for every one. Hyper Potions in place of the Full Restores made no difference. A team of three is printed for reference. Joanna's two teams on Route 230 are both marked as rematches on Serebii; the weaker one is her first.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the road south, the sandstorm in battle, the rock and the tree, the Resort Area's welcome and shut villa, the sea to Route 230 and Fight Area, the Battleground: nobody before the stone, the first day, the same four all day, once a day, other days, Cheryl only after Eterna Forest); `tests/story.test.cjs` the chapter after chapter 62 (every Trainer on the routes, the eleven of the Battleground) and the balance lines.
 
-### After chapter 63
+- **Chapter 64** ✅, Route 212 (`js/content/sinnoh/route212.js`, translations `sinnoh-route212`; no engine change). It ends with `ending(64)` the first time you talk to Mr. Backlot once chapter 63 is done, so a player who comes this way in the middle of the game does not see it then.
+  - **Opening**: the people closing Route 212 in Hearthome City's south exit and Pastoria City's west exit leave with the Fen Badge (`!badge:28`): new players can take the road as in Platinum, after Crasher Wake.
+  - **Classes and people**: `maid`, `lady`, `socialite`, `parasol-lady` (and their pictures). A trainer's name in the context `trainer-name` keeps the Fisherman Juan and the Parasol Lady Sabrina apart from Hoenn's and Kanto's Gym Leaders in Chinese.
+  - **Map**: `route212n` (sunny: the road south from Hearthome, the Pokémon Mansion behind a fence, a pond with an islet, a grove behind a Cut tree; eight Trainers: a Rich Boy, a Lady, a Gentleman, a Socialite, four Police), `route212s` (`storm: true`: rain, marsh grass, three channels with bridges, a hill and a corner behind Cut trees, two islets; twelve Trainers: three Rangers, Police, two Scientists, a Collector, three Fishermen, two Parasol Ladies), east to Pastoria City. `pokemon-mansion`: a hall with a statue, Mr. Backlot's office (TM87), two rooms, five Maids (talk to them); when all five are beaten a Rich Boy and a Lady with Blissey come out (Platinum picks one by turns; here both). Its second door (bottom right) opens on `trophy-garden`.
+  - **The Trophy Garden**: Mr. Backlot names a Pokémon each day (`G.Route212.todays()`: one of Platinum's sixteen, a G.RNG from the device's date and the player id; vars `trophy-day`, `trophy-mon`). That day it lives in the garden (10%, in place of a third of Pichu's share); the garden's table is an object with getters for `mons`, `morning` and `night` (Platinum's rates by time of day), so no engine change was needed.
+  - **Left out**: the mud that holds you, the bridges for Bicycles, the shard tutor, Honey trees, berries, the Dowsing Machine's items, the Soothe Bell, the Luxury Ball, Rose Incense and the shards (not in the game), the Police being out only at night, the Maids' turn limit.
+- **Balance:** Platinum's levels (23-35): nothing to tune; `tests/story.test.cjs` prints one `[story]` line.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (shut before the badge from both ends, open after, north to south, the rain in battle, the tree and the channel, east to Pastoria, the Mansion's Maids and who comes out after them, Mr. Backlot's Pokémon of the day in the garden table, no ending before chapter 63, the back door); `tests/story.test.cjs` the chapter after chapter 63.
+
+### After chapter 64
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
-1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Route 212 back to
-   Hearthome; Wayward Cave and Mira (then she comes to the Battleground); Eterna's side of Route 211; Mt. Coronet B1F; the villa.
+1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Wayward Cave and Mira (then she
+   comes to the Battleground); Eterna's side of Route 211; Mt. Coronet B1F; the villa; the Contest Hall and Amity Square.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

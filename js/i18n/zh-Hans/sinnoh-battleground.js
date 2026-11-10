@@ -39,5 +39,8 @@ G.I18n.add({
   "Oh, and a girl called Mira has started coming too. She says a Champion once led her out of a cave.": "对了，一个叫麦儿的女孩也开始来了。她说曾经有一位冠军带她走出了洞窟。",
   "I said I would battle you one day, remember? I have not been lost once since then. Not even once!": "我说过总有一天要和你对战的，还记得吗？从那以后我一次都没迷过路。一次都没有！",
   "I lost the battle, but I did not get lost. That is progress!": "对战输了，可我没迷路。这就是进步！",
-  "Next time I go into a cave, I am taking a map. And a Champion.": "下次进洞窟，我要带地图。还要带一位冠军。"
+  "Next time I go into a cave, I am taking a map. And a Champion.": "下次进洞窟，我要带地图。还要带一位冠军。",
+  "...I came, like I said I would. Arcanine wanted a real battle. So do I.": "……我说过会来，就来了。风速狗想要一场真正的对战。我也是。",
+  "...You are still the strongest person I know.": "……你还是我认识的人里最强的。",
+  "I went back to the stone. Still nothing there. I will keep going back.": "我又去了石碑那里。还是什么都没有。我会一直去的。"
 }, "zh-Hans");

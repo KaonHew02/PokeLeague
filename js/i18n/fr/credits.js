@@ -190,5 +190,7 @@ G.I18n.add({
   "Chapter 65 complete!": "Chapitre 65 terminé !",
   "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} a trouvé Maïté perdue dans le noir de la Grotte Revèche, s'est battu à ses côtés jusqu'à la sortie et l'a vue rejoindre le Terrain de Combat.",
   "Chapter 66 complete!": "Chapitre 66 terminé !",
-  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} a gravi la Route 211 depuis Vestigion et a traversé le Mont Couronné par son vieux tunnel jusqu'à Célestia."
+  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} a gravi la Route 211 depuis Vestigion et a traversé le Mont Couronné par son vieux tunnel jusqu'à Célestia.",
+  "Chapter 67 complete!": "Chapitre 67 terminé !",
+  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player} a exploré le fond de la Route Victoire, a traversé avec Viviane le brouillard de la Route 224 et a lu la vieille pierre au bout."
 }, "fr");

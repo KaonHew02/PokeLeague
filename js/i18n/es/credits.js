@@ -190,5 +190,7 @@ G.I18n.add({
   "Chapter 65 complete!": "¡Capítulo 65 completado!",
   "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} encontró a Maiza perdida en la oscuridad de la Cueva Extravío, combatió a su lado hasta la salida y la vio unirse al Campo de Batalla.",
   "Chapter 66 complete!": "¡Capítulo 66 completado!",
-  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} subió la Ruta 211 desde Ciudad Vetusta y cruzó el Monte Corona por su viejo túnel hasta Pueblo Caelestis."
+  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} subió la Ruta 211 desde Ciudad Vetusta y cruzó el Monte Corona por su viejo túnel hasta Pueblo Caelestis.",
+  "Chapter 67 complete!": "¡Capítulo 67 completado!",
+  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player} entró en la parte más lejana de Calle Victoria, recorrió con Sémola la niebla de la Ruta 224 y leyó la vieja piedra del final."
 }, "es");

@@ -100,4 +100,5 @@ G.I18n.add({
   "All six of them are ready. This is the real one, {player}. Here we go!": "Os seis estão prontos. Esta é a de verdade, {player}. Lá vamos nós!",
   "...That was everything I had. And you are still standing.": "...Isso era tudo o que eu tinha. E você ainda está de pé.",
   "All right. I get it. You are the one who goes first through those doors, and I will be right behind you. You had better not lose in there!": "Tudo bem. Entendi. Você passa primeiro por aquelas portas, e eu irei logo atrás. Não ouse perder lá dentro!",
+  "This part of Victory Road is for Trainers who are filling in the National Pokédex. Come back when you have one.": "Esta parte da Victory Road é para Treinadores que estão completando a Pokédex Nacional. Volte quando tiver uma."
 }, "pt-BR");

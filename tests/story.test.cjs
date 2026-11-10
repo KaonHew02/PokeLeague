@@ -909,6 +909,35 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Marley at the Battleground (chapter 67), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const mk = (list, rng) => list.map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), item ? { item } : {}));
+  const rate = team => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: mk(G.Battleground.TEAMS.marley, rng), trainer: { id: 'marley', name: 'Marley', ai: 'leader', items: { 'full-restore': 2 }, prize: 120 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return Math.round(wins / 40 * 100) / 100;
+  };
+  // The same teams as for the rest of the Battleground (chapter 63).
+  const TOR = [389, 65, ['earthquake', 'crunch', 'giga-drain', 'synthesis']], INF = [392, 65, ['flare-blitz', 'close-combat', 'mach-punch', 'punishment']];
+  const EMP = [395, 65, ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet']];
+  const LUX = [405, 63, ['crunch', 'thunder-fang', 'discharge', 'roar']], STA = [398, 63, ['brave-bird', 'close-combat', 'aerial-ace', 'agility']];
+  const GAS = [423, 61, ['earthquake', 'surf', 'muddy-water', 'recover']], LUC = [448, 61, ['aura-sphere', 'close-combat', 'extreme-speed', 'dragon-pulse']];
+  const FLO = [419, 61, ['surf', 'crunch', 'aqua-jet', 'ice-fang']];
+  const SIX = { 'torterra 65 + 5': [TOR, LUX, STA, GAS, LUC, FLO], 'infernape 65 + 5': [INF, LUX, STA, GAS, LUC, FLO], 'empoleon 65 + 5': [EMP, LUX, STA, GAS, LUC, FLO] };
+  const THREE = { 'torterra 65 + 2': [TOR, LUX, STA], 'infernape 65 + 2': [INF, LUX, STA], 'empoleon 65 + 2': [EMP, LUX, STA] };
+  const six = Object.fromEntries(Object.entries(SIX).map(([k, t]) => [k, rate(t)]));
+  const three = Object.fromEntries(Object.entries(THREE).map(([k, t]) => [k, rate(t)]));
+  console.log('[balance] vs Marley at the Battleground, teams of six:', JSON.stringify(six), 'teams of three (for reference):', JSON.stringify(three));
+  for (const k of Object.keys(SIX)) assert.ok(six[k] >= 0.6, 'Marley, ' + k);
+});
+
 test('balance: Mira at the Battleground (chapter 65), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const mk = (list, rng) => list.map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), item ? { item } : {}));
@@ -964,8 +993,8 @@ test('balance: the Battleground (chapter 63), win rates of typical teams are pri
   const SIX = { 'torterra 65 + 5': [TOR, LUX, STA, GAS, LUC, FLO], 'infernape 65 + 5': [INF, LUX, STA, GAS, LUC, FLO], 'empoleon 65 + 5': [EMP, LUX, STA, GAS, LUC, FLO] };
   const THREE = { 'torterra 65 + 2': [TOR, LUX, STA], 'infernape 65 + 2': [INF, LUX, STA], 'empoleon 65 + 2': [EMP, LUX, STA] };
   const six = {}, three = {};
-  // The eleven of chapter 63 (Mira, from chapter 65, has her own line).
-  for (const id of G.Battleground.POOL.filter(id => id !== 'mira')) {
+  // The eleven of chapter 63 (Mira, from chapter 65, and Marley, from chapter 67, have their own lines).
+  for (const id of G.Battleground.POOL.filter(id => !['mira', 'marley'].includes(id))) {
     six[id] = {}; three[id] = {};
     for (const [k, t] of Object.entries(SIX)) six[id][k] = rate(id, t);
     for (const [k, t] of Object.entries(THREE)) three[id][k] = rate(id, t);
@@ -4354,6 +4383,32 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 67 after chapter 66: the inner Victory Road and Route 224 beside Marley, then Marley at the Battleground. */
+async function chapter67(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  assert.ok(F.flag('national-dex'));
+  await run(st, 'victory-inside', 'r224.marley');
+  assert.ok(F.flag('marley-met') && F.flag('marley-along'));
+  const beside = { partner: { name: 'Marley', team: G.Route224.MARLEY_TEAM }, rules: { tag: true } };
+  let n = 0;
+  for (const m of ['victory-inside', 'victory-exit', 'route224']) {
+    for (const t of G.Maps.get(m).trainers) {
+      F.healAll();
+      await run(st, m, [['js', h => h.battle(m + ':' + t.id, t.double ? beside : {})]]);
+      won(); n++;
+    }
+  }
+  await run(st, 'route224', 'r224.stone');
+  assert.ok(F.flag('marley-done') && !F.flag('marley-along') && F.flag('chapter-67-done'));
+  F.healAll();
+  await run(st, 'survival-ground', [['battle', 'survival-ground:marley']]);
+  console.log('[story] Victory Road and Route 224 beside Marley:', n, 'Trainers beaten; then Marley at the Battleground:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 66 after chapter 65: Route 211 West and the tunnel through Mt. Coronet. */
 async function chapter66(st) {
   const { G, S } = st;
@@ -4415,7 +4470,7 @@ async function chapter63(st) {
   for (const m of ['route228', 'route229', 'route230']) for (const t of G.Maps.get(m).trainers) { await fight(m, t.id); won(); }
   // The Battleground: each of the eleven once, whoever the day brings.
   const results = {};
-  for (const t of G.Maps.get('survival-ground').trainers.filter(t => t.id !== 'mira')) { await fight('survival-ground', t.id); results[t.id] = last().outcome; }
+  for (const t of G.Maps.get('survival-ground').trainers.filter(t => !['mira', 'marley'].includes(t.id))) { await fight('survival-ground', t.id); results[t.id] = last().outcome; }
   console.log('[story] the Battleground:', JSON.stringify(results), 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
   await run(st, 'resort-area', 'resort.arrive');
   assert.ok(F.flag('resort-welcome') && F.flag('chapter-63-done'));
@@ -4837,4 +4892,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter64(st);
   await chapter65(st);
   await chapter66(st);
+  await chapter67(st);
 });

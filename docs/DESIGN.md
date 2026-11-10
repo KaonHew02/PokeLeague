@@ -2466,12 +2466,22 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Platinum's levels; `tests/story.test.cjs` prints one `[story]` line.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (shut before the badge, the road, a Trainer, into the mountain, the cracked rock, shut beyond until chapter 52, out on Route 211 East, its north mouth unchanged, the ending only after chapter 65); `tests/story.test.cjs` the chapter after chapter 65.
 
-### After chapter 66
+- **Chapter 67** ✅, the inner Victory Road, Marley and Route 224 (`js/content/sinnoh/route224.js`, translations `sinnoh-route224`; no engine change). It ends with `ending(67)` at the stone at the end of Route 224; the way in opens only with the National Pokédex (chapter 60), so no player in the middle of the game sees it.
+  - **Opening**: a second mouth in the cliff south of the Pokémon League's plaza (`sinnoh-league`, 26,19), with an Ace Trainer in front of it until `national-dex`.
+  - **People**: `marley` (Marley, 米依; es Sémola, fr Viviane, it Risetta).
+  - **Map**: `victory-inside` (PokeAPI's inside table: a hall where Marley waits, two long rooms; the pairs Micah and Brandi, Desiree and Landon; Terrell, Arthur, Clarice alone) east to `victory-exit` (the exit table: the pairs Deandre and Kendra, Eddie and Willie; Autumn, Joe, Brenden alone) and out onto `route224` (`fog: true`; west to east along the shore, then north to the stone; Surf on the sea; Ruben, Maxwell, Armando, Larry, Hayden, singles as in Platinum). Items: Nugget, Full Restore, Leftovers, Dusk Stone, Big Pearl, Elixir, Up-Grade, PP Max, Ultra Ball, Razor Claw.
+  - **Story**: in the hall Marley asks to come along (flags `marley-met`, `marley-along`): she walks behind you (`companion`), fights beside you with Arcanine Lv. 59 against the pairs (`ally`; without her they are plain double battles) and heals the team after each battle (`afterBattle`). At the stone she reads it, thanks you and goes (flag `marley-done`). The Trainers' teams are Platinum's (51-58) as Serebii lists them; the pairs are mine (Serebii marks only Micah as a double-battle partner); the words on the stone are mine.
+  - **The Battleground**: Marley joins the days' draws once `marley-done` is set, with her Platinum team (61-65). The chapter 63 balance line and story keep to the first eleven.
+  - **Left out**: Seabreak Path and Shaymin (Platinum's event item, Oak's Letter), Victory Road B1F, the Dowsing Machine's items, berries, the Destiny Knot and the Repeat Ball (not in the game), wild double battles beside Marley (wild battles have no partner here).
+- **Balance:** Platinum's levels on the road. Marley at the Battleground is measured like the others (a sensible team of six, alone and fresh, at least 60%): 85-88% at Platinum's levels, so nothing is tuned. A team of three is printed for reference.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (shut without the National Pokédex, open with it, Marley beside you and behind you, a pair beside her and the healing, the inside to the exit area to Route 224, the fog, the stone and her goodbye, back into the mountain, Marley in the days' draws); `tests/story.test.cjs` the chapter after chapter 66 and the balance line for Marley.
+
+### After chapter 67
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
 1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Mt. Coronet B1F; the villa;
-   the Contest Hall and Amity Square; Marley (then she comes to the Battleground).
+   the Contest Hall and Amity Square; Victory Road B1F.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

@@ -190,5 +190,7 @@ G.I18n.add({
   "Chapter 65 complete!": "Capítulo 65 concluído!",
   "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} encontrou a Mira perdida no escuro da Wayward Cave, batalhou ao lado dela até a saída e a viu entrar no Battleground.",
   "Chapter 66 complete!": "Capítulo 66 concluído!",
-  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} subiu a Route 211 desde Eterna City e atravessou o Mt. Coronet pelo velho túnel até Celestic Town."
+  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} subiu a Route 211 desde Eterna City e atravessou o Mt. Coronet pelo velho túnel até Celestic Town.",
+  "Chapter 67 complete!": "Capítulo 67 concluído!",
+  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player} entrou na parte mais distante da Victory Road, atravessou com a Marley a névoa da Route 224 e leu a velha pedra no fim."
 }, "pt-BR");

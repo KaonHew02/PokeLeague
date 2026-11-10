@@ -366,19 +366,22 @@
       'T..............,...............T',
       'T..............,...............T',
       'T..............,...............T',
-      'T##############O###############T',
+      'T##############O##########O####T',
       'T##############################T',
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
     warps: [
       { x: 15, y: 8, to: 'sinnoh-league-lobby', spot: 'door' },
       { x: 25, y: 9, to: 'sinnoh-league-center', spot: 'door' },
-      { x: 15, y: 19, to: 'sinnoh-victory-1f', spot: 'exit' }
+      { x: 15, y: 19, to: 'sinnoh-victory-1f', spot: 'exit' },
+      { x: 26, y: 19, to: 'victory-inside', spot: 'mouth' }      // the inner Victory Road (route224.js, chapter 67)
     ],
-    spots: { 'center-door': [25, 10, 'down'], road: [15, 18, 'up'], door: [15, 9, 'down'] },
+    spots: { 'center-door': [25, 10, 'down'], road: [15, 18, 'up'], inside: [26, 18, 'up'], door: [15, 9, 'down'] },
     signs: { '13,10': 'The Pokémon League of Sinnoh. Trainers who reach this place have already come a long way.' },
     triggers: [{ x: 1, y: 13, w: 30, h: 1, if: '!barry-league', script: 'sleague.barry' }],
-    npcs: [{ id: 'barry', who: 'barry', x: 15, y: 10, dir: 'down', if: '!barry-league', script: 'sleague.barry' }]
+    npcs: [{ id: 'barry', who: 'barry', x: 15, y: 10, dir: 'down', if: '!barry-league', script: 'sleague.barry' },
+           { id: 'guard', who: 'cooltrainerm', x: 26, y: 18, dir: 'up', if: '!national-dex',
+             say: 'This part of Victory Road is for Trainers who are filling in the National Pokédex. Come back when you have one.' }]
   }));
 
   G.Maps.center('sinnoh-league-center', {

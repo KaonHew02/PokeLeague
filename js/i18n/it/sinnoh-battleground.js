@@ -39,5 +39,8 @@ G.I18n.add({
   "Oh, and a girl called Mira has started coming too. She says a Champion once led her out of a cave.": "Ah, e ha cominciato a venire anche una ragazza di nome Matilde. Dice che un Campione una volta l'ha guidata fuori da una grotta.",
   "I said I would battle you one day, remember? I have not been lost once since then. Not even once!": "Avevo detto che un giorno avrei lottato con te, ricordi? Da allora non mi sono persa nemmeno una volta. Nemmeno una!",
   "I lost the battle, but I did not get lost. That is progress!": "Ho perso la lotta, ma non mi sono persa. È un progresso!",
-  "Next time I go into a cave, I am taking a map. And a Champion.": "La prossima volta che entro in una grotta, porto una mappa. E un Campione."
+  "Next time I go into a cave, I am taking a map. And a Champion.": "La prossima volta che entro in una grotta, porto una mappa. E un Campione.",
+  "...I came, like I said I would. Arcanine wanted a real battle. So do I.": "...Sono venuta, come avevo detto. Arcanine voleva una vera lotta. Anch'io.",
+  "...You are still the strongest person I know.": "...Sei ancora la persona più forte che conosca.",
+  "I went back to the stone. Still nothing there. I will keep going back.": "Sono tornata alla pietra. Ancora niente. Continuerò a tornarci."
 }, "it");

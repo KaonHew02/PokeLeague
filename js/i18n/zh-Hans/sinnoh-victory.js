@@ -100,4 +100,5 @@ G.I18n.add({
   "All six of them are ready. This is the real one, {player}. Here we go!": "六只全都准备好了。这才是真正的对决，{player}。来吧！",
   "...That was everything I had. And you are still standing.": "……我已经用尽全力了。而你还站着。",
   "All right. I get it. You are the one who goes first through those doors, and I will be right behind you. You had better not lose in there!": "好吧，我明白了。先走进那扇门的是你，我会紧跟在后面。你要是在里面输了，我绝不放过你！",
+  "This part of Victory Road is for Trainers who are filling in the National Pokédex. Come back when you have one.": "冠军之路的这一片是给在完成全国图鉴的训练家走的。等你有了再来吧。"
 }, "zh-Hans");

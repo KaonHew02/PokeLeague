@@ -190,5 +190,7 @@ G.I18n.add({
   "Chapter 65 complete!": "第六十五章完成！",
   "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player}在迷幻洞窟的黑暗中找到了迷路的麦儿，和她并肩作战一路走了出来，后来还在对决场见到了她。",
   "Chapter 66 complete!": "第六十六章完成！",
-  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player}从百代市爬上211号道路，穿过天冠山的老隧道，一路走到了神和镇。"
+  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player}从百代市爬上211号道路，穿过天冠山的老隧道，一路走到了神和镇。",
+  "Chapter 67 complete!": "第六十七章完成！",
+  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player}走进冠军之路的深处，和米依一起穿过224号道路的浓雾，读到了尽头那块古老的石碑。"
 }, "zh-Hans");

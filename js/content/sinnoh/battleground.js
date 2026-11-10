@@ -4,8 +4,8 @@
  * Buck) come to battle, four of them each day. The day's four are drawn with a G.RNG seeded by the device's date and the
  * save's player id, so they stay the same all day (flags bg-<id>, var bg-day); each battles you once a day (their
  * `done` mark is cleared when a new day's four are drawn). On the first day Buck and Cheryl are always there (var bg-first).
- * Talk to them to battle (no line of sight). Platinum's teams and items, at Platinum's levels (61-66) but for three a little lower (see TEAMS). Mira and Marley, met in places
- * this game does not have yet, do not come.
+ * Talk to them to battle (no line of sight). Platinum's teams and items, at Platinum's levels (61-66) but for three a little lower (see TEAMS). Marley, met in a
+ * place this game does not have yet, does not come; Mira comes once you have taken her out of Wayward Cave (chapter 65).
  */
 (() => {
   const T = s => G.T(s);
@@ -49,20 +49,24 @@
             ['lucario', 63, ['extreme-speed', 'close-combat', 'bone-rush', 'blaze-kick'], 'sitrus-berry']],
     buck: [['shuckle', 61, ['rest', 'toxic', 'protect', 'sandstorm']], ['umbreon', 62, ['dark-pulse', 'psychic', 'confuse-ray', 'double-team']],
            ['torkoal', 61, ['earthquake', 'will-o-wisp', 'eruption', 'protect']], ['dusknoir', 63, ['fire-punch', 'ice-punch', 'thunder-punch', 'shadow-ball']],
-           ['claydol', 65, ['earth-power', 'psychic', 'ancient-power', 'calm-mind'], 'sitrus-berry']]
+           ['claydol', 65, ['earth-power', 'psychic', 'ancient-power', 'calm-mind'], 'sitrus-berry']],
+    // Chapter 65: Mira, once you have taken her out of Wayward Cave (wayward.js); four levels below Platinum's, like Candice.
+    mira: [['porygon-z', 57, ['tri-attack', 'psychic', 'thunderbolt', 'dark-pulse']], ['gengar', 57, ['shadow-ball', 'psychic', 'sludge-bomb', 'energy-ball']],
+           ['magnezone', 58, ['thunder', 'flash-cannon', 'thunder-wave', 'hyper-beam']], ['togekiss', 59, ['extreme-speed', 'air-slash', 'aura-sphere', 'psychic']],
+           ['alakazam', 61, ['psychic', 'focus-blast', 'calm-mind', 'hyper-beam'], 'sitrus-berry']]
   };
   const POOL = Object.keys(TEAMS);
   // Who may come: the Gym Leaders (all beaten on the way to the League) and the partners you have walked with.
-  const MET = { cheryl: 'cheryl-with', riley: 'riley-done', buck: 'magma-stone-back' };
+  const MET = { cheryl: 'cheryl-with', riley: 'riley-done', buck: 'magma-stone-back', mira: 'mira-done' };
   const NAME = { roark: 'Roark', gardenia: 'Gardenia', maylene: 'Maylene', wake: 'Crasher Wake', fantina: 'Fantina', byron: 'Byron', candice: 'Candice',
-                 volkner: 'Volkner', cheryl: 'Cheryl', riley: 'Riley', buck: 'Buck' };
+                 volkner: 'Volkner', cheryl: 'Cheryl', riley: 'Riley', buck: 'Buck', mira: 'Mira' };
 
   // The day's flags, one per Trainer, written out (tests/kanto.test.cjs looks for the script that sets each flag).
   const ON = {
     roark: () => G.Field.setFlag('bg-roark'), gardenia: () => G.Field.setFlag('bg-gardenia'), maylene: () => G.Field.setFlag('bg-maylene'),
     wake: () => G.Field.setFlag('bg-wake'), fantina: () => G.Field.setFlag('bg-fantina'), byron: () => G.Field.setFlag('bg-byron'),
     candice: () => G.Field.setFlag('bg-candice'), volkner: () => G.Field.setFlag('bg-volkner'), cheryl: () => G.Field.setFlag('bg-cheryl'),
-    riley: () => G.Field.setFlag('bg-riley'), buck: () => G.Field.setFlag('bg-buck')
+    riley: () => G.Field.setFlag('bg-riley'), buck: () => G.Field.setFlag('bg-buck'), mira: () => G.Field.setFlag('bg-mira')
   };
   const hash = s => { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; };
   const roster = () => POOL.filter(id => G.Field.flag('bg-' + id));
@@ -141,7 +145,11 @@
       at('buck', 13, 7, Object.assign({ items: FR2,
         before: 'Welcome to Grandfather\'s Battleground! On the mountain we fought side by side. Today, we fight each other!',
         defeat: 'Wow! Grandfather was watching, too. Now I will never hear the end of it!',
-        after: 'Heatran still sleeps under the mountain. I go and say hello sometimes. From far away.' }, PARTNER))
+        after: 'Heatran still sleeps under the mountain. I go and say hello sometimes. From far away.' }, PARTNER)),
+      at('mira', 14, 3, Object.assign({ items: FR2,
+        before: 'I said I would battle you one day, remember? I have not been lost once since then. Not even once!',
+        defeat: 'I lost the battle, but I did not get lost. That is progress!',
+        after: 'Next time I go into a cave, I am taking a map. And a Champion.' }, PARTNER))
     ]
   }, SINNOH));
 
@@ -155,6 +163,11 @@
     const [a, b, c, d] = today().map(id => T(NAME[id]));
     await h.say(T('Welcome to the Battleground! Gym Leaders and strong Trainers from all over Sinnoh come here to battle, a few of them each day.'));
     if (d) await h.say(G.I18n.fmt('Here today: {a}, {b}, {c} and {d}. Talk to whoever you like. Each of them battles you once a day.', { a, b, c, d }));
+    // Chapter 65: Mira, taken out of Wayward Cave before chapter 64 was done, ends the chapter here.
+    if (F.flag('mira-done') && F.flag('chapter-64-done') && !F.flag('chapter-65-done')) {
+      await h.say(T('Oh, and a girl called Mira has started coming too. She says a Champion once led her out of a cave.'));
+      if (G.CreditsUI) await G.CreditsUI.ending(65); else F.setFlag('chapter-65-done');
+    }
   }
 
   G.Battleground = { POOL, TEAMS, today, roster };

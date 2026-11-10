@@ -186,5 +186,7 @@ G.I18n.add({
   "{player} crossed the sandstorm on Route 228, walked the shore to the Resort Area and found the Gym Leaders of Sinnoh waiting at the Battleground.": "{player} cruzó la tormenta de arena de la Ruta 228, recorrió la costa hasta Área Relax y encontró a los Líderes de Gimnasio de Sinnoh esperando en el Campo de Batalla.",
   "Thank you for playing! The rest of Sinnoh waits in a future update.": "¡Gracias por jugar! El resto de Sinnoh te espera en una futura actualización.",
   "Chapter 64 complete!": "¡Capítulo 64 completado!",
-  "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player} recorrió la Ruta 212 de Ciudad Corazón a Ciudad Pradera bajo el sol y la lluvia, combatió con las doncellas de la Mansión Pokémon y conoció al Sr. Backlot."
+  "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player} recorrió la Ruta 212 de Ciudad Corazón a Ciudad Pradera bajo el sol y la lluvia, combatió con las doncellas de la Mansión Pokémon y conoció al Sr. Backlot.",
+  "Chapter 65 complete!": "¡Capítulo 65 completado!",
+  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} encontró a Maiza perdida en la oscuridad de la Cueva Extravío, combatió a su lado hasta la salida y la vio unirse al Campo de Batalla."
 }, "es");

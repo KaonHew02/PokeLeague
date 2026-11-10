@@ -304,6 +304,7 @@ LOC_NAMES = {
     'sinnoh-sea-route-230': ('Ruta 230',        'Percorso 230',        '230号水路',  '230號水路'),
     'resort-area':       ('Área Relax',         'Area Svago',          '名胜区',     '名勝區'),
     'trophy-garden':     ('Trophy Garden',      'Trophy Garden',       '自豪的后院', '自豪的後院'),
+    'wayward-cave':      ('Cueva Extravío',     'Grotta Labirinto',    '迷幻洞窟',   '迷幻洞窟'),
     # Chapter 48.
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),

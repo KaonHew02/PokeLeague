@@ -35,5 +35,9 @@ G.I18n.add({
   "Byron says hello. He always says hello. Loudly.": "Ferruccio ti saluta. Saluta sempre. A gran voce.",
   "Welcome to Grandfather's Battleground! On the mountain we fought side by side. Today, we fight each other!": "Benvenuto al Campo Lotta di mio nonno! Sulla montagna abbiamo lottato fianco a fianco. Oggi, l'uno contro l'altro!",
   "Wow! Grandfather was watching, too. Now I will never hear the end of it!": "Wow! E il nonno stava guardando. Adesso non smetterà più di parlarne!",
-  "Heatran still sleeps under the mountain. I go and say hello sometimes. From far away.": "Heatran dorme ancora sotto la montagna. A volte vado a salutarlo. Da lontano."
+  "Heatran still sleeps under the mountain. I go and say hello sometimes. From far away.": "Heatran dorme ancora sotto la montagna. A volte vado a salutarlo. Da lontano.",
+  "Oh, and a girl called Mira has started coming too. She says a Champion once led her out of a cave.": "Ah, e ha cominciato a venire anche una ragazza di nome Matilde. Dice che un Campione una volta l'ha guidata fuori da una grotta.",
+  "I said I would battle you one day, remember? I have not been lost once since then. Not even once!": "Avevo detto che un giorno avrei lottato con te, ricordi? Da allora non mi sono persa nemmeno una volta. Nemmeno una!",
+  "I lost the battle, but I did not get lost. That is progress!": "Ho perso la lotta, ma non mi sono persa. È un progresso!",
+  "Next time I go into a cave, I am taking a map. And a Champion.": "La prossima volta che entro in una grotta, porto una mappa. E un Campione."
 }, "it");

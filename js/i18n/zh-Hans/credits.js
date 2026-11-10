@@ -186,5 +186,7 @@ G.I18n.add({
   "{player} crossed the sandstorm on Route 228, walked the shore to the Resort Area and found the Gym Leaders of Sinnoh waiting at the Battleground.": "{player}穿过228号道路的沙暴，沿着海岸走到名胜区，还在对决场遇到了等着对战的神奥道馆馆主们。",
   "Thank you for playing! The rest of Sinnoh waits in a future update.": "感谢游玩！神奥的其他地方将在之后的更新中等着你。",
   "Chapter 64 complete!": "第六十四章完成！",
-  "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player}冒着晴天和大雨走完了从家缘市到湿原市的212号道路，和宝可梦屋的女仆们对战，还认识了现慕先生。"
+  "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player}冒着晴天和大雨走完了从家缘市到湿原市的212号道路，和宝可梦屋的女仆们对战，还认识了现慕先生。",
+  "Chapter 65 complete!": "第六十五章完成！",
+  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player}在迷幻洞窟的黑暗中找到了迷路的麦儿，和她并肩作战一路走了出来，后来还在对决场见到了她。"
 }, "zh-Hans");

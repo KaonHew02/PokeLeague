@@ -104,7 +104,7 @@
       'TTTTTTTF,,,,FTTTTTTT',
       'TTTTTTTF,,,,FTTTTTTT',
       'TTTTTTTF,,,,FTTTTTTT',
-      'TTTTTTTF,,,,FTTTTTTT',
+      'TTTTOTTF,,,,FTTTOTTT',
       'T.......,,,,.S.....T',
       'T.""""".,,,,.......T',
       'T.""""".,,,,.""""".T',
@@ -118,6 +118,9 @@
       'TTTTTTTT,,,,TTTTTTTT'
     ],
     connect: { north: { map: 'eterna', offset: -8 }, south: { map: 'route207', offset: 0 } },
+    // Chapter 65: Wayward Cave (wayward.js), its main cave in the east and the hidden one in the west.
+    warps: [{ x: 16, y: 32, to: 'wayward-cave', spot: 'mouth' }, { x: 4, y: 32, to: 'wayward-hidden', spot: 'mouth' }],
+    spots: { wayward: [16, 33, 'down'], hidden: [4, 33, 'down'] },
     signs: { '13,33': 'Route 206: Cycling Road. North: Eterna City. South: Route 207.' },
     trainers: [
       { id: 'axel', who: 'cyclist', cls: 'cyclist', name: 'Axel', x: 8, y: 8, dir: 'right', sight: 3, team: [['staravia', 18], ['ponyta', 18]],

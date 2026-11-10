@@ -186,5 +186,7 @@ G.I18n.add({
   "{player} crossed the sandstorm on Route 228, walked the shore to the Resort Area and found the Gym Leaders of Sinnoh waiting at the Battleground.": "{player} ha attraversato la tempesta di sabbia del Percorso 228, ha seguito la costa fino all'Area Svago e ha trovato i Capipalestra di Sinnoh ad aspettarlo al Campo Lotta.",
   "Thank you for playing! The rest of Sinnoh waits in a future update.": "Grazie per aver giocato! Il resto di Sinnoh ti aspetta in un futuro aggiornamento.",
   "Chapter 64 complete!": "Capitolo 64 completato!",
-  "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player} ha percorso il Percorso 212 da Cuoripoli a Pratopoli sotto il sole e la pioggia, ha sfidato le cameriere di Villa Pokémon e ha conosciuto il Sig. Backlot."
+  "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player} ha percorso il Percorso 212 da Cuoripoli a Pratopoli sotto il sole e la pioggia, ha sfidato le cameriere di Villa Pokémon e ha conosciuto il Sig. Backlot.",
+  "Chapter 65 complete!": "Capitolo 65 completato!",
+  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} ha trovato Matilde smarrita nel buio della Grotta Labirinto, ha lottato al suo fianco fino all'uscita e l'ha vista unirsi al Campo Lotta."
 }, "it");

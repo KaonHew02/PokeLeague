@@ -35,5 +35,9 @@ G.I18n.add({
   "Byron says hello. He always says hello. Loudly.": "東瓜讓我向你問好。他總是問好，而且嗓門很大。",
   "Welcome to Grandfather's Battleground! On the mountain we fought side by side. Today, we fight each other!": "歡迎來到爺爺的對決場！在山上我們並肩作戰，今天我們來一決勝負！",
   "Wow! Grandfather was watching, too. Now I will never hear the end of it!": "哇！爺爺也在看。這下他要念叨我一輩子了！",
-  "Heatran still sleeps under the mountain. I go and say hello sometimes. From far away.": "席多藍恩還睡在山底下。我有時會去打個招呼，遠遠地。"
+  "Heatran still sleeps under the mountain. I go and say hello sometimes. From far away.": "席多藍恩還睡在山底下。我有時會去打個招呼，遠遠地。",
+  "Oh, and a girl called Mira has started coming too. She says a Champion once led her out of a cave.": "對了，一個叫麥兒的女孩也開始來了。她說曾經有一位冠軍帶她走出了洞窟。",
+  "I said I would battle you one day, remember? I have not been lost once since then. Not even once!": "我說過總有一天要和你對戰的，還記得嗎？從那以後我一次都沒迷過路。一次都沒有！",
+  "I lost the battle, but I did not get lost. That is progress!": "對戰輸了，可我沒迷路。這就是進步！",
+  "Next time I go into a cave, I am taking a map. And a Champion.": "下次進洞窟，我要帶地圖。還要帶一位冠軍。"
 }, "zh-Hant");

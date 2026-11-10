@@ -1545,7 +1545,7 @@ G.NAMES = {
     "spring-path": ["Spring Path","Vía Manantial","Chemin Source","Sentiero Fonte","隐泉之路","隱泉之路"],
     "turnback-cave": ["Turnback Cave","Cueva Retorno","Grotte Retour","Grotta Ritorno","归途洞窟","歸途洞窟"],
     "snowpoint-temple": ["Snowpoint Temple","Snowpoint Temple","Temple Frimapic","Snowpoint Temple","Snowpoint Temple","Snowpoint Temple"],
-    "wayward-cave": ["Wayward Cave","Wayward Cave","Grotte Revèche","Wayward Cave","Wayward Cave","Wayward Cave"],
+    "wayward-cave": ["Wayward Cave","Cueva Extravío","Grotte Revèche","Grotta Labirinto","迷幻洞窟","迷幻洞窟"],
     "ruin-maniac-cave": ["Ruin Maniac Cave","Ruin Maniac Cave","Grotte Ruinem.","Ruin Maniac Cave","Ruin Maniac Cave","Ruin Maniac Cave"],
     "trophy-garden": ["Trophy Garden","Trophy Garden","Jardin Trophée","Trophy Garden","自豪的后院","自豪的後院"],
     "iron-island": ["Iron Island","Isla Hierro","Ile de Fer","Isola Ferrosa","钢铁岛","鋼鐵島"],

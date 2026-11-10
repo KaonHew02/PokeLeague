@@ -35,5 +35,9 @@ G.I18n.add({
   "Byron says hello. He always says hello. Loudly.": "Acerón te manda saludos. Siempre manda saludos. A gritos.",
   "Welcome to Grandfather's Battleground! On the mountain we fought side by side. Today, we fight each other!": "¡Bienvenido al Campo de Batalla de mi abuelo! En la montaña luchamos codo con codo. ¡Hoy, uno contra otro!",
   "Wow! Grandfather was watching, too. Now I will never hear the end of it!": "¡Uau! Y mi abuelo mirando. ¡Ahora no dejará de recordármelo!",
-  "Heatran still sleeps under the mountain. I go and say hello sometimes. From far away.": "Heatran sigue durmiendo bajo la montaña. A veces voy a saludarlo. Desde lejos."
+  "Heatran still sleeps under the mountain. I go and say hello sometimes. From far away.": "Heatran sigue durmiendo bajo la montaña. A veces voy a saludarlo. Desde lejos.",
+  "Oh, and a girl called Mira has started coming too. She says a Champion once led her out of a cave.": "Ah, y una chica llamada Maiza también ha empezado a venir. Dice que un Campeón la sacó una vez de una cueva.",
+  "I said I would battle you one day, remember? I have not been lost once since then. Not even once!": "Dije que algún día lucharía contigo, ¿recuerdas? Desde entonces no me he perdido ni una vez. ¡Ni una!",
+  "I lost the battle, but I did not get lost. That is progress!": "He perdido el combate, pero no me he perdido. ¡Eso es progresar!",
+  "Next time I go into a cave, I am taking a map. And a Champion.": "La próxima vez que entre en una cueva, llevaré un mapa. Y un Campeón."
 }, "es");

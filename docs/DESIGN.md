@@ -2450,12 +2450,21 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Platinum's levels (23-35): nothing to tune; `tests/story.test.cjs` prints one `[story]` line.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (shut before the badge from both ends, open after, north to south, the rain in battle, the tree and the channel, east to Pastoria, the Mansion's Maids and who comes out after them, Mr. Backlot's Pokémon of the day in the garden table, no ending before chapter 63, the back door); `tests/story.test.cjs` the chapter after chapter 63.
 
-### After chapter 64
+- **Chapter 65** ✅, Wayward Cave and Mira (`js/content/sinnoh/wayward.js`, translations `sinnoh-wayward`; no engine change). It ends with `ending(65)` when you bring Mira out of the cave once chapter 64 is done; a player who brought her out in the middle of the game sees it from the Battleground's clerk.
+  - **People**: `mira` (Mira, 麦儿; es Maiza, fr Maïté, it Matilde).
+  - **Map**: two mouths in the trees at the south end of `route206` (tgeterna.js). `wayward-cave` (dark: Flash; Rock Smash): in at the top, down the short way over two ledges to Mira's chamber; the ledges cannot be climbed, so the ways back up (west and east) pass the five pairs of Trainers and come into the hall over one-way ledges. `wayward-hidden` (dark): the cave under the Cycling Road, with Gible (PokeAPI's B1F table). The generator checks the one-way loop by search.
+  - **Story**: Mira (flags `mira-met`, `mira-along`) walks behind you (`companion`), fights beside you with Kadabra Lv. 26 against the pairs (`ally`; without her they are plain double battles) and heals the team after each battle (`afterBattle`). In the hall by the mouth she thanks you and goes (flag `mira-done`). The Trainers are Platinum's ten, their teams as Serebii lists them; the pairs are mine.
+  - **The Battleground**: Mira joins the days' draws once `mira-done` is set (her Platinum team, 61-65). The chapter 63 balance line and story keep to the first eleven, so their numbers stay as they were.
+  - **Left out**: the hidden cave's Bicycle slopes, the Dowsing Machine's items, the shards and the Grip Claw (not in the game), Route 206's Hiker Theodore.
+- **Balance:** the cave keeps Platinum's levels (19-26). Mira at the Battleground is measured like the others (a sensible team of six, alone and fresh, at least 60%): at Platinum's levels the Grass and Water teams won 18% and 23%, so she is four levels lower (57-61), like Candice: now 80-98%. A team of three is printed for reference.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (both mouths, the dark, the cracked rock, Mira beside you and behind you, the ledge, a pair beside her and the healing, her goodbye and no ending in the middle of the game, a pair without her, Gible in the hidden cave, Mira in the days' draws, both ways to the ending); `tests/story.test.cjs` the chapter after chapter 64 and the balance line for Mira.
+
+### After chapter 65
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
-1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Wayward Cave and Mira (then she
-   comes to the Battleground); Eterna's side of Route 211; Mt. Coronet B1F; the villa; the Contest Hall and Amity Square.
+1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Eterna's side of Route 211;
+   Mt. Coronet B1F; the villa; the Contest Hall and Amity Square; Marley (then she comes to the Battleground).
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

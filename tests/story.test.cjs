@@ -909,6 +909,35 @@ test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typ
   for (const k of ['empoleon', 'torterra', 'infernape']) assert.ok(vsBarry[k + ' 38 + luxray 36 + staraptor 36'] >= 0.9, k + ' with two friends');
 });
 
+test('balance: Mira at the Battleground (chapter 65), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const mk = (list, rng) => list.map(([x, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(x), l, { rng, moves }), item ? { item } : {}));
+  const rate = team => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const me = team.map(([sp, lvl, moves]) => G.Mon.create(sp, lvl, { rng, moves }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: mk(G.Battleground.TEAMS.mira, rng), trainer: { id: 'mira', name: 'Mira', ai: 'leader', items: { 'full-restore': 2 }, prize: 120 } } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return Math.round(wins / 40 * 100) / 100;
+  };
+  // The same teams as for the rest of the Battleground (chapter 63).
+  const TOR = [389, 65, ['earthquake', 'crunch', 'giga-drain', 'synthesis']], INF = [392, 65, ['flare-blitz', 'close-combat', 'mach-punch', 'punishment']];
+  const EMP = [395, 65, ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet']];
+  const LUX = [405, 63, ['crunch', 'thunder-fang', 'discharge', 'roar']], STA = [398, 63, ['brave-bird', 'close-combat', 'aerial-ace', 'agility']];
+  const GAS = [423, 61, ['earthquake', 'surf', 'muddy-water', 'recover']], LUC = [448, 61, ['aura-sphere', 'close-combat', 'extreme-speed', 'dragon-pulse']];
+  const FLO = [419, 61, ['surf', 'crunch', 'aqua-jet', 'ice-fang']];
+  const SIX = { 'torterra 65 + 5': [TOR, LUX, STA, GAS, LUC, FLO], 'infernape 65 + 5': [INF, LUX, STA, GAS, LUC, FLO], 'empoleon 65 + 5': [EMP, LUX, STA, GAS, LUC, FLO] };
+  const THREE = { 'torterra 65 + 2': [TOR, LUX, STA], 'infernape 65 + 2': [INF, LUX, STA], 'empoleon 65 + 2': [EMP, LUX, STA] };
+  const six = Object.fromEntries(Object.entries(SIX).map(([k, t]) => [k, rate(t)]));
+  const three = Object.fromEntries(Object.entries(THREE).map(([k, t]) => [k, rate(t)]));
+  console.log('[balance] vs Mira at the Battleground, teams of six:', JSON.stringify(six), 'teams of three (for reference):', JSON.stringify(three));
+  for (const k of Object.keys(SIX)) assert.ok(six[k] >= 0.6, 'Mira, ' + k);
+});
+
 test('balance: the Battleground (chapter 63), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const TEAMS = G.Battleground.TEAMS;
@@ -935,14 +964,15 @@ test('balance: the Battleground (chapter 63), win rates of typical teams are pri
   const SIX = { 'torterra 65 + 5': [TOR, LUX, STA, GAS, LUC, FLO], 'infernape 65 + 5': [INF, LUX, STA, GAS, LUC, FLO], 'empoleon 65 + 5': [EMP, LUX, STA, GAS, LUC, FLO] };
   const THREE = { 'torterra 65 + 2': [TOR, LUX, STA], 'infernape 65 + 2': [INF, LUX, STA], 'empoleon 65 + 2': [EMP, LUX, STA] };
   const six = {}, three = {};
-  for (const id of G.Battleground.POOL) {
+  // The eleven of chapter 63 (Mira, from chapter 65, has her own line).
+  for (const id of G.Battleground.POOL.filter(id => id !== 'mira')) {
     six[id] = {}; three[id] = {};
     for (const [k, t] of Object.entries(SIX)) six[id][k] = rate(id, t);
     for (const [k, t] of Object.entries(THREE)) three[id][k] = rate(id, t);
   }
   console.log('[balance] vs the Battleground, teams of six:', JSON.stringify(six));
   console.log('[balance] vs the Battleground, teams of three (for reference):', JSON.stringify(three));
-  for (const id of G.Battleground.POOL) for (const k of Object.keys(SIX)) assert.ok(six[id][k] >= 0.6, id + ', ' + k);
+  for (const id of Object.keys(six)) for (const k of Object.keys(SIX)) assert.ok(six[id][k] >= 0.6, id + ', ' + k);
 });
 
 test('balance: Mars and Jupiter beside Buck, and Heatran (chapter 62), win rates of typical teams are printed', () => {
@@ -4324,6 +4354,28 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 65 after chapter 64: Wayward Cave beside Mira, then Mira at the Battleground. */
+async function chapter65(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  await run(st, 'wayward-cave', 'wayward.mira');
+  assert.ok(F.flag('mira-met') && F.flag('mira-along'));
+  const beside = { partner: { name: 'Mira', team: G.Wayward.MIRA_TEAM }, rules: { tag: true } };
+  for (const t of G.Maps.get('wayward-cave').trainers) {
+    F.healAll();
+    await run(st, 'wayward-cave', [['js', h => h.battle('wayward-cave:' + t.id, beside)]]);
+    won();
+  }
+  await run(st, 'wayward-cave', 'wayward.mira-bye');
+  assert.ok(F.flag('mira-done') && !F.flag('mira-along') && F.flag('chapter-65-done'));
+  F.healAll();
+  await run(st, 'survival-ground', [['battle', 'survival-ground:mira']]);
+  console.log('[story] Wayward Cave beside Mira, then Mira at the Battleground:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 64 after chapter 63: Route 212, the Pokémon Mansion, Mr. Backlot. */
 async function chapter64(st) {
   const { G, S } = st;
@@ -4349,7 +4401,7 @@ async function chapter63(st) {
   for (const m of ['route228', 'route229', 'route230']) for (const t of G.Maps.get(m).trainers) { await fight(m, t.id); won(); }
   // The Battleground: each of the eleven once, whoever the day brings.
   const results = {};
-  for (const t of G.Maps.get('survival-ground').trainers) { await fight('survival-ground', t.id); results[t.id] = last().outcome; }
+  for (const t of G.Maps.get('survival-ground').trainers.filter(t => t.id !== 'mira')) { await fight('survival-ground', t.id); results[t.id] = last().outcome; }
   console.log('[story] the Battleground:', JSON.stringify(results), 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
   await run(st, 'resort-area', 'resort.arrive');
   assert.ok(F.flag('resort-welcome') && F.flag('chapter-63-done'));
@@ -4769,4 +4821,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter62(st);
   await chapter63(st);
   await chapter64(st);
+  await chapter65(st);
 });

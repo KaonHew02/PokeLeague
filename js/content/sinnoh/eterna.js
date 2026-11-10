@@ -5,7 +5,7 @@
  * goes (flag cheryl-done). The forest: a long way round with a loop and a dead end, Trainers (one pair
  * battles two at a time). Route 205 east of the forest leads to Eterna City: a Pokémon Center, a Mart, a
  * house, the statue of a Pokémon from Sinnoh's oldest stories, Team Galactic's building (guarded) and
- * the cycle shop (closed); Route 211 is closed (Route 206 and the building open in chapter 47, tgeterna.js). Gardenia uses Grass types
+ * the cycle shop (closed); Route 211 is closed until the Forest Badge (route211.js; Route 206 and the building open in chapter 47, tgeterna.js). Gardenia uses Grass types
  * (Cherubi, Turtwig, Roserade); beating her gives the Forest Badge (badge 26: Pokémon up to Lv. 30 obey
  * in Sinnoh) and TM86 (Grass Knot), then `ending(46)`. Platinum's wild Pokémon.
  */
@@ -148,7 +148,7 @@
       'T................,T................T',
       'TTTTTTTTTTTTTTTTT,TTTTTTTTTTTTTTTTTT'
     ],
-    connect: { west: { map: 'route205e', offset: 7 }, south: { map: 'route206', offset: 8 } },
+    connect: { west: { map: 'route205e', offset: 7 }, south: { map: 'route206', offset: 8 }, east: { map: 'route211w', offset: 3 } },
     warps: [
       { x: 6, y: 7, to: 'eterna-center', spot: 'door' },
       { x: 11, y: 7, to: 'eterna-mart', spot: 'door' },
@@ -162,8 +162,9 @@
              'tg-door': [6, 22, 'down'], 'cycle-door': [25, 21, 'down'] },
     signs: { '16,10': 'An ancient statue of a Pokémon. The plaque says it stood here long before the city, and that it shows a Pokémon from the oldest stories of Sinnoh.' },
     npcs: [
-      // Route 211 (east) and Route 206 (south) open in later chapters; Team Galactic's building is guarded.
-      { id: 'hiker', who: 'hiker', x: 34, y: 13, dir: 'left',
+      // Route 211 (east) opens with the Forest Badge (route211.js, chapter 66); Route 206 (south) in chapter 47;
+      // Team Galactic's building is guarded.
+      { id: 'hiker', who: 'hiker', x: 34, y: 13, dir: 'left', if: '!badge:26',
         say: 'Rocks fell on the path to Mt. Coronet. Nobody gets through until they are cleared!' },
       { id: 'worker', who: 'engineer', x: 17, y: 26, dir: 'up', if: '!tg-eterna-done',
         say: 'Cycling Road is closed for repairs. Come back when it is finished!' },

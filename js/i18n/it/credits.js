@@ -188,5 +188,7 @@ G.I18n.add({
   "Chapter 64 complete!": "Capitolo 64 completato!",
   "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player} ha percorso il Percorso 212 da Cuoripoli a Pratopoli sotto il sole e la pioggia, ha sfidato le cameriere di Villa Pokémon e ha conosciuto il Sig. Backlot.",
   "Chapter 65 complete!": "Capitolo 65 completato!",
-  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} ha trovato Matilde smarrita nel buio della Grotta Labirinto, ha lottato al suo fianco fino all'uscita e l'ha vista unirsi al Campo Lotta."
+  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} ha trovato Matilde smarrita nel buio della Grotta Labirinto, ha lottato al suo fianco fino all'uscita e l'ha vista unirsi al Campo Lotta.",
+  "Chapter 66 complete!": "Capitolo 66 completato!",
+  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} ha percorso il Percorso 211 da Evopoli e ha attraversato il Monte Corona per la vecchia galleria fino a Memoride."
 }, "it");

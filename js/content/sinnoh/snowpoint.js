@@ -29,7 +29,7 @@
       'T###########.."""""""".......T',
       'T###########.."""""""".......T',
       'T###########.."""""""".......T',
-      'T#####O#####.."""""""".......T',
+      'T#O###O#####.."""""""".......T',
       'T.....,......................T',
       'T.....,....................S.T',
       'T.....,,,,,,,,,,,,,,,,,,,,,,,,',
@@ -43,8 +43,8 @@
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
     connect: { east: { map: 'celestic', offset: -1 } },
-    warps: [{ x: 6, y: 6, to: 'mt-coronet-north', spot: 'east' }],
-    spots: { coronet: [6, 7, 'down'] },
+    warps: [{ x: 6, y: 6, to: 'mt-coronet-north', spot: 'east' }, { x: 2, y: 6, to: 'coronet-211', spot: 'east' }],   // the tunnel (chapter 66)
+    spots: { coronet: [6, 7, 'down'], tunnel: [2, 7, 'down'] },
     signs: { '27,8': 'Route 211. West: Mt. Coronet. East: Celestic Town.' },
     items: [{ x: 18, y: 3, item: 'tm29', flag: 'route211-tm29' }, { x: 26, y: 14, item: 'zinc', flag: 'route211-zinc' }],
     npcs: [{ id: 'thinker', who: 'psychic', x: 3, y: 9, dir: 'right', script: 'route211.psych-up' }],

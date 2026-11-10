@@ -188,5 +188,7 @@ G.I18n.add({
   "Chapter 64 complete!": "Capítulo 64 concluído!",
   "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player} percorreu a Route 212 de Hearthome City a Pastoria City sob sol e chuva, batalhou com as empregadas da Pokémon Mansion e conheceu o Sr. Backlot.",
   "Chapter 65 complete!": "Capítulo 65 concluído!",
-  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} encontrou a Mira perdida no escuro da Wayward Cave, batalhou ao lado dela até a saída e a viu entrar no Battleground."
+  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} encontrou a Mira perdida no escuro da Wayward Cave, batalhou ao lado dela até a saída e a viu entrar no Battleground.",
+  "Chapter 66 complete!": "Capítulo 66 concluído!",
+  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} subiu a Route 211 desde Eterna City e atravessou o Mt. Coronet pelo velho túnel até Celestic Town."
 }, "pt-BR");

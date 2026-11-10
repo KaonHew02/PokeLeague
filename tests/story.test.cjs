@@ -4354,6 +4354,20 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 66 after chapter 65: Route 211 West and the tunnel through Mt. Coronet. */
+async function chapter66(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  let n = 0;
+  for (const t of G.Maps.get('route211w').trainers) { F.healAll(); await run(st, 'route211w', [['battle', 'route211w:' + t.id]]); won(); n++; }
+  console.log('[story] Route 211 West:', n, 'Trainers beaten with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
+  await run(st, 'coronet-211', 'r211.through');
+  assert.ok(F.flag('chapter-66-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 65 after chapter 64: Wayward Cave beside Mira, then Mira at the Battleground. */
 async function chapter65(st) {
   const { G, S } = st;
@@ -4822,4 +4836,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter63(st);
   await chapter64(st);
   await chapter65(st);
+  await chapter66(st);
 });

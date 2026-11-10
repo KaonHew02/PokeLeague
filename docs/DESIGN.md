@@ -2459,12 +2459,19 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** the cave keeps Platinum's levels (19-26). Mira at the Battleground is measured like the others (a sensible team of six, alone and fresh, at least 60%): at Platinum's levels the Grass and Water teams won 18% and 23%, so she is four levels lower (57-61), like Candice: now 80-98%. A team of three is printed for reference.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (both mouths, the dark, the cracked rock, Mira beside you and behind you, the ledge, a pair beside her and the healing, her goodbye and no ending in the middle of the game, a pair without her, Gible in the hidden cave, Mira in the days' draws, both ways to the ending); `tests/story.test.cjs` the chapter after chapter 64 and the balance line for Mira.
 
-### After chapter 65
+- **Chapter 66** ✅, Route 211 West and the tunnel through Mt. Coronet (`js/content/sinnoh/route211.js`, translations `sinnoh-route211`; no engine change). It ends with `ending(66)` the first time you go through the tunnel once chapter 65 is done.
+  - **Opening**: the Hiker in Eterna City's east exit leaves with the Forest Badge (`!badge:26`), so new players walk Route 211 West as early as in Platinum (Lv. 13-18). The tunnel's east half stays shut (a Hiker, `!chapter-52-done`, the same as Celestic Town's west exit) so nobody reaches Route 211 East, Route 216 or Snowpoint City before chapter 53.
+  - **Map**: `route211w` (east from Eterna City under the mountainside, a hollow behind a cracked rock with TM12, three Trainers: a Bird Keeper, a Hiker, a Ninja Boy) to a mouth in Mt. Coronet; `coronet-211` (PokeAPI's Route 211 table of Mt. Coronet 1F, a cracked rock, a narrow way east) to a second mouth on `route211e`'s west face, beside the one that climbs north to Route 216 (chapter 53's way is unchanged). Platinum has the tunnel and the way north on one floor; here they are two maps.
+  - **Left out**: the Dowsing Machine's items, Energypowder (not in the game), the Poké Radar.
+- **Balance:** Platinum's levels; `tests/story.test.cjs` prints one `[story]` line.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (shut before the badge, the road, a Trainer, into the mountain, the cracked rock, shut beyond until chapter 52, out on Route 211 East, its north mouth unchanged, the ending only after chapter 65); `tests/story.test.cjs` the chapter after chapter 65.
+
+### After chapter 66
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
-1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Eterna's side of Route 211;
-   Mt. Coronet B1F; the villa; the Contest Hall and Amity Square; Marley (then she comes to the Battleground).
+1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Mt. Coronet B1F; the villa;
+   the Contest Hall and Amity Square; Marley (then she comes to the Battleground).
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

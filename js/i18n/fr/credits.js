@@ -188,5 +188,7 @@ G.I18n.add({
   "Chapter 64 complete!": "Chapitre 64 terminé !",
   "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player} a parcouru la Route 212 d'Unionpolis à Verchamps sous le soleil et la pluie, a affronté les soubrettes du Manoir Pokémon et a rencontré M. Backlot.",
   "Chapter 65 complete!": "Chapitre 65 terminé !",
-  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} a trouvé Maïté perdue dans le noir de la Grotte Revèche, s'est battu à ses côtés jusqu'à la sortie et l'a vue rejoindre le Terrain de Combat."
+  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player} a trouvé Maïté perdue dans le noir de la Grotte Revèche, s'est battu à ses côtés jusqu'à la sortie et l'a vue rejoindre le Terrain de Combat.",
+  "Chapter 66 complete!": "Chapitre 66 terminé !",
+  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} a gravi la Route 211 depuis Vestigion et a traversé le Mont Couronné par son vieux tunnel jusqu'à Célestia."
 }, "fr");

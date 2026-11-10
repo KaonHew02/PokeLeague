@@ -188,5 +188,7 @@ G.I18n.add({
   "Chapter 64 complete!": "第六十四章完成！",
   "{player} walked Route 212 from Hearthome City to Pastoria City through sun and rain, battled the maids of the Pokémon Mansion and met Mr. Backlot.": "{player}冒著晴天和大雨走完了從家緣市到濕原市的212號道路，和寶可夢屋的女僕們對戰，還認識了現慕先生。",
   "Chapter 65 complete!": "第六十五章完成！",
-  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player}在迷幻洞窟的黑暗中找到了迷路的麥兒，和她並肩作戰一路走了出來，後來還在對決場見到了她。"
+  "{player} found Mira lost in the dark of Wayward Cave, battled beside her all the way out, and saw her join the Battleground.": "{player}在迷幻洞窟的黑暗中找到了迷路的麥兒，和她並肩作戰一路走了出來，後來還在對決場見到了她。",
+  "Chapter 66 complete!": "第六十六章完成！",
+  "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player}從百代市爬上211號道路，穿過天冠山的老隧道，一路走到了神和鎮。"
 }, "zh-Hant");

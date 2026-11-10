@@ -4478,12 +4478,12 @@ test('the inner Victory Road and Route 224 (chapter 67): the National Pokédex, 
   await until(() => W.map.id === 'route224' && !W.locked);
   at(7, 22);
   assert.ok(W.map.def.fog);
-  step(W, 'right');
-  await settle();
+  assert.ok(!W.follower.visible, 'the mouth is behind you: she waits under you');
   step(W, 'right');
   await settle();
   assert.equal((W.follower || {}).who, 'marley', 'Marley comes out onto Route 224 with you');
-  assert.ok(W.follower.visible);
+  assert.ok(W.follower.visible, 'after the first step');
+  assert.deepEqual([W.follower.x, W.follower.y], [7, 22]);
   // The stone: Marley says goodbye; the end of the chapter.
   W.load('route224', { x: 20, y: 3, dir: 'up' });
   await settle();

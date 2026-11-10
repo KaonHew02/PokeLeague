@@ -586,6 +586,7 @@ G.World = (() => {
         follower.dur = a.dur;
         follower.visible = true;
       } else if (d > 1) { follower.place(ox, oy, dir); follower.visible = true; }
+      else { follower.dir = dir; follower.visible = true; }   // it waited under the player (makeFollower): it shows on the tile left behind
     }
   }
 

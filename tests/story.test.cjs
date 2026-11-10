@@ -4383,6 +4383,30 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 68 after chapter 67: the Regis wait again in Hoenn; Regigigas in Snowpoint Temple. */
+async function chapter68(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  assert.ok(F.flag('national-dex'));
+  // The Regis were beaten in chapter 41, never caught: with the National Pokédex they wait in their chambers again.
+  for (const [mapId, id] of [['desert-ruins-inner', 'regirock'], ['island-cave-inner', 'regice'], ['ancient-tomb-inner', 'registeel']]) {
+    assert.ok(F.test(G.Maps.get(mapId).npcs.find(n => n.id === id).if), id + ' waits again');
+  }
+  // Bring the three to the statue (as if caught there).
+  const team = S.party.slice();
+  const rng = G.RNG(68);
+  S.party.splice(3, S.party.length - 3, G.Mon.create(377, 40, { rng }), G.Mon.create(378, 40, { rng }), G.Mon.create(379, 40, { rng }));
+  F.healAll();
+  await run(st, 'snowpoint-temple-b5f', 'temple.regigigas');
+  assert.equal(last().key, 'wild:486');
+  assert.ok(['win', 'caught'].includes(last().outcome));
+  assert.ok(F.flag('chapter-68-done'));
+  console.log('[story] Snowpoint Temple: the three Regis woke', G.Names.mon(486), '(Lv. 1):', last().outcome, 'with a team at levels', last().levels.join(', '));
+  S.party.splice(0, S.party.length, ...team);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 67 after chapter 66: the inner Victory Road and Route 224 beside Marley, then Marley at the Battleground. */
 async function chapter67(st) {
   const { G, S } = st;
@@ -4893,4 +4917,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter65(st);
   await chapter66(st);
   await chapter67(st);
+  await chapter68(st);
 });

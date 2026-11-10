@@ -2476,12 +2476,22 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Platinum's levels on the road. Marley at the Battleground is measured like the others (a sensible team of six, alone and fresh, at least 60%): 85-88% at Platinum's levels, so nothing is tuned. A team of three is printed for reference.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (shut without the National Pokédex, open with it, Marley beside you and behind you, a pair beside her and the healing, the inside to the exit area to Route 224, the fog, the stone and her goodbye, back into the mountain, Marley in the days' draws); `tests/story.test.cjs` the chapter after chapter 66 and the balance line for Marley.
 
-### After chapter 67
+- **Chapter 68** ✅, Snowpoint Temple and Regigigas (`js/content/sinnoh/temple.js`, translations `sinnoh-temple`; no engine change). It ends with `ending(68)` the first time Regigigas is woken and beaten or caught; the temple opens only with the National Pokédex, so no player in the middle of the game sees it.
+  - **Opening**: Snowpoint City's north-east path ends at the temple's rock face and door (31,2); the gentleman stands in front of it until `national-dex`, then beside it.
+  - **Map**: six floors, all `cave` (PokeAPI's Platinum table for each floor). `snowpoint-temple-1f`: a hall, words carved in the wall, the ladder down. `-b1f`, `-b2f`, `-b3f`: ice (you slide until something stops you); the rocks were searched (scratchpad `temple_search.py`) so each floor reaches its ladder down and every place you can reach gets back to the ladder you came by. B1F: the Calcium in the south-east pocket. B2F: a cracked rock (Rock Smash) in the only way on. B3F: the Full Restore hidden in the rock between the two ladders (`hidden: true`). `-b4f`: a boulder (Strength) before the south alcove with the Full Heal. `-b5f`: the statue on a sheet of ice (you slide up to its feet).
+  - **Regigigas** (`temple.regigigas`): with Regirock, Regice and Registeel in the party the statue wakes (wild, level 1 as in Platinum). Caught, it is gone (flag `regigigas-caught`); beaten, it is stone again and can be woken again; without the three it does not move.
+  - **Hoenn** (`hoenn/regis.js`): a Regi beaten in chapter 41 but never caught (the Pokédex says) waits in its chamber again once you have the National Pokédex (a function as the NPC's `if`), so everyone can bring the three; beating one again does not replay `ending(41)`.
+  - **Left out**: Diamond and Pearl's level 70; nothing else in the temple (no Trainers there).
+- **Balance:** Platinum's wild levels (47-51); Regigigas is level 1 (catch rate 3, as hard to catch as Heatran). No `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the gentleman before and after the National Pokédex, the words in the wall, the solver's ways over the ice of B1F, B2F and B3F, the Calcium, the cracked rock, the hidden Full Restore, the boulder and the Full Heal, the ladders both ways, the slide to the statue, nothing without all three, running, beating, catching, the ending once; the Regis in Hoenn: back with the National Pokédex unless caught, no second ending 41); `tests/story.test.cjs` the chapter after chapter 67 (the Regis the story beat wait again; the three wake Regigigas).
+
+### After chapter 68
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
 1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Mt. Coronet B1F; the villa;
-   the Contest Hall and Amity Square; Victory Road B1F.
+   the Contest Hall and Amity Square; Victory Road B1F; the Old Chateau and the Lost Tower; Fullmoon Island and Cresselia;
+   the sea routes 219-221; Fuego Ironworks.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

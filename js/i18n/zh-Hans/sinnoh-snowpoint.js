@@ -119,5 +119,6 @@ G.I18n.add({
   "Ahoy, Champion! Shall I take you to the Battle Zone?": "喂，冠军！要我送你去对战特区吗？",
   "The ship sailed out across the northern sea...": "船驶入了北方的海……",
   "This ship goes to the Battle Zone, and only Trainers who have beaten the Pokémon League may board.": "这条船开往对战特区，只有打败过宝可梦联盟的训练家才能上船。",
-  "Snowpoint Harbor. The ship sails to the Battle Zone.": "雪峰市港口。此船开往对战特区。"
+  "Snowpoint Harbor. The ship sails to the Battle Zone.": "雪峰市港口。此船开往对战特区。",
+  "Candice told me a Trainer filling in the National Pokédex may enter the temple. Every floor below is ice, so mind your step.": "小菘说过，在完成全国图鉴的训练家可以进神殿。下面每一层都是冰，走路小心点。"
 }, "zh-Hans");

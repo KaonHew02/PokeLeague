@@ -119,5 +119,6 @@ G.I18n.add({
   "Ahoy, Champion! Shall I take you to the Battle Zone?": "Ohé, Maître ! Je t'emmène sur l'Île de Combat ?",
   "The ship sailed out across the northern sea...": "Le bateau a pris le large sur la mer du nord...",
   "This ship goes to the Battle Zone, and only Trainers who have beaten the Pokémon League may board.": "Ce bateau va sur l'Île de Combat, et seuls les Dresseurs qui ont vaincu la Ligue Pokémon peuvent monter.",
-  "Snowpoint Harbor. The ship sails to the Battle Zone.": "Port de Frimapic. Le bateau va sur l'Île de Combat."
+  "Snowpoint Harbor. The ship sails to the Battle Zone.": "Port de Frimapic. Le bateau va sur l'Île de Combat.",
+  "Candice told me a Trainer filling in the National Pokédex may enter the temple. Every floor below is ice, so mind your step.": "Gladys m'a dit qu'un Dresseur qui remplit le Pokédex National peut entrer dans le temple. Tous les étages en dessous sont en glace, alors fais attention où tu marches."
 }, "fr");

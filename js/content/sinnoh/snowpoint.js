@@ -317,8 +317,8 @@
     fly: { spot: 'center-door' },
     rows: [
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'T..................................T',
-      'T..................................T',
+      'T...........................#######T',
+      'T...........................###O###T',
       'T.............................S,...T',
       'T..............................,...T',
       'T..............................,...T',
@@ -349,9 +349,10 @@
       { x: 25, y: 10, to: 'snowpoint-mart', spot: 'door' },
       { x: 17, y: 10, to: 'snowpoint-gym', spot: 'door' },
       { x: 10, y: 20, to: 'snowpoint-house', spot: 'door' },
-      { x: 25, y: 20, to: 'snowpoint-house2', spot: 'door' }
+      { x: 25, y: 20, to: 'snowpoint-house2', spot: 'door' },
+      { x: 31, y: 2, to: 'snowpoint-temple-1f', spot: 'door' }       // Snowpoint Temple (temple.js, chapter 68)
     ],
-    spots: { harbor: [17, 23, 'down'], 'center-door': [7, 11, 'down'], 'mart-door': [25, 11, 'down'], 'gym-door': [17, 11, 'down'], 'house-door': [10, 21, 'down'], 'house2-door': [25, 21, 'down'] },
+    spots: { harbor: [17, 23, 'down'], 'center-door': [7, 11, 'down'], 'mart-door': [25, 11, 'down'], 'gym-door': [17, 11, 'down'], 'house-door': [10, 21, 'down'], 'house2-door': [25, 21, 'down'], temple: [31, 3, 'down'] },
     signs: {
       '3,14': 'Snowpoint City. The town where the snow never melts.',
       '19,12': 'Snowpoint City Gym. Leader: Candice, who never lets the cold win.',
@@ -360,8 +361,10 @@
     },
     npcs: [
       { id: 'sailor', who: 'sailor', x: 17, y: 24, dir: 'up', script: 'snowpoint.sailor' },
-      { id: 'temple', who: 'gentleman', x: 31, y: 3, dir: 'down',
+      { id: 'temple', who: 'gentleman', x: 31, y: 3, dir: 'down', if: '!national-dex',
         say: 'Snowpoint Temple lies beyond this point. It is older than the town, and only the Gym Leader may go inside.' },
+      { id: 'temple-open', who: 'gentleman', x: 32, y: 3, dir: 'left', if: 'national-dex',
+        say: 'Candice told me a Trainer filling in the National Pokédex may enter the temple. Every floor below is ice, so mind your step.' },
       { id: 'boy', who: 'youngster', x: 13, y: 13, move: 'look',
         say: 'Our Gym Leader is the coolest person in Sinnoh. Get it? Coolest?' },
       { id: 'girl', who: 'lass', x: 21, y: 17, move: 'look',

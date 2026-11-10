@@ -1544,7 +1544,7 @@ G.NAMES = {
     "stark-mountain": ["Stark Mountain","Montaña Dura","Mont Abrupt","Monte Ostile","严酷山","嚴酷山"],
     "spring-path": ["Spring Path","Vía Manantial","Chemin Source","Sentiero Fonte","隐泉之路","隱泉之路"],
     "turnback-cave": ["Turnback Cave","Cueva Retorno","Grotte Retour","Grotta Ritorno","归途洞窟","歸途洞窟"],
-    "snowpoint-temple": ["Snowpoint Temple","Snowpoint Temple","Temple Frimapic","Snowpoint Temple","Snowpoint Temple","Snowpoint Temple"],
+    "snowpoint-temple": ["Snowpoint Temple","Templo Puntaneva","Temple Frimapic","Tempio Nevepoli","雪峰神殿","雪峰神殿"],
     "wayward-cave": ["Wayward Cave","Cueva Extravío","Grotte Revèche","Grotta Labirinto","迷幻洞窟","迷幻洞窟"],
     "ruin-maniac-cave": ["Ruin Maniac Cave","Ruin Maniac Cave","Grotte Ruinem.","Ruin Maniac Cave","Ruin Maniac Cave","Ruin Maniac Cave"],
     "trophy-garden": ["Trophy Garden","Trophy Garden","Jardin Trophée","Trophy Garden","自豪的后院","自豪的後院"],

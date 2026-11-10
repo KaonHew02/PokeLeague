@@ -192,5 +192,7 @@ G.I18n.add({
   "Chapter 66 complete!": "Capítulo 66 concluído!",
   "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} subiu a Route 211 desde Eterna City e atravessou o Mt. Coronet pelo velho túnel até Celestic Town.",
   "Chapter 67 complete!": "Capítulo 67 concluído!",
-  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player} entrou na parte mais distante da Victory Road, atravessou com a Marley a névoa da Route 224 e leu a velha pedra no fim."
+  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player} entrou na parte mais distante da Victory Road, atravessou com a Marley a névoa da Route 224 e leu a velha pedra no fim.",
+  "Chapter 68 complete!": "Capítulo 68 concluído!",
+  "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player} desceu pelos andares congelados do Snowpoint Temple, levou Regirock, Regice e Registeel para casa e despertou Regigigas."
 }, "pt-BR");

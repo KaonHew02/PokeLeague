@@ -119,5 +119,6 @@ G.I18n.add({
   "Ahoy, Champion! Shall I take you to the Battle Zone?": "Ehilà, Campione! Ti porto alla Zona Lotta?",
   "The ship sailed out across the northern sea...": "La nave è salpata attraverso il mare del nord...",
   "This ship goes to the Battle Zone, and only Trainers who have beaten the Pokémon League may board.": "Questa nave va alla Zona Lotta, e possono salire solo gli Allenatori che hanno battuto la Lega Pokémon.",
-  "Snowpoint Harbor. The ship sails to the Battle Zone.": "Porto di Nevepoli. La nave va alla Zona Lotta."
+  "Snowpoint Harbor. The ship sails to the Battle Zone.": "Porto di Nevepoli. La nave va alla Zona Lotta.",
+  "Candice told me a Trainer filling in the National Pokédex may enter the temple. Every floor below is ice, so mind your step.": "Bianca mi ha detto che un Allenatore che sta completando il Pokédex Nazionale può entrare nel tempio. Tutti i piani di sotto sono di ghiaccio, quindi attento a dove metti i piedi."
 }, "it");

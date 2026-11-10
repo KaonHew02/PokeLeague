@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 68) return { title: T('Chapter 68 complete!'),
+      done: fmt('{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.', { player }),
+      next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };
     if (n === 67) return { title: T('Chapter 67 complete!'),
       done: fmt('{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.', { player }),
       next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };

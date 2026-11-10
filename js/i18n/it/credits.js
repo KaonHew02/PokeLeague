@@ -192,5 +192,7 @@ G.I18n.add({
   "Chapter 66 complete!": "Capitolo 66 completato!",
   "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} ha percorso il Percorso 211 da Evopoli e ha attraversato il Monte Corona per la vecchia galleria fino a Memoride.",
   "Chapter 67 complete!": "Capitolo 67 completato!",
-  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player} è entrato nella parte più remota della Via Vittoria, ha attraversato con Risetta la nebbia del Percorso 224 e ha letto la vecchia pietra alla fine."
+  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player} è entrato nella parte più remota della Via Vittoria, ha attraversato con Risetta la nebbia del Percorso 224 e ha letto la vecchia pietra alla fine.",
+  "Chapter 68 complete!": "Capitolo 68 completato!",
+  "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player} è sceso per i piani ghiacciati del Tempio Nevepoli, ha riportato a casa Regirock, Regice e Registeel e ha risvegliato Regigigas."
 }, "it");

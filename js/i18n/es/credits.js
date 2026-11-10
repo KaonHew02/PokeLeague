@@ -192,5 +192,7 @@ G.I18n.add({
   "Chapter 66 complete!": "¡Capítulo 66 completado!",
   "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player} subió la Ruta 211 desde Ciudad Vetusta y cruzó el Monte Corona por su viejo túnel hasta Pueblo Caelestis.",
   "Chapter 67 complete!": "¡Capítulo 67 completado!",
-  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player} entró en la parte más lejana de Calle Victoria, recorrió con Sémola la niebla de la Ruta 224 y leyó la vieja piedra del final."
+  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player} entró en la parte más lejana de Calle Victoria, recorrió con Sémola la niebla de la Ruta 224 y leyó la vieja piedra del final.",
+  "Chapter 68 complete!": "¡Capítulo 68 completado!",
+  "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player} bajó por los pisos helados del Templo Puntaneva, llevó a Regirock, Regice y Registeel a casa y despertó a Regigigas."
 }, "es");

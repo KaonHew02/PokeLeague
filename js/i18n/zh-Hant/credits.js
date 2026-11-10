@@ -192,5 +192,7 @@ G.I18n.add({
   "Chapter 66 complete!": "第六十六章完成！",
   "{player} climbed Route 211 from Eterna City and went through Mt. Coronet by its old tunnel, all the way to Celestic Town.": "{player}從百代市爬上211號道路，穿過天冠山的老隧道，一路走到了神和鎮。",
   "Chapter 67 complete!": "第六十七章完成！",
-  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player}走進冠軍之路的深處，和米依一起穿過224號道路的濃霧，讀到了盡頭那塊古老的石碑。"
+  "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player}走進冠軍之路的深處，和米依一起穿過224號道路的濃霧，讀到了盡頭那塊古老的石碑。",
+  "Chapter 68 complete!": "第六十八章完成！",
+  "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player}穿過雪峰神殿結冰的一層層，把雷吉洛克、雷吉艾斯和雷吉斯奇魯帶回了家，喚醒了雷吉奇卡斯。"
 }, "zh-Hant");

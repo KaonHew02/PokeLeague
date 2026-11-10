@@ -14,6 +14,9 @@
   const RUINS = { tileset: 'indoor', palette: 'ruins', music: 'cave', battleBg: 'cave', escape: true, region: 'hoenn' };
   const SEA = { tileset: 'outdoor', palette: 'underwater', music: 'cave', battleBg: 'underwater', border: '#', underwater: true, region: 'hoenn' };
   const OPEN = ['regis-unsealed'];
+  // Chapter 68: Regigigas in Snowpoint Temple (sinnoh/temple.js) wakes for the three. One you beat but never caught
+  // (the Pokédex says) waits in its chamber again once you have the National Pokédex, so everyone can bring them.
+  const AGAIN = (id, dex) => S => !G.Field.flag(id + '-met') || (G.Field.flag('national-dex') && !(S.dex && S.dex.caught && S.dex.caught[dex]));
 
   // ---------------- Route 105 ----------------
   G.Maps.def(Object.assign({
@@ -118,7 +121,7 @@
     ],
     warps: [{ x: 4, y: 7, to: 'island-cave', spot: 'below' }],
     spots: { stairs: [4, 6, 'up'] },
-    npcs: [{ id: 'regice', who: 'regice', mon: 'regice', x: 4, y: 3, dir: 'down', fixed: true, if: '!regice-met', script: 'regis.regice' }]
+    npcs: [{ id: 'regice', who: 'regice', mon: 'regice', x: 4, y: 3, dir: 'down', fixed: true, if: AGAIN('regice', 378), script: 'regis.regice' }]
   }, RUINS));
 
   // ---------------- The desert (Route 111, north) and the Desert Ruins (Regirock) ----------------
@@ -194,7 +197,7 @@
     ],
     warps: [{ x: 4, y: 7, to: 'desert-ruins', spot: 'below' }],
     spots: { stairs: [4, 6, 'up'] },
-    npcs: [{ id: 'regirock', who: 'regirock', mon: 'regirock', x: 4, y: 3, dir: 'down', fixed: true, if: '!regirock-met', script: 'regis.regirock' }]
+    npcs: [{ id: 'regirock', who: 'regirock', mon: 'regirock', x: 4, y: 3, dir: 'down', fixed: true, if: AGAIN('regirock', 377), script: 'regis.regirock' }]
   }, RUINS));
 
   // ---------------- The Ancient Tomb (Route 120; Registeel): Flash in the middle ----------------
@@ -233,7 +236,7 @@
     ],
     warps: [{ x: 4, y: 7, to: 'ancient-tomb', spot: 'below' }],
     spots: { stairs: [4, 6, 'up'] },
-    npcs: [{ id: 'registeel', who: 'registeel', mon: 'registeel', x: 4, y: 3, dir: 'down', fixed: true, if: '!registeel-met', script: 'regis.registeel' }]
+    npcs: [{ id: 'registeel', who: 'registeel', mon: 'registeel', x: 4, y: 3, dir: 'down', fixed: true, if: AGAIN('registeel', 379), script: 'regis.registeel' }]
   }, RUINS));
 
   // ---------------- Under Route 134, and the Sealed Chamber ----------------
@@ -356,7 +359,7 @@
     if (r === 'run' || r === 'lose') return;
     MET[id]();
     h.hide(id);
-    if (!REGIS.every(x => F.flag(x + '-met'))) return;
+    if (!REGIS.every(x => F.flag(x + '-met')) || F.flag('chapter-41-done')) return;
     await h.say(T('All three ancient Pokémon are awake. A deep silence settles over the old ruins of Hoenn.'));
     // The end of the forty-first chapter (credits-ui.js).
     if (G.CreditsUI) G.CreditsUI.ending(41); else F.setFlag('chapter-41-done');

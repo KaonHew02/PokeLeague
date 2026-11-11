@@ -166,7 +166,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           # Chapter 71: Sea Route 220.
                                           'splash-plate',
                                           # Chapter 72: Amity Square.
-                                          'spooky-plate'],
+                                          'spooky-plate',
+                                          # Chapter 74: Mt. Coronet B1F.
+                                          'light-clay'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.

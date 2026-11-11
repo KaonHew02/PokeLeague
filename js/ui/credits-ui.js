@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 74) return { title: T('Chapter 74 complete!'),
+      done: fmt('{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.', { player }),
+      next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };
     if (n === 73) return { title: T('Chapter 73 complete!'),
       done: fmt('{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.', { player }),
       next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };

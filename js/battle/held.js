@@ -19,6 +19,7 @@
  *   'amulet-coin'     double prize money once it has been in the battle (battle.js)
  *   'smoke-ball'      it always gets away from wild Pokémon (battle.js)
  *   'cleanse-tag'     on the lead, a third fewer wild Pokémon (field.js, chapter 69)
+ *   'light-clay'      its Reflect and Light Screen last 8 turns instead of 5 (moves-special.js, chapter 74)
  *   'everstone'       it does not evolve (evolution.js); at the Day Care it may pass on its nature (daycare.js)
  * The numbers are those of Generation 4. The battle asks:
  *   kind(mon) · is(mon, k) · power(mon, type) · statMult(mon, key) · critBonus(mon) · accMult(mon)

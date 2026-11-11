@@ -6,8 +6,9 @@
  * team after each battle (`afterBattle`). Route 224 is in fog (`fog`: only how it looks) along the shore and north to the
  * stone, where she says goodbye (flag marley-done) and the chapter ends (`ending(67)`); then she comes to the Battleground
  * (battleground.js). Platinum's Trainers and wild Pokémon; the pairs are mine (Serebii only marks Micah as a partner).
- * Left out: Seabreak Path and Shaymin (Platinum's event item, Oak's Letter), Victory Road's inner B1F, the Dowsing Machine's
- * items, berries, the Destiny Knot and the Repeat Ball (not in the game), double wild battles with a partner.
+ * Chapter 74: a ladder in a notch of the west corridor goes down to the inner B1F (b1f.js).
+ * Left out: Seabreak Path and Shaymin (Platinum's event item, Oak's Letter), the Dowsing Machine's items (a few are hidden
+ * on the inner B1F, chapter 74), berries, the Destiny Knot and the Repeat Ball (not in the game), double wild battles with a partner.
  */
 (() => {
   const T = s => G.T(s);
@@ -45,7 +46,7 @@
       '###...########################...###',
       '###...########################...###',
       '###...########################...###',
-      '###...########################...###',
+      '##%...########################...###',
       '###...########################...###',
       '###..............................###',
       '###..............................O##',
@@ -53,8 +54,9 @@
       '####################################'
     ],
     encounters: { walk: '@sinnoh-victory-road-inside' },
-    warps: [{ x: 18, y: 0, to: 'sinnoh-league', spot: 'inside' }, { x: 33, y: 23, to: 'victory-exit', spot: 'west' }],
-    spots: { mouth: [18, 1, 'down'], east: [32, 23, 'left'] },
+    warps: [{ x: 18, y: 0, to: 'sinnoh-league', spot: 'inside' }, { x: 33, y: 23, to: 'victory-exit', spot: 'west' },
+            { x: 2, y: 20, to: 'victory-inside-b1f', spot: 'ladder' }],        // the lake below (b1f.js, chapter 74)
+    spots: { mouth: [18, 1, 'down'], east: [32, 23, 'left'], ladder: [3, 20, 'right'] },
     triggers: [{ x: 14, y: 2, w: 9, h: 1, if: '!marley-met', script: 'r224.marley' }],
     items: [{ x: 32, y: 10, item: 'nugget', flag: 'vinside-nugget' }, { x: 3, y: 24, item: 'full-restore', flag: 'vinside-restore' },
             { x: 14, y: 1, item: 'leftovers', flag: 'vinside-leftovers' }],

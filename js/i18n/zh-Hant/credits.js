@@ -204,5 +204,7 @@ G.I18n.add({
   "Chapter 72 complete!": "第七十二章完成！",
   "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player}帶著寶可夢在家緣市的互動廣場散步，寶可夢在花叢裡找到了樹果。",
   "Chapter 73 complete!": "第七十三章完成！",
-  "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player}渡過苑之鎮花田北邊的河，坐著多多羅鋼鐵廠的傳送帶一路前進，從多多羅那裡收到了火之石。"
+  "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player}渡過苑之鎮花田北邊的河，坐著多多羅鋼鐵廠的傳送帶一路前進，從多多羅那裡收到了火之石。",
+  "Chapter 74 complete!": "第七十四章完成！",
+  "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player}找到了天冠山底下醜醜魚藏身的霧中之湖，還有冠軍之路下方那座冰冷的湖。"
 }, "zh-Hant");

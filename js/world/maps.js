@@ -35,6 +35,8 @@
  *   or a wild Pokémon, unless it was lost: Cheryl heals the team in Eterna Forest).
  *   Chapter 72: follower: 'always' (your lead walks behind you even with following turned off in the settings) and
  *   everySteps: { n, if, script } (every n steps on the map while `if` holds, the script runs: Amity Square).
+ *   Chapter 74: feebasTiles: n (each day n of the map's water tiles where Feebas bites half the time, from the
+ *   area's 'feebas-tile-fishing' table: Mt. Coronet B1F; see field.js).
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
@@ -332,7 +334,7 @@ G.Maps = (() => {
   /** Methods on the water: a map's `water` area gives them all (and so does the area of its grass). */
   const WATERY = ['surf', 'old-rod', 'good-rod', 'super-rod'];
   /** Tables a map finds in its walking area when it names none of its own. */
-  const FROM_AREA = WATERY.concat(['headbutt', 'rock-smash']);
+  const FROM_AREA = WATERY.concat(['headbutt', 'rock-smash', 'feebas-tile-fishing']);
   /** Encounter table { rate, mons } of one method ('walk', 'surf', 'old-rod'...), or null. */
   function encounters(m, method = 'walk') {
     let e = m.encounters && m.encounters[method];
@@ -554,6 +556,10 @@ G.Maps = (() => {
     if (d.everySteps) {                                                      // chapter 72
       if (!(d.everySteps.n > 0)) E.push('everySteps: n must be a number of steps above 0');
       scriptRef(d.everySteps.script, 'everySteps');
+    }
+    if (d.feebasTiles !== undefined) {                                       // chapter 74
+      if (!(Number.isInteger(d.feebasTiles) && d.feebasTiles > 0)) E.push('feebasTiles: must be a whole number above 0');
+      else if (!m.kind.some(k => k === 'water' || k === 'deep')) E.push('feebasTiles: the map has no water');
     }
     if (d.ally && (!d.ally.name || !(d.ally.team || []).length)) E.push('ally: needs a name and a team');      // chapter 62
     if (d.companion) {

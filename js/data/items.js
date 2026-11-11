@@ -179,6 +179,7 @@ G.ITEMS = {
   "lunar-wing": {"id":430,"pocket":"key","cat":"event-items"},
   "splash-plate": {"id":276,"pocket":"items","cat":"plates"},
   "spooky-plate": {"id":287,"pocket":"items","cat":"plates"},
+  "light-clay": {"id":246,"pocket":"items","cat":"held-items"},
   hm01: {"id":397,"pocket":"tms","cat":"all-machines","move":"cut"},
   hm02: {"id":398,"pocket":"tms","cat":"all-machines","move":"fly"},
   hm03: {"id":399,"pocket":"tms","cat":"all-machines","move":"surf"},

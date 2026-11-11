@@ -289,6 +289,24 @@ test('evolutions: a held item at night, a gender with a stone, a known move, a s
   assert.deepEqual(plain(G.Evolution.candidates(mantyke, { trigger: 'level', party: [mantyke, mk(223, 20)] })), [226], 'Mantine with a Remoraid');
 });
 
+test("Light Clay: the holder's Reflect and Light Screen last 8 turns instead of 5 (chapter 74)", () => {
+  /** How many turns the screen is up, counting the turn it went up. */
+  const lasts = (move, item) => {
+    const d = duel(G, { me: ['mr-mime', 50, [move, 'splash'], item ? { item } : {}], foe: ['snorlax', 50, ['splash']] });
+    const k = move === 'reflect' ? 'reflect' : 'lightScreen';
+    d.b.act({ type: 'move', slot: 0 });
+    let turns = 1;
+    while (d.b.player.field[k] && turns < 20) { d.b.act({ type: 'move', slot: 1 }); turns++; }
+    return turns;
+  };
+  for (const move of ['reflect', 'light-screen']) {
+    assert.equal(lasts(move), 5, move);
+    assert.equal(lasts(move, 'light-clay'), 8, move + ' with Light Clay');
+    assert.equal(lasts(move, 'leftovers'), 5, move + ' with another item');
+  }
+  assert.equal(G.ITEM_FX['light-clay'].held, 'light-clay');
+});
+
 test('every new battle line has text, in English and in Chinese', () => {
   for (const lang of ['en', 'zh-Hans']) {
     const H = battleBoot({ lang });

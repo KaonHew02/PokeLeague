@@ -75,6 +75,9 @@
  * Fly); seaweed (`"`) rolls the 'seaweed' table. A on the floor under deep water comes back up
  * (`surface`, the same tile).
  * Chapter 50: fog (map `fog`) only changes how the map looks: it does not touch walking or battles.
+ * Chapter 74: Feebas tiles (map `feebasTiles`: how many, Mt. Coronet B1F): each day that many water tiles,
+ * drawn from the date and the save (G.World.feebasTiles()); a bite there is from the area's
+ * 'feebas-tile-fishing' table half the time, whatever the rod (Platinum's four tiles a day).
  * Chapter 38: a storm (map `storm`: a condition) rains on the map and in its battles; on the sea
  * floor, `up: [{ x, y, w, h, to, spot }]` are places where coming up leads somewhere else (a lake
  * inside a crater: Sootopolis City).
@@ -1241,8 +1244,27 @@ G.World = (() => {
   }
   const canFish = () => !!fishSpot() && !locks;
 
-  /** Casts a rod: a bite (by the rod's table on this map) is a wild battle. */
+  // Feebas tiles (map `feebasTiles`, chapter 74: Mt. Coronet B1F): that many of the map's water tiles a day,
+  // drawn from the date and the save (as the Battleground's four), so nothing is stored.
+  const hash = s => { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; };
+  /** Today's Feebas tiles on a map. -> ['x,y', ...], none on a map without `feebasTiles` */
+  function feebasTiles(m = map) {
+    const n = m && m.def.feebasTiles;
+    if (!n) return [];
+    const water = [];
+    for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w; x++) {
+      const k = M().kindAt(m, x, y);
+      if (k === 'water' || k === 'deep') water.push(M().key(x, y));
+    }
+    const r = G.RNG(hash('feebas ' + m.id + ' ' + G.Clock.day()) ^ (G.Field.save.player.id | 0)), out = [];
+    while (out.length < n && water.length) out.push(water.splice(r.int(0, water.length - 1), 1)[0]);
+    return out;
+  }
+
+  /** Casts a rod: a bite (by the rod's table on this map) is a wild battle. On a Feebas tile, the map's
+   *  'feebas-tile-fishing' table comes first (half the bites, whatever the rod). */
   async function fishWith(h, rod) {
+    const at = fishSpot();
     await h.say(G.T('{player} used the {item}!'), { vars: { item: G.Names.item(rod) } });
     const table = M().encounters(map, rod);
     await wait(500 + rng.int(0, 900));
@@ -1252,6 +1274,8 @@ G.World = (() => {
     await h.say(G.T('Oh! A bite!'));
     let r = rng.next() * 100, pick = table.mons[table.mons.length - 1];
     for (const row of table.mons) { if ((r -= row[3]) < 0) { pick = row; break; } }
+    const rare = at && feebasTiles().includes(M().key(at.x, at.y)) && M().encounters(map, 'feebas-tile-fishing');
+    if (rare && rare.mons.length && rng.next() * 100 < rare.mons[0][3]) pick = rare.mons[0];
     fishing = true;
     try { await wildBattle({ sp: M().species(pick[0]), lvl: rng.int(pick[1], pick[2]), method: rod, map: map.id, area: null }); }
     finally { fishing = false; }
@@ -1753,7 +1777,7 @@ G.World = (() => {
     actor: id => actor(id, {}), host, debug,
     onEncounter: null, onTrainer: null, wildForm: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, makeFollower, get surfing() { return surfing; }, keyOpen,
-    barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, stormy, foggy,
+    barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, feebasTiles, stormy, foggy,
     get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },

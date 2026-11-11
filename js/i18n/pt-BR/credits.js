@@ -204,5 +204,7 @@ G.I18n.add({
   "Chapter 72 complete!": "Capítulo 72 concluído!",
   "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} passeou pela Amity Square de Hearthome City com um Pokémon ao lado, que encontrou frutas entre as flores.",
   "Chapter 73 complete!": "Capítulo 73 concluído!",
-  "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player} atravessou o rio ao norte de Floaroma Meadow, andou nas esteiras da Fuego Ironworks e recebeu uma Fire Stone do Sr. Fuego."
+  "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player} atravessou o rio ao norte de Floaroma Meadow, andou nas esteiras da Fuego Ironworks e recebeu uma Fire Stone do Sr. Fuego.",
+  "Chapter 74 complete!": "Capítulo 74 concluído!",
+  "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player} encontrou o lago enevoado sob o Mt. Coronet, onde Feebas se esconde, e o lago frio abaixo da Victory Road."
 }, "pt-BR");

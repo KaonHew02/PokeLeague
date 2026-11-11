@@ -308,7 +308,8 @@ G.SpecialMoves = (() => {
     return (b, u) => {
       const f = b.sideOf(u).field;
       if (f[k]) return fail(b);
-      f[k] = 5;
+      // Light Clay (chapter 74): the screens of its holder last 8 turns.
+      f[k] = (k === 'reflect' || k === 'lightScreen') && G.Held && G.Held.is(u.mon, 'light-clay') ? 8 : 5;
       b.emit('field', { side: u.side, effect: k });
       return {};
     };

@@ -197,6 +197,7 @@ G.ITEM_FX = {
   'splash-plate':  { held: 'boost', type: 'water' },          // Sea Route 220 (chapter 71)
   'spooky-plate':  { held: 'boost', type: 'ghost' },          // Amity Square (chapter 72)
   'cleanse-tag':   { held: 'cleanse-tag' },
+  'light-clay':    { held: 'light-clay' },     // Mt. Coronet B1F (chapter 74): Reflect and Light Screen last 8 turns
 
   // ---- key items ----
   'oaks-parcel':   { key: 1 },

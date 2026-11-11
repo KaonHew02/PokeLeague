@@ -1137,6 +1137,7 @@ G.NAMES = {
     "lunar-wing": ["Lunar Wing","Pluma Lunar","Lun’Aile","Alalunare","新月之羽","新月之羽"],
     "splash-plate": ["Splash Plate","Tabla Linfa","Plaque Hydro","Lastraidro","水滴石板","水滴石板"],
     "spooky-plate": ["Spooky Plate","Tabla Terror","Plaque Fantôme","Lastratetra","妖怪石板","妖怪石板"],
+    "light-clay": ["Light Clay","Refleluz","Lumargile","Creta Luce","光之黏土","光之黏土"],
     hm01: ["HM01","MO01","CS01","MN01","秘传学习器０１","秘傳學習器０１"],
     hm02: ["HM02","MO02","CS02","MN02","秘传学习器０２","秘傳學習器０２"],
     hm03: ["HM03","MO03","CS03","MN03","秘传学习器０３","秘傳學習器０３"],

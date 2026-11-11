@@ -4383,6 +4383,19 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 74 after chapter 73: the lakes of Mt. Coronet B1F and Victory Road's inner B1F. */
+async function chapter74(st) {
+  const { G } = st;
+  const F = G.Field;
+  await run(st, 'coronet-b1f', 'b1f.coronet');
+  assert.ok(F.flag('coronet-lake') && !F.flag('chapter-74-done'), 'one lake is not the end');
+  await run(st, 'victory-inside-b1f', 'b1f.victory');
+  assert.ok(F.flag('victory-lake') && F.flag('chapter-74-done'));
+  assert.equal(G.Maps.get('coronet-b1f').def.feebasTiles, 4);
+  console.log('[story] the two lakes: Mt. Coronet B1F (Feebas on 4 tiles a day) and the lake below Victory Road');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 73 after chapter 72: Fuego Ironworks. */
 async function chapter73(st) {
   const { G } = st;
@@ -5033,4 +5046,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter71(st);
   await chapter72(st);
   await chapter73(st);
+  await chapter74(st);
 });

@@ -7,6 +7,8 @@
  * first time you go through the tunnel once chapter 65 is done. Platinum's Trainers and wild Pokémon. Left out: the
  * Dowsing Machine's items, Energypowder (not in the game), the Poké Radar; Platinum's tunnel and the way north are one
  * floor, here two maps, so chapter 53's way stays as it was.
+ * Chapter 74: north of the tunnel's east half a boulder (Strength) opens a small room with the ladder down to Mt. Coronet
+ * B1F (b1f.js), as on Platinum's Celestic Town side.
  */
 (() => {
   const T = s => G.T(s);
@@ -70,10 +72,10 @@
     cave: true, escape: true,
     rows: [
       '##############################',
-      '##############################',
-      '##############################',
-      '##############################',
-      '##########.........###########',
+      '#######################....%##',
+      '#######################.....##',
+      '#######################.....##',
+      '##########.........######.####',
       '#........#.........###.......#',
       '#........#..##.....###.......#',
       'O........k..##...............O',
@@ -85,8 +87,11 @@
       '##############################'
     ],
     encounters: { walk: '@mt-coronet-1f-route-211' },
-    warps: [{ x: 0, y: 7, to: 'route211w', spot: 'coronet' }, { x: 29, y: 7, to: 'route211e', spot: 'tunnel' }],
-    spots: { west: [1, 7, 'right'], east: [28, 7, 'left'] },
+    warps: [{ x: 0, y: 7, to: 'route211w', spot: 'coronet' }, { x: 29, y: 7, to: 'route211e', spot: 'tunnel' },
+            { x: 27, y: 1, to: 'coronet-b1f', spot: 'ladder' }],                 // Mt. Coronet B1F (b1f.js, chapter 74)
+    spots: { west: [1, 7, 'right'], east: [28, 7, 'left'], ladder: [27, 2, 'down'] },
+    // The boulder before the room with the ladder: pushed north from the tunnel, or south from the room.
+    boulders: [{ id: 'b1f', x: 25, y: 4 }],
     triggers: [{ x: 19, y: 7, w: 3, h: 1, if: ['chapter-65-done', '!chapter-66-done'], script: 'r211.through' }],
     items: [{ x: 17, y: 4, item: 'stardust', flag: 'coronet211-stardust' }, { x: 11, y: 10, item: 'ice-heal', flag: 'coronet211-ice-heal' },
             { x: 27, y: 5, item: 'escape-rope', flag: 'coronet211-rope' }],

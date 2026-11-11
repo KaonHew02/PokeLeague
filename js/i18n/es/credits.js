@@ -198,5 +198,7 @@ G.I18n.add({
   "Chapter 69 complete!": "¡Capítulo 69 completado!",
   "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player} conoció al fantasma de la Vieja Mansión del Bosque Vetusto, subió a la Torre Perdida de la Ruta 209 y recibió los dos amuletos de las ancianas.",
   "Chapter 70 complete!": "¡Capítulo 70 completado!",
-  "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player} navegó hasta la Isla Plenilunio, vio a Cresselia salir volando para vagar por Sinnoh y despertó al hijo del marinero de sus pesadillas con la Pluma Lunar."
+  "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player} navegó hasta la Isla Plenilunio, vio a Cresselia salir volando para vagar por Sinnoh y despertó al hijo del marinero de sus pesadillas con la Pluma Lunar.",
+  "Chapter 71 complete!": "¡Capítulo 71 completado!",
+  "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player} surcó las olas al sur de Pueblo Arena por la Ruta 219 y la Ruta 220, cruzó la Ruta 221 y llegó a la entrada del Parque Compi."
 }, "es");

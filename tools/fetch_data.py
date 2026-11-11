@@ -162,7 +162,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           # Chapter 69: the Old Chateau and the Lost Tower.
                                           'old-gateau', 'dread-plate', 'cleanse-tag',
                                           # Chapter 70: Fullmoon Island.
-                                          'lunar-wing'],
+                                          'lunar-wing',
+                                          # Chapter 71: Sea Route 220.
+                                          'splash-plate'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.
@@ -316,6 +318,9 @@ LOC_NAMES = {
     'lost-tower':        ('Torre Perdida',      'Torre Memoria',       '迷失塔',     '迷失塔'),
     # Chapter 70.
     'fullmoon-island':   ('Isla Plenilunio',    'Isola Lunapiena',     '满月岛',     '滿月島'),
+    # Chapter 71.
+    'sinnoh-sea-route-220': ('Ruta 220',        'Percorso 220',        '220号水路',  '220號水路'),
+    'pal-park':          ('Parque Compi',       'Parco Amici',         '伙伴公园',   '夥伴公園'),
     # Chapter 48.
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),

@@ -194,6 +194,7 @@ G.ITEM_FX = {
   'black-glasses': { held: 'boost', type: 'dark',     price: 2000 },
   // Chapter 69: the Dread Plate (the Old Chateau) and the Cleanse Tag (the Lost Tower).
   'dread-plate':   { held: 'boost', type: 'dark' },
+  'splash-plate':  { held: 'boost', type: 'water' },          // Sea Route 220 (chapter 71)
   'cleanse-tag':   { held: 'cleanse-tag' },
 
   // ---- key items ----

@@ -198,5 +198,7 @@ G.I18n.add({
   "Chapter 69 complete!": "Capítulo 69 concluído!",
   "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player} conheceu o fantasma do Old Chateau na Eterna Forest, subiu a Lost Tower da Route 209 e recebeu os dois amuletos das senhoras.",
   "Chapter 70 complete!": "Capítulo 70 concluído!",
-  "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player} navegou até Fullmoon Island, viu Cresselia sair voando para vagar por Sinnoh e acordou o filho do marinheiro dos pesadelos com a Lunar Wing."
+  "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player} navegou até Fullmoon Island, viu Cresselia sair voando para vagar por Sinnoh e acordou o filho do marinheiro dos pesadelos com a Lunar Wing.",
+  "Chapter 71 complete!": "Capítulo 71 concluído!",
+  "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player} surfou ao sul de Sandgem Town pela Route 219 e pela Sea Route 220, atravessou a Route 221 e chegou ao portão do Pal Park."
 }, "pt-BR");

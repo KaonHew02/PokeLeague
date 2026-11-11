@@ -2501,13 +2501,19 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Cresselia roams at level 50 and flees, like Mesprit; no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the sailor before and after the National Pokédex, the questions in order, the sleeping boy without the feather, the boat, no wild Pokémon on the island, Cresselia's flight and roaming, the Lunar Wing, the boat back, the boy wakes, the ending once, the sailor's thanks; two roamers in Sinnoh on the Town Map list, either one met on a shared route, both moving, both kept in the save, one caught alone); `tests/story.test.cjs` the chapter after chapter 69 and Cresselia met on its route.
 
-### After chapter 70
+- **Chapter 71** ✅, Route 219, Sea Route 220 and Route 221 (`js/content/sinnoh/route219.js`, translations `sinnoh-route219`; no engine change). Surf opens them, as in Platinum, so `ending(71)` comes from the Pal Park receptionist only once chapter 70 is done (on a later visit for a player who came earlier).
+  - **Map**: Sandgem Town's sea goes on south (`connect.south`). `route219` (open sea and a sandbar; the Tubers Trenton and Mariel at the higher of the two levels Serebii lists, 33; an Antidote), `route220` (open sea, three islands with a Max Repel, the Splash Plate and a Carbos; seven Swimmers in the water), `route221` (the sea and a beach in the west, a wood with tall grass, the Swimmers Dillon and Vanessa, Fisherman Cory, Collector Ivan, Ace Trainers Jake and Shannon; a Protein, an Ultra Ball, TM81, a Cleanse Tag; Platinum's walking table) and `pal-park-gate` (a receptionist behind the counter: no Pokémon from faraway lands have come, so the park is not open).
+  - **New**: the Splash Plate in the data (held: Water moves ×1.2); the official names of Sea Route 220 and Pal Park (es, it, Chinese); the three roads on the Town Map.
+  - **Left out**: Pal Park itself (Pokémon from a Game Boy Advance game), the Dowsing Machine's items, berry trees, Route 221's gifts (the Black Belt, Expert Belt and Focus Sash: who gives them, and when, is not clear from Serebii), the Poké Radar, swarms, Honey trees, rematches.
+- **Balance:** Platinum's levels (30-36); no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the Trainers of each road, surfing south from Sandgem across both edges and east onto Route 221, a Tuber on the sand and a Swimmer in the water spotting you, the Antidote, the Splash Plate, Route 221's grass, the gate both ways, the receptionist, no ending before chapter 70 and then once); `tests/story.test.cjs` the chapter after chapter 70 (the fifteen Trainers, the gate).
+
+### After chapter 71
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
 1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Mt. Coronet B1F; the villa;
-   the Contest Hall and Amity Square; Victory Road B1F;
-   the sea routes 219-221; Fuego Ironworks.
+   the Contest Hall and Amity Square; Victory Road B1F; Fuego Ironworks.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

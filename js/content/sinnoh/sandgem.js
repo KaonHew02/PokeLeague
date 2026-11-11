@@ -48,7 +48,7 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    connect: { west: { map: 'route201', offset: 0 }, north: { map: 'route202', offset: 3 } },
+    connect: { west: { map: 'route201', offset: 0 }, north: { map: 'route202', offset: 3 }, south: { map: 'route219', offset: 0 } },
     warps: [
       { x: 6, y: 5, to: 'rowan-lab', spot: 'door' },
       { x: 18, y: 5, to: 'sandgem-center', spot: 'door' },

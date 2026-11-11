@@ -4383,6 +4383,26 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 71 after chapter 70: Route 219, Sea Route 220, Route 221 and the gate of Pal Park. */
+async function chapter71(st) {
+  const { G } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  let n = 0;
+  for (const m of ['route219', 'route220', 'route221']) {
+    for (const t of G.Maps.get(m).trainers) {
+      F.healAll();
+      await run(st, m, [['battle', m + ':' + t.id]]);
+      won(); n++;
+    }
+  }
+  await run(st, 'pal-park-gate', 'r221.gate');
+  assert.ok(F.flag('chapter-71-done'));
+  console.log('[story] Routes 219 to 221:', n, 'Trainers beaten; the gate of Pal Park');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 70 after chapter 69: the sailor's son, Fullmoon Island, Cresselia roaming Sinnoh, the Lunar Wing. */
 async function chapter70(st) {
   const { G, S } = st;
@@ -4973,4 +4993,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter68(st);
   await chapter69(st);
   await chapter70(st);
+  await chapter71(st);
 });

@@ -202,5 +202,7 @@ G.I18n.add({
   "Chapter 71 complete!": "Chapitre 71 terminé !",
   "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player} a surfé au sud de Littorella sur la Route 219 et le Chenal 220, a traversé la Route 221 et a atteint l'entrée du Parc des Amis.",
   "Chapter 72 complete!": "Chapitre 72 terminé !",
-  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} s'est promené au Square Paisible d'Unionpolis avec un Pokémon à ses côtés, qui a trouvé des baies parmi les fleurs."
+  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} s'est promené au Square Paisible d'Unionpolis avec un Pokémon à ses côtés, qui a trouvé des baies parmi les fleurs.",
+  "Chapter 73 complete!": "Chapitre 73 terminé !",
+  "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player} a traversé la rivière au nord du Pré Floraville, a pris les tapis roulants de la Forge Fuego et a reçu une Pierre Feu de M. Fuego."
 }, "fr");

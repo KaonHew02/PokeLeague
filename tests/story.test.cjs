@@ -4383,6 +4383,24 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 73 after chapter 72: Fuego Ironworks. */
+async function chapter73(st) {
+  const { G } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  let n = 0;
+  for (const t of G.Maps.get('fuego-inside').trainers) {
+    F.healAll();
+    await run(st, 'fuego-inside', [['battle', 'fuego-inside:' + t.id]]);
+    won(); n++;
+  }
+  await run(st, 'fuego-inside', 'fuego.fuego');
+  assert.ok(F.flag('fuego-stone') && F.count('fire-stone') > 0 && F.flag('chapter-73-done'));
+  console.log('[story] Fuego Ironworks:', n, 'Workers beaten; a Fire Stone from Mr. Fuego');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 72 after chapter 71: Amity Square with Pikachu at the front. */
 async function chapter72(st) {
   const { G, S } = st;
@@ -5014,4 +5032,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter70(st);
   await chapter71(st);
   await chapter72(st);
+  await chapter73(st);
 });

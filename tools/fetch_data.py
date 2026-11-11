@@ -325,6 +325,8 @@ LOC_NAMES = {
     'pal-park':          ('Parque Compi',       'Parco Amici',         '伙伴公园',   '夥伴公園'),
     # Chapter 72.
     'amity-square':      ('Plaza Amistad',      'Parco Concordia',     '互动广场',   '互動廣場'),
+    # Chapter 73.
+    'fuego-ironworks':   ('Forja Fuego',        'Fonderie Fuego',      '多多罗钢铁厂', '多多羅鋼鐵廠'),
     # Chapter 48.
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),

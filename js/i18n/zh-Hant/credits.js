@@ -202,5 +202,7 @@ G.I18n.add({
   "Chapter 71 complete!": "第七十一章完成！",
   "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player}從真砂鎮往南衝浪，經過219號道路和220號水路，穿過221號道路，來到了夥伴公園的大門。",
   "Chapter 72 complete!": "第七十二章完成！",
-  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player}帶著寶可夢在家緣市的互動廣場散步，寶可夢在花叢裡找到了樹果。"
+  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player}帶著寶可夢在家緣市的互動廣場散步，寶可夢在花叢裡找到了樹果。",
+  "Chapter 73 complete!": "第七十三章完成！",
+  "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player}渡過苑之鎮花田北邊的河，坐著多多羅鋼鐵廠的傳送帶一路前進，從多多羅那裡收到了火之石。"
 }, "zh-Hant");

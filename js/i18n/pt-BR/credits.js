@@ -202,5 +202,7 @@ G.I18n.add({
   "Chapter 71 complete!": "Capítulo 71 concluído!",
   "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player} surfou ao sul de Sandgem Town pela Route 219 e pela Sea Route 220, atravessou a Route 221 e chegou ao portão do Pal Park.",
   "Chapter 72 complete!": "Capítulo 72 concluído!",
-  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} passeou pela Amity Square de Hearthome City com um Pokémon ao lado, que encontrou frutas entre as flores."
+  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} passeou pela Amity Square de Hearthome City com um Pokémon ao lado, que encontrou frutas entre as flores.",
+  "Chapter 73 complete!": "Capítulo 73 concluído!",
+  "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player} atravessou o rio ao norte de Floaroma Meadow, andou nas esteiras da Fuego Ironworks e recebeu uma Fire Stone do Sr. Fuego."
 }, "pt-BR");

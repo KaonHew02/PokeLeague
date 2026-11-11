@@ -6,13 +6,19 @@
  * grunts are taking a man's Honey: beat both and they drop the windworks' key (flag windworks-key).
  * Route 205 crosses the river east of town: south to the windworks (locked without the key), north to
  * Eterna Forest (eterna.js). Inside, a grunt and Commander Mars (Zubat 15, Purugly 17; flag
- * mars-windworks). Afterwards a wild Drifloon floats by the windworks, once (flag drifloon-met).
+ * mars-windworks). Afterwards a wild Drifloon floats by the windworks every Friday, as in Platinum (chapter 73:
+ * G.Clock.weekday(); met, it is gone until the next Friday, var drifloon-day; caught, for good, flag drifloon-caught;
+ * flag drifloon-met as before). Floaroma Meadow's north path leads to Fuego Ironworks (fuego.js, chapter 73).
  * Platinum's wild Pokémon.
  */
 (() => {
   const T = s => G.T(s);
   const GRUNT = { name: 'Team Galactic Grunt' }, MARS = { name: 'Mars' }, HONEY = { name: 'Honey Seller' };
   const SINNOH = { region: 'sinnoh' };
+  // The Drifloon of the windworks: every Friday once Mars is gone, until it is caught (chapter 73). An old save whose
+  // Pokédex already has Drifloon caught after meeting it there does not see it again.
+  const DRIFLOON = S => G.Field.flag('mars-windworks') && G.Clock.weekday() === 5 && !G.Field.flag('drifloon-caught')
+    && !(G.Field.flag('drifloon-met') && S.dex.caught[425]) && S.vars['drifloon-day'] !== G.Clock.day();
   const CAVE = { tileset: 'outdoor', palette: 'cave', music: 'cave', battleBg: 'cave', border: '#', cave: true, escape: true, region: 'sinnoh' };
   const HOUSE = ['WWWWWWWWWWW', 'WWWWWWWWWWW', 'bb__p______', '___________', '____ttt____', '____ttt____', '___________', '____X______'];
 
@@ -215,7 +221,7 @@
   G.Maps.def(Object.assign({
     id: 'floaroma-meadow', loc: 'floaroma-meadow', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
-      'TTTTTTTTTTTTTTTTTTTTTTTT',
+      'TTTTTTTTTTT,,TTTTTTTTTTT',
       'TffffffffffffffffffffffT',
       'Tfffffff........fffffffT',
       'Tfffffff........fffffffT',
@@ -234,7 +240,7 @@
       'Tffffffffff,,ffffffffffT',
       'TTTTTTTTTTT,,TTTTTTTTTTT'
     ],
-    connect: { south: { map: 'floaroma', offset: -3 } },
+    connect: { south: { map: 'floaroma', offset: -3 }, north: { map: 'fuego-ironworks', offset: -3 } },
     signs: { '13,15': 'Floaroma Meadow. Please do not pick the flowers.' },
     triggers: [{ x: 1, y: 7, w: 22, h: 1, if: '!windworks-key', script: 'floaroma.meadow' }],
     npcs: [
@@ -317,7 +323,7 @@
     signs: { '14,9': 'Valley Windworks. The wind of the valley turns into power for all of Sinnoh.' },
     npcs: [
       // After Team Galactic leaves, a Drifloon floats by (once).
-      { id: 'drifloon', who: 'drifloon', mon: 'drifloon', x: 16, y: 8, dir: 'down', fixed: true, if: ['mars-windworks', '!drifloon-met'], script: 'windworks.drifloon' }
+      { id: 'drifloon', who: 'drifloon', mon: 'drifloon', x: 16, y: 8, dir: 'down', fixed: true, if: DRIFLOON, script: 'windworks.drifloon' }
     ],
     trainers: [
       { id: 'grunt-door', who: 'galactic', cls: 'team-galactic', name: '', x: 13, y: 8, dir: 'down', sight: 3, if: '!mars-windworks', team: [['zubat', 12], ['glameow', 13]],
@@ -416,10 +422,14 @@
       ['fade', 'out', 0.4], ['setFlag', 'mars-windworks'], ['fade', 'in', 0.4],
       ['say', 'Team Galactic left the Valley Windworks.']
     ],
-    'windworks.drifloon': [
-      ['say', 'A Drifloon is drifting by the windworks, riding the valley wind...'],
-      ['wild', 'drifloon', 15],
-      ['setFlag', 'drifloon-met']
-    ]
+    'windworks.drifloon': [['js', async h => {
+      const F = G.Field;
+      await h.say(T('A Drifloon is drifting by the windworks, riding the valley wind...'));
+      await h.wild('drifloon', 15, {});
+      const r = F.lastBattle;
+      F.setFlag('drifloon-met');
+      if (r === 'caught') F.setFlag('drifloon-caught');
+      else if (r !== 'run' && r !== 'lose') { F.save.vars['drifloon-day'] = G.Clock.day(); h.hide('drifloon'); }   // back next Friday
+    }]]
   });
 })();

@@ -4,6 +4,8 @@
  *   G.Clock.isDay()  -> morning or day (an evolution "by day": Espeon)
  *   G.Clock.set(period | null)   pins the time (debug ?time=night, tests); null follows the clock
  *   G.Clock.day()    -> 'YYYY-MM-DD', the device's date (things that happen once a day)
+ *   G.Clock.weekday() -> 0 (Sunday) to 6 (Saturday), the device's day of the week (chapter 73: the Drifloon
+ *                       of the Valley Windworks comes on Fridays)
  * Johto's wild Pokémon change with it (encounter tables with `morning` / `night` slots), and so
  * does the light on its outdoor maps.
  */
@@ -23,5 +25,7 @@ G.Clock = (() => {
     return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
   }
 
-  return { PERIODS, period, isDay, hour, day, set, get forced() { return forced; } };
+  const weekday = () => new Date().getDay();
+
+  return { PERIODS, period, isDay, hour, day, weekday, set, get forced() { return forced; } };
 })();

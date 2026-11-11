@@ -2516,12 +2516,21 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** no battles; `tests/story.test.cjs` prints one `[story]` line.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (Hearthome's door, the rules naming the twenty, shut with Luxray at the front, open with Pikachu, Pikachu walking behind with following off, a berry after 100 steps, the gentleman once a day and again the next day, no ending before chapter 71 and then once, the four items, out through the gatehouse); `tests/story.test.cjs` the chapter after chapter 71 (three finds and the gentleman's berry).
 
-### After chapter 72
+- **Chapter 73** ✅, Fuego Ironworks and the Drifloon of Fridays (`js/content/sinnoh/fuego.js`, translations `sinnoh-fuego`). The works can be visited in the middle of the game, so `ending(73)` comes from Mr. Fuego only once chapter 72 is done.
+  - **Map**: Floaroma Meadow's north edge opens on `fuego-ironworks` (Platinum's back way; Route 205's north edge already leads to Eterna Forest): a river to Surf across, the works (`B`) on the far bank, TM35 and a Calcium, PokeAPI's tables by time of day. `fuego-inside`: conveyor belts (the spin tiles of Kanto's Rocket Hideout) between the door and Mr. Fuego, and Platinum's three Workers (Dillan: Machop, Machoke; Holden: three Magnemite; Conrad: Magmar). The belts were searched (scratchpad `c73_maps.py`): every place reaches Mr. Fuego, each Worker and the door, and no ride can loop (two belts facing each other would spin you 300 times); the solver agrees with field.js on all 503 moves of the layout.
+  - **Mr. Fuego**: in Platinum he trades Star Pieces for shards, which the game does not have, so he gives a Fire Stone once, as in Diamond and Pearl (flag `fuego-stone`).
+  - **The Drifloon of the Valley Windworks** (`floaroma.js`): every Friday once Mars is gone, as in Platinum (new `G.Clock.weekday()`, 0 Sunday to 6 Saturday, from the device): met, it is gone until the next Friday (var `drifloon-day`); caught, for good (flag `drifloon-caught`; an old save that met it and has Drifloon caught does not see it either); flag `drifloon-met` as before.
+  - **Names**: the official names of the works (es Forja Fuego, it Fonderie Fuego, zh 多多罗钢铁厂).
+  - **Left out**: the shards, the Dowsing Machine's items, the Poké Radar, Honey trees, rematches.
+- **Balance:** Platinum's levels (28-35); no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (north out of the meadow, the river stops walking and Surf crosses it, the wild table, the two items, the door, the belts' route to Mr. Fuego, the Fire Stone once, no ending before chapter 72 and then once, a Worker who sees you; the Drifloon: not on a Thursday, on a Friday, not twice that Friday, again the next Friday, never once caught); chapter 46's windworks test runs on a Friday; `tests/story.test.cjs` the chapter after chapter 72 (the three Workers, the Fire Stone).
+
+### After chapter 73
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
 1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Mt. Coronet B1F; the villa;
-   the Contest Hall; Victory Road B1F; Fuego Ironworks.
+   the Contest Hall; Victory Road B1F.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

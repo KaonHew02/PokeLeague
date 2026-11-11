@@ -202,5 +202,7 @@ G.I18n.add({
   "Chapter 71 complete!": "Capitolo 71 completato!",
   "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player} ha navigato a sud di Sabbiafine lungo il Percorso 219 e il Percorso 220, ha attraversato il Percorso 221 ed è arrivato all'ingresso del Parco Amici.",
   "Chapter 72 complete!": "Capitolo 72 completato!",
-  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} ha passeggiato nel Parco Concordia di Cuoripoli con un Pokémon al fianco, che ha trovato bacche tra i fiori."
+  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} ha passeggiato nel Parco Concordia di Cuoripoli con un Pokémon al fianco, che ha trovato bacche tra i fiori.",
+  "Chapter 73 complete!": "Capitolo 73 completato!",
+  "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player} ha attraversato il fiume a nord di Floaroma Meadow, ha percorso i nastri delle Fonderie Fuego e ha ricevuto una Pietrafocaia dal Sig. Fuego."
 }, "it");

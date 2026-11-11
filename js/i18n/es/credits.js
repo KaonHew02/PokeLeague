@@ -202,5 +202,7 @@ G.I18n.add({
   "Chapter 71 complete!": "¡Capítulo 71 completado!",
   "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player} surcó las olas al sur de Pueblo Arena por la Ruta 219 y la Ruta 220, cruzó la Ruta 221 y llegó a la entrada del Parque Compi.",
   "Chapter 72 complete!": "¡Capítulo 72 completado!",
-  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} paseó por la Plaza Amistad de Ciudad Corazón con un Pokémon a su lado, que encontró bayas entre las flores."
+  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} paseó por la Plaza Amistad de Ciudad Corazón con un Pokémon a su lado, que encontró bayas entre las flores.",
+  "Chapter 73 complete!": "¡Capítulo 73 completado!",
+  "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player} cruzó el río al norte del Prado Aromaflor, recorrió las cintas de la Forja Fuego y recibió una Piedra Fuego del Sr. Fuego."
 }, "es");

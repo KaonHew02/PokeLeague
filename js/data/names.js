@@ -1540,7 +1540,7 @@ G.NAMES = {
     "oreburgh-mine": ["Oreburgh Mine","Mina Pirita","Mine Charbourg","Miniera di Mineropoli","黑金矿山","黑金礦山"],
     "valley-windworks": ["Valley Windworks","Valle Eólico","Les Eoliennes","Valley Windworks","山谷发电厂","山谷發電廠"],
     "eterna-forest": ["Eterna Forest","Bosque Vetusto","Forêt Vestigion","Bosco Evopoli","百代森林","百代森林"],
-    "fuego-ironworks": ["Fuego Ironworks","Fuego Ironworks","Forge Fuego","Fuego Ironworks","Fuego Ironworks","Fuego Ironworks"],
+    "fuego-ironworks": ["Fuego Ironworks","Forja Fuego","Forge Fuego","Fonderie Fuego","多多罗钢铁厂","多多羅鋼鐵廠"],
     "mt-coronet": ["Mt. Coronet","Monte Corona","Mont Couronné","Monte Corona","天冠山","天冠山"],
     "great-marsh": ["Great Marsh","Gran Pantano","Grand Marais","Gran Palude","大湿地","大濕地"],
     "solaceon-ruins": ["Solaceon Ruins","Ruinas Sosiego","Ruines Bonville","Solaceon Ruins","随意遗迹","隨意遺跡"],

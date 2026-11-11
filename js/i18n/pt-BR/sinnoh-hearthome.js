@@ -9,7 +9,6 @@ G.I18n.add({
   "I am the Berry Master! I grow Berries of every kind behind this house.": "Eu sou o Mestre das Frutinhas! Cultivo frutinhas de todo tipo atrás desta casa.",
   "A traveling Trainer, eh? Take these. A Sitrus Berry heals a good deal of HP when a Pokémon needs it.": "Um Treinador viajante, é? Pegue isto. Uma Sitrus Berry cura bastante HP quando o Pokémon precisa.",
   "The Contest Hall. A sign says: \"No contests today. Please come again!\"": "Salão de Concursos. Um aviso diz: \"Sem concursos hoje. Volte outro dia!\"",
-  "Amity Square. A sign says: \"Closed today for gardening.\"": "Praça da Amizade. Um aviso diz: \"Fechado hoje para jardinagem.\"",
   "Hey, {player}! I crossed Mt. Coronet ahead of you. I bumped into a weird guy in a grey coat in there...": "Ei, {player}! Atravessei o Mt. Coronet antes de você. Esbarrei num cara esquisito de casaco cinza lá dentro...",
   "Anyway! Fantina's Ghost types are tough, so I am training first. Do not you dare beat her before me!": "Enfim! Os tipos Fantasma da Fantina são duros, então vou treinar primeiro. Nem pense em vencê-la antes de mim!",
   "Hey, Champion! Fantina uses Ghost-type Pokémon.": "Ei, Campeão! Fantina usa Pokémon do tipo Fantasma.",

@@ -9,7 +9,6 @@ G.I18n.add({
   "I am the Berry Master! I grow Berries of every kind behind this house.": "Je suis le Maître Baies ! Je cultive des Baies de toutes sortes derrière cette maison.",
   "A traveling Trainer, eh? Take these. A Sitrus Berry heals a good deal of HP when a Pokémon needs it.": "Un Dresseur en voyage, hein ? Prends ceci. Une Baie Sitrus rend pas mal de PV quand un Pokémon en a besoin.",
   "The Contest Hall. A sign says: \"No contests today. Please come again!\"": "Salle des Concours. Une affiche dit : « Pas de concours aujourd'hui. Revenez une autre fois ! »",
-  "Amity Square. A sign says: \"Closed today for gardening.\"": "Square Paisible. Une affiche dit : « Fermé aujourd'hui pour jardinage. »",
   "Hey, {player}! I crossed Mt. Coronet ahead of you. I bumped into a weird guy in a grey coat in there...": "Hé, {player} ! J'ai traversé le Mont Couronné avant toi. J'ai croisé un type bizarre en manteau gris là-dedans...",
   "Anyway! Fantina's Ghost types are tough, so I am training first. Do not you dare beat her before me!": "Bref ! Les Spectres de Kiméra sont coriaces, alors je m'entraîne d'abord. Ne t'avise pas de la battre avant moi !",
   "Hey, Champion! Fantina uses Ghost-type Pokémon.": "Salut, le Maître ! Kiméra utilise des Pokémon de type Spectre.",

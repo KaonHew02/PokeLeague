@@ -33,6 +33,8 @@
  *   companion: { if, who, name, say } (walks behind you in place of your Pokémon).
  *   Chapter 46: afterBattle: { if, script } (after each battle on the map with a trainer standing there
  *   or a wild Pokémon, unless it was lost: Cheryl heals the team in Eterna Forest).
+ *   Chapter 72: follower: 'always' (your lead walks behind you even with following turned off in the settings) and
+ *   everySteps: { n, if, script } (every n steps on the map while `if` holds, the script runs: Amity Square).
  *
  *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
@@ -549,6 +551,10 @@ G.Maps = (() => {
     }
     if (d.enter) scriptRef(d.enter, 'enter');
     if (d.afterBattle) scriptRef(d.afterBattle.script, 'afterBattle');      // chapter 46
+    if (d.everySteps) {                                                      // chapter 72
+      if (!(d.everySteps.n > 0)) E.push('everySteps: n must be a number of steps above 0');
+      scriptRef(d.everySteps.script, 'everySteps');
+    }
     if (d.ally && (!d.ally.name || !(d.ally.team || []).length)) E.push('ally: needs a name and a team');      // chapter 62
     if (d.companion) {
       if (!d.companion.say) E.push('companion: has nothing to say');

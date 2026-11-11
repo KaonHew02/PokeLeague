@@ -164,7 +164,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           # Chapter 70: Fullmoon Island.
                                           'lunar-wing',
                                           # Chapter 71: Sea Route 220.
-                                          'splash-plate'],
+                                          'splash-plate',
+                                          # Chapter 72: Amity Square.
+                                          'spooky-plate'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.
@@ -321,6 +323,8 @@ LOC_NAMES = {
     # Chapter 71.
     'sinnoh-sea-route-220': ('Ruta 220',        'Percorso 220',        '220号水路',  '220號水路'),
     'pal-park':          ('Parque Compi',       'Parco Amici',         '伙伴公园',   '夥伴公園'),
+    # Chapter 72.
+    'amity-square':      ('Plaza Amistad',      'Parco Concordia',     '互动广场',   '互動廣場'),
     # Chapter 48.
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),

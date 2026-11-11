@@ -363,7 +363,9 @@ G.World = (() => {
     const lead = G.Field.lead(), friend = surfing ? null : companion();
     if (friend) { if (!follower || follower.who !== friend.who) follower = new G.Actor({ id: 'follower', who: friend.who }); }
     else {
-      if (!lead || surfing || under() || G.Settings.get('follower') === false) { follower = null; return; }
+      // Map `follower: 'always'` (Amity Square, chapter 72): the lead walks behind you whatever the setting says.
+      const always = map && map.def.follower === 'always';
+      if (!lead || surfing || under() || (G.Settings.get('follower') === false && !always)) { follower = null; return; }
       if (!follower || follower.mon !== lead.sp) follower = new G.Actor({ id: 'follower', mon: lead.sp, shiny: !!lead.shiny });
     }
     // One tile behind the player, if there is room; else under the player (hidden) until the first step.
@@ -716,6 +718,19 @@ G.World = (() => {
       G.Player.walk(null);
       runScript([['js', h => G.DayCare.hatch(h, due)]], {});
       return true;
+    }
+    // Map `everySteps: { n, if, script }` (chapter 72): every n steps on the map while `if` holds, the script runs
+    // (Amity Square: the Pokémon walking with you finds something). The count is kept per map (var steps:<map>).
+    const es = map && map.def.everySteps;
+    if (es && G.Field.test(es.if)) {
+      const k = 'steps:' + map.id;
+      V[k] = (+V[k] || 0) + 1;
+      if (V[k] >= es.n) {
+        V[k] = 0;
+        G.Player.walk(null);
+        runScript(es.script, {});
+        return true;
+      }
     }
     return false;
   }

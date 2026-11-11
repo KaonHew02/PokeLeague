@@ -9,7 +9,6 @@ G.I18n.add({
   "I am the Berry Master! I grow Berries of every kind behind this house.": "Sono il Maestro delle Bacche! Coltivo bacche di ogni tipo dietro questa casa.",
   "A traveling Trainer, eh? Take these. A Sitrus Berry heals a good deal of HP when a Pokémon needs it.": "Un Allenatore in viaggio, eh? Prendi queste. Una Baccacedro cura parecchi PS quando un Pokémon ne ha bisogno.",
   "The Contest Hall. A sign says: \"No contests today. Please come again!\"": "Salone delle Gare. Un cartello dice: «Oggi niente gare. Torna un'altra volta!»",
-  "Amity Square. A sign says: \"Closed today for gardening.\"": "Piazza Amicizia. Un cartello dice: «Chiuso oggi per giardinaggio».",
   "Hey, {player}! I crossed Mt. Coronet ahead of you. I bumped into a weird guy in a grey coat in there...": "Ehi, {player}! Ho attraversato il Monte Corona prima di te. Là dentro ho incontrato un tipo strano col cappotto grigio...",
   "Anyway! Fantina's Ghost types are tough, so I am training first. Do not you dare beat her before me!": "Comunque! I tipi Spettro di Fannie sono tosti, quindi prima mi alleno. Non azzardarti a batterla prima di me!",
   "Hey, Champion! Fantina uses Ghost-type Pokémon.": "Ehi, Campione! Fannie usa Pokémon di tipo Spettro.",

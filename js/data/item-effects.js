@@ -195,6 +195,7 @@ G.ITEM_FX = {
   // Chapter 69: the Dread Plate (the Old Chateau) and the Cleanse Tag (the Lost Tower).
   'dread-plate':   { held: 'boost', type: 'dark' },
   'splash-plate':  { held: 'boost', type: 'water' },          // Sea Route 220 (chapter 71)
+  'spooky-plate':  { held: 'boost', type: 'ghost' },          // Amity Square (chapter 72)
   'cleanse-tag':   { held: 'cleanse-tag' },
 
   // ---- key items ----

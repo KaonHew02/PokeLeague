@@ -200,5 +200,7 @@ G.I18n.add({
   "Chapter 70 complete!": "Capitolo 70 completato!",
   "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player} ha navigato fino all'Isola Lunapiena, ha visto Cresselia volare via per vagare per Sinnoh e ha svegliato il figlio del marinaio dagli incubi con l'Alalunare.",
   "Chapter 71 complete!": "Capitolo 71 completato!",
-  "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player} ha navigato a sud di Sabbiafine lungo il Percorso 219 e il Percorso 220, ha attraversato il Percorso 221 ed è arrivato all'ingresso del Parco Amici."
+  "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player} ha navigato a sud di Sabbiafine lungo il Percorso 219 e il Percorso 220, ha attraversato il Percorso 221 ed è arrivato all'ingresso del Parco Amici.",
+  "Chapter 72 complete!": "Capitolo 72 completato!",
+  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} ha passeggiato nel Parco Concordia di Cuoripoli con un Pokémon al fianco, che ha trovato bacche tra i fiori."
 }, "it");

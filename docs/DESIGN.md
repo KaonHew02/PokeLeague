@@ -2508,12 +2508,20 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Platinum's levels (30-36); no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the Trainers of each road, surfing south from Sandgem across both edges and east onto Route 221, a Tuber on the sand and a Swimmer in the water spotting you, the Antidote, the Splash Plate, Route 221's grass, the gate both ways, the receptionist, no ending before chapter 70 and then once); `tests/story.test.cjs` the chapter after chapter 70 (the fifteen Trainers, the gate).
 
-### After chapter 71
+- **Chapter 72** ✅, Amity Square (`js/content/sinnoh/amity.js`, translations `sinnoh-amity`). The square can be visited in the middle of the game, so `ending(72)` comes from its gentleman only once chapter 71 is done (on a later visit for a player who came earlier).
+  - **Map**: Hearthome City's gate building (door 25,20, until now a locked "closed for gardening" door) opens on `amity-gate`: a receptionist names Platinum's twenty (`G.Amity.OK`: Pikachu, Clefairy, Jigglypuff, Psyduck, Torchic, Shroomish, Skitty, the three starters and their evolutions, Pachirisu, Drifloon, Buneary, Happiny); its right door opens only with one of them at the front (`if: G.Amity.okLead`, else `amity.closed`). `amity-square`: flowers, a pond with an island and two bridges, a gatehouse back; no wild Pokémon, no battles; TM43, TM45, the Spooky Plate (new in the data: Ghost moves ×1.2) and an Amulet Coin, as in Platinum; people walking a Pikachu, a Buneary and a Happiny.
+  - **Engine**: two map options. `follower: 'always'`: the lead walks behind you even with following turned off. `everySteps: { n, if, script }`: every n steps while `if` holds the script runs (the count is var `steps:<map>`): here every 100 steps the walking Pokémon finds a berry (seeded by the player id and a count of finds). Platinum's Pokémon found accessories and the nine Poffin berries; the game has neither dress-up nor Poffins, so they are the game's own berries (Oran, Pecha, Cheri, Chesto, Rawst, Aspear, Sitrus). The gentleman gives one berry per device date (var `amity-gift`).
+  - **Names**: the square's official names (es Plaza Amistad, it Parco Concordia, zh 互动广场).
+  - **Left out**: the accessories and the Poffin berries, the cave passages of Platinum's square.
+- **Balance:** no battles; `tests/story.test.cjs` prints one `[story]` line.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (Hearthome's door, the rules naming the twenty, shut with Luxray at the front, open with Pikachu, Pikachu walking behind with following off, a berry after 100 steps, the gentleman once a day and again the next day, no ending before chapter 71 and then once, the four items, out through the gatehouse); `tests/story.test.cjs` the chapter after chapter 71 (three finds and the gentleman's berry).
+
+### After chapter 72
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
 1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Mt. Coronet B1F; the villa;
-   the Contest Hall and Amity Square; Victory Road B1F; Fuego Ironworks.
+   the Contest Hall; Victory Road B1F; Fuego Ironworks.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

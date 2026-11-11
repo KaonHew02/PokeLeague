@@ -141,10 +141,10 @@
       { x: 11, y: 7, to: 'hearthome-mart', spot: 'door' },
       { x: 25, y: 7, to: 'hearthome-gym', spot: 'door' },
       { x: 6, y: 20, locked: 'hearthome.contest-hall' },
-      { x: 25, y: 20, locked: 'hearthome.amity' },
+      { x: 25, y: 20, to: 'amity-gate', spot: 'door' },          // Amity Square (amity.js, chapter 72)
       { x: 13, y: 23, to: 'hearthome-house', spot: 'door' }
     ],
-    spots: { 'center-door': [6, 8, 'down'], 'mart-door': [11, 8, 'down'], 'gym-door': [25, 8, 'down'], 'house-door': [13, 24, 'down'] },
+    spots: { 'center-door': [6, 8, 'down'], 'mart-door': [11, 8, 'down'], 'gym-door': [25, 8, 'down'], 'house-door': [13, 24, 'down'], 'amity-door': [25, 21, 'down'] },
     signs: { '16,10': 'Hearthome City. The warm-hearted city, where people and Pokémon come together.' },
     npcs: [
       // Route 209 (east) opens with the Relic Badge (chapter 48); Route 212 (south) with the Fen Badge (chapter 64).
@@ -248,7 +248,6 @@
       ]]
     ],
     'hearthome.contest-hall': [['say', 'The Contest Hall. A sign says: "No contests today. Please come again!"']],
-    'hearthome.amity': [['say', 'Amity Square. A sign says: "Closed today for gardening."']],
     'hearthome.barry': [
       ['say', 'Hey, {player}! I crossed Mt. Coronet ahead of you. I bumped into a weird guy in a grey coat in there...', BARRY],
       ['say', 'Anyway! Fantina\'s Ghost types are tough, so I am training first. Do not you dare beat her before me!', BARRY]

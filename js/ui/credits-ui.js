@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 72) return { title: T('Chapter 72 complete!'),
+      done: fmt('{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.', { player }),
+      next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };
     if (n === 71) return { title: T('Chapter 71 complete!'),
       done: fmt('{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.', { player }),
       next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };

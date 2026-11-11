@@ -200,5 +200,7 @@ G.I18n.add({
   "Chapter 70 complete!": "Capítulo 70 concluído!",
   "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player} navegou até Fullmoon Island, viu Cresselia sair voando para vagar por Sinnoh e acordou o filho do marinheiro dos pesadelos com a Lunar Wing.",
   "Chapter 71 complete!": "Capítulo 71 concluído!",
-  "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player} surfou ao sul de Sandgem Town pela Route 219 e pela Sea Route 220, atravessou a Route 221 e chegou ao portão do Pal Park."
+  "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player} surfou ao sul de Sandgem Town pela Route 219 e pela Sea Route 220, atravessou a Route 221 e chegou ao portão do Pal Park.",
+  "Chapter 72 complete!": "Capítulo 72 concluído!",
+  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player} passeou pela Amity Square de Hearthome City com um Pokémon ao lado, que encontrou frutas entre as flores."
 }, "pt-BR");

@@ -9,7 +9,6 @@ G.I18n.add({
   "I am the Berry Master! I grow Berries of every kind behind this house.": "我是樹果名人！我在這房子後面種了各式各樣的樹果。",
   "A traveling Trainer, eh? Take these. A Sitrus Berry heals a good deal of HP when a Pokémon needs it.": "旅行中的訓練家啊？收下這些吧。文柚果能在寶可夢需要時回復不少HP。",
   "The Contest Hall. A sign says: \"No contests today. Please come again!\"": "華麗大賽會場。告示寫著：「今日無比賽，歡迎下次光臨！」",
-  "Amity Square. A sign says: \"Closed today for gardening.\"": "友好廣場。告示寫著：「今日整理花木，暫停開放。」",
   "Hey, {player}! I crossed Mt. Coronet ahead of you. I bumped into a weird guy in a grey coat in there...": "喂，{player}！我比你先穿過天冠山了。我在裡面撞見一個穿灰大衣的怪人……",
   "Anyway! Fantina's Ghost types are tough, so I am training first. Do not you dare beat her before me!": "總之！梅麗莎的幽靈屬性很難對付，我要先去訓練。你可別比我先贏她！",
   "Hey, Champion! Fantina uses Ghost-type Pokémon.": "嘿，冠軍！梅麗莎使用幽靈屬性的寶可夢。",

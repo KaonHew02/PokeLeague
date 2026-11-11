@@ -200,5 +200,7 @@ G.I18n.add({
   "Chapter 70 complete!": "第七十章完成！",
   "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player}坐船去了满月岛，看着克雷色利亚飞走、在神奥各地游走，并用新月之羽把船员的儿子从噩梦中唤醒。",
   "Chapter 71 complete!": "第七十一章完成！",
-  "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player}从真砂镇往南冲浪，经过219号道路和220号水路，穿过221号道路，来到了伙伴公园的大门。"
+  "{player} surfed south from Sandgem Town over Route 219 and Sea Route 220, crossed Route 221 and reached the gate of Pal Park.": "{player}从真砂镇往南冲浪，经过219号道路和220号水路，穿过221号道路，来到了伙伴公园的大门。",
+  "Chapter 72 complete!": "第七十二章完成！",
+  "{player} walked through Amity Square in Hearthome City with a Pokémon at their side, and it found berries among the flowers.": "{player}带着宝可梦在家缘市的互动广场散步，宝可梦在花丛里找到了树果。"
 }, "zh-Hans");

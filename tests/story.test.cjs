@@ -4383,6 +4383,25 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 72 after chapter 71: Amity Square with Pikachu at the front. */
+async function chapter72(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  const team = S.party.slice();
+  S.party.splice(0, S.party.length, G.Mon.create(25, 30, { rng: G.RNG(72) }), ...team.slice(0, 5));
+  assert.ok(G.Amity.okLead(), 'Pikachu may come in');
+  const BERRIES = ['oran-berry', 'pecha-berry', 'cheri-berry', 'chesto-berry', 'rawst-berry', 'aspear-berry', 'sitrus-berry'];
+  const berries = () => BERRIES.reduce((n, id) => n + F.count(id), 0);
+  const b0 = berries();
+  for (let i = 0; i < 3; i++) await run(st, 'amity-square', 'amity.find');
+  await run(st, 'amity-square', 'amity.gift');
+  assert.equal(berries(), b0 + 4);
+  assert.ok(F.flag('chapter-72-done'));
+  S.party.splice(0, S.party.length, ...team);
+  console.log('[story] Amity Square: Pikachu found 3 berries on its walks; the gentleman gave one more');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 71 after chapter 70: Route 219, Sea Route 220, Route 221 and the gate of Pal Park. */
 async function chapter71(st) {
   const { G } = st;
@@ -4994,4 +5013,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter69(st);
   await chapter70(st);
   await chapter71(st);
+  await chapter72(st);
 });

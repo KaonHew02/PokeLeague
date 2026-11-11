@@ -2534,12 +2534,21 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** wild Pokémon only, at Platinum's levels (32-35 under Mt. Coronet, 47-50 under Victory Road); no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the boulder pushed into the room and, after the ladder, back into the tunnel; the fog; the shore, its words and the hint, no ending; the lake stops walking; the wild tables; the fisherman; the ten items, one behind the cracked rock; Feebas: four tiles, all water, the same all day, others the next day and in another save, none on other maps, Feebas bites on its tile at Lv. 10-20 and never on another; the Victory Road ladder both ways, its tables, its three hidden items; its shore with both lakes seen but chapter 73 not done, then the ending once; the other order ends at Mt. Coronet); `tests/gen4.test.cjs` Light Clay (8 turns, 5 without it or with another item); `tests/story.test.cjs` the chapter after chapter 73 (both shores).
 
-### After chapter 74
+- **Chapter 75** ✅, Lake Valor full again (`js/content/sinnoh/lakes.js`, translations `sinnoh-lakes`). In Platinum the lake fills up again once the Distortion World is over (flag `distortion-done`), in the middle of the game, so `ending(75)` waits for chapter 74.
+  - **Engine** (maps.js): a map that changes with a flag. `changes: { if, ...fields }`: while `if` holds (`G.Field.test`), the map is its def with those fields over it (rows, npcs, trainers, items, enter...). The id stays, and `validate` checks that the size stays too, so connections, warps and saved places still fit. `G.Maps.get(id)` gives the map as it is now; `G.Maps.get(id, { changed: true | false })` either version (both are cached, and `def()` clears both); the parsed map says which (`m.changed`). `validate(id)` checks both versions (the changed one's errors start with `changes:`). `node tools/map_check.js <id> --changed` prints the changed version. The renderer's cache already compares map objects, and standing on water is surfing (`load()`), so a save made on the old lake bed loads surfing.
+  - **Engine** (field.js): a map's `enter` script now also runs when you walk in across an edge, not only after a warp (no older map with `enter` can be walked into across an edge).
+  - **Lake Valor** (`lake-valor`, `changes` if `distortion-done`): water where the bed was, a beach of three tiles before the cavern (the `cave` spot stays at 14,11), the Magikarp and the three grunts gone; a fisherman and a guest of the Hotel Grand Lake; TM25 on the beach (Surf to it) and an HP Up hidden in the grass (Platinum's Dowsing Machine). PokeAPI's `lake-valor-area` already gives Surf (Psyduck, Golduck) and the rods (Magikarp, Goldeen, Gyarados, Seaking). Azelf stays in the cavern as in chapter 60.
+  - **Enter script** (`lakes.valor-full`): the first time (flag `valor-full`) you are told the lake is back, with a Magikarp leaping far out; once chapter 74 is done, coming in ends the chapter (`ending(75)`), so a player who saw the lake in the middle of the game gets the ending later.
+  - **Left out**: the Poké Radar (Wobbuffet) and the Pokémon of GBA games, the White Flute of the hotel's suite (a room key), the Seven Stars restaurant's daily double battles (mid-game in Platinum; an idea below).
+- **Balance:** wild Pokémon only, at Platinum's levels; no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
+- **Tests:** `tests/field.test.cjs` the engine on a test map (each version by its flag, either when asked, cached, standing on the new water is surfing, another size or no `if` is an error) and the real lake (dry with the Magikarp and the grunts before, water after; in from Valor Lakefront the first words once, no ending before chapter 74; the water stops walking; Surf to the beach, TM25, the cavern and back onto the beach; the hidden HP Up; the water's tables; the ending once; a save on the old bed loads surfing); chapters 52 and 60's Lake Valor tests are unchanged; `tests/story.test.cjs` the chapter after chapter 74.
+
+### After chapter 75
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
-1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); the villa;
-   the Contest Hall.
+1. Sinnoh: the villa in the Resort Area; the Contest Hall; the Seven Stars restaurant's double battles (two Trainers
+   of the day, Platinum's levels 23-31, from 9:00 to 23:00).
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

@@ -138,6 +138,33 @@ test('gates open while their rule holds; fast water is solid until the map is ca
   assert.ok(W.isWater(3, 1), 'calm rapids can be surfed');
 });
 
+test('a map that changes with a flag (changes, chapter 75): both versions, the same size, standing on new water is surfing', async () => {
+  const { G, W } = world();
+  G.Maps.def({ id: 't-lake', tileset: 'outdoor', palette: 'kanto', border: 'T',
+    rows: ['TTTTTT', 'T....T', 'T.::.T', 'TTTTTT'], spots: { start: [1, 1, 'right'] },
+    npcs: [{ id: 'karp', who: 'magikarp', mon: 'magikarp', x: 2, y: 2, dir: 'down', fixed: true, say: 'Flop.' }],
+    changes: { if: 't-full', rows: ['TTTTTT', 'T....T', 'T.~~.T', 'TTTTTT'], npcs: [] } });
+  assert.deepEqual(plain(G.Maps.validate('t-lake')), []);
+  let m = G.Maps.get('t-lake');
+  assert.ok(!m.changed && G.Maps.kindAt(m, 2, 2) === 'sand' && m.npcs.length === 1, 'as it was');
+  G.Field.setFlag('t-full');
+  m = G.Maps.get('t-lake');
+  assert.ok(m.changed && m.id === 't-lake' && G.Maps.kindAt(m, 2, 2) === 'water' && m.npcs.length === 0, 'changed');
+  assert.equal(G.Maps.get('t-lake'), m, 'cached');
+  assert.ok(!G.Maps.get('t-lake', { changed: false }).changed && G.Maps.get('t-lake', { changed: true }) === m, 'either version when asked');
+  // Standing where the bed was (a save made there): surfing.
+  W.load('t-lake', { x: 2, y: 2, dir: 'down' });
+  assert.ok(W.surfing && W.map.changed);
+  G.Field.clearFlag('t-full');
+  W.load('t-lake', { x: 2, y: 2, dir: 'down' });
+  assert.ok(!W.surfing && !W.map.changed);
+  // A changed map of another size, or without its `if`, is an error.
+  G.Maps.def({ id: 't-bad', tileset: 'outdoor', palette: 'kanto', border: 'T', rows: ['TTT', 'T.T', 'TTT'], spots: { a: [1, 1, 'down'] },
+    changes: { rows: ['TTTT', 'T..T', 'TTTT'] } });
+  const e = G.Maps.validate('t-bad');
+  assert.ok(e.some(x => /needs an `if`/.test(x)) && e.some(x => /changed map is 4×3, not 3×3/.test(x)), e.join('; '));
+});
+
 test('fishing: a rod at the water rolls its own table; the Bag cannot fish away from water', async () => {
   const { G, W } = world();
   G.Maps.def({ id: 't-pond', tileset: 'outdoor', palette: 'kanto',
@@ -5305,6 +5332,89 @@ test('Mt. Coronet B1F and Victory Road\'s inner B1F (chapter 74): the boulder bo
   assert.deepEqual(endings2, []);
   await go('coronet-b1f', 6, 4);
   assert.deepEqual(endings2, [74]);
+});
+
+test('Lake Valor full again (chapter 75): dry before the Distortion World, water after; the beach and the cavern, TM25, the hidden HP Up, the first words and the ending once', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower', 'fullmoon', 'route219', 'amity', 'fuego', 'b1f']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/regis.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 32 }, (_, i) => i + 1);
+  F.giveMon('empoleon', 50, { moves: ['surf'] });
+  const said = [];
+  G.Dialog.say = text => { said.push(String(text)); return Promise.resolve(); };
+  const endings = [];
+  G.CreditsUI = { ending: async n => { endings.push(n); F.setFlag('chapter-' + n + '-done'); } };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const at = (x, y) => assert.deepEqual([W.player.x, W.player.y], [x, y]);
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const talk = () => pump(W, W.interact());
+  const fromLakefront = async () => {
+    W.load('valor-lakefront', { x: 0, y: 12, dir: 'left' });
+    assert.equal(step(W, 'left'), 'moved');
+    await until(() => W.map.id === 'lake-valor');
+    for (let i = 0; i < 20; i++) { W.update(0.05); await tick(); }
+    await until(() => !W.locked);
+  };
+  // Before the Distortion World: the dry bed, the Magikarp, the grunts.
+  let m = G.Maps.get('lake-valor');
+  assert.ok(!m.changed && G.Maps.kindAt(m, 10, 5) === 'sand' && m.npcs.some(p => p.id === 'karp1') && m.trainers.length === 3);
+  // After it: water, a beach before the cavern, nobody of before.
+  F.setFlag('distortion-done');
+  m = G.Maps.get('lake-valor');
+  assert.ok(m.changed && G.Maps.kindAt(m, 10, 5) === 'water' && G.Maps.kindAt(m, 14, 11) === 'sand');
+  assert.ok(m.trainers.length === 0 && !m.npcs.some(p => p.id.startsWith('karp')));
+  assert.deepEqual(plain(G.Maps.validate('lake-valor')), []);
+  // In from Valor Lakefront: the first words, and no ending before chapter 74.
+  await fromLakefront();
+  at(29, 10);
+  assert.ok(F.flag('valor-full') && said.some(s => /Lake Valor is full again/.test(s)) && said.some(s => /Magikarp leaps/.test(s)));
+  assert.deepEqual(endings, []);
+  assert.ok(seen('fisher') && seen('guest') && !seen('karp1'));
+  said.length = 0;
+  await fromLakefront();
+  assert.deepEqual(said, [], 'only the first time');
+  // The water stops walking; Surf to the beach, TM25, the cavern and back out onto the beach.
+  W.load('lake-valor', { x: 24, y: 11, dir: 'left' });
+  assert.equal(step(W, 'left'), 'blocked', 'the lake');
+  S.player.surf = 1;
+  W.load('lake-valor', { x: 16, y: 11, dir: 'left' });
+  assert.ok(W.surfing);
+  step(W, 'left');
+  await settle();
+  assert.ok(!W.surfing, 'on the beach');
+  at(15, 11);
+  step(W, 'left');
+  await settle();
+  W.player.face('left');
+  await talk();
+  assert.equal(F.count('tm25'), 1);
+  step(W, 'up');
+  await until(() => W.map.id === 'valor-cavern' && !W.locked);
+  at(7, 8);
+  step(W, 'down');
+  await until(() => W.map.id === 'lake-valor' && !W.locked);
+  at(14, 11);
+  assert.ok(!W.surfing);
+  // The HP Up hidden in the grass; the tables of the water.
+  W.load('lake-valor', { x: 26, y: 18, dir: 'right' });
+  await talk();
+  assert.equal(F.count('hp-up'), 1);
+  const table = k => G.Maps.encounters(m, k).mons.map(r => r[0]);
+  assert.ok(table('surf').includes(54) && table('good-rod').includes(118) && table('super-rod').includes(119), 'Psyduck, Goldeen, Seaking');
+  // Once chapter 74 is done, coming in ends the chapter, once.
+  F.setFlag('chapter-74-done');
+  await fromLakefront();
+  assert.deepEqual(endings, [75]);
+  assert.ok(said.some(s => /as if the Galactic Bomb had never fallen/.test(s)));
+  await fromLakefront();
+  assert.deepEqual(endings, [75], 'once');
+  // A save made on the old bed: standing on the water is surfing.
+  S.player.surf = 0;
+  W.load('lake-valor', { x: 8, y: 7, dir: 'down' });
+  assert.ok(W.surfing);
 });
 
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {

@@ -4383,6 +4383,17 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 75 after chapter 74: Lake Valor full again. */
+async function chapter75(st) {
+  const { G } = st;
+  const F = G.Field;
+  assert.ok(F.flag('distortion-done') && G.Maps.get('lake-valor').changed, 'the lake is full');
+  await run(st, 'lake-valor', 'lakes.valor-full');
+  assert.ok(F.flag('valor-full') && F.flag('chapter-75-done'));
+  console.log('[story] Lake Valor is full again; the Magikarp have water to swim in');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 74 after chapter 73: the lakes of Mt. Coronet B1F and Victory Road's inner B1F. */
 async function chapter74(st) {
   const { G } = st;
@@ -5047,4 +5058,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter72(st);
   await chapter73(st);
   await chapter74(st);
+  await chapter75(st);
 });

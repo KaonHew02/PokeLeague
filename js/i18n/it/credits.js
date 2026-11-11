@@ -206,5 +206,7 @@ G.I18n.add({
   "Chapter 73 complete!": "Capitolo 73 completato!",
   "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player} ha attraversato il fiume a nord di Floaroma Meadow, ha percorso i nastri delle Fonderie Fuego e ha ricevuto una Pietrafocaia dal Sig. Fuego.",
   "Chapter 74 complete!": "Capitolo 74 completato!",
-  "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player} ha trovato il lago nebbioso sotto il Monte Corona, dove si nasconde Feebas, e il lago freddo sotto la Via Vittoria."
+  "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player} ha trovato il lago nebbioso sotto il Monte Corona, dove si nasconde Feebas, e il lago freddo sotto la Via Vittoria.",
+  "Chapter 75 complete!": "Capitolo 75 completato!",
+  "{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.": "{player} è tornato al Lago Valore e l'ha trovato di nuovo pieno d'acqua, con i Magikarp che nuotano dove prima si dibattevano sul fondo asciutto."
 }, "it");

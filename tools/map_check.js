@@ -1,5 +1,6 @@
 /* Prints a map with its objects and checks it:
  *   node tools/map_check.js sandbox          one map (plus the errors of the maps it points to)
+ *   node tools/map_check.js lake-valor --changed   a map that changes with a flag (`changes`), as it is changed
  *   node tools/map_check.js --all            every map: a line each, then the errors
  *   node tools/map_check.js --list           the ids of every map
  *
@@ -19,11 +20,13 @@ function load() {
   return boot(files).G;
 }
 
-function show(G, id) {
-  const m = G.Maps.get(id);
+function show(G, id, changed) {
+  const m = G.Maps.get(id, changed ? { changed: true } : { changed: false });
   if (!m) { console.log(`no map "${id}". Maps: ${G.Maps.all().join(', ')}`); return 1; }
   const d = m.def;
   console.log(`${id}  ${m.w}×${m.h}  ${m.tileset}/${m.palette}  loc ${m.loc || '-'}  music ${m.music || '-'}  border ${m.borderCh || 'void'}`);
+  const c = G.Maps.defs[id].changes;
+  if (c) console.log(`changes    if ${[].concat(c.if).join(' ')}: ${Object.keys(c).filter(k => k !== 'if').join(', ')}${changed ? '  (shown changed)' : '  (--changed shows it)'}`);
   const grid = m.def.rows.map(r => [...r]);
   for (const p of m.npcs) if (grid[p.y]) grid[p.y][p.x] = '@';
   for (const p of m.trainers) if (grid[p.y]) grid[p.y][p.x] = '!';
@@ -72,9 +75,9 @@ function all(G) {
 if (require.main === module) {
   const G = load();
   const arg = process.argv[2];
-  if (!arg) { console.log('usage: node tools/map_check.js <map-id> | --all | --list'); process.exit(0); }
+  if (!arg) { console.log('usage: node tools/map_check.js <map-id> [--changed] | --all | --list'); process.exit(0); }
   if (arg === '--list') { console.log(G.Maps.all().join('\n')); process.exit(0); }
-  process.exit(arg === '--all' ? all(G) : show(G, arg));
+  process.exit(arg === '--all' ? all(G) : show(G, arg, process.argv.includes('--changed')));
 }
 
 module.exports = { load };

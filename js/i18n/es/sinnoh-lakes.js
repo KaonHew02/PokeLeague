@@ -1,4 +1,4 @@
-/* Spanish — Sinnoh: the meeting in Canalave, Lake Valor and its cavern, the end of Lake Verity (chapter 52) */
+/* Spanish — Sinnoh: the meeting in Canalave, Lake Valor and its cavern, the end of Lake Verity (chapter 52), Lake Valor full again (chapter 75) */
 G.I18n.add({
   "Ah, {player}. Good, you are here. Sit down and listen.": "Ah, {player}. Bien, ya estás aquí. Siéntate y escucha.",
   "Sinnoh has three great lakes: Verity, Valor and Acuity. An old story says that a Pokémon sleeps in each of them.": "Sinnoh tiene tres grandes lagos: Veraz, Valor y Agudeza. Una vieja historia dice que en cada uno duerme un Pokémon.",
@@ -32,5 +32,10 @@ G.I18n.add({
   "So you found your way down here. I am Saturn, a Commander of Team Galactic. You are too late, but since you came all this way, let me show you what a Commander can do.": "Así que has encontrado el camino hasta aquí. Soy Saturno, Comandante del Equipo Galaxia. Llegas tarde, pero ya que has venido, te enseñaré de qué es capaz un Comandante.",
   "I see. The boss was right to take note of you.": "Ya veo. El jefe hizo bien en fijarse en ti.",
   "Lake Valor. Its waters are said to be the home of a spirit of will.": "Lago Valor. Se dice que en sus aguas vive un espíritu de la voluntad.",
-  "The Magikarp is flopping on the dry lake bed. It has nowhere to swim.": "El Magikarp salpica en el lecho seco del lago. No tiene dónde nadar."
+  "The Magikarp is flopping on the dry lake bed. It has nowhere to swim.": "El Magikarp salpica en el lecho seco del lago. No tiene dónde nadar.",
+  "Lake Valor is full again! The water has come back, and the Pokémon of the lake with it.": "¡El Lago Valor vuelve a estar lleno! El agua ha regresado, y con ella los Pokémon del lago.",
+  "Far out on the water a Magikarp leaps and splashes down. It has somewhere to swim again.": "A lo lejos, un Magikarp salta y cae al agua con un chapuzón. Vuelve a tener dónde nadar.",
+  "The lake shines in the sun, as if the Galactic Bomb had never fallen.": "El lago brilla al sol, como si la Bomba Galaxia nunca hubiera caído.",
+  "One morning the lake was simply full again, as if nothing had happened. The fish came back with the water.": "Una mañana el lago estaba lleno otra vez, como si no hubiera pasado nada. Los peces volvieron con el agua.",
+  "I walk over from the Hotel Grand Lake every morning. A lake without water was a sad thing to look at.": "Vengo andando desde el Hotel Gran Lago todas las mañanas. Un lago sin agua era algo muy triste de ver."
 }, "es");

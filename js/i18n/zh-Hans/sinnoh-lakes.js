@@ -1,4 +1,4 @@
-/* Simplified Chinese — Sinnoh: the meeting in Canalave, Lake Valor and its cavern, the end of Lake Verity (chapter 52) */
+/* Simplified Chinese — Sinnoh: the meeting in Canalave, Lake Valor and its cavern, the end of Lake Verity (chapter 52), Lake Valor full again (chapter 75) */
 G.I18n.add({
   "Ah, {player}. Good, you are here. Sit down and listen.": "啊，{player}。你来得正好。坐下听我说。",
   "Sinnoh has three great lakes: Verity, Valor and Acuity. An old story says that a Pokémon sleeps in each of them.": "神奥有三座大湖：心齐湖、立志湖和睿智湖。古老的传说讲，每座湖里都沉睡着一只宝可梦。",
@@ -32,5 +32,10 @@ G.I18n.add({
   "So you found your way down here. I am Saturn, a Commander of Team Galactic. You are too late, but since you came all this way, let me show you what a Commander can do.": "你居然找到这里来了。我是银河队干部镇星。你来晚了，不过既然来了，就让你见识一下干部的实力。",
   "I see. The boss was right to take note of you.": "原来如此。老大注意到你是有道理的。",
   "Lake Valor. Its waters are said to be the home of a spirit of will.": "立志湖。据说湖中住着意志的精灵。",
-  "The Magikarp is flopping on the dry lake bed. It has nowhere to swim.": "鲤鱼王在干涸的湖床上扑腾，没有水可以游。"
+  "The Magikarp is flopping on the dry lake bed. It has nowhere to swim.": "鲤鱼王在干涸的湖床上扑腾，没有水可以游。",
+  "Lake Valor is full again! The water has come back, and the Pokémon of the lake with it.": "立志湖又满了！湖水回来了，湖里的宝可梦也跟着回来了。",
+  "Far out on the water a Magikarp leaps and splashes down. It has somewhere to swim again.": "远处的水面上，一只鲤鱼王跃起又扑通落下。它又有地方可以游了。",
+  "The lake shines in the sun, as if the Galactic Bomb had never fallen.": "湖面在阳光下闪闪发亮，就好像银河炸弹从来没有落下过一样。",
+  "One morning the lake was simply full again, as if nothing had happened. The fish came back with the water.": "某天早上，湖就这样又满了，好像什么事都没发生过。鱼也跟着水一起回来了。",
+  "I walk over from the Hotel Grand Lake every morning. A lake without water was a sad thing to look at.": "我每天早上都从湖畔饭店散步过来。没有水的湖，看着真让人难过。"
 }, "zh-Hans");

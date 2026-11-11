@@ -6,6 +6,11 @@
  * cavern (flag valor-gate). Commander Saturn waits inside, Azelf already taken (flag saturn-valor). At Lake Verity
  * (twinleaf.js) two grunts and Commander Mars (flag mars-verity); Mesprit is taken all the same, then `ending(52)`.
  * Platinum's Trainers and wild Pokémon.
+ * Chapter 75: once the Distortion World is over (flag distortion-done) Lake Valor is full again, as in Platinum (map
+ * `changes`, maps.js): water where the bed was, a little beach before the cavern (Surf there), the Magikarp and the grunts
+ * gone, a fisherman and a hotel guest, TM25 on the beach and an HP Up hidden in the grass (Platinum's Dowsing Machine).
+ * PokeAPI's table gives Surf and the rods. The first time you come in (flag valor-full) you are told; once chapter 74 is
+ * done, coming in ends the chapter (`ending(75)`), so a player who saw it in the middle of the game gets it later.
  */
 (() => {
   const T = s => G.T(s);
@@ -72,8 +77,59 @@
         defeat: 'He is going to be so angry...',
         win: 'lakes.gate-win' }
     ],
-    encounters: { walk: '@lake-valor-area' }
+    encounters: { walk: '@lake-valor-area' },
+    // Full again after the Distortion World (chapter 75): the same size, the same warps and spots.
+    changes: {
+      if: 'distortion-done',
+      rows: [
+        'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
+        'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
+        'TT......................."""TT',
+        'TT......................."""TT',
+        'TT...~~~~~~~~~~~~~~~~~~~."""TT',
+        'TT...~~~~~~~~~~~~~~~~~~~."""TT',
+        'TT...~~~~~~########~~~~~."""TT',
+        'TT...~~~~~~########~~~~~."""TT',
+        'TT...~~~~~~########~~~~~."""TT',
+        'TT...~~~~~~########~~~~~..S.TT',
+        'TT...~~~~~~###O####~~~~~,,,,,,',
+        'TT...~~~~~~~~:::~~~~~~~~....TT',
+        'TT"".~~~~~~~~~~~~~~~~~~~."""TT',
+        'TT"".~~~~~~~~~~~~~~~~~~~."""TT',
+        'TT"".~~~~~~~~~~~~~~~~~~~."""TT',
+        'TT"".~~~~~~~~~~~~~~~~~~~."""TT',
+        'TT"".~~~~~~~~~~~~~~~~~~~."""TT',
+        'TT"".~~~~~~~~~~~~~~~~~~~."""TT',
+        'TT""....................."""TT',
+        'TT""....................."""TT',
+        'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
+        'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
+      ],
+      enter: 'lakes.valor-full',
+      npcs: [
+        { id: 'fisher', who: 'fisherman', x: 24, y: 14, dir: 'left',
+          say: 'One morning the lake was simply full again, as if nothing had happened. The fish came back with the water.' },
+        { id: 'guest', who: 'gentleman', x: 20, y: 3, dir: 'down',
+          say: 'I walk over from the Hotel Grand Lake every morning. A lake without water was a sad thing to look at.' }
+      ],
+      trainers: [],
+      items: [{ x: 13, y: 11, item: 'tm25', flag: 'valor-tm25' }, { x: 27, y: 18, item: 'hp-up', flag: 'valor-hp-up', hidden: true }]
+    }
   }, SINNOH));
+
+  /** Coming into Lake Valor full again (chapter 75): what you see the first time; once chapter 74 is done, the ending. */
+  async function valorFull(h) {
+    const F = G.Field;
+    if (!F.flag('valor-full')) {
+      F.setFlag('valor-full');
+      await h.say(T('Lake Valor is full again! The water has come back, and the Pokémon of the lake with it.'));
+      await h.say(T('Far out on the water a Magikarp leaps and splashes down. It has somewhere to swim again.'));
+    }
+    if (!F.flag('chapter-74-done') || F.flag('chapter-75-done')) return;
+    await h.say(T('The lake shines in the sun, as if the Galactic Bomb had never fallen.'));
+    // The end of the seventy-fifth chapter (credits-ui.js).
+    if (G.CreditsUI) await G.CreditsUI.ending(75); else F.setFlag('chapter-75-done');
+  }
 
   G.Maps.def(Object.assign({
     id: 'valor-cavern', loc: 'lake-valor', rows: [
@@ -143,6 +199,7 @@
 
   G.Script.def({
     'lakes.meeting': [['js', meeting]],
+    'lakes.valor-full': [['js', valorFull]],
     'lakes.to-library': [['js', h => h.say(T('There you are, {player}! Professor Rowan is in the library with Barry. He wants to see you right away!'), assistant())]],
     'lakes.gate-win': [
       ['say', 'Go on, then. It will not change anything!', GRUNT],

@@ -206,5 +206,7 @@ G.I18n.add({
   "Chapter 73 complete!": "¡Capítulo 73 completado!",
   "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player} cruzó el río al norte del Prado Aromaflor, recorrió las cintas de la Forja Fuego y recibió una Piedra Fuego del Sr. Fuego.",
   "Chapter 74 complete!": "¡Capítulo 74 completado!",
-  "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player} encontró el lago brumoso bajo el Monte Corona, donde se esconde Feebas, y el lago frío bajo la Calle Victoria."
+  "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player} encontró el lago brumoso bajo el Monte Corona, donde se esconde Feebas, y el lago frío bajo la Calle Victoria.",
+  "Chapter 75 complete!": "¡Capítulo 75 completado!",
+  "{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.": "{player} volvió al Lago Valor y lo encontró lleno de agua otra vez, con Magikarp nadando donde antes se agitaban sobre el lecho seco."
 }, "es");

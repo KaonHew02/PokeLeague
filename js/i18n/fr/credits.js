@@ -206,5 +206,7 @@ G.I18n.add({
   "Chapter 73 complete!": "Chapitre 73 terminé !",
   "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player} a traversé la rivière au nord du Pré Floraville, a pris les tapis roulants de la Forge Fuego et a reçu une Pierre Feu de M. Fuego.",
   "Chapter 74 complete!": "Chapitre 74 terminé !",
-  "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player} a trouvé le lac brumeux sous le Mont Couronné, où se cache Barpau, et le lac froid sous la Route Victoire."
+  "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player} a trouvé le lac brumeux sous le Mont Couronné, où se cache Barpau, et le lac froid sous la Route Victoire.",
+  "Chapter 75 complete!": "Chapitre 75 terminé !",
+  "{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.": "{player} est revenu au Lac Courage et l'a trouvé de nouveau plein d'eau, avec des Magicarpe qui nagent là où ils se débattaient sur le lit asséché."
 }, "fr");

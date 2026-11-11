@@ -75,6 +75,8 @@
  * Fly); seaweed (`"`) rolls the 'seaweed' table. A on the floor under deep water comes back up
  * (`surface`, the same tile).
  * Chapter 50: fog (map `fog`) only changes how the map looks: it does not touch walking or battles.
+ * Chapter 75: a map's `enter` script also runs when you walk in across an edge, not only after a warp; a map that
+ * changes with a flag (`changes`, maps.js) is loaded as it is at that moment.
  * Chapter 74: Feebas tiles (map `feebasTiles`: how many, Mt. Coronet B1F): each day that many water tiles,
  * drawn from the date and the save (G.World.feebasTiles()); a bite there is from the area's
  * 'feebas-tile-fishing' table half the time, whatever the rod (Platinum's four tiles a day).
@@ -462,6 +464,8 @@ G.World = (() => {
     if (map.loc && map.loc !== lastLoc) showBanner(G.Names.loc(map.loc));
     if (map.loc) lastLoc = map.loc;
     snapCamera();
+    // Its `enter` script runs when you walk in across an edge too (chapter 75: Lake Valor full again), as after a warp.
+    if (map.def.enter) runScript(map.def.enter, {});
   }
 
   function fadeTo(target, secs = 0.22) {

@@ -37,8 +37,12 @@
  *   everySteps: { n, if, script } (every n steps on the map while `if` holds, the script runs: Amity Square).
  *   Chapter 74: feebasTiles: n (each day n of the map's water tiles where Feebas bites half the time, from the
  *   area's 'feebas-tile-fishing' table: Mt. Coronet B1F; see field.js).
+ *   Chapter 75: changes: { if, ...fields } (a map that changes with a flag: while `if` holds the map is its def with
+ *   these fields over it: rows, npcs, trainers, items, enter... Same id and the same size, so connections, warps
+ *   and saved places still fit: Lake Valor full of water again once the Distortion World is over).
  *
- *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups
+ *   G.Maps.get(id)      the parsed map (cached): kind grid, solid mask, stamps, lookups; a map with `changes`
+ *                       comes as it is now (G.Field.test), or as asked: get(id, { changed: true | false })
  *   G.Maps.parse(def)   { w, h, kind[], solid, stamps[], stampAt, errors[] }
  *   G.Maps.validate(id) every error of one map (also checks the maps it points to)
  *   G.Maps.center(id, { exit:{ map, spot }, loc, npcs })               standard Pokémon Center interior
@@ -162,6 +166,7 @@ G.Maps = (() => {
     if (defs[d.id]) console.warn('[Maps] map defined twice: ' + d.id);
     defs[d.id] = d;
     delete cache[d.id];
+    delete cache[d.id + CHANGED];
     return d;
   }
   const all = () => Object.keys(defs);
@@ -228,11 +233,25 @@ G.Maps = (() => {
 
   const key = (x, y) => x + ',' + y;
 
-  /** The parsed map with its lookups (cached). null if there is no such map. */
-  function get(id) {
-    if (cache[id]) return cache[id];
-    const d = defs[id];
-    if (!d) return null;
+  // A map that changes with a flag (`changes`, chapter 75): its two versions are cached apart.
+  const CHANGED = '#changed';                    // (no map id has a '#')
+  /** Does the map's change hold now? (Scripts' conditions, G.Field.test.) */
+  const changedNow = d => !!(d.changes && G.Field && G.Field.test && G.Field.test(d.changes.if));
+  /** The def of the changed version: the map's own fields, with those of `changes` over them. */
+  function changedDef(d) {
+    const c = Object.assign({}, d, d.changes);
+    delete c.changes; delete c.if;
+    return c;
+  }
+
+  /** The parsed map with its lookups (cached), as it is now or as asked ({ changed }). null if there is no such map. */
+  function get(id, o) {
+    const base = defs[id];
+    if (!base) return null;
+    const changed = !!base.changes && (o && o.changed !== undefined ? !!o.changed : changedNow(base));
+    const ck = changed ? id + CHANGED : id;
+    if (cache[ck]) return cache[ck];
+    const d = changed ? changedDef(base) : base;
     const p = parse(d);
     const outdoor = (d.tileset || 'outdoor') === 'outdoor';
     const borderCh = d.border === undefined ? (outdoor ? 'T' : null) : d.border;
@@ -248,9 +267,10 @@ G.Maps = (() => {
       moveSpots: d.moveSpots || [],
       encounters: d.encounters || {},
       warps: d.warps || [],
-      warpAt: new Map((d.warps || []).map(w => [key(w.x, w.y), w]))
+      warpAt: new Map((d.warps || []).map(w => [key(w.x, w.y), w])),
+      changed
     });
-    cache[id] = m;
+    cache[ck] = m;
     return m;
   }
 
@@ -352,8 +372,17 @@ G.Maps = (() => {
 
   // ---------------- validation ----------------
 
-  function validate(id) {
-    const m = get(id);
+  function validate(id, o) {
+    const base = defs[id];
+    // A map that changes with a flag (chapter 75): both versions, the same size.
+    if (!o && base && base.changes) {
+      const E = validate(id, { changed: false });
+      if (base.changes.if === undefined || base.changes.if === null || base.changes.if === '') E.push('changes: needs an `if`');
+      const a = get(id, { changed: false }), b = get(id, { changed: true });
+      if (a.w !== b.w || a.h !== b.h) E.push(`changes: the changed map is ${b.w}×${b.h}, not ${a.w}×${a.h} (connections and saved places would not fit)`);
+      return E.concat(validate(id, { changed: true }).map(e => 'changes: ' + e));
+    }
+    const m = get(id, o);
     if (!m) return [`no map "${id}"`];
     const E = m.errors.slice();
     const d = m.def;

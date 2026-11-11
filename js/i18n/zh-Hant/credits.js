@@ -206,5 +206,7 @@ G.I18n.add({
   "Chapter 73 complete!": "第七十三章完成！",
   "{player} crossed the river north of Floaroma Meadow, rode the belts of Fuego Ironworks and received a Fire Stone from Mr. Fuego.": "{player}渡過苑之鎮花田北邊的河，坐著多多羅鋼鐵廠的傳送帶一路前進，從多多羅那裡收到了火之石。",
   "Chapter 74 complete!": "第七十四章完成！",
-  "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player}找到了天冠山底下醜醜魚藏身的霧中之湖，還有冠軍之路下方那座冰冷的湖。"
+  "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player}找到了天冠山底下醜醜魚藏身的霧中之湖，還有冠軍之路下方那座冰冷的湖。",
+  "Chapter 75 complete!": "第七十五章完成！",
+  "{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.": "{player}回到立志湖，看到湖裡又滿是湖水，鯉魚王在曾經乾涸撲騰的湖底自在地游著。"
 }, "zh-Hant");

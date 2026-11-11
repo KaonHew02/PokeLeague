@@ -3,7 +3,8 @@
  *   await G.CreditsUI.ending(n)  after a chapter's last Gym (1 Brock, 2 Misty … 8 Giovanni; 9 the Champion): "Chapter n
  *                           complete!", the player's numbers and party, then the credits;
  *                           Save and continue / Continue. Sets the flag chapter-n-done.
- * The text scrolls slowly by itself; the wheel, a finger or the arrows take over.
+ * The text scrolls slowly by itself, after a pause at the top (HOLD) so a chapter's title and summary can be read;
+ * the wheel, a finger or the arrows take over.
  * Artist names come from CREDITS.md (js/data/credits.js, made by tools/credits_js.js).
  */
 G.CreditsUI = (() => {
@@ -244,19 +245,21 @@ G.CreditsUI = (() => {
       + `<p class="sub">${esc(T('Pokémon and all related names are trademarks of Nintendo, Creatures Inc. and GAME FREAK. This project is not affiliated with or endorsed by them.'))}</p>`;
   }
 
-  // Slow automatic scrolling until the player takes over.
+  // Slow automatic scrolling until the player takes over; it waits HOLD seconds at the top first.
+  const HOLD = 4;
   let auto = true;
   function scroll() {
     cancelAnimationFrame(raf);
     const roll = el.querySelector('.cr-roll');
     roll.scrollTop = 0;
     auto = true;
-    let last = performance.now(), pos = 0;
+    let last = performance.now(), pos = 0, wait = HOLD;
     const loop = now => {
       if (!G.UI.isOpen(el.id)) return;
       const dt = Math.min(0.1, (now - last) / 1000);
       last = now;
-      if (auto && roll.scrollTop + roll.clientHeight < roll.scrollHeight - 1) {
+      if (wait > 0) wait -= dt;
+      else if (auto && roll.scrollTop + roll.clientHeight < roll.scrollHeight - 1) {
         pos += dt * roll.clientHeight * 0.06;
         if (pos >= 1) { roll.scrollTop += Math.floor(pos); pos -= Math.floor(pos); }
       }

@@ -237,7 +237,8 @@ kbd {
 .cr-title { font-size: 1.3em; color: var(--gold); margin: .2em 0 !important; }
 .cr-stats { display: flex; justify-content: center; flex-wrap: wrap; gap: .4em 1.2em; margin: .4em 0; }
 .cr-party { display: flex; justify-content: center; flex-wrap: wrap; gap: .3em; margin: .3em 0 .6em; }
-.cr-mon { display: flex; flex-direction: column; align-items: center; width: 4.2em; font-size: .85em; }
+.cr-mon { display: flex; flex-direction: column; align-items: center; min-width: 4.2em; padding: 0 .2em; font-size: .85em; }
+.cr-mon span { white-space: nowrap; }      /* a long name widens its column instead of running into the next */
 .cr-mon canvas { width: 3em; height: 3em; }
 .cr-mon small { color: var(--muted); }
 .cr-names { display: flex; flex-wrap: wrap; justify-content: center; gap: .15em .9em; font-size: .9em; }

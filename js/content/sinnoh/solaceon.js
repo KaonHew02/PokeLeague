@@ -41,15 +41,17 @@
       'T.""""""".~~~."""""""""."""""".T',
       'T.........~~~..........."""""".T',
       'T.........~~~..........."""""".T',
-      'T.""""""".~~~..................T',
-      'T.""""""".~~~............TTTT..T',
-      'T.""""""".~~~............TTTT..T',
-      'T.""""""".~~~............TTTT..T',
-      'T.""""""".~~~............TTTT..T',
+      'T.""""""".~~~............KKKKK.T',
+      'T.""""""".~~~............KKKKK.T',
+      'T.""""""".~~~............KKKKK.T',
+      'T.""""""".~~~............KKKKK.T',
+      'T.""""""".~~~............KKDKK.T',
       'T.........~~~..................T',
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
     connect: { west: { map: 'hearthome', offset: -3 }, north: { map: 'solaceon', offset: 4 } },
+    warps: [{ x: 27, y: 27, to: 'lost-tower-1f', spot: 'door' }],       // the Lost Tower (losttower.js, chapter 69)
+    spots: { tower: [27, 28, 'down'] },
     signs: { '22,12': 'Route 209. North: Solaceon Town. West: Hearthome City.' },
     trainers: [
       { id: 'summer', who: 'lass', cls: 'picnicker', name: 'Summer', x: 6, y: 9, dir: 'down', sight: 1, team: [['roselia', 21], ['marill', 21]],

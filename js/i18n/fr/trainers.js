@@ -75,5 +75,7 @@ G.I18n.add({
   "Maid": "Soubrette",
   "Lady": "Mademoiselle",
   "Socialite": "Mondaine",
-  "Parasol Lady": "Dame Ombrelle"
+  "Parasol Lady": "Dame Ombrelle",
+  "Roughneck": "Loubard",
+  "Belle & Pa": "Fille et Papa"
 }, "fr");

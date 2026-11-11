@@ -746,10 +746,12 @@ G.World = (() => {
     if (debug.noEnc || !G.Field.party().length) return false;
     const wild = rollWild(method);
     if (!wild) return false;
+    const lead = G.Field.lead();
+    // A Cleanse Tag on the lead (chapter 69): a third fewer wild Pokémon, as in Generations 3 and 4.
+    if (lead && G.Held && G.Held.is(lead, 'cleanse-tag') && rng.int(0, 2) === 0) return false;
     // The roaming Pokémon on this route (chapter 42): one wild encounter in four is it.
     const rm = (method === 'walk' || method === 'surf') && G.Roam && G.Roam.meets(rng, map.id);
     if (rm) Object.assign(wild, { sp: rm.sp, lvl: rm.lvl, roamer: rm });
-    const lead = G.Field.lead();
     if (G.Field.save.repel > 0 && lead && wild.lvl < lead.lvl) return false;
     G.Player.walk(null);
     wildBattle(wild);

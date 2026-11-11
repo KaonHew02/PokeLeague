@@ -194,5 +194,7 @@ G.I18n.add({
   "Chapter 67 complete!": "Chapitre 67 terminé !",
   "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player} a exploré le fond de la Route Victoire, a traversé avec Viviane le brouillard de la Route 224 et a lu la vieille pierre au bout.",
   "Chapter 68 complete!": "Chapitre 68 terminé !",
-  "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player} est descendu par les étages gelés du Temple Frimapic, a ramené Regirock, Regice et Registeel chez eux et a réveillé Regigigas."
+  "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player} est descendu par les étages gelés du Temple Frimapic, a ramené Regirock, Regice et Registeel chez eux et a réveillé Regigigas.",
+  "Chapter 69 complete!": "Chapitre 69 terminé !",
+  "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player} a rencontré le fantôme du Vieux Château dans la forêt de Vestigion, a gravi la Tour Perdue de la Route 209 et a reçu les deux runes des vieilles dames."
 }, "fr");

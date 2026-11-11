@@ -19,12 +19,12 @@
   G.Maps.def(Object.assign({
     id: 'eterna-forest', loc: 'eterna-forest', tileset: 'outdoor', palette: 'forest', music: 'forest', battleBg: 'forest', border: 'T',
     rows: [
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'TTTTTTTTTTTTTTTTTTTTTTT,,,,,,,,,,,TTTTTT',
-      'TT,,,,,,,,TTTTT""""""TT,,,,,,,,,,,TTTTTT',
-      'TT,,,,,,,,TTTTT""""""TT,,TTTTTTT,,TTTTTT',
+      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTRRRRRRT',
+      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTRRRRRRT',
+      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTRRRRRRT',
+      'TTTTTTTTTTTTTTTTTTTTTTT,,,,,,,,,,RRRRRRT',
+      'TT,,,,,,,,TTTTT""""""TT,,,,,,,,,,RRDRRRT',
+      'TT,,,,,,,,TTTTT""""""TT,,TTTTTTT,,c,TTTT',
       'TT,,TTTTTTTTTTT""""""TT,,T"""""",,""""TT',
       'TT,"""TTTTTTTTT""""""TT,,T"""""",,""""TT',
       'TT,"""TT"""""TT""""""TT,,T"""""",,""""TT',
@@ -47,6 +47,8 @@
       'TTTTT,,TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
     connect: { south: { map: 'route205s', offset: -21 }, east: { map: 'route205e', offset: 6 } },
+    warps: [{ x: 35, y: 4, to: 'old-chateau', spot: 'door' }],          // the Old Chateau (chateau.js, chapter 69)
+    spots: { chateau: [35, 5, 'down'] },
     // Cheryl's Chansey heals the team after each battle while she walks with you.
     afterBattle: { if: ['cheryl-with', '!cheryl-done'], script: 'eterna.cheryl-heal' },
     triggers: [

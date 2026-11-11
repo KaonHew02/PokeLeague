@@ -75,5 +75,7 @@ G.I18n.add({
   "Maid": "Doncella",
   "Lady": "Damisela",
   "Socialite": "Dama",
-  "Parasol Lady": "Dama Parasol"
+  "Parasol Lady": "Dama Parasol",
+  "Roughneck": "Rapado",
+  "Belle & Pa": "Hija y Papá"
 }, "es");

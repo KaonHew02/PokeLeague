@@ -4383,6 +4383,33 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 69 after chapter 68: the Lost Tower's Trainers and old women; Rotom in the Old Chateau at night. */
+async function chapter69(st) {
+  const { G } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  let n = 0;
+  for (const m of ['lost-tower-2f', 'lost-tower-3f', 'lost-tower-4f']) {
+    for (const t of G.Maps.get(m).trainers) {
+      F.healAll();
+      await run(st, m, [['battle', m + ':' + t.id]]);
+      won(); n++;
+    }
+  }
+  await run(st, 'lost-tower-5f', 'tower.granny-l');
+  await run(st, 'lost-tower-5f', 'tower.granny-r');
+  assert.ok(F.flag('tower-cleanse') && F.flag('tower-spell') && F.count('cleanse-tag') > 0);
+  assert.ok(F.flag('chapter-69-done'));
+  G.Clock.set('night');
+  F.healAll();
+  await run(st, 'old-chateau-2f', 'chateau.tv');
+  G.Clock.set(null);
+  assert.equal(last().key, 'wild:479');
+  console.log('[story] the Lost Tower:', n, 'Trainers beaten, the old women\'s two tags; Rotom in the Old Chateau at night:', last().outcome);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 68 after chapter 67: the Regis wait again in Hoenn; Regigigas in Snowpoint Temple. */
 async function chapter68(st) {
   const { G, S } = st;
@@ -4918,4 +4945,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter66(st);
   await chapter67(st);
   await chapter68(st);
+  await chapter69(st);
 });

@@ -75,5 +75,7 @@ G.I18n.add({
   "Maid": "女僕",
   "Lady": "千金小姐",
   "Socialite": "女士",
-  "Parasol Lady": "陽傘姐姐"
+  "Parasol Lady": "陽傘姐姐",
+  "Roughneck": "光頭男",
+  "Belle & Pa": "父女"
 }, "zh-Hant");

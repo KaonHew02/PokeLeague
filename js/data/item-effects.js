@@ -53,6 +53,7 @@ G.ITEM_FX = {
   'burn-heal':     { cure: ['brn'], field: 1, battle: 1, price: 250 },
   'ice-heal':      { cure: ['frz'], field: 1, battle: 1, price: 250 },
   'full-heal':     { cure: 'all',   field: 1, battle: 1, price: 600 },
+  'old-gateau':    { cure: 'all',   field: 1, battle: 1 },             // the Old Chateau (chapter 69)
   // Berries (chapter 15): from berry trees, used like medicine; held (chapter 26), eaten when needed.
   'oran-berry':    { heal: 10,  field: 1, battle: 1, held: 'berry' },
   'sitrus-berry':  { heal: 30,  field: 1, battle: 1, held: 'berry' },
@@ -191,6 +192,9 @@ G.ITEM_FX = {
   'spell-tag':     { held: 'boost', type: 'ghost',    price: 2000 },
   'dragon-fang':   { held: 'boost', type: 'dragon',   price: 2000 },
   'black-glasses': { held: 'boost', type: 'dark',     price: 2000 },
+  // Chapter 69: the Dread Plate (the Old Chateau) and the Cleanse Tag (the Lost Tower).
+  'dread-plate':   { held: 'boost', type: 'dark' },
+  'cleanse-tag':   { held: 'cleanse-tag' },
 
   // ---- key items ----
   'oaks-parcel':   { key: 1 },

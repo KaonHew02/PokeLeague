@@ -2485,12 +2485,20 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Platinum's wild levels (47-51); Regigigas is level 1 (catch rate 3, as hard to catch as Heatran). No `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the gentleman before and after the National Pokédex, the words in the wall, the solver's ways over the ice of B1F, B2F and B3F, the Calcium, the cracked rock, the hidden Full Restore, the boulder and the Full Heal, the ladders both ways, the slide to the statue, nothing without all three, running, beating, catching, the ending once; the Regis in Hoenn: back with the National Pokédex unless caught, no second ending 41); `tests/story.test.cjs` the chapter after chapter 67 (the Regis the story beat wait again; the three wake Regigigas).
 
-### After chapter 68
+- **Chapter 69** ✅, the Old Chateau and the Lost Tower (`js/content/sinnoh/chateau.js`, `js/content/sinnoh/losttower.js`, translations `sinnoh-chateau`, `sinnoh-losttower`). Both can be visited in the middle of the game, as in Platinum; `ending(69)` comes from the Lost Tower's old women once both tags are given and chapter 68 is done (on a later visit for a player who came earlier).
+  - **The Old Chateau**: an old mansion (`R`, as Cinnabar's) in the north-east of Eterna Forest behind a Cut tree. `old-chateau` (the hall; the dining room, where a little girl stands at the end of the table the first time and vanishes: flag `chateau-girl`) and `old-chateau-2f` (a corridor with a painting whose eyes follow you, five rooms). Gastly on every step (`cave: true`, PokeAPI's tables). Items: Old Gateau, TM90, Dread Plate, Big Pearl. The old TV is a PC tile with a sign script (`chateau.tv`): by day nothing; at night (`G.Clock`) Rotom (wild, level 20, no National Pokédex needed, as in Platinum); caught, flag `rotom-caught`; beaten, it comes back.
+  - **The Lost Tower**: a tower (`K`) in the south-east of Route 209, five floors of graves (`lost-tower-1f` ... `-5f`, PokeAPI's tables with Duskull at night). Platinum's Trainers and teams: Youngster Oliver (2F); Pokéfan Leonard and Roughneck Kirby (3F); Belle & Pa Beth & Bob and Young Couple Mike & Nat (double battles) and Pokéfan Rebekah (4F). Items: Oval Stone, Revive, TM27. On 5F two old women give the Cleanse Tag and the Spell Tag (flags `tower-cleanse`, `tower-spell`).
+  - **New**: trainer classes `roughneck` and `belle-pa`, people `belle` and `pa`; three items in the data (`tools/fetch_data.py`): the Old Gateau (cures every status), the Dread Plate (held: Dark moves ×1.2, `held: 'boost'`), the Cleanse Tag (held by the lead: a third fewer wild Pokémon, `maybeEncounter` in field.js, Generations 3 and 4); the official names of both places (es, it, Chinese).
+  - **Left out**: Rotom's forms (Platinum's event Secret Key), Gengar from a Game Boy Advance game, the butler, the fog of the tower's upper floors (no Defog in the game), the Dowsing Machine's items.
+- **Balance:** Platinum's levels (14-23); no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the Cut tree, the girl once, the items, the painting, the TV by day and at night: running, beating, catching; Route 209 into the tower and up all five floors, the Trainers and the two double battles, a Trainer who sees you, the old women's gifts once each, no ending before chapter 68 and then once; the Dread Plate's power, the Old Gateau, fewer wild Pokémon with the Cleanse Tag on the same seed); `tests/story.test.cjs` the chapter after chapter 68 (the six Trainers, the tags, Rotom at night).
+
+### After chapter 69
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
 1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Mt. Coronet B1F; the villa;
-   the Contest Hall and Amity Square; Victory Road B1F; the Old Chateau and the Lost Tower; Fullmoon Island and Cresselia;
+   the Contest Hall and Amity Square; Victory Road B1F; Fullmoon Island and Cresselia;
    the sea routes 219-221; Fuego Ironworks.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.

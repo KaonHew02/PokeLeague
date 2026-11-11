@@ -98,6 +98,9 @@ G.TRAINER_CLASSES = {
   socialite:     { title: 'Socialite', who: 'socialite', prize: 200 },
   'parasol-lady': { title: 'Parasol Lady', who: 'parasol', prize: 32 },
   veteran:       { title: 'Veteran', who: 'gentleman', prize: 80 },
+  // Chapter 69: the Lost Tower.
+  roughneck:     { title: 'Roughneck', who: 'cueball', prize: 32 },
+  'belle-pa':    { title: 'Belle & Pa', who: 'belle', prize: 32 },
   'double-team': { title: 'Double Team', who: 'cooltrainerm', prize: 48 },
   policeman:     { title: 'Policeman', who: 'officer', prize: 40 },
   'poke-kid':    { title: 'Poké Kid', who: 'lass', prize: 16 },

@@ -194,5 +194,7 @@ G.I18n.add({
   "Chapter 67 complete!": "第六十七章完成！",
   "{player} went into the far side of Victory Road, walked with Marley through the fog of Route 224 and read the old stone at its end.": "{player}走進冠軍之路的深處，和米依一起穿過224號道路的濃霧，讀到了盡頭那塊古老的石碑。",
   "Chapter 68 complete!": "第六十八章完成！",
-  "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player}穿過雪峰神殿結冰的一層層，把雷吉洛克、雷吉艾斯和雷吉斯奇魯帶回了家，喚醒了雷吉奇卡斯。"
+  "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player}穿過雪峰神殿結冰的一層層，把雷吉洛克、雷吉艾斯和雷吉斯奇魯帶回了家，喚醒了雷吉奇卡斯。",
+  "Chapter 69 complete!": "第六十九章完成！",
+  "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player}在百代森林的森之洋館遇見了幽靈，爬上了209號道路的迷失塔，收下了兩位婆婆的兩張符。"
 }, "zh-Hant");

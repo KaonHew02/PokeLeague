@@ -3479,7 +3479,7 @@ test('Sinnoh (chapter 57): Rowan, the road east, Sunyshore City, Flint, the ligh
 });
 
 test('Sinnoh (chapter 58): the sea north of Sunyshore, the waterfall, the Beacon Badge, Victory Road with its boulder and lake, Barry', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W, later } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3661,7 +3661,7 @@ test("Sinnoh's League (chapter 59): the lobby and its guard, doors that open aft
 });
 
 test("Sinnoh after the League (chapter 60): the National Pokédex, three caves, a second roaming Pokémon, the orbs, Dialga and Palkia", async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3817,7 +3817,7 @@ test("Sinnoh after the League (chapter 60): the National Pokédex, three caves, 
 });
 
 test('the Battle Zone (chapter 61): the ship, Flint and Volkner beside Barry, Route 225 over the river, the Survival Area', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -3913,7 +3913,7 @@ test('the Battle Zone (chapter 61): the ship, Flint and Volkner beside Barry, Ro
 });
 
 test('Stark Mountain (chapter 62): over the sea, Buck beside you, the end of Team Galactic, Heatran', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -4038,7 +4038,7 @@ test('Stark Mountain (chapter 62): over the sea, Buck beside you, the end of Tea
 });
 
 test('the end of the Battle Zone (chapter 63): Route 228 in a sandstorm, Route 229, the Resort Area, Route 230, the Battleground', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -4152,7 +4152,7 @@ test('the end of the Battle Zone (chapter 63): Route 228 in a sandstorm, Route 2
 });
 
 test('Route 212 (chapter 64): closed until the Fen Badge, sun and rain, the Mansion, Mr. Backlot and his garden', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -4253,7 +4253,7 @@ test('Route 212 (chapter 64): closed until the Fen Badge, sun and rain, the Mans
 });
 
 test('Wayward Cave (chapter 65): two mouths under the Cycling Road, Mira beside you, then at the Battleground', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -4349,7 +4349,7 @@ test('Wayward Cave (chapter 65): two mouths under the Cycling Road, Mira beside 
 });
 
 test('Route 211 West and the tunnel (chapter 66): open with the Forest Badge, shut beyond until chapter 52, the ending after chapter 65', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -4422,7 +4422,7 @@ test('Route 211 West and the tunnel (chapter 66): open with the Forest Badge, sh
 });
 
 test('the inner Victory Road and Route 224 (chapter 67): the National Pokédex, Marley beside you, the stone, the Battleground', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -4511,7 +4511,7 @@ test('the inner Victory Road and Route 224 (chapter 67): the National Pokédex, 
 });
 
 test('Snowpoint Temple (chapter 68): the door, the ice, the cracked rock, the hidden Full Restore, the boulder, Regigigas, the Regis back in Hoenn', async () => {
-  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple']
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
     .map(f => 'js/content/sinnoh/' + f + '.js');
   const { G, W, later } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/regis.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
   W.debug.noEnc = true;
@@ -4645,6 +4645,144 @@ test('Snowpoint Temple (chapter 68): the door, the ice, the cracked rock, the hi
   await talk();
   assert.deepEqual(fights, [[378, 40]]);
   assert.deepEqual(endings, [68], 'no second ending 41');
+});
+
+test('the Old Chateau and the Lost Tower (chapter 69): the Cut tree, the girl, Rotom at night, the tower, the old women, the new items', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/regis.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 26 }, (_, i) => i + 1);
+  F.giveMon('bibarel', 30, { moves: ['cut', 'surf'] });
+  const said = [];
+  G.Dialog.say = text => { said.push(String(text)); return Promise.resolve(); };
+  const endings = [];
+  G.CreditsUI = { ending: async n => { endings.push(n); F.setFlag('chapter-' + n + '-done'); } };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const at = (x, y) => assert.deepEqual([W.player.x, W.player.y], [x, y]);
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const talk = () => pump(W, W.interact());
+  const got = id => F.count(id) > 0;
+  // Eterna Forest: a Cut tree on the way to the chateau's door.
+  W.load('eterna-forest', { x: 33, y: 5, dir: 'right' });
+  assert.equal(step(W, 'right'), 'blocked', 'the Cut tree');
+  await talk();
+  await settle();
+  assert.equal(step(W, 'right'), 'moved');
+  await settle();
+  assert.equal(step(W, 'right'), 'moved');
+  await settle();
+  step(W, 'up');
+  await until(() => W.map.id === 'old-chateau' && !W.locked);
+  at(6, 11);
+  // The dining room: the little girl, once.
+  W.load('old-chateau', { x: 12, y: 7, dir: 'right' });
+  step(W, 'right'); await settle();
+  step(W, 'right');
+  await until(() => F.flag('chateau-girl') && !W.locked);
+  assert.ok(said.some(s => s.includes('little girl')) && !seen('girl'));
+  const n0 = said.length;
+  W.load('old-chateau', { x: 12, y: 7, dir: 'right' });
+  step(W, 'right'); await settle(); step(W, 'right'); await settle();
+  assert.equal(said.length, n0, 'only the first time');
+  W.load('old-chateau', { x: 20, y: 9, dir: 'down' });
+  await talk();
+  assert.ok(got('big-pearl'));
+  // Upstairs.
+  W.load('old-chateau', 'stairs');
+  step(W, 'up');
+  await until(() => W.map.id === 'old-chateau-2f' && !W.locked);
+  at(1, 9);
+  for (const [x, y, dir, item] of [[1, 4, 'down', 'old-gateau'], [14, 4, 'up', 'dread-plate'], [24, 3, 'up', 'tm90']]) {
+    W.load('old-chateau-2f', { x, y, dir });
+    await talk();
+    assert.ok(got(item), item);
+  }
+  W.load('old-chateau-2f', { x: 15, y: 8, dir: 'up' });
+  await talk();
+  assert.ok(said.at(-1).includes('its eyes'), 'the painting');
+  // The old TV: nothing by day; Rotom at night.
+  const fights = [];
+  let outcome = 'run';
+  W.onEncounter = async (sp, lvl) => { fights.push([G.Maps.species(sp), lvl]); return outcome; };
+  W.load('old-chateau-2f', { x: 7, y: 3, dir: 'up' });
+  G.Clock.set('day');
+  await talk();
+  assert.ok(said.at(-1).includes('not even plugged in') && !fights.length);
+  G.Clock.set('night');
+  await talk();
+  assert.deepEqual(fights, [[479, 20]], 'Rotom, level 20');
+  outcome = 'win';
+  await talk();
+  assert.ok(said.at(-1).includes('slipped back') && !F.flag('rotom-caught'));
+  outcome = 'caught';
+  await talk();
+  assert.ok(F.flag('rotom-caught') && fights.length === 3);
+  await talk();
+  assert.ok(said.at(-1).includes('stays dark') && fights.length === 3);
+  G.Clock.set(null);
+  // The Lost Tower: in from Route 209, up all five floors.
+  W.load('route209', { x: 27, y: 28, dir: 'up' });
+  step(W, 'up');
+  await until(() => W.map.id === 'lost-tower-1f' && !W.locked);
+  at(6, 11);
+  for (const [from, to, x] of [['lost-tower-1f', 'lost-tower-2f', 12], ['lost-tower-2f', 'lost-tower-3f', 1], ['lost-tower-3f', 'lost-tower-4f', 12], ['lost-tower-4f', 'lost-tower-5f', 1]]) {
+    W.load(from, 'up');
+    step(W, 'up');
+    await until(() => W.map.id === to && !W.locked);
+    at(x, 3);
+  }
+  const ids = m => JSON.stringify(G.Maps.get(m).trainers.map(t => [t.id, !!t.double]));
+  assert.equal(ids('lost-tower-2f'), '[["oliver",false]]');
+  assert.equal(ids('lost-tower-3f'), '[["leonard",false],["kirby",false]]');
+  assert.equal(ids('lost-tower-4f'), '[["beth-bob",true],["rebekah",false],["mike-nat",true]]');
+  const met = [];
+  W.onTrainer = async d => { met.push(d.id); return 'win'; };
+  W.load('lost-tower-2f', { x: 9, y: 5, dir: 'down' });
+  step(W, 'down');
+  await until(() => met.includes('oliver') && !W.locked);
+  W.load('lost-tower-2f', { x: 1, y: 9, dir: 'down' });
+  await talk();
+  assert.ok(got('oval-stone'));
+  W.load('lost-tower-4f', { x: 7, y: 9, dir: 'down' });
+  await talk();
+  assert.ok(got('tm27'));
+  // 5F: the two old women; no ending before chapter 68 is done, then the next time you talk to them.
+  W.load('lost-tower-5f', { x: 5, y: 6, dir: 'up' });
+  await talk();
+  assert.equal(F.count('cleanse-tag'), 1);
+  W.load('lost-tower-5f', { x: 9, y: 6, dir: 'up' });
+  await talk();
+  assert.ok(F.flag('tower-spell') && got('spell-tag'));
+  await talk();
+  assert.deepEqual(endings, [], 'not in the middle of the game');
+  F.setFlag('chapter-68-done');
+  W.load('lost-tower-5f', { x: 5, y: 6, dir: 'up' });
+  await talk();
+  assert.equal(F.count('cleanse-tag'), 1, 'one Cleanse Tag');
+  assert.deepEqual(endings, [69]);
+  await talk();
+  assert.deepEqual(endings, [69], 'once');
+  // The new items: the Dread Plate, the Old Gateau, and the Cleanse Tag on the lead.
+  const mon = G.Mon.create(G.Maps.species('umbreon'), 30, {});
+  mon.item = 'dread-plate';
+  assert.equal(G.Held.power(mon, 'dark'), 1.2);
+  assert.equal(G.Held.power(mon, 'fire'), 1);
+  assert.deepEqual([G.ITEM_FX['old-gateau'].cure, !!G.ITEM_FX['old-gateau'].field, !!G.ITEM_FX['old-gateau'].battle], ['all', true, true]);
+  W.debug.noEnc = false;
+  const count = async tag => {
+    F.party()[0].item = tag || undefined;
+    let n = 0;
+    W.onEncounter = async () => { n++; return 'run'; };
+    W.load('route209', { x: 3, y: 4, dir: 'right' });
+    W.seed(69);
+    for (let i = 0; i < 300; i++) { step(W, i % 2 ? 'left' : 'right'); await settle(); }
+    return n;
+  };
+  const plain = await count(null), tagged = await count('cleanse-tag');
+  assert.ok(plain > 30 && tagged < plain * 0.85, 'the Cleanse Tag keeps wild Pokémon away: ' + plain + ' -> ' + tagged);
 });
 
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {

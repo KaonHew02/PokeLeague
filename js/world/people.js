@@ -28,7 +28,7 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -323,6 +323,9 @@ G.People = (() => {
     buck: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#d8482a', H: '#a8321c', j: '#2e2e38', J: '#1c1c24', c: '#e8873a', C: '#b8642a', p: '#6a5a44', P: '#4a3e2e', k: '#2e2a24' },
     // Chapter 64: a Maid (black dress, white apron), a Lady (blonde, a pink dress), a Socialite (dark hair, a purple gown),
     // a Parasol Lady (long brown hair, a white dress).
+    // Chapter 69: Belle & Pa in the Lost Tower (a girl with long chestnut hair in a checked red dress; her father in a hat and overalls).
+    belle: { head: 'long', body: 'dress', legs: 'bare', h: '#9a5a2e', H: '#6e3e1c', c: '#d84a3a', C: '#a83428', j: '#d84a3a', J: '#a83428', k: '#f4f4f4' },
+    pa: { head: 'hat', body: 'jacket', legs: 'pants', a: '#c8a060', A: '#a07c40', b: '#7a5a2a', h: '#6a4a2e', H: '#4a3020', j: '#4a6aa0', J: '#344e7c', c: '#d84a3a', C: '#a83428', p: '#4a6aa0', P: '#344e7c', k: '#4a3626' },
     // Chapter 67: Marley (short dark blue hair, a grey dress).
     marley: { head: 'short', body: 'dress', legs: 'bare', h: '#34385e', H: '#22253e', c: '#d8d8e0', C: '#a8a8b8', j: '#5a5e78', J: '#40435a', k: '#2a2a34' },
     // Chapter 65: Mira (long pink hair, a lilac dress).

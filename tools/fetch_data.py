@@ -158,7 +158,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
     'text_versions': REGIONS['hoenn']['text_versions'] + ['platinum', 'diamond', 'pearl'],
     'text_vgs': REGIONS['hoenn']['text_vgs'] + ['platinum', 'diamond-pearl'],
     'items': REGIONS['hoenn']['items'] + ['old-charm', 'adamant-orb', 'lustrous-orb', 'razor-claw', 'razor-fang', 'shiny-stone', 'dusk-stone', 'dawn-stone', 'ice-stone', 'oval-stone',
-                                          'protector', 'electirizer', 'magmarizer', 'dubious-disc', 'reaper-cloth', 'galactic-key'],
+                                          'protector', 'electirizer', 'magmarizer', 'dubious-disc', 'reaper-cloth', 'galactic-key',
+                                          # Chapter 69: the Old Chateau and the Lost Tower.
+                                          'old-gateau', 'dread-plate', 'cleanse-tag'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.
@@ -307,6 +309,9 @@ LOC_NAMES = {
     'wayward-cave':      ('Cueva Extravío',     'Grotta Labirinto',    '迷幻洞窟',   '迷幻洞窟'),
     # Chapter 68.
     'snowpoint-temple':  ('Templo Puntaneva',   'Tempio Nevepoli',     '雪峰神殿',   '雪峰神殿'),
+    # Chapter 69.
+    'old-chateau':       ('Vieja Mansión',      'Antico Château',      '森之洋馆',   '森之洋館'),
+    'lost-tower':        ('Torre Perdida',      'Torre Memoria',       '迷失塔',     '迷失塔'),
     # Chapter 48.
     'solaceon-town':     ('Pueblo Sosiego',     'Flemminia',           '随意镇',     '隨意鎮'),
     'solaceon-ruins':    ('Ruinas Sosiego',     'Solaceon Ruins',      '随意遗迹',   '隨意遺跡'),

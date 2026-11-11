@@ -1,6 +1,9 @@
 /* ============ sw.js — offline play (the service worker) ============
  * Registered by js/core/offline.js from the published index.html only; dev.html
- * always loads fresh files, so this worker stays out of its way.
+ * always loads fresh files, so this worker stays out of its way: once registered it
+ * controls every page of the origin, dev.html too, so a request made by dev.html (its
+ * referrer) is left to the browser at once, without respondWith. (Fetching them here
+ * instead turned any failure into net::ERR_FAILED and could leave dev.html half loaded.)
  *
  * - The shell (index.html, app.min.js, app.css, the dictionaries, the fonts,
  *   the icons) is downloaded when the worker installs, in a cache named after
@@ -70,8 +73,14 @@ self.addEventListener('fetch', e => {
     if (!DEV.test(url.pathname)) e.respondWith(page(req));
     return;
   }
+  if (fromDev(req)) return;                     // dev.html's own files: the browser fetches them, not this worker
   e.respondWith(file(e, url));
 });
+
+/** Asked for by dev.html? Decided at once from the referrer, before anything is awaited. */
+function fromDev(req) {
+  try { return DEV.test(new URL(req.referrer).pathname); } catch (err) { return false; }
+}
 
 /** The page: from the network, or the cached one when offline or too slow. */
 async function page(req) {

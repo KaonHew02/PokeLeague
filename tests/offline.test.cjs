@@ -45,6 +45,35 @@ test('sw.js keeps files that exist, from the same build as index.html', () => {
   assert.match(sw, /if \(k\.startsWith\('pokeleague-'\) && [^\n]*\) await caches\.delete\(k\);/);
 });
 
+test('sw.js leaves dev.html and its files to the browser, and answers for the published page', () => {
+  const vm = require('node:vm');
+  const handlers = {};
+  const BASE = 'http://localhost:8130/';
+  const ctx = {
+    URL, Promise, setTimeout, console,
+    location: new URL(BASE + 'sw.js'),
+    caches: { open: async () => ({ match: async () => null, put: async () => {}, addAll: async () => {} }), match: async () => null, keys: async () => [] },
+    fetch: async () => ({ ok: true, clone() { return this; } })
+  };
+  ctx.self = { registration: { scope: BASE }, clients: { get: async () => null, claim: async () => {} }, skipWaiting: async () => {},
+    addEventListener: (type, fn) => { handlers[type] = fn; } };
+  vm.runInNewContext(source('sw.js'), ctx);
+  /** Does the worker answer (respondWith) a GET request? */
+  const answers = (url, o = {}) => {
+    let took = false;
+    handlers.fetch({ request: Object.assign({ method: 'GET', url: BASE + url, mode: 'no-cors', referrer: '' }, o), clientId: 'c1',
+      respondWith: p => { took = true; Promise.resolve(p).catch(() => {}); } });
+    return took;
+  };
+  assert.ok(!answers('dev.html?debug', { mode: 'navigate' }), 'dev.html itself');
+  assert.ok(!answers('js/world/field.js', { referrer: BASE + 'dev.html?debug&map=sandgem' }), 'a script of dev.html');
+  assert.ok(!answers('assets/pokemon/25/Idle.png', { referrer: BASE + 'dev.html' }), 'a sprite dev.html asks for');
+  assert.ok(answers('', { mode: 'navigate' }), 'the published page');
+  assert.ok(answers('js/app.min.js?v=1', { referrer: BASE }), 'a file of the published page');
+  assert.ok(answers('assets/pokemon/25/Idle.png', { referrer: BASE + 'index.html' }), 'a sprite the published page asks for');
+  assert.ok(!answers('x', { method: 'POST' }), 'not a GET');
+});
+
 test('G.Offline lists sprite files that exist, and says about how big they are', () => {
   const G = boot(['js/core/util.js', 'js/data/sprites-meta.js', 'js/core/offline.js']).G;
   const urls = G.Offline.spriteUrls();

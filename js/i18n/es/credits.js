@@ -196,5 +196,7 @@ G.I18n.add({
   "Chapter 68 complete!": "¡Capítulo 68 completado!",
   "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player} bajó por los pisos helados del Templo Puntaneva, llevó a Regirock, Regice y Registeel a casa y despertó a Regigigas.",
   "Chapter 69 complete!": "¡Capítulo 69 completado!",
-  "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player} conoció al fantasma de la Vieja Mansión del Bosque Vetusto, subió a la Torre Perdida de la Ruta 209 y recibió los dos amuletos de las ancianas."
+  "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player} conoció al fantasma de la Vieja Mansión del Bosque Vetusto, subió a la Torre Perdida de la Ruta 209 y recibió los dos amuletos de las ancianas.",
+  "Chapter 70 complete!": "¡Capítulo 70 completado!",
+  "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player} navegó hasta la Isla Plenilunio, vio a Cresselia salir volando para vagar por Sinnoh y despertó al hijo del marinero de sus pesadillas con la Pluma Lunar."
 }, "es");

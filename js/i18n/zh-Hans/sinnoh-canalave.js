@@ -60,5 +60,17 @@ G.I18n.add({
   "Canalave City Gym. Leader: Byron, the Steel man.": "水脉道馆。馆主：钢铁之人东瓜",
   "Canalave Harbour. Ask the sailor about the boat to Iron Island.": "水脉港。去钢铁岛的船请问水手。",
   "A book of old stories: \"When the world began, there was only one egg. From it came the first Pokémon, and the first Pokémon made time and space.\"": "一本古老的故事书：“世界之初只有一颗蛋。第一只宝可梦从蛋中诞生，并创造了时间和空间。”",
-  "A book of old stories: \"Three spirits sleep in Sinnoh's three lakes. They gave people knowledge, feeling and will.\"": "一本古老的故事书：“三个精灵沉睡在神奥的三座湖中。它们赐予人们知识、情感和意志。”"
+  "A book of old stories: \"Three spirits sleep in Sinnoh's three lakes. They gave people knowledge, feeling and will.\"": "一本古老的故事书：“三个精灵沉睡在神奥的三座湖中。它们赐予人们知识、情感和意志。”",
+  "...Oh, it is you. Sorry, my head is somewhere else today.": "……啊，是你啊。抱歉，我今天心不在焉的。",
+  "My boy will not wake up. He sleeps day and night and cries out in his dreams, as if something dark were standing over him.": "我儿子醒不过来了。他白天黑夜都在睡，还在梦里大叫，好像有什么黑乎乎的东西站在他身边。",
+  "The old folk here say a feather from Fullmoon Island, the Lunar Wing, chases bad dreams away. Nobody goes out there anymore...": "这里的老人们说，满月岛上有一种羽毛叫新月之羽，能赶走噩梦。可是已经没有人去那里了……",
+  "My boy is up and running around again, all thanks to you! I owe you more than a boat ride.": "我儿子又能下床到处跑了，全多亏了你！我欠你的可不只是一趟船。",
+  "Will you go to Fullmoon Island for my boy? I will take you there right away.": "你愿意为了我儿子去一趟满月岛吗？我马上送你过去。",
+  "The boat sailed out to Fullmoon Island...": "船向满月岛驶去……",
+  "The boy is fast asleep, tossing and turning. He mumbles something about a shadow...": "男孩睡得很沉，翻来覆去的。他嘴里嘟囔着什么影子……",
+  "{player} held the Lunar Wing near the sleeping boy. It glowed like the moon...": "{player}把新月之羽靠近熟睡的男孩。羽毛像月亮一样发出了光……",
+  "...Huh? Is it morning? I had such a long, scary dream. Then a bright Pokémon came, and the scary thing went away.": "……咦？天亮了吗？我做了一个好长好可怕的梦。后来来了一只发着光的宝可梦，可怕的东西就走了。",
+  "Thank you! I am going to tell Dad!": "谢谢你！我要去告诉爸爸！",
+  "My dad sails the boat to Iron Island. One day I will be a sailor too!": "我爸爸开船去钢铁岛。总有一天我也要当船员！",
+  "I dreamed of a Pokémon that shone like the moon. It chased the dark thing away, and then I woke up.": "我梦到一只像月亮一样发光的宝可梦。它把黑乎乎的东西赶跑了，然后我就醒了。"
 }, "zh-Hans");

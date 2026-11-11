@@ -6,7 +6,8 @@
  * the maps with a `fly` landing spot (G.World.flyTargets); a click on the drawing picks one too.
  * It shows the region you are in (map `region`, Kanto by default); once you have been to another
  * one, a button goes round the regions you have seen (Fly crosses between them).
- * A roaming Pokémon once met (chapter 42, G.Roam.where()) blinks on its route: red Latias, blue Latios, pink Mesprit.
+ * A roaming Pokémon once met (chapter 42, G.Roam.list()) blinks on its route: red Latias, blue Latios, pink Mesprit,
+ * pale yellow Cresselia (chapter 70; Sinnoh can have two at once).
  */
 G.TownMapUI = (() => {
   const esc = s => G.U.esc(s);
@@ -95,7 +96,7 @@ G.TownMapUI = (() => {
       'ravaged-path': [5.5, 8.4], 'floaroma-meadow': [4.6, 5.6], 'valley-windworks': [6.4, 7.8], 'eterna-forest': [6.2, 4.4],
       'solaceon-ruins': [13.7, 6.2], 'valor-lakefront': [16, 10.6], 'great-marsh': [13.6, 10.6], 'iron-island': [1, 6.2],
       'sendoff-spring': [14.6, 8], 'spring-path': [14.6, 8.6], 'turnback-cave': [14.2, 7.6],
-      'fight-area': [18, 3.2], 'survival-area': [16.4, 1], 'stark-mountain': [19.4, 0.3], 'resort-area': [19.4, 4.4], 'pokemon-mansion': [12.4, 9.6], 'trophy-garden': [12, 9.6], 'wayward-cave': [8, 6.4], 'snowpoint-temple': [9.6, 0.3], 'old-chateau': [6.8, 3.9], 'lost-tower': [13.4, 7.8]
+      'fight-area': [18, 3.2], 'survival-area': [16.4, 1], 'stark-mountain': [19.4, 0.3], 'resort-area': [19.4, 4.4], 'pokemon-mansion': [12.4, 9.6], 'trophy-garden': [12, 9.6], 'wayward-cave': [8, 6.4], 'snowpoint-temple': [9.6, 0.3], 'old-chateau': [6.8, 3.9], 'lost-tower': [13.4, 7.8], 'fullmoon-island': [2.8, 7.2]
     },
     ROADS: { 225: [[18, 3.2], [18, 1], [16.4, 1]], 226: [[16.4, 1], [16.4, 1.8], [19.4, 1.8]], 227: [[19.4, 1.8], [19.4, 0.3]], 228: [[19.4, 1.8], [19.4, 2.8]], 224: [[18.6, 6.6], [19.6, 6.6], [19.6, 5.6]], 212: [[12.4, 8.6], [12.4, 11.4], [13.6, 11.4]], 229: [[19.4, 2.8], [19.4, 4.4]], 230: [[19.4, 3.6], [18, 3.6], [18, 3.2]], 222: [[16, 10.6], [18.4, 11.6]], 223: [[18.4, 11.6], [18.6, 6.6]], 201: [[2, 12], [3.4, 12], [3.4, 13], [3.4, 12], [5.5, 12], [5.5, 13]], 202: [[5.5, 13], [5.5, 10]], 203: [[5.5, 10], [8.4, 10]],
              204: [[5.5, 10], [5.5, 7.6], [4.6, 7.6], [4.6, 6.5]],
@@ -177,12 +178,12 @@ G.TownMapUI = (() => {
     const [a, b] = [line[0], line[line.length - 1]];
     return [PAD + ((a[0] + b[0]) / 2 + 0.5) * CELL, PAD + ((a[1] + b[1]) / 2 + 0.5) * CELL];
   }
-  /** The roaming Pokémon of the region on show, once met: { at: [x, y], sp } on the drawing, or null. */
-  function roamer() {
-    const id = G.Roam && G.Roam.where(st.region);
-    const at = id && G.Maps.has(id) ? middle(G.Maps.get(id).loc) : null;
-    return at ? { at, sp: G.Roam.of(st.region).mon.sp } : null;
+  /** The roaming Pokémon of the region on show, once met: [{ at: [x, y], sp }] on the drawing. */
+  function roamers() {
+    if (!G.Roam || !G.Roam.list) return [];
+    return G.Roam.list(st.region).map(r => ({ at: G.Maps.has(r.map) ? middle(G.Maps.get(r.map).loc) : null, sp: r.sp })).filter(r => r.at);
   }
+  const DOT = { 380: '#f05068', 381: '#5080f0', 481: '#f080c8', 488: '#f0d870' };
 
   /** The drawing as large as its corner of the screen allows (the canvas keeps its own pixels). */
   function fit() {
@@ -223,10 +224,11 @@ G.TownMapUI = (() => {
       c.fillRect(x - 4.5, y - 4.5, 9, 9);
       if (sel) { c.strokeStyle = blink ? '#ffffff' : '#ffe070'; c.lineWidth = 2; c.strokeRect(x - 8.5, y - 8.5, 17, 17); }
     }
-    const ro = roamer();
-    if (ro && !blink) {
-      c.fillStyle = '#20242c'; c.beginPath(); c.arc(ro.at[0], ro.at[1], 5.5, 0, 6.2832); c.fill();
-      c.fillStyle = ro.sp === 380 ? '#f05068' : ro.sp === 481 ? '#f080c8' : '#5080f0'; c.beginPath(); c.arc(ro.at[0], ro.at[1], 4, 0, 6.2832); c.fill();
+    for (const [i, ro] of roamers().entries()) {
+      if (blink) break;
+      const x = ro.at[0] + i * 3, y = ro.at[1] - i * 3;          // two on one route: side by side
+      c.fillStyle = '#20242c'; c.beginPath(); c.arc(x, y, 5.5, 0, 6.2832); c.fill();
+      c.fillStyle = DOT[ro.sp] || '#5080f0'; c.beginPath(); c.arc(x, y, 4, 0, 6.2832); c.fill();
     }
     const me = here();
     if (me && (!st.fly || blink)) {
@@ -242,8 +244,9 @@ G.TownMapUI = (() => {
     const p = el.querySelector('.tm-place');
     if (t) p.textContent = G.Names.loc(t.loc) + (m && m.loc === t.loc ? ' · ' + T('You are here') : '');
     else p.textContent = m && m.loc ? G.Names.loc(m.loc) + ' · ' + T('You are here') : '';
-    const ro = roamer();
-    if (ro) p.textContent += ' · ' + fmt('{mon} roams near the blinking dot.', { mon: G.Names.mon(ro.sp) });
+    const ro = roamers();
+    if (ro.length === 1) p.textContent += ' · ' + fmt('{mon} roams near the blinking dot.', { mon: G.Names.mon(ro[0].sp) });
+    else if (ro.length > 1) p.textContent += ' · ' + fmt('{a} and {b} roam near the blinking dots.', { a: G.Names.mon(ro[0].sp), b: G.Names.mon(ro[1].sp) });
   }
 
   function render() {

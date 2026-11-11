@@ -2493,12 +2493,20 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Platinum's levels (14-23); no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the Cut tree, the girl once, the items, the painting, the TV by day and at night: running, beating, catching; Route 209 into the tower and up all five floors, the Trainers and the two double battles, a Trainer who sees you, the old women's gifts once each, no ending before chapter 68 and then once; the Dread Plate's power, the Old Gateau, fewer wild Pokémon with the Cleanse Tag on the same seed); `tests/story.test.cjs` the chapter after chapter 68 (the six Trainers, the tags, Rotom at night).
 
-### After chapter 69
+- **Chapter 70** ✅, Fullmoon Island and Cresselia (`js/content/sinnoh/fullmoon.js`, translations `sinnoh-fullmoon`). It ends with `ending(70)` when the Lunar Wing wakes the sailor's son; it all starts only with the National Pokédex, so no player in the middle of the game sees it.
+  - **Canalave City** (`canalave.js`): a new house (`canalave-house2`, 34,4) where the sailor's son sleeps once you have the National Pokédex (awake before, and after). The harbour sailor's script is now `js`: the first time with the National Pokédex he tells of the nightmares and the old tale of the Lunar Wing (flag `nightmare-heard`); until the boy wakes he first offers the boat to Fullmoon Island, then to Iron Island as before; afterwards he thanks you once (flag `nightmare-thanks`).
+  - **Map**: `fullmoon-island` (`palette: 'forest'`, no wild Pokémon, as in Platinum): a beach and the sailor's boat in the south, a path through the wood, a clearing with a pond. A trigger before the clearing: Cresselia looks at you and flies off (flag `cresselia-met`), starts roaming (level 50) and the Lunar Wing (a key item, new in the data) glows where it stood. Held near the boy, it wakes him (flag `nightmare-done`).
+  - **Roaming** (`roam.js`): slots instead of one roamer per region: `hoenn` (save `roamer`), `sinnoh` (Mesprit, `sinnohRoamer`) and `cresselia` (`cresselia`, flag `cresselia-caught`), each naming the region it roams; two on one route: one of them, by the same RNG; `G.Roam.list(region)` for the Town Map, which now blinks one dot per roamer (Cresselia pale yellow) and names both. The save keeps `cresselia`.
+  - **Left out**: Newmoon Island and Darkrai (Platinum's event Member Card).
+- **Balance:** Cresselia roams at level 50 and flees, like Mesprit; no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the sailor before and after the National Pokédex, the questions in order, the sleeping boy without the feather, the boat, no wild Pokémon on the island, Cresselia's flight and roaming, the Lunar Wing, the boat back, the boy wakes, the ending once, the sailor's thanks; two roamers in Sinnoh on the Town Map list, either one met on a shared route, both moving, both kept in the save, one caught alone); `tests/story.test.cjs` the chapter after chapter 69 and Cresselia met on its route.
+
+### After chapter 70
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
 1. Sinnoh after the League: Lake Valor filling up again (a map that changes with a flag); Mt. Coronet B1F; the villa;
-   the Contest Hall and Amity Square; Victory Road B1F; Fullmoon Island and Cresselia;
+   the Contest Hall and Amity Square; Victory Road B1F;
    the sea routes 219-221; Fuego Ironworks.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
    Arena...), Mirage Island.

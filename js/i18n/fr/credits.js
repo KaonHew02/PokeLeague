@@ -196,5 +196,7 @@ G.I18n.add({
   "Chapter 68 complete!": "Chapitre 68 terminé !",
   "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player} est descendu par les étages gelés du Temple Frimapic, a ramené Regirock, Regice et Registeel chez eux et a réveillé Regigigas.",
   "Chapter 69 complete!": "Chapitre 69 terminé !",
-  "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player} a rencontré le fantôme du Vieux Château dans la forêt de Vestigion, a gravi la Tour Perdue de la Route 209 et a reçu les deux runes des vieilles dames."
+  "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player} a rencontré le fantôme du Vieux Château dans la forêt de Vestigion, a gravi la Tour Perdue de la Route 209 et a reçu les deux runes des vieilles dames.",
+  "Chapter 70 complete!": "Chapitre 70 terminé !",
+  "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player} a navigué jusqu'à l'Île Pleine Lune, a vu Cresselia s'envoler pour parcourir Sinnoh et a tiré le fils du marin de ses cauchemars avec la Lun'Aile."
 }, "fr");

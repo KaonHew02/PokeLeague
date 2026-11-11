@@ -58,7 +58,8 @@ G.Store = (() => {
       daycareEgg: false, eggs: [],                        // an Egg found at the Day Care; the Eggs you carry: [{ mon, steps }]
       contest: null,                                      // a Bug-Catching Contest under way (contest.js)
       roamer: null,                                       // a roaming Pokémon (chapter 42, roam.js): { mon, map, seen }
-      sinnohRoamer: null                                  // Sinnoh's (chapter 60): the same
+      sinnohRoamer: null,                                 // Sinnoh's (chapter 60): the same
+      cresselia: null                                     // Cresselia, Sinnoh's second (chapter 70): the same
     };
   }
 
@@ -190,6 +191,7 @@ G.Store = (() => {
     const roamer = ro => { const m = obj(ro) ? fixMon(ro.mon) : null; return m && typeof ro.map === 'string' ? { mon: m, map: ro.map, seen: ro.seen === true } : null; };
     out.roamer = roamer(s.roamer);
     out.sinnohRoamer = roamer(s.sinnohRoamer);
+    out.cresselia = roamer(s.cresselia);
     // The Hall of Fame: each entry is the team that beat the Champion (at most 50 kept).
     out.fame = (Array.isArray(s.fame) ? s.fame : []).filter(obj).slice(-50).map(e => ({
       at: int(e.at, 0, 1e15, 0),

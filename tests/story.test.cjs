@@ -4383,6 +4383,32 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 70 after chapter 69: the sailor's son, Fullmoon Island, Cresselia roaming Sinnoh, the Lunar Wing. */
+async function chapter70(st) {
+  const { G, S } = st;
+  const F = G.Field;
+  assert.ok(F.flag('national-dex'));
+  // The sailor tells of his son's nightmares; the first question is the boat to Fullmoon Island.
+  await run(st, 'canalave', 'canalave.sailor', [0]);
+  assert.ok(F.flag('nightmare-heard'));
+  assert.equal(st.W.map, 'fullmoon-island');
+  await run(st, 'fullmoon-island', 'fullmoon.cresselia');
+  assert.ok(F.flag('cresselia-met') && F.count('lunar-wing') === 1);
+  assert.ok(S.cresselia.mon.sp === 488 && S.cresselia.mon.lvl === 50 && S.cresselia.seen && G.Roam.routes('sinnoh').includes(S.cresselia.map));
+  await run(st, 'canalave-house2', 'canalave.boy');
+  assert.ok(F.flag('nightmare-done') && F.flag('chapter-70-done'));
+  // Met on its route: it flees (or the strong story team knocks it out), and it roams on either way.
+  const b = G.Battle.create({ kind: 'wild', seed: 70, player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag },
+    foe: { party: [S.cresselia.mon] }, rules: { roamer: true } });
+  b.start();
+  const r = autoplay(G, b);
+  st.battles.push({ key: 'roamer:cresselia', outcome: r.outcome, levels: S.party.map(m => m.lvl) });
+  assert.equal(G.Roam.after(r.outcome, G.RNG(70), S.cresselia.mon), 'cresselia');
+  assert.ok(['fled', 'win'].includes(r.outcome) && S.cresselia && G.Roam.where('cresselia'), 'it still roams: ' + r.outcome);
+  console.log('[story] Fullmoon Island: Cresselia flew off to roam Sinnoh, the Lunar Wing woke the sailor\'s son; met on its route:', r.outcome);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 69 after chapter 68: the Lost Tower's Trainers and old women; Rotom in the Old Chateau at night. */
 async function chapter69(st) {
   const { G } = st;
@@ -4946,4 +4972,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter67(st);
   await chapter68(st);
   await chapter69(st);
+  await chapter70(st);
 });

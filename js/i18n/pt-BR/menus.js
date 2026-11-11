@@ -205,5 +205,6 @@ G.I18n.add({
   "Relic Badge": "Insígnia Relíquia",
   "Mine Badge": "Insígnia Mina",
   "Icicle Badge": "Insígnia Pingente de Gelo",
-  "Beacon Badge": "Insígnia Farol"
+  "Beacon Badge": "Insígnia Farol",
+  "{a} and {b} roam near the blinking dots.": "{a} e {b} vagam perto dos pontos que piscam."
 }, "pt-BR");

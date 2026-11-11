@@ -32,6 +32,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 70) return { title: T('Chapter 70 complete!'),
+      done: fmt('{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor\'s son from his nightmares with the Lunar Wing.', { player }),
+      next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };
     if (n === 69) return { title: T('Chapter 69 complete!'),
       done: fmt('{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women\'s two tags.', { player }),
       next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };

@@ -205,5 +205,6 @@ G.I18n.add({
   "Relic Badge": "Badge Relique",
   "Mine Badge": "Badge Mine",
   "Icicle Badge": "Badge Glaçon",
-  "Beacon Badge": "Badge Phare"
+  "Beacon Badge": "Badge Phare",
+  "{a} and {b} roam near the blinking dots.": "{a} et {b} rôdent près des points qui clignotent."
 }, "fr");

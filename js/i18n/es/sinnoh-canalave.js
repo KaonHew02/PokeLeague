@@ -60,5 +60,17 @@ G.I18n.add({
   "Canalave City Gym. Leader: Byron, the Steel man.": "Gimnasio de Ciudad Canal. Líder: Acerón, el hombre de acero.",
   "Canalave Harbour. Ask the sailor about the boat to Iron Island.": "Puerto de Ciudad Canal. Pregunta al marinero por el barco a la Isla Hierro.",
   "A book of old stories: \"When the world began, there was only one egg. From it came the first Pokémon, and the first Pokémon made time and space.\"": "Un libro de historias antiguas: «Al principio del mundo solo había un huevo. De él nació el primer Pokémon, y el primer Pokémon creó el tiempo y el espacio».",
-  "A book of old stories: \"Three spirits sleep in Sinnoh's three lakes. They gave people knowledge, feeling and will.\"": "Un libro de historias antiguas: «Tres espíritus duermen en los tres lagos de Sinnoh. Dieron a la gente saber, sentimiento y voluntad»."
+  "A book of old stories: \"Three spirits sleep in Sinnoh's three lakes. They gave people knowledge, feeling and will.\"": "Un libro de historias antiguas: «Tres espíritus duermen en los tres lagos de Sinnoh. Dieron a la gente saber, sentimiento y voluntad».",
+  "...Oh, it is you. Sorry, my head is somewhere else today.": "...Ah, eres tú. Perdona, hoy tengo la cabeza en otra parte.",
+  "My boy will not wake up. He sleeps day and night and cries out in his dreams, as if something dark were standing over him.": "Mi hijo no se despierta. Duerme día y noche y grita en sueños, como si algo oscuro estuviera junto a él.",
+  "The old folk here say a feather from Fullmoon Island, the Lunar Wing, chases bad dreams away. Nobody goes out there anymore...": "Los mayores de aquí dicen que una pluma de la Isla Plenilunio, la Pluma Lunar, ahuyenta las pesadillas. Ya nadie va por allí...",
+  "My boy is up and running around again, all thanks to you! I owe you more than a boat ride.": "¡Mi hijo vuelve a estar en pie y corriendo de un lado a otro, todo gracias a ti! Te debo mucho más que un viaje en barco.",
+  "Will you go to Fullmoon Island for my boy? I will take you there right away.": "¿Irías a la Isla Plenilunio por mi hijo? Te llevo ahora mismo.",
+  "The boat sailed out to Fullmoon Island...": "El barco zarpó hacia la Isla Plenilunio...",
+  "The boy is fast asleep, tossing and turning. He mumbles something about a shadow...": "El niño está profundamente dormido y no deja de dar vueltas. Murmura algo sobre una sombra...",
+  "{player} held the Lunar Wing near the sleeping boy. It glowed like the moon...": "{player} acercó la Pluma Lunar al niño dormido. Brilló como la luna...",
+  "...Huh? Is it morning? I had such a long, scary dream. Then a bright Pokémon came, and the scary thing went away.": "...¿Eh? ¿Ya es de día? He tenido un sueño muy largo y horrible. Luego vino un Pokémon brillante y la cosa que daba miedo se fue.",
+  "Thank you! I am going to tell Dad!": "¡Gracias! ¡Voy a contárselo a papá!",
+  "My dad sails the boat to Iron Island. One day I will be a sailor too!": "Mi papá lleva el barco a la Isla Hierro. ¡Algún día yo también seré marinero!",
+  "I dreamed of a Pokémon that shone like the moon. It chased the dark thing away, and then I woke up.": "Soñé con un Pokémon que brillaba como la luna. Ahuyentó a la cosa oscura y entonces me desperté."
 }, "es");

@@ -201,6 +201,7 @@ G.ITEM_FX = {
   'squirt-bottle': { key: 1 },
   'secret-potion': { key: 1 },
   'old-charm':     { key: 1 },
+  'lunar-wing':    { key: 1 },                // Fullmoon Island (chapter 70): it chases bad dreams away
   'red-scale':     { key: 1 },
   'basement-key':  { key: 1 },
   'galactic-key':  { key: 1 },

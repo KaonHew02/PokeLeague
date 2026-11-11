@@ -59,9 +59,9 @@
     rows: [
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
       'T.................~~~~.................T',
-      'T.................~~~~.................T',
-      'T.............fff.~~~~.................T',
-      'T.............fff.~~~~.................T',
+      'T.................~~~~...........HHHH..T',
+      'T.............fff.~~~~...........HHHH..T',
+      'T.............fff.~~~~...........HDHH..T',
       'T.............fff.~~~~.................T',
       'T......GGGGGG.....~~~~.................T',
       'T......GGGGGG.....~~~~.................T',
@@ -94,10 +94,11 @@
       { x: 33, y: 11, to: 'canalave-mart', spot: 'door' },
       { x: 27, y: 20, to: 'canalave-house', spot: 'door' },
       { x: 4, y: 20, to: 'canalave-library', spot: 'door' },
-      { x: 9, y: 10, to: 'canalave-gym', spot: 'door', if: 'riley-done', locked: 'canalave.gym-closed' }
+      { x: 9, y: 10, to: 'canalave-gym', spot: 'door', if: 'riley-done', locked: 'canalave.gym-closed' },
+      { x: 34, y: 4, to: 'canalave-house2', spot: 'door' }          // the sailor's house (chapter 70)
     ],
     spots: { 'center-door': [27, 12, 'down'], 'mart-door': [33, 12, 'down'], 'house-door': [27, 21, 'down'], 'library-door': [4, 21, 'down'], 'gym-door': [9, 11, 'down'],
-             harbor: [12, 23, 'up'] },
+             harbor: [12, 23, 'up'], 'house2-door': [34, 5, 'down'] },
     signs: {
       '24,13': 'Canalave City. A port town, split in two by its canal.',
       '11,11': 'Canalave City Gym. Leader: Byron, the Steel man.',
@@ -139,6 +140,21 @@
     spots: { door: [4, 7, 'up'] },
     npcs: [{ id: 'granny', who: 'granny', x: 7, y: 4, dir: 'left',
              say: 'My husband worked the mines on Iron Island. The steel of Sinnoh came from there.' }]
+  }, SINNOH));
+
+  // Chapter 70: the sailor's house. His son sleeps and will not wake once you have the National Pokédex (fullmoon.js).
+  G.Maps.def(Object.assign({
+    id: 'canalave-house2', loc: 'canalave-city', tileset: 'indoor', palette: 'house', music: 'town', battleBg: 'indoor',
+    rows: HOUSE,
+    warps: [{ x: 4, y: 7, to: 'canalave', spot: 'house2-door' }],
+    spots: { door: [4, 7, 'up'] },
+    npcs: [
+      { id: 'boy', who: 'youngster', x: 8, y: 3, dir: 'down', move: 'look', if: '!national-dex',
+        say: 'My dad sails the boat to Iron Island. One day I will be a sailor too!' },
+      { id: 'sleeper', who: 'youngster', x: 8, y: 3, dir: 'up', fixed: true, if: ['national-dex', '!nightmare-done'], script: 'canalave.boy' },
+      { id: 'woken', who: 'youngster', x: 8, y: 3, dir: 'down', move: 'look', if: 'nightmare-done',
+        say: 'I dreamed of a Pokémon that shone like the moon. It chased the dark thing away, and then I woke up.' }
+    ]
   }, SINNOH));
 
   G.Maps.def(Object.assign({
@@ -231,18 +247,68 @@
     h.hide('barry');
   }
 
+  /** The sailor at the harbour, what he says first (chapter 70: his son's nightmares; his thanks). The boats are below. */
+  async function sailorTalk(h) {
+    const F = G.Field;
+    if (F.flag('national-dex') && !F.flag('nightmare-heard')) {
+      await h.say(T('...Oh, it is you. Sorry, my head is somewhere else today.'), SAILOR);
+      await h.say(T('My boy will not wake up. He sleeps day and night and cries out in his dreams, as if something dark were standing over him.'), SAILOR);
+      await h.say(T('The old folk here say a feather from Fullmoon Island, the Lunar Wing, chases bad dreams away. Nobody goes out there anymore...'), SAILOR);
+      F.setFlag('nightmare-heard');
+    }
+    if (F.flag('nightmare-done') && !F.flag('nightmare-thanks')) {
+      F.setFlag('nightmare-thanks');
+      await h.say(T('My boy is up and running around again, all thanks to you! I owe you more than a boat ride.'), SAILOR);
+    }
+  }
+
+  /** The sailor's son, asleep: the Lunar Wing wakes him (chapter 70). */
+  async function boy(h) {
+    const F = G.Field;
+    if (F.count('lunar-wing') <= 0) {
+      await h.say(T('The boy is fast asleep, tossing and turning. He mumbles something about a shadow...'));
+      return;
+    }
+    await h.say(T('{player} held the Lunar Wing near the sleeping boy. It glowed like the moon...'));
+    await h.say(T('...Huh? Is it morning? I had such a long, scary dream. Then a bright Pokémon came, and the scary thing went away.'));
+    await h.say(T('Thank you! I am going to tell Dad!'));
+    F.setFlag('nightmare-done');
+    if (F.flag('chapter-70-done')) return;
+    // The end of the seventieth chapter (credits-ui.js).
+    if (G.CreditsUI) await G.CreditsUI.ending(70); else F.setFlag('chapter-70-done');
+  }
+
   G.Script.def({
     'canalave.barry': [['js', barry]],
-    'canalave.gym-closed': [['say', 'The Gym is shut. A note on the door says: "Gone to Iron Island. Back soon! Byron"']],
+    // The boats (declared, not in js, so the maps they reach can be followed: tests/kanto.test.cjs).
     'canalave.sailor': [
-      ['choice', 'Ahoy! Shall I take you out to Iron Island?', [
-        ['fade', 'out', 0.6], ['sfx', 'horn'],
-        ['say', 'The boat sailed out to Iron Island...'],
-        ['warp', 'iron-island', 'pier']
+      ['js', sailorTalk],
+      ['if', ['nightmare-heard', '!nightmare-done'], [
+        ['choice', 'Will you go to Fullmoon Island for my boy? I will take you there right away.', [
+          ['fade', 'out', 0.6], ['sfx', 'horn'],
+          ['say', 'The boat sailed out to Fullmoon Island...'],
+          ['warp', 'fullmoon-island', 'pier']
+        ], [
+          ['choice', 'Ahoy! Shall I take you out to Iron Island?', [
+            ['fade', 'out', 0.6], ['sfx', 'horn'],
+            ['say', 'The boat sailed out to Iron Island...'],
+            ['warp', 'iron-island', 'pier']
+          ], [
+            ['say', 'Any time. The sea is not going anywhere.', SAILOR]
+          ], SAILOR]
+        ], SAILOR]
       ], [
-        ['say', 'Any time. The sea is not going anywhere.', SAILOR]
-      ], SAILOR]
+        ['choice', 'Ahoy! Shall I take you out to Iron Island?', [
+          ['fade', 'out', 0.6], ['sfx', 'horn'],
+          ['say', 'The boat sailed out to Iron Island...'],
+          ['warp', 'iron-island', 'pier']
+        ], [
+          ['say', 'Any time. The sea is not going anywhere.', SAILOR]
+        ], SAILOR]
+      ]]
     ],
+    'canalave.boy': [['js', boy]],
+    'canalave.gym-closed': [['say', 'The Gym is shut. A note on the door says: "Gone to Iron Island. Back soon! Byron"']],
     'canalave.gym-guide': [
       ['say', 'Hey, Champion! Byron uses Steel-type Pokémon.'],
       ['say', 'Fire, Fighting and Ground moves are what you want. His Bastiodon is part Rock, so Fighting and Ground moves hit it four times as hard!'],

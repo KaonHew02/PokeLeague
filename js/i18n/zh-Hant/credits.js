@@ -196,5 +196,7 @@ G.I18n.add({
   "Chapter 68 complete!": "第六十八章完成！",
   "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player}穿過雪峰神殿結冰的一層層，把雷吉洛克、雷吉艾斯和雷吉斯奇魯帶回了家，喚醒了雷吉奇卡斯。",
   "Chapter 69 complete!": "第六十九章完成！",
-  "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player}在百代森林的森之洋館遇見了幽靈，爬上了209號道路的迷失塔，收下了兩位婆婆的兩張符。"
+  "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player}在百代森林的森之洋館遇見了幽靈，爬上了209號道路的迷失塔，收下了兩位婆婆的兩張符。",
+  "Chapter 70 complete!": "第七十章完成！",
+  "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player}坐船去了滿月島，看著克雷色利亞飛走、在神奧各地遊走，並用新月之羽把船員的兒子從噩夢中喚醒。"
 }, "zh-Hant");

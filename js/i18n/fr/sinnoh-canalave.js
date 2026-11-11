@@ -60,5 +60,17 @@ G.I18n.add({
   "Canalave City Gym. Leader: Byron, the Steel man.": "Arène de Joliberges. Champion : Charles, l'homme d'acier.",
   "Canalave Harbour. Ask the sailor about the boat to Iron Island.": "Port de Joliberges. Demande au marin pour le bateau vers l'Île de Fer.",
   "A book of old stories: \"When the world began, there was only one egg. From it came the first Pokémon, and the first Pokémon made time and space.\"": "Un livre de vieilles histoires : « Au commencement du monde, il n'y avait qu'un œuf. De lui naquit le premier Pokémon, et le premier Pokémon créa le temps et l'espace. »",
-  "A book of old stories: \"Three spirits sleep in Sinnoh's three lakes. They gave people knowledge, feeling and will.\"": "Un livre de vieilles histoires : « Trois esprits dorment dans les trois lacs de Sinnoh. Ils ont donné aux hommes le savoir, le sentiment et la volonté. »"
+  "A book of old stories: \"Three spirits sleep in Sinnoh's three lakes. They gave people knowledge, feeling and will.\"": "Un livre de vieilles histoires : « Trois esprits dorment dans les trois lacs de Sinnoh. Ils ont donné aux hommes le savoir, le sentiment et la volonté. »",
+  "...Oh, it is you. Sorry, my head is somewhere else today.": "...Oh, c'est toi. Désolé, j'ai la tête ailleurs aujourd'hui.",
+  "My boy will not wake up. He sleeps day and night and cries out in his dreams, as if something dark were standing over him.": "Mon fils ne se réveille pas. Il dort jour et nuit et crie dans ses rêves, comme si quelque chose de sombre se tenait au-dessus de lui.",
+  "The old folk here say a feather from Fullmoon Island, the Lunar Wing, chases bad dreams away. Nobody goes out there anymore...": "Les anciens d'ici disent qu'une plume de l'Île Pleine Lune, la Lun'Aile, chasse les mauvais rêves. Plus personne n'y va...",
+  "My boy is up and running around again, all thanks to you! I owe you more than a boat ride.": "Mon fils est de nouveau debout et il court partout, tout ça grâce à toi ! Je te dois bien plus qu'un tour en bateau.",
+  "Will you go to Fullmoon Island for my boy? I will take you there right away.": "Tu veux bien aller sur l'Île Pleine Lune pour mon fils ? Je t'y emmène tout de suite.",
+  "The boat sailed out to Fullmoon Island...": "Le bateau a mis le cap sur l'Île Pleine Lune...",
+  "The boy is fast asleep, tossing and turning. He mumbles something about a shadow...": "Le garçon dort profondément et se tourne dans tous les sens. Il marmonne quelque chose à propos d'une ombre...",
+  "{player} held the Lunar Wing near the sleeping boy. It glowed like the moon...": "{player} a approché la Lun'Aile du garçon endormi. Elle a brillé comme la lune...",
+  "...Huh? Is it morning? I had such a long, scary dream. Then a bright Pokémon came, and the scary thing went away.": "...Hein ? C'est le matin ? J'ai fait un rêve si long et si effrayant. Puis un Pokémon lumineux est venu, et la chose qui faisait peur est partie.",
+  "Thank you! I am going to tell Dad!": "Merci ! Je vais le dire à papa !",
+  "My dad sails the boat to Iron Island. One day I will be a sailor too!": "Mon papa conduit le bateau jusqu'à l'Île de Fer. Un jour, je serai marin moi aussi !",
+  "I dreamed of a Pokémon that shone like the moon. It chased the dark thing away, and then I woke up.": "J'ai rêvé d'un Pokémon qui brillait comme la lune. Il a chassé la chose sombre, et je me suis réveillé."
 }, "fr");

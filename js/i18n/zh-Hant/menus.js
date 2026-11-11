@@ -205,5 +205,6 @@ G.I18n.add({
   "Relic Badge": "遺跡徽章",
   "Mine Badge": "礦物徽章",
   "Icicle Badge": "冰柱徽章",
-  "Beacon Badge": "燈塔徽章"
+  "Beacon Badge": "燈塔徽章",
+  "{a} and {b} roam near the blinking dots.": "{a}和{b}在閃爍的點附近遊蕩。"
 }, "zh-Hant");

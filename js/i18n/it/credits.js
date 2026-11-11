@@ -196,5 +196,7 @@ G.I18n.add({
   "Chapter 68 complete!": "Capitolo 68 completato!",
   "{player} went down through the frozen floors of Snowpoint Temple, brought Regirock, Regice and Registeel home and woke Regigigas.": "{player} è sceso per i piani ghiacciati del Tempio Nevepoli, ha riportato a casa Regirock, Regice e Registeel e ha risvegliato Regigigas.",
   "Chapter 69 complete!": "Capitolo 69 completato!",
-  "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player} ha incontrato il fantasma dell'Antico Château nel Bosco Evopoli, è salito sulla Torre Memoria del Percorso 209 e ha ricevuto i due talismani delle vecchiette."
+  "{player} met the ghost of the Old Chateau in Eterna Forest, climbed the Lost Tower on Route 209 and received the old women's two tags.": "{player} ha incontrato il fantasma dell'Antico Château nel Bosco Evopoli, è salito sulla Torre Memoria del Percorso 209 e ha ricevuto i due talismani delle vecchiette.",
+  "Chapter 70 complete!": "Capitolo 70 completato!",
+  "{player} sailed to Fullmoon Island, saw Cresselia fly off to roam Sinnoh and woke the sailor's son from his nightmares with the Lunar Wing.": "{player} ha navigato fino all'Isola Lunapiena, ha visto Cresselia volare via per vagare per Sinnoh e ha svegliato il figlio del marinaio dagli incubi con l'Alalunare."
 }, "it");

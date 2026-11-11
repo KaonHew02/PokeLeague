@@ -205,5 +205,6 @@ G.I18n.add({
   "Relic Badge": "Medaglia Reliquia",
   "Mine Badge": "Medaglia Miniera",
   "Icicle Badge": "Medaglia Ghiacciolo",
-  "Beacon Badge": "Medaglia Faro"
+  "Beacon Badge": "Medaglia Faro",
+  "{a} and {b} roam near the blinking dots.": "{a} e {b} vagano vicino ai punti lampeggianti."
 }, "it");

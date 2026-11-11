@@ -60,5 +60,17 @@ G.I18n.add({
   "Canalave City Gym. Leader: Byron, the Steel man.": "Palestra di Canalipoli. Capopalestra: Ferruccio, l'uomo d'acciaio.",
   "Canalave Harbour. Ask the sailor about the boat to Iron Island.": "Porto di Canalipoli. Chiedi al marinaio della barca per l'Isola Ferrosa.",
   "A book of old stories: \"When the world began, there was only one egg. From it came the first Pokémon, and the first Pokémon made time and space.\"": "Un libro di antiche storie: \"All'inizio del mondo c'era solo un uovo. Da esso nacque il primo Pokémon, e il primo Pokémon creò il tempo e lo spazio.\"",
-  "A book of old stories: \"Three spirits sleep in Sinnoh's three lakes. They gave people knowledge, feeling and will.\"": "Un libro di antiche storie: \"Tre spiriti dormono nei tre laghi di Sinnoh. Diedero alle persone sapere, sentimento e volontà.\""
+  "A book of old stories: \"Three spirits sleep in Sinnoh's three lakes. They gave people knowledge, feeling and will.\"": "Un libro di antiche storie: \"Tre spiriti dormono nei tre laghi di Sinnoh. Diedero alle persone sapere, sentimento e volontà.\"",
+  "...Oh, it is you. Sorry, my head is somewhere else today.": "...Oh, sei tu. Scusa, oggi ho la testa altrove.",
+  "My boy will not wake up. He sleeps day and night and cries out in his dreams, as if something dark were standing over him.": "Mio figlio non si sveglia. Dorme giorno e notte e grida nel sonno, come se qualcosa di oscuro incombesse su di lui.",
+  "The old folk here say a feather from Fullmoon Island, the Lunar Wing, chases bad dreams away. Nobody goes out there anymore...": "I vecchi del posto dicono che una piuma dell'Isola Lunapiena, l'Alalunare, scaccia gli incubi. Ormai nessuno ci va più...",
+  "My boy is up and running around again, all thanks to you! I owe you more than a boat ride.": "Mio figlio è di nuovo in piedi e corre dappertutto, tutto grazie a te! Ti devo molto più di un giro in barca.",
+  "Will you go to Fullmoon Island for my boy? I will take you there right away.": "Andresti all'Isola Lunapiena per mio figlio? Ti ci porto subito.",
+  "The boat sailed out to Fullmoon Island...": "La barca salpò verso l'Isola Lunapiena...",
+  "The boy is fast asleep, tossing and turning. He mumbles something about a shadow...": "Il bambino dorme profondamente e si rigira di continuo. Borbotta qualcosa su un'ombra...",
+  "{player} held the Lunar Wing near the sleeping boy. It glowed like the moon...": "{player} ha avvicinato l'Alalunare al bambino addormentato. Ha brillato come la luna...",
+  "...Huh? Is it morning? I had such a long, scary dream. Then a bright Pokémon came, and the scary thing went away.": "...Eh? È mattina? Ho fatto un sogno lunghissimo e spaventoso. Poi è arrivato un Pokémon luminoso, e la cosa che faceva paura se n'è andata.",
+  "Thank you! I am going to tell Dad!": "Grazie! Vado a dirlo a papà!",
+  "My dad sails the boat to Iron Island. One day I will be a sailor too!": "Il mio papà porta la barca all'Isola Ferrosa. Un giorno sarò marinaio anch'io!",
+  "I dreamed of a Pokémon that shone like the moon. It chased the dark thing away, and then I woke up.": "Ho sognato un Pokémon che splendeva come la luna. Ha scacciato la cosa oscura, e poi mi sono svegliato."
 }, "it");

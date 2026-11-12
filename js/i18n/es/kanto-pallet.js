@@ -80,5 +80,6 @@ G.I18n.add({
   "Amazing! Only a few left. The rarest ones hide deep in caves and far out at sea.": "¡Asombroso! Solo te faltan unos pocos. Los más raros se esconden en lo más hondo de las cuevas y en alta mar.",
   "You did it! Every Pokémon of Kanto! I never thought I would live to see a complete Pokédex.": "¡Lo has conseguido! ¡Todos los Pokémon de Kanto! Nunca pensé que vería una Pokédex completa.",
   "{player} received the Pokédex Diploma from Professor Oak!": "¡{player} ha recibido el Diploma de la Pokédex del Profesor Oak!",
-  "Thank you, {player}. Your Pokédex will help researchers for years to come.": "Gracias, {player}. Tu Pokédex ayudará a los investigadores durante muchos años."
+  "Thank you, {player}. Your Pokédex will help researchers for years to come.": "Gracias, {player}. Tu Pokédex ayudará a los investigadores durante muchos años.",
+  "Oh, one more thing! I am expecting a delivery at the Poké Mart in Viridian City. Would you look in there and ask about it?": "¡Ah, una cosa más! Estoy esperando un envío en la Tienda Pokémon de Ciudad Verde. ¿Podrías pasar y preguntar por él?"
 }, "es");

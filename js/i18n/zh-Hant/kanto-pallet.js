@@ -80,5 +80,6 @@ G.I18n.add({
   "Amazing! Only a few left. The rarest ones hide deep in caves and far out at sea.": "太驚人了！只剩下幾種了。最稀有的寶可夢藏在洞窟深處和遠海。",
   "You did it! Every Pokémon of Kanto! I never thought I would live to see a complete Pokédex.": "你做到了！關都的所有寶可夢！我從沒想過有生之年能看到完整的圖鑑。",
   "{player} received the Pokédex Diploma from Professor Oak!": "{player}從大木博士那裡得到了圖鑑畢業證書！",
-  "Thank you, {player}. Your Pokédex will help researchers for years to come.": "謝謝你，{player}。你的圖鑑將會幫助研究者很多年。"
+  "Thank you, {player}. Your Pokédex will help researchers for years to come.": "謝謝你，{player}。你的圖鑑將會幫助研究者很多年。",
+  "Oh, one more thing! I am expecting a delivery at the Poké Mart in Viridian City. Would you look in there and ask about it?": "啊，還有一件事！我在常青市的友好商店訂了東西。你能去店裡問問到貨了沒有嗎？"
 }, "zh-Hant");

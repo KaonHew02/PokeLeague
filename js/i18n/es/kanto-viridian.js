@@ -26,5 +26,7 @@ G.I18n.add({
   "The blackboard reads: a Pokémon's status problems stay after battle. Heal them with items or at a Pokémon Center!": "En la pizarra pone: los problemas de estado de un Pokémon siguen tras el combate. ¡Cúralos con objetos o en un Centro Pokémon!",
   "A shelf of books about raising Pokémon.": "Una estantería con libros sobre la crianza de Pokémon.",
   "West of here is Route 22. Mankey live in the grass there, and their Low Kick packs a punch!": "Al oeste está la Ruta 22. En su hierba viven Mankey, ¡y su Patada Baja pega fuerte!",
-  "The Gym Leader was the boss of Team Rocket? And he just left? This town is never boring!": "¿El Líder del Gimnasio era el jefe del Team Rocket? ¿Y se ha ido sin más? ¡En esta ciudad nunca te aburres!"
+  "The Gym Leader was the boss of Team Rocket? And he just left? This town is never boring!": "¿El Líder del Gimnasio era el jefe del Team Rocket? ¿Y se ha ido sin más? ¡En esta ciudad nunca te aburres!",
+  "The clerk at the Poké Mart was asking for someone from Pallet Town. Have you been in there?": "El dependiente de la Tienda Pokémon buscaba a alguien de Pueblo Paleta. ¿Has entrado ya?",
+  "Is that parcel for Professor Oak? Pallet Town is back south, along Route 1.": "¿Ese paquete es para el Profesor Oak? Pueblo Paleta está al sur, siguiendo la Ruta 1."
 }, "es");

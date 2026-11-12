@@ -349,7 +349,11 @@ G.Maps.def({
       ['if', 'has-pokedex', [['call', 'lab.rating'], ['end']]],
       ['if', 'got-starter', [
         ['say', 'When a wild Pokémon jumps out, let your Pokémon battle it. Every win makes it stronger.', { name: 'Prof. Oak' }],
-        ['say', 'Route 1, north of town, leads to Viridian City. Off you go!', { name: 'Prof. Oak' }]
+        ['say', 'Route 1, north of town, leads to Viridian City. Off you go!', { name: 'Prof. Oak' }],
+        // Where the Pokédex comes from: the parcel at the Viridian City Poké Mart (viridian.js).
+        ['if', '!got-parcel', [
+          ['say', 'Oh, one more thing! I am expecting a delivery at the Poké Mart in Viridian City. Would you look in there and ask about it?', { name: 'Prof. Oak' }]
+        ]]
       ], [
         ['say', 'Go on, {player}. Choose one of the three Poké Balls on the table.', { name: 'Prof. Oak' }]
       ]]

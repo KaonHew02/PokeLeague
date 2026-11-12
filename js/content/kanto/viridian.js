@@ -155,7 +155,15 @@ G.Script.def({
     ['say', "Hmph! I'm not moving from this spot. Go away!"]
   ],
   'viridian.girl-sorry': [
-    ['say', "Sorry! Grandpa gets like this before his morning coffee. He won't let anyone pass."]
+    ['say', "Sorry! Grandpa gets like this before his morning coffee. He won't let anyone pass."],
+    // Where to go instead: the Poké Mart's parcel, then Professor Oak (who gives the Pokédex).
+    ['if', '!got-parcel', [
+      ['say', 'The clerk at the Poké Mart was asking for someone from Pallet Town. Have you been in there?']
+    ], [
+      ['if', '!parcel-delivered', [
+        ['say', 'Is that parcel for Professor Oak? Pallet Town is back south, along Route 1.']
+      ]]
+    ]]
   ],
   'viridian.oldman-tips': [
     ['say', "Ah, you carry a Pokédex now? Then listen to an old man's advice."],

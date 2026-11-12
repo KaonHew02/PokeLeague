@@ -244,6 +244,11 @@ async function chapter1(st) {
   assert.ok(F.flag('lab-rival-battle') && F.flag('rival-left-lab'));
   assert.equal(S.party[0].hp, G.Mon.maxHp(S.party[0]), 'Oak healed the party');
 
+  // Before the parcel: Oak and the girl in Viridian point to the Poké Mart.
+  await run(st, 'oak-lab', 'lab.oak');
+  assert.match(st.log[st.log.length - 1], /Poké Mart in Viridian City/);
+  await run(st, 'viridian', 'viridian.girl-sorry');
+  assert.match(st.log[st.log.length - 1], /clerk at the Poké Mart/);
   await run(st, 'route1', 'route1.clerk');
   assert.equal(F.count('potion'), 1);
   grind(st, 'route1', 7);
@@ -251,6 +256,8 @@ async function chapter1(st) {
   assert.equal(F.count('oaks-parcel'), 1);
   await run(st, 'viridian-mart', npc(st, 'viridian-mart', 'clerk'));
   assert.match(st.log[st.log.length - 1], /Professor Oak/);
+  await run(st, 'viridian', 'viridian.girl-sorry');
+  assert.match(st.log[st.log.length - 1], /parcel for Professor Oak/);
   await run(st, 'oak-lab', 'lab.oak');
   assert.ok(F.flag('parcel-delivered') && F.flag('has-pokedex'));
   assert.equal(F.count('oaks-parcel'), 0);

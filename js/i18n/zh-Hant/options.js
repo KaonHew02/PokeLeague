@@ -37,7 +37,6 @@ G.I18n.add({
   "Walk there · talk · choose": "走過去 · 對話 · 選擇",
   "Right click": "右鍵",
   "Phone or tablet": "手機或平板",
-  "Tap where you want to go and tap people to talk to them. The menu button in the corner opens the menu.": "點一下想去的地方就會走過去，點人物可以對話。角落的按鈕可以打開選單。",
   "Controller": "手把",
   "Controller connected: {name}": "已連接手把：{name}",
   "Xbox, PlayStation, Switch and most USB or Bluetooth controllers. Connect it and press any button.": "支援 Xbox、PlayStation、Switch 和大部分 USB 或藍牙手把。連接後按任意鍵。",
@@ -66,5 +65,8 @@ G.I18n.add({
   "On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.": "在 iPhone 上，主畫面 App 和 Safari 的檔案與存檔是分開的：請從圖示開啟遊戲。",
   "Map size": "地圖大小",
   "Large: the map is bigger on the screen, and you see a little less around you.": "大：地圖在螢幕上顯示得更大，能看到的周圍範圍會少一點。",
-  "Large": "大"
+  "Large": "大",
+  "Use the joystick to walk, or tap where you want to go. Tap people to talk to them; the menu button in the corner opens the menu.": "用搖桿走路，或者點一下想去的地方。點人物可以對話；角落的按鈕可以打開選單。",
+  "On-screen joystick": "螢幕搖桿",
+  "Drag it to walk; drag past its ring to run.": "拖動它來走路；拖到圓圈外面就會跑步。"
 }, "zh-Hant");

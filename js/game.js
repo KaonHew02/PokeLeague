@@ -45,6 +45,7 @@ G.Game = (() => {
     if (window.visualViewport) visualViewport.addEventListener('resize', resizeSoon);
     if (window.ResizeObserver) new ResizeObserver(() => resize()).observe(cv);
     G.UI.init();
+    if (G.Stick) G.Stick.init();                 // the on-screen joystick (phones and tablets)
     last = performance.now();
     requestAnimationFrame(loop);
   }
@@ -108,6 +109,7 @@ G.Game = (() => {
     if (mode && mode.render) mode.render(ctx, view, dt);
     else { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h); }
     G.UI.tick(dt);
+    if (G.Stick) G.Stick.tick();
 
     G.Input.endFrame();
   }

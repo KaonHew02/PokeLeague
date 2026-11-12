@@ -157,6 +157,30 @@ test('buttons: a press counts once, repeats while held, and swallow() needs a re
   assert.equal(B.pressed('a'), true);
 });
 
+test('the on-screen joystick: a direction from its middle (dead zone, the larger axis, run past the ring), fed to G.Btn as touch', () => {
+  const { G } = boot(CORE.concat('js/core/input.js', 'js/core/buttons.js', 'js/ui/stick.js'));
+  const S = G.Stick, r = 60;
+  assert.deepEqual({ ...S.dirOf(10, -10, r) }, { dir: null, run: false }, 'the dead zone');
+  assert.equal(S.dirOf(0, -40, r).dir, 'up');
+  assert.equal(S.dirOf(0, 40, r).dir, 'down');
+  assert.equal(S.dirOf(-40, 0, r).dir, 'left');
+  assert.equal(S.dirOf(40, 0, r).dir, 'right');
+  assert.equal(S.dirOf(40, -30, r).dir, 'right', 'diagonal: the larger axis');
+  assert.equal(S.dirOf(25, -50, r).dir, 'up');
+  assert.equal(S.dirOf(0, -60, r).run, false, 'at the ring: walking');
+  assert.deepEqual({ ...S.dirOf(0, -90, r) }, { dir: 'up', run: true }, 'past the ring: running');
+  // G.Btn: the source 'touch' is a direction like the controller's, and 'run' holds running.
+  const B = G.Btn, f = () => { B.update(1 / 60); G.Input.endFrame(); };
+  B.set('touch', 'left', true); f();
+  assert.equal(B.dir4(), 'left');
+  assert.equal(B.held('run'), false);
+  B.set('touch', 'run', true); f();
+  assert.equal(B.held('run'), true);
+  B.clearSource('touch'); f();
+  assert.equal(B.dir4(), null);
+  assert.equal(B.held('run'), false);
+});
+
 test('locales: saved choice first, then the browser, then English', () => {
   const { fakeStorage } = require('./helpers.cjs');
   assert.equal(boot(['js/core/locales.js'], { lang: 'fr' }).PL_LOCALES.lang, 'fr');

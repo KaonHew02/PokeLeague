@@ -37,7 +37,6 @@ G.I18n.add({
   "Walk there · talk · choose": "Ir até lá · falar · escolher",
   "Right click": "Clique direito",
   "Phone or tablet": "Celular ou tablet",
-  "Tap where you want to go and tap people to talk to them. The menu button in the corner opens the menu.": "Toque onde quer ir e toque nas pessoas para falar com elas. O botão no canto abre o menu.",
   "Controller": "Controle",
   "Controller connected: {name}": "Controle conectado: {name}",
   "Xbox, PlayStation, Switch and most USB or Bluetooth controllers. Connect it and press any button.": "Xbox, PlayStation, Switch e a maioria dos controles USB ou Bluetooth. Conecte e aperte qualquer botão.",
@@ -66,5 +65,8 @@ G.I18n.add({
   "On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.": "No iPhone, o app da Tela de Início e o Safari guardam arquivos e jogos salvos separados: jogue pelo ícone.",
   "Map size": "Tamanho do mapa",
   "Large: the map is bigger on the screen, and you see a little less around you.": "Grande: o mapa fica maior na tela, e você vê um pouco menos ao seu redor.",
-  "Large": "Grande"
+  "Large": "Grande",
+  "Use the joystick to walk, or tap where you want to go. Tap people to talk to them; the menu button in the corner opens the menu.": "Use o joystick para andar, ou toque onde quer ir. Toque nas pessoas para falar com elas; o botão no canto abre o menu.",
+  "On-screen joystick": "Joystick na tela",
+  "Drag it to walk; drag past its ring to run.": "Arraste para andar; arraste além do círculo para correr."
 }, "pt-BR");

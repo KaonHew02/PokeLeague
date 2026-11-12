@@ -108,7 +108,8 @@ G.OptionsUI = (() => {
             [kbd('Esc'), T('Open the menu')]])
         + section(T('Mouse'))
         + keys([[kbd(T('Left click')), T('Walk there · talk · choose')], [kbd(T('Right click')), T('Back · cancel')]])
-        + section(T('Phone or tablet'), T('Tap where you want to go and tap people to talk to them. The menu button in the corner opens the menu.'))
+        + section(T('Phone or tablet'), T('Use the joystick to walk, or tap where you want to go. Tap people to talk to them; the menu button in the corner opens the menu.'))
+        + (G.Settings.touch ? row(T('On-screen joystick'), T('Drag it to walk; drag past its ring to run.'), toggle('stick', S('stick') !== false)) : '')
         + section(T('Controller'), pad
             ? G.I18n.fmt('Controller connected: {name}', { name: pad.replace(/\s*\(.*$/, '') })
             : T('Xbox, PlayStation, Switch and most USB or Bluetooth controllers. Connect it and press any button.'))

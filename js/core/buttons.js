@@ -10,13 +10,14 @@
  *   run      (held B or Shift)
  *
  * Walking by clicking the map and clicking menus are pointer things, read
- * elsewhere (G.Input.clicks(), ordinary DOM clicks). There are no on-screen
- * buttons: on a phone you tap where you want to go.
+ * elsewhere (G.Input.clicks(), ordinary DOM clicks). On a phone you tap where you
+ * want to go, or use the on-screen joystick (stick.js: source 'touch', the four
+ * directions and 'run' when pushed past its ring).
  *
  *   G.Btn.held('a') · G.Btn.pressed('start') (this frame only)
  *   G.Btn.repeat('down')   true on press, then every REPEAT s while held (menus)
  *   G.Btn.dir4()           the most recently pressed direction still held, or null
- *   G.Btn.set(source, button, on)   used by gamepad.js
+ *   G.Btn.set(source, button, on)   used by gamepad.js ('pad') and stick.js ('touch')
  *
  * update() runs at the start of every frame (game.js), endFrame() at the end.
  */
@@ -29,7 +30,7 @@ G.Btn = (() => {
   const NAMES = ['up', 'down', 'left', 'right', 'a', 'b', 'start', 'select'];
   const DIRS = ['up', 'down', 'left', 'right'];
   const DELAY = 0.38, REPEAT = 0.12;
-  const sources = { pad: new Set() };
+  const sources = { pad: new Set(), touch: new Set() };
   let held = new Set(), prev = new Set(), pressed = new Set();
   const order = [];                         // held directions, oldest first
   const rep = {};                           // button -> seconds until it repeats
@@ -38,7 +39,7 @@ G.Btn = (() => {
 
   function set(source, b, on) { if (sources[source]) sources[source][on ? 'add' : 'delete'](b); }
   function clearSource(source) { if (sources[source]) sources[source].clear(); }
-  const isDown = b => KEYS[b].some(k => G.Input.held(k)) || sources.pad.has(b);
+  const isDown = b => KEYS[b].some(k => G.Input.held(k)) || sources.pad.has(b) || sources.touch.has(b);
 
   function update(dt) {
     prev = held;
@@ -65,7 +66,7 @@ G.Btn = (() => {
 
   return {
     update, set, clearSource,
-    held: b => b === 'run' ? held.has('b') || KEYS.shift.some(k => G.Input.held(k)) : held.has(b),
+    held: b => b === 'run' ? held.has('b') || KEYS.shift.some(k => G.Input.held(k)) || sources.touch.has('run') : held.has(b),
     pressed: b => pressed.has(b),
     repeat: b => repHit.has(b),
     dir4: () => order.length ? order[order.length - 1] : null,

@@ -11,7 +11,8 @@
  *               fishing: false (hooked with a rod: the Lure Ball), weather: 'rain' (the overworld's, for the whole battle),
  *               double: false (two Pokémon a side, trainers only), tag: false (doubles: two foes, one slot each),
                roamer: false (a roaming wild Pokémon that flees),
- *               noExp: false (no Exp. Points), noBag: false (no items or balls from the Bag: the Battle Tower) } })
+ *               noExp: false (no Exp. Points), noBag: false (no items or balls from the Bag: the Battle Tower),
+ *               expAll: false (the rest of the team gets half of one fighter's Exp. Points: the setting expAll) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
  *                           | { kind: 'learn', uid, move } | null (battle over)
@@ -847,7 +848,9 @@ G.Battle = (() => {
     // ================= experience =================
 
     /** Experience for a fainted foe: those who fought share it; with Exp. Share holders, they get half
-     *  and the holders the other half (Generation 2-4). A Lucky Egg gives its holder 1.5×. */
+     *  and the holders the other half (Generation 2-4). A Lucky Egg gives its holder 1.5×. With rules.expAll
+     *  (the setting), every other Pokémon of the team that can fight gets half of what one fighter alone would,
+     *  shown as one line ('teamExp') instead of a line each. */
     expSteps(foeBm) {
       const party = this.player.party.filter((m, i) => this.mine(i));
       const parts = party.filter(m => m.hp > 0 && foeBm.participants.has(m.uid));
@@ -860,16 +863,23 @@ G.Battle = (() => {
         for (const m of parts) amt.set(m, Math.max(1, Math.floor(gain(parts.length) / 2)));
         for (const m of sharers) amt.set(m, (amt.get(m) || 0) + Math.max(1, Math.floor(gain(sharers.length) / 2)));
       }
-      return party.filter(m => amt.has(m)).map(m => () => this.giveExp(m, Math.floor(amt.get(m) * G.Held.expMult(m)), S.ev));
+      const team = this.rules.expAll ? party.filter(m => m.hp > 0 && !m.egg && !amt.has(m)) : [];
+      for (const m of team) amt.set(m, Math.max(1, Math.floor(gain(1) / 2)));
+      const steps = party.filter(m => amt.has(m) && !team.includes(m)).map(m => () => this.giveExp(m, Math.floor(amt.get(m) * G.Held.expMult(m)), S.ev));
+      if (team.length) {
+        steps.push(() => this.emit('teamExp', { n: team.length }));
+        for (const m of team) steps.push(() => this.giveExp(m, Math.floor(amt.get(m) * G.Held.expMult(m)), S.ev, true));
+      }
+      return steps;
     }
 
-    giveExp(mon, amt, evs) {
+    giveExp(mon, amt, evs, quiet = false) {
       const gr = G.SPECIES[mon.sp].gr;
       const cap = G.Stats.expAt(gr, 100);
       if (mon.lvl >= 100) return;
       mon.exp = Math.min(cap, mon.exp + amt);
       G.Exp.addEvs(mon, evs);
-      this.emit('exp', { uid: mon.uid, amt, exp: mon.exp, lvl: mon.lvl,
+      this.emit('exp', { uid: mon.uid, amt, exp: mon.exp, lvl: mon.lvl, quiet,
                          from: G.Stats.expAt(gr, mon.lvl), to: G.Stats.expAt(gr, Math.min(100, mon.lvl + 1)) });
       this.insert(() => this.levelStep(mon));
     }

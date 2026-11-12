@@ -89,6 +89,7 @@ G.OptionsUI = (() => {
         + row(T('Battle style'), T("Shift: after you defeat one of a trainer's Pokémon, you may switch yours. Set: you keep the same one."),
               choice('battleStyle', [['shift', T('Shift')], ['set', T('Set')]]))
         + row(T('Pokémon follows you'), T('Your first Pokémon walks behind you.'), toggle('follower', S('follower')))
+        + row(T('Exp. for the whole team'), T('After a win, the Pokémon that did not battle get half the Exp. Points too.'), toggle('expAll', S('expAll') !== false))
         + offlineRow();
     }
     if (tab === 'sound') {

@@ -68,5 +68,7 @@ G.I18n.add({
   "Large": "Grande",
   "Use the joystick to walk, or tap where you want to go. Tap people to talk to them; the menu button in the corner opens the menu.": "Usa il joystick per camminare, o tocca dove vuoi andare. Tocca le persone per parlarci; il pulsante nell'angolo apre il menu.",
   "On-screen joystick": "Joystick sullo schermo",
-  "Drag it to walk; drag past its ring to run.": "Trascinalo per camminare; oltre il cerchio per correre."
+  "Drag it to walk; drag past its ring to run.": "Trascinalo per camminare; oltre il cerchio per correre.",
+  "Exp. for the whole team": "Esperienza a tutta la squadra",
+  "After a win, the Pokémon that did not battle get half the Exp. Points too.": "Dopo una vittoria, anche i Pokémon che non hanno lottato ricevono metà dei punti esperienza."
 }, "it");

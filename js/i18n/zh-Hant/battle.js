@@ -202,5 +202,6 @@ G.I18n.add({
   "The twisted dimensions returned to normal!": "扭曲的時空恢復正常了！",
   "Gravity intensified!": "重力變強了！",
   "Gravity returned to normal!": "重力恢復正常了！",
-  "{mon} ate its {item}!": "{mon}吃掉了{item}！"
+  "{mon} ate its {item}!": "{mon}吃掉了{item}！",
+  "The rest of your team gained Exp. Points too!": "隊伍裡其他的寶可夢也獲得了經驗值！"
 }, "zh-Hant");

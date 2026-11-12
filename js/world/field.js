@@ -840,6 +840,8 @@ G.World = (() => {
     if (map.def.desert || map.def.sandstorm) rules.weather = 'sand';   // the desert's sandstorm (chapter 41), Route 228's (chapter 62)
     if (map.def.hail) rules.weather = 'hail';                  // the snow of northern Sinnoh (chapter 53)
     if (d && d.double) rules.double = true;
+    // The rest of the team gets Exp. Points too (the setting expAll, on unless turned off).
+    if (G.Settings && G.Settings.get('expAll') !== false) rules.expAll = true;
     return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld', rules };
   }
   /** After a battle: Pokédex, prize money, a caught Pokémon that goes to the PC. -> the outcome */

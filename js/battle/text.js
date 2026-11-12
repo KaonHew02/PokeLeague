@@ -258,7 +258,8 @@ G.BattleText = (() => {
         return fmt('{trainer} used {item}!', { trainer: trainerName(b), item: G.Names.item(e.item) });
       case 'revived': return fmt('{mon} was revived!', { mon: plain(b, e.uid) });
       case 'ppRestored': return fmt("{mon}'s PP was restored.", { mon: plain(b, e.uid) });
-      case 'exp': return fmt('{mon} gained {n} Exp. Points!', { mon: plain(b, e.uid), n: G.I18n.num(e.amt) });
+      case 'exp': return e.quiet ? null : fmt('{mon} gained {n} Exp. Points!', { mon: plain(b, e.uid), n: G.I18n.num(e.amt) });
+      case 'teamExp': return fmt('The rest of your team gained Exp. Points too!', {});      // rules.expAll
       case 'levelup': return fmt('{mon} grew to Lv. {n}!', { mon: plain(b, e.uid), n: e.lvl });
       case 'learned': return fmt('{mon} learned {move}!', { mon: plain(b, e.uid), move: G.Names.move(e.move) });
       case 'learnPrompt': return fmt('{mon} wants to learn {move}, but it already knows four moves. Forget a move to make room?',

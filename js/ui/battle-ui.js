@@ -257,6 +257,7 @@ G.BattleUI = (() => {
       }
       case 'ball': return throwBall(e, line);
       case 'exp': await say(line); return expTo(e);
+      case 'teamExp': return say(line);
       case 'levelup': return levelUp(e, line);
       case 'learned': G.Audio.sfx('levelup'); return say(line);
       case 'learnPrompt': return say(line, { wait: true });

@@ -202,5 +202,6 @@ G.I18n.add({
   "The twisted dimensions returned to normal!": "Les dimensions sont redevenues normales !",
   "Gravity intensified!": "La gravité s'intensifie !",
   "Gravity returned to normal!": "La gravité est redevenue normale !",
-  "{mon} ate its {item}!": "{mon} mange sa {item} !"
+  "{mon} ate its {item}!": "{mon} mange sa {item} !",
+  "The rest of your team gained Exp. Points too!": "Le reste de ton équipe gagne aussi des points d'expérience !"
 }, "fr");

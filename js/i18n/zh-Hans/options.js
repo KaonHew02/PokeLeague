@@ -68,5 +68,7 @@ G.I18n.add({
   "Large": "大",
   "Use the joystick to walk, or tap where you want to go. Tap people to talk to them; the menu button in the corner opens the menu.": "用摇杆走路，或者点一下想去的地方。点人物可以对话；角落的按钮可以打开菜单。",
   "On-screen joystick": "屏幕摇杆",
-  "Drag it to walk; drag past its ring to run.": "拖动它来走路；拖到圆圈外面就会跑步。"
+  "Drag it to walk; drag past its ring to run.": "拖动它来走路；拖到圆圈外面就会跑步。",
+  "Exp. for the whole team": "全队获得经验值",
+  "After a win, the Pokémon that did not battle get half the Exp. Points too.": "打赢后，没有上场的宝可梦也能获得一半的经验值。"
 }, "zh-Hans");

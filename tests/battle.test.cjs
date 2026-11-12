@@ -135,3 +135,32 @@ test('the party balls of the battle screen: six places, fainted, with a status, 
   const a = { uid: 'a', hp: 0 };
   assert.deepEqual([...balls([a], m => (m.uid === 'a' ? { hp: 3 } : null))].slice(0, 1), ['ok']);
 });
+
+test('Exp. for the whole team (rules.expAll): the others who can fight get half of one fighter alone, in one line; not the fainted, not without the rule', () => {
+  const run = (rules, mine) => {
+    const d = duel(G, { me: ['charizard', 60, ['flamethrower']], mine, foe: ['caterpie', 5, ['tackle']], rules });
+    const ev = play(d.b);
+    return { d, ev };
+  };
+  const S = G.SPECIES[10], one = G.Exp.gain(S.bx, 5, false, 1);
+  // With the rule: the bench gets half of one fighter's share, after one 'teamExp' line; their own lines are quiet.
+  let { d, ev } = run({ expAll: true }, [['pidgey', 5, ['tackle']], ['rattata', 5, ['tackle'], { hp: 0 }]]);
+  const exp = ev.filter(e => e.type === 'exp');
+  const me = exp.find(e => e.uid === d.party[0].uid), pidgey = exp.find(e => e.uid === d.party[1].uid);
+  assert.equal(me.amt, one, 'the fighter: as before');
+  assert.ok(!me.quiet);
+  assert.equal(pidgey.amt, Math.max(1, Math.floor(one / 2)), 'the bench: half');
+  assert.ok(pidgey.quiet && G.BattleText.line(pidgey, d.b) === null, 'no line of its own');
+  assert.ok(!exp.some(e => e.uid === d.party[2].uid), 'a fainted Pokémon gets nothing');
+  const team = ev.find(e => e.type === 'teamExp');
+  assert.ok(team && team.n === 1);
+  assert.match(G.BattleText.line(team, d.b), /rest of your team/);
+  assert.ok(ev.indexOf(team) < ev.indexOf(pidgey), 'the line comes before their Exp.');
+  // Without it: only the fighter, as in Generation 4.
+  ({ d, ev } = run({}, [['pidgey', 5, ['tackle']]]));
+  assert.deepEqual(ev.filter(e => e.type === 'exp').map(e => e.uid), [d.party[0].uid]);
+  assert.ok(!ev.some(e => e.type === 'teamExp'));
+  // And never in the Battle Tower (noExp).
+  ({ ev } = run({ expAll: true, noExp: true }, [['pidgey', 5, ['tackle']]]));
+  assert.ok(!ev.some(e => e.type === 'exp' || e.type === 'teamExp'));
+});

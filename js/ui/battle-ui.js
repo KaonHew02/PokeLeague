@@ -103,6 +103,7 @@ G.BattleUI = (() => {
         <div class="bt-name"><span class="nm"></span><span class="g"></span><span class="caught hidden"></span><span class="lv"></span></div>
         <div class="bt-row"><span class="lbl">HP</span><div class="bt-bar"><i></i></div><span class="bt-status hidden"></span></div>
         ${me ? '<div class="bt-hpnum"></div><div class="bt-exp"><i></i></div>' : ''}
+        ${id === 'bt-foe' || id === 'bt-me' ? '<div class="bt-balls"></div>' : ''}
       </div>`;
     root.innerHTML = monBox('bt-foe', false) + monBox('bt-foe2', false) + monBox('bt-me', true) + monBox('bt-me2', true) + `
       <div class="bt-text" id="bt-text"><span class="msg"></span><i class="more hidden"></i></div>
@@ -146,8 +147,34 @@ G.BattleUI = (() => {
   function barClass(f) { return f > 0.5 ? '' : f > 0.2 ? 'mid' : 'low'; }
   const statusLabel = s => ({ par: T('PAR'), slp: T('SLP'), psn: T('PSN'), tox: T('PSN'), brn: T('BRN'), frz: T('FRZ') })[s];
 
+  /** A party as six balls: 'ok' (can fight), 'st' (a status), 'ko' (fainted), 'none' (an empty place). Eggs do not count.
+   *  shown(mon) -> what the box shows for it right now ({ hp, status }), so a ball greys when its bar empties. */
+  function balls(party, shown) {
+    const out = [];
+    for (const m of party || []) {
+      if (!m || m.egg || out.length >= 6) continue;
+      const s = (shown && shown(m)) || m;
+      out.push(s.hp <= 0 ? 'ko' : s.status ? 'st' : 'ok');
+    }
+    while (out.length < 6) out.push('none');
+    return out;
+  }
+  /** The party balls beside the first box of each side: yours always, the foe's against a Trainer. */
+  function drawBalls(side) {
+    const el = root && root.querySelector('#' + boxId(side, 0) + ' .bt-balls');
+    if (!el || !b) return;
+    const on = side === 0 || b.kind === 'trainer';
+    el.classList.toggle('hidden', !on);
+    if (!on) return;
+    const party = side ? b.foe.party : b.player.party;
+    const list = balls(party, m => dispOf(m.uid));
+    const html = list.map(k => `<i class="${k}"></i>`).join('');
+    if (el.innerHTML !== html) el.innerHTML = html;
+  }
+
   function drawBox(side, slot = 0) {
     const s = disp[side][slot], el = $(boxId(side, slot));
+    drawBalls(side);
     if (!s) { el.classList.add('out'); return; }
     el.querySelector('.nm').textContent = s.name;
     const g = el.querySelector('.g');
@@ -888,5 +915,5 @@ G.BattleUI = (() => {
     G.Game.define('battle', Mode);
   }
 
-  return { init, start, wild, safari, trainer, debugFromUrl, TextBox, get battle() { return b; }, get busy() { return phase !== 'off'; } };
+  return { init, start, wild, safari, trainer, debugFromUrl, TextBox, balls, get battle() { return b; }, get busy() { return phase !== 'off'; } };
 })();

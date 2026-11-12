@@ -395,6 +395,18 @@ input { font: inherit; }
 .bt-hpnum { text-align: right; font-size: .85em; font-weight: 700; margin-top: .05em; }
 .bt-exp { height: .28em; background: #3a3428; border-radius: .2em; margin-top: .2em; overflow: hidden; }
 .bt-exp i { display: block; height: 100%; width: 0; background: #48a8f0; }
+/* The party: six balls beside the first box of each side (yours to its left, a Trainer's to its right). */
+.bt-balls {
+  position: absolute; top: .2em; display: flex; gap: .2em;
+  padding: .2em .32em; border-radius: .7em; background: rgba(16, 18, 28, .6);
+}
+.bt-foe .bt-balls { left: calc(100% + .45em); }
+.bt-me .bt-balls { right: calc(100% + .45em); }
+.bt-balls i { width: .66em; height: .66em; border-radius: 50%; border: .08em solid #1c1a16;
+  background: linear-gradient(#e83838 46%, #1c1a16 46%, #1c1a16 56%, #f6f6f6 56%); }
+.bt-balls i.st { background: linear-gradient(#f0a020 46%, #1c1a16 46%, #1c1a16 56%, #f6f6f6 56%); }
+.bt-balls i.ko { background: #77777e; opacity: .75; }
+.bt-balls i.none { background: transparent; border-color: rgba(255, 255, 255, .45); }
 .bt-status { font-size: .65em; font-weight: 700; color: #fff; padding: 0 .3em; border-radius: .2em; }
 .st-par { background: #c8a000; } .st-slp { background: #8c8c8c; } .st-psn, .st-tox { background: #9a40b8; }
 .st-brn { background: #e05828; } .st-frz { background: #48a8d8; }

@@ -122,3 +122,16 @@ test('Johto obedience (rules.obeyCap): above the cap a Pokémon sometimes naps, 
     }
   }
 });
+
+test('the party balls of the battle screen: six places, fainted, with a status, empty; an Egg does not count; what the box shows wins', () => {
+  const { boot, CORE, DATA, BATTLE } = require('./helpers.cjs');
+  const { G: U } = boot(CORE.concat(DATA, BATTLE, ['js/ui/battle-ui.js']));
+  const balls = U.BattleUI.balls;
+  assert.deepEqual([...balls([{ hp: 10 }, { hp: 0 }, { hp: 5, status: 'psn' }, { egg: true, hp: 1 }])], ['ok', 'ko', 'st', 'none', 'none', 'none']);
+  assert.deepEqual([...balls([])], ['none', 'none', 'none', 'none', 'none', 'none']);
+  const six = Array.from({ length: 7 }, () => ({ hp: 1 }));
+  assert.equal(balls(six).length, 6, 'never more than six');
+  // The box's own HP (an animated bar) decides: the ball greys when the bar is empty.
+  const a = { uid: 'a', hp: 0 };
+  assert.deepEqual([...balls([a], m => (m.uid === 'a' ? { hp: 3 } : null))].slice(0, 1), ['ok']);
+});

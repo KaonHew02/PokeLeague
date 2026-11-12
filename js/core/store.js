@@ -336,6 +336,7 @@ G.Session = (() => {
     if (!to) return false;
     const ok = G.Store.write(to, G.Field.save);
     if (ok) { slot = to; lastSaved = G.Field.save.playTime | 0; }
+    if (ok && G.Drive) G.Drive.touch();          // Auto: a copy to Google Drive shortly after (drive.js)
     return ok;
   }
   setInterval(() => {

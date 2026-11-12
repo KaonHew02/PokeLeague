@@ -17,11 +17,17 @@ G.SlotsUI = (() => {
     el.className = 'scr dim hidden';
     el.setAttribute('translate', 'no');
     el.innerHTML = '<div class="box slots-box"><div class="opt-head"><h3></h3><button class="btn small ghost" data-back></button></div>'
-      + '<div class="slots"></div><div class="row slots-foot"><button class="btn small ghost sl-import"></button>'
+      + '<div class="slots"></div><div class="row slots-foot"><button class="btn small ghost sl-import"></button><button class="btn small ghost sl-drive hidden"></button>'
       + '<input type="file" accept=".json,application/json" class="hidden"></div></div>';
     document.getElementById('frame').appendChild(el);
     el.querySelector('[data-back]').onclick = () => finish(null);
     el.querySelector('.sl-import').onclick = () => el.querySelector('input[type=file]').click();
+    // A new phone or a cleared browser: the saves back from Google Drive (drive.js).
+    el.querySelector('.sl-drive').onclick = async () => {
+      const r = await G.Drive.pull(text => G.Popup.confirm(text));
+      if (r.ok) { G.UI.toast(T('Loaded from Google Drive.')); render(); }
+      else if (r.error) await G.Popup.say(G.Drive.message(r));
+    };
     el.querySelector('input[type=file]').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f) importFile(f); };
   }
 
@@ -57,6 +63,10 @@ G.SlotsUI = (() => {
     el.querySelector('h3').textContent = mode === 'load' ? T('Continue') : mode === 'new' ? T('New game: choose a slot') : T('Save in which slot?');
     el.querySelector('[data-back]').textContent = T('Back');
     el.querySelector('.sl-import').textContent = T('Import a save');
+    const drive = el.querySelector('.sl-drive');
+    drive.textContent = T('From Google Drive');
+    drive.classList.toggle('hidden', !(G.Drive && G.Drive.configured()));
+    if (G.Drive) G.Drive.preload();
     const box = el.querySelector('.slots');
     box.innerHTML = list.map((s, i) => card(s, i + 1)).join('');
     list.forEach((s, i) => {

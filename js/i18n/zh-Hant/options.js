@@ -72,5 +72,14 @@ G.I18n.add({
   "Exp. for the whole team": "全隊獲得經驗值",
   "After a win, the Pokémon that did not battle get half the Exp. Points too.": "打贏後，沒有上場的寶可夢也能獲得一半的經驗值。",
   "Mini-map": "小地圖",
-  "The map you are on, in the top-left corner. Tap it to open the Town Map and teleport.": "左上角顯示你所在的地圖。點它可以打開城鎮地圖並傳送。"
+  "The map you are on, in the top-left corner. Tap it to open the Town Map and teleport.": "左上角顯示你所在的地圖。點它可以打開城鎮地圖並傳送。",
+  "Google Drive": "Google Drive",
+  "A copy of your saves in your own Google Drive, to bring them back on another device.": "把存檔備份到你自己的 Google Drive，換了裝置也能讀回來。",
+  "Save to Drive": "存到 Drive",
+  "Load from Drive": "從 Drive 讀回",
+  "Auto": "自動",
+  "After each save in the game, a copy goes to Google Drive.": "每次在遊戲裡存檔後，自動傳一份到 Google Drive。",
+  "Saved to Google Drive.": "已存到 Google Drive。",
+  "The game goes back to the title screen; anything not saved is lost.": "遊戲會回到標題畫面；沒存檔的進度會消失。",
+  "Loaded from Google Drive.": "已從 Google Drive 讀回。"
 }, "zh-Hant");

@@ -209,5 +209,6 @@ G.I18n.add({
   "{a} and {b} roam near the blinking dots.": "{a} e {b} vagano vicino ai punti lampeggianti.",
   "Teleport to {place}?": "Teletrasportarti a {place}?",
   "Tap a town you have been to, to teleport there.": "Tocca una città in cui sei già stato per teletrasportarti lì.",
-  "You can't teleport from here.": "Da qui non puoi teletrasportarti."
+  "You can't teleport from here.": "Da qui non puoi teletrasportarti.",
+  "From Google Drive": "Da Google Drive"
 }, "it");

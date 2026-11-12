@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <!-- Only the game's own scripts may run: nothing injected into the page
      (onerror=, a script tag inside a text...) can execute. -->
-<meta http-equiv="Content-Security-Policy" content="script-src 'self' file:; object-src 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' file: https://accounts.google.com; object-src 'none'; base-uri 'self'">
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>PokeLeague</title>
@@ -102,6 +102,8 @@
 <script defer src="js/core/settings.js"></script>
 <script defer src="js/core/clock.js"></script>
 <script defer src="js/core/store.js"></script>
+<script defer src="js/core/drive-config.js"></script>
+<script defer src="js/core/drive.js"></script>
 <script defer src="js/core/audio.js"></script>
 <script defer src="js/core/input.js"></script>
 <script defer src="js/core/buttons.js"></script>

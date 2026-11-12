@@ -573,6 +573,9 @@ kbd {
 .box.pop { min-width: calc(var(--cw) * .4); max-width: 80%; padding: .6em .9em; }
 .pop-t { margin: 0 0 .4em !important; white-space: pre-line; }
 .pop-say p { white-space: pre-line; }
+/* Google Drive (options-ui.js): the status, red when a press is needed. */
+.drive-status.warn { color: #ff9a8a; }
+.drive-btns { gap: .5em; margin: .2em 0 .4em; }
 .scr.pop-right { justify-content: flex-end; }
 .cnt { display: flex; align-items: center; justify-content: center; gap: .3em; margin: .3em 0; }
 .cnt-v { min-width: 3em; text-align: center; font-size: 1.2em; }

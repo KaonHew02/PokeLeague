@@ -26,6 +26,7 @@ G.OptionsUI = (() => {
   function open(t) {
     if (t) tab = t;
     G.Offline.check();
+    if (G.Drive) G.Drive.preload();              // Google's sign-in, ready before a tap needs it
     render();
     G.UI.open('scr-options', { onBack: close });
   }
@@ -76,6 +77,37 @@ G.OptionsUI = (() => {
     return row(T('Play without internet'), desc, ctl);
   }
 
+  // ---------------- a copy of the saves in Google Drive (drive.js) ----------------
+  function driveRows() {
+    if (!G.Drive) return '';
+    const warn = G.Drive.status().state === 'warn';
+    let h = section(T('Google Drive'), T('A copy of your saves in your own Google Drive, to bring them back on another device.'))
+      + `<p class="sub opt-sub drive-status${warn ? ' warn' : ''}">${esc(G.Drive.statusText())}</p>`;
+    if (!G.Drive.configured()) return h;
+    return h + `<div class="row drive-btns"><button class="btn small" data-drive="push">${esc(T('Save to Drive'))}</button>`
+      + `<button class="btn small ghost" data-drive="pull">${esc(T('Load from Drive'))}</button></div>`
+      + row(T('Auto'), T('After each save in the game, a copy goes to Google Drive.'),
+            `<button class="btn small switch${G.Drive.auto ? ' gold' : ''}" data-drive="auto">${esc(G.Drive.auto ? T('On') : T('Off'))}</button>`);
+  }
+  /** A game being played: reading saves back takes you to the title screen (unsaved progress is lost). */
+  const inGame = () => !!(G.Game && G.Game.mode && G.Game.mode !== 'title');
+  async function driveAct(what, btn) {
+    if (what === 'auto') { G.Drive.auto = !G.Drive.auto; render(); return; }
+    btn.disabled = true;
+    if (what === 'push') {
+      // Asked during the tap itself, so that Google's sign-in window may open.
+      const r = await G.Drive.push();
+      if (r.ok) G.UI.toast(T('Saved to Google Drive.')); else await G.Popup.say(G.Drive.message(r));
+    } else {
+      const r = await G.Drive.pull(text => G.Popup.confirm(inGame() ? text + '\n\n' + T('The game goes back to the title screen; anything not saved is lost.') : text));
+      if (r.ok) {
+        await G.Popup.say(T('Loaded from Google Drive.'));
+        if (inGame()) { location.reload(); return; }
+      } else if (r.error) await G.Popup.say(G.Drive.message(r));
+    }
+    if (isOpen()) render();
+  }
+
   // ---------------- tabs ----------------
   function bodyHtml() {
     const S = k => G.Settings.get(k);
@@ -90,7 +122,8 @@ G.OptionsUI = (() => {
               choice('battleStyle', [['shift', T('Shift')], ['set', T('Set')]]))
         + row(T('Pokémon follows you'), T('Your first Pokémon walks behind you.'), toggle('follower', S('follower')))
         + row(T('Exp. for the whole team'), T('After a win, the Pokémon that did not battle get half the Exp. Points too.'), toggle('expAll', S('expAll') !== false))
-        + offlineRow();
+        + offlineRow()
+        + driveRows();
     }
     if (tab === 'sound') {
       const a = G.Audio.settings;
@@ -147,6 +180,7 @@ G.OptionsUI = (() => {
   }
 
   function wire(box) {
+    box.querySelectorAll('[data-drive]').forEach(b => { b.onclick = () => driveAct(b.dataset.drive, b); });
     box.querySelectorAll('[data-k]').forEach(b => {
       b.onclick = () => {
         const k = b.dataset.k;

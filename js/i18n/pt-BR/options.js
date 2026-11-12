@@ -72,5 +72,14 @@ G.I18n.add({
   "Exp. for the whole team": "Experiência para toda a equipe",
   "After a win, the Pokémon that did not battle get half the Exp. Points too.": "Depois de vencer, os Pokémon que não batalharam também ganham metade dos pontos de experiência.",
   "Mini-map": "Minimapa",
-  "The map you are on, in the top-left corner. Tap it to open the Town Map and teleport.": "O mapa onde você está, no canto superior esquerdo. Toque nele para abrir o Town Map e se teletransportar."
+  "The map you are on, in the top-left corner. Tap it to open the Town Map and teleport.": "O mapa onde você está, no canto superior esquerdo. Toque nele para abrir o Town Map e se teletransportar.",
+  "Google Drive": "Google Drive",
+  "A copy of your saves in your own Google Drive, to bring them back on another device.": "Uma cópia dos seus jogos salvos no seu próprio Google Drive, para recuperá-los em outro dispositivo.",
+  "Save to Drive": "Salvar no Drive",
+  "Load from Drive": "Carregar do Drive",
+  "Auto": "Automático",
+  "After each save in the game, a copy goes to Google Drive.": "Depois de cada salvamento no jogo, uma cópia vai para o Google Drive.",
+  "Saved to Google Drive.": "Salvo no Google Drive.",
+  "The game goes back to the title screen; anything not saved is lost.": "O jogo volta à tela de título; o que não foi salvo será perdido.",
+  "Loaded from Google Drive.": "Carregado do Google Drive."
 }, "pt-BR");

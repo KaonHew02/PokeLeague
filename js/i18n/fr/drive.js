@@ -1,0 +1,25 @@
+/* French — drive: the Google Drive copy of the saves (js/core/drive.js) */
+G.I18n.add({
+  "Slot {n}: {name}, {badges} badges, {time}": "Emplacement {n} : {name}, {badges} badges, {time}",
+  "Slot {n}: empty": "Emplacement {n} : vide",
+  "Replace saves with the copy in Google Drive from {date}?": "Remplacer les sauvegardes par la copie Google Drive du {date} ?",
+  "Google Drive:": "Google Drive :",
+  "This device:": "Cet appareil :",
+  "A slot that is empty in Google Drive keeps what is here.": "Un emplacement vide dans Google Drive garde ce qu'il y a ici.",
+  "Google Drive is not set up for this game yet.": "Google Drive n'est pas encore configuré pour ce jeu.",
+  "Auto is on, but the first copy has to be one you send: press \"Save to Drive\" once.": "La copie auto est activée, mais la première copie doit venir de vous : appuyez une fois sur « Sauver sur Drive ».",
+  "Nothing has been sent to Google Drive from this device yet.": "Rien n'a encore été envoyé sur Google Drive depuis cet appareil.",
+  "Saved to Google Drive today.": "Sauvegardé sur Google Drive aujourd'hui.",
+  "Saved to Google Drive yesterday.": "Sauvegardé sur Google Drive hier.",
+  "The last copy went to Google Drive {n} days ago. Press \"Save to Drive\".": "La dernière copie est partie sur Google Drive il y a {n} jours. Appuyez sur « Sauver sur Drive ».",
+  "Saved to Google Drive {n} days ago.": "Sauvegardé sur Google Drive il y a {n} jours.",
+  "Google's sign-in has not loaded yet. Check the internet connection and try again.": "La connexion Google n'est pas encore chargée. Vérifiez la connexion internet et réessayez.",
+  "Sign-in was cancelled, so nothing was sent or read.": "La connexion a été annulée : rien n'a été envoyé ni lu.",
+  "The Google sign-in window could not open. Allow pop-ups for this site and try again.": "La fenêtre de connexion Google n'a pas pu s'ouvrir. Autorisez les fenêtres pop-up pour ce site et réessayez.",
+  "Google refused the sign-in.": "Google a refusé la connexion.",
+  "There is nothing in Google Drive yet: press \"Save to Drive\" first.": "Il n'y a encore rien sur Google Drive : appuyez d'abord sur « Sauver sur Drive ».",
+  "The file in Google Drive is not a PokeLeague backup.": "Le fichier sur Google Drive n'est pas une sauvegarde de PokeLeague.",
+  "The copy in Google Drive comes from a newer version of the game.": "La copie sur Google Drive vient d'une version plus récente du jeu.",
+  "The copy in Google Drive is damaged.": "La copie sur Google Drive est endommagée.",
+  "Google Drive refused the request ({code}).": "Google Drive a refusé la demande ({code})."
+}, "fr");

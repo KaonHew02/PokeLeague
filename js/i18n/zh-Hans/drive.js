@@ -1,0 +1,25 @@
+/* Simplified Chinese — drive: the Google Drive copy of the saves (js/core/drive.js) */
+G.I18n.add({
+  "Slot {n}: {name}, {badges} badges, {time}": "栏位{n}：{name}，{badges}个徽章，{time}",
+  "Slot {n}: empty": "栏位{n}：空",
+  "Replace saves with the copy in Google Drive from {date}?": "要用 Google Drive 里 {date} 的备份取代存档吗？",
+  "Google Drive:": "Google Drive：",
+  "This device:": "这台设备：",
+  "A slot that is empty in Google Drive keeps what is here.": "Google Drive 里是空的栏位，会保留这台设备上的存档。",
+  "Google Drive is not set up for this game yet.": "这个游戏还没有设定好 Google Drive。",
+  "Auto is on, but the first copy has to be one you send: press \"Save to Drive\" once.": "自动已经打开，但第一份备份要你自己传：先按一次「存到 Drive」。",
+  "Nothing has been sent to Google Drive from this device yet.": "这台设备还没有传过备份到 Google Drive。",
+  "Saved to Google Drive today.": "今天已存到 Google Drive。",
+  "Saved to Google Drive yesterday.": "昨天存到 Google Drive。",
+  "The last copy went to Google Drive {n} days ago. Press \"Save to Drive\".": "上一次备份到 Google Drive 是 {n} 天前。请按「存到 Drive」。",
+  "Saved to Google Drive {n} days ago.": "{n} 天前存到 Google Drive。",
+  "Google's sign-in has not loaded yet. Check the internet connection and try again.": "Google 的登录还没载入。请检查网络连接后再试一次。",
+  "Sign-in was cancelled, so nothing was sent or read.": "登录已取消，所以没有传送也没有读取任何东西。",
+  "The Google sign-in window could not open. Allow pop-ups for this site and try again.": "Google 登录窗口打不开。请允许这个网站弹出窗口后再试一次。",
+  "Google refused the sign-in.": "Google 拒绝了登录。",
+  "There is nothing in Google Drive yet: press \"Save to Drive\" first.": "Google Drive 里还没有备份：请先按「存到 Drive」。",
+  "The file in Google Drive is not a PokeLeague backup.": "Google Drive 里的文件不是 PokeLeague 的备份。",
+  "The copy in Google Drive comes from a newer version of the game.": "Google Drive 里的备份来自更新版本的游戏。",
+  "The copy in Google Drive is damaged.": "Google Drive 里的备份坏掉了。",
+  "Google Drive refused the request ({code}).": "Google Drive 拒绝了请求（{code}）。"
+}, "zh-Hans");

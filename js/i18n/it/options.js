@@ -63,5 +63,8 @@ G.I18n.add({
   "Download every Pokémon picture now (about {mb} MB), so the game works without internet.": "Scarica ora tutte le immagini dei Pokémon (circa {mb} MB), così il gioco funziona senza internet.",
   "Try again": "Riprova",
   "Download": "Scarica",
-  "On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.": "Su iPhone, l'app nella schermata Home e Safari tengono file e salvataggi separati: gioca dall'icona."
+  "On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.": "Su iPhone, l'app nella schermata Home e Safari tengono file e salvataggi separati: gioca dall'icona.",
+  "Map size": "Dimensione della mappa",
+  "Large: the map is bigger on the screen, and you see a little less around you.": "Grande: la mappa è più grande sullo schermo, e vedi un po' meno intorno a te.",
+  "Large": "Grande"
 }, "it");

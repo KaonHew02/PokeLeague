@@ -5,6 +5,8 @@
  * MAX_ZOOM, so a small interior does not sit in the middle of a black screen.
  * The overworld snaps the camera to the player each frame (snap); follow() is
  * the smoothed version, for cutscenes.
+ * The setting `zoom` (settings.js) picks that least view: 'normal' 15 × 10 tiles, 'large' 12 × 8 (the map
+ * about a quarter bigger on a phone, a little less of it around you). Battles and menus do not use the camera.
  */
 G.Camera = {
   x: 0, y: 0,
@@ -12,6 +14,7 @@ G.Camera = {
   VIEW_W: 480,
   VIEW_H: 320,
   MAX_ZOOM: 1.5,
+  VIEWS: { normal: [480, 320], large: [384, 256] },
   shake: 0,
   _sx: 0, _sy: 0,
   dpr: 1,
@@ -29,6 +32,13 @@ G.Camera = {
     this.scale = whole ? Math.min(cssW / this._rw, cssH / this._rh, this.base * this.MAX_ZOOM) : this.base;
     this.w = cssW / this.scale;
     this.h = cssH / this.scale;
+  },
+
+  /** The least view by the setting `zoom` ('normal' | 'large'), then the scale again. */
+  zoom(z) {
+    const v = this.VIEWS[z] || this.VIEWS.normal;
+    this.VIEW_W = v[0]; this.VIEW_H = v[1];
+    this.resize(this._cw, this._ch, this.dpr);
   },
 
   /** The room on screen, in world units (none: outdoors). It never hides any of the room. */
@@ -78,3 +88,9 @@ G.Camera = {
            y > this.top() - pad && y < this.top() + this.h + pad;
   }
 };
+
+// The setting `zoom` now and whenever it changes (settings.js loads first).
+if (G.Settings) {
+  G.Camera.zoom(G.Settings.get('zoom'));
+  G.Settings.on((k, v) => { if (k === 'zoom') G.Camera.zoom(v); });
+}

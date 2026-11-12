@@ -33,6 +33,23 @@ test('the camera: a wide screen sees more; a room that fits whole fills the scre
   assert.equal(C.w, 480);
 });
 
+test('the setting zoom: the map at least 15 x 10 tiles, or 12 x 8 and bigger; a change applies at once', () => {
+  const { G } = boot(CORE.concat('js/core/settings.js', 'js/core/camera.js'));
+  const C = G.Camera, tile = 32;
+  C.resize(812, 375, 1);                                   // an iPhone X held sideways
+  assert.equal(G.Settings.get('zoom'), 'normal');
+  assert.equal(C.h, 10 * tile);
+  const normal = C.scale;
+  G.Settings.set('zoom', 'large');
+  assert.equal(C.h, 8 * tile, 'eight tiles high');
+  assert.equal(C.scale, 375 / (8 * tile));
+  assert.ok(C.scale / normal >= 1.24, 'about a quarter bigger');
+  C.resize(375, 250, 1);                                   // upright: the 3:2 frame
+  assert.ok(C.w >= 12 * tile && C.h >= 8 * tile);
+  G.Settings.set('zoom', 'normal');
+  assert.equal(C.w, 15 * tile);
+});
+
 test('the same seed gives the same sequence; int() stays inside its bounds', () => {
   const { G } = boot(CORE);
   const a = G.RNG(42), b = G.RNG(42), c = G.RNG(43);

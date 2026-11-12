@@ -63,5 +63,8 @@ G.I18n.add({
   "Download every Pokémon picture now (about {mb} MB), so the game works without internet.": "现在下载全部宝可梦图片（约 {mb} MB），没有网络也能玩。",
   "Try again": "重试",
   "Download": "下载",
-  "On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.": "在 iPhone 上，主屏幕 App 和 Safari 的文件与存档是分开的：请从图标打开游戏。"
+  "On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.": "在 iPhone 上，主屏幕 App 和 Safari 的文件与存档是分开的：请从图标打开游戏。",
+  "Map size": "地图大小",
+  "Large: the map is bigger on the screen, and you see a little less around you.": "大：地图在屏幕上显示得更大，能看到的周围范围会少一点。",
+  "Large": "大"
 }, "zh-Hans");

@@ -63,5 +63,8 @@ G.I18n.add({
   "Download every Pokémon picture now (about {mb} MB), so the game works without internet.": "現在下載全部寶可夢圖片（約 {mb} MB），沒有網路也能玩。",
   "Try again": "重試",
   "Download": "下載",
-  "On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.": "在 iPhone 上，主畫面 App 和 Safari 的檔案與存檔是分開的：請從圖示開啟遊戲。"
+  "On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.": "在 iPhone 上，主畫面 App 和 Safari 的檔案與存檔是分開的：請從圖示開啟遊戲。",
+  "Map size": "地圖大小",
+  "Large: the map is bigger on the screen, and you see a little less around you.": "大：地圖在螢幕上顯示得更大，能看到的周圍範圍會少一點。",
+  "Large": "大"
 }, "zh-Hant");

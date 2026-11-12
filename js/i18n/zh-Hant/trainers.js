@@ -77,5 +77,9 @@ G.I18n.add({
   "Socialite": "女士",
   "Parasol Lady": "陽傘姐姐",
   "Roughneck": "光頭男",
-  "Belle & Pa": "父女"
+  "Belle & Pa": "父女",
+  "Pokémon Breeder": "寶可夢育嬰師",
+  "Artist": "畫家",
+  "Cameraman": "攝影師",
+  "Reporter": "記者"
 }, "zh-Hant");

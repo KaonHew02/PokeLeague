@@ -28,7 +28,8 @@ G.People = (() => {
                  'norman', 'wally', 'roxanne', 'aqua', 'brawly', 'steven', 'president', 'battlegirl',
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
-                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa'];
+                 'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa',
+                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -370,7 +371,13 @@ G.People = (() => {
     bill: { head: 'short', body: 'tee', legs: 'pants', h: '#7a4a2a', H: '#52301a', c: '#4a8ad8', C: '#2e66b0', p: '#5a4a3a', P: '#3e3226', k: '#3a3030' },
     daisy: { head: 'long', body: 'dress', legs: 'bare', h: '#8a5430', H: '#5e361a', c: '#f4f4f4', C: '#c8c8d0', j: '#5c9c5c', J: '#3e763e', k: '#7a5236' },
     aide: { head: 'short', body: 'coat', legs: 'pants', h: '#3c3434', H: '#241e1e', j: '#f4f4f4', J: '#c4c8d0', c: '#5a8ac8', C: '#3e66a0', p: '#4c4c5c', P: '#34343e', k: '#3a3030' },
-    oldman: { head: 'bald', body: 'coat', legs: 'pants', h: '#ececec', H: '#b8b8c0', j: '#9c7a54', J: '#74583a', c: '#c8a878', C: '#a08458', p: '#6c5c4a', P: '#4e4234', k: '#4c3c2c' }
+    oldman: { head: 'bald', body: 'coat', legs: 'pants', h: '#ececec', H: '#b8b8c0', j: '#9c7a54', J: '#74583a', c: '#c8a878', C: '#a08458', p: '#6c5c4a', P: '#4e4234', k: '#4c3c2c' },
+    // Chapter 76: the Seven Stars restaurant's pairs (the existing heads and bodies in new colours).
+    richboy: { head: 'short', body: 'jacket', legs: 'bare', h: '#d8b058', H: '#a8843a', j: '#2e4a94', J: '#1e3270', c: '#f4f4f4', C: '#c8c8d0', p: '#2e4a94', P: '#1e3270', k: '#6a4a2a' },
+    breeder: { head: 'bandana', body: 'dress', legs: 'bare', a: '#e88a3a', A: '#b8682a', h: '#7a4a2a', H: '#54321a', c: '#f4f4f4', C: '#c8c8d0', j: '#5aa86a', J: '#3e7e4c', k: '#6a4a2a' },
+    artist: { head: 'knit', body: 'coat', legs: 'pants', a: '#c83c4c', A: '#9a2a38', b: '#7a1e2a', h: '#4a3a2e', H: '#2e241c', j: '#e8e0c8', J: '#c0b494', c: '#3a6ab0', C: '#284c82', p: '#5a4a3a', P: '#3e3226', k: '#3a2a20' },
+    cameraman: { head: 'cap', body: 'jacket', legs: 'pants', a: '#3a3a44', A: '#24242c', b: '#24242c', h: '#3c2c24', H: '#24180f', j: '#6a7a4a', J: '#4c5a34', c: '#d8d0b8', C: '#b0a88e', p: '#4a4a5a', P: '#30303e', k: '#2a2a2a' },
+    reporter: { head: 'short', body: 'dress', legs: 'bare', h: '#c87a3a', H: '#9a5a26', c: '#f4f4f4', C: '#c8c8d0', j: '#c83a4a', J: '#9a2a36', k: '#2a2a30' }
   };
 
   const mirror = half => half + [...half].reverse().join('');

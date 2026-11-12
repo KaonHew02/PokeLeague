@@ -77,5 +77,9 @@ G.I18n.add({
   "Socialite": "Gran Dama",
   "Parasol Lady": "Ombrellina",
   "Roughneck": "Teppista",
-  "Belle & Pa": "Figlia e Papà"
+  "Belle & Pa": "Figlia e Papà",
+  "Pokémon Breeder": "Allevatrice",
+  "Artist": "Artista",
+  "Cameraman": "Cameraman",
+  "Reporter": "Giornalista"
 }, "it");

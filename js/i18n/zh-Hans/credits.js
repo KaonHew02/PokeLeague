@@ -208,5 +208,7 @@ G.I18n.add({
   "Chapter 74 complete!": "第七十四章完成！",
   "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player}找到了天冠山底下丑丑鱼藏身的雾中之湖，还有冠军之路下方那座冰冷的湖。",
   "Chapter 75 complete!": "第七十五章完成！",
-  "{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.": "{player}回到立志湖，看到湖里又满是湖水，鲤鱼王在曾经干涸扑腾的湖底自在地游着。"
+  "{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.": "{player}回到立志湖，看到湖里又满是湖水，鲤鱼王在曾经干涸扑腾的湖底自在地游着。",
+  "Chapter 76 complete!": "第七十六章完成！",
+  "{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.": "{player}在立志湖畔的七星餐厅赢下了当天全部五场双打，整个厨房都为之欢呼。"
 }, "zh-Hans");

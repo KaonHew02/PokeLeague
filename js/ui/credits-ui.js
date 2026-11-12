@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 76) return { title: T('Chapter 76 complete!'),
+      done: fmt('{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.', { player }),
+      next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };
     if (n === 75) return { title: T('Chapter 75 complete!'),
       done: fmt('{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.', { player }),
       next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };

@@ -6,6 +6,12 @@
  * sends you back to Barry. Once he is beaten too, Cynthia waits here with a Secret Potion for the Psyduck on Route 210
  * (chapter 50, flag cynthia-potion). Route 213 is a beach, with the hotel's locked cottages, down to Pastoria City.
  * Platinum's Trainers and wild Pokémon.
+ * Chapter 76: the Seven Stars restaurant's double battles, as in Platinum. Nine pairs of Trainers of two classes each
+ * (`partner: { cls, name }`, field.js: "Rich Boy Roman & Lady Kylie"), five of them a day from 9:00 to 23:00, drawn from
+ * the date and the save (G.SevenStars.today(), nothing stored); each pair battles you once a day (their `done` marks are
+ * cleared on the first visit of a new day, var ss-day). Beating the day's five, the chef comes over; once chapter 75 is
+ * done that ends the chapter (`ending(76)`). The pairs and their Pokémon are Platinum's (Guidestrats); the moves are the
+ * game's default ones, the words mine. Left out: Lass Carrie (Serebii lists her three teams, but not her partner).
  */
 (() => {
   const T = s => G.T(s);
@@ -181,18 +187,128 @@
     ]
   }, SINNOH));
 
+  // ---------------- The Seven Stars restaurant (chapter 76) ----------------
+  const PAIRS = ['roman-kylie', 'eugene-alison', 'emanuel-blythe', 'kendrick-gabriella', 'emilio-kaylee',
+                 'leonardo-rebecca', 'ismael-harley', 'darryl-valerie', 'esteban-meredith'];
+  const hash = s => { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; };
+  /** Double battles from 9:00 to 23:00, by the device's clock. */
+  const open = () => { const h = G.Clock.hour(); return h >= 9 && h < 23; };
+  /** The day's five pairs (in PAIRS order), from the date and the save: the same all day. */
+  function today() {
+    const rng = G.RNG(hash('seven stars ' + G.Clock.day()) ^ (G.Field.save.player.id | 0));
+    const pool = PAIRS.slice(), out = [];
+    while (out.length < 5) out.push(pool.splice(rng.int(0, pool.length - 1), 1)[0]);
+    return PAIRS.filter(id => out.includes(id));
+  }
+  const here = id => () => open() && today().includes(id);
+  const beaten = id => G.Field.isDone('seven-stars:' + id);
+  G.SevenStars = { PAIRS, open, today };
+
+  /** A pair at a table: the first Trainer and the partner beside them (talk to battle, as in Platinum). */
+  const pair = (id, x, y, main, partner, team, words) => Object.assign({ id, x, y, dir: 'down', sight: 0, double: true, if: here(id), win: 'sevenstars.won',
+    team, partner: Object.assign({ x: x + 1, y, dir: 'down' }, partner) }, main, words);
+
   G.Maps.def(Object.assign({
     id: 'seven-stars', loc: 'valor-lakefront', tileset: 'indoor', palette: 'house', music: 'town', battleBg: 'indoor',
-    rows: ['WWWWWWWWWWW', 'WWWWWWWWWWW', 'p___bbb___p', '___________', '_tt_____tt_', '_tt_____tt_', '___________', '____X______'],
-    warps: [{ x: 4, y: 7, to: 'valor-lakefront', spot: 'restaurant-door' }],
-    spots: { door: [4, 7, 'up'] },
+    rows: [
+      'WWWWWWWWWWWWWWW',
+      'WWWWWWWWWWWWWWW',
+      'p_bbb_____bbb_p',
+      '___=========___',
+      '_______________',
+      '_tt___tt___tt__',
+      '_tt___tt___tt__',
+      '_______________',
+      '_tt___tt___tt__',
+      '_tt___tt___tt__',
+      '_______________',
+      '_______X_______'
+    ],
+    warps: [{ x: 7, y: 11, to: 'valor-lakefront', spot: 'restaurant-door' }],
+    spots: { door: [7, 11, 'up'] },
+    enter: 'sevenstars.enter',
     npcs: [
-      { id: 'chef', who: 'gentleman', x: 5, y: 3, dir: 'down',
-        say: 'Tonight we are fully booked, I am afraid. Come back when you have a reservation!' },
-      { id: 'diner', who: 'beauty', x: 3, y: 6, dir: 'up',
+      { id: 'chef', who: 'gentleman', x: 7, y: 2, dir: 'down', script: 'sevenstars.chef' },
+      { id: 'diner', who: 'beauty', x: 5, y: 9, dir: 'left',
         say: 'They say the chef here once cooked for the Champion of Sinnoh.' }
+    ],
+    trainers: [
+      pair('roman-kylie', 3, 5, { who: 'richboy', cls: 'rich-boy', name: 'Roman' }, { who: 'lady', cls: 'lady', name: 'Kylie' },
+        [['lickitung', 26], ['cleffa', 24], ['clefairy', 26]],
+        { before: 'Our parents own half the hotels on this lake. Shall we see if we own this battle too?',
+          defeat: 'Money cannot buy that kind of teamwork, it seems.',
+          after: 'Kylie wants dessert now. She always wants dessert after losing.' }),
+      pair('eugene-alison', 8, 5, { who: 'pokemaniac', cls: 'collector', name: 'Eugene' }, { who: 'beauty', cls: 'aroma-lady', name: 'Alison' },
+        [['feebas', 28], ['roselia', 28]],
+        { before: 'My Feebas is the rarest thing in this room. Well, after the soup. Let us battle!',
+          defeat: 'My precious Feebas! You were not supposed to be so strong!',
+          after: 'Alison says Roselia smells nicer than my Feebas. She is right, but do not tell Feebas.' }),
+      pair('emanuel-blythe', 13, 5, { who: 'oldman', cls: 'veteran', name: 'Emanuel' }, { who: 'lass', cls: 'lass', name: 'Blythe' },
+        [['machoke', 28], ['chingling', 25], ['bronzor', 28], ['buneary', 25]],
+        { before: 'My granddaughter and I eat here every week. And every week we battle someone!',
+          defeat: 'Ha! The young ones keep getting stronger.',
+          after: 'Blythe is learning fast. One day she will beat me, and then I will retire.' }),
+      pair('kendrick-gabriella', 3, 8, { who: 'gentleman', cls: 'pi', name: 'Kendrick' }, { who: 'beauty', cls: 'beauty', name: 'Gabriella' },
+        [['rhyhorn', 31], ['finneon', 26]],
+        { before: 'I have been watching you since you walked in. A detective notices these things. Battle!',
+          defeat: 'I did not see that coming. Some detective I am.',
+          after: 'Gabriella is not my partner on the case. Only at dinner.' }),
+      pair('emilio-kaylee', 8, 8, { who: 'scientist', cls: 'scientist', name: 'Emilio' }, { who: 'breeder', cls: 'pokemon-breeder', name: 'Kaylee' },
+        [['kadabra', 27], ['aipom', 26], ['marill', 26], ['swablu', 26]],
+        { before: 'Kaylee raises them, I study them. Let us test our results on you!',
+          defeat: 'Interesting. Your results are better than ours.',
+          after: 'Kaylee says I think too much and play too little. My Kadabra agrees with her.' }),
+      pair('leonardo-rebecca', 13, 8, { who: 'gentleman', cls: 'gentleman', name: 'Leonardo' }, { who: 'socialite', cls: 'socialite', name: 'Rebecca' },
+        [['chatot', 27], ['purugly', 27]],
+        { before: 'A double battle before the main course. How delightfully civilized!',
+          defeat: 'A splendid battle. My compliments to the Trainer.',
+          after: 'Chatot will be repeating your name all evening now, I fear.' }),
+      pair('ismael-harley', 1, 4, { who: 'artist', cls: 'artist', name: 'Ismael' }, { who: 'beauty', cls: 'beauty', name: 'Harley' },
+        [['kricketune', 28], ['psyduck', 26]],
+        { before: 'I paint battles, you know. Give me a beautiful one to paint!',
+          defeat: 'What colors! I will need a bigger canvas.',
+          after: 'Harley thinks my paintings of Psyduck are too yellow. Psyduck is yellow!' }),
+      pair('darryl-valerie', 11, 4, { who: 'cameraman', cls: 'cameraman', name: 'Darryl' }, { who: 'reporter', cls: 'reporter', name: 'Valerie' },
+        [['magnemite', 26], ['kirlia', 26], ['mr-mime', 26]],
+        { before: 'We are doing a story on the best Trainers at the lake. Show the camera what you can do!',
+          defeat: 'Did you get that, Darryl? Tell me you got that!',
+          after: 'The story will be on the evening news. You might want to comb your hair.' }),
+      pair('esteban-meredith', 1, 10, { who: 'youngster', cls: 'school-kid', name: 'Esteban' }, { who: 'pokefan', cls: 'pokefan', name: 'Meredith' },
+        [['quagsire', 26], ['pichu', 26], ['pachirisu', 26]],
+        { before: 'Miss Meredith is teaching me about cute Pokémon. I am teaching her about battling!',
+          defeat: 'I think we both have more to learn.',
+          after: 'Meredith says Pichu is the cutest. I say Quagsire. We will never agree.' })
     ]
   }, SINNOH));
+
+  /** The first visit of a new day: every pair can battle you again. */
+  function sevenEnter() {
+    const F = G.Field, day = G.Clock.day();
+    if (F.getVar('ss-day') === day) return;
+    for (const id of PAIRS) delete F.save.done['seven-stars:' + id];
+    F.setVar('ss-day', day);
+  }
+  const CHEF = { name: 'Chef' };
+  /** The chef: the hours, and the day's pairs. */
+  async function chef(h) {
+    if (!open()) {
+      await h.say(T('Our double battles run from nine in the morning until eleven at night. Do come back then!'), CHEF);
+      return;
+    }
+    const left = today().filter(id => !beaten(id)).length;
+    if (!left) await h.say(T('You have battled every pair at our tables today. The whole kitchen is talking about you!'), CHEF);
+    else await h.say(T('Welcome to the Seven Stars! Five pairs dine with us today, and each of them would love a double battle.'), CHEF);
+    await h.say(T('The pairs change every day, so do come back tomorrow.'), CHEF);
+  }
+  /** A pair beaten: once all five of the day are, the chef comes over (and, after chapter 75, the chapter ends). */
+  async function won(h) {
+    const F = G.Field;
+    if (today().some(id => !beaten(id))) return;
+    await h.say(T('Five double battles in one day! Nobody has done that since we opened. The kitchen is cheering for you!'), CHEF);
+    if (!F.flag('chapter-75-done') || F.flag('chapter-76-done')) return;
+    // The end of the seventy-sixth chapter (credits-ui.js).
+    if (G.CreditsUI) await G.CreditsUI.ending(76); else F.setFlag('chapter-76-done');
+  }
 
   // ---------------- Route 213 ----------------
   G.Maps.def(Object.assign({
@@ -278,6 +394,9 @@
     'route214.tunnel': [['say', 'Fresh rubble blocks the tunnel. A note says: "Still digging. Come back later!"']],
     'route213.cottage': [['say', 'The cottage is locked. A card on the door says: "Hotel Grand Lake guests only."']],
     'lakefront.grunt-win': [['js', gruntWin]],
+    'sevenstars.enter': [['js', sevenEnter]],
+    'sevenstars.chef': [['js', chef]],
+    'sevenstars.won': [['js', won]],
     'lakefront.cynthia': [
       ['say', 'So you are {player}. I am Cynthia. I study the old stories of Sinnoh, and Professor Rowan told me about you.', CYNTHIA],
       ['say', 'I was heading north, but a crowd of Psyduck is blocking Route 210. Their heads ache so much that they cannot move.', CYNTHIA],

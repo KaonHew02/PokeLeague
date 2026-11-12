@@ -77,5 +77,9 @@ G.I18n.add({
   "Socialite": "Dama",
   "Parasol Lady": "Dama Parasol",
   "Roughneck": "Rapado",
-  "Belle & Pa": "Hija y Papá"
+  "Belle & Pa": "Hija y Papá",
+  "Pokémon Breeder": "Criadora Pokémon",
+  "Artist": "Artista",
+  "Cameraman": "Cámara",
+  "Reporter": "Reportera"
 }, "es");

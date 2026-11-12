@@ -208,5 +208,7 @@ G.I18n.add({
   "Chapter 74 complete!": "Capitolo 74 completato!",
   "{player} found the misty lake under Mt. Coronet, where Feebas hides, and the cold lake below Victory Road.": "{player} ha trovato il lago nebbioso sotto il Monte Corona, dove si nasconde Feebas, e il lago freddo sotto la Via Vittoria.",
   "Chapter 75 complete!": "Capitolo 75 completato!",
-  "{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.": "{player} è tornato al Lago Valore e l'ha trovato di nuovo pieno d'acqua, con i Magikarp che nuotano dove prima si dibattevano sul fondo asciutto."
+  "{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.": "{player} è tornato al Lago Valore e l'ha trovato di nuovo pieno d'acqua, con i Magikarp che nuotano dove prima si dibattevano sul fondo asciutto.",
+  "Chapter 76 complete!": "Capitolo 76 completato!",
+  "{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.": "{player} ha vinto tutti e cinque gli incontri in doppio del giorno al ristorante Sette Stelle, sul Lago Valore, e tutta la cucina ha festeggiato."
 }, "it");

@@ -4383,6 +4383,28 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 76 after chapter 75: the Seven Stars restaurant's five pairs of the day. */
+async function chapter76(st) {
+  const { G } = st;
+  const F = G.Field;
+  const last = () => st.battles[st.battles.length - 1];
+  const won = () => assert.equal(last().outcome, 'win', last().key + ' at levels ' + last().levels);
+  const hour = G.Clock.hour;
+  G.Clock.hour = () => 12;
+  await run(st, 'seven-stars', 'sevenstars.enter');
+  const five = G.SevenStars.today();
+  for (const id of five) {
+    F.healAll();
+    await run(st, 'seven-stars', [['battle', 'seven-stars:' + id]]);
+    won();
+  }
+  await run(st, 'seven-stars', 'sevenstars.won');
+  G.Clock.hour = hour;
+  assert.ok(F.flag('chapter-76-done'));
+  console.log('[story] the Seven Stars restaurant:', five.length, 'double battles of the day won');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 75 after chapter 74: Lake Valor full again. */
 async function chapter75(st) {
   const { G } = st;
@@ -5059,4 +5081,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter73(st);
   await chapter74(st);
   await chapter75(st);
+  await chapter76(st);
 });

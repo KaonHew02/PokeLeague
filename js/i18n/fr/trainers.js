@@ -77,5 +77,9 @@ G.I18n.add({
   "Socialite": "Mondaine",
   "Parasol Lady": "Dame Ombrelle",
   "Roughneck": "Loubard",
-  "Belle & Pa": "Fille et Papa"
+  "Belle & Pa": "Fille et Papa",
+  "Pokémon Breeder": "Éleveuse",
+  "Artist": "Artiste",
+  "Cameraman": "Cameraman",
+  "Reporter": "Journaliste"
 }, "fr");

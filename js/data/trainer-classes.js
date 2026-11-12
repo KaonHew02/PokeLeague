@@ -106,5 +106,11 @@ G.TRAINER_CLASSES = {
   'poke-kid':    { title: 'Poké Kid', who: 'lass', prize: 16 },
   'school-kid-f': { title: 'School Kid', ctx: 'trainer-f', who: 'lass', prize: 20 },
   'skier-m':     { title: 'Skier', who: 'boarder', prize: 40 },
-  leader:        { title: 'Leader', who: 'brock', prize: 100 }
+  leader:        { title: 'Leader', who: 'brock', prize: 100 },
+  // Chapter 76: the Seven Stars restaurant (prizes are mine). Only women have the Breeder's and the Reporter's titles
+  // here, so their translations are the women's titles (no ctx).
+  'pokemon-breeder': { title: 'Pokémon Breeder', who: 'breeder', prize: 48 },
+  artist:        { title: 'Artist', who: 'artist', prize: 64 },
+  cameraman:     { title: 'Cameraman', who: 'cameraman', prize: 48 },
+  reporter:      { title: 'Reporter', who: 'reporter', prize: 48 }
 };

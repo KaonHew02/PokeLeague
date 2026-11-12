@@ -138,6 +138,40 @@ test('gates open while their rule holds; fast water is solid until the map is ca
   assert.ok(W.isWater(3, 1), 'calm rapids can be surfed');
 });
 
+test('a double-battle pair of two classes (partner: { cls, name }, chapter 76): named after both, their prizes add up', async () => {
+  const { G, W } = world();
+  G.Maps.def({ id: 't-pair', tileset: 'indoor', palette: 'house',
+    rows: ['WWWWWWW', '_______', '_______'], spots: { start: [1, 2, 'up'] },
+    trainers: [
+      { id: 'rk', who: 'gentleman', cls: 'rich-boy', name: 'Roman', x: 1, y: 1, dir: 'down', sight: 0, double: true,
+        partner: { who: 'lady', cls: 'lady', name: 'Kylie', x: 2, y: 1 }, team: [['lickitung', 26], ['cleffa', 24]], before: 'Hi!', defeat: 'Oh.' },
+      { id: 'jp', who: 'cooltrainer', cls: 'double-team', name: 'Jo & Pat', x: 4, y: 1, dir: 'down', sight: 0, double: true,
+        partner: { who: 'cooltrainerm', x: 5, y: 1 }, team: [['lumineon', 50], ['rapidash', 50]], before: 'Hi!', defeat: 'Oh.' }
+    ] });
+  assert.deepEqual(plain(G.Maps.validate('t-pair')), []);
+  G.Field.giveMon('squirtle', 30);
+  G.Field.giveMon('pidgey', 30);
+  const got = [];
+  G.BattleUI = { trainer: async (me, t) => { got.push(t); return 'win'; } };
+  W.load('t-pair', 'start');
+  await pump(W, W.interact());
+  assert.equal(got[0].name, 'Rich Boy Roman & Lady Kylie');
+  assert.equal(got[0].title, '');
+  assert.equal(got[0].prize, G.TRAINER_CLASSES['rich-boy'].prize + G.TRAINER_CLASSES.lady.prize, 'the two prizes');
+  // A partner without a class of their own: as before.
+  W.load('t-pair', { x: 4, y: 2, dir: 'up' });
+  await pump(W, W.interact());
+  assert.deepEqual([got[1].title, got[1].name, got[1].prize], ['Double Team', 'Jo & Pat', G.TRAINER_CLASSES['double-team'].prize]);
+  // An unknown partner class, or a name without a class, is an error.
+  G.Maps.def({ id: 't-pair2', tileset: 'indoor', palette: 'house', rows: ['WWWWWWW', '_______'], spots: { a: [0, 1, 'up'] },
+    trainers: [
+      { id: 'a', who: 'lass', cls: 'lass', name: 'A', x: 1, y: 1, sight: 0, double: true, partner: { who: 'lass', cls: 'nope', name: 'B', x: 2, y: 1 }, team: [['pichu', 5], ['pichu', 5]] },
+      { id: 'c', who: 'lass', cls: 'lass', name: 'C', x: 4, y: 1, sight: 0, double: true, partner: { who: 'lass', name: 'D', x: 5, y: 1 }, team: [['pichu', 5], ['pichu', 5]] }
+    ] });
+  const e = G.Maps.validate('t-pair2');
+  assert.ok(e.some(x => /unknown partner class "nope"/.test(x)) && e.some(x => /the partner has a name but no class/.test(x)), e.join('; '));
+});
+
 test('a map that changes with a flag (changes, chapter 75): both versions, the same size, standing on new water is surfing', async () => {
   const { G, W } = world();
   G.Maps.def({ id: 't-lake', tileset: 'outdoor', palette: 'kanto', border: 'T',
@@ -5415,6 +5449,108 @@ test('Lake Valor full again (chapter 75): dry before the Distortion World, water
   S.player.surf = 0;
   W.load('lake-valor', { x: 8, y: 7, dir: 'down' });
   assert.ok(W.surfing);
+});
+
+test('the Seven Stars restaurant (chapter 76): five pairs a day from 9:00 to 23:00, two Pokémon needed, once a day each, the chef, the ending once', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower', 'fullmoon', 'route219', 'amity', 'fuego', 'b1f']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/regis.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 32 }, (_, i) => i + 1);
+  F.giveMon('empoleon', 50, {});
+  F.giveMon('staraptor', 50, {});
+  const said = [];
+  G.Dialog.say = text => { said.push(String(text)); return Promise.resolve(); };
+  const endings = [];
+  G.CreditsUI = { ending: async n => { endings.push(n); F.setFlag('chapter-' + n + '-done'); } };
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const talk = () => pump(W, W.interact());
+  let day = '2026-11-12', hour = 12;
+  G.Clock.day = () => day;
+  G.Clock.hour = () => hour;
+  const SS = G.SevenStars, m = G.Maps.get('seven-stars');
+  assert.deepEqual(plain(G.Maps.validate('seven-stars')), []);
+  assert.equal(SS.PAIRS.length, 9);
+  for (const t of m.trainers) assert.ok(t.partner && t.partner.cls && t.partner.name && G.TRAINER_CLASSES[t.cls] && G.TRAINER_CLASSES[t.partner.cls], t.id);
+  // The day's five: the same all day, others another day and in another game.
+  const five = plain(SS.today());
+  assert.equal(five.length, 5);
+  assert.deepEqual(plain(SS.today()), five);
+  day = '2026-11-13';
+  assert.notDeepEqual(plain(SS.today()), five, 'another day');
+  day = '2026-11-12';
+  const id0 = S.player.id;
+  S.player.id = (id0 + 7) & 0xffff;
+  assert.notDeepEqual(plain(SS.today()), five, 'another game');
+  S.player.id = id0;
+  /** In through the door (its enter script runs). */
+  const comeIn = async () => {
+    W.load('valor-lakefront', { x: 28, y: 7, dir: 'up' });
+    assert.equal(step(W, 'up'), 'moved');
+    await until(() => W.map.id === 'seven-stars' && !W.locked);
+    for (let i = 0; i < 10; i++) { W.update(0.05); await tick(); }
+  };
+  await comeIn();
+  for (const id of SS.PAIRS) assert.equal(seen(id), five.includes(id), id);
+  // Outside the hours nobody is there, and the chef says when to come.
+  for (const h of [8, 23]) {
+    hour = h;
+    await comeIn();
+    assert.ok(SS.PAIRS.every(id => !seen(id)), 'nobody at ' + h);
+  }
+  W.load('seven-stars', { x: 7, y: 4, dir: 'up' });
+  said.length = 0;
+  await talk();
+  assert.ok(said.some(s => /from nine in the morning until eleven at night/.test(s)), 'the hours');
+  hour = 12;
+  await comeIn();
+  /** Stands next to a pair's first Trainer, facing them. */
+  const nextTo = t => {
+    for (const [dx, dy, dir] of [[0, 1, 'up'], [0, -1, 'down'], [-1, 0, 'right']]) {
+      const x = t.x + dx, y = t.y + dy;
+      if (G.Maps.open(m, x, y) && !W.actors.some(a => a.visible !== false && a.x === x && a.y === y)) { W.load('seven-stars', { x, y, dir }); return; }
+    }
+    assert.fail('no place next to ' + t.id);
+  };
+  const met = [];
+  W.onTrainer = async d => { met.push(d.id); return 'win'; };
+  // With one Pokémon able to fight, nobody battles.
+  const second = S.party.splice(1, 1);
+  nextTo(m.trainers.find(t => t.id === five[0]));
+  await talk();
+  assert.deepEqual(met, [], 'two Pokémon are needed');
+  S.party.push(...second);
+  // The day's five, in turn: the chef comes over after the fifth; no ending before chapter 75.
+  const beatAll = async () => {
+    met.length = 0;
+    said.length = 0;
+    for (const id of SS.today()) {
+      W.load('seven-stars', 'door');
+      for (let i = 0; i < 4; i++) { W.update(0.05); await tick(); }
+      nextTo(m.trainers.find(t => t.id === id));
+      await talk();
+    }
+    assert.deepEqual(plain(met), plain(SS.today()));
+    assert.ok(said.some(s => /Five double battles in one day/.test(s)), 'the chef');
+  };
+  await beatAll();
+  assert.deepEqual(endings, []);
+  nextTo(m.trainers.find(t => t.id === five[0]));
+  met.length = 0;
+  await talk();
+  assert.deepEqual(met, [], 'once a day');
+  // The next day, after chapter 75: again, and the ending once.
+  day = '2026-11-13';
+  F.setFlag('chapter-75-done');
+  await comeIn();
+  await beatAll();
+  assert.deepEqual(endings, [76]);
+  day = '2026-11-14';
+  await comeIn();
+  await beatAll();
+  assert.deepEqual(endings, [76], 'once');
 });
 
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {

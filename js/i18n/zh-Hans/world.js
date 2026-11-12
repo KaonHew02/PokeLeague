@@ -90,5 +90,6 @@ G.I18n.add({
   "{mon} used Dive!": "{mon}使用了潜水！",
   "Light is filtering down from above. Would you like to use Dive?": "上方有光照下来。要使用潜水吗？",
   "We battle two against two! Come back when you have two Pokémon that can fight.": "我们是二对二对战的！等你有两只能战斗的宝可梦再来吧。",
-  "Dawn": "小光"
+  "Dawn": "小光",
+  "{one} & {two}": "{one}和{two}"
 }, "zh-Hans");

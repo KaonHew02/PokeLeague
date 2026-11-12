@@ -88,6 +88,8 @@
  * Chapter 40: double-battle trainers (`double: true`) fight two against two; their `partner` stands
  * beside them (talking to either starts the battle). A trainer who is not a Gym Leader only takes on a
  * player with two Pokémon able to fight (else they do not spot you, and talking explains why).
+ * Chapter 76: a partner with a class and a name of their own (`partner: { cls, name }`) makes the battle's name
+ * "Rich Boy Roman & Lady Kylie", and the two classes' prizes add up; the team is still the trainer's one list.
  * Chapter 41: `moveSpots` (G.World.moveSpots(mon) lists those where the player stands for a Pokémon that
  * knows the move; the party menu offers them, G.World.useMoveSpot runs the script with ctx.mon); a
  * `walkAround` runs its script once every tile of its edge was stepped on during one visit; a `desert`
@@ -940,12 +942,21 @@ G.World = (() => {
     return label ? G.T(label, classCtx(d)) + ' ' + G.T(d.name, 'trainer-name') : G.T(d.name, 'trainer-name');
   }
 
-  /** A map trainer as G.BattleUI.trainer wants it. */
+  /** A map trainer as G.BattleUI.trainer wants it. A pair whose partner has a class and a name of their own
+   *  (chapter 76: the Seven Stars restaurant) is "Rich Boy Roman & Lady Kylie", and the two classes' prizes add up. */
   function battleTrainer(d, key) {
     const cls = (G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls]) || {};
-    return { id: key, name: d.name ? G.T(d.name, 'trainer-name') : '', title: classTitle(d), titleCtx: classCtx(d), who: d.who, cls: d.cls,
-             ai: d.ai || (d.leader ? 'leader' : 'basic'), prize: d.prize != null ? d.prize : cls.prize,
-             items: d.items || {}, leader: !!d.leader, team: d.team, music: d.music || null };
+    const t = { id: key, name: d.name ? G.T(d.name, 'trainer-name') : '', title: classTitle(d), titleCtx: classCtx(d), who: d.who, cls: d.cls,
+                ai: d.ai || (d.leader ? 'leader' : 'basic'), prize: d.prize != null ? d.prize : cls.prize,
+                items: d.items || {}, leader: !!d.leader, team: d.team, music: d.music || null };
+    const q = d.partner;
+    if (q && q.cls && q.name) {
+      t.name = G.I18n.fmt('{one} & {two}', { one: trainerName(d), two: trainerName(q) });
+      t.title = '';
+      const qc = (G.TRAINER_CLASSES && G.TRAINER_CLASSES[q.cls]) || {};
+      if (d.prize == null) t.prize = (cls.prize || 0) + (qc.prize || 0);
+    }
+    return t;
   }
 
   /**

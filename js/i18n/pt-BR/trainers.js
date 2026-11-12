@@ -77,5 +77,9 @@ G.I18n.add({
   "Socialite": "Socialite",
   "Parasol Lady": "Moça da Sombrinha",
   "Roughneck": "Valentão",
-  "Belle & Pa": "Filha e Papai"
+  "Belle & Pa": "Filha e Papai",
+  "Pokémon Breeder": "Criadora Pokémon",
+  "Artist": "Artista",
+  "Cameraman": "Cinegrafista",
+  "Reporter": "Repórter"
 }, "pt-BR");

@@ -23,7 +23,8 @@
  *   Chapter 40: outdoor `(` `)` `{` `}` currents flowing left, right, up and down (surfable water that
  *   carries you along until the water is calm; you cannot swim against it).
  *   Chapter 40: trainers with double: true (a double battle) and partner: { who, x, y, dir } (the
- *   second trainer of the pair, standing beside them).
+ *   second trainer of the pair, standing beside them); chapter 76: partner.cls and partner.name (a pair of two
+ *   classes: the battle is "Rich Boy Roman & Lady Kylie", their prizes add up).
  *   Chapter 41: moveSpots: [{ move, x, y, w, h, if, script }] (standing there, a Pokémon that knows the
  *   move can use it from the party menu: the script runs), walkAround: { x, y, w, h, if, script } (step
  *   on every tile along the edge of that rectangle, then the script runs once), desert: true (wild
@@ -504,6 +505,8 @@ G.Maps = (() => {
       if (t.partner) {
         const q = t.partner;
         if (!t.double) E.push(`trainer "${t.id}": a partner, but not double: true`);
+        if (q.cls && G.TRAINER_CLASSES && !G.TRAINER_CLASSES[q.cls]) E.push(`trainer "${t.id}": unknown partner class "${q.cls}"`);   // chapter 76
+        if (q.name && !q.cls) E.push(`trainer "${t.id}": the partner has a name but no class`);
         if (known && !known.includes(q.who)) E.push(`trainer "${t.id}": unknown partner sprite "${q.who}"`);
         if (!tileOk(q.x, q.y)) E.push(`trainer "${t.id}": the partner ${where(q.x, q.y)} is outside the map`);
         else if (t.swim ? kindAt(m, q.x, q.y) !== 'water' : !open(m, q.x, q.y)) E.push(`trainer "${t.id}": the partner stands on a ${kindAt(m, q.x, q.y)} tile at ${where(q.x, q.y)}`);

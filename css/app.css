@@ -333,6 +333,27 @@ input { font: inherit; }
 }
 .ow-banner.show { transform: none; opacity: 1; transition: transform .25s ease-out, opacity .2s ease-out; }
 
+/* ---------- the minimap (minimap.js): the map you are on, top-left; a tap opens the Town Map ---------- */
+.minimap {
+  position: absolute; top: 2.6%; left: max(2%, var(--sl)); z-index: 12;
+  display: flex; flex-direction: column; align-items: flex-start; gap: .2em;
+  padding: .3em; margin: 0; font: inherit; color: inherit; cursor: pointer;
+  background: linear-gradient(180deg, var(--box1), var(--box2));
+  border: .15em solid var(--edge); border-radius: .5em;
+  box-shadow: 0 0 0 .1em var(--edge-out);
+  opacity: .9;
+}
+.minimap.hidden { display: none; }
+.mm-map { position: relative; display: block; line-height: 0; border-radius: .2em; overflow: hidden; }
+.mm-map canvas { display: block; image-rendering: pixelated; image-rendering: crisp-edges; }
+.mm-dot {
+  position: absolute; width: .55em; height: .55em; margin: -.275em 0 0 -.275em; border-radius: 50%;
+  background: #ff3838; border: .1em solid #fff; box-shadow: 0 0 .3em rgba(0, 0, 0, .6);
+  animation: mm-blink 1s steps(2, start) infinite;
+}
+@keyframes mm-blink { to { visibility: hidden; } }
+.mm-name { font-size: .7em; font-weight: 700; text-shadow: .1em .1em 0 var(--shadow); max-width: 14em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
 /* The Safari Zone: Safari Balls and steps left (field.js). */
 .safari-hud {
   position: absolute; bottom: max(2.6%, var(--sb)); left: max(2%, var(--sl)); z-index: 11;
@@ -345,6 +366,8 @@ input { font: inherit; }
   pointer-events: none;
 }
 .safari-hud.hidden { display: none; }
+/* Beside the on-screen joystick, not under it. */
+body.has-stick .safari-hud { left: calc(max(2%, var(--sl)) + clamp(96px, 30vmin, 140px) + 3vmin + 18px); }
 
 /* Touch screens: a finger-sized menu button. */
 @media (pointer: coarse) {

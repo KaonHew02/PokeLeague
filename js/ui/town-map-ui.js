@@ -1,6 +1,8 @@
 /* ============ town-map-ui.js — the Town Map, and where to Fly ============
  *   await G.TownMapUI.open()               the Town Map (from the Bag): where you are
  *   await G.TownMapUI.open({ fly: true })  -> the map id of a visited town to fly to, or null
+ *   await G.TownMapUI.open({ teleport: true })  the Town Map (from the minimap or the Bag); where teleporting is allowed
+ *                                          (G.World.teleportBlock), a visited town tapped is asked about -> its id, or null
  * A small drawing of a region (land, sea, the routes and the towns) beside a list of its towns.
  * The place under the cursor blinks; visited towns are red, the others grey. The towns are
  * the maps with a `fly` landing spot (G.World.flyTargets); a click on the drawing picks one too.
@@ -146,6 +148,7 @@ G.TownMapUI = (() => {
       if (b) G.Nav.focusFirst(b);
       st.sel = best.id;
       if (st.fly && best.visited) finish(best.id);
+      else if (st.teleport) pickTown(best.id);
     });
     el.querySelector('[data-back]').onclick = () => finish(null);
     el.querySelector('[data-region]').onclick = () => {
@@ -238,6 +241,14 @@ G.TownMapUI = (() => {
     }
   }
 
+  /** Teleport mode: a visited town (not the one you are in), asked about, closes the map with its id. */
+  async function pickTown(id) {
+    const t = st && st.towns.find(x => x.id === id), m = G.World && G.World.map;
+    if (!t || !t.visited || (m && m.id === id)) return;
+    const ok = await G.Popup.confirm(fmt('Teleport to {place}?', { place: G.Names.loc(t.loc) }));
+    if (ok && st) finish(id);
+  }
+
   function label() {
     const t = st.towns.find(x => x.id === st.sel);
     const m = G.World && G.World.map;
@@ -247,6 +258,8 @@ G.TownMapUI = (() => {
     const ro = roamers();
     if (ro.length === 1) p.textContent += ' · ' + fmt('{mon} roams near the blinking dot.', { mon: G.Names.mon(ro[0].sp) });
     else if (ro.length > 1) p.textContent += ' · ' + fmt('{a} and {b} roam near the blinking dots.', { a: G.Names.mon(ro[0].sp), b: G.Names.mon(ro[1].sp) });
+    if (st.teleport) p.textContent += ' · ' + T('Tap a town you have been to, to teleport there.');
+    else if (st.teleportAsked) p.textContent += ' · ' + T("You can't teleport from here.");
   }
 
   function render() {
@@ -261,7 +274,7 @@ G.TownMapUI = (() => {
     list.innerHTML = shown().map(t => `<button class="menu-item${t.visited ? '' : ' unseen'}" data-id="${esc(t.id)}"${st.fly && !t.visited ? ' disabled' : ''}>`
       + `${esc(t.visited || !st.fly ? G.Names.loc(t.loc) : '-----')}</button>`).join('');
     list.querySelectorAll('[data-id]').forEach(b => {
-      b.onclick = () => { st.sel = b.dataset.id; label(); if (st.fly) finish(b.dataset.id); };
+      b.onclick = () => { st.sel = b.dataset.id; label(); if (st.fly) finish(b.dataset.id); else if (st.teleport) pickTown(b.dataset.id); };
       b.onmouseenter = () => { st.sel = b.dataset.id; label(); };
     });
   }
@@ -287,7 +300,9 @@ G.TownMapUI = (() => {
       // Flying: the town you are in, else the first one you can fly to. The Town Map on a route: nothing
       // picked yet, so it says where you are.
       const pick = cur || (o.fly ? towns.find(t => t.visited && regionOf(t.loc) === region) : null);
-      st = { fly: !!o.fly, towns, region, done: res, sel: pick ? pick.id : null };
+      // Teleport (the minimap, the Bag): from where it is allowed, as Fly would be but with no badge or Pokémon.
+      const teleport = !!o.teleport && !o.fly && !!(G.World && G.World.teleportBlock && G.World.teleportBlock() === null);
+      st = { fly: !!o.fly, teleport, teleportAsked: !!o.teleport && !o.fly, towns, region, done: res, sel: pick ? pick.id : null };
       render();
       label();
       const first = st.sel ? el.querySelector(`[data-id="${st.sel}"]:not(:disabled)`) : st.fly ? null : el.querySelector('[data-back]');

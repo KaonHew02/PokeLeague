@@ -12,13 +12,14 @@
  *   zoom         'normal' | 'large'              the map at least 15 × 10 tiles, or 12 × 8 (bigger: camera.js)
  *   stick        true/false                      the on-screen joystick on a phone or tablet (stick.js)
  *   expAll       true/false                      the rest of the team gets half Exp. Points (field.js: rules.expAll)
+ *   minimap      true/false                      the map you are on, top-left (minimap.js)
  *
  *   G.Settings.get('textSpeed') · G.Settings.set('follower', false) · G.Settings.on(fn)
  */
 G.Settings = (() => {
   const KEY = 'pl.settings';
   const DEF = { textSpeed: 'mid', battleAnim: true, battleStyle: 'shift', follower: true,
-                gamepad: true, padRumble: true, calm: false, zoom: 'normal', stick: true, expAll: true };
+                gamepad: true, padRumble: true, calm: false, zoom: 'normal', stick: true, expAll: true, minimap: true };
   const s = Object.assign({}, DEF);
   try { Object.assign(s, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { /* storage can be blocked */ }
   const fns = new Set();

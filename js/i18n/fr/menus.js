@@ -206,5 +206,8 @@ G.I18n.add({
   "Mine Badge": "Badge Mine",
   "Icicle Badge": "Badge Glaçon",
   "Beacon Badge": "Badge Phare",
-  "{a} and {b} roam near the blinking dots.": "{a} et {b} rôdent près des points qui clignotent."
+  "{a} and {b} roam near the blinking dots.": "{a} et {b} rôdent près des points qui clignotent.",
+  "Teleport to {place}?": "Te téléporter à {place} ?",
+  "Tap a town you have been to, to teleport there.": "Touche une ville où tu es déjà allé pour t'y téléporter.",
+  "You can't teleport from here.": "Tu ne peux pas te téléporter d'ici."
 }, "fr");

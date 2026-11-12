@@ -124,6 +124,7 @@ G.OptionsUI = (() => {
     if (canFull()) full = row(T('Full screen'), T('Hide the browser bars.'), `<button class="btn small" data-full>${esc(isFull() ? T('Turn off') : T('Turn on'))}</button>`);
     else if (IOS && !standalone()) full = row(T('Full screen'), T('On iPhone, Safari cannot show websites in full screen. Tap Share, then "Add to Home Screen": opened from that icon, the game fills the screen.'), '');
     return full
+      + row(T('Mini-map'), T('The map you are on, in the top-left corner. Tap it to open the Town Map and teleport.'), toggle('minimap', S('minimap') !== false))
       + row(T('Map size'), T('Large: the map is bigger on the screen, and you see a little less around you.'),
             choice('zoom', [['normal', T('Normal')], ['large', T('Large')]]))
       + row(T('Less shaking and flashing'), T('The screen shakes less and flashes are softer.'), toggle('calm', S('calm')));

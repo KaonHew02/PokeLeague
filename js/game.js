@@ -46,6 +46,7 @@ G.Game = (() => {
     if (window.ResizeObserver) new ResizeObserver(() => resize()).observe(cv);
     G.UI.init();
     if (G.Stick) G.Stick.init();                 // the on-screen joystick (phones and tablets)
+    if (G.Minimap) G.Minimap.init();             // the map you are on, top-left
     last = performance.now();
     requestAnimationFrame(loop);
   }
@@ -110,6 +111,7 @@ G.Game = (() => {
     else { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h); }
     G.UI.tick(dt);
     if (G.Stick) G.Stick.tick();
+    if (G.Minimap) G.Minimap.tick();
 
     G.Input.endFrame();
   }

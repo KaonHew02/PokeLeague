@@ -150,7 +150,12 @@ G.BagUI = (() => {
       return;
     }
     // The Town Map shows Kanto; the Bicycle gets you on or off it (G.World.toggleBike).
-    if (id === 'town-map' && G.TownMapUI) { await G.TownMapUI.open(); return; }
+    if (id === 'town-map' && G.TownMapUI) {
+      // A visited town picked on it is teleported to (town-map-ui.js).
+      const town = await G.TownMapUI.open({ teleport: true });
+      if (town && G.World && G.World.flyTo) { G.UI.closeAll(); G.World.flyTo(town); }
+      return;
+    }
     // The Unown Report: the letters caught so far (flags form:201:<letter>).
     if (id === 'unown-report') {
       const got = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'].filter(l => G.Field.flag('form:201:' + l));

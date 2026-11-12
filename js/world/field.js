@@ -316,6 +316,7 @@ G.World = (() => {
   }
 
   function showBanner(text) {
+    if (G.Minimap && G.Minimap.covers(map, lit)) return;   // the minimap shows the place's name
     const d = ensureDom();
     d.banner.textContent = text;
     d.banner.classList.remove('show');
@@ -1430,6 +1431,11 @@ G.World = (() => {
   /** Can you take off here? -> null, or why not ('badge', 'here') */
   function flyBlock() {
     if (!G.Field.save.player.badges.includes(3)) return 'badge';
+    return teleportBlock();
+  }
+  /** Can you teleport from here (the Town Map, to a town you have been to; no badge, no Pokémon)? -> null or 'here':
+   *  outdoors only, not in a cave, under the sea, where Fly is not allowed (the Safari Zone...), on Cycling Road, or in a scene. */
+  function teleportBlock() {
     if (!map || map.tileset !== 'outdoor' || map.def.cave || map.def.underwater || map.def.noFly || mustRide(map) || locks) return 'here';
     return null;
   }
@@ -1794,7 +1800,7 @@ G.World = (() => {
     actor: id => actor(id, {}), host, debug,
     onEncounter: null, onTrainer: null, wildForm: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, makeFollower, get surfing() { return surfing; }, keyOpen,
-    barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, feebasTiles, stormy, foggy,
+    barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, feebasTiles, stormy, foggy, teleportBlock,
     get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },

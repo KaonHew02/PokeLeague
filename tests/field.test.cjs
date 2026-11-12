@@ -310,9 +310,11 @@ test('Fly: towns you have visited (or that an older save had reached) are places
   G.Field.save.player.badges = [1, 2];
   assert.equal(W.flyBlock(), 'badge', 'Fly needs the Thunder Badge');
   assert.equal(W.flier(), null);
+  assert.equal(W.teleportBlock(), null, 'teleporting from the Town Map needs no badge and no Pokémon');
   G.Field.save.player.badges = [1, 2, 3];
   W.load('t-cave', 'start');
   assert.equal(W.flyBlock(), 'here', 'not from a cave');
+  assert.equal(W.teleportBlock(), 'here', 'no teleporting from a cave either');
   assert.equal(await W.flyTo('t-bad'), false, 'only to towns you have visited');
   await pump(W, W.flyTo('t-town1'));
   assert.equal(W.map.id, 't-town1');

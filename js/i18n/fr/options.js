@@ -70,5 +70,7 @@ G.I18n.add({
   "On-screen joystick": "Joystick à l'écran",
   "Drag it to walk; drag past its ring to run.": "Faites-le glisser pour marcher ; au-delà du cercle pour courir.",
   "Exp. for the whole team": "Expérience pour toute l'équipe",
-  "After a win, the Pokémon that did not battle get half the Exp. Points too.": "Après une victoire, les Pokémon qui n'ont pas combattu reçoivent aussi la moitié des points d'expérience."
+  "After a win, the Pokémon that did not battle get half the Exp. Points too.": "Après une victoire, les Pokémon qui n'ont pas combattu reçoivent aussi la moitié des points d'expérience.",
+  "Mini-map": "Mini-carte",
+  "The map you are on, in the top-left corner. Tap it to open the Town Map and teleport.": "La carte où tu te trouves, dans le coin en haut à gauche. Touche-la pour ouvrir la Carte et te téléporter."
 }, "fr");

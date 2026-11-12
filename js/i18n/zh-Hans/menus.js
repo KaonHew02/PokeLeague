@@ -206,5 +206,8 @@ G.I18n.add({
   "Mine Badge": "矿物徽章",
   "Icicle Badge": "冰柱徽章",
   "Beacon Badge": "灯塔徽章",
-  "{a} and {b} roam near the blinking dots.": "{a}和{b}在闪烁的点附近游荡。"
+  "{a} and {b} roam near the blinking dots.": "{a}和{b}在闪烁的点附近游荡。",
+  "Teleport to {place}?": "要传送到{place}吗？",
+  "Tap a town you have been to, to teleport there.": "点一个去过的城镇就能传送过去。",
+  "You can't teleport from here.": "这里不能传送。"
 }, "zh-Hans");

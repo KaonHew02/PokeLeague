@@ -70,5 +70,7 @@ G.I18n.add({
   "On-screen joystick": "屏幕摇杆",
   "Drag it to walk; drag past its ring to run.": "拖动它来走路；拖到圆圈外面就会跑步。",
   "Exp. for the whole team": "全队获得经验值",
-  "After a win, the Pokémon that did not battle get half the Exp. Points too.": "打赢后，没有上场的宝可梦也能获得一半的经验值。"
+  "After a win, the Pokémon that did not battle get half the Exp. Points too.": "打赢后，没有上场的宝可梦也能获得一半的经验值。",
+  "Mini-map": "小地图",
+  "The map you are on, in the top-left corner. Tap it to open the Town Map and teleport.": "左上角显示你所在的地图。点它可以打开城镇地图并传送。"
 }, "zh-Hans");

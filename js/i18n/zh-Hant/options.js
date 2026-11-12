@@ -70,5 +70,7 @@ G.I18n.add({
   "On-screen joystick": "螢幕搖桿",
   "Drag it to walk; drag past its ring to run.": "拖動它來走路；拖到圓圈外面就會跑步。",
   "Exp. for the whole team": "全隊獲得經驗值",
-  "After a win, the Pokémon that did not battle get half the Exp. Points too.": "打贏後，沒有上場的寶可夢也能獲得一半的經驗值。"
+  "After a win, the Pokémon that did not battle get half the Exp. Points too.": "打贏後，沒有上場的寶可夢也能獲得一半的經驗值。",
+  "Mini-map": "小地圖",
+  "The map you are on, in the top-left corner. Tap it to open the Town Map and teleport.": "左上角顯示你所在的地圖。點它可以打開城鎮地圖並傳送。"
 }, "zh-Hant");

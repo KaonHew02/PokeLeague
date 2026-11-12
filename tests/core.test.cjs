@@ -181,6 +181,17 @@ test('the on-screen joystick: a direction from its middle (dead zone, the larger
   assert.equal(B.held('run'), false);
 });
 
+test('the minimap: a colour for each kind of tile, and walls or floors for the rest', () => {
+  const { G } = boot(CORE.concat('js/ui/minimap.js'));
+  const M = G.Minimap;
+  assert.equal(M.colorOf('water', true), '#3f86d8');
+  assert.equal(M.colorOf('tall', false), '#4f9a3c');
+  assert.equal(M.colorOf('stamp', true), '#b0503c', 'buildings');
+  assert.equal(M.colorOf('statue', true), '#4a4a52', 'anything solid');
+  assert.equal(M.colorOf('carpet', false), '#b8b8a8', 'anything you walk on');
+  assert.equal(M.shown, false);
+});
+
 test('locales: saved choice first, then the browser, then English', () => {
   const { fakeStorage } = require('./helpers.cjs');
   assert.equal(boot(['js/core/locales.js'], { lang: 'fr' }).PL_LOCALES.lang, 'fr');

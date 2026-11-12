@@ -206,5 +206,8 @@ G.I18n.add({
   "Mine Badge": "Insígnia Mina",
   "Icicle Badge": "Insígnia Pingente de Gelo",
   "Beacon Badge": "Insígnia Farol",
-  "{a} and {b} roam near the blinking dots.": "{a} e {b} vagam perto dos pontos que piscam."
+  "{a} and {b} roam near the blinking dots.": "{a} e {b} vagam perto dos pontos que piscam.",
+  "Teleport to {place}?": "Teletransportar para {place}?",
+  "Tap a town you have been to, to teleport there.": "Toque uma cidade onde você já esteve para se teletransportar até lá.",
+  "You can't teleport from here.": "Você não pode se teletransportar daqui."
 }, "pt-BR");

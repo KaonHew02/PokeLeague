@@ -2552,12 +2552,22 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** Platinum's levels (24-31), mid-game content; no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
 - **Tests:** `tests/field.test.cjs` the engine on a test map (the pair's name and prize through `G.BattleUI.trainer`, a partner without a class as before, an unknown partner class or a name without a class is an error) and the real restaurant (nine pairs of two classes; the day's five the same all day, others another day and in another game; in through the door only they stand there; nobody at 8:00 or 23:00 and the chef's hours; one Pokémon able to fight, no battle; the five in turn, the chef after the fifth, no ending before chapter 75; once a day; the next day again and the ending once, not a second time); `tests/story.test.cjs` the chapter after chapter 75 (the day's five won).
 
-### After chapter 76
+- **Chapter 77** ✅, Mirage Island (`js/content/hoenn/sootopolis.js`, translations `hoenn-sootopolis`, `battle`). Route 130 can be reached in the middle of Hoenn's story, so `ending(77)` waits for chapter 76.
+  - **When it is there** (`G.Mirage.visible()`): as in Emerald, it depends on the party. A Pokémon (an Egg too) is the sea's choice of the day when `hash('mirage ' + day + ' ' + mon.uid) % 16 === 0`; one in the party is enough, and then the island is there all day (var `mirage-day`), even if that Pokémon goes into the PC. Emerald compares a personality value with the day's number (one in 65536 for each Pokémon); here one in sixteen, about a day in three with six. `G.Mirage.chosen(mon, day)` is the rule for one Pokémon (tests use it to find a uid).
+  - **Route 130** (map `changes`, chapter 75, with a function as its `if`): the sea every day; on the island's days the islet with its grass (PokeAPI's Route 130 table: Wynaut Lv. 5-50, Emerald's Mirage Island), the Nugget (moved into the changed version) and the game's only Liechi Berry at its east end. Its sand all round has `mirage.land` triggers. A save made on the island loads surfing on a day it is not there. Rodney now says the island comes and goes.
+  - **The old man** in Pacifidlog's east house (as in Emerald): whether he can see it from his window today; when not, to try other Pokémon or come back tomorrow.
+  - **Liechi Berry** (new item; `item-effects.js` `held: 'berry', pinch: 'atk'`): a pinch berry in held.js, eaten at a quarter of its HP or less when that stat can still rise: +1 stage (`eat` event: "{mon} ate its {item}!").
+  - **Landing** (`mirage.land`): the first time (flag `mirage-landed`) you are told it is on no map; with chapter 76 done, `ending(77)`.
+  - **Left out**: Pokéblocks (the Liechi Berry makes them in Emerald), a mark on the Town Map.
+- **Balance:** wild Wynaut only, at Emerald's levels; no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (nobody chosen, only the sea and no Nugget; the old man: not today; a chosen Pokémon joins, the island, still there after it leaves; the grass is all Wynaut; the old man: today; in across the edge from Route 129 it is there; landing, the first words, no ending before chapter 76; the Nugget and the Liechi Berry once each; the next day it is gone and a save on it loads surfing; back on its day after chapter 76, the ending once); `tests/gen4.test.cjs` the Liechi Berry (eaten at a fifth of its HP, +1 Attack and the line; not at half, not at +6); `tests/story.test.cjs` the chapter after chapter 76.
+
+### After chapter 77
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
 the Battle Tower, and the whole Battle Zone. Ideas:
 1. Sinnoh: the villa in the Resort Area; the Contest Hall.
 2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
-   Arena...), Mirage Island.
+   Arena...).
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;
    Cheryl in Eterna Forest), abilities outside battle, Pokéblocks or another way to evolve Feebas, Repel steps.

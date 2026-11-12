@@ -210,5 +210,7 @@ G.I18n.add({
   "Chapter 75 complete!": "第七十五章完成！",
   "{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.": "{player}回到立志湖，看到湖里又满是湖水，鲤鱼王在曾经干涸扑腾的湖底自在地游着。",
   "Chapter 76 complete!": "第七十六章完成！",
-  "{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.": "{player}在立志湖畔的七星餐厅赢下了当天全部五场双打，整个厨房都为之欢呼。"
+  "{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.": "{player}在立志湖畔的七星餐厅赢下了当天全部五场双打，整个厨房都为之欢呼。",
+  "Chapter 77 complete!": "第七十七章完成！",
+  "{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.": "{player}看到幻影岛从130号道路的海面上浮现，踏上了一座不在任何地图上的岛。"
 }, "zh-Hans");

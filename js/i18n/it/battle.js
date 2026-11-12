@@ -201,5 +201,6 @@ G.I18n.add({
   "{mon} twisted the dimensions!": "{mon} ha distorto le dimensioni!",
   "The twisted dimensions returned to normal!": "Le dimensioni distorte sono tornate normali!",
   "Gravity intensified!": "La gravità si è intensificata!",
-  "Gravity returned to normal!": "La gravità è tornata normale!"
+  "Gravity returned to normal!": "La gravità è tornata normale!",
+  "{mon} ate its {item}!": "{mon} ha mangiato {item}!"
 }, "it");

@@ -5553,6 +5553,91 @@ test('the Seven Stars restaurant (chapter 76): five pairs a day from 9:00 to 23:
   assert.deepEqual(endings, [76], 'once');
 });
 
+test("Mirage Island (chapter 77): on the days a Pokémon of the party is the sea's choice, all that day; the island, Wynaut, the Nugget, the Liechi Berry, the old man, the ending once", async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save;
+  S.player.badges = Array.from({ length: 24 }, (_, i) => i + 1);
+  F.giveMon('swampert', 50, { moves: ['surf', 'dive'] });
+  const said = [];
+  G.Dialog.say = text => { said.push(String(text)); return Promise.resolve(); };
+  const endings = [];
+  G.CreditsUI = { ending: async n => { endings.push(n); F.setFlag('chapter-' + n + '-done'); } };
+  const settle = async () => { for (let i = 0; i < 100; i++) { W.update(0.05); await tick(); if (!W.player.moving && !W.locked && i > 4) break; } };
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = () => pump(W, W.interact());
+  const M = G.Mirage;
+  const day1 = '2026-11-12', day2 = '2026-11-13';
+  let day = day1;
+  G.Clock.day = () => day;
+  /** A uid the sea chooses (or not) on these days. */
+  const uid = (want, days) => { for (let i = 0; i < 10000; i++) { const u = 'mirage-test-' + i; if (days.every(d => M.chosen({ uid: u }, d) === want)) return u; } assert.fail('no uid'); };
+  S.party[0].uid = uid(false, [day1, day2]);
+  assert.ok(!M.visible(), 'nobody chosen: no island');
+  let m = G.Maps.get('route130');
+  assert.ok(!m.changed && G.Maps.kindAt(m, 14, 9) === 'water' && m.items.length === 0, 'only the sea');
+  assert.deepEqual(plain(G.Maps.validate('route130')), []);
+  W.load('pacifidlog-house2', { x: 8, y: 4, dir: 'up' });
+  await talk();
+  assert.ok(said.some(s => /Not today, though/.test(s)), 'the old man: not today');
+  // A chosen Pokémon joins: the island is there, and stays all day after it leaves.
+  F.giveMon('wynaut', 5);
+  S.party[1].uid = uid(true, [day1]);
+  assert.ok(M.visible() && F.getVar('mirage-day') === day1);
+  S.party.splice(1, 1);
+  assert.ok(M.visible(), 'all day, whoever is in the party');
+  m = G.Maps.get('route130');
+  assert.ok(m.changed && G.Maps.kindAt(m, 14, 9) === 'tall' && m.items.length === 2, 'the island');
+  assert.ok(G.Maps.encounters(m, 'walk').mons.every(r => r[0] === 360), 'Wynaut in the grass');
+  said.length = 0;
+  W.load('pacifidlog-house2', { x: 8, y: 4, dir: 'up' });
+  await talk();
+  assert.ok(said.some(s => /There is an island out on Route 130 today/.test(s)), 'the old man: today');
+  // In across the edge from Route 129: the island is there.
+  S.player.surf = 1;
+  W.load('route129', { x: 0, y: 9, dir: 'left' });
+  assert.equal(step(W, 'left'), 'moved');
+  await until(() => W.map.id === 'route130');
+  assert.ok(W.map.changed);
+  // Landing: the first words; no ending before chapter 76.
+  said.length = 0;
+  W.load('route130', { x: 20, y: 9, dir: 'left' });
+  assert.ok(W.surfing);
+  step(W, 'left');
+  await settle();
+  assert.ok(!W.surfing && F.flag('mirage-landed') && said.some(s => /An island that is on no map/.test(s)));
+  assert.deepEqual(endings, []);
+  // The Nugget and the only Liechi Berry.
+  for (const [x, y, item] of [[17, 7, 'nugget'], [17, 10, 'liechi-berry']]) {
+    W.load('route130', { x, y, dir: 'right' });
+    await talk();
+    assert.equal(F.count(item), 1, item);
+    await talk();
+    assert.equal(F.count(item), 1, item + ' once');
+  }
+  // The next day it is gone (nobody chosen), and a save made on it loads surfing.
+  day = day2;
+  assert.ok(!M.visible() && !G.Maps.get('route130').changed, 'gone the next day');
+  S.player.surf = 0;
+  W.load('route130', { x: 14, y: 9, dir: 'down' });
+  assert.ok(W.surfing, 'on the water where the island was');
+  // Back on its day, after chapter 76: the ending, once.
+  day = day1;
+  F.setFlag('chapter-76-done');
+  W.load('route130', { x: 20, y: 9, dir: 'left' });
+  step(W, 'left');
+  await settle();
+  assert.deepEqual(endings, [77]);
+  W.load('route130', { x: 20, y: 9, dir: 'left' });
+  step(W, 'left');
+  await settle();
+  assert.deepEqual(endings, [77], 'once');
+});
+
 test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cross with them", async () => {
   const { G, W, later } = world(['js/content/johto/icepath.js', 'js/content/johto/blackthorn.js']);
   W.debug.noEnc = true;

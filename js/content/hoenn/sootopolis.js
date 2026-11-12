@@ -9,6 +9,14 @@
  * storm ends (flag weather-calm). Rayquaza comes back to the Sky Pillar (Lv. 70, flag rayquaza-met). Juan's
  * Gym (an ice floor, four Trainers) opens: the Rain Badge (badge 24: every Pokémon obeys) and TM03 Water
  * Pulse, then `ending(38)`.
+ * Chapter 77: Mirage Island. The islet of Route 130 is only there on some days, as in Emerald (map `changes`):
+ * G.Mirage.visible() is true when a Pokémon of the party (an Egg too) is the sea's choice of the day,
+ * hash('mirage ' + day + ' ' + mon.uid) % 16 === 0 (Emerald's rule with a Pokémon's personality value was one in
+ * 65536; here one in sixteen, about a day in three with six), and then all day (var mirage-day), even if that
+ * Pokémon goes into the PC. The island: its grass and Wynaut (PokeAPI's Route 130 table, Emerald's Mirage Island), the
+ * Nugget, and the game's only Liechi Berry at its east end. An old man in Pacifidlog's east house tells you whether
+ * he can see it today. The first time on its sand (flag mirage-landed) you are told; once chapter 76 is done that ends
+ * the chapter (`ending(77)`).
  */
 (() => {
   const T = s => G.T(s);
@@ -356,13 +364,13 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~~~###~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~###~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-      '~~~~~~~~~~::::::::::~~~~~~~~~~~~',
-      '~~~~~~~~~~:........:~~~~~~~~~~~~',
-      '~~~~~~~~~~:..""""..:~~~~~~~~~~~~',
-      '~~~~~~~~~~:..""""..:~~~~~~~~~~~~',
-      '~~~~~~~~~~:..""""..:~~~~~~~~~~~~',
-      '~~~~~~~~~~:........:~~~~~~~~~~~~',
-      '~~~~~~~~~~::::::::::~~~~~~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
@@ -371,18 +379,47 @@
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
+    // Mirage Island (chapter 77): only on the days it is there.
+    changes: {
+      if: () => G.Mirage.visible(),
+      rows: [
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~###~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~###~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~###~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+        '~~~~~~~~~~::::::::::~~~~~~~~~~~~',
+        '~~~~~~~~~~:........:~~~~~~~~~~~~',
+        '~~~~~~~~~~:..""""..:~~~~~~~~~~~~',
+        '~~~~~~~~~~:..""""..:~~~~~~~~~~~~',
+        '~~~~~~~~~~:..""""..:~~~~~~~~~~~~',
+        '~~~~~~~~~~:........:~~~~~~~~~~~~',
+        '~~~~~~~~~~::::::::::~~~~~~~~~~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+      ],
+      items: [{ x: 18, y: 7, item: 'nugget', flag: 'route130-nugget' }, { x: 18, y: 10, item: 'liechi-berry', flag: 'mirage-liechi' }],
+      // Its sand all round: you land on it from any side.
+      triggers: [{ x: 10, y: 6, w: 10, h: 1, script: 'mirage.land' }, { x: 10, y: 12, w: 10, h: 1, script: 'mirage.land' },
+                 { x: 10, y: 7, w: 1, h: 5, script: 'mirage.land' }, { x: 19, y: 7, w: 1, h: 5, script: 'mirage.land' }]
+    },
     connect: { east: { map: 'route129', offset: 0 }, west: { map: 'route131', offset: -2 } },
     trainers: [
       { id: 'rodney', who: 'swimmer', cls: 'swimmer', name: 'Rodney', x: 24, y: 10, dir: 'left', sight: 4, swim: true, team: [['gyarados', 43]],
         before: 'This patch of sea is my training ground. Let us see what you have!',
         defeat: 'That was a real workout...',
-        after: 'The islet here has grass on it. People say rare Pokémon hide there.' },
+        after: 'Some days an island with grass on it shows up out here. Other days there is only the sea.' },
       { id: 'katie', who: 'swimmerf', cls: 'swimmer-f', name: 'Katie', x: 6, y: 16, dir: 'right', sight: 4, swim: true, team: [['goldeen', 41], ['horsea', 41], ['seadra', 43]],
         before: 'The sun is out over here! Perfect weather for a battle!',
         defeat: 'At least I have a nice tan...',
         after: 'Pacifidlog Town floats on the sea, just past Route 131.' }
     ],
-    items: [{ x: 18, y: 7, item: 'nugget', flag: 'route130-nugget' }],
     encounters: { walk: '@hoenn-route-130-area', water: '@hoenn-route-130-area' }
   }, HOENN));
 
@@ -484,7 +521,8 @@
        say: 'Our town was built on the backs of Corsola long ago, or so my grandmother told me. Now we live on logs.' }]);
   house('pacifidlog-house2', 'pacifidlog-town', { map: 'pacifidlog', spot: 'house2-door' },
     [{ id: 'fisher', who: 'fisherman', x: 3, y: 4, dir: 'right',
-       say: 'The Sky Pillar? My father said its door has been sealed since before anyone can remember.' }]);
+       say: 'The Sky Pillar? My father said its door has been sealed since before anyone can remember.' },
+     { id: 'watcher', who: 'oldman', x: 8, y: 3, dir: 'up', script: 'mirage.watcher' }]);   // chapter 77
 
   // ---------------- The Sky Pillar ----------------
   G.Maps.def(Object.assign({
@@ -666,7 +704,47 @@
     await h.say(T('The wind at the top of the Sky Pillar falls quiet.'));
   }
 
+  // ---------------- Mirage Island (chapter 77) ----------------
+  const hash = s => { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; };
+  /** Is this Pokémon the sea's choice today? (Emerald: its personality value; here its uid, one in sixteen.) */
+  const chosen = (mon, day) => !!(mon && mon.uid) && hash('mirage ' + day + ' ' + mon.uid) % 16 === 0;
+  /** Can Mirage Island be seen today? Once it can, all day (var mirage-day), whoever is in the party then. */
+  function visible() {
+    const F = G.Field, day = G.Clock.day();
+    if (!F || !F.save) return false;
+    if (F.getVar('mirage-day') === day) return true;
+    if (!F.party().some(mon => chosen(mon, day))) return false;
+    F.setVar('mirage-day', day);
+    return true;
+  }
+  G.Mirage = { visible, chosen };
+
+  /** The old man at his window in Pacifidlog. */
+  async function watcher(h) {
+    if (visible()) {
+      await h.say(T('Look out of my window! There is an island out on Route 130 today. It is not on any map, you know.'));
+      await h.say(T('Some days it is there, most days it is not. Go and see it before the sea takes it back!'));
+    } else {
+      await h.say(T('Some days I see an island from this window, out on Route 130. Not today, though.'));
+      await h.say(T('They say it shows itself to Trainers who bring the right Pokémon along. Try others with you, or come back tomorrow.'));
+    }
+  }
+  /** On the island's sand: the first time, what it is; once chapter 76 is done, the ending. */
+  async function land(h) {
+    const F = G.Field;
+    if (!F.flag('mirage-landed')) {
+      F.setFlag('mirage-landed');
+      await h.say(T('An island that is on no map. The grass is soft, and something small is moving in it.'));
+    }
+    if (!F.flag('chapter-76-done') || F.flag('chapter-77-done')) return;
+    await h.say(T('Mirage Island. Tomorrow it may be gone again, but you were here.'));
+    // The end of the seventy-seventh chapter (credits-ui.js).
+    if (G.CreditsUI) await G.CreditsUI.ending(77); else F.setFlag('chapter-77-done');
+  }
+
   G.Script.def({
+    'mirage.watcher': [['js', watcher]],
+    'mirage.land': [['js', land]],
     'sootopolis.enter': [['js', enter]],
     'sootopolis.steven': [
       ['face', 'steven', 'player'],

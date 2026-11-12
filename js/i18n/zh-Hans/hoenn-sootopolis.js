@@ -79,7 +79,6 @@ G.I18n.add({
   "A Starmie's core glows brighter the stronger it gets.": "宝石海星越强，它的核心就越亮。",
   "This patch of sea is my training ground. Let us see what you have!": "这片海域是我的训练场。让我看看你的本事！",
   "That was a real workout...": "这才叫真正的锻炼……",
-  "The islet here has grass on it. People say rare Pokémon hide there.": "这里的小岛上长着草。听说有稀有的宝可梦藏在里面。",
   "Katie": "凯蒂",
   "The sun is out over here! Perfect weather for a battle!": "这边出太阳了！正是对战的好天气！",
   "At least I have a nice tan...": "至少我晒出了漂亮的肤色……",
@@ -98,5 +97,12 @@ G.I18n.add({
   "Our town was built on the backs of Corsola long ago, or so my grandmother told me. Now we live on logs.": "我奶奶说，很久以前我们的镇子是建在太阳珊瑚背上的。现在我们住在木头上。",
   "The Sky Pillar? My father said its door has been sealed since before anyone can remember.": "天空柱？我爸爸说，它的门从没人记得的年代起就一直封着。",
   "Sootopolis City. A town of white stone in the heart of an old crater.": "琉璃市。位于古老火山口中心的白石之城。",
-  "Pacifidlog Town. Where the morning sun shines on the floating logs.": "暮水镇。晨光洒落在漂浮木头上的小镇。"
+  "Pacifidlog Town. Where the morning sun shines on the floating logs.": "暮水镇。晨光洒落在漂浮木头上的小镇。",
+  "Look out of my window! There is an island out on Route 130 today. It is not on any map, you know.": "从我的窗户往外看！今天130号道路上有一座岛。那座岛可不在任何地图上哦。",
+  "Some days it is there, most days it is not. Go and see it before the sea takes it back!": "有些日子它在，大多数日子都不在。趁大海还没把它收回去，快去看看吧！",
+  "Some days I see an island from this window, out on Route 130. Not today, though.": "有些日子，我从这扇窗户能看到130号道路上有一座岛。不过今天看不到。",
+  "They say it shows itself to Trainers who bring the right Pokémon along. Try others with you, or come back tomorrow.": "听说只有带着合适的宝可梦的训练家才看得到它。换几只宝可梦带在身边试试，或者明天再来吧。",
+  "An island that is on no map. The grass is soft, and something small is moving in it.": "一座不在任何地图上的岛。草地软软的，里面有什么小东西在动。",
+  "Mirage Island. Tomorrow it may be gone again, but you were here.": "幻影岛。明天它也许又会消失，但你确实来过这里。",
+  "Some days an island with grass on it shows up out here. Other days there is only the sea.": "有些日子这里会冒出一座长着草的小岛，有些日子又只剩下大海。"
 }, "zh-Hans");

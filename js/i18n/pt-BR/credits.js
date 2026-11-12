@@ -210,5 +210,7 @@ G.I18n.add({
   "Chapter 75 complete!": "Capítulo 75 concluído!",
   "{player} came back to Lake Valor and found it full of water again, with Magikarp swimming where they once flopped on the dry bed.": "{player} voltou ao Lake Valor e o encontrou cheio de água de novo, com Magikarp nadando onde antes se debatiam no leito seco.",
   "Chapter 76 complete!": "Capítulo 76 concluído!",
-  "{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.": "{player} venceu as cinco batalhas em dupla do dia no restaurante Seven Stars, à beira do Lake Valor, e a cozinha inteira comemorou."
+  "{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.": "{player} venceu as cinco batalhas em dupla do dia no restaurante Seven Stars, à beira do Lake Valor, e a cozinha inteira comemorou.",
+  "Chapter 77 complete!": "Capítulo 77 concluído!",
+  "{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.": "{player} viu a Mirage Island surgir do mar na Route 130 e caminhou por uma ilha que não está em nenhum mapa."
 }, "pt-BR");

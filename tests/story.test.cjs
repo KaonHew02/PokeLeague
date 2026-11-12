@@ -4383,6 +4383,22 @@ async function chapter53(st) {
   assert.deepEqual(st.errors, [], 'no script errors');
 }
 
+/** Chapter 77 after chapter 76: Mirage Island, with a Pokémon the sea chooses today. */
+async function chapter77(st) {
+  const { G, S } = st;
+  const F = G.Field, day = G.Clock.day();
+  let u = null;
+  for (let i = 0; i < 10000 && !u; i++) if (G.Mirage.chosen({ uid: 'story-' + i }, day)) u = 'story-' + i;
+  const before = S.party[0].uid;
+  S.party[0].uid = u;
+  assert.ok(G.Mirage.visible() && G.Maps.get('route130').changed, 'the island is there');
+  S.party[0].uid = before;
+  await run(st, 'route130', 'mirage.land');
+  assert.ok(F.flag('mirage-landed') && F.flag('chapter-77-done'));
+  console.log('[story] Mirage Island rose out of the sea on Route 130');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 76 after chapter 75: the Seven Stars restaurant's five pairs of the day. */
 async function chapter76(st) {
   const { G } = st;
@@ -5082,4 +5098,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter74(st);
   await chapter75(st);
   await chapter76(st);
+  await chapter77(st);
 });

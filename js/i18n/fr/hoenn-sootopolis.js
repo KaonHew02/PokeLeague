@@ -79,7 +79,6 @@ G.I18n.add({
   "A Starmie's core glows brighter the stronger it gets.": "Le cœur d'un Staross brille d'autant plus qu'il devient fort.",
   "This patch of sea is my training ground. Let us see what you have!": "Ce coin de mer, c'est mon terrain d'entraînement. Voyons ce que tu vaux !",
   "That was a real workout...": "Ça, c'était un vrai entraînement...",
-  "The islet here has grass on it. People say rare Pokémon hide there.": "L'îlot d'ici est couvert d'herbe. On dit que des Pokémon rares s'y cachent.",
   "Katie": "Katie",
   "The sun is out over here! Perfect weather for a battle!": "Ici, il fait soleil ! Le temps idéal pour un combat !",
   "At least I have a nice tan...": "Au moins, j'ai un joli bronzage...",
@@ -98,5 +97,12 @@ G.I18n.add({
   "Our town was built on the backs of Corsola long ago, or so my grandmother told me. Now we live on logs.": "Il y a longtemps, notre ville a été bâtie sur le dos des Corayon, du moins c'est ce que me disait ma grand-mère. Maintenant, nous vivons sur des rondins.",
   "The Sky Pillar? My father said its door has been sealed since before anyone can remember.": "Le Pilier Céleste ? Mon père disait que sa porte est scellée depuis des temps immémoriaux.",
   "Sootopolis City. A town of white stone in the heart of an old crater.": "Atalanopolis. Une ville de pierre blanche au cœur d'un ancien cratère.",
-  "Pacifidlog Town. Where the morning sun shines on the floating logs.": "Pacifiville. Là où le soleil du matin brille sur les rondins flottants."
+  "Pacifidlog Town. Where the morning sun shines on the floating logs.": "Pacifiville. Là où le soleil du matin brille sur les rondins flottants.",
+  "Look out of my window! There is an island out on Route 130 today. It is not on any map, you know.": "Regarde par ma fenêtre ! Il y a une île sur le Chenal 130 aujourd'hui. Elle n'est sur aucune carte, tu sais.",
+  "Some days it is there, most days it is not. Go and see it before the sea takes it back!": "Certains jours elle est là, la plupart du temps non. Va la voir avant que la mer ne la reprenne !",
+  "Some days I see an island from this window, out on Route 130. Not today, though.": "Certains jours, je vois une île depuis cette fenêtre, sur le Chenal 130. Mais pas aujourd'hui.",
+  "They say it shows itself to Trainers who bring the right Pokémon along. Try others with you, or come back tomorrow.": "On dit qu'elle se montre aux Dresseurs qui ont le bon Pokémon avec eux. Essaie avec d'autres, ou reviens demain.",
+  "An island that is on no map. The grass is soft, and something small is moving in it.": "Une île qui n'est sur aucune carte. L'herbe est douce, et quelque chose de petit y bouge.",
+  "Mirage Island. Tomorrow it may be gone again, but you were here.": "L'Île Mirage. Demain, elle aura peut-être disparu, mais toi, tu y es allé.",
+  "Some days an island with grass on it shows up out here. Other days there is only the sea.": "Certains jours, une île couverte d'herbe apparaît par ici. Les autres jours, il n'y a que la mer."
 }, "fr");

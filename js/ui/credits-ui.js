@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 77) return { title: T('Chapter 77 complete!'),
+      done: fmt('{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.', { player }),
+      next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };
     if (n === 76) return { title: T('Chapter 76 complete!'),
       done: fmt('{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.', { player }),
       next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };

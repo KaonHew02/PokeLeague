@@ -307,6 +307,26 @@ test("Light Clay: the holder's Reflect and Light Screen last 8 turns instead of 
   assert.equal(G.ITEM_FX['light-clay'].held, 'light-clay');
 });
 
+test('the Liechi Berry (chapter 77): eaten at a quarter of its HP for +1 Attack; not above that, nor at +6', () => {
+  const run = (frac, atk) => {
+    const d = duel(G, { me: ['tauros', 50, ['splash'], { item: 'liechi-berry' }], foe: ['snorlax', 50, ['splash']] });
+    const bm = d.b.player.bm;
+    bm.mon.hp = Math.max(1, Math.floor(d.b.maxHp(bm) * frac));
+    bm.stages.atk = atk;
+    const ev = d.b.act({ type: 'move', slot: 0 });
+    return { ev, bm, b: d.b };
+  };
+  let r = run(0.2, 0);
+  assert.ok(r.ev.some(e => e.type === 'eat' && e.item === 'liechi-berry'), 'eaten');
+  assert.equal(r.bm.stages.atk, 1);
+  assert.equal(r.bm.mon.item, null);
+  assert.match(G.BattleText.line(r.ev.find(e => e.type === 'eat'), r.b) || '', /Tauros ate its Liechi Berry!/);
+  r = run(0.5, 0);
+  assert.ok(!r.ev.some(e => e.type === 'eat') && r.bm.mon.item === 'liechi-berry' && r.bm.stages.atk === 0, 'not at half its HP');
+  r = run(0.2, 6);
+  assert.ok(!r.ev.some(e => e.type === 'eat') && r.bm.mon.item === 'liechi-berry', 'not at +6');
+});
+
 test('every new battle line has text, in English and in Chinese', () => {
   for (const lang of ['en', 'zh-Hans']) {
     const H = battleBoot({ lang });

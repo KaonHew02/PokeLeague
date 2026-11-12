@@ -79,7 +79,6 @@ G.I18n.add({
   "A Starmie's core glows brighter the stronger it gets.": "El núcleo de un Starmie brilla más cuanto más fuerte se vuelve.",
   "This patch of sea is my training ground. Let us see what you have!": "Este trozo de mar es mi campo de entrenamiento. ¡Veamos de qué eres capaz!",
   "That was a real workout...": "Eso sí que fue un buen ejercicio...",
-  "The islet here has grass on it. People say rare Pokémon hide there.": "En el islote de aquí hay hierba. Dicen que en ella se esconden Pokémon raros.",
   "Katie": "Katie",
   "The sun is out over here! Perfect weather for a battle!": "¡Por aquí ha salido el sol! ¡Tiempo perfecto para un combate!",
   "At least I have a nice tan...": "Por lo menos me he puesto morena...",
@@ -98,5 +97,12 @@ G.I18n.add({
   "Our town was built on the backs of Corsola long ago, or so my grandmother told me. Now we live on logs.": "Hace mucho tiempo, nuestro pueblo se construyó sobre el lomo de los Corsola, o eso me contaba mi abuela. Ahora vivimos sobre troncos.",
   "The Sky Pillar? My father said its door has been sealed since before anyone can remember.": "¿El Pilar Celeste? Mi padre decía que su puerta lleva sellada desde antes de que nadie pueda recordar.",
   "Sootopolis City. A town of white stone in the heart of an old crater.": "Arrecípolis. Una ciudad de piedra blanca en el corazón de un antiguo cráter.",
-  "Pacifidlog Town. Where the morning sun shines on the floating logs.": "Pueblo Oromar. Donde el sol de la mañana brilla sobre los troncos flotantes."
+  "Pacifidlog Town. Where the morning sun shines on the floating logs.": "Pueblo Oromar. Donde el sol de la mañana brilla sobre los troncos flotantes.",
+  "Look out of my window! There is an island out on Route 130 today. It is not on any map, you know.": "¡Mira por mi ventana! Hoy hay una isla en la Ruta 130. Y no sale en ningún mapa, ¿sabes?",
+  "Some days it is there, most days it is not. Go and see it before the sea takes it back!": "Algunos días está y casi siempre no. ¡Ve a verla antes de que el mar se la lleve!",
+  "Some days I see an island from this window, out on Route 130. Not today, though.": "Algunos días veo una isla desde esta ventana, en la Ruta 130. Pero hoy no.",
+  "They say it shows itself to Trainers who bring the right Pokémon along. Try others with you, or come back tomorrow.": "Dicen que se deja ver por los Entrenadores que llevan consigo al Pokémon adecuado. Prueba con otros, o vuelve mañana.",
+  "An island that is on no map. The grass is soft, and something small is moving in it.": "Una isla que no sale en ningún mapa. La hierba es suave, y algo pequeño se mueve entre ella.",
+  "Mirage Island. Tomorrow it may be gone again, but you were here.": "La Isla Espejismo. Mañana puede que vuelva a desaparecer, pero tú estuviste aquí.",
+  "Some days an island with grass on it shows up out here. Other days there is only the sea.": "Algunos días aparece por aquí una isla con hierba. Otros días solo hay mar."
 }, "es");

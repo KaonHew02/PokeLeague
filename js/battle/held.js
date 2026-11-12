@@ -3,7 +3,8 @@
  *   'boost' (+ type)  its moves of that type have 1.2× power (Charcoal, Mystic Water…, Metal Coat, Silk Scarf)
  *   'orb' (+ sp, types)  the same for those types, only for that Pokémon (the Adamant Orb on Dialga, the Lustrous Orb on Palkia)
  *   'berry'           eaten when its HP falls to half or less (fx.heal) or it gets a status the berry cures
- *                     (fx.cure); then it is gone
+ *                     (fx.cure); then it is gone. A pinch berry (fx.pinch: a stat, chapter 77: the Liechi Berry)
+ *                     is eaten at a quarter of its HP or less, if that stat can still rise: +1 stage
  *   'leftovers'       1/16 of its max HP back at the end of each turn
  *   'shell-bell'      1/8 of the damage its moves deal, back as HP
  *   'quick-claw'      one time in five, it moves first among moves of the same priority
@@ -86,6 +87,11 @@ G.Held = (() => {
       if (bm.ability === 'unburden') bm.vol.unburden = true;
       bm.mon.status = null; bm.mon.slp = 0; bm.mon.tox = 0;
       b.emit('cure', { side: bm.side, uid: bm.mon.uid, item });
+    } else if (fx.pinch && bm.mon.hp * 4 <= max && bm.stages[fx.pinch] < 6) {
+      bm.mon.item = null;
+      if (bm.ability === 'unburden') bm.vol.unburden = true;
+      b.emit('eat', { side: bm.side, uid: bm.mon.uid, item });
+      b.stage(bm, fx.pinch, 1, { source: bm });
     }
   }
 

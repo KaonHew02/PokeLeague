@@ -201,5 +201,6 @@ G.I18n.add({
   "{mon} twisted the dimensions!": "{mon}扭曲了时空！",
   "The twisted dimensions returned to normal!": "扭曲的时空恢复正常了！",
   "Gravity intensified!": "重力变强了！",
-  "Gravity returned to normal!": "重力恢复正常了！"
+  "Gravity returned to normal!": "重力恢复正常了！",
+  "{mon} ate its {item}!": "{mon}吃掉了{item}！"
 }, "zh-Hans");

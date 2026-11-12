@@ -57,6 +57,7 @@ G.ITEM_FX = {
   // Berries (chapter 15): from berry trees, used like medicine; held (chapter 26), eaten when needed.
   'oran-berry':    { heal: 10,  field: 1, battle: 1, held: 'berry' },
   'sitrus-berry':  { heal: 30,  field: 1, battle: 1, held: 'berry' },
+  'liechi-berry':  { held: 'berry', pinch: 'atk' },     // Mirage Island (chapter 77): +1 Attack at a quarter of its HP
   'pecha-berry':   { cure: ['psn', 'tox'], field: 1, battle: 1, held: 'berry' },
   'cheri-berry':   { cure: ['par'], field: 1, battle: 1, held: 'berry' },
   'chesto-berry':  { cure: ['slp'], field: 1, battle: 1, held: 'berry' },

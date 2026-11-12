@@ -151,6 +151,7 @@ G.BattleText = (() => {
         if (e.why === 'held') return fmt('{mon} restored a little HP using its {item}!', { mon, item: G.Names.item(e.item) });
         return fmt('{mon} regained health!', { mon });
       case 'status': return statusLine(mon, e.s);
+      case 'eat': return fmt('{mon} ate its {item}!', { mon, item: G.Names.item(e.item) });      // a pinch berry (chapter 77)
       case 'cure': return e.item ? fmt('{mon} ate its {item} and was cured!', { mon, item: G.Names.item(e.item) })
                                  : fmt("{mon}'s status returned to normal!", { mon });
       case 'held': return fmt('{mon} hung on using its {item}!', { mon, item: G.Names.item(e.item) });

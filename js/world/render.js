@@ -322,10 +322,11 @@ G.WorldRender = (() => {
         ctx.fillRect(Math.round(x), Math.round(y), s, s);
       }
     }
-    // A dark cave: a small circle of light around the player (Flash lights it all).
+    // A dark cave: a small circle of light around the player (Flash lights it all); S.light tiles more (chapter 83: each
+    // win in the Battle Pyramid, G.World.brighten).
     if (S.dark && S.me) {
-      const cx = S.me.wx, cy = S.me.wy - TS / 2;
-      const grad = ctx.createRadialGradient(cx, cy, TS * 1.3, cx, cy, TS * 2.4);
+      const cx = S.me.wx, cy = S.me.wy - TS / 2, r = S.light || 0;
+      const grad = ctx.createRadialGradient(cx, cy, TS * (1.3 + r), cx, cy, TS * (2.4 + r));
       grad.addColorStop(0, 'rgba(0,0,0,0)');
       grad.addColorStop(1, 'rgba(0,0,0,0.97)');
       ctx.fillStyle = grad;

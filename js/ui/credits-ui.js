@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 83) return { title: T('Chapter 83 complete!'),
+      done: fmt('{player} climbed the seven dark floors of the Battle Pyramid with nothing but the Battle Bag, and stood at the top.', { player }),
+      next: T('The streak goes on: Brandon, the Pyramid King, waits at the top of the third climb in a row.') };
     if (n === 82) return { title: T('Chapter 82 complete!'),
       done: fmt('{player} chose a way through all fourteen rooms of the Battle Pike, with only the healing rooms to rest in.', { player }),
       next: T('The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.') };

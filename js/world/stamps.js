@@ -1,6 +1,6 @@
 /* ============ stamps.js — buildings painted in code ============
  *   G.Stamps.get(type, door, { x, y }) -> { canvas, w, h, door:[dx, dy], solid, up }
- *     type   house | center | mart | gym | lab (footprints in G.Maps.STAMPS)
+ *     type   house | center | mart | gym | lab ... | pyramid (chapter 83: a stepped sandstone pyramid; footprints in G.Maps.STAMPS)
  *     door   the door's column inside the footprint (it is always on the bottom row)
  *     x, y   where the building stands: picks the roof colour of a house
  *   canvas is 16 px per tile; it is `up` px taller than the footprint (the
@@ -29,6 +29,7 @@ G.Stamps = (() => {
       case 'building': return { up: 8, roofH: 20, wall: ['#ece4d4', '#d4cab6', '#a49a86'], windows: 'row', double: true };
       case 'office': return { up: 14, roofH: 12, roof: ['#56687c', '#768aa0', '#384658'], wall: ['#dfe6ee', '#c2ccd8', '#8c98a8'], windows: 'tower', double: true, glass: true };
       case 'ruin': return { up: 10, roofH: 24, roof: ['#54443e', '#6a5850', '#382c28'], wall: ['#c4b49c', '#a69680', '#766856'], windows: 'house', dim: true, soot: true, double: true };
+      case 'pyramid': return { up: 24, pyramid: true };
       case 'league': return { up: 18, roofH: 30, roof: ['#c8a040', '#e8c460', '#8a6a24'], wall: ['#f4ecdc', '#dcd0b8', '#a89c84'], windows: 'tower', emblem: 'badge', double: true, glass: true };
       default: return null;
     }
@@ -43,7 +44,7 @@ G.Stamps = (() => {
     if (!roof) { ri = Math.floor(G.U.hash(o.x | 0, o.y | 0, 77) * ROOFS.length); roof = ROOFS[ri]; }
     const k = type + '/' + door + '/' + ri;
     if (cache[k]) return cache[k];
-    const canvas = paint(S, sp, roof, door);
+    const canvas = sp.pyramid ? pyramid(S, sp, door) : paint(S, sp, roof, door);
     const solid = [];
     for (let j = 0; j < S.h; j++) { solid.push([]); for (let i = 0; i < S.w; i++) solid[j].push(!(i === door && j === S.h - 1)); }
     return (cache[k] = { canvas, w: S.w, h: S.h, door: [door, S.h - 1], solid, up: sp.up });
@@ -144,6 +145,30 @@ G.Stamps = (() => {
     if (sp.emblem === 'ball') ball(P, ex, ey + 3, 6);
     else if (sp.emblem === 'bag') bag(P, ex, rh + 1);
     else if (sp.emblem === 'badge') { ball(P, W / 2, ey + 2, 8); }
+    return P.canvas();
+  }
+
+  /** The Battle Pyramid (chapter 83): sandstone steps up to a point, lit from the left, a dark doorway at the foot. */
+  function pyramid(S, sp, door) {
+    const { pack, Pix } = G.Tiles;
+    const W = S.w * T, CH = S.h * T + sp.up, P = Pix(W, CH);
+    const ink = pack('#2a2018'), lit = pack('#ecc98a'), litD = pack('#dcb676'), shade = pack('#b48c52'), shadeD = pack('#a07c46'), edge = pack('#7a5a32');
+    const step = 6, layers = Math.ceil(CH / step), per = (W / 2 - 5) / layers;
+    for (let y = 0; y < CH; y++) {
+      const layer = Math.floor((CH - 1 - y) / step), half = Math.round(W / 2 - layer * per), top = (CH - 1 - y) % step === step - 1;
+      for (let x = W / 2 - half; x < W / 2 + half; x++) {
+        const left = x < W / 2;
+        let c = top ? edge : left ? ((x + layer) % 7 ? lit : litD) : ((x + layer) % 7 ? shade : shadeD);
+        if (x === W / 2 - half || x === W / 2 + half - 1 || y === 0) c = ink;
+        P.set(x, y, c);
+      }
+    }
+    for (let x = 0; x < W; x++) P.set(x, CH - 1, ink);
+    // The doorway: dark, under a stone lintel.
+    const dx = door * T, dy = CH - T - 2, dark = pack('#1c140e');
+    for (let y = dy; y < CH - 1; y++) for (let x = dx + 2; x < dx + T - 2; x++) {
+      P.set(x, y, y < dy + 3 ? edge : x === dx + 2 || x === dx + T - 3 ? ink : dark);
+    }
     return P.canvas();
   }
 

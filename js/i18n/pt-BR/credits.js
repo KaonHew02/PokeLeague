@@ -227,5 +227,8 @@ G.I18n.add({
   "The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.": "A sequência continua: Tucker, o Dome Ace, espera na final do quinto torneio seguido.",
   "Chapter 82 complete!": "Capítulo 82 concluído!",
   "{player} chose a way through all fourteen rooms of the Battle Pike, with only the healing rooms to rest in.": "{player} encontrou um caminho pelas catorze salas do Battle Pike, descansando só nas salas de cura.",
-  "The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.": "A sequência continua: Lucy, a Pike Queen, espera no fim da segunda passagem seguida."
+  "The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.": "A sequência continua: Lucy, a Pike Queen, espera no fim da segunda passagem seguida.",
+  "Chapter 83 complete!": "Capítulo 83 concluído!",
+  "{player} climbed the seven dark floors of the Battle Pyramid with nothing but the Battle Bag, and stood at the top.": "{player} subiu os sete andares escuros da Battle Pyramid só com a Battle Bag e chegou ao topo.",
+  "The streak goes on: Brandon, the Pyramid King, waits at the top of the third climb in a row.": "A sequência continua: Brandon, o Pyramid King, espera no topo da terceira subida seguida."
 }, "pt-BR");

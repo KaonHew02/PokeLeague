@@ -227,5 +227,8 @@ G.I18n.add({
   "The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.": "连胜还在继续：巨蛋超级巨星石南正在连续第 5 次冠军赛的决赛等着你。",
   "Chapter 82 complete!": "第八十二章完成！",
   "{player} chose a way through all fourteen rooms of the Battle Pike, with only the healing rooms to rest in.": "{player}选好了路线，穿过了对战水管的全部 14 个房间，一路上只能在回复房间休息。",
-  "The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.": "连胜还在继续：水管皇后小蓟正在连续第二趟的终点等着你。"
+  "The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.": "连胜还在继续：水管皇后小蓟正在连续第二趟的终点等着你。",
+  "Chapter 83 complete!": "第八十三章完成！",
+  "{player} climbed the seven dark floors of the Battle Pyramid with nothing but the Battle Bag, and stood at the top.": "{player}只带着对战包包，爬过对战金字塔 7 层黑暗的楼层，站上了顶端。",
+  "The streak goes on: Brandon, the Pyramid King, waits at the top of the third climb in a row.": "连胜还在继续：连续第 3 次爬到顶端时，金字塔法老神代在那里等着。"
 }, "zh-Hans");

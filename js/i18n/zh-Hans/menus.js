@@ -210,5 +210,6 @@ G.I18n.add({
   "Teleport to {place}?": "要传送到{place}吗？",
   "Tap a town you have been to, to teleport there.": "点一个去过的城镇就能传送过去。",
   "You can't teleport from here.": "这里不能传送。",
-  "From Google Drive": "从 Google Drive 读回"
+  "From Google Drive": "从 Google Drive 读回",
+  "You can't save here.": "这里不能存档。"
 }, "zh-Hans");

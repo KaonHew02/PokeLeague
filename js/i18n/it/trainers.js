@@ -86,5 +86,6 @@ G.I18n.add({
   "Arena Tycoon": "Magnate del Dojo",
   "Palace Maven": "Custode del Palazzo",
   "Dome Ace": "Asso della Cupola",
-  "Pike Queen": "Regina della Serpe"
+  "Pike Queen": "Regina della Serpe",
+  "Pyramid King": "Re della Piramide"
 }, "it");

@@ -88,6 +88,8 @@ G.StartMenu = (() => {
 
   async function save() {
     if (G.Game.mode !== 'overworld' || (G.World && G.World.locked)) { G.UI.toast(T("You can't save right now.")); return false; }
+    // A map that forbids it (chapter 83: the Battle Pyramid, where the party and the Bag are the challenge's own).
+    if (G.World && G.World.map && G.World.map.def.noSave) { G.UI.toast(T("You can't save here.")); return false; }
     const S = G.Field.save, p = S.player;
     const m = p.map && G.Maps.has(p.map) ? G.Maps.get(p.map) : null;
     const place = m && m.loc ? G.Names.loc(m.loc) : '';

@@ -37,7 +37,7 @@ test('every shop sells items that exist and have a price (Marts, counters, named
 });
 
 test('legend: unknown tiles and ragged rows are errors; indoor and outdoor tiles do not mix', () => {
-  assert.ok(has(errors({ rows: ['..Z.', '....'] }), /unknown tile "Z"/));
+  assert.ok(has(errors({ rows: ['..J.', '....'] }), /unknown tile "J"/));      // (Z became the Battle Pyramid in chapter 83)
   assert.ok(has(errors({ rows: ['....', '...'] }), /row 1 is 3 wide/));
   assert.ok(has(errors({ rows: ['W_', '__'] }), /unknown tile "W"/), 'W is an indoor tile');
   assert.ok(has(errors({ tileset: 'indoor', rows: ['WW', '.,'] }), /unknown tile "\."/));

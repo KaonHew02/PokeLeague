@@ -210,5 +210,6 @@ G.I18n.add({
   "Teleport to {place}?": "Teletrasportarti a {place}?",
   "Tap a town you have been to, to teleport there.": "Tocca una città in cui sei già stato per teletrasportarti lì.",
   "You can't teleport from here.": "Da qui non puoi teletrasportarti.",
-  "From Google Drive": "Da Google Drive"
+  "From Google Drive": "Da Google Drive",
+  "You can't save here.": "Qui non si può salvare."
 }, "it");

@@ -118,6 +118,7 @@ G.Maps = (() => {
       o: 'pit', r: 'rapids',                         // a hole in a cave floor, fast water (the Seafoam Islands)
       x: 'plate', b: 'bars',                         // a floor switch, a rock barrier (Victory Road)
       I: 'stamp',                                    // the Pokémon League
+      Z: 'stamp',                                    // the Battle Pyramid (chapter 83)
       h: 'headtree',                                 // a tree to Headbutt (Johto)
       y: 'berrytree',                                // a berry tree (Johto)
       i: 'ice',                                      // ice on a cave floor (the Ice Path)
@@ -151,7 +152,8 @@ G.Maps = (() => {
     B: { type: 'building', w: 6, h: 4 },       // a big building (a mansion, a game corner, a gate)
     Y: { type: 'office', w: 8, h: 6 },         // an office tower (Silph Co.)
     R: { type: 'ruin', w: 6, h: 5 },           // a burnt mansion (Cinnabar Island)
-    I: { type: 'league', w: 8, h: 6 }          // the Pokémon League (Indigo Plateau)
+    I: { type: 'league', w: 8, h: 6 },         // the Pokémon League (Indigo Plateau)
+    Z: { type: 'pyramid', w: 8, h: 6 }         // the Battle Pyramid (chapter 83)
   };
   const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
   const OPP = { up: 'down', down: 'up', left: 'right', right: 'left' };

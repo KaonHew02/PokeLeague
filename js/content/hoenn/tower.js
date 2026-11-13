@@ -10,7 +10,7 @@
  * set of seven ends the chapter: `ending(43)`. Chapter 78 put the Battle Factory beside it on the island
  * (js/content/hoenn/factory.js), chapter 79 the Battle Arena (js/content/hoenn/arena.js), chapter 80 the Battle
  * Palace (js/content/hoenn/palace.js), chapter 81 the Battle Dome (js/content/hoenn/dome.js), chapter 82 the Battle Pike
- * (js/content/hoenn/pike.js), with the same opponents
+ * (js/content/hoenn/pike.js), chapter 83 the Battle Pyramid (js/content/hoenn/pyramid.js), with the same opponents
  * (trainerFor's options), the same way to enter (pickEntrants) and the same BP.
  */
 (() => {
@@ -24,27 +24,29 @@
     // Chapter 78: the island grew to the east for the Battle Factory (js/content/hoenn/factory.js); chapter 79 again for
     // the Battle Arena (js/content/hoenn/arena.js), in a building like a Gym; chapter 80 for the Battle Palace
     // (js/content/hoenn/palace.js), under a golden roof; chapter 81 for the Battle Dome (js/content/hoenn/dome.js); chapter 82
-    // for the Battle Pike (js/content/hoenn/pike.js), a purple tower.
+    // for the Battle Pike (js/content/hoenn/pike.js), a purple tower; chapter 83 for the Battle Pyramid
+    // (js/content/hoenn/pyramid.js), a pyramid (the stamp `Z`).
     rows: [
-      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-      '~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT~~~',
-      '~~TT..............................................................TT~~',
-      '~~T...YYYYYYYY................GGGGGG..IIIIIIII.....................T~~',
-      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG..IIIIIIII..............KKKKK..T~~',
-      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG..IIIIIIII...LLLLLL.....KKKKK..T~~',
-      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG..IIIIIIII...LLLLLL.....KKKKK..T~~',
-      '~~T...YYYYYYYY.....BBDBBB.....GGDGGG..IIIIIIII...LLLLLL.....KKKKK..T~~',
-      '~~T...YYYDYYYY.......,..........,.....IIIDIIII...LLDLLL.....KKDKK..T~~',
-      '~~T.....,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,....T~~',
-      '~~TT....,,........................................................TT~~',
-      '~~~TTT..,,..TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT~~~',
-      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT~~~',
+      '~~TT........................................................................TT~~',
+      '~~T...YYYYYYYY................GGGGGG..IIIIIIII......................ZZZZZZZZ.T~~',
+      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG..IIIIIIII..............KKKKK...ZZZZZZZZ.T~~',
+      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG..IIIIIIII...LLLLLL.....KKKKK...ZZZZZZZZ.T~~',
+      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG..IIIIIIII...LLLLLL.....KKKKK...ZZZZZZZZ.T~~',
+      '~~T...YYYYYYYY.....BBDBBB.....GGDGGG..IIIIIIII...LLLLLL.....KKKKK...ZZZZZZZZ.T~~',
+      '~~T...YYYDYYYY.......,..........,.....IIIDIIII...LLDLLL.....KKDKK...ZZZDZZZZ.T~~',
+      '~~T.....,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.....T~~',
+      '~~TT....,,..................................................................TT~~',
+      '~~~TTT..,,..TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT~~~',
+      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
     warps: [{ x: 9, y: 8, to: 'battle-tower-lobby', spot: 'door' }, { x: 21, y: 7, to: 'battle-factory-lobby', spot: 'door' },
             { x: 32, y: 7, to: 'battle-arena-lobby', spot: 'door' }, { x: 41, y: 8, to: 'battle-palace-lobby', spot: 'door' },
-            { x: 51, y: 8, to: 'battle-dome-lobby', spot: 'door' }, { x: 62, y: 8, to: 'battle-pike-lobby', spot: 'door' }],
-    spots: { pier: [8, 12, 'up'], 'tower-door': [9, 9, 'down'], 'factory-door': [21, 8, 'down'], 'arena-door': [32, 8, 'down'], 'palace-door': [41, 9, 'down'], 'dome-door': [51, 9, 'down'], 'pike-door': [62, 9, 'down'] },
+            { x: 51, y: 8, to: 'battle-dome-lobby', spot: 'door' }, { x: 62, y: 8, to: 'battle-pike-lobby', spot: 'door' },
+            { x: 71, y: 8, to: 'battle-pyramid-lobby', spot: 'door' }],
+    spots: { pier: [8, 12, 'up'], 'tower-door': [9, 9, 'down'], 'factory-door': [21, 8, 'down'], 'arena-door': [32, 8, 'down'], 'palace-door': [41, 9, 'down'], 'dome-door': [51, 9, 'down'], 'pike-door': [62, 9, 'down'], 'pyramid-door': [71, 9, 'down'] },
     npcs: [{ id: 'sailor', who: 'sailor', x: 9, y: 13, dir: 'up', script: 'tower.ferry-back' }]
   }, HOENN));
 

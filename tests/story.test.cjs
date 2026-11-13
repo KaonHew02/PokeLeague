@@ -122,7 +122,7 @@ async function fight(st, ref, o, h) {
   const b = G.Battle.create({ kind: 'trainer', seed: W.seed * 31 + st.battles.length,
     player: { name: S.player.name, id: S.player.id, party: (o && o.party) || S.party, bag: o && o.party ? {} : S.bag }, partner,
     foe: { party, trainer: { id: key, name: d.name || '', ai: d.ai || (d.leader ? 'leader' : 'basic'), items: d.items || {}, prize: d.prize != null ? d.prize : cls.prize } },
-    rules: Object.assign({ canLose: !!(o && o.canLose), obeyCap: obeyCap(st), double: !!d.double }, o && o.rules) });
+    rules: Object.assign({ canLose: !!(o && o.canLose), obeyCap: obeyCap(st), double: !!d.double }, here(st).noExp ? { noExp: true } : {}, o && o.rules) });
   b.start();
   const r = autoplay(G, b);
   st.battles.push({ key, outcome: r.outcome, levels: S.party.map(m => m.lvl), team: d.team });
@@ -134,12 +134,18 @@ async function fight(st, ref, o, h) {
     if (!(o && o.record === false)) G.Field.markDone(key);
     if (d.win) await G.Script.run(typeof d.win === 'string' ? G.Script.get(d.win) : d.win, h);
   } else if (!(o && o.canLose)) {
-    // Blacked out: half the money, healed at the last Pokémon Center (or at home).
-    G.Field.money(-G.Exp.blackoutLoss(S.player.money));
-    G.Field.healAll();
+    // Blacked out: half the money, healed at the last Pokémon Center (or at home); or the map's own script (chapter 83).
+    if (here(st).onLose) await G.Script.run(G.Script.get(here(st).onLose), h || host(st));
+    else {
+      G.Field.money(-G.Exp.blackoutLoss(S.player.money));
+      G.Field.healAll();
+    }
   }
   return r.outcome;
 }
+
+/** The map the harness stands on (its def). */
+const here = st => (st.G.Maps.has(st.W.map) ? st.G.Maps.get(st.W.map).def : {});
 
 /** Johto (chapter 11): above the badges' level cap the player's Pokémon may not obey. */
 const obeyCap = st => st.G.Field.obeyCap((st.G.Maps.get(st.W.map) || { def: {} }).def.region);
@@ -153,12 +159,13 @@ function wildFight(st, sp, lvl, o = {}) {
   // o.party: only those Pokémon battle (Professor Birch's bag on Route 101, chapter 28); o.canLose, o.rules (the Battle Pike, chapter 82).
   const b = G.Battle.create({ kind: 'wild', seed: W.seed * 53 + st.battles.length,
     player: { name: S.player.name, id: S.player.id, party: o.party || S.party, bag: o.rules && o.rules.noBag ? {} : S.bag },
-    foe: { party: [foe] }, rules: Object.assign({ noCatch: !!o.noCatch, obeyCap: obeyCap(st), canLose: !!o.canLose }, o.rules) });
+    foe: { party: [foe] }, rules: Object.assign({ noCatch: !!o.noCatch, obeyCap: obeyCap(st), canLose: !!o.canLose }, here(st).noExp ? { noExp: true } : {}, o.rules) });
   b.start();
   const r = autoplay(G, b);
   st.battles.push({ key: 'wild:' + sp, outcome: r.outcome, levels: S.party.map(m => m.lvl) });
   G.Field.lastBattle = r.outcome;
   evolve(G, S, r);
+  if (r.outcome === 'lose' && !o.canLose && here(st).onLose) return G.Script.run(G.Script.get(here(st).onLose), host(st)).then(() => r.outcome);
   if (r.outcome === 'lose' && !o.canLose) { G.Field.money(-G.Exp.blackoutLoss(S.player.money)); G.Field.healAll(); }
   return Promise.resolve(r.outcome);
 }
@@ -1401,6 +1408,43 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
   console.log('[balance] Battle Tower, Swampert, Gardevoir and Manectric at 50:', JSON.stringify(table));
   // Each round is harder; the first is mostly won, the last ones are a real test.
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
+});
+
+test('balance: the Battle Pyramid (chapter 83), how often a typical team climbs a round, and against Brandon, are printed', async () => {
+  // The real script through the harness (pyramidRun): two Trainers of one Pokémon and two wild Pokémon on each floor, HP
+  // carried from floor to floor, the Battle Bag used between battles.
+  const st = world(1);
+  const { G, S } = st;
+  G.Field.setFlag('pyramid-rules');
+  for (const [sp, moves] of [[260, ['surf', 'earthquake', 'ice-beam', 'protect']], [282, ['psychic', 'thunderbolt', 'calm-mind', 'shadow-ball']],
+                             [310, ['thunderbolt', 'crunch', 'flamethrower', 'thunder-wave']]]) G.Field.giveMon(sp, 50, { moves });
+  const rng = G.RNG(83), N = 20, table = {};
+  for (const round of [1, 2]) {
+    let up = 0;
+    for (let i = 0; i < N; i++) {
+      G.Tower.setStreak('single', round - 1, 'pyramid');
+      if (await pyramidRun(st, [0, 1, 2], rng)) up++;
+    }
+    table['round ' + round] = up / N;
+  }
+  const rate = (team, n = 60) => {
+    let wins = 0;
+    for (let s = 1; s <= n; s++) {
+      const r = G.RNG(s * 29);
+      const me = S.party.map(m => G.Tower.copy(m));
+      const foes = team.map(([sp, l, moves, item, x]) => Object.assign(G.Mon.create(G.Maps.species(sp), l, Object.assign({ rng: r, moves }, x)), { item }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } }, rules: { noExp: true, noBag: true, shift: false, canLose: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / n;
+  };
+  table['Brandon (silver)'] = rate(G.PyramidHall.KING[3].team);
+  table['Brandon (gold)'] = rate(G.PyramidHall.KING[10].team);
+  console.log('[balance] Battle Pyramid, Swampert, Gardevoir and Manectric at 50 (rounds climbed: two Trainers and two wild a floor, items between battles; Brandon at full HP):', JSON.stringify(table));
+  assert.deepEqual(st.errors, []);
+  assert.ok(!G.PyramidHall.on, 'every challenge ended with the party back');
 });
 
 test('balance: the Battle Pike (chapter 82), how often a typical team gets through a pass, and against Lucy, are printed', async () => {
@@ -4548,6 +4592,74 @@ async function chapter53(st) {
 }
 
 /** Chapter 77 after chapter 76: Mirage Island, with a Pokémon the sea chooses today. */
+/** One Battle Pyramid challenge through the harness, as a sensible player: on each floor the two Trainers in the way (the
+ *  others are walked around in the dark), its items, two wild Pokémon of the challenge's theme, the Battle Bag used after
+ *  each battle (tend), then the ladder (the landing's question: keep climbing). -> true when the round was climbed. */
+async function pyramidRun(st, picks, rng) {
+  const { G } = st;
+  const P = G.PyramidHall, Tw = G.Tower, FLOOR = 'battle-pyramid-floor';
+  const before = Tw.streak('single', 'pyramid');
+  st.picks.length = 0;
+  st.picks.push(...picks);
+  await run(st, 'battle-pyramid-lobby', 'pyramid.single', [0]);
+  for (let f = 0; f < 7 && st.W.map === FLOOR; f++) {
+    const plan = P.plan, table = P.wildTable(P.state.round);
+    for (const i of plan.items) await run(st, FLOOR, [['found', i.item, 1, FLOOR + ':' + i.flag]]);
+    for (const t of plan.trainers.slice(0, 2)) {
+      await run(st, FLOOR, [['battle', FLOOR + ':' + t.id]]);
+      if (st.W.map !== FLOOR) return false;
+      tend(G);
+    }
+    for (let w = 0; w < 2; w++) {
+      let r = rng.int(1, 100), row = table.mons[0];
+      for (const m of table.mons) if ((r -= m[3]) <= 0) { row = m; break; }
+      await run(st, FLOOR, [['wild', row[0], rng.int(row[1], row[2])]]);
+      if (st.W.map !== FLOOR) return false;
+      tend(G);
+    }
+    await run(st, FLOOR, [['warp', 'battle-pyramid-landing', 'up']]);
+  }
+  return Tw.streak('single', 'pyramid') > before;
+}
+
+/** The Battle Bag used between battles: Revives on the fainted, potions below half HP, berries for a status. */
+function tend(G) {
+  const bag = G.Field.save.bag, party = G.Field.party();
+  const useOn = (ids, need) => {
+    for (const m of party) {
+      if (!need(m)) continue;
+      const id = ids.find(i => bag[i] > 0 && G.FieldItems.canUse(i, m));
+      if (id && G.FieldItems.use(id, m).ok) bag[id]--;
+    }
+  };
+  useOn(['max-revive', 'revive'], m => m.hp <= 0);
+  useOn(['full-restore', 'hyper-potion'], m => m.hp > 0 && m.hp * 2 < G.Mon.maxHp(m));
+  useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
+}
+
+/** Chapter 83 after chapter 82: the Battle Pyramid with the party's three strongest that may enter, until a round is climbed. */
+async function chapter83(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower;
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 3 && !Tw.why(party[i], picks.map(j => party[j]))) picks.push(i);
+  }
+  const before = JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp])), bag = JSON.stringify(S.bag);
+  const bp = Tw.bp(), n = st.battles.length, rng = G.RNG(83);
+  let tries = 0, up = false;
+  while (!up && tries < 15) { tries++; up = await pyramidRun(st, picks, rng); }
+  console.log('[story] the Battle Pyramid:', st.battles.length - n, 'battles in', tries, 'challenge(s), with', picks.map(i => G.Names.mon(party[i].sp)).join(', '));
+  assert.ok(up, 'a round climbed');
+  assert.equal(Tw.streak('single', 'pyramid'), 1);
+  assert.equal(Tw.bp(), bp + 3);
+  assert.equal(JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp])), before, 'the party is as it was');
+  assert.equal(JSON.stringify(S.bag), bag, 'the Bag is as it was');
+  assert.ok(!G.PyramidHall.on);
+  assert.ok(F.flag('chapter-83-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 82 after chapter 81: the Battle Pike with the party's three strongest that may enter (always the left door),
  *  until a pass is done. */
 async function chapter82(st) {
@@ -5414,4 +5526,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter80(st);
   await chapter81(st);
   await chapter82(st);
+  await chapter83(st);
 });

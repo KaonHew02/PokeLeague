@@ -362,6 +362,7 @@ OWN_LOCS = {
     'battle-palace': ('Battle Palace', 'Palacio Batalla', 'Palace de Combat', 'Palazzo Lotta', '对战宫殿', '對戰宮殿'),   # chapter 80
     'battle-dome': ('Battle Dome', 'Cúpula Batalla', 'Dôme de Combat', 'Cupola Lotta', '对战巨蛋', '對戰巨蛋'),   # chapter 81
     'battle-pike': ('Battle Pike', 'Sierpe Batalla', 'Reptile de Combat', 'Serpe Lotta', '对战水管', '對戰水管'),   # chapter 82
+    'battle-pyramid': ('Battle Pyramid', 'Pirámide Batalla', 'Pyramide de Combat', 'Piramide Lotta', '对战金字塔', '對戰金字塔'),   # chapter 83
 }
 
 # French names PokeAPI writes with a Pokémon's name in capitals.

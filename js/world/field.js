@@ -257,6 +257,8 @@ G.World = (() => {
   let pendingClick = null;
   let cut = new Set();                   // trees cut, whirlpools calmed and rocks smashed on this visit of the map ('x,y'); they come back
   let lit = false;                       // Flash used: dark caves stay lit until you leave them
+  let glow = 0;                          // tiles of light more in the dark (chapter 83: brighten); back to 0 on every map
+  const GLOW_MAX = 4;
   let sliding = null;                    // a spin tile sent the player this way (the Rocket Hideout)
   let around = new Set();                // the edge tiles of the map's walkAround stepped on during this visit ('x,y')
   let icy = false;                       // ...or it is ice (Pryce's Gym): no spinning, it stops off the ice
@@ -394,6 +396,7 @@ G.World = (() => {
     climbing = false;
     strength = false;
     if (!m.def.dark) lit = false;
+    glow = 0;
     const s = (where && typeof where === 'object' && !Array.isArray(where)) ? { x: where.x | 0, y: where.y | 0, dir: where.dir || 'down' }
       : M().spot(m, where) || M().spot(m, Object.keys(m.spots)[0]) || { x: m.w >> 1, y: m.h >> 1, dir: 'down' };
     if (!me) me = new G.Actor({ id: 'player', who: playerSprite() });
@@ -453,6 +456,7 @@ G.World = (() => {
     if (G.Roam) G.Roam.move(rng);
     strength = false;
     if (!map.def.dark) lit = false;
+    glow = 0;
     me.x -= nb.ox; me.y -= nb.oy; me.fx -= nb.ox; me.fy -= nb.oy;
     if (follower) { follower.x -= nb.ox; follower.y -= nb.oy; follower.fx -= nb.ox; follower.fy -= nb.oy; }
     if (surfing && !isWater(me.x, me.y)) setSurf(false);
@@ -824,7 +828,7 @@ G.World = (() => {
       if (!G.Contest.balls()) await runScript('contest.out-of-balls', {});
       else if (!m || m.hp <= 0) await runScript('contest.fainted', {});
     }
-    else if (out === 'lose' && !wild.canLose) await blackout();
+    else if (out === 'lose' && !wild.canLose) await lost();
     else if (out === 'lose') { /* chapter 82: a battle you may lose (the Battle Pike) */ }
     else if (safariOn()) { safariHud(); if (!G.Field.count('safari-ball')) await runScript(safariScript('out-of-balls'), {}); }
     else await afterBattle(out);
@@ -844,6 +848,7 @@ G.World = (() => {
     if (map.def.desert || map.def.sandstorm) rules.weather = 'sand';   // the desert's sandstorm (chapter 41), Route 228's (chapter 62)
     if (map.def.hail) rules.weather = 'hail';                  // the snow of northern Sinnoh (chapter 53)
     if (d && d.double) rules.double = true;
+    if (map.def.noExp) rules.noExp = true;                     // no Exp. Points on this map (chapter 83: the Battle Pyramid)
     // The rest of the team gets Exp. Points too (the setting expAll, on unless turned off).
     if (G.Settings && G.Settings.get('expAll') !== false) rules.expAll = true;
     return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld', rules };
@@ -926,6 +931,14 @@ G.World = (() => {
     } finally { locks--; }
   }
 
+  /** A battle lost that may not be lost: a black-out, or (chapter 83) the map's own `onLose` script (the Battle Pyramid). */
+  async function lost() {
+    if (map && map.def.onLose) await runScript(map.def.onLose, {});
+    else await blackout();
+  }
+  /** Chapter 83: more light in a dark map, up to GLOW_MAX tiles, until the next map. */
+  function brighten(n = 1) { glow = Math.max(0, Math.min(GLOW_MAX, glow + n)); return glow; }
+
   /** Chapter 46: a map's `afterBattle: { if, script }` runs after each battle there that was not lost, a
    *  trainer's or a wild one (Cheryl's Chansey heals the team in Eterna Forest). */
   async function afterBattle(out) {
@@ -998,7 +1011,7 @@ G.World = (() => {
     } finally { locks--; }
     G.Field.lastBattle = out;
     if (out !== 'lose') { if (o.record !== false) G.Field.markDone(key); }
-    else if (!o.canLose) await blackout();
+    else if (!o.canLose) await lost();
     return out;
   }
 
@@ -1793,7 +1806,7 @@ G.World = (() => {
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, tint: tint(), snow: !!map.def.snow, sand: !!map.def.sandstorm, bubbles: under(), rain: stormy(), fog: foggy(),
+      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, light: glow, tint: tint(), snow: !!map.def.snow, sand: !!map.def.sandstorm, bubbles: under(), rain: stormy(), fog: foggy(),
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }
@@ -1807,6 +1820,7 @@ G.World = (() => {
     get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },
+    brighten, get glow() { return glow; },
     get locked() { return locks > 0 || (G.Dialog && G.Dialog.open); }, get started() { return started; },
     get rng() { return rng; }, seed(s) { rng = G.RNG(s); }
   };

@@ -86,5 +86,6 @@ G.I18n.add({
   "Arena Tycoon": "Arena Tycoon",
   "Palace Maven": "Palace Maven",
   "Dome Ace": "Dome Ace",
-  "Pike Queen": "Pike Queen"
+  "Pike Queen": "Pike Queen",
+  "Pyramid King": "Pyramid King"
 }, "pt-BR");

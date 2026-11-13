@@ -86,5 +86,6 @@ G.I18n.add({
   "Arena Tycoon": "競技場主將",
   "Palace Maven": "宮殿守護者",
   "Dome Ace": "巨蛋超級巨星",
-  "Pike Queen": "水管皇后"
+  "Pike Queen": "水管皇后",
+  "Pyramid King": "金字塔法老"
 }, "zh-Hant");

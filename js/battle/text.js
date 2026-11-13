@@ -260,6 +260,17 @@ G.BattleText = (() => {
       case 'ppRestored': return fmt("{mon}'s PP was restored.", { mon: plain(b, e.uid) });
       case 'exp': return e.quiet ? null : fmt('{mon} gained {n} Exp. Points!', { mon: plain(b, e.uid), n: G.I18n.num(e.amt) });
       case 'teamExp': return fmt('The rest of your team gained Exp. Points too!', {});      // rules.expAll
+      // The Battle Arena (chapter 79): three turns are up; the marks (○ two points, △ one, × none; yours first), the result.
+      case 'judgeStart': return fmt('Three turns are up! The referee will decide.', {});
+      case 'judge': {
+        const k = n => ['×', '△', '○'][n], m = e.marks;
+        return fmt('Mind {a} : {b} · Skill {c} : {d} · Body {e} : {f}', { a: k(m.mind[0]), b: k(m.mind[1]), c: k(m.skill[0]), d: k(m.skill[1]), e: k(m.body[0]), f: k(m.body[1]) });
+      }
+      case 'judgeResult': {
+        const [a, c] = e.uids.map((u, s) => who(b, u, s));
+        return e.winner == null ? fmt("Score: {mine} {n}, {theirs} {n}. It's a draw: both are out!", { mine: a, theirs: c, n: e.points[0] })
+          : fmt('Score: {mine} {p}, {theirs} {q}. {win} wins!', { mine: a, theirs: c, p: e.points[0], q: e.points[1], win: e.winner === 0 ? a : c });
+      }
       case 'levelup': return fmt('{mon} grew to Lv. {n}!', { mon: plain(b, e.uid), n: e.lvl });
       case 'learned': return fmt('{mon} learned {move}!', { mon: plain(b, e.uid), move: G.Names.move(e.move) });
       case 'learnPrompt': return fmt('{mon} wants to learn {move}, but it already knows four moves. Forget a move to make room?',

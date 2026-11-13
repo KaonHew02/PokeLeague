@@ -82,5 +82,6 @@ G.I18n.add({
   "Artist": "Artista",
   "Cameraman": "Cameraman",
   "Reporter": "Giornalista",
-  "Factory Head": "Capo Industria"
+  "Factory Head": "Capo Industria",
+  "Arena Tycoon": "Magnate del Dojo"
 }, "it");

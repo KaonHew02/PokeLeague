@@ -215,5 +215,8 @@ G.I18n.add({
   "{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.": "{player}看到幻影島從130號道路的海面上浮現，踏上了一座不在任何地圖上的島。",
   "Chapter 78 complete!": "第七十八章完成！",
   "{player} won seven battles in a row at the Battle Factory with Pokémon rented at the counter.": "{player}在對戰工廠用櫃檯租來的寶可夢取得了 7 連勝。",
-  "The streak goes on: Noland, the Factory Head, waits for whoever wins twenty-one single battles in a row.": "連勝還在繼續：工廠頭目達拉正等著單打取得二十一連勝的人。"
+  "The streak goes on: Noland, the Factory Head, waits for whoever wins twenty-one single battles in a row.": "連勝還在繼續：工廠頭目達拉正等著單打取得二十一連勝的人。",
+  "Chapter 79 complete!": "第七十九章完成！",
+  "{player} won seven battles in a row at the Battle Arena, where the referee judges every match-up after three turns.": "{player}在對戰競技場取得了 7 連勝。在那裡，每組對決 3 回合後由裁判判定。",
+  "The streak goes on: Greta, the Arena Tycoon, waits for whoever wins twenty-eight battles in a row.": "連勝還在繼續：競技場主將黃瓜香正等著取得二十八連勝的人。"
 }, "zh-Hant");

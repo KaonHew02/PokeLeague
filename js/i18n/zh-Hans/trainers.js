@@ -82,5 +82,6 @@ G.I18n.add({
   "Artist": "画家",
   "Cameraman": "摄影师",
   "Reporter": "记者",
-  "Factory Head": "工厂头目"
+  "Factory Head": "工厂头目",
+  "Arena Tycoon": "竞技场主将"
 }, "zh-Hans");

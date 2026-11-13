@@ -235,6 +235,7 @@ G.BattleFx = (() => {
     const eff = S.typeless ? 1 : b.eff(type, target, user);
     if (eff === 0) {
       b.emit('noEffect', { side: target.side, uid: target.mon.uid });
+      if (b.arena) b.arenaSkill(user, 0);                                  // the Battle Arena's skill (chapter 79)
       if (S.onBlocked) S.onBlocked(b, user, target, M);
       return { total: 0 };
     }
@@ -380,7 +381,7 @@ G.BattleFx = (() => {
   }
 
   function forceSwitch(b, user, target) {
-    if (target.vol.ingrain) { b.emit('fail', {}); return false; }
+    if (target.vol.ingrain || b.arena) { b.emit('fail', {}); return false; }     // the Battle Arena: no switching (chapter 79)
     if (G.Abilities.suctionCups(target)) { G.Abilities.say(b, target, 'protect'); return false; }
     if (b.kind === 'wild') {
       b.emit('blownAway', { side: target.side, uid: target.mon.uid });

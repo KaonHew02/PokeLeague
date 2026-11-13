@@ -29,7 +29,7 @@ G.People = (() => {
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
                  'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa',
-                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland'];
+                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -380,7 +380,10 @@ G.People = (() => {
     reporter: { head: 'short', body: 'dress', legs: 'bare', h: '#c87a3a', H: '#9a5a26', c: '#f4f4f4', C: '#c8c8d0', j: '#c83a4a', J: '#9a2a36', k: '#2a2a30' },
     // Chapter 78: Noland, the Factory Head (my own look: untidy silver-blue hair, an olive work jacket, tan trousers).
     noland: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#a8bcd8', H: '#7a8eae', j: '#6a7a3a', J: '#4c5a28', c: '#f0e8d0', C: '#c8bea4',
-              p: '#b89a6a', P: '#8a7048', k: '#3a2e22' }
+              p: '#b89a6a', P: '#8a7048', k: '#3a2e22' },
+    // Chapter 79: Greta, the Arena Tycoon (my own look: short orange hair, a red top, yellow fighter's trousers).
+    greta: { head: 'short', body: 'tee', legs: 'pants', h: '#f0a030', H: '#c07818', s: '#c08858', S: '#9a6a40', c: '#e0402a', C: '#a82a1a',
+             p: '#f0d040', P: '#c0a020', k: '#3a2a20' }
   };
 
   const mirror = half => half + [...half].reverse().join('');

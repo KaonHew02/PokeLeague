@@ -203,5 +203,9 @@ G.I18n.add({
   "Gravity intensified!": "重力变强了！",
   "Gravity returned to normal!": "重力恢复正常了！",
   "{mon} ate its {item}!": "{mon}吃掉了{item}！",
-  "The rest of your team gained Exp. Points too!": "队伍里其他的宝可梦也获得了经验值！"
+  "The rest of your team gained Exp. Points too!": "队伍里其他的宝可梦也获得了经验值！",
+  "Three turns are up! The referee will decide.": "3 回合到了！由裁判来判定。",
+  "Mind {a} : {b} · Skill {c} : {d} · Body {e} : {f}": "心 {a} : {b} · 技 {c} : {d} · 体 {e} : {f}",
+  "Score: {mine} {n}, {theirs} {n}. It's a draw: both are out!": "得分：{mine} {n} 分，{theirs} {n} 分。平分：两只都倒下了！",
+  "Score: {mine} {p}, {theirs} {q}. {win} wins!": "得分：{mine} {p} 分，{theirs} {q} 分。{win}获胜！"
 }, "zh-Hans");

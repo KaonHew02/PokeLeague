@@ -327,6 +327,24 @@ test('the Liechi Berry (chapter 77): eaten at a quarter of its HP for +1 Attack;
   assert.ok(!r.ev.some(e => e.type === 'eat') && r.bm.mon.item === 'liechi-berry', 'not at +6');
 });
 
+test("the Salac Berry and the Lum Berry (chapter 79, Greta's): +1 Speed at a quarter of its HP; any status cured at once", () => {
+  let d = duel(G, { me: ['heracross', 50, ['splash'], { item: 'salac-berry' }], foe: ['snorlax', 50, ['splash']] });
+  let bm = d.b.player.bm;
+  bm.mon.hp = Math.floor(d.b.maxHp(bm) / 5);
+  let ev = d.b.act({ type: 'move', slot: 0 });
+  assert.ok(ev.some(e => e.type === 'eat' && e.item === 'salac-berry'));
+  assert.deepEqual([bm.stages.spe, bm.mon.item], [1, null]);
+  for (const st of ['psn', 'tox', 'brn', 'par', 'slp', 'frz']) {
+    d = duel(G, { me: ['breloom', 50, ['splash'], { item: 'lum-berry' }], foe: ['snorlax', 50, ['splash']] });
+    bm = d.b.player.bm;
+    d.b.inflict(bm, st, {});
+    d.b.afterAction();
+    d.b.process();
+    assert.deepEqual([bm.mon.status, bm.mon.item], [null, null], st);
+  }
+  assert.equal(G.ITEM_FX['lum-berry'].field, 1, 'it also works from the Bag, like a Full Heal');
+});
+
 test('every new battle line has text, in English and in Chinese', () => {
   for (const lang of ['en', 'zh-Hans']) {
     const H = battleBoot({ lang });

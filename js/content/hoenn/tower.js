@@ -8,7 +8,8 @@
  * streak goes on next time. In single battles Anabel, the Salon Maiden, is the 21st (Silver Print) and the
  * 49th (Gold Print) opponent. The Exchange Service Corner trades BP for vitamins and held items. The first
  * set of seven ends the chapter: `ending(43)`. Chapter 78 put the Battle Factory beside it on the island
- * (js/content/hoenn/factory.js), with the same opponents (trainerFor's options) and the same BP.
+ * (js/content/hoenn/factory.js), chapter 79 the Battle Arena (js/content/hoenn/arena.js), with the same opponents
+ * (trainerFor's options), the same way to enter (pickEntrants) and the same BP.
  */
 (() => {
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
@@ -18,25 +19,27 @@
   // ---------------- The island ----------------
   G.Maps.def(Object.assign({
     id: 'battle-tower', loc: 'hoenn-battle-tower', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: '~',
-    // Chapter 78: the island grew to the east for the Battle Factory (js/content/hoenn/factory.js).
+    // Chapter 78: the island grew to the east for the Battle Factory (js/content/hoenn/factory.js); chapter 79 again for
+    // the Battle Arena (js/content/hoenn/arena.js), in a building like a Gym.
     rows: [
-      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-      '~~~TTTTTTTTTTTTTTTTTTTTTTTT~~~',
-      '~~TT......................TT~~',
-      '~~T...YYYYYYYY.............T~~',
-      '~~T...YYYYYYYY.....BBBBBB..T~~',
-      '~~T...YYYYYYYY.....BBBBBB..T~~',
-      '~~T...YYYYYYYY.....BBBBBB..T~~',
-      '~~T...YYYYYYYY.....BBDBBB..T~~',
-      '~~T...YYYDYYYY.......,.....T~~',
-      '~~T.....,,,,,,,,,,,,,,.....T~~',
-      '~~TT....,,................TT~~',
-      '~~~TTT..,,..TTTTTTTTTTTTTTT~~~',
-      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~',
-      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~'
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT~~~',
+      '~~TT................................TT~~',
+      '~~T...YYYYYYYY................GGGGGG.T~~',
+      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG.T~~',
+      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG.T~~',
+      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG.T~~',
+      '~~T...YYYYYYYY.....BBDBBB.....GGDGGG.T~~',
+      '~~T...YYYDYYYY.......,..........,....T~~',
+      '~~T.....,,,,,,,,,,,,,,,,,,,,,,,,,....T~~',
+      '~~TT....,,..........................TT~~',
+      '~~~TTT..,,..TTTTTTTTTTTTTTTTTTTTTTTTT~~~',
+      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    warps: [{ x: 9, y: 8, to: 'battle-tower-lobby', spot: 'door' }, { x: 21, y: 7, to: 'battle-factory-lobby', spot: 'door' }],
-    spots: { pier: [8, 12, 'up'], 'tower-door': [9, 9, 'down'], 'factory-door': [21, 8, 'down'] },
+    warps: [{ x: 9, y: 8, to: 'battle-tower-lobby', spot: 'door' }, { x: 21, y: 7, to: 'battle-factory-lobby', spot: 'door' },
+            { x: 32, y: 7, to: 'battle-arena-lobby', spot: 'door' }],
+    spots: { pier: [8, 12, 'up'], 'tower-door': [9, 9, 'down'], 'factory-door': [21, 8, 'down'], 'arena-door': [32, 8, 'down'] },
     npcs: [{ id: 'sailor', who: 'sailor', x: 9, y: 13, dir: 'up', script: 'tower.ferry-back' }]
   }, HOENN));
 
@@ -134,6 +137,27 @@
     return { name: G.I18n.t(c.title || '', c.ctx || 'trainer') + ' ' + G.T(d.name) };
   }
 
+  /** The n Pokémon to enter from the party, one by one (G.Tower.why): -> them in that order, or null (it said why).
+   *  The Battle Arena (chapter 79) enters its three the same way. */
+  async function pickEntrants(h, n) {
+    const F = G.Field, Tw = G.Tower, party = F.party();
+    if (party.filter(m => !Tw.BANNED.includes(m.sp)).length < n) {
+      await h.say(T('You need at least {n} Pokémon that can enter.'), { vars: { n } });
+      return null;
+    }
+    const pick = h.pickMon || (o => (G.PartyUI ? G.PartyUI.pick(o) : Promise.resolve(null)));
+    const picks = [], NOTE = { banned: T('Cannot enter'), species: T('Same species'), item: T('Same item') };
+    while (picks.length < n) {
+      const chosen = picks.map(i => party[i]);
+      const i = await pick({ title: fmt('Choose Pokémon {k} of {n}.', { k: picks.length + 1, n }),
+        note: (m, j) => (picks.includes(j) ? fmt('No. {k}', { k: picks.indexOf(j) + 1 }) : NOTE[Tw.why(m, chosen)] || null),
+        disabled: (m, j) => picks.includes(j) || !!Tw.why(m, chosen) });
+      if (i == null || i < 0 || picks.includes(i) || Tw.why(party[i], chosen)) { await h.say(T('Please come again!')); return null; }
+      picks.push(i);
+    }
+    return picks.map(i => party[i]);
+  }
+
   // ---------------- The counters ----------------
   async function counter(h, mode) {
     const F = G.Field, Tw = G.Tower, n = mode === 'double' ? 4 : 3;
@@ -147,23 +171,8 @@
     }
     await h.say(T('Wins in a row: {n}. Your best: {best}.'), { vars: { n: Tw.streak(mode), best: Tw.best(mode) } });
     if (await h.choice(T('Would you like to take the challenge?'), {}) !== 0) { await h.say(T('Please come again!')); return; }
-    const party = F.party();
-    if (party.filter(m => !G.Tower.BANNED.includes(m.sp)).length < n) {
-      await h.say(T('You need at least {n} Pokémon that can enter.'), { vars: { n } });
-      return;
-    }
-    // The Pokémon to enter, one by one.
-    const pick = h.pickMon || (o => (G.PartyUI ? G.PartyUI.pick(o) : Promise.resolve(null)));
-    const picks = [], NOTE = { banned: T('Cannot enter'), species: T('Same species'), item: T('Same item') };
-    while (picks.length < n) {
-      const chosen = picks.map(i => party[i]);
-      const i = await pick({ title: fmt('Choose Pokémon {k} of {n}.', { k: picks.length + 1, n }),
-        note: (m, j) => (picks.includes(j) ? fmt('No. {k}', { k: picks.indexOf(j) + 1 }) : NOTE[Tw.why(m, chosen)] || null),
-        disabled: (m, j) => picks.includes(j) || !!Tw.why(m, chosen) });
-      if (i == null || i < 0 || picks.includes(i) || Tw.why(party[i], chosen)) { await h.say(T('Please come again!')); return; }
-      picks.push(i);
-    }
-    const team = picks.map(i => party[i]);
+    const team = await pickEntrants(h, n);
+    if (!team) return;
     const run = (+F.getVar('tower-runs') || 0) + 1;
     F.setVar('tower-runs', run);
     await h.say(T('Thank you. Please follow me to the battle room.'));
@@ -249,5 +258,5 @@
       ], [], SAILOR]
     ]
   });
-  G.TowerHall = { BRAIN, trainerFor, speaker };
+  G.TowerHall = { BRAIN, trainerFor, speaker, pickEntrants };
 })();

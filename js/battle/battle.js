@@ -12,7 +12,8 @@
  *               double: false (two Pokémon a side, trainers only), tag: false (doubles: two foes, one slot each),
                roamer: false (a roaming wild Pokémon that flees),
  *               noExp: false (no Exp. Points), noBag: false (no items or balls from the Bag: the Battle Tower),
- *               expAll: false (the rest of the team gets half of one fighter's Exp. Points: the setting expAll) } })
+ *               expAll: false (the rest of the team gets half of one fighter's Exp. Points: the setting expAll),
+ *               arena: false (the Battle Arena: one on one, three turns, then the judge; see below) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
  *                           | { kind: 'learn', uid, move } | null (battle over)
@@ -49,6 +50,14 @@
  * the order of a move with no priority; asleep, frozen, flinching or fully paralysed it cannot, and held
  * by then it stays ('roamHeld'). Fleeing ends the battle: 'roamFled', outcome 'fled'.
  *
+ * The Battle Arena (chapter 79, rules.arena; a trainer battle in singles): no switching (canSwitch is false, Roar and
+ * Whirlwind fail), and a fainted Pokémon is followed by the next in party order with no question asked. Each match-up
+ * keeps a score for both battlers (bm.arena): mind +1 for each attacking move chosen, -1 for Protect, Detect or Endure;
+ * skill once per move that lands, +2 super effective, +1 neutral, -1 not very effective or no effect; body = HP now /
+ * HP when the match-up began. After the third turn of a match-up with both still standing, arenaJudge() compares the
+ * three (higher 2 points, equal 1 each, lower 0): events 'judgeStart', 'judge' { marks } and 'judgeResult' { points, winner }, and the
+ * loser (both on a tie) faints. A challenger whose last Pokémon goes down loses, as always, even on a tie.
+ *
  * Events are plain objects { type, ... } that the battle screen plays in order
  * (text: G.BattleText.line(event, battle)). side 0 = the player, 1 = the foe.
  * Internally the turn is a queue of steps; a step that needs the player's
@@ -65,6 +74,9 @@ G.Battle = (() => {
       this.rules = Object.assign({ canLose: false, shift: true, where: null }, o.rules);
       this.double = !!this.rules.double && this.kind === 'trainer';
       if (this.double) this.rules.shift = false;
+      this.arena = !!this.rules.arena && this.kind === 'trainer' && !this.double;     // the Battle Arena (chapter 79)
+      if (this.arena) this.rules.shift = false;
+      this.arenaTurns = 0;
       const pl = o.player, fo = o.foe;
       this.partner = this.double && o.partner ? { name: o.partner.name, first: pl.party.length } : null;
       const party = this.partner ? pl.party.concat(o.partner.party) : pl.party;
@@ -117,7 +129,7 @@ G.Battle = (() => {
         moves, struggle: !moves.some(m => m.usable),
         switchable: this.player.party.map((m, i) => i).filter(i => this.mine(i) && !this.player.actives.includes(i) && this.player.party[i].hp > 0
                                                                 && !this.choices.some(c => c && c.type === 'switch' && c.to === i)),
-        canSwitch: !trapped, canRun: this.kind === 'wild' && (!trapped || G.Abilities.runAway(bm)),
+        canSwitch: !trapped && !this.arena, canRun: this.kind === 'wild' && (!trapped || G.Abilities.runAway(bm)),
         canBall: this.kind === 'wild' && !this.rules.noCatch, trapped
       };
     }
@@ -302,6 +314,7 @@ G.Battle = (() => {
     hurt(target, dmg, o = {}) {
       if (dmg <= 0) return 0;
       if (G.Abilities.magicGuard(target, o.why)) return 0;          // Magic Guard (chapter 44)
+      if (this.arena && o.user && o.user !== target && o.move) this.arenaSkill(o.user, o.eff == null ? 1 : o.eff);
       if (target.vol.substitute > 0 && o.user && o.user !== target && !o.ignoreSub) {
         const d = Math.min(dmg, target.vol.substitute);
         target.vol.substitute -= d;
@@ -446,6 +459,7 @@ G.Battle = (() => {
           spe: this.stat(bm, 'spe'), tie: this.rng.next()
         });
       });
+      if (this.arena) for (const x of acts) this.arenaMind(x.side.bm, x.a);
       acts.sort((p, q) => (q.bracket - p.bracket) || (q.bracket ? p.n - q.n : 0) || (q.pri - p.pri) || (p.stall - q.stall) || (q.quick - p.quick)
                           || (this.trickRoom ? p.spe - q.spe : q.spe - p.spe) || (p.tie - q.tie));      // Trick Room (chapter 44)
       this.insert(...acts.map(x => () => this.doAction(x.side, x.a)), () => this.endOfTurn());
@@ -482,6 +496,7 @@ G.Battle = (() => {
     doAction(side, a, bm = side.bm) {
       if (!this.alive(bm) || this.result) return;
       bm.moved = true;
+      if (bm.arena) bm.arena.hit = false;
       if (a.type === 'switch') this.switchIn(side, a.to, bm.slot || 0);
       else if (a.type === 'run') this.tryRun();
       else if (a.type === 'ball') this.throwBall(a.item);
@@ -719,13 +734,62 @@ G.Battle = (() => {
         }
       }
       this.afterAction();
+      if (this.arena) this.queue.push(() => this.arenaJudge());
       this.queue.push(() => this.replacements());
+    }
+
+    // ================= the Battle Arena (rules.arena, chapter 79) =================
+
+    /** Mind: an attacking move chosen counts for it, Protect, Detect and Endure against it (paralysed or not). */
+    arenaMind(bm, a) {
+      if (!bm || !bm.arena || a.type !== 'move') return;
+      const id = a.id || (bm.mon.moves[a.slot] || {}).id, M = G.MOVES[id];
+      if (['protect', 'detect', 'endure'].includes(id)) bm.arena.mind--;
+      else if (id === 'struggle' || (M && M.cat !== 'status')) bm.arena.mind++;
+    }
+    /** Skill: once per move that lands (or has no effect): by how well it hits. */
+    arenaSkill(bm, eff) {
+      if (!this.arena || !bm || !bm.arena || bm.arena.hit) return;
+      bm.arena.hit = true;
+      bm.arena.skill += eff > 1 ? 2 : eff === 1 ? 1 : -1;
+    }
+    /** A new match-up: both battlers start from nothing. */
+    arenaStart() {
+      for (const bm of this.allActive()) bm.arena = { mind: 0, skill: 0, start: Math.max(1, bm.mon.hp), hit: false };
+      this.arenaTurns = 0;
+    }
+    /** After the third turn of a match-up with both still standing: the judge's decision; the loser faints. */
+    arenaJudge() {
+      if (this.result) return;
+      const p = this.player.bm, f = this.foe.bm;
+      if (!this.alive(p) || !this.alive(f) || !p.arena || !f.arena) return;
+      if (++this.arenaTurns < 3) return;
+      const rate = (x, y) => (x > y ? [2, 0] : x < y ? [0, 2] : [1, 1]);
+      const body = bm => bm.mon.hp / bm.arena.start;
+      const marks = { mind: rate(p.arena.mind, f.arena.mind), skill: rate(p.arena.skill, f.arena.skill), body: rate(body(p), body(f)) };
+      const points = [0, 1].map(k => marks.mind[k] + marks.skill[k] + marks.body[k]);
+      const winner = points[0] > points[1] ? 0 : points[0] < points[1] ? 1 : null;
+      this.emit('judgeStart', {});
+      this.emit('judge', { marks, uids: [p.mon.uid, f.mon.uid] });
+      this.emit('judgeResult', { points, winner, uids: [p.mon.uid, f.mon.uid] });
+      for (const bm of [p, f]) {
+        if (winner === bm.side) continue;
+        const amt = bm.mon.hp;
+        bm.mon.hp = 0;
+        this.emit('damage', { side: bm.side, uid: bm.mon.uid, amt, hp: 0, max: this.maxHp(bm), why: 'judge' });
+      }
+      this.afterAction();
     }
 
     /** Fainted Pokémon are replaced at the end of the turn. */
     replacements() {
       if (this.result) return;
       if (this.double) return this.replaceDouble();
+      // The Battle Arena: the next in party order comes in by itself, on both sides.
+      if (this.arena) {
+        const next = s => () => { const i = this.firstHealthy(s); if (i >= 0) this.sendOut(s, i); };
+        return this.insert(...[this.player, this.foe].filter(s => s.bm.fainted).map(next));
+      }
       const steps = [];
       if (this.player.bm.fainted) {
         steps.push(() => this.ask({ kind: 'switch', forced: true }, ans => this.switchIn(this.player, ans.switchTo)));
@@ -783,6 +847,7 @@ G.Battle = (() => {
       side.actives[slot] = i;
       const mon = side.party[i];
       const bm = side.bms[slot] = this.makeBM(side, mon, slot);
+      if (this.arena) this.arenaStart();
       if (side.side === 1) this.seen.add(mon.sp);
       if (side.side === 0 && G.Held.is(mon, 'amulet-coin')) this.amulet = true;
       this.emit('send', Object.assign({ side: side.side, uid: mon.uid, sp: mon.sp, lvl: mon.lvl, hp: mon.hp, max: G.Mon.maxHp(mon),

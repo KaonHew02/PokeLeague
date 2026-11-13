@@ -82,5 +82,6 @@ G.I18n.add({
   "Artist": "Artiste",
   "Cameraman": "Cameraman",
   "Reporter": "Journaliste",
-  "Factory Head": "Chef d'Usine"
+  "Factory Head": "Chef d'Usine",
+  "Arena Tycoon": "Championne du Dojo"
 }, "fr");

@@ -215,5 +215,8 @@ G.I18n.add({
   "{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.": "{player} ha visto l'Isola Miraggio emergere dal mare sul Percorso 130 e ha camminato su un'isola che non è su nessuna mappa.",
   "Chapter 78 complete!": "Capitolo 78 completato!",
   "{player} won seven battles in a row at the Battle Factory with Pokémon rented at the counter.": "{player} ha vinto sette lotte di fila all'Industria Lotta con Pokémon noleggiati al banco.",
-  "The streak goes on: Noland, the Factory Head, waits for whoever wins twenty-one single battles in a row.": "La serie continua: Noland, il Capo Industria, aspetta chi vincerà ventuno lotte in singolo di fila."
+  "The streak goes on: Noland, the Factory Head, waits for whoever wins twenty-one single battles in a row.": "La serie continua: Noland, il Capo Industria, aspetta chi vincerà ventuno lotte in singolo di fila.",
+  "Chapter 79 complete!": "Capitolo 79 completato!",
+  "{player} won seven battles in a row at the Battle Arena, where the referee judges every match-up after three turns.": "{player} ha vinto sette lotte di fila al Dojo Lotta, dove l'arbitro giudica ogni scontro dopo tre turni.",
+  "The streak goes on: Greta, the Arena Tycoon, waits for whoever wins twenty-eight battles in a row.": "La serie continua: Greta, la Magnate del Dojo, aspetta chi vincerà ventotto lotte di fila."
 }, "it");

@@ -203,5 +203,9 @@ G.I18n.add({
   "Gravity intensified!": "La gravité s'intensifie !",
   "Gravity returned to normal!": "La gravité est redevenue normale !",
   "{mon} ate its {item}!": "{mon} mange sa {item} !",
-  "The rest of your team gained Exp. Points too!": "Le reste de ton équipe gagne aussi des points d'expérience !"
+  "The rest of your team gained Exp. Points too!": "Le reste de ton équipe gagne aussi des points d'expérience !",
+  "Three turns are up! The referee will decide.": "Les trois tours sont écoulés ! L'arbitre va trancher.",
+  "Mind {a} : {b} · Skill {c} : {d} · Body {e} : {f}": "Mental {a} : {b} · Technique {c} : {d} · Physique {e} : {f}",
+  "Score: {mine} {n}, {theirs} {n}. It's a draw: both are out!": "Score : {mine} {n}, {theirs} {n}. Égalité : les deux sont éliminés !",
+  "Score: {mine} {p}, {theirs} {q}. {win} wins!": "Score : {mine} {p}, {theirs} {q}. {win} l'emporte !"
 }, "fr");

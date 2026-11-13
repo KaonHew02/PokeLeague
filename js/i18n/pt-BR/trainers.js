@@ -82,5 +82,6 @@ G.I18n.add({
   "Artist": "Artista",
   "Cameraman": "Cinegrafista",
   "Reporter": "Repórter",
-  "Factory Head": "Factory Head"
+  "Factory Head": "Factory Head",
+  "Arena Tycoon": "Arena Tycoon"
 }, "pt-BR");

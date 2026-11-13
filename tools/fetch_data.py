@@ -170,7 +170,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           # Chapter 74: Mt. Coronet B1F.
                                           'light-clay',
                                           # Chapter 77: Mirage Island.
-                                          'liechi-berry'],
+                                          'liechi-berry',
+                                          # Chapter 79: the Battle Arena (Greta's berries).
+                                          'salac-berry', 'lum-berry'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.
@@ -352,6 +354,11 @@ LOC_NAMES = {
     'snowpoint-city':    ('Ciudad Puntaneva',   'Nevepoli',            '雪峰市',     '雪峰市'),
     'acuity-lakefront':  ('Orilla Agudeza',     'Acuity Lakefront',    '睿智湖畔',   '睿智湖畔'),
 }
+# Places PokeAPI does not have at all: the official names, in the columns of G.NAMES (en, es, fr, it, zh-Hans, zh-Hant).
+OWN_LOCS = {
+    'battle-arena': ('Battle Arena', 'Dojo Batalla', 'Dojo de Combat', 'Dojo Lotta', '对战竞技场', '對戰競技場'),   # chapter 79
+}
+
 # French names PokeAPI writes with a Pokémon's name in capitals.
 LOC_FR = {'sprout-tower': 'Tour Chétiflor', 'slowpoke-well': 'Puits Ramoloss'}
 
@@ -765,6 +772,8 @@ def build(region):
         if n in LOC_FR:
             entries = [e for e in entries if e['language']['name'] != 'fr'] + [{'language': {'name': 'fr'}, 'name': LOC_FR[n]}]
         names_loc[n] = names_of(entries, 'loc', fallback=n)
+    for n, row in OWN_LOCS.items():
+        names_loc.setdefault(n, list(row))
     ENC, dropped, used_versions = {}, set(), {}
     for loc, a in areas:
         if not a:

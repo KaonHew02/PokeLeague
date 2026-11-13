@@ -73,15 +73,17 @@
     T('My tournament ends here...'), T('Win the whole thing for me, will you?')];
 
   /** Tucker, the Dome Ace: his teams in the final of the 5th and 10th tournaments (Emerald's, from Serebii). */
+  // Emerald's teams at level 50 won under half the time against a typical team: lowered for a normal difficulty (about
+  // 0.75 and 0.72 at these levels; the gold team is the stronger one).
   const ACE = {
     5: { print: 'silver', bp: 10, team: [
-      ['swampert', 50, ['surf', 'earthquake', 'ice-beam', 'counter'], 'focus-band'],
-      ['salamence', 50, ['earthquake', 'brick-break', 'dragon-claw', 'aerial-ace'], 'lum-berry'],
-      ['charizard', 50, ['overheat', 'rock-slide', 'aerial-ace', 'earthquake'], 'white-herb']] },
+      ['swampert', 48, ['surf', 'earthquake', 'ice-beam', 'counter'], 'focus-band'],
+      ['salamence', 48, ['earthquake', 'brick-break', 'dragon-claw', 'aerial-ace'], 'lum-berry'],
+      ['charizard', 48, ['overheat', 'rock-slide', 'aerial-ace', 'earthquake'], 'white-herb']] },
     10: { print: 'gold', bp: 20, team: [
-      ['swampert', 50, ['surf', 'earthquake', 'ice-beam', 'mirror-coat'], 'leftovers'],
-      ['latias', 50, ['thunderbolt', 'psychic', 'calm-mind', 'rest'], 'chesto-berry'],
-      ['metagross', 50, ['psychic', 'meteor-mash', 'earthquake', 'protect'], 'quick-claw']] }
+      ['swampert', 47, ['surf', 'earthquake', 'ice-beam', 'mirror-coat'], 'leftovers'],
+      ['latias', 47, ['thunderbolt', 'psychic', 'calm-mind', 'rest'], 'chesto-berry'],
+      ['metagross', 47, ['psychic', 'meteor-mash', 'earthquake', 'protect'], 'quick-claw']] }
   };
   const ACE_SLOT = 8;                          // the top of the right half: he always comes through it
 

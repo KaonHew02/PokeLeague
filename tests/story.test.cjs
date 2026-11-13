@@ -1412,14 +1412,15 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
 
 test('balance: the Battle Pyramid (chapter 83), how often a typical team climbs a round, and against Brandon, are printed', async () => {
   // The real script through the harness (pyramidRun): two Trainers of one Pokémon and two wild Pokémon on each floor, HP
-  // carried from floor to floor, the Battle Bag used between battles.
+  // carried from floor to floor, the Battle Bag used between battles, the rest on each landing; round 3 is climbed only
+  // past Brandon at the top (who restores the team first). Normal difficulty: each round about 0.6 or more.
   const st = world(1);
   const { G, S } = st;
   G.Field.setFlag('pyramid-rules');
   for (const [sp, moves] of [[260, ['surf', 'earthquake', 'ice-beam', 'protect']], [282, ['psychic', 'thunderbolt', 'calm-mind', 'shadow-ball']],
                              [310, ['thunderbolt', 'crunch', 'flamethrower', 'thunder-wave']]]) G.Field.giveMon(sp, 50, { moves });
   const rng = G.RNG(83), N = 20, table = {};
-  for (const round of [1, 2]) {
+  for (const round of [1, 2, 3]) {
     let up = 0;
     for (let i = 0; i < N; i++) {
       G.Tower.setStreak('single', round - 1, 'pyramid');
@@ -1442,8 +1443,9 @@ test('balance: the Battle Pyramid (chapter 83), how often a typical team climbs 
   };
   table['Brandon (silver)'] = rate(G.PyramidHall.KING[3].team);
   table['Brandon (gold)'] = rate(G.PyramidHall.KING[10].team);
-  console.log('[balance] Battle Pyramid, Swampert, Gardevoir and Manectric at 50 (rounds climbed: two Trainers and two wild a floor, items between battles; Brandon at full HP):', JSON.stringify(table));
+  console.log('[balance] Battle Pyramid, Swampert, Gardevoir and Manectric at 50 (rounds climbed: two Trainers and two wild a floor, items between battles, a rest on each landing; round 3 with Brandon at the top; Brandon alone at full HP):', JSON.stringify(table));
   assert.deepEqual(st.errors, []);
+  assert.ok(table['round 1'] >= 0.6 && table['Brandon (silver)'] >= 0.6, 'normal difficulty');
   assert.ok(!G.PyramidHall.on, 'every challenge ended with the party back');
 });
 
@@ -1519,6 +1521,7 @@ test('balance: the Battle Dome (chapter 81), win rates of a typical team choosin
   table['Tucker (gold)'] = rate(D.ACE[10].team);
   console.log('[balance] Battle Dome, two of Swampert, Gardevoir and Manectric at 50 (the first tournament: three matches from the round 1 pool, the final from round 2):', JSON.stringify(table));
   assert.ok(table['round 1 pool'] >= 0.6 && table['round 1 pool'] >= table['round 4 pool']);
+  assert.ok(table['Tucker (silver)'] >= 0.55 && table['Tucker (gold)'] >= 0.55, 'normal difficulty');
 });
 
 test('balance: the Battle Palace (chapter 80), win rates of a typical team under the palace rule are printed', () => {
@@ -1546,6 +1549,7 @@ test('balance: the Battle Palace (chapter 80), win rates of a typical team under
   table['Spenser (gold)'] = rate(G.PalaceHall.MAVEN[42].team);
   console.log('[balance] Battle Palace, Swampert, Gardevoir and Manectric at 50 (natures at random, moves by nature):', JSON.stringify(table));
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
+  assert.ok(table['Spenser (silver)'] >= 0.55 && table['Spenser (gold)'] >= 0.55, 'normal difficulty');
 });
 
 test('balance: the Battle Arena (chapter 79), win rates of a typical team under the arena rule are printed', () => {

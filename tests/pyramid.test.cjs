@@ -56,6 +56,7 @@ test('a floor: walled in, one piece, the start and the ladder in two sections, e
     for (const t of p.trainers) {
       assert.ok(seen.has(t.x + ',' + t.y) && p.rows[t.y][t.x] === ':');
       assert.equal(t.team.length, 1, 'one Pokémon');
+      assert.equal(t.team[0][1], P.TRAINER_LEVEL, 'at the Pyramid\'s level (normal difficulty)');
       assert.ok(G.Tower.pool(Math.min(3, round - 1)).includes(t.team[0][0]));
       assert.ok(t.sight >= 2 && t.sight <= 3);
     }

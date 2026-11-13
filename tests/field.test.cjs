@@ -6379,7 +6379,7 @@ test('chapter 83 engine: more light in the dark (G.World.brighten), none again o
   assert.equal(F.save.player.money, 500, 'blacked out: half the money');
 });
 
-test('Hoenn (chapter 83): the Battle Pyramid: in from the island, the party and Bag swapped, dark floors, light, a Trainer\'s hint, the Battle Bag, seven floors, the ending after chapter 82, the bag\'s ten kinds, losing, Brandon', async () => {
+test('Hoenn (chapter 83): the Battle Pyramid: in from the island, the party and Bag swapped, dark floors, light, a Trainer\'s hint, the Battle Bag, the rest on a landing, seven floors, the ending after chapter 82, the bag\'s ten kinds, losing, Brandon', async () => {
   const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
                           'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
                           'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
@@ -6404,7 +6404,7 @@ test('Hoenn (chapter 83): the Battle Pyramid: in from the island, the party and 
   G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
   const fights = [];
   let outcome = () => 'win';
-  W.onTrainer = async (d, info) => { fights.push({ d, info }); return outcome(fights.length); };
+  W.onTrainer = async (d, info) => { fights.push({ d, info, full: F.party().every(m => m.hp === G.Mon.maxHp(m) && !m.status) }); return outcome(fights.length); };
   const enter = async () => {
     picks.push(3, 0, 4);                     // Manectric, Swampert, Altaria
     W.load('battle-pyramid-lobby', 'single');
@@ -6448,6 +6448,7 @@ test('Hoenn (chapter 83): the Battle Pyramid: in from the island, the party and 
   await until(() => !W.locked);
   assert.equal(fights.length, 1);
   assert.equal(fights[0].d.team.length, 1);
+  assert.equal(fights[0].d.team[0][1], 47, 'the Trainers at level 47 (normal difficulty)');
   assert.ok(fights[0].info.rules.noExp);
   assert.equal(W.glow, 1, 'a tile more of light');
   said.length = 0;
@@ -6460,10 +6461,21 @@ test('Hoenn (chapter 83): the Battle Pyramid: in from the island, the party and 
   await pump(W, W.interact());
   await until(() => !W.locked);
   assert.equal(S.bag[i0.item], (i0.item === 'hyper-potion' || i0.item === 'ether' ? 2 : 1));
-  // Up the ladder: the landing, then floor 2 (dark again).
+  // Up the ladder: the landing, then floor 2 (dark again). The rest on the landing: PP back, the fainted up with half
+  // their HP; the others keep their HP and status.
+  const [c0, c1, c2] = F.party();
+  c0.hp = 0; c0.status = 'psn';
+  c1.hp = 10; c1.moves[0].pp = 0;
+  c2.status = 'brn';
+  const hp2 = c2.hp;
+  said.length = 0;
   W.brighten(2);
   await climb();
   assert.deepEqual([W.map.id, P.state.floor, W.glow], [FLOOR, 2, 0]);
+  assert.ok(said.some(s => /You rest on the landing/.test(s)));
+  assert.deepEqual([c0.hp, c0.status], [Math.floor(G.Mon.maxHp(c0) / 2), null]);
+  assert.deepEqual([c1.hp, c1.moves[0].pp], [10, G.Mon.ppMax(c1.moves[0].id)]);
+  assert.deepEqual([c2.hp, c2.status], [hp2, 'brn']);
   for (let f = 2; f <= 7; f++) await climb();
   assert.equal(W.map.id, 'battle-pyramid-lobby', 'seven floors: out at the top');
   assert.ok(!P.on);
@@ -6506,16 +6518,24 @@ test('Hoenn (chapter 83): the Battle Pyramid: in from the island, the party and 
   assert.equal(JSON.stringify(F.party()), own);
   assert.deepEqual(plain(S.bag), { potion: 5 });
   assert.equal(S.player.money >= 0, true);
-  // Brandon at the top of the third round: the Regis, the Silver Brave Symbol and BP.
+  // Brandon at the top of the third round: he restores the worn-down team first; the Regis at 48, the Silver Brave
+  // Symbol and BP.
   outcome = () => 'win';
   fights.length = 0;
   Tw.setStreak('single', 2, 'pyramid');
   const bp = Tw.bp();
   await enter();
-  for (let f = 1; f <= 7; f++) await climb();
+  for (let f = 1; f <= 6; f++) await climb();
+  F.party()[0].hp = 0; F.party()[1].hp = 1; F.party()[2].status = 'par';
+  said.length = 0;
+  await climb();
   const k = fights[fights.length - 1].d;
   assert.deepEqual([k.id, k.cls, k.who], ['brandon', 'pyramid-king', 'brandon']);
-  assert.deepEqual(plain(k.team.map(x => [x[0], x[3], x[4].nature])), [['regirock', 'quick-claw', 'adamant'], ['regice', 'chesto-berry', 'modest'], ['registeel', 'leftovers', 'adamant']]);
+  assert.ok(fights[fights.length - 1].full, 'the team at full health against Brandon');
+  assert.ok(said.some(s => /Brandon restored your Pokémon/.test(s)));
+  assert.deepEqual(plain(k.team.map(x => [x[0], x[1], x[3], x[4].nature])),
+    [['regirock', 48, 'quick-claw', 'adamant'], ['regice', 48, 'chesto-berry', 'modest'], ['registeel', 48, 'leftovers', 'adamant']]);
+  assert.deepEqual(plain(P.KING[10].team.map(x => x[1])), [47, 47, 47]);
   assert.ok(F.flag('pyramid-silver') && !F.flag('pyramid-gold'));
   assert.equal(Tw.bp(), bp + 10 + Tw.bpFor(3));
   assert.equal(Tw.streak('single', 'pyramid'), 3);

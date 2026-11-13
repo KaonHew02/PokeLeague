@@ -4,25 +4,29 @@
  * floors of dark mazes. While a challenge is on, the save's party is three copies (level 50 at most, holding nothing:
  * the originals keep their items) and its Bag is the Battle Bag (var `pyramid-bag`: a Hyper Potion and an Ether to begin
  * with, then whatever was found, kept from one challenge to the next, ten kinds at most); the real party and Bag wait
- * aside (swapIn / swapOut). So the party screen, the Bag and the items used in battle are the challenge's own, and
- * nothing heals but those items. The floor maps forbid saving (`noSave`), give no Exp. Points (`noExp`) and send a lost
+ * aside (swapIn / swapOut). So the party screen, the Bag and the items used in battle are the challenge's own; besides
+ * those items, only a rest on each landing heals (rest: PP back, and the fainted up with half their HP). The floor maps
+ * forbid saving (`noSave`), give no Exp. Points (`noExp`) and send a lost
  * battle to `pyramid.lost` (`onLose`) instead of a black-out (js/world/field.js).
  * Each floor (floorPlan) is a 34 x 34 cave, dark, of 4 x 4 sections of 8 x 8 drawn from SECTIONS (every section open in
  * the middle of each side, so the floor is all one piece): the start and the ladder up in two different sections, four
- * Trainers of one Pokémon each (the Battle Tower's, by round), three items from the round's list, and wild Pokémon of
+ * Trainers of one Pokémon each (the Battle Tower's, by round, at TRAINER_LEVEL), three items from the round's list, and wild Pokémon of
  * the challenge's theme (THEMES: paralysis, poison, burn, in turn). Every battle won lights a tile more around the
  * player (G.World.brighten, back to dark on the next floor); a beaten Trainer tells how many Trainers and items are
  * left. The ladder leads to a landing: on up, or retire. Seven floors make a round: Battle Points (G.Tower.bpFor),
  * shared with the Tower's Exchange Service Corner, and the streak (rounds in a row, G.Tower.streak('single', 'pyramid')).
  * All three down ends the challenge. Brandon, the Pyramid King, waits at the top of the 3rd round (the Silver Brave
- * Symbol) and the 10th (the Gold) with his teams from Emerald. The first round climbed once chapter 82 is done ends the
- * chapter: `ending(83)`.
+ * Symbol) and the 10th (the Gold) with his teams from Emerald, a little below level 50, and restores your team first.
+ * The first round climbed once chapter 82 is done ends the chapter: `ending(83)`.
+ * Normal difficulty (after chapter 83): Emerald's Pyramid, with Trainers at 50 and no rest, let the typical team climb
+ * round 1 two times in five and round 2 never; hence TRAINER_LEVEL, the rest and Brandon's levels.
  */
 (() => {
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
   const HOENN = { region: 'hoenn' };
   const HALL = 'pyramid', FLOOR = 'battle-pyramid-floor', FLOORS = 7;
   const SALT = 239017;                         // the Pyramid's seeds differ from the other halls'
+  const TRAINER_LEVEL = 47;                    // the Trainers' one Pokémon (the Tower's are 50): normal difficulty
 
   // ---------------- The lobby, the landing between floors, the top ----------------
   G.Maps.def(Object.assign({
@@ -140,7 +144,7 @@
       const d = G.TowerHall.trainerFor(trainerRound * 7 + 1, 'single', run * 53 + round * 11 + floor, { salt: SALT + 1009 * (k + 1), before: BEFORE(), defeat: DEFEAT() });
       const [x, y] = marks[s].t;
       return { id: 'f' + floor + 't' + k, who: d.who, cls: d.cls, name: d.name, x, y, dir: rng.pick(['up', 'down', 'left', 'right']), sight: rng.int(2, 3),
-               team: d.team.slice(0, 1), before: d.before, defeat: d.defeat, afterScript: 'pyramid.hint', prize: 0, ai: 'leader' };
+               team: d.team.slice(0, 1).map(r => [r[0], TRAINER_LEVEL, ...r.slice(2)]), before: d.before, defeat: d.defeat, afterScript: 'pyramid.hint', prize: 0, ai: 'leader' };
     });
     const items = order.slice(5, 8).map((s, k) => {
       const [x, y] = rng.pick(marks[s].i);
@@ -211,7 +215,7 @@
     if (!F.flag('pyramid-rules')) {
       F.setFlag('pyramid-rules');
       await h.say(T('Enter three Pokémon. Inside, your own Bag stays here: you get the Battle Bag, and whatever you find goes into it and stays there for next time.'));
-      await h.say(T('Nothing heals your Pokémon in there but the items you find. Every battle you win lets you see a little farther in the dark.'));
+      await h.say(T('In there, your Pokémon heal only with the items you find, and with a short rest on each landing between floors. Every battle you win lets you see a little farther in the dark.'));
       await h.say(T('Pokémon above level 50 battle at level 50, and held items stay with your own Pokémon. You cannot save inside.'));
     }
     await h.say(T('Rounds in a row: {n}. Your best: {best}.'), { vars: { n: Tw.streak('single', HALL), best: Tw.best('single', HALL) } });
@@ -226,6 +230,15 @@
     await G.Script.exec([['warp', 'battle-pyramid-landing', 'up']], h);
   }
 
+  /** A rest on a landing (normal difficulty): every move's PP back, the fainted up with half their HP; the others keep
+   *  their HP and status. */
+  function rest() {
+    for (const m of S().party) {
+      for (const mv of m.moves) mv.pp = G.Mon.ppMax(mv.id, mv.ppUp);
+      if (m.hp <= 0) { m.hp = Math.max(1, Math.floor(G.Mon.maxHp(m) / 2)); m.status = null; m.slp = 0; m.tox = 0; }
+    }
+  }
+
   /** The landing (its enter script): the first floor, the next one, or the end of a round at the top. */
   async function landing(h) {
     if (!state || !stash) {                    // nobody is climbing (a reload): back down
@@ -233,6 +246,8 @@
       return;
     }
     if (state.floor >= 1) {
+      rest();
+      await h.say(T('You rest on the landing. Your Pokémon get their PP back, and any that fainted get up with half their HP.'));
       if (state.floor >= FLOORS) return top(h);
       await h.say(T('Floor {n} cleared.'), { vars: { n: state.floor } });
       if (await h.choice(T('Floor {n} is next. Will you keep climbing?'), { options: [T('Keep climbing'), T('Retire')], vars: { n: state.floor + 1 } }) !== 0) {
@@ -250,15 +265,17 @@
   }
 
   // ---------------- The top: Brandon, Battle Points ----------------
+  // Emerald's teams at level 50 won about half (silver) and a third (gold) of the time against a typical team at full
+  // HP: lowered for a normal difficulty (about 0.78 each at these levels; the gold team is the stronger one).
   const KING = {
     3: { print: 'silver', bp: 10, team: [
-      ['regirock', 50, ['explosion', 'superpower', 'earthquake', 'ancient-power'], 'quick-claw', { nature: 'adamant' }],
-      ['regice', 50, ['ice-beam', 'amnesia', 'thunder', 'rest'], 'chesto-berry', { nature: 'modest' }],
-      ['registeel', 50, ['earthquake', 'metal-claw', 'toxic', 'iron-defense'], 'leftovers', { nature: 'adamant' }]] },
+      ['regirock', 48, ['explosion', 'superpower', 'earthquake', 'ancient-power'], 'quick-claw', { nature: 'adamant' }],
+      ['regice', 48, ['ice-beam', 'amnesia', 'thunder', 'rest'], 'chesto-berry', { nature: 'modest' }],
+      ['registeel', 48, ['earthquake', 'metal-claw', 'toxic', 'iron-defense'], 'leftovers', { nature: 'adamant' }]] },
     10: { print: 'gold', bp: 20, team: [
-      ['articuno', 50, ['blizzard', 'water-pulse', 'aerial-ace', 'reflect'], 'scope-lens', { nature: 'mild' }],
-      ['zapdos', 50, ['thunder', 'detect', 'drill-peck', 'light-screen'], 'lum-berry', { nature: 'mild' }],
-      ['moltres', 50, ['fire-blast', 'hyper-beam', 'aerial-ace', 'safeguard'], 'bright-powder', { nature: 'mild' }]] }
+      ['articuno', 47, ['blizzard', 'water-pulse', 'aerial-ace', 'reflect'], 'scope-lens', { nature: 'mild' }],
+      ['zapdos', 47, ['thunder', 'detect', 'drill-peck', 'light-screen'], 'lum-berry', { nature: 'mild' }],
+      ['moltres', 47, ['fire-blast', 'hyper-beam', 'aerial-ace', 'safeguard'], 'bright-powder', { nature: 'mild' }]] }
   };
   function king(k) {
     const silver = k.print === 'silver';
@@ -277,6 +294,9 @@
       h.show('king');
       await h.say(T('The Pyramid King is waiting at the top!'));
       await h.say(d.before, G.TowerHall.speaker(d));
+      // A fair fight in the light (normal difficulty): the team climbed worn down, he restores it first.
+      for (const m of S().party) G.Mon.heal(m);
+      await h.say(T('Brandon restored your Pokémon to full health.'));
       const out = await h.battle(d, { canLose: true, record: false, rules: { noExp: true, shift: false } });
       if (out === 'lose') return lose(h);
       await h.say(d.defeat, G.TowerHall.speaker(d));
@@ -328,6 +348,6 @@
       ['say', 'They say the Pyramid King waits at the very top for Trainers who climb three times in a row.']
     ]
   });
-  G.PyramidHall = { SECTIONS, THEMES, FINDS, KING, SIZE, FLOORS, floorPlan, defineFloor, wildTable, themeOf, loadBag, keepBag,
+  G.PyramidHall = { SECTIONS, THEMES, FINDS, KING, SIZE, FLOORS, TRAINER_LEVEL, rest, floorPlan, defineFloor, wildTable, themeOf, loadBag, keepBag,
                     get state() { return state; }, get on() { return !!stash; }, plan: null };
 })();

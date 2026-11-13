@@ -66,15 +66,17 @@
     T('I should get to know my Pokémon better.'), T('Their natures beat mine today.')];
 
   /** Spenser, the Palace Maven: his teams at the 21st and 42nd battle (moves and items from Serebii, natures from altissimo). */
+  // Emerald's teams at level 50 won about a third of the time against a typical team: lowered for a normal difficulty
+  // (about 0.62 and 0.69 at these levels).
   const MAVEN = {
     21: { print: 'silver', bp: 10, team: [
-      ['crobat', 50, ['confuse-ray', 'double-team', 'toxic', 'fly'], 'bright-powder', { nature: 'adamant' }],
-      ['slaking', 50, ['earthquake', 'swagger', 'shadow-ball', 'brick-break'], 'scope-lens', { nature: 'hardy' }],
-      ['lapras', 50, ['ice-beam', 'horn-drill', 'confuse-ray', 'protect'], 'quick-claw', { nature: 'quiet' }]] },
+      ['crobat', 45, ['confuse-ray', 'double-team', 'toxic', 'fly'], 'bright-powder', { nature: 'adamant' }],
+      ['slaking', 45, ['earthquake', 'swagger', 'shadow-ball', 'brick-break'], 'scope-lens', { nature: 'hardy' }],
+      ['lapras', 45, ['ice-beam', 'horn-drill', 'confuse-ray', 'protect'], 'quick-claw', { nature: 'quiet' }]] },
     42: { print: 'gold', bp: 20, team: [
-      ['arcanine', 50, ['overheat', 'extreme-speed', 'roar', 'protect'], 'white-herb', { nature: 'hasty' }],
-      ['slaking', 50, ['hyper-beam', 'earthquake', 'shadow-ball', 'yawn'], 'scope-lens', { nature: 'hardy' }],
-      ['suicune', 50, ['blizzard', 'surf', 'bite', 'calm-mind'], 'kings-rock', { nature: 'hasty' }]] }
+      ['arcanine', 46, ['overheat', 'extreme-speed', 'roar', 'protect'], 'white-herb', { nature: 'hasty' }],
+      ['slaking', 46, ['hyper-beam', 'earthquake', 'shadow-ball', 'yawn'], 'scope-lens', { nature: 'hardy' }],
+      ['suicune', 46, ['blizzard', 'surf', 'bite', 'calm-mind'], 'kings-rock', { nature: 'hasty' }]] }
   };
 
   /** The opponent of battle No. n (the same one for the same run): a trainer def for G.World.battle. */

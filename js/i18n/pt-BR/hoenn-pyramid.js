@@ -10,7 +10,6 @@ G.I18n.add({
   "Your Battle Bag holds ten kinds of items at most. Left behind: {items}.": "A Battle Bag guarda no máximo dez tipos de itens. Deixados para trás: {items}.",
   "Welcome to the Battle Pyramid! Climb seven dark floors to reach the top.": "Bem-vindo à Battle Pyramid! Suba sete andares escuros para chegar ao topo.",
   "Enter three Pokémon. Inside, your own Bag stays here: you get the Battle Bag, and whatever you find goes into it and stays there for next time.": "Inscreva três Pokémon. Sua Mochila fica aqui: lá dentro você usa a Battle Bag, e tudo o que encontrar vai para ela e fica lá para a próxima vez.",
-  "Nothing heals your Pokémon in there but the items you find. Every battle you win lets you see a little farther in the dark.": "Lá dentro nada cura seus Pokémon além dos itens que você encontrar. Cada batalha vencida deixa você enxergar um pouco mais longe no escuro.",
   "Pokémon above level 50 battle at level 50, and held items stay with your own Pokémon. You cannot save inside.": "Pokémon acima do nível 50 batalham no nível 50, e os itens segurados ficam com os seus Pokémon. Não é possível salvar lá dentro.",
   "Rounds in a row: {n}. Your best: {best}.": "Rodadas seguidas: {n}. Seu recorde: {best}.",
   "Here is your Battle Bag. Good luck in the dark!": "Aqui está a sua Battle Bag. Boa sorte no escuro!",
@@ -32,5 +31,8 @@ G.I18n.add({
   "Every win lights up the dark a little. Beat the Trainers and you will see the way up more easily.": "Cada vitória ilumina um pouco o escuro. Derrote os Treinadores e você verá o caminho para cima com mais facilidade.",
   "Talk to a Trainer you have beaten: they will tell you how many Trainers and items are left on that floor.": "Fale com um Treinador que você derrotou: ele dirá quantos Treinadores e itens restam naquele andar.",
   "They say the Pyramid King waits at the very top for Trainers who climb three times in a row.": "Dizem que o Pyramid King espera bem no topo pelos Treinadores que sobem três vezes seguidas.",
-  "The ladder leads up into the dark.": "A escada sobe para o escuro."
+  "The ladder leads up into the dark.": "A escada sobe para o escuro.",
+  "In there, your Pokémon heal only with the items you find, and with a short rest on each landing between floors. Every battle you win lets you see a little farther in the dark.": "Lá dentro, seus Pokémon só se recuperam com os itens que você encontrar e com um breve descanso em cada patamar entre os andares. Cada batalha vencida deixa você enxergar um pouco mais longe no escuro.",
+  "You rest on the landing. Your Pokémon get their PP back, and any that fainted get up with half their HP.": "Você descansa no patamar. Seus Pokémon recuperam os PP, e os que desmaiaram se levantam com metade dos PS.",
+  "Brandon restored your Pokémon to full health.": "Brandon restaurou totalmente os seus Pokémon."
 }, "pt-BR");

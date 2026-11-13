@@ -10,7 +10,6 @@ G.I18n.add({
   "Your Battle Bag holds ten kinds of items at most. Left behind: {items}.": "對戰包包最多只能放 10 種道具。捨棄了：{items}。",
   "Welcome to the Battle Pyramid! Climb seven dark floors to reach the top.": "歡迎來到對戰金字塔！爬過 7 層黑暗的樓層，就能到達頂端。",
   "Enter three Pokémon. Inside, your own Bag stays here: you get the Battle Bag, and whatever you find goes into it and stays there for next time.": "請登記 3 隻寶可夢。你自己的背包要留在這裡：裡面用的是對戰包包，撿到的東西都會放進去，下次挑戰還在。",
-  "Nothing heals your Pokémon in there but the items you find. Every battle you win lets you see a little farther in the dark.": "在裡面，除了撿到的道具，沒有任何辦法回復寶可夢。每贏一場對戰，在黑暗中就能看得更遠一點。",
   "Pokémon above level 50 battle at level 50, and held items stay with your own Pokémon. You cannot save inside.": "超過 50 級的寶可夢會以 50 級參加對戰，攜帶的道具會留在你自己的寶可夢身上。裡面不能存檔。",
   "Rounds in a row: {n}. Your best: {best}.": "連續登頂的輪數：{n}。最佳紀錄：{best}。",
   "Here is your Battle Bag. Good luck in the dark!": "這是你的對戰包包。祝你在黑暗中好運！",
@@ -32,5 +31,8 @@ G.I18n.add({
   "Every win lights up the dark a little. Beat the Trainers and you will see the way up more easily.": "每贏一場，黑暗就會亮一點。打敗訓練家，就更容易找到往上的路。",
   "Talk to a Trainer you have beaten: they will tell you how many Trainers and items are left on that floor.": "跟打敗過的訓練家說話，他們會告訴你這一層還剩幾個訓練家和道具。",
   "They say the Pyramid King waits at the very top for Trainers who climb three times in a row.": "聽說連續爬到頂端 3 次的訓練家，會在最頂上遇到金字塔法老。",
-  "The ladder leads up into the dark.": "梯子通往上方的黑暗。"
+  "The ladder leads up into the dark.": "梯子通往上方的黑暗。",
+  "In there, your Pokémon heal only with the items you find, and with a short rest on each landing between floors. Every battle you win lets you see a little farther in the dark.": "在裡面，寶可夢只能靠撿到的道具回復，另外每層之間的平台上可以稍作休息。每贏一場對戰，在黑暗中就能看得更遠一點。",
+  "You rest on the landing. Your Pokémon get their PP back, and any that fainted get up with half their HP.": "你在平台上休息了一下。寶可夢的 PP 都回復了，倒下的寶可夢也恢復了一半 HP。",
+  "Brandon restored your Pokémon to full health.": "神代讓你的寶可夢完全恢復了。"
 }, "zh-Hant");

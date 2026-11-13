@@ -17,85 +17,45 @@ In the game: **Settings → Game → Google Drive**.
 - On the save slots screen (**Continue**), **From Google Drive** does the same as Load from Drive, for a new
   phone or a cleared browser.
 
-The game makes one folder in your Drive, **PokeLeague**, with one file in it, `pokeleague-saves.json`. Each
-slot in it is the same save that **Export** writes.
+The copy is one file, `pokeleague-data.json`, in a folder named **GameHub** in your Drive: the folder the
+author's games share (CardVerse files `cardverse-data.json` there). Whichever game is first makes the folder.
+Each slot in the file is the same save that **Export** writes, and the game checks that a file is a
+PokeLeague backup before it loads anything from it.
 
 For a copy that is never overwritten, use **Export** on the save slots screen: it writes a dated file.
 
 ---
 
-## Setting it up (once, about five minutes)
+## How it is set up: the shared GameHub client
 
-Until the client ID is filled in, the Drive section only says it is not set up, and the game never talks
-to Google.
+PokeLeague uses the same Google sign-in as CardVerse: one Google Cloud project named **GameHub** with one
+OAuth client (Web application) for every game published on `https://kaonhew02.github.io`. CardVerse's
+`docs/GAMEHUB.md` is the full convention and how the project was made. In short:
 
-### Step 1: a Google Cloud project
+- **The client ID** is in `js/core/drive-config.js` (`clientId`), the same string as in CardVerse's
+  `drive-config.js`. It is safe to publish: it only names the app. There is no client *secret* anywhere,
+  and there must never be one: this sign-in does not use it (`tests/drive.test.cjs` checks the file).
+- **The consent screen** belongs to the project, so the sign-in window says **GameHub**, not PokeLeague.
+- **The scope** is `drive.file`: the games see only the files they made themselves, nothing else in your
+  Drive, and that needs no review by Google. Because `drive.file` is granted per client, the games on the
+  one client share one grant and one folder.
+- **The folder** is a name, `folderName: 'GameHub'`, looked up (or made) in whichever Drive signs in, so
+  every player gets their own. **The file** is `filename: 'pokeleague-data.json'`, which must stay unique
+  among the games. Do not rename either once saves exist: a renamed file is a new one, and the old one is
+  left behind, unseen.
+- **Authorised JavaScript origins**: only `https://kaonhew02.github.io`. An origin is scheme and host, no
+  path, so it covers `https://kaonhew02.github.io/PokeLeague/`. `http://localhost:8130` is **not** on the
+  client, so Google refuses the sign-in from a local copy; try Drive on the published game. (Adding
+  `http://localhost:8130` to the GameHub client in Google Cloud would allow it for every game on the client.)
+- **Test users**: while the GameHub project is in Testing, only the Google accounts on its test users list can
+  sign in (APIs & Services → OAuth consent screen → Audience → Test users).
 
-1. Go to [console.cloud.google.com](https://console.cloud.google.com/).
-2. Project dropdown at the top → **New project**. Name it `PokeLeague`. Create.
-3. Make sure the project selector now says **PokeLeague** before going on: every step below applies to the
-   selected project, and setting up MoneyFlow's by mistake is the easiest error to make.
+### Trying it
 
-It costs nothing: this kind of project is free, and Drive calls at this volume are free.
-
-### Step 2: switch the Drive API on
-
-**APIs & Services** → **Library** → search **Google Drive API** → **Enable**.
-
-Without it, sign-in works and every save fails with 403.
-
-### Step 3: the consent screen
-
-**APIs & Services** → **OAuth consent screen**.
-
-1. User type **External**. Create.
-2. App name `PokeLeague`, your email as the user support and developer contact. Save and continue.
-3. **Scopes** → **Add or remove scopes** → tick **`.../auth/drive.file`** ("See, edit, create and delete only
-   the specific Google Drive files you use with this app"). Update, then save and continue.
-4. **Test users** → **Add users** → your own Gmail address (and anyone else who will use it). Save.
-
-Why `drive.file` and nothing wider: the game can only see the files it made itself. It cannot read your
-other documents or list your Drive, and that is also why Google needs no review. Do not use the wider
-`drive` scope.
-
-Leave it in **Testing**. Publishing starts a verification you have no use for; Testing works for the test
-users you listed. Google asks for consent again now and then: a few taps, months apart.
-
-### Step 4: the client ID
-
-**APIs & Services** → **Credentials** → **Create credentials** → **OAuth client ID**.
-
-- Application type: **Web application**
-- Name: `PokeLeague web`
-- **Authorised JavaScript origins**, both, exactly, no trailing slash:
-  - `https://kaonhew02.github.io`
-  - `http://localhost:8130`
-- **Authorised redirect URIs**: leave empty (the game takes its token in a pop-up).
-
-Create, and copy the client ID: it ends in `.apps.googleusercontent.com`.
-
-There is a client *secret* on that screen too. The game does not use it and must not: a secret in a public
-GitHub repository is not a secret.
-
-### Step 5: paste it in
-
-In `js/core/drive-config.js`:
-
-```js
-G.DRIVE_CONFIG = Object.freeze({
-  clientId: '1234567890-abcdefg.apps.googleusercontent.com',
-  folderName: 'PokeLeague',
-  filename: 'pokeleague-saves.json'
-});
-```
-
-Then `node tools/build.js`, commit and push. The client ID is safe to publish: it only names the app.
-
-### Step 6: try it
-
-Open the game (on `https://kaonhew02.github.io/PokeLeague/` or `http://localhost:8130/`), **Settings → Game →
-Save to Drive**. Google asks you to sign in and to allow PokeLeague, once. Then the folder **PokeLeague** with
-`pokeleague-saves.json` appears in your Drive. **Load from Drive** should offer the same saves back.
+Open `https://kaonhew02.github.io/PokeLeague/`, **Settings → Game → Save to Drive**. Google asks you to sign
+in and to allow GameHub, once (a player who already allowed it for CardVerse may not be asked again). Then
+`pokeleague-data.json` appears in the **GameHub** folder of your Drive. **Load from Drive** should offer the
+same saves back.
 
 ---
 
@@ -108,13 +68,13 @@ and only load on the others.
 
 ## When something breaks
 
-- **"Google Drive is not set up for this game yet"**: `drive-config.js` has no client ID yet (step 5).
-- **The sign-in window opens and closes at once**: this address is not in the authorised origins (step 4).
-  `http://localhost:8130` and `https://kaonhew02.github.io` are different origins; both must be there.
-- **"Access blocked: PokeLeague has not completed the Google verification process"**: the Google account is not
-  on the test users list (step 3, item 4).
+- **"Google Drive is not set up for this game yet"**: `drive-config.js` has no client ID.
+- **The sign-in window opens and closes at once, or Google says the origin is not allowed**: the page is not on
+  `https://kaonhew02.github.io` (for example `http://localhost:8130`, which the GameHub client does not list).
+- **"Access blocked: GameHub has not completed the Google verification process"**: the Google account is not
+  on the GameHub project's test users list.
 - **"The Google sign-in window could not open"**: allow pop-ups for the site. On iPhone, the game opened from
   the Home Screen icon may not be able to come back from Google's window (an iOS limit); use it from Safari.
-- **Sign-in works, saving fails with 403**: the Drive API is not enabled (step 2).
+- **Sign-in works, saving fails with 403**: the Drive API is not enabled in the GameHub project.
 - **It asks you to sign in again after a while**: expected. A token lasts about an hour, and Testing mode asks
   for consent again now and then. Nothing is lost: the saves are in the browser regardless.

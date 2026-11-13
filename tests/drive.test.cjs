@@ -16,7 +16,8 @@ function setup(o = {}) {
   const store = memory();
   ctx.localStorage = store;
   G.Store.use(store);
-  if (o.configured !== false) G.DRIVE_CONFIG = { clientId: '123-abc.apps.googleusercontent.com', folderName: 'PokeLeague', filename: 'pokeleague-saves.json' };
+  G.DRIVE_CONFIG = o.configured !== false ? { clientId: '123-abc.apps.googleusercontent.com', folderName: 'GameHub', filename: 'pokeleague-data.json' }
+    : { clientId: '', folderName: 'GameHub', filename: 'pokeleague-data.json' };
   let signIns = 0;
   ctx.google = { accounts: { oauth2: { initTokenClient: c => ({
     requestAccessToken() { signIns++; const r = o.refuse ? { error: o.refuse } : { access_token: 'tok', expires_in: 3600 }; Promise.resolve().then(() => this.callback(r)); },
@@ -55,6 +56,15 @@ function setup(o = {}) {
   return { ctx, G, store, drive, calls, save, signIns: () => signIns };
 }
 
+test('the shipped config: the shared GameHub client (as CardVerse), its folder, a file name of our own, and no client secret', () => {
+  const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'js', 'core', 'drive-config.js'), 'utf8');
+  const G = boot(CORE.concat('js/core/drive-config.js')).G;
+  assert.match(G.DRIVE_CONFIG.clientId, /^\d+-[a-z0-9]+\.apps\.googleusercontent\.com$/);
+  assert.equal(G.DRIVE_CONFIG.folderName, 'GameHub');
+  assert.equal(G.DRIVE_CONFIG.filename, 'pokeleague-data.json');
+  assert.ok(!/GOCSPX|client_?secret\s*[:=]/i.test(src), 'no client secret');
+});
+
 test('Google Drive not set up: the buttons say so, and nothing talks to Google', async () => {
   const { G, calls } = setup({ configured: false });
   assert.equal(G.Drive.configured(), false);
@@ -73,8 +83,8 @@ test('Save to Drive: the game makes its folder and its file the first time, then
   assert.ok((await G.Drive.push()).ok);
   assert.equal(signIns(), 1);
   const folder = [...drive.files.values()].find(f => f.folder), file = [...drive.files.values()].find(f => !f.folder);
-  assert.equal(folder.name, 'PokeLeague');
-  assert.equal(file.name, 'pokeleague-saves.json');
+  assert.equal(folder.name, 'GameHub');
+  assert.equal(file.name, 'pokeleague-data.json');
   assert.equal(file.parent, folder.id, 'the file is in the folder');
   const env = JSON.parse(file.content);
   assert.equal(env.app, 'PokeLeague');

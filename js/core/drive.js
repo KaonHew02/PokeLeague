@@ -7,9 +7,12 @@
  *   (drive-config.js) and a screen with the Drive buttons opens (preload); a pop-up gives a token, kept in
  *   memory only. The scope is drive.file: the game sees only the files it made itself, not the rest of your
  *   Drive, and that needs no review by Google.
- * - The copy: a folder named PokeLeague (made by the game the first time), with one file in it holding the
- *   three slots: { app: 'PokeLeague', kind: 'saves', v, at, slots: [save | null] × 3 }, each slot the same save
- *   that Export writes. drive.file lets another device signed in to the same account find them.
+ * - The copy: the folder GameHub, shared with the other games on the same OAuth client (CardVerse's GameHub
+ *   arrangement, drive-config.js; made by whichever game is first), with this game's one file in it,
+ *   pokeleague-data.json, holding the three slots: { app: 'PokeLeague', kind: 'saves', v, at, slots: [save | null]
+ *   × 3 }, each slot the same save that Export writes. The app and kind are checked before anything is loaded,
+ *   so another game's file is refused by name. drive.file lets another device signed in to the same account
+ *   find them.
  * - push(): this device's slots up. pull(confirm): shows what Drive and this device hold, and only once you
  *   agree writes Drive's saves into their slots; a slot empty in Drive keeps what is here.
  * - Auto (off by default, pl.drive.auto): after each save in the game (G.Session.save → touch) a copy goes up a

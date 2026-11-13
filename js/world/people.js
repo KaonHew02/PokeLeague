@@ -29,7 +29,7 @@ G.People = (() => {
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
                  'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa',
-                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter'];
+                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -377,7 +377,10 @@ G.People = (() => {
     breeder: { head: 'bandana', body: 'dress', legs: 'bare', a: '#e88a3a', A: '#b8682a', h: '#7a4a2a', H: '#54321a', c: '#f4f4f4', C: '#c8c8d0', j: '#5aa86a', J: '#3e7e4c', k: '#6a4a2a' },
     artist: { head: 'knit', body: 'coat', legs: 'pants', a: '#c83c4c', A: '#9a2a38', b: '#7a1e2a', h: '#4a3a2e', H: '#2e241c', j: '#e8e0c8', J: '#c0b494', c: '#3a6ab0', C: '#284c82', p: '#5a4a3a', P: '#3e3226', k: '#3a2a20' },
     cameraman: { head: 'cap', body: 'jacket', legs: 'pants', a: '#3a3a44', A: '#24242c', b: '#24242c', h: '#3c2c24', H: '#24180f', j: '#6a7a4a', J: '#4c5a34', c: '#d8d0b8', C: '#b0a88e', p: '#4a4a5a', P: '#30303e', k: '#2a2a2a' },
-    reporter: { head: 'short', body: 'dress', legs: 'bare', h: '#c87a3a', H: '#9a5a26', c: '#f4f4f4', C: '#c8c8d0', j: '#c83a4a', J: '#9a2a36', k: '#2a2a30' }
+    reporter: { head: 'short', body: 'dress', legs: 'bare', h: '#c87a3a', H: '#9a5a26', c: '#f4f4f4', C: '#c8c8d0', j: '#c83a4a', J: '#9a2a36', k: '#2a2a30' },
+    // Chapter 78: Noland, the Factory Head (my own look: untidy silver-blue hair, an olive work jacket, tan trousers).
+    noland: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#a8bcd8', H: '#7a8eae', j: '#6a7a3a', J: '#4c5a28', c: '#f0e8d0', C: '#c8bea4',
+              p: '#b89a6a', P: '#8a7048', k: '#3a2e22' }
   };
 
   const mirror = half => half + [...half].reverse().join('');

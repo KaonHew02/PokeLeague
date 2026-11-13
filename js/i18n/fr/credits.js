@@ -212,5 +212,8 @@ G.I18n.add({
   "Chapter 76 complete!": "Chapitre 76 terminé !",
   "{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.": "{player} a remporté les cinq combats en duo du jour au restaurant Sept Étoiles, près du Lac Courage, et toute la cuisine a applaudi.",
   "Chapter 77 complete!": "Chapitre 77 terminé !",
-  "{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.": "{player} a vu l'Île Mirage surgir de la mer sur le Chenal 130 et a marché sur une île qui n'est sur aucune carte."
+  "{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.": "{player} a vu l'Île Mirage surgir de la mer sur le Chenal 130 et a marché sur une île qui n'est sur aucune carte.",
+  "Chapter 78 complete!": "Chapitre 78 terminé !",
+  "{player} won seven battles in a row at the Battle Factory with Pokémon rented at the counter.": "{player} a gagné sept combats d'affilée à l'Usine de Combat avec des Pokémon loués au comptoir.",
+  "The streak goes on: Noland, the Factory Head, waits for whoever wins twenty-one single battles in a row.": "La série continue : Noland, le Chef d'Usine, attend celui qui gagnera vingt et un combats en solo d'affilée."
 }, "fr");

@@ -81,5 +81,6 @@ G.I18n.add({
   "Pokémon Breeder": "宝可梦育婴师",
   "Artist": "画家",
   "Cameraman": "摄影师",
-  "Reporter": "记者"
+  "Reporter": "记者",
+  "Factory Head": "工厂头目"
 }, "zh-Hans");

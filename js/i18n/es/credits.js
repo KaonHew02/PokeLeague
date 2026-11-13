@@ -212,5 +212,8 @@ G.I18n.add({
   "Chapter 76 complete!": "¡Capítulo 76 completado!",
   "{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.": "{player} ganó los cinco combates dobles del día en el restaurante Siete Estrellas, junto al Lago Valor, y toda la cocina lo celebró.",
   "Chapter 77 complete!": "¡Capítulo 77 completado!",
-  "{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.": "{player} vio la Isla Espejismo surgir del mar en la Ruta 130 y caminó por una isla que no sale en ningún mapa."
+  "{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.": "{player} vio la Isla Espejismo surgir del mar en la Ruta 130 y caminó por una isla que no sale en ningún mapa.",
+  "Chapter 78 complete!": "¡Capítulo 78 completado!",
+  "{player} won seven battles in a row at the Battle Factory with Pokémon rented at the counter.": "{player} ganó siete combates seguidos en la Fábrica Batalla con Pokémon alquilados en el mostrador.",
+  "The streak goes on: Noland, the Factory Head, waits for whoever wins twenty-one single battles in a row.": "La racha continúa: Noland, el Jefe de Fábrica, espera a quien gane veintiún combates individuales seguidos."
 }, "es");

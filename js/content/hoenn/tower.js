@@ -7,7 +7,8 @@
  * retires (the streak is lost). Seven wins in a row finish a set: Battle Points (G.Tower.bpFor), and the
  * streak goes on next time. In single battles Anabel, the Salon Maiden, is the 21st (Silver Print) and the
  * 49th (Gold Print) opponent. The Exchange Service Corner trades BP for vitamins and held items. The first
- * set of seven ends the chapter: `ending(43)`.
+ * set of seven ends the chapter: `ending(43)`. Chapter 78 put the Battle Factory beside it on the island
+ * (js/content/hoenn/factory.js), with the same opponents (trainerFor's options) and the same BP.
  */
 (() => {
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
@@ -17,24 +18,25 @@
   // ---------------- The island ----------------
   G.Maps.def(Object.assign({
     id: 'battle-tower', loc: 'hoenn-battle-tower', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: '~',
+    // Chapter 78: the island grew to the east for the Battle Factory (js/content/hoenn/factory.js).
     rows: [
-      '~~~~~~~~~~~~~~~~~~~~',
-      '~~~TTTTTTTTTTTTTT~~~',
-      '~~TT............TT~~',
-      '~~T...YYYYYYYY...T~~',
-      '~~T...YYYYYYYY...T~~',
-      '~~T...YYYYYYYY...T~~',
-      '~~T...YYYYYYYY...T~~',
-      '~~T...YYYYYYYY...T~~',
-      '~~T...YYYDYYYY...T~~',
-      '~~T.....,,.......T~~',
-      '~~TT....,,......TT~~',
-      '~~~TTT..,,..TTTTT~~~',
-      '~~~~~~~~==~~~~~~~~~~',
-      '~~~~~~~~==~~~~~~~~~~'
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~TTTTTTTTTTTTTTTTTTTTTTTT~~~',
+      '~~TT......................TT~~',
+      '~~T...YYYYYYYY.............T~~',
+      '~~T...YYYYYYYY.....BBBBBB..T~~',
+      '~~T...YYYYYYYY.....BBBBBB..T~~',
+      '~~T...YYYYYYYY.....BBBBBB..T~~',
+      '~~T...YYYYYYYY.....BBDBBB..T~~',
+      '~~T...YYYDYYYY.......,.....T~~',
+      '~~T.....,,,,,,,,,,,,,,.....T~~',
+      '~~TT....,,................TT~~',
+      '~~~TTT..,,..TTTTTTTTTTTTTTT~~~',
+      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~'
     ],
-    warps: [{ x: 9, y: 8, to: 'battle-tower-lobby', spot: 'door' }],
-    spots: { pier: [8, 12, 'up'], 'tower-door': [9, 9, 'down'] },
+    warps: [{ x: 9, y: 8, to: 'battle-tower-lobby', spot: 'door' }, { x: 21, y: 7, to: 'battle-factory-lobby', spot: 'door' }],
+    spots: { pier: [8, 12, 'up'], 'tower-door': [9, 9, 'down'], 'factory-door': [21, 8, 'down'] },
     npcs: [{ id: 'sailor', who: 'sailor', x: 9, y: 13, dir: 'up', script: 'tower.ferry-back' }]
   }, HOENN));
 
@@ -107,9 +109,10 @@
       ['snorlax', 50, ['body-slam', 'shadow-ball', 'curse', 'rest'], 'chesto-berry']] }
   };
 
-  /** The opponent of battle No. n (the same one for the same run): a trainer def for G.World.battle. */
-  function trainerFor(n, mode, run) {
-    const brain = mode === 'single' && BRAIN[n];
+  /** The opponent of battle No. n (the same one for the same run): a trainer def for G.World.battle.
+   *  o (chapter 78, the Battle Factory): { salt, before, defeat } another seed and other lines, and no Anabel. */
+  function trainerFor(n, mode, run, o = {}) {
+    const brain = !o.salt && mode === 'single' && BRAIN[n];
     if (brain) {
       return { id: 'anabel', who: 'anabel', cls: 'salon-maiden', name: 'Anabel', ai: 'leader', prize: 0, items: {}, music: 'league',
                team: brain.team, brain,
@@ -117,12 +120,12 @@
                  : T('You came back. This time I will not hold anything back.'),
                defeat: brain.print === 'silver' ? T('...Impressive. Your Pokémon trust you completely.') : T('There is nothing left for me to test. You are truly strong.') };
     }
-    const id = (G.Field.save.player.id | 0) * 131 + run * 977 + n * 7919 + (mode === 'double' ? 3 : 0);
+    const id = (G.Field.save.player.id | 0) * 131 + run * 977 + n * 7919 + (mode === 'double' ? 3 : 0) + (o.salt || 0);
     const rng = G.RNG(id >>> 0);
     const [cls, woman] = rng.pick(CLASSES);
     return { id: 'tower', who: G.TRAINER_CLASSES[cls].who, cls, name: rng.pick(woman ? WOMEN() : MEN()), ai: 'leader', prize: 0, items: {},
              double: mode === 'double', team: G.Tower.team(rng, Math.floor((n - 1) / 7), mode === 'double' ? 4 : 3),
-             before: rng.pick(BEFORE()), defeat: rng.pick(DEFEAT()) };
+             before: rng.pick(o.before || BEFORE()), defeat: rng.pick(o.defeat || DEFEAT()) };
   }
 
   /** The trainer's name as the dialogue box shows it ("Cool Trainer Dana"). */
@@ -246,5 +249,5 @@
       ], [], SAILOR]
     ]
   });
-  G.TowerHall = { BRAIN, trainerFor };
+  G.TowerHall = { BRAIN, trainerFor, speaker };
 })();

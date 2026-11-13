@@ -81,5 +81,6 @@ G.I18n.add({
   "Pokémon Breeder": "Criadora Pokémon",
   "Artist": "Artista",
   "Cameraman": "Cinegrafista",
-  "Reporter": "Repórter"
+  "Reporter": "Repórter",
+  "Factory Head": "Factory Head"
 }, "pt-BR");

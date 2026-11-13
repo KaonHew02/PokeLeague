@@ -14,7 +14,9 @@
  *   G.Tower.team(rng, round, n)  -> [[sp, 50, moves, item], ...]: n different species, n different items
  *   G.Tower.bpFor(set)           Battle Points for the set of seven just won (the first is set 1)
  *   G.Tower.streak(mode) / setStreak(mode, n) / best(mode) / bp() / addBp(n)   the vars that keep them
- *                                (mode 'single' | 'double'; vars tower-single, tower-single-best, bp...)
+ *                                (mode 'single' | 'double'; vars tower-single, tower-single-best, bp...);
+ *                                a last argument 'factory' keeps the Battle Factory's (chapter 78: vars
+ *                                factory-single...). Both share the Battle Points.
  * Every roll uses the RNG it is given (seeded by the content).
  */
 G.Tower = (() => {
@@ -124,11 +126,11 @@ G.Tower = (() => {
   const bpFor = set => (set <= 2 ? 3 : set <= 4 ? 4 : set <= 6 ? 5 : 7);
 
   const num = k => +G.Field.getVar(k) || 0;
-  const streak = mode => num('tower-' + mode);
-  const best = mode => num('tower-' + mode + '-best');
-  function setStreak(mode, n) {
-    G.Field.setVar('tower-' + mode, n);
-    if (n > best(mode)) G.Field.setVar('tower-' + mode + '-best', n);
+  const streak = (mode, hall = 'tower') => num(hall + '-' + mode);
+  const best = (mode, hall = 'tower') => num(hall + '-' + mode + '-best');
+  function setStreak(mode, n, hall = 'tower') {
+    G.Field.setVar(hall + '-' + mode, n);
+    if (n > best(mode, hall)) G.Field.setVar(hall + '-' + mode + '-best', n);
   }
   const bp = () => num('bp');
   const addBp = n => G.Field.setVar('bp', Math.max(0, bp() + n));

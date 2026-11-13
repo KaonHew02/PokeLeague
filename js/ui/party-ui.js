@@ -5,6 +5,9 @@
  *   await G.PartyUI.pick({ title, note })     -> index | null   choose one (items, TMs...)
  *       note(mon, i) -> a short label shown on the card instead of the HP ('Able', 'Learned'...)
  *       or null; disabled(mon, i) -> true greys it out.
+ *       mons: another list of Pokémon to pick from instead of the party (chapter 78: the Battle Factory's
+ *       rentals, the opponent's team); action: a label ('Rent') that makes a tap ask first, with the
+ *       Summary beside it, so their moves can be read before choosing.
  * Six cards in two columns: sprite, name, level, HP bar, status. Below them, the Eggs you carry
  * (chapter 25, G.DayCare.eggs(): they are not in the party); one picked says how close it is.
  */
@@ -12,7 +15,7 @@ G.PartyUI = (() => {
   const esc = s => G.U.esc(s);
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
   let el = null;
-  let st = null;          // { mode: 'menu' | 'pick', title, note, disabled, done, moving }
+  let st = null;          // { mode: 'menu' | 'pick', title, note, disabled, mons, action, done, moving }
 
   function build() {
     el = document.createElement('section');
@@ -25,7 +28,8 @@ G.PartyUI = (() => {
     el.querySelector('[data-back]').onclick = back;
   }
 
-  const party = () => G.Field.save.party;
+  // The cards: your party, or another list to pick from (pick({ mons }): the Battle Factory's rentals, chapter 78).
+  const party = () => (st && st.mons) || G.Field.save.party;
   const barClass = f => (f > 0.5 ? '' : f > 0.2 ? 'mid' : 'low');
   const STATUS = { psn: 'PSN', tox: 'PSN', brn: 'BRN', par: 'PAR', slp: 'SLP', frz: 'FRZ' };
   function statusChip(m) {
@@ -68,6 +72,13 @@ G.PartyUI = (() => {
   }
 
   async function choose(i) {
+    if (st.mode === 'pick' && st.action) {
+      const v = await G.Popup.choose(G.Mon.name(party()[i]), [{ label: st.action, value: 'pick' }, { label: T('Summary'), value: 'summary' },
+        { label: T('Cancel'), value: null, back: true }]);
+      if (v === 'pick') finish(i);
+      else if (v === 'summary') G.SummaryUI.open(party(), i, () => { if (st) render(i); });
+      return;
+    }
     if (st.mode === 'pick') { finish(i); return; }
     if (st.moving != null) {
       const a = st.moving;
@@ -151,7 +162,7 @@ G.PartyUI = (() => {
 
   function open() { show({ mode: 'menu', moving: null }); }
   function pick(o = {}) {
-    return new Promise(res => show({ mode: 'pick', title: o.title, note: o.note, disabled: o.disabled, done: res, moving: null }));
+    return new Promise(res => show({ mode: 'pick', title: o.title, note: o.note, disabled: o.disabled, mons: o.mons || null, action: o.action || null, done: res, moving: null }));
   }
   /** Redraws the cards (after an item changed a Pokémon while the screen is open). */
   function refresh() { if (st && G.UI.isOpen('scr-party')) render(); }

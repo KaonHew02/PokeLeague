@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 78) return { title: T('Chapter 78 complete!'),
+      done: fmt('{player} won seven battles in a row at the Battle Factory with Pokémon rented at the counter.', { player }),
+      next: T('The streak goes on: Noland, the Factory Head, waits for whoever wins twenty-one single battles in a row.') };
     if (n === 77) return { title: T('Chapter 77 complete!'),
       done: fmt('{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.', { player }),
       next: T('Thank you for playing! The rest of Sinnoh waits in a future update.') };

@@ -278,6 +278,7 @@ LOC_NAMES = {
     'southern-island':   ('Isla del Sur',       'Isola Remota',        '南方孤岛',   '南方孤島'),
     # Chapter 43.
     'hoenn-battle-tower': ('Torre Batalla',     'Torre Lotta',         '对战塔',     '對戰塔'),
+    'battle-factory':     ('Fábrica Batalla',   'Industria Lotta',     '对战工厂',   '對戰工廠'),     # chapter 78
     # Sinnoh (chapter 44): PokeAPI has fr only.
     'twinleaf-town':     ('Pueblo Hojaverde',   'Duefoglie',           '双叶镇',     '雙葉鎮'),
     'sandgem-town':      ('Pueblo Arena',       'Sabbiafine',          '真砂镇',     '真砂鎮'),

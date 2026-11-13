@@ -112,5 +112,7 @@ G.TRAINER_CLASSES = {
   'pokemon-breeder': { title: 'Pokémon Breeder', who: 'breeder', prize: 48 },
   artist:        { title: 'Artist', who: 'artist', prize: 64 },
   cameraman:     { title: 'Cameraman', who: 'cameraman', prize: 48 },
-  reporter:      { title: 'Reporter', who: 'reporter', prize: 48 }
+  reporter:      { title: 'Reporter', who: 'reporter', prize: 48 },
+  // Chapter 78: the Battle Factory's Frontier Brain.
+  'factory-head': { title: 'Factory Head', who: 'noland', prize: 0 }
 };

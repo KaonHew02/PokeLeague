@@ -81,5 +81,6 @@ G.I18n.add({
   "Pokémon Breeder": "寶可夢育嬰師",
   "Artist": "畫家",
   "Cameraman": "攝影師",
-  "Reporter": "記者"
+  "Reporter": "記者",
+  "Factory Head": "工廠頭目"
 }, "zh-Hant");

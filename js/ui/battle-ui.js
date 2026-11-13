@@ -907,7 +907,8 @@ G.BattleUI = (() => {
 
   function trainer(player, t, opts = {}) {
     const rng = G.RNG(opts.seed == null ? G.RNG.seed() : opts.seed + 1);
-    const team = list => list.map(([sp, lvl, moves, item]) => Object.assign(G.Mon.create(spId(sp), lvl, { rng, moves }), item ? { item } : {}));
+    // A row may carry a fifth part, { gender, ivs, nature } (chapter 78: the Battle Factory keeps them for its swaps).
+    const team = list => list.map(([sp, lvl, moves, item, o]) => Object.assign(G.Mon.create(spId(sp), lvl, Object.assign({ rng, moves }, o)), item ? { item } : {}));
     const party = team(t.team), partner = opts.partner ? { name: opts.partner.name, party: team(opts.partner.team) } : undefined;
     return start(Object.assign({ kind: 'trainer', player, foe: { party, trainer: t } }, opts, { partner }));
   }

@@ -1647,7 +1647,7 @@ G.NAMES = {
     "sinnoh-restaurant": ["Restaurant","Restaurant","Restaurant","Restaurant","Restaurant","Restaurant"],
     "battle-park": ["Battle Park","Battle Park","Parc des Combats","Battle Park","Battle Park","Battle Park"],
     "battle-frontier": ["Battle Frontier","Battle Frontier","Zone de Combat","Battle Frontier","Battle Frontier","Battle Frontier"],
-    "battle-factory": ["Battle Factory","Battle Factory","Usine de Combat","Battle Factory","Battle Factory","Battle Factory"],
+    "battle-factory": ["Battle Factory","Fábrica Batalla","Usine de Combat","Industria Lotta","对战工厂","對戰工廠"],
     "battle-castle": ["Battle Castle","Battle Castle","Castel de Combat","Battle Castle","Battle Castle","Battle Castle"],
     "battle-arcade": ["Battle Arcade","Battle Arcade","Arcade de Combat","Battle Arcade","Battle Arcade","Battle Arcade"],
     "battle-hall": ["Battle Hall","Battle Hall","Scène de Combat","Battle Hall","Battle Hall","Battle Hall"],

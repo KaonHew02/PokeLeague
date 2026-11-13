@@ -212,5 +212,8 @@ G.I18n.add({
   "Chapter 76 complete!": "第七十六章完成！",
   "{player} won all five double battles of the day at the Seven Stars restaurant by Lake Valor, and the whole kitchen cheered.": "{player}在立志湖畔的七星餐厅赢下了当天全部五场双打，整个厨房都为之欢呼。",
   "Chapter 77 complete!": "第七十七章完成！",
-  "{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.": "{player}看到幻影岛从130号道路的海面上浮现，踏上了一座不在任何地图上的岛。"
+  "{player} saw Mirage Island rise out of the sea on Route 130 and walked on an island that is on no map.": "{player}看到幻影岛从130号道路的海面上浮现，踏上了一座不在任何地图上的岛。",
+  "Chapter 78 complete!": "第七十八章完成！",
+  "{player} won seven battles in a row at the Battle Factory with Pokémon rented at the counter.": "{player}在对战工厂用柜台租来的宝可梦取得了 7 连胜。",
+  "The streak goes on: Noland, the Factory Head, waits for whoever wins twenty-one single battles in a row.": "连胜还在继续：工厂头目达拉正等着单打取得二十一连胜的人。"
 }, "zh-Hans");

@@ -116,7 +116,7 @@ async function fight(st, ref, o, h) {
   } else key = W.map + ':' + d.id;
   const cls = G.TRAINER_CLASSES[d.cls] || {};
   const rng = G.RNG(W.seed * 977 + st.battles.length);
-  const team = list => list.map(([sp, lvl, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(sp), lvl, { rng, moves }), item ? { item } : {}));
+  const team = list => list.map(([sp, lvl, moves, item, x]) => Object.assign(G.Mon.create(G.Maps.species(sp), lvl, Object.assign({ rng, moves }, x)), item ? { item } : {}));
   const party = team(d.team), partner = o && o.partner ? { name: o.partner.name, party: team(o.partner.team) } : undefined;
   // o.party / o.rules / o.record (the Battle Tower, chapter 43): copies fight, with more rules, and are not recorded.
   const b = G.Battle.create({ kind: 'trainer', seed: W.seed * 31 + st.battles.length,
@@ -208,7 +208,8 @@ function host(st) {
     wild: (sp, lvl, o) => wildFight(st, sp, lvl, o), heal: () => G.Field.healAll(), healAnim: P,
     lastHeal(spot) { G.Field.save.player.lastHeal = { map: W.map, spot }; },
     shop: P, pc: P, music() {}, sfx() {}, jingle: P, nickname: P,
-    pickMon: () => Promise.resolve(st.picks.length ? st.picks.shift() : null),
+    // A queued pick is an index, or (chapter 78) a function that chooses from what the screen offers.
+    pickMon: o => Promise.resolve(!st.picks.length ? null : typeof st.picks[0] === 'function' ? st.picks.shift()(o) : st.picks.shift()),
     itemName: id => G.Names.item(id), monName: sp => G.Names.mon(G.Maps.species(sp))
   };
   return h;
@@ -1399,6 +1400,33 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
   console.log('[balance] Battle Tower, Swampert, Gardevoir and Manectric at 50:', JSON.stringify(table));
   // Each round is harder; the first is mostly won, the last ones are a real test.
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
+});
+
+test('balance: the Battle Factory (chapter 78), win rates of the three strongest of six rentals are printed', () => {
+  const { G } = world(1);
+  const total = sp => G.SPECIES[sp].base.reduce((a, b) => a + b, 0);
+  // The rentals of a round come from the next round's pool (G.FactoryHall.rentalRound); the opponents from the round's own.
+  const rate = (round, foe, n = 100) => {
+    let wins = 0;
+    for (let s = 1; s <= n; s++) {
+      const rng = G.RNG(s * 37);
+      const six = G.Tower.team(G.RNG(s * 41), G.FactoryHall.rentalRound(round), 6).sort((a, b) => total(b[0]) - total(a[0]));
+      const make = list => list.map(([sp, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(sp), l, { rng, moves }), { item }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: make(six.slice(0, 3)), bag: {} },
+        foe: { party: make(G.Tower.team(G.RNG(s * 43), foe, 3)), trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } },
+        rules: { noExp: true, noBag: true, shift: false, canLose: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / n;
+  };
+  const table = {};
+  for (let round = 0; round < 4; round++) table['round ' + (round + 1)] = rate(round, round);
+  table['Noland (battles 21 and 42)'] = rate(2, 3);
+  console.log('[balance] Battle Factory, the three strongest of six rentals at 50 (no switching, no swaps):', JSON.stringify(table));
+  // Rentals a round ahead: the first set is mostly won; from round 4 both sides draw from the same pool.
+  assert.ok(table['round 1'] >= 0.7, 'round 1');
+  for (const k in table) assert.ok(table[k] >= 0.5, k);
 });
 
 test('balance: Steven at Meteor Falls (chapter 40), win rates of typical teams are printed', () => {
@@ -4391,6 +4419,34 @@ async function chapter53(st) {
 }
 
 /** Chapter 77 after chapter 76: Mirage Island, with a Pokémon the sea chooses today. */
+/** Chapter 78 after chapter 77: the Battle Factory with rented Pokémon, until a set of seven. */
+async function chapter78(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower;
+  const total = m => G.SPECIES[m.sp].base.reduce((a, b) => a + b, 0);
+  // As a player who reads the six on offer: the highest base stats first. No swaps (the swap's pick finds the queue empty).
+  const strongest = o => o.mons.map((m, i) => i).filter(i => !(o.disabled && o.disabled(o.mons[i], i)))
+    .sort((a, b) => total(o.mons[b]) - total(o.mons[a]) || a - b)[0];
+  const before = JSON.stringify(S.party.map(m => [m.sp, m.lvl, m.exp, m.item, m.hp]));
+  const bp = Tw.bp(), n = st.battles.length;
+  let tries = 0;
+  while (Tw.streak('single', 'factory') < 7 && tries < 15) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(strongest, strongest, strongest);
+    await run(st, 'battle-factory-lobby', 'factory.single');
+  }
+  const fights = st.battles.slice(n);
+  console.log('[story] the Battle Factory:', fights.map(b => b.outcome).join(), 'in', tries, 'challenge(s), with the three strongest of six rentals');
+  assert.equal(Tw.streak('single', 'factory'), 7, 'a set of seven');
+  assert.ok(fights.slice(-7).every(b => b.outcome === 'win'));
+  assert.equal(Tw.bp(), bp + 3);
+  assert.equal(JSON.stringify(S.party.map(m => [m.sp, m.lvl, m.exp, m.item, m.hp])), before, 'the party is as it was');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('battle-factory')), 'Factory trainers are not recorded');
+  assert.ok(F.flag('chapter-78-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 async function chapter77(st) {
   const { G, S } = st;
   const F = G.Field, day = G.Clock.day();
@@ -5106,4 +5162,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter75(st);
   await chapter76(st);
   await chapter77(st);
+  await chapter78(st);
 });

@@ -639,7 +639,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   returnMode, returnArg })` returns a Promise of the engine's result. Evolutions (with cancel)
   and the moves the new forms learn are already done by then.
 - Shortcuts for the overworld: `G.BattleUI.wild(player, sp, lvl, opts)` and
-  `G.BattleUI.trainer(player, { id, name, title, ai, prize, items, leader, team: [[sp, lvl, moves?]] }, opts)`.
+  `G.BattleUI.trainer(player, { id, name, title, ai, prize, items, leader, team: [[sp, lvl, moves?, item?, { gender, ivs, nature }?]] }, opts)`
+  (the fifth part since chapter 78).
 - Music: `opts.music`, else `G.Audio.context('wild' | 'trainer' | 'gym')` when M7 provides it,
   else volcano / boss / rift. `trainer.leader` marks gym leaders.
 - `G.EvolveUI.run(mon, to)` returns `Promise<boolean>` and sets mode 'evolve'; the caller restores
@@ -2569,12 +2570,23 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** wild Wynaut only, at Emerald's levels; no `[balance]` line; `tests/story.test.cjs` prints one `[story]` line.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (nobody chosen, only the sea and no Nugget; the old man: not today; a chosen Pokémon joins, the island, still there after it leaves; the grass is all Wynaut; the old man: today; in across the edge from Route 129 it is there; landing, the first words, no ending before chapter 76; the Nugget and the Liechi Berry once each; the next day it is gone and a save on it loads surfing; back on its day after chapter 76, the ending once); `tests/gen4.test.cjs` the Liechi Berry (eaten at a fifth of its HP, +1 Attack and the line; not at half, not at +6); `tests/story.test.cjs` the chapter after chapter 76.
 
-### After chapter 77
+- **Chapter 78** ✅, the Battle Factory (`js/content/hoenn/factory.js`, translations `hoenn-factory`, `trainers`, `credits`). The Battle Tower's island is open from chapter 43, so `ending(78)` waits for chapter 77.
+  - **The island** (`battle-tower`, tower.js) grew from 20 to 30 tiles eastwards for a second building (a `B` stamp, door at 21,7, spot `factory-door`); the tower, the pier and every older spot keep their places. Inside: `battle-factory-lobby` (place `battle-factory`, new in `fetch_data.py`'s LOC_NAMES for es, it and Chinese), two counters and a guide, and `battle-factory-room`, the Battle Tower's room again.
+  - **Rentals**: the counter offers six (`G.FactoryHall.offerFor(mode, run, round)`: `G.Tower.team(rng, round, 6)` made into level-50 Pokémon at full HP with their moves and items; different species, different items), the same six until the run starts (backing out and coming back shows them again). As Emerald's "upgraded" rentals, they come from the next round's pool (`rentalRound`: round + 1, the top pool from round 3 on), while the opponents use the round's own. The player picks three (four for doubles) on the party screen: `G.PartyUI.pick({ mons, action })` now takes another list of Pokémon, the card's note shows the held item, and with `action` ('Rent', 'Give up', 'Take') a tap asks first, beside the Summary, so moves can be read. Then one line per Pokémon (item and moves) and one question.
+  - **Battles** as in the Battle Tower: copies (`G.Tower.copy`), no Bag, no Exp. Points, nothing recorded, losing changes nothing; the opponents are the Tower's (`G.TowerHall.trainerFor(n, mode, run, { salt, before, defeat })`: another seed, the Factory's own lines, never Anabel). After each win but the last of a set, Keep going / Retire, then the swap: one of yours for one of the Pokémon the trainer just used, made afresh at full HP with its item (no two of the same species).
+  - **Streaks and BP**: `G.Tower.streak(mode, 'factory')`, `setStreak(mode, n, 'factory')`, `best(mode, 'factory')` (vars `factory-single`, `factory-double`, their `-best`, `factory-runs`); the same BP as the Tower (`bpFor`), spent at the Tower's Exchange Service Corner.
+  - **Noland**, the Factory Head (class `factory-head`, new sprite `noland`, my own look; 达拉 in Chinese as on 52poke): the 21st and 42nd single battles; as in Emerald his team is random, three from the top pool, a new one each challenge. Wins give the Silver / Gold Knowledge Symbol (flags `factory-silver`, `factory-gold`) and 10 / 20 BP.
+  - **Ending**: after a set of seven the rentals go back; with chapter 77 done, the first such set ends the chapter (`ending(78)`).
+  - **Engine**: a trainer's team row may carry a fifth part, `{ gender, ivs, nature }` (battle-ui.js and the story harness pass it to `G.Mon.create`, which now takes `gender`; the RNG rolls the same either way, so older battles are unchanged). The Factory fixes them for each opponent, so the Pokémon taken in a swap is the very one that battled.
+  - **Left out**: Emerald's IVs by round (both sides alike, so no effect here) and its upgrades by number of swaps (replaced by the one-round-ahead rentals), the open level (100), the hints about the opponent's style, the Battle Arena and the other facilities.
+- **Balance:** a new `[balance]` line: the three strongest (by base stats) of six rentals against the round's opponents, 100 seeds, no switching and no swaps: about 0.78 in round 1 down to 0.62 from round 4 and against Noland. With both sides from the same pool (Emerald's rule) it was 0.62 in every round, which makes seven in a row rare (about one challenge in twenty for the auto-player), hence the rentals a round ahead. `tests/story.test.cjs` also prints one `[story]` line: challenges with the strongest rentals until a set of seven.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (in from the island; backing out keeps the same six; six species, six items, level 50, full HP; picked cards greyed out; the items on the cards; the first rentals from the second pool, the first opponents from the first; a swap: give up, take, full HP and its item; seven wins, BP, the Tower's streak untouched, the party untouched, nothing recorded, no ending before chapter 77; then new rentals a round stronger and the ending; losing and retiring; doubles with four, never Noland; Noland at 21 with a new top-pool team each challenge, the Silver Symbol and BP); `tests/story.test.cjs` the chapter after chapter 77 and the balance line.
 
-The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn and
-the Battle Tower, and the whole Battle Zone. Ideas:
+### After chapter 78
+
+The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn,
+the Battle Tower and the Battle Factory, and the whole Battle Zone. Ideas:
 1. Sinnoh: the villa in the Resort Area; the Contest Hall.
-2. Hoenn after the League: more of the Battle Frontier (the Battle Factory with rental Pokémon, the Battle
-   Arena...).
+2. Hoenn after the League: more of the Battle Frontier (the Battle Arena, the Battle Dome, the Battle Pike...).
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;
    Cheryl in Eterna Forest), abilities outside battle, Pokéblocks or another way to evolve Feebas, Repel steps.

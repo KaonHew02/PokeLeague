@@ -5683,3 +5683,156 @@ test("the Ice Path and Clair's Gym: boulders into the holes, ice you can only cr
            'up', 'up', 'up', 'up', 'left', 'left', 'left', 'up', 'up', 'up', 'up', 'up']);
   assert.deepEqual([W.player.x, W.player.y], [7, 3], 'in front of Clair');
 });
+
+test('Hoenn (chapter 78): the Battle Factory: in from the island, six rentals, three picked, a swap, seven in a row, the ending after chapter 77, retiring, doubles, Noland', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js', 'js/content/hoenn/evergrande.js', 'js/content/hoenn/postgame.js', 'js/content/hoenn/regis.js',
+                          'js/content/hoenn/legends.js', 'js/content/hoenn/tower.js', 'js/content/hoenn/factory.js', 'js/world/roam.js', 'js/world/tower.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, Tw = G.Tower;
+  F.setFlag('hoenn-champion');
+  F.giveMon('swampert', 72, { moves: ['tackle'] });
+  const own = JSON.stringify(F.party());
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const answers = [], picks = [], asked = [], said = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  // The party screen: what it was given (the list, the label, greyed-out cards, notes), and a queued answer.
+  G.PartyUI = { pick: o => {
+    asked.push({ o, mons: plain(o.mons.map(m => m.sp)), disabled: plain(o.mons.map((m, i) => !!(o.disabled && o.disabled(m, i)))),
+                 notes: plain(o.mons.map((m, i) => (o.note && o.note(m, i)) || null)) });
+    const p = picks.shift();
+    return Promise.resolve(p == null ? null : p);
+  } };
+  const fights = [];
+  let outcome = () => 'win';
+  W.onTrainer = async (d, info) => { fights.push({ d, info }); return outcome(fights.length); };
+  const counter = async mode => { W.load('battle-factory-lobby', mode); await pump(W, W.interact()); await until(() => W.map.id === 'battle-factory-lobby' && !W.locked); };
+  const winAll = n => { for (let i = 1; i < n; i++) answers.push(0, 1); };          // keep going, no swap
+
+  // In through the new door east of the Battle Tower; the tower's door still leads to the tower.
+  W.load('battle-tower', 'factory-door');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'battle-factory-lobby' && !W.locked);
+  assert.equal(W.map.def.loc, 'battle-factory');
+  W.load('battle-tower', 'tower-door');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'battle-tower-lobby' && !W.locked);
+
+  // Backing out of the rentals: no run starts, and the same six are offered again.
+  picks.push(0, null);
+  await counter('single');
+  assert.ok(F.flag('factory-rules'));
+  const six = asked[0].mons;
+  assert.equal(six.length, 6);
+  assert.equal(new Set(six).size, 6, 'six different species');
+  assert.equal(asked[0].o.action, 'Rent');
+  assert.deepEqual(asked[1].disabled, [true, false, false, false, false, false], 'the first pick is taken');
+  assert.equal(asked[1].notes[0], 'No. 1');
+  assert.equal(asked[0].notes[2], G.Names.item(asked[0].o.mons[2].item), 'each card shows the held item');
+  assert.equal(new Set(asked[0].o.mons.map(m => m.item)).size, 6, 'six different items');
+  assert.ok(asked[0].o.mons.every(m => m.lvl === 50 && m.hp === G.Mon.maxHp(m) && m.moves.length >= 1));
+  assert.ok(six.every(sp => Tw.pool(G.FactoryHall.rentalRound(0)).includes(sp)), 'the first rentals come from the second pool');
+  assert.equal(fights.length, 0);
+  assert.equal(+F.getVar('factory-runs') || 0, 0);
+
+  // A run: rent 0, 1, 2; after the first win swap No. 1 for the opponent's second Pokémon; seven wins.
+  asked.length = 0;
+  picks.push(0, 1, 2, 0, 1);
+  answers.push(0, 0, 0, 0);           // the challenge, these three, keep going, swap
+  winAll(6);
+  await counter('single');
+  assert.deepEqual(asked.slice(0, 3).map(a => a.mons), [six, six, six], 'the same six as before');
+  assert.equal(fights.length, 7, 'seven battles');
+  const first = fights[0], rented = asked[0].o.mons;
+  assert.deepEqual(plain(first.info.party.map(m => [m.sp, m.lvl, m.item])), plain(rented.slice(0, 3).map(m => [m.sp, 50, m.item])));
+  assert.ok(first.info.rules.noExp && first.info.rules.noBag && first.info.canLose && !first.info.rules.double);
+  assert.ok(first.d.team.every(x => Tw.pool(0).includes(x[0])), 'the opponents of the first set come from the first pool');
+  // The swap: give up No. 1, take the opponent's second; it comes at full HP with its item.
+  assert.equal(asked[3].o.action, 'Give up');
+  assert.equal(asked[4].o.action, 'Take');
+  const taken = G.Maps.species(first.d.team[1][0]);
+  assert.deepEqual(plain(fights[1].info.party.map(m => m.sp)), [taken, rented[1].sp, rented[2].sp]);
+  assert.equal(fights[1].info.party[0].hp, G.Mon.maxHp(fights[1].info.party[0]));
+  assert.equal(fights[1].info.party[0].item, first.d.team[1][3]);
+  const sw = fights[1].info.party[0], row = first.d.team[1][4];
+  assert.deepEqual(plain([sw.gender, sw.ivs, sw.nature]), plain([row.gender, row.ivs, row.nature]), 'the very Pokémon that battled');
+  assert.ok(said.some(t => t.includes(' joined your team')));
+  assert.deepEqual([Tw.streak('single', 'factory'), Tw.bp(), Tw.streak('single')], [7, 3, 0], 'the Battle Tower streak is its own');
+  assert.ok(!F.flag('chapter-78-done'), 'no ending before chapter 77');
+  assert.equal(JSON.stringify(F.party()), own, 'your own Pokémon never take part');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('battle-factory')));
+  assert.equal(new Set(fights.map(f => f.d.team.map(x => x[0]).join())).size, 7, 'seven different teams');
+  assert.ok(fights.every(f => f.d.id !== 'anabel' && !f.d.brain));
+
+  // Once chapter 77 is done, the next set of seven (battles 8 to 14, new rentals from the third pool) ends chapter 78.
+  F.setFlag('chapter-77-done');
+  fights.length = 0; asked.length = 0;
+  picks.push(0, 1, 2);
+  answers.push(0, 0);
+  winAll(7);
+  await counter('single');
+  assert.equal(fights.length, 7);
+  assert.ok(asked[0].mons.every(sp => Tw.pool(2).includes(sp)) && asked[0].mons.join() !== six.join(), 'new rentals, a round stronger');
+  assert.ok(fights[0].d.team.every(x => Tw.pool(1).includes(x[0])), 'battle 8 is in the second set');
+  assert.deepEqual([Tw.streak('single', 'factory'), Tw.bp()], [14, 6]);
+  assert.ok(F.flag('chapter-78-done'));
+
+  // Losing ends the streak; so does retiring.
+  fights.length = 0;
+  outcome = k => (k === 2 ? 'lose' : 'win');
+  picks.push(0, 1, 2);
+  answers.push(0, 0, 0, 1);
+  await counter('single');
+  assert.equal(fights.length, 2);
+  assert.deepEqual([Tw.streak('single', 'factory'), Tw.best('single', 'factory')], [0, 15]);
+  fights.length = 0;
+  outcome = () => 'win';
+  picks.push(0, 1, 2);
+  answers.push(0, 0, 1);
+  await counter('single');
+  assert.equal(fights.length, 1);
+  assert.deepEqual([Tw.streak('single', 'factory'), Tw.best('single', 'factory')], [0, 15]);
+
+  // Double battles: four rentals, the double rule, teams of four, never Noland.
+  fights.length = 0; asked.length = 0;
+  outcome = () => 'lose';
+  picks.push(0, 1, 2, 3);
+  answers.push(0, 0);
+  await counter('double');
+  assert.equal(asked.length, 4);
+  assert.equal(fights.length, 1);
+  assert.ok(fights[0].info.rules.double && fights[0].d.double && fights[0].d.team.length === 4 && fights[0].info.party.length === 4);
+  Tw.setStreak('double', 20, 'factory');
+  fights.length = 0;
+  outcome = () => 'win';
+  picks.push(0, 1, 2, 3);
+  answers.push(0, 0);
+  await counter('double');
+  assert.equal(fights.length, 1, 'battle 21 ends the third set');
+  assert.notEqual(fights[0].d.id, 'noland', 'Noland only takes single battles');
+  assert.equal(answers.length, 0);
+
+  // Noland is the 21st single battle: three from the top pool, different every challenge; the Silver Knowledge Symbol.
+  const noland = async () => {
+    fights.length = 0;
+    Tw.setStreak('single', 20, 'factory');
+    picks.push(0, 1, 2);
+    answers.push(0, 0);
+    await counter('single');
+    assert.equal(fights.length, 1, 'battle 21 also ends the third set');
+    return fights[0].d;
+  };
+  const bp = Tw.bp();
+  const one = await noland();
+  assert.deepEqual([one.id, one.cls, one.who], ['noland', 'factory-head', 'noland']);
+  assert.ok(one.team.length === 3 && one.team.every(x => Tw.pool(3).includes(x[0])));
+  assert.ok(F.flag('factory-silver') && !F.flag('factory-gold'));
+  assert.equal(Tw.bp(), bp + 10 + Tw.bpFor(3));
+  const two = await noland();
+  assert.notEqual(two.team.map(x => x[0]).join(), one.team.map(x => x[0]).join(), 'a new team every challenge');
+  assert.equal(JSON.stringify(F.party()), own);
+});

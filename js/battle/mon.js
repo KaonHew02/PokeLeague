@@ -8,7 +8,9 @@
  *   status: null | 'psn' | 'tox' | 'brn' | 'par' | 'slp' | 'frz'   (slp = turns left asleep,
  *   tox = bad-poison counter). Stats are not stored: G.Mon.stats(mon) computes them.
  *
- *   G.Mon.create(sp, lvl, { rng, wild, moves, nature, ivs, shinyOdds, ot, ball, met })
+ *   G.Mon.create(sp, lvl, { rng, wild, moves, nature, ivs, gender, shinyOdds, ot, ball, met })
+ *                                    (gender, chapter 78: 'm' | 'f' for a species that has one; the RNG
+ *                                    rolls the same either way)
  *   G.Mon.stats(mon) · maxHp(mon) · types(mon) · name(mon) · ppMax(moveId, ppUp)
  *   G.Mon.heal(mon)                  full HP, no status, full PP (Pokémon Center)
  *   G.Mon.recalc(mon, oldMax)        after a level up / evolution: HP rises with max HP
@@ -46,7 +48,7 @@ G.Mon = (() => {
     const ivs = o.ivs || G.Stats.ORDER.map(() => rng.int(0, 31));
     const natures = Object.keys(G.NATURES).sort();
     const nature = o.nature || natures[rng.int(0, natures.length - 1)];
-    const gender = S.gf < 0 ? null : rng.int(0, 7) < S.gf ? 'f' : 'm';
+    const gender = S.gf < 0 ? null : (g => o.gender || g)(rng.int(0, 7) < S.gf ? 'f' : 'm');
     const shiny = rng.int(1, o.shinyOdds || 4096) === 1;
     const ids = (o.moves || defaultMoves(sp, lvl)).slice(0, 4);
     const mon = {

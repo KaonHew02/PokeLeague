@@ -120,5 +120,7 @@ G.TRAINER_CLASSES = {
   // Chapter 80: the Battle Palace's Frontier Brain.
   'palace-maven': { title: 'Palace Maven', who: 'spenser', prize: 0 },
   // Chapter 81: the Battle Dome's Frontier Brain.
-  'dome-ace':    { title: 'Dome Ace', who: 'tucker', prize: 0 }
+  'dome-ace':    { title: 'Dome Ace', who: 'tucker', prize: 0 },
+  // Chapter 82: the Battle Pike's Frontier Brain (only Lucy has this title).
+  'pike-queen':  { title: 'Pike Queen', who: 'lucy', prize: 0 }
 };

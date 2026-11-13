@@ -85,5 +85,6 @@ G.I18n.add({
   "Factory Head": "Factory Head",
   "Arena Tycoon": "Arena Tycoon",
   "Palace Maven": "Palace Maven",
-  "Dome Ace": "Dome Ace"
+  "Dome Ace": "Dome Ace",
+  "Pike Queen": "Pike Queen"
 }, "pt-BR");

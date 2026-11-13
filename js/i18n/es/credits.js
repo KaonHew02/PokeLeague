@@ -224,5 +224,8 @@ G.I18n.add({
   "The streak goes on: Spenser, the Palace Maven, waits for whoever wins twenty-one battles in a row.": "La racha continúa: Spenser, el Guardián del Palacio, espera a quien gane veintiún combates seguidos.",
   "Chapter 81 complete!": "¡Capítulo 81 completado!",
   "{player} won a tournament of sixteen Trainers at the Battle Dome, four matches in a row.": "{player} ganó un torneo de dieciséis Entrenadores en la Cúpula Batalla, cuatro combates seguidos.",
-  "The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.": "La racha continúa: Tucker, el As de la Cúpula, espera en la final del quinto torneo seguido."
+  "The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.": "La racha continúa: Tucker, el As de la Cúpula, espera en la final del quinto torneo seguido.",
+  "Chapter 82 complete!": "¡Capítulo 82 completado!",
+  "{player} chose a way through all fourteen rooms of the Battle Pike, with only the healing rooms to rest in.": "{player} encontró su camino a través de las catorce salas de la Sierpe Batalla, sin más descanso que las salas de curación.",
+  "The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.": "La racha continúa: Lucy, la Reina Sierpe, espera al final del segundo recorrido seguido."
 }, "es");

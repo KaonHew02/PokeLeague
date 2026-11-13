@@ -85,5 +85,6 @@ G.I18n.add({
   "Factory Head": "Chef d'Usine",
   "Arena Tycoon": "Championne du Dojo",
   "Palace Maven": "Gardien du Palace",
-  "Dome Ace": "As du Dôme"
+  "Dome Ace": "As du Dôme",
+  "Pike Queen": "Reine du Reptile"
 }, "fr");

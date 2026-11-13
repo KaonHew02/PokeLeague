@@ -85,5 +85,6 @@ G.I18n.add({
   "Factory Head": "工厂头目",
   "Arena Tycoon": "竞技场主将",
   "Palace Maven": "宫殿守护者",
-  "Dome Ace": "巨蛋超级巨星"
+  "Dome Ace": "巨蛋超级巨星",
+  "Pike Queen": "水管皇后"
 }, "zh-Hans");

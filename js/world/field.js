@@ -791,13 +791,15 @@ G.World = (() => {
       G.Field.save.dex.seen[wild.sp] = 1;
       if (api.wildForm && !wild.form) wild.form = api.wildForm(wild.sp, map, rng) || undefined;
       let r;
-      // o.party: a scripted battle with only those Pokémon (Professor Birch's bag, chapter 28).
-      const me = contest ? G.Contest.battler() : wild.party ? Object.assign(battler(), { party: wild.party }) : battler();
+      // o.party: a scripted battle with only those Pokémon (Professor Birch's bag, chapter 28); with rules.noBag, no Bag either
+      // (chapter 82: the Battle Pike).
+      const me = contest ? G.Contest.battler() : wild.party ? Object.assign(battler(), { party: wild.party }, wild.rules && wild.rules.noBag ? { bag: {} } : {}) : battler();
       if (api.onEncounter) r = await api.onEncounter(wild.sp, wild.lvl, wild.area, Object.assign({ contest, player: me }, wild));
       else if (G.BattleUI && G.BattleUI.safari && safariOn()) r = await G.BattleUI.safari(battler(), wild.sp, wild.lvl, battleOpts(false));
       else if (G.BattleUI && G.BattleUI.wild) {
         // In the Bug-Catching Contest: the entrant alone, the Sport Balls only, no black-out.
-        const o = battleOpts(contest);
+        const o = battleOpts(contest || !!wild.canLose);
+        if (wild.rules) Object.assign(o.rules, wild.rules);
         if (wild.noCatch) o.rules.noCatch = true;
         if (/-rod$/.test(wild.method)) o.rules.fishing = true;
         if (wild.form) o.form = wild.form;
@@ -822,7 +824,8 @@ G.World = (() => {
       if (!G.Contest.balls()) await runScript('contest.out-of-balls', {});
       else if (!m || m.hp <= 0) await runScript('contest.fainted', {});
     }
-    else if (out === 'lose') await blackout();
+    else if (out === 'lose' && !wild.canLose) await blackout();
+    else if (out === 'lose') { /* chapter 82: a battle you may lose (the Battle Pike) */ }
     else if (safariOn()) { safariHud(); if (!G.Field.count('safari-ball')) await runScript(safariScript('out-of-balls'), {}); }
     else await afterBattle(out);
     return out;
@@ -1590,7 +1593,7 @@ G.World = (() => {
       wait,
       battle: (ref, o) => battle(ref, o),
       wild: (sp, lvl, o = {}) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null, noCatch: !!o.noCatch, moves: o.moves, shiny: !!o.shiny,
-                                              party: o.party || null }),
+                                              party: o.party || null, canLose: !!o.canLose, rules: o.rules || null }),
       heal: () => G.Field.healAll(),
       /** Offers a nickname for a Pokémon just received (starter, gifts). */
       async nickname(mon) {

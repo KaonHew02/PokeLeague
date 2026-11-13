@@ -6189,3 +6189,150 @@ test('Hoenn (chapter 81): the Battle Dome: in from the island, three entered, si
   assert.equal(Tw.streak('single', 'dome'), 5);
   assert.equal(JSON.stringify(F.party()), own);
 });
+
+test('Hoenn (chapter 82): the Battle Pike: in from the island, the doors and the hint, every kind of room, HP that stays, a pass, the ending after chapter 81, losing, retiring, Lucy', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js', 'js/content/hoenn/evergrande.js', 'js/content/hoenn/postgame.js', 'js/content/hoenn/regis.js',
+                          'js/content/hoenn/legends.js', 'js/content/hoenn/tower.js', 'js/content/hoenn/factory.js', 'js/content/hoenn/arena.js',
+                          'js/content/hoenn/palace.js', 'js/content/hoenn/dome.js', 'js/content/hoenn/pike.js', 'js/world/roam.js', 'js/world/tower.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, Tw = G.Tower, P = G.PikeHall;
+  F.setFlag('hoenn-champion');
+  for (const [sp, lvl, item] of [['swampert', 72, 'leftovers'], ['gardevoir', 70, 'leftovers'], ['mewtwo', 70, null], ['manectric', 45, null], ['altaria', 60, null]]) {
+    const m = F.giveMon(sp, lvl, { moves: ['tackle'] });
+    if (item) m.item = item;
+  }
+  const own = JSON.stringify(F.party());
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const answers = [], picks = [], said = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  const fights = [], wilds = [];
+  let outcome = () => 'win', hurt = () => {};
+  // Each battle keeps the HP the three had when it began.
+  W.onTrainer = async (d, info) => { fights.push({ d, info, hp: info.party.map(m => m.hp) }); hurt(info.party, fights.length); return outcome(fights.length); };
+  W.onEncounter = async (sp, lvl, area, info) => { wilds.push({ sp: G.Maps.species(sp), lvl, info, full: info.party.every(m => m.hp === G.Mon.maxHp(m)) }); return 'win'; };
+  const counter = async () => { W.load('battle-pike-lobby', 'single'); await pump(W, W.interact()); await until(() => W.map.id === 'battle-pike-lobby' && !W.locked); };
+  const enter = () => picks.push(3, 0, 4);                 // Manectric, Swampert, Altaria
+  const doors = n => { for (let i = 0; i < n; i++) answers.push(0); };
+
+  // In through the new door at the east end of the island.
+  W.load('battle-tower', 'pike-door');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'battle-pike-lobby' && !W.locked);
+  assert.equal(W.map.def.loc, 'battle-pike');
+  assert.equal(G.Names.loc('battle-pike'), 'Battle Pike');
+
+  // The doors: the same for the same pair; the hinted kinds never behind the other two; the limits.
+  const mk = () => ['swampert', 'gardevoir', 'manectric'].map(sp => G.Mon.create(G.Maps.species(sp), 50, { rng: G.RNG(3) }));
+  const fresh = mk();
+  assert.deepEqual(plain(P.doorsFor(1, 0, 5, fresh)), plain(P.doorsFor(1, 0, 5, fresh)));
+  const worn = mk(); worn[0].hp = 1; worn[1].status = 'psn';
+  const one = mk(); one[1].hp = 0; one[2].hp = 0;
+  const done = mk(); done[0].hp = 0; done[1].status = 'par'; done[2].status = 'slp';
+  for (let run = 1; run <= 40; run++) for (let k = 0; k < 6; k++) {
+    for (const team of [fresh, worn, one, done]) {
+      const p = P.doorsFor(1, k, run, team);
+      assert.equal(p.hint, P.catOf(p.doors[p.hinted]), 'the hint is about the hinted door');
+      p.doors.forEach((d, i) => { if (i !== p.hinted) assert.notEqual(P.catOf(d), p.hint, 'the other doors are not of the hinted kind'); });
+      assert.ok(p.doors.every(d => P.allowed(d, team)), JSON.stringify(p));
+    }
+    assert.ok(!P.doorsFor(1, k, run, fresh).doors.some(d => d === 'full' || d === 'partial'), 'no healing at full health');
+    assert.ok(!P.doorsFor(1, k, run, one).doors.includes('double'), 'no double battle with one able');
+    assert.ok(!P.doorsFor(1, k, run, done).doors.includes('status'), 'no status room with none left to take one');
+  }
+  assert.deepEqual(plain(P.doorsFor(2, 6, 1, fresh)), { doors: ['queen', 'queen', 'queen'], hinted: 1, hint: 'dread' });
+  assert.notEqual(P.doorsFor(1, 6, 1, fresh).hint, 'dread', 'Lucy only in her passes');
+
+  // A pass with one room of each kind behind the first door: HP stays from room to room; only healing heals.
+  let team = null;
+  hurt = (party, n) => { team = party; if (n === 1) party[0].hp = 1; if (n === 3) party.forEach(m => { m.hp = Math.max(1, m.hp >> 1); }); };
+  P.force = ['single', 'double', 'hard', 'wild', 'status', 'partial', 'full'];
+  enter();
+  answers.push(0);
+  doors(7);
+  await counter();
+  assert.ok(F.flag('pike-rules'));
+  assert.equal(fights.length, 3, 'three Trainer rooms');
+  const [single, double, hard] = fights;
+  assert.equal(single.d.team.length, 1, 'a normal Trainer: one Pokémon');
+  assert.equal(hard.d.team.length, 3, 'the hard one: three');
+  assert.ok(single.d.team.every(x => Tw.pool(0).includes(x[0])), 'the first pass: the first pool');
+  assert.ok(single.info.canLose && single.info.rules.noExp && single.info.rules.noBag && single.info.rules.shift === false);
+  assert.deepEqual(plain(single.info.party.map(m => m.sp)), [310, 260, 334]);
+  assert.equal(double.info.party, single.info.party, 'the same three all the way');
+  assert.equal(double.hp[0], 1, 'the HP lost in the first room is still lost');
+  assert.ok(double.d.double && double.info.rules.double && double.d.team.length === 2 && double.d.partner.cls && double.d.partner.name, 'two Trainers, one Pokémon each');
+  assert.ok(hard.d.team.every(x => Tw.pool(1).includes(x[0])), 'the hard Trainer: the next round');
+  assert.equal(wilds.length, 1);
+  const w = wilds[0];
+  assert.ok([['seviper', 46], ['milotic', 46], ['dusclops', 45]].some(([sp, l]) => G.Maps.species(sp) === w.sp && l === w.lvl), JSON.stringify([w.sp, w.lvl]));
+  assert.ok(w.info.noCatch && w.info.canLose && w.info.rules.noBag && w.info.rules.noExp);
+  assert.deepEqual(plain(w.info.party.map(m => m.sp)), [310, 260, 334]);
+  assert.ok(w.full, 'healed after the hard Trainer');
+  assert.ok(hard.hp.some((h, i) => h < G.Mon.maxHp(hard.info.party[i])), 'still hurt when the hard Trainer came');
+  const status = said.findIndex(s => / jumped out and attacked!/.test(s));
+  assert.ok(status > 0);
+  assert.equal(said.slice(status + 1, status + 4).filter(s => / was poisoned!| was frozen solid!| is paralyzed!| fell asleep!| was burned!/.test(s)).length, 2, 'room 10: two of them');
+  assert.ok(said.some(s => / was restored to full health!/.test(s)), 'one or two healed');
+  assert.ok(said.some(s => /were all restored to full health/.test(s)));
+  assert.ok(team.every(m => m.hp === G.Mon.maxHp(m) && !m.status), 'the full heal at the end');
+  assert.ok(said.some(s => /I sense someone|strange nostalgia|whispering|scent of Pokémon/.test(s)), 'the maid hints');
+  assert.deepEqual([Tw.streak('single', 'pike'), Tw.bp(), Tw.streak('single'), Tw.streak('single', 'dome')], [1, 3, 0, 0], 'a pass; the other halls untouched');
+  assert.ok(!F.flag('chapter-82-done'), 'no ending before chapter 81');
+  assert.equal(P.log.length, 7);
+  assert.equal(JSON.stringify(F.party()), own, 'the party is as it was');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('battle-pike')));
+  // Once chapter 81 is done, the next pass ends chapter 82 (here, seven quiet rooms).
+  F.setFlag('chapter-81-done');
+  Tw.setStreak('single', 2, 'pike');
+  P.force = Array(7).fill('empty');
+  fights.length = 0;
+  enter();
+  answers.push(0);
+  doors(7);
+  await counter();
+  assert.equal(fights.length, 0);
+  assert.deepEqual([Tw.streak('single', 'pike'), Tw.bp()], [3, 7]);
+  assert.ok(F.flag('chapter-82-done'));
+  // All three down ends it; so does retiring at a door.
+  hurt = () => {};
+  outcome = () => 'lose';
+  P.force = ['single'];
+  enter();
+  answers.push(0);
+  doors(1);
+  await counter();
+  assert.deepEqual([Tw.streak('single', 'pike'), Tw.best('single', 'pike')], [0, 3]);
+  assert.ok(said.some(s => /All your Pokémon fainted/.test(s)));
+  outcome = () => 'win';
+  P.force = null;
+  Tw.setStreak('single', 1, 'pike');
+  enter();
+  answers.push(0, 3);
+  await counter();
+  assert.equal(Tw.streak('single', 'pike'), 0);
+  assert.ok(said.some(s => /You retired from the Pike/.test(s)));
+  // Lucy: behind every door of the 7th pair of the 2nd pass; her silver team with its natures, the Silver Luck Symbol.
+  fights.length = 0;
+  Tw.setStreak('single', 1, 'pike');
+  P.force = Array(6).fill('empty');
+  const bp = Tw.bp();
+  enter();
+  answers.push(0);
+  answers.push(0, 0, 0, 0, 0, 2);
+  await counter();
+  assert.equal(fights.length, 1);
+  const q = fights[0].d;
+  assert.deepEqual([q.id, q.cls, q.who], ['lucy', 'pike-queen', 'lucy']);
+  assert.deepEqual(plain(q.team.map(x => [x[0], x[3], x[4].nature])), [['seviper', 'quick-claw', 'brave'], ['shuckle', 'chesto-berry', 'bold'], ['milotic', 'leftovers', 'modest']]);
+  assert.ok(said.some(s => /something terrible waits behind every one/.test(s)));
+  assert.ok(F.flag('pike-silver') && !F.flag('pike-gold'));
+  assert.equal(Tw.bp(), bp + 10 + Tw.bpFor(2));
+  assert.equal(Tw.streak('single', 'pike'), 2);
+  assert.equal(JSON.stringify(F.party()), own);
+});

@@ -150,15 +150,16 @@ function wildFight(st, sp, lvl, o = {}) {
   const rng = G.RNG(W.seed * 389 + st.battles.length);
   const foe = G.Mon.create(G.Maps.species(sp), lvl, { rng, wild: true });
   S.dex.seen[foe.sp] = 1;
-  // o.party: only those Pokémon battle (Professor Birch's bag on Route 101, chapter 28).
-  const b = G.Battle.create({ kind: 'wild', seed: W.seed * 53 + st.battles.length, player: { name: S.player.name, id: S.player.id, party: o.party || S.party, bag: S.bag },
-    foe: { party: [foe] }, rules: { noCatch: !!o.noCatch, obeyCap: obeyCap(st) } });
+  // o.party: only those Pokémon battle (Professor Birch's bag on Route 101, chapter 28); o.canLose, o.rules (the Battle Pike, chapter 82).
+  const b = G.Battle.create({ kind: 'wild', seed: W.seed * 53 + st.battles.length,
+    player: { name: S.player.name, id: S.player.id, party: o.party || S.party, bag: o.rules && o.rules.noBag ? {} : S.bag },
+    foe: { party: [foe] }, rules: Object.assign({ noCatch: !!o.noCatch, obeyCap: obeyCap(st), canLose: !!o.canLose }, o.rules) });
   b.start();
   const r = autoplay(G, b);
   st.battles.push({ key: 'wild:' + sp, outcome: r.outcome, levels: S.party.map(m => m.lvl) });
   G.Field.lastBattle = r.outcome;
   evolve(G, S, r);
-  if (r.outcome === 'lose') { G.Field.money(-G.Exp.blackoutLoss(S.player.money)); G.Field.healAll(); }
+  if (r.outcome === 'lose' && !o.canLose) { G.Field.money(-G.Exp.blackoutLoss(S.player.money)); G.Field.healAll(); }
   return Promise.resolve(r.outcome);
 }
 
@@ -1400,6 +1401,51 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
   console.log('[balance] Battle Tower, Swampert, Gardevoir and Manectric at 50:', JSON.stringify(table));
   // Each round is harder; the first is mostly won, the last ones are a real test.
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
+});
+
+test('balance: the Battle Pike (chapter 82), how often a typical team gets through a pass, and against Lucy, are printed', async () => {
+  // The real Pike script through the story harness: HP and status stay from room to room, a door at random each time.
+  const st = world(1);
+  const { G, S } = st;
+  const Tw = G.Tower;
+  G.Field.setFlag('pike-rules');
+  for (const [sp, moves, item] of [[260, ['surf', 'earthquake', 'ice-beam', 'protect'], 'leftovers'], [282, ['psychic', 'thunderbolt', 'calm-mind', 'shadow-ball'], 'sitrus-berry'],
+                                   [310, ['thunderbolt', 'crunch', 'flamethrower', 'thunder-wave'], 'quick-claw']]) {
+    const m = G.Field.giveMon(sp, 50, { moves });
+    m.item = item;
+  }
+  const rng = G.RNG(77), N = 30, passes = {};
+  for (const pass of [1, 4]) {
+    let done = 0;
+    for (let i = 0; i < N; i++) {
+      Tw.setStreak('single', pass - 1, 'pike');
+      st.picks.push(0, 1, 2);
+      st.answers.push(0, ...Array.from({ length: 7 }, () => rng.int(0, 2)));
+      await run(st, 'battle-pike-lobby', 'pike.single');
+      st.answers.length = 0; st.picks.length = 0;
+      if (Tw.streak('single', 'pike') === pass) done++;
+    }
+    passes['pass ' + pass] = done / N;
+  }
+  // Lucy at full HP, as the other halls' leaders.
+  const rate = (team, n = 60) => {
+    let wins = 0;
+    for (let s = 1; s <= n; s++) {
+      const r = G.RNG(s * 29);
+      const me = S.party.map(m => G.Tower.copy(m));
+      const foes = team.map(([sp, l, moves, item, x]) => Object.assign(G.Mon.create(G.Maps.species(sp), l, Object.assign({ rng: r, moves }, x)), { item }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } }, rules: { noExp: true, noBag: true, shift: false, canLose: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / n;
+  };
+  passes['Lucy (silver)'] = rate(G.PikeHall.QUEEN[2].team);
+  passes['Lucy (gold)'] = rate(G.PikeHall.QUEEN[10].team);
+  console.log('[balance] Battle Pike, Swampert, Gardevoir and Manectric at 50 (passes got through, doors at random; Lucy at full HP):', JSON.stringify(passes));
+  assert.deepEqual(st.errors, []);
+  assert.ok(passes['pass 1'] >= 0.25, 'a pass is within reach');
 });
 
 test('balance: the Battle Dome (chapter 81), win rates of a typical team choosing two of three are printed', () => {
@@ -4502,6 +4548,35 @@ async function chapter53(st) {
 }
 
 /** Chapter 77 after chapter 76: Mirage Island, with a Pokémon the sea chooses today. */
+/** Chapter 82 after chapter 81: the Battle Pike with the party's three strongest that may enter (always the left door),
+ *  until a pass is done. */
+async function chapter82(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower;
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 3 && !Tw.why(party[i], picks.map(j => party[j]))) picks.push(i);
+  }
+  const before = JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp]));
+  const bp = Tw.bp(), n = st.battles.length;
+  let tries = 0;
+  while (Tw.streak('single', 'pike') < 1 && tries < 15) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(...picks);
+    await run(st, 'battle-pike-lobby', 'pike.single', [0]);
+  }
+  const rooms = G.PikeHall.log.map(r => r.kind);
+  console.log('[story] the Battle Pike:', fights(st, n), 'in', tries, 'challenge(s); the last pass:', rooms.join(', '));
+  assert.equal(Tw.streak('single', 'pike'), 1, 'a pass done');
+  assert.equal(Tw.bp(), bp + 3);
+  assert.equal(JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp])), before, 'the party is as it was');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('battle-pike')), 'Pike trainers are not recorded');
+  assert.ok(F.flag('chapter-82-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+const fights = (st, n) => st.battles.slice(n).map(b => b.outcome).join() || 'no battles';
+
 /** Chapter 81 after chapter 80: the Battle Dome with the party's three strongest that may enter (the first two in each
  *  match), until a tournament is won. */
 async function chapter81(st) {
@@ -5338,4 +5413,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter79(st);
   await chapter80(st);
   await chapter81(st);
+  await chapter82(st);
 });

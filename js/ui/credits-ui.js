@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 82) return { title: T('Chapter 82 complete!'),
+      done: fmt('{player} chose a way through all fourteen rooms of the Battle Pike, with only the healing rooms to rest in.', { player }),
+      next: T('The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.') };
     if (n === 81) return { title: T('Chapter 81 complete!'),
       done: fmt('{player} won a tournament of sixteen Trainers at the Battle Dome, four matches in a row.', { player }),
       next: T('The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.') };

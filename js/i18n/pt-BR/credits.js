@@ -224,5 +224,8 @@ G.I18n.add({
   "The streak goes on: Spenser, the Palace Maven, waits for whoever wins twenty-one battles in a row.": "A sequência continua: Spenser, o Palace Maven, espera por quem vencer vinte e uma batalhas seguidas.",
   "Chapter 81 complete!": "Capítulo 81 concluído!",
   "{player} won a tournament of sixteen Trainers at the Battle Dome, four matches in a row.": "{player} venceu um torneio de dezesseis Treinadores no Battle Dome, quatro partidas seguidas.",
-  "The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.": "A sequência continua: Tucker, o Dome Ace, espera na final do quinto torneio seguido."
+  "The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.": "A sequência continua: Tucker, o Dome Ace, espera na final do quinto torneio seguido.",
+  "Chapter 82 complete!": "Capítulo 82 concluído!",
+  "{player} chose a way through all fourteen rooms of the Battle Pike, with only the healing rooms to rest in.": "{player} encontrou um caminho pelas catorze salas do Battle Pike, descansando só nas salas de cura.",
+  "The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.": "A sequência continua: Lucy, a Pike Queen, espera no fim da segunda passagem seguida."
 }, "pt-BR");

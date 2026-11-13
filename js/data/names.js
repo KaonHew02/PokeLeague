@@ -1668,6 +1668,7 @@ G.NAMES = {
     "battle-arena": ["Battle Arena","Dojo Batalla","Dojo de Combat","Dojo Lotta","对战竞技场","對戰競技場"],
     "battle-palace": ["Battle Palace","Palacio Batalla","Palace de Combat","Palazzo Lotta","对战宫殿","對戰宮殿"],
     "battle-dome": ["Battle Dome","Cúpula Batalla","Dôme de Combat","Cupola Lotta","对战巨蛋","對戰巨蛋"],
+    "battle-pike": ["Battle Pike","Sierpe Batalla","Reptile de Combat","Serpe Lotta","对战水管","對戰水管"],
   },
   nature: {
     hardy: ["Hardy","Fuerte","Hardi","Ardita","勤奋","勤奮"],

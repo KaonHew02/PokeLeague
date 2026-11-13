@@ -85,5 +85,6 @@ G.I18n.add({
   "Factory Head": "Jefe de Fábrica",
   "Arena Tycoon": "Magnate del Dojo",
   "Palace Maven": "Guardián del Palacio",
-  "Dome Ace": "As de la Cúpula"
+  "Dome Ace": "As de la Cúpula",
+  "Pike Queen": "Reina Sierpe"
 }, "es");

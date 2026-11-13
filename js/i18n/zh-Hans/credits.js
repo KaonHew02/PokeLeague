@@ -224,5 +224,8 @@ G.I18n.add({
   "The streak goes on: Spenser, the Palace Maven, waits for whoever wins twenty-one battles in a row.": "连胜还在继续：宫殿守护者郁金正等着取得二十一连胜的人。",
   "Chapter 81 complete!": "第八十一章完成！",
   "{player} won a tournament of sixteen Trainers at the Battle Dome, four matches in a row.": "{player}在对战巨蛋连赢 4 场，拿下了 16 位训练家的冠军赛。",
-  "The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.": "连胜还在继续：巨蛋超级巨星石南正在连续第 5 次冠军赛的决赛等着你。"
+  "The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.": "连胜还在继续：巨蛋超级巨星石南正在连续第 5 次冠军赛的决赛等着你。",
+  "Chapter 82 complete!": "第八十二章完成！",
+  "{player} chose a way through all fourteen rooms of the Battle Pike, with only the healing rooms to rest in.": "{player}选好了路线，穿过了对战水管的全部 14 个房间，一路上只能在回复房间休息。",
+  "The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.": "连胜还在继续：水管皇后小蓟正在连续第二趟的终点等着你。"
 }, "zh-Hans");

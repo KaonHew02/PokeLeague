@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 84) return { title: T('Chapter 84 complete!'),
+      done: fmt('{player} became the owner of a villa by the sea in the Resort Area.', { player }),
+      next: T('The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.') };
     if (n === 83) return { title: T('Chapter 83 complete!'),
       done: fmt('{player} climbed the seven dark floors of the Battle Pyramid with nothing but the Battle Bag, and stood at the top.', { player }),
       next: T('The streak goes on: Brandon, the Pyramid King, waits at the top of the third climb in a row.') };

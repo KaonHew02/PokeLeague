@@ -4641,6 +4641,27 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 84 after chapter 83: the villa in the Resort Area from its owner, the end of the chapter on walking in, and the
+ *  first piece of furniture the money in hand pays for (through the catalog's list, as h.choice). */
+async function chapter84(st) {
+  const { G, S } = st;
+  const F = G.Field, V = G.VillaHall;
+  assert.ok(F.flag('resort-welcome') && !F.flag('villa-owned'));
+  await run(st, 'resort-area', npc(st, 'resort-area', 'owner'));
+  assert.ok(F.flag('villa-owned'));
+  await run(st, 'resort-area', [['warp', 'villa', 'door']]);
+  assert.ok(F.flag('chapter-84-done'));
+  const before = S.player.money;
+  const i = V.FURNITURE.findIndex(f => V.unlocked(f) && f.price <= before);
+  assert.ok(i >= 0, 'something the money pays for');
+  const f = V.FURNITURE[i];
+  await run(st, 'villa', 'villa.catalog', [i, 0, V.FURNITURE.length]);
+  assert.ok(F.flag('villa-' + f.id));
+  assert.equal(S.player.money, before - f.price);
+  console.log('[story] the villa: from its owner; the first piece from the catalog:', f.id, 'for', f.price);
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 83 after chapter 82: the Battle Pyramid with the party's three strongest that may enter, until a round is climbed. */
 async function chapter83(st) {
   const { G, S } = st;
@@ -5531,4 +5552,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter81(st);
   await chapter82(st);
   await chapter83(st);
+  await chapter84(st);
 });

@@ -211,6 +211,7 @@ G.DayCare = (() => {
     const toBox = party.length >= 6;
     if (toBox) F.toBox(mon); else party.push(mon);
     F.setFlag('daycare-hatched');
+    F.setVar('eggs-hatched', (+F.getVar('eggs-hatched') || 0) + 1);   // chapter 84: the villa's masterpiece
     const j = h.jingle('caught');
     await h.say(G.T('{mon} hatched from the Egg!'), { vars: { mon: G.Names.mon(mon.sp) } });
     await j;

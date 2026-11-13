@@ -364,6 +364,7 @@ G.Maps.def({
       F.takeItem('mystery-egg', 1);
       const mon = F.giveMon('togepi', 5);
       F.setFlag('egg-hatched');
+      F.setVar('eggs-hatched', (+F.getVar('eggs-hatched') || 0) + 1);   // chapter 84: the villa's masterpiece
       const j = h.jingle('caught');
       await h.say(T('{mon} hatched from the Egg!'), { vars: { mon: G.Names.mon(175) } });
       await j;

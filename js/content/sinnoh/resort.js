@@ -3,8 +3,9 @@
  * stops (`sandstorm`: blowing sand on the screen, a sandstorm in battles), Route 229 green and warm with the sea to the west,
  * and the Resort Area by the beach, where a guide welcomes you the first time (`ending(63)`). Route 230 is the sea from
  * Route 229 west to Fight Area, with an island in the middle. Platinum needs Rock Climb nowhere here; Surf, Cut and Rock
- * Smash open the side ways. Platinum's Trainers and wild Pokémon. Left out: the villa and the Ribbon Syndicate (their doors
- * stay shut), Pokémon Kid Ariel, Rock Peak Ruins, the tutor of the strongest moves, berries, the Dowsing Machine's items.
+ * Smash open the side ways. Platinum's Trainers and wild Pokémon. Left out: the Ribbon Syndicate (its door stays shut),
+ * Pokémon Kid Ariel, Rock Peak Ruins, the tutor of the strongest moves, berries, the Dowsing Machine's items. The villa is
+ * chapter 84's (villa.js): its owner by the door, the door, the sign, the guide's words and the visitors outside.
  */
 (() => {
   const T = s => G.T(s);
@@ -282,15 +283,23 @@
     ],
     connect: { north: { map: 'route229', offset: 0 } },
     encounters: { water: '@resort-area-area' },
-    warps: [{ x: 6, y: 8, locked: 'resort.villa' }, { x: 16, y: 8, locked: 'resort.club' }],
-    spots: { north: [25, 2, 'down'] },
-    signs: { '11,9': 'A villa by the sea. It has stood empty all season.',
+    enter: 'villa.today',
+    warps: [{ x: 6, y: 8, to: 'villa', spot: 'door', if: 'villa-owned', locked: 'resort.villa' }, { x: 16, y: 8, locked: 'resort.club' }],
+    spots: { north: [25, 2, 'down'], villa: [6, 9, 'down'] },
+    signs: { '11,9': { script: 'villa.sign' },
              '21,8': 'The Ribbon Syndicate. Members only.',
              '26,2': 'The Resort Area. Rest, relax, and leave your battles at the door.' },
     items: [{ x: 31, y: 16, item: 'nugget', flag: 'resort-nugget' }],
     triggers: [{ x: 24, y: 1, w: 2, h: 1, if: '!resort-welcome', script: 'resort.arrive' }],
     npcs: [
-      { id: 'guide', who: 'gentleman', x: 27, y: 4, dir: 'left', say: 'The villa over there has stood empty all season. Someone will move in one day, I am sure of it.' },
+      { id: 'guide', who: 'gentleman', x: 27, y: 4, dir: 'left', script: 'villa.guide' },
+      // Chapter 84 (villa.js): the villa's owner until he gives it to you, then one visitor a day in front of the door.
+      { id: 'owner', who: 'richboy', x: 7, y: 9, dir: 'left', if: '!villa-owned', script: 'villa.owner' },
+      { id: 'rowan', who: 'rowan', x: 8, y: 10, dir: 'left', if: 'villa-v-rowan', script: 'villa.v.rowan' },
+      { id: 'roark', who: 'roark', x: 8, y: 10, dir: 'left', if: 'villa-v-roark', script: 'villa.v.roark' },
+      { id: 'gardenia', who: 'gardenia', x: 8, y: 10, dir: 'left', if: 'villa-v-gardenia', script: 'villa.v.gardenia' },
+      { id: 'maylene', who: 'maylene', x: 8, y: 10, dir: 'left', if: 'villa-v-maylene', script: 'villa.v.maylene' },
+      { id: 'byron', who: 'byron', x: 8, y: 10, dir: 'left', if: 'villa-v-byron', script: 'villa.v.byron' },
       { id: 'tourist', who: 'beauty', x: 10, y: 13, move: 'look', say: 'I came for one night and stayed three weeks. Nobody here is ever in a hurry.' },
       { id: 'bather', who: 'swimmer', x: 20, y: 17, dir: 'down', say: 'The water here is warm all year. The swimmers on Route 230 are less friendly, though.' }
     ]

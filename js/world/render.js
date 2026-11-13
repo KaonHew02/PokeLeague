@@ -215,6 +215,16 @@ G.WorldRender = (() => {
         list.push({ y: (r.y + 0.5) * TS - 1, draw: c => c.drawImage(rock, x + (TS - w) / 2, y + TS - hh - (1 - s) * TS * 0.3, w, hh) });
       }
     }
+    // Furniture (chapter 84: the map's `decor`): on the wall behind everyone, `top` above everyone (a chandelier), `over`
+    // just in front of what it stands on, the rest by its lowest row like everything else; `lift` px higher.
+    for (const o of S.decor || []) {
+      if (!o.shown) continue;
+      const d = o.def, img = G.Tiles.sprite('decor:' + d.kind, m.palette);
+      const w = img.width * PX, hh = img.height * PX, bottom = (d.y + (d.h || 1)) * TS - (d.lift || 0) * PX;
+      const x = d.x * TS + ((d.w || 1) * TS - w) / 2;
+      const key = d.wall ? -1e9 : d.top ? 1e9 : (d.y + (d.h || 1)) * TS - (d.over ? 0 : 1);
+      list.push({ y: key, draw: c => c.drawImage(img, x, bottom - hh, w, hh) });
+    }
     const ball = G.Tiles.sprite('ball');
     for (const it of S.items) {
       if (it.got || it.def.hidden) continue;

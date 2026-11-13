@@ -230,5 +230,8 @@ G.I18n.add({
   "The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.": "La racha continúa: Lucy, la Reina Sierpe, espera al final del segundo recorrido seguido.",
   "Chapter 83 complete!": "¡Capítulo 83 completado!",
   "{player} climbed the seven dark floors of the Battle Pyramid with nothing but the Battle Bag, and stood at the top.": "{player} subió los siete pisos oscuros de la Pirámide Batalla sin más que la Mochila Batalla, y llegó a la cima.",
-  "The streak goes on: Brandon, the Pyramid King, waits at the top of the third climb in a row.": "La racha continúa: Brandon, el Rey Pirámide, espera en la cima de la tercera subida seguida."
+  "The streak goes on: Brandon, the Pyramid King, waits at the top of the third climb in a row.": "La racha continúa: Brandon, el Rey Pirámide, espera en la cima de la tercera subida seguida.",
+  "Chapter 84 complete!": "¡Capítulo 84 completado!",
+  "{player} became the owner of a villa by the sea in the Resort Area.": "{player} es ahora dueño de una villa junto al mar en Área Relax.",
+  "The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.": "El catálogo es grueso y nada es barato; cuantas más cosas haya en la villa, más visitas vendrán."
 }, "es");

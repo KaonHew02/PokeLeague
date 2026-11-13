@@ -18,19 +18,19 @@
  * tools/build.js rewrites the lines between build:begin and build:end.
  */
 /* build:begin */
-const VERSION = 'ee6a7c119a';
+const VERSION = '4419479b5e';
 const SPRITES = '8c074d4a9e';
 const SHELL = [
   "./",
   "css/app.css?v=4a2d9846f8",
-  "js/app.min.js?v=6cc58dc8b7",
-  "js/core/locales.js?v=c9166c198d",
-  "js/lang/es.js?v=c9166c198d",
-  "js/lang/fr.js?v=c9166c198d",
-  "js/lang/it.js?v=c9166c198d",
-  "js/lang/pt-BR.js?v=c9166c198d",
-  "js/lang/zh-Hans.js?v=c9166c198d",
-  "js/lang/zh-Hant.js?v=c9166c198d",
+  "js/app.min.js?v=c044b6b824",
+  "js/core/locales.js?v=49b151ebd9",
+  "js/lang/es.js?v=49b151ebd9",
+  "js/lang/fr.js?v=49b151ebd9",
+  "js/lang/it.js?v=49b151ebd9",
+  "js/lang/pt-BR.js?v=49b151ebd9",
+  "js/lang/zh-Hans.js?v=49b151ebd9",
+  "js/lang/zh-Hant.js?v=49b151ebd9",
   "assets/icons/icon-32.png",
   "assets/icons/icon-180.png",
   "assets/fonts/PixelifyPS-400.ttf",

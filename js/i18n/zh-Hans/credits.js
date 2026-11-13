@@ -230,5 +230,8 @@ G.I18n.add({
   "The streak goes on: Lucy, the Pike Queen, waits at the end of the second pass in a row.": "连胜还在继续：水管皇后小蓟正在连续第二趟的终点等着你。",
   "Chapter 83 complete!": "第八十三章完成！",
   "{player} climbed the seven dark floors of the Battle Pyramid with nothing but the Battle Bag, and stood at the top.": "{player}只带着对战包包，爬过对战金字塔 7 层黑暗的楼层，站上了顶端。",
-  "The streak goes on: Brandon, the Pyramid King, waits at the top of the third climb in a row.": "连胜还在继续：连续第 3 次爬到顶端时，金字塔法老神代在那里等着。"
+  "The streak goes on: Brandon, the Pyramid King, waits at the top of the third climb in a row.": "连胜还在继续：连续第 3 次爬到顶端时，金字塔法老神代在那里等着。",
+  "Chapter 84 complete!": "第八十四章完成！",
+  "{player} became the owner of a villa by the sea in the Resort Area.": "{player}成为了名胜区一栋海边别墅的主人。",
+  "The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.": "目录很厚，上面没有便宜的东西；别墅里的东西越多，来访的人就越多。"
 }, "zh-Hans");

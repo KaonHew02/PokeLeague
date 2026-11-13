@@ -47,6 +47,7 @@ function show(G, id, changed) {
   list('trainers', m.trainers.map(t => `${t.id} (${t.who}, ${t.cls}) ${at(t.x, t.y)} ${t.dir} sight ${t.sight}: ${(t.team || []).map(([s, l]) => s + ' ' + l).join(', ')}`));
   list('items', m.items.map(it => `${it.item}${it.n > 1 ? ' ×' + it.n : ''} at ${at(it.x, it.y)} [${it.flag}]${it.hidden ? ' hidden' : ''}`));
   list('triggers', m.triggers.map(t => `${at(t.x, t.y)} ${t.w || 1}×${t.h || 1}${t.if ? ' if ' + [].concat(t.if).join(' ') : ''} -> ${typeof t.script === 'string' ? t.script : '[script]'}`));
+  list('decor', (m.decor || []).map(o => `${o.id} (${o.kind}) ${at(o.x, o.y)} ${o.w || 1}×${o.h || 1}${o.wall ? ' wall' : ''}${o.over ? ' over' : ''}${o.top ? ' top' : ''}${o.if ? ' if ' + [].concat(o.if).join(' ') : ''}${o.script ? ' -> ' + o.script : ''}`));
   if (d.enter) list('enter', [typeof d.enter === 'string' ? d.enter : '[script]']);
   list('encounters', Object.keys(m.encounters).map(k => {
     const e = G.Maps.encounters(m, k);

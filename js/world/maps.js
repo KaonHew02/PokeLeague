@@ -5,6 +5,8 @@
  *     border:'T', rows:[ 'TTTT..TTTT', … ], connect:{ north:{ map:'route1', offset:0 } },
  *     warps:[{ x, y, to, spot }], spots:{ name:[x, y, dir] }, signs:{ 'x,y':'text' | { script } },
  *     npcs:[…], trainers:[…], items:[…], triggers:[…], encounters:{ walk:'@area-key' }, enter:'script' })
+ *   Chapter 84: decor:[{ id, kind, x, y, w, h, if, script, wall, over, top, lift }] (furniture shown while `if`
+ *   holds, in the way like an item, read with A; drawn by tiles.js `decor:<kind>`; the villa in the Resort Area).
  *   Chapter 7: boulders:[{ id, x, y, if, fixed }] (Strength), bars:[{ x, y, w, h, if }] (gates),
  *   calm: cond (fast water becomes water), flow: 'down', encounters.water: '@area' (Surf and rods),
  *   and people with swim: true (standing in water).
@@ -266,7 +268,7 @@ G.Maps = (() => {
       connect: d.connect || {},
       spots: d.spots || {},
       signs: d.signs || {},
-      npcs: d.npcs || [], trainers: d.trainers || [], items: d.items || [], triggers: d.triggers || [],
+      npcs: d.npcs || [], trainers: d.trainers || [], items: d.items || [], triggers: d.triggers || [], decor: d.decor || [],
       moveSpots: d.moveSpots || [],
       encounters: d.encounters || {},
       warps: d.warps || [],
@@ -543,6 +545,23 @@ G.Maps = (() => {
       const w = r.w || 1, h = r.h || 1;
       if (!tileOk(r.x, r.y) || !tileOk(r.x + w - 1, r.y + h - 1)) { E.push(`bars ${i} is outside the map`); continue; }
       for (let y = r.y; y < r.y + h; y++) for (let x = r.x; x < r.x + w; x++) if (kindAt(m, x, y) !== 'bars') E.push(`bars ${i} covers a ${kindAt(m, x, y)} tile at ${where(x, y)}`);
+    }
+    // Furniture (chapter 84, `decor`): an id and a kind each, inside the map; on open floor, nobody standing there, unless
+    // it hangs on the wall (`wall`: on solid tiles) or stands on something else (`over`).
+    const decorIds = new Set();
+    for (const o of m.decor) {
+      const w = o.w || 1, h = o.h || 1, at = where(o.x, o.y);
+      if (!o.id) E.push(`decor at ${at} has no id`);
+      else if (decorIds.has(o.id)) E.push(`two decor pieces with the id "${o.id}"`);
+      decorIds.add(o.id);
+      if (!o.kind) E.push(`decor "${o.id}" has no kind`);
+      if (o.script) scriptRef(o.script, `decor "${o.id}"`);
+      if (!tileOk(o.x, o.y) || !tileOk(o.x + w - 1, o.y + h - 1)) { E.push(`decor "${o.id}" is outside the map`); continue; }
+      if (o.over) continue;
+      for (let y = o.y; y < o.y + h; y++) for (let x = o.x; x < o.x + w; x++) {
+        if (o.wall ? open(m, x, y) : !open(m, x, y) || info(kindAt(m, x, y)).warp) E.push(`decor "${o.id}" ${o.wall ? 'hangs over' : 'stands on'} a ${kindAt(m, x, y)} tile at ${where(x, y)}`);
+        if (!o.wall && [...m.npcs, ...m.trainers, ...m.items].some(p => p.x === x && p.y === y)) E.push(`decor "${o.id}" covers someone or something at ${where(x, y)}`);
+      }
     }
     // Two things on one tile
     const taken = new Map();

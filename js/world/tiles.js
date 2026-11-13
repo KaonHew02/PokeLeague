@@ -99,6 +99,11 @@ G.Tiles = (() => {
     wood: ['#b88c5c', '#a87c50', '#c89c6c'], woodLine: '#806040', tile: ['#d8e8c8', '#c8dcb8'], grout: '#b0c8a0',
     rug: ['#e070a0', '#f094bc', '#b04c7c'], counter: ['#e8f0e0', '#c4d4b8', '#8aa080'],
     mat: ['#5aa04a', '#7cc06c'], screen: '#68d0f8' };
+  // The villa in the Resort Area (chapter 84): cream walls with a gold trim, dark wood, a deep blue rug.
+  PALETTES.villa = { floor: 'wood', wallTop: ['#4c4038', '#5a4c42'], paper: ['#f6ecd6', '#ecdfc4'], trim: '#c8a050', base: '#6a4a30',
+    wood: ['#b07a48', '#a06c3e', '#c08a56'], woodLine: '#7a5030', tile: ['#f2ece0', '#e2dccf'], grout: '#cfc7b8',
+    rug: ['#2e5a9a', '#4a78b8', '#1e3e70'], counter: ['#f0e4cc', '#d0bc98', '#9c8462'],
+    mat: ['#2e5a9a', '#4a78b8'], screen: '#68d0f8' };
   // Whitney's Gym (Goldenrod): soft pink tiles.
   PALETTES.pink = { floor: 'tile', wallTop: ['#6a4a5a', '#7a5668'], paper: ['#fbe4ee', '#f4d4e2'], trim: '#e890b4', base: '#b85a84',
     wood: ['#d8a868', '#cc9a5c', '#e2b478'], woodLine: '#a07040', tile: ['#f8dce8', '#f0ccdc'], grout: '#dcaec2',
@@ -1294,6 +1299,157 @@ G.Tiles = (() => {
     return P.canvas();
   }
 
+  // ---------------- furniture (chapter 84: a map's `decor`; the villa in the Resort Area) ----------------
+  // Each piece is drawn standing on its footprint (16 px a tile), a few pixels taller when it rises against the wall.
+  const DECOR_COLORS = {
+    o: '#24201e',
+    wood: ['#5e3620', '#82502e', '#a46a3c', '#c68c58'],
+    red: ['#6e2230', '#963240', '#bc4a58', '#dc6e7a'],
+    blue: ['#283f74', '#3a5c9c', '#5a7ec4', '#8aa8e0'],
+    white: ['#bcb8b0', '#dcd8d0', '#f6f2ea'],
+    gold: ['#8c6418', '#c49a30', '#ecc85c', '#fae49a'],
+    metal: ['#585c6c', '#868c9c', '#b4bac6', '#dce0e8'],
+    black: ['#16161c', '#2a2a34', '#42424e'],
+    green: ['#24502a', '#35803c', '#5aac56', '#8cd27c'],
+    stone: ['#625c58', '#88827c', '#ada79f', '#d2ccc4'],
+    silver: ['#5c667c', '#8a96ae', '#b8c4d8', '#e4ecf8'],
+    screen: ['#3a8ad0', '#64b8f2', '#b4e2fc'],
+    pot: ['#8a4626', '#b0603a', '#d27e50']
+  };
+  const DECOR_SIZE = { 'big-sofa': [48, 22], 'small-sofa': [32, 22], bed: [32, 34], 'night-table': [16, 24], tv: [32, 28], audio: [16, 28],
+    bookshelf: [32, 30], rack: [16, 28], houseplant: [16, 30], 'pc-desk': [32, 28], 'music-box': [16, 16], bust: [16, 30], 'silver-bust': [16, 30],
+    piano: [32, 30], 'guest-set': [32, 22], 'wall-clock': [16, 16], masterpiece: [32, 16], 'tea-set': [16, 10], chandelier: [32, 20] };
+  function furnish(kind) {
+    const F = {};
+    for (const [n, v] of Object.entries(DECOR_COLORS)) F[n] = Array.isArray(v) ? v.map(c => pack(c)) : pack(v);
+    const [w, h] = DECOR_SIZE[kind] || [16, 16];
+    const P = Pix(w, h);
+    const R = (x, y, rw, rh, c) => P.rect(x, y, rw, rh, c);
+    /** A sofa `rw` wide in `c` (four shades): backrest, arms, cushions, a dark base, legs. */
+    const sofa = (rw, c) => {
+      R(2, 3, rw - 4, 9, c[1]); R(2, 3, rw - 4, 2, c[2]);                  // backrest
+      R(5, 11, rw - 10, 7, c[2]); R(5, 11, rw - 10, 1, c[3]);              // seat
+      for (let x = 5 + Math.floor((rw - 10) / 3); x < rw - 7; x += Math.floor((rw - 10) / 3)) R(x, 11, 1, 7, c[1]);
+      R(1, 8, 5, 12, c[1]); R(1, 8, 5, 2, c[2]); R(rw - 6, 8, 5, 12, c[1]); R(rw - 6, 8, 5, 2, c[2]);   // arms
+      R(2, 18, rw - 4, 2, c[0]);                                           // base
+      R(3, 20, 2, 1, F.wood[0]); R(rw - 5, 20, 2, 1, F.wood[0]);           // legs
+    };
+    /** A statue of a Pokémon on a pedestal (round head, pointed ears), in stone or silver. */
+    const bust = c => {
+      R(3, 18, 10, 9, c[1]); R(2, 17, 12, 2, c[2]); R(2, 27, 12, 2, c[0]); R(4, 20, 1, 6, c[2]);
+      R(6, 14, 4, 3, c[1]);
+      disc(P, 7.5, 10, 5, (x, y) => (((x - 7.5) * -0.6 + (y - 10) * -0.8) / 5 > 0.35 ? c[3] : ((x - 7.5) * -0.6 + (y - 10) * -0.8) / 5 > -0.3 ? c[2] : c[1]));
+      for (let i = 0; i < 4; i++) { R(3 + Math.floor(i / 2), 3 + i, 2, 1, c[2]); R(11 - Math.floor(i / 2), 3 + i, 2, 1, c[1]); }
+      P.set(6, 10, c[0]); P.set(9, 10, c[0]);
+    };
+    switch (kind) {
+      case 'big-sofa': sofa(48, F.red); break;
+      case 'small-sofa': sofa(32, F.blue); break;
+      case 'bed':
+        R(2, 1, 28, 8, F.wood[1]); R(2, 1, 28, 2, F.wood[3]); R(4, 4, 24, 3, F.wood[2]);   // headboard
+        R(2, 9, 28, 22, F.wood[0]); R(3, 9, 26, 21, F.white[2]);                          // frame and sheet
+        R(6, 10, 20, 5, F.white[1]); R(7, 10, 18, 3, F.white[2]);                         // pillow
+        R(3, 16, 26, 14, F.blue[2]); R(3, 16, 26, 2, F.white[2]); R(3, 18, 26, 1, F.blue[3]); R(3, 28, 26, 2, F.blue[1]);
+        R(2, 30, 28, 3, F.wood[1]); R(2, 30, 28, 1, F.wood[2]);                           // footboard
+        break;
+      case 'night-table':
+        R(2, 12, 12, 11, F.wood[1]); R(2, 12, 12, 2, F.wood[3]); R(3, 17, 10, 1, F.wood[0]); P.set(8, 19, F.gold[2]);
+        R(7, 8, 2, 4, F.gold[1]); R(4, 2, 8, 6, F.gold[2]); R(5, 2, 6, 1, F.gold[3]); R(4, 7, 8, 1, F.gold[1]);
+        break;
+      case 'tv':
+        R(2, 18, 28, 9, F.wood[1]); R(2, 18, 28, 2, F.wood[3]); R(15, 21, 2, 5, F.wood[0]); P.set(13, 23, F.gold[2]); P.set(18, 23, F.gold[2]);
+        R(5, 2, 22, 15, F.black[1]); R(5, 2, 22, 1, F.black[2]); R(7, 4, 18, 10, F.screen[1]); R(7, 12, 18, 2, F.screen[0]);
+        R(8, 5, 6, 2, F.screen[2]); R(13, 17, 6, 1, F.black[0]);
+        break;
+      case 'audio':
+        R(2, 3, 12, 24, F.black[1]); R(2, 3, 12, 2, F.black[2]);
+        for (const cy of [10, 20]) disc(P, 7.5, cy, 3.5, (x, y, t) => (t > 0.7 ? F.metal[1] : t > 0.35 ? F.black[0] : F.metal[0]));
+        R(4, 14, 8, 2, F.screen[1]); P.set(3, 25, F.gold[2]); P.set(12, 25, F.gold[2]);
+        break;
+      case 'bookshelf': {
+        R(1, 1, 30, 28, F.wood[1]); R(1, 1, 30, 2, F.wood[3]); R(3, 4, 26, 23, F.wood[0]);
+        const books = ['#c84848', '#4870c8', '#48a058', '#e8c048', '#9a5ac8', '#e08a48'].map(c => pack(c));
+        for (const [y0, y1] of [[4, 10], [12, 18], [20, 26]]) {
+          R(3, y1 + 1, 26, 1, F.wood[2]);
+          for (let x = 3, i = y0; x < 29; i++) {
+            const bw = 2 + (i % 3 === 0 ? 1 : 0), top = y0 + (i % 4 === 1 ? 2 : i % 5 === 2 ? 1 : 0);
+            if (i % 7 !== 3) R(x, top, Math.min(bw, 29 - x), y1 - top + 1, books[i % books.length]);
+            x += bw + (i % 6 === 5 ? 1 : 0);
+          }
+        }
+        break;
+      }
+      case 'rack':
+        R(2, 3, 2, 24, F.wood[1]); R(12, 3, 2, 24, F.wood[1]);
+        for (const y of [8, 17, 25]) { R(2, y, 12, 2, F.wood[2]); R(2, y, 12, 1, F.wood[3]); }
+        R(5, 3, 6, 5, F.blue[2]); R(5, 3, 6, 1, F.blue[3]);                           // a bag
+        R(4, 12, 8, 5, pack('#c89060')); R(4, 12, 8, 1, pack('#e0b080'));             // a box
+        R(4, 21, 4, 4, pack('#d8b070')); R(9, 22, 3, 3, F.red[2]);
+        break;
+      case 'houseplant':
+        R(4, 21, 8, 8, F.pot[1]); R(3, 20, 10, 2, F.pot[2]); R(4, 27, 8, 2, F.pot[0]);
+        for (const [cx, cy, r] of [[7.5, 11, 5.5], [4.5, 15, 3.6], [10.5, 15, 3.6], [7.5, 5, 3.4]]) {
+          disc(P, cx, cy, r, (x, y) => { const l = ((x - cx) * -0.55 + (y - cy) * -0.85) / r; return l > 0.4 ? F.green[3] : l > -0.1 ? F.green[2] : l > -0.6 ? F.green[1] : F.green[0]; });
+        }
+        break;
+      case 'pc-desk':
+        R(1, 15, 30, 4, F.wood[2]); R(1, 15, 30, 1, F.wood[3]); R(1, 19, 30, 8, F.wood[1]); R(21, 19, 9, 8, F.wood[0]);
+        R(22, 22, 7, 1, F.wood[2]); P.set(25, 24, F.gold[2]);
+        R(8, 3, 14, 11, F.metal[2]); R(8, 3, 14, 1, F.metal[3]); R(9, 4, 12, 8, F.screen[1]); R(10, 5, 4, 2, F.screen[2]);
+        R(14, 14, 2, 1, F.metal[1]); R(9, 16, 12, 2, F.white[1]); R(9, 16, 12, 1, F.white[2]);
+        break;
+      case 'music-box':
+        R(3, 9, 10, 3, F.wood[2]); R(3, 9, 10, 1, F.wood[3]); R(7, 12, 2, 3, F.wood[1]); R(5, 15, 6, 1, F.wood[0]);
+        R(4, 3, 8, 6, F.gold[1]); R(4, 3, 8, 2, F.gold[3]); R(5, 6, 6, 1, F.gold[0]); P.set(12, 6, F.metal[2]); P.set(13, 6, F.metal[1]);
+        break;
+      case 'bust': bust(F.stone); break;
+      case 'silver-bust': bust(F.silver); break;
+      case 'piano':
+        R(1, 2, 30, 17, F.black[1]); R(1, 2, 30, 3, F.black[2]); R(6, 9, 20, 1, F.gold[2]); R(6, 10, 20, 3, F.white[1]);
+        R(1, 19, 30, 4, F.black[1]); R(2, 19, 28, 3, F.white[2]);
+        for (let x = 3, i = 0; x < 29; x += 2, i++) if (i % 7 !== 2 && i % 7 !== 6) R(x, 19, 1, 2, F.black[0]);
+        R(2, 23, 3, 6, F.black[0]); R(27, 23, 3, 6, F.black[0]); R(13, 25, 6, 2, F.black[2]);
+        break;
+      case 'guest-set':
+        R(1, 8, 5, 12, F.red[1]); R(1, 4, 5, 5, F.red[2]); R(1, 4, 5, 1, F.red[3]); R(2, 20, 1, 1, F.wood[0]); R(4, 20, 1, 1, F.wood[0]);
+        R(26, 8, 5, 12, F.red[1]); R(26, 4, 5, 5, F.red[2]); R(26, 4, 5, 1, F.red[3]); R(27, 20, 1, 1, F.wood[0]); R(29, 20, 1, 1, F.wood[0]);
+        R(7, 6, 18, 9, F.white[2]); R(7, 14, 18, 4, F.white[1]); R(7, 17, 18, 1, F.white[0]);
+        R(9, 18, 2, 3, F.wood[0]); R(21, 18, 2, 3, F.wood[0]);
+        break;
+      case 'wall-clock':
+        disc(P, 7.5, 7.5, 6.5, (x, y, t) => (t > 0.78 ? F.wood[1] : F.white[2]));
+        R(7, 3, 1, 5, F.black[0]); R(7, 7, 4, 1, F.black[0]); P.set(7, 7, F.gold[1]);
+        for (const [x, y] of [[7, 2], [12, 7], [7, 12], [2, 7]]) P.set(x, y, F.black[1]);
+        break;
+      case 'masterpiece':
+        R(1, 1, 30, 14, F.gold[1]); R(1, 1, 30, 1, F.gold[3]); R(2, 2, 28, 12, F.gold[2]); R(3, 3, 26, 10, pack('#8cc4f0'));
+        for (let x = 3; x < 29; x++) {
+          const top = Math.round(9 + 2 * Math.sin(x / 3.5));
+          for (let y = top; y < 13; y++) P.set(x, y, y === top ? F.green[3] : F.green[2]);
+        }
+        disc(P, 22, 6, 2.2, () => pack('#f8e070'));
+        break;
+      case 'tea-set':
+        R(1, 6, 14, 3, F.metal[2]); R(1, 6, 14, 1, F.metal[3]);
+        R(5, 2, 5, 5, F.white[2]); R(6, 1, 3, 1, F.white[1]); R(10, 3, 2, 1, F.white[1]); R(4, 3, 1, 2, F.white[1]);
+        R(2, 4, 2, 2, F.white[2]); R(12, 4, 2, 2, F.white[2]);
+        break;
+      case 'chandelier':
+        R(15, 0, 2, 5, F.gold[1]);
+        disc(P, 15.5, 8, 3.4, (x, y, t) => (t > 0.6 ? F.gold[1] : F.gold[3]));
+        R(4, 9, 24, 2, F.gold[1]); R(4, 9, 24, 1, F.gold[2]);
+        for (const x of [4, 10, 20, 26]) {
+          R(x, 5, 2, 4, F.white[2]); P.set(x, 3, pack('#ffd060')); P.set(x + 1, 4, pack('#ffb030')); P.set(x, 4, pack('#ffe890'));
+          for (let y = 12; y < 15; y++) P.set(x + (y & 1), y, pack('#cfe8ff'));
+        }
+        for (const x of [7, 15, 23]) for (let y = 12; y < 17; y++) P.set(x + (y & 1), y, pack('#e4f2ff'));
+        break;
+      default: R(2, 2, 12, 12, F.metal[1]);
+    }
+    outline(P, F.o);
+    return P.canvas();
+  }
+
   const PROPS = {
     /** A round tree: 16×28, the canopy reaches 12 px into the tile above. */
     tree(C) { return roundTree(C, 0); },
@@ -1433,6 +1589,8 @@ G.Tiles = (() => {
       for (const bx of [1, 5, 9, 13]) for (let y = 0; y < T; y++) { P.set(bx, y, o); P.set(bx + 1, y, y < 2 ? l : m); P.set(bx + 2, y, o); }
       return P.canvas();
     },
+    /** A piece of furniture (chapter 84: a map's `decor`): 'decor:big-sofa'. */
+    decor(C, kind) { return furnish(kind); },
     /** An item on the ground: a Poké Ball. */
     ball() {
       const P = Pix(12, 12);

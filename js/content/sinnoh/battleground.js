@@ -95,6 +95,8 @@
   G.Maps.def(Object.assign({
     id: 'survival-ground', loc: 'survival-area', tileset: 'indoor', palette: 'gym', music: 'gym', battleBg: 'indoor',
     enter: 'bground.enter',
+    // Battles won here, counted (chapter 84: the villa's Guest Set waits for fifty).
+    afterBattle: { script: 'bground.won' },
     rows: ['WWWWWWWWWWWWWWW', 'WWWWWWWWWWWWWWW', '_______________', '_______________', '_______________', '___rrrrrrrrr___',
            '___rrrrrrrrr___', '_______________', '_______________', '_______________', '_______X_______'],
     warps: [{ x: 7, y: 10, to: 'survival-area', spot: 'ground-door' }],
@@ -181,6 +183,7 @@
 
   G.Battleground = { POOL, TEAMS, today, roster };
   G.Script.def({
+    'bground.won': [['js', () => { if (G.Field.lastBattle === 'win') G.Field.setVar('bg-wins', (+G.Field.getVar('bg-wins') || 0) + 1); }]],
     'bground.enter': [['js', () => { today(); }]],
     'bground.clerk': [['js', clerk]]
   });

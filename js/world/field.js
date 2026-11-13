@@ -248,6 +248,7 @@ G.World = (() => {
   let me = null, follower = null;
   let actors = [];                       // npcs and trainers of this map
   let items = [];                        // { def, key, got }
+  let decor = [];                        // { def, decor: true, shown } (chapter 84: the map's `decor`, furniture)
   let locks = 0;
   let fadeA = 0;
   let healFx = null;
@@ -348,6 +349,7 @@ G.World = (() => {
                                                dir: d.partner.dir || d.dir || 'down', def: { if: d.if, partnerOf: d.id, fixed: d.partner.fixed } }));
     }
     items = map.items.map(d => ({ def: d, key: id + ':' + d.flag }));
+    decor = (map.def.decor || []).map(d => ({ def: d, decor: true, shown: false }));
     rocks = (map.def.boulders || []).filter(b => G.Field.test(b.if) && !G.Field.flag('rock:' + id + ':' + b.id)).map(b => {
       // One that was pushed onto a floor switch rests there.
       const on = G.Field.getVar('boulder:' + id + ':' + b.id);
@@ -364,6 +366,7 @@ G.World = (() => {
       else a.visible = G.Field.test(a.def.if);
     }
     for (const it of items) it.got = G.Field.isDone(it.key) || !G.Field.test(it.def.if);   // `if`: not there yet (chapter 60)
+    for (const o of decor) o.shown = G.Field.test(o.def.if);                                 // furniture bought (chapter 84)
   }
 
   /** Chapter 62: the map's `companion: { if, who, say }`, someone who walks behind you in place of your Pokémon. */
@@ -522,10 +525,15 @@ G.World = (() => {
     return !!a && M().open(a.map, a.x, a.y);
   }
   const rockAt = (x, y) => rocks.find(r => !r.fall && r.x === x && r.y === y) || null;
-  /** The visible person (or item, or boulder) on a tile, else null. */
+  /** Chapter 84: the piece of the map's `decor` shown on a tile (one `over` another takes no room of its own). */
+  const decorAt = (x, y) => decor.find(o => o.shown && !o.def.over && x >= o.def.x && x < o.def.x + (o.def.w || 1)
+                                            && y >= o.def.y && y < o.def.y + (o.def.h || 1)) || null;
+  /** The visible person (or item, or boulder, or piece of furniture) on a tile, else null. */
   function occupant(x, y, except) {
     for (const a of actors) if (a !== except && a.visible && a.x === x && a.y === y) return a;
     for (const it of items) if (!it.got && !it.def.hidden && it.def.x === x && it.def.y === y) return it;
+    const dc = decorAt(x, y);
+    if (dc) return dc;
     const r = rockAt(x, y);
     if (r) return r;
     if (me && me !== except && me.x === x && me.y === y) return me;
@@ -719,6 +727,7 @@ G.World = (() => {
   /** Every step: friendship (one point every 128 steps), the Day Care, the Mystery Egg and the Eggs you carry. -> a script began */
   function walked() {
     const V = G.Field.save.vars;
+    V.steps = (+V.steps || 0) + 1;                             // steps walked (chapter 84: the villa's chandelier)
     if (G.DayCare) G.DayCare.step(1);
     V.walk = ((+V.walk || 0) + 1) % 128;
     if (!V.walk) for (const m of G.Field.party()) if (m.hp > 0) m.friendship = Math.min(255, (m.friendship || 0) + 1);
@@ -1039,6 +1048,7 @@ G.World = (() => {
     const tx = me.x + dx, ty = me.y + dy;
     const who = occupant(tx, ty, me);
     if (who && who instanceof G.Actor) return talk(who);
+    if (who && who.decor) return who.def.script ? runScript(who.def.script, { x: tx, y: ty }) : undefined;
     if (who && who.t0 !== undefined) return strengthAt();
     if (follower && follower.visible && follower.x === tx && follower.y === ty) return talkFollower();
     const it = itemAt(tx, ty);
@@ -1142,6 +1152,7 @@ G.World = (() => {
     const n = rng.int(1, 3);
     G.Field.setVar(key, today);
     G.Field.giveItem(item, n);
+    G.Field.setVar('berries-picked', (+G.Field.getVar('berries-picked') || 0) + 1);   // chapter 84: the villa's wall clock
     const j = h.jingle('item');
     await h.say(G.T('A berry tree! {player} picked {item} ×{n}.'), { vars: { item: G.Names.item(item), n } });
     await j;
@@ -1806,7 +1817,7 @@ G.World = (() => {
   function render(ctx, view) {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
-      map, me, follower, actors, items, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, light: glow, tint: tint(), snow: !!map.def.snow, sand: !!map.def.sandstorm, bubbles: under(), rain: stormy(), fog: foggy(),
+      map, me, follower, actors, items, decor, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, light: glow, tint: tint(), snow: !!map.def.snow, sand: !!map.def.sandstorm, bubbles: under(), rain: stormy(), fog: foggy(),
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }
@@ -1819,7 +1830,7 @@ G.World = (() => {
     barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, feebasTiles, stormy, foggy, teleportBlock,
     get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
-    get actors() { return actors; }, get items() { return items; }, get cut() { return cut; }, get lit() { return lit; },
+    get actors() { return actors; }, get items() { return items; }, get decor() { return decor; }, get cut() { return cut; }, get lit() { return lit; },
     brighten, get glow() { return glow; },
     get locked() { return locks > 0 || (G.Dialog && G.Dialog.open); }, get started() { return started; },
     get rng() { return rng; }, seed(s) { rng = G.RNG(s); }

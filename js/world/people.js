@@ -29,7 +29,7 @@ G.People = (() => {
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
                  'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa',
-                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser'];
+                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser', 'tucker'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -386,7 +386,10 @@ G.People = (() => {
              p: '#f0d040', P: '#c0a020', k: '#3a2a20' },
     // Chapter 80: Spenser, the Palace Maven (my own look: white hair, a long deep purple robe, dark trousers).
     spenser: { head: 'short', body: 'coat', legs: 'pants', h: '#ececf2', H: '#b8b8c4', j: '#5a2a7a', J: '#3e1c56', c: '#e8d8a8', C: '#c0b080',
-               p: '#2a2a34', P: '#16161e', k: '#2a2020' }
+               p: '#2a2a34', P: '#16161e', k: '#2a2020' },
+    // Chapter 81: Tucker, the Dome Ace (my own look: a showman with spiky gold hair, a red stage jacket, white trousers).
+    tucker: { head: 'spiky', body: 'jacket', legs: 'pants', h: '#f0c838', H: '#c09a20', j: '#d8303a', J: '#a01e28', c: '#f4f4f4', C: '#c8c8d0',
+              p: '#f0f0f4', P: '#c0c0cc', k: '#2a2a34' }
   };
 
   const mirror = half => half + [...half].reverse().join('');

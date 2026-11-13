@@ -1402,6 +1402,35 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
 });
 
+test('balance: the Battle Dome (chapter 81), win rates of a typical team choosing two of three are printed', () => {
+  const { G } = world(1);
+  const D = G.DomeHall;
+  const MINE = [[260, 50, ['surf', 'earthquake', 'ice-beam', 'protect'], 'leftovers'], [282, 50, ['psychic', 'thunderbolt', 'calm-mind', 'shadow-ball'], 'sitrus-berry'],
+                [310, 50, ['thunderbolt', 'crunch', 'flamethrower', 'thunder-wave'], 'quick-claw']];
+  const rate = (foe, n = 60) => {
+    let wins = 0;
+    for (let s = 1; s <= n; s++) {
+      const rng = G.RNG(s * 29);
+      const team = typeof foe === 'function' ? foe(G.RNG(s * 31)) : foe;
+      // Each side sends the two of its three that hit the other's three hardest (as the Dome's opponents do).
+      const make = list => list.map(([sp, l, moves, item]) => Object.assign(G.Mon.create(G.Maps.species(sp), l, { rng, moves }), { item }));
+      const me = make(D.pickTwo(MINE, team.map(x => G.Maps.species(x[0]))));
+      const foes = make(D.pickTwo(team, MINE.map(x => x[0])));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } }, rules: { noExp: true, noBag: true, shift: false, canLose: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / n;
+  };
+  const table = {};
+  for (let round = 0; round < 4; round++) table['round ' + (round + 1) + ' pool'] = rate(rng => G.Tower.team(rng, round, 3));
+  table['Tucker (silver)'] = rate(D.ACE[5].team);
+  table['Tucker (gold)'] = rate(D.ACE[10].team);
+  console.log('[balance] Battle Dome, two of Swampert, Gardevoir and Manectric at 50 (the first tournament: three matches from the round 1 pool, the final from round 2):', JSON.stringify(table));
+  assert.ok(table['round 1 pool'] >= 0.6 && table['round 1 pool'] >= table['round 4 pool']);
+});
+
 test('balance: the Battle Palace (chapter 80), win rates of a typical team under the palace rule are printed', () => {
   const { G } = world(1);
   const rate = (foe, n = 60) => {
@@ -4473,6 +4502,39 @@ async function chapter53(st) {
 }
 
 /** Chapter 77 after chapter 76: Mirage Island, with a Pokémon the sea chooses today. */
+/** Chapter 81 after chapter 80: the Battle Dome with the party's three strongest that may enter (the first two in each
+ *  match), until a tournament is won. */
+async function chapter81(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower;
+  const party = S.party, entrants = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (entrants.length < 3 && !Tw.why(party[i], entrants.map(j => party[j]))) entrants.push(i);
+  }
+  // One answer for every pick: the entrants from the party, then the first two of them in each match.
+  let k = 0;
+  const pick = o => (o.mons ? o.mons.findIndex((m, j) => !(o.disabled && o.disabled(m, j))) : entrants[k++ % 3]);
+  const before = JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp]));
+  const bp = Tw.bp(), n = st.battles.length;
+  let tries = 0;
+  while (Tw.streak('single', 'dome') < 1 && tries < 15) {
+    tries++;
+    k = 0;
+    st.picks.length = 0;
+    for (let i = 0; i < 11; i++) st.picks.push(pick);
+    await run(st, 'battle-dome-lobby', 'dome.single', [0]);
+  }
+  const fights = st.battles.slice(n);
+  console.log('[story] the Battle Dome:', fights.map(b => b.outcome).join(), 'in', tries, 'tournament(s), with', entrants.map(i => G.Names.mon(party[i].sp)).join(', '));
+  assert.equal(Tw.streak('single', 'dome'), 1, 'a tournament won');
+  assert.ok(fights.slice(-4).every(b => b.outcome === 'win'));
+  assert.equal(Tw.bp(), bp + 3);
+  assert.equal(JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp])), before, 'the party is as it was');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('battle-dome')), 'Dome trainers are not recorded');
+  assert.ok(F.flag('chapter-81-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 80 after chapter 79: the Battle Palace with the party's three strongest that may enter, until a set of seven. */
 async function chapter80(st) {
   const { G, S } = st;
@@ -5275,4 +5337,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter78(st);
   await chapter79(st);
   await chapter80(st);
+  await chapter81(st);
 });

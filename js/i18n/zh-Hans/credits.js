@@ -221,5 +221,8 @@ G.I18n.add({
   "The streak goes on: Greta, the Arena Tycoon, waits for whoever wins twenty-eight battles in a row.": "连胜还在继续：竞技场主将黄瓜香正等着取得二十八连胜的人。",
   "Chapter 80 complete!": "第八十章完成！",
   "{player} won seven battles in a row at the Battle Palace, where the Pokémon choose their own moves.": "{player}在宝可梦自己选择招式的对战宫殿取得了 7 连胜。",
-  "The streak goes on: Spenser, the Palace Maven, waits for whoever wins twenty-one battles in a row.": "连胜还在继续：宫殿守护者郁金正等着取得二十一连胜的人。"
+  "The streak goes on: Spenser, the Palace Maven, waits for whoever wins twenty-one battles in a row.": "连胜还在继续：宫殿守护者郁金正等着取得二十一连胜的人。",
+  "Chapter 81 complete!": "第八十一章完成！",
+  "{player} won a tournament of sixteen Trainers at the Battle Dome, four matches in a row.": "{player}在对战巨蛋连赢 4 场，拿下了 16 位训练家的冠军赛。",
+  "The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.": "连胜还在继续：巨蛋超级巨星石南正在连续第 5 次冠军赛的决赛等着你。"
 }, "zh-Hans");

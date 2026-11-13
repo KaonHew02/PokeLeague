@@ -18,19 +18,19 @@
  * tools/build.js rewrites the lines between build:begin and build:end.
  */
 /* build:begin */
-const VERSION = '2ea383470a';
+const VERSION = 'ede008b7ef';
 const SPRITES = '8c074d4a9e';
 const SHELL = [
   "./",
-  "css/app.css?v=0d0c54164e",
-  "js/app.min.js?v=c7d4be7ce8",
-  "js/core/locales.js?v=b1ea2ba4e8",
-  "js/lang/es.js?v=b1ea2ba4e8",
-  "js/lang/fr.js?v=b1ea2ba4e8",
-  "js/lang/it.js?v=b1ea2ba4e8",
-  "js/lang/pt-BR.js?v=b1ea2ba4e8",
-  "js/lang/zh-Hans.js?v=b1ea2ba4e8",
-  "js/lang/zh-Hant.js?v=b1ea2ba4e8",
+  "css/app.css?v=4a2d9846f8",
+  "js/app.min.js?v=dd90754e16",
+  "js/core/locales.js?v=7abbe758c5",
+  "js/lang/es.js?v=7abbe758c5",
+  "js/lang/fr.js?v=7abbe758c5",
+  "js/lang/it.js?v=7abbe758c5",
+  "js/lang/pt-BR.js?v=7abbe758c5",
+  "js/lang/zh-Hans.js?v=7abbe758c5",
+  "js/lang/zh-Hant.js?v=7abbe758c5",
   "assets/icons/icon-32.png",
   "assets/icons/icon-180.png",
   "assets/fonts/PixelifyPS-400.ttf",

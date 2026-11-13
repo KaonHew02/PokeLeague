@@ -7,7 +7,8 @@
  *       or null; disabled(mon, i) -> true greys it out.
  *       mons: another list of Pokémon to pick from instead of the party (chapter 78: the Battle Factory's
  *       rentals, the opponent's team); action: a label ('Rent') that makes a tap ask first, with the
- *       Summary beside it, so their moves can be read before choosing.
+ *       Summary beside it, so their moves can be read before choosing. view: true (chapter 81: the Battle Dome's
+ *       opponent): only to look at, a tap opens the Summary and Back closes it (-> null).
  * Six cards in two columns: sprite, name, level, HP bar, status. Below them, the Eggs you carry
  * (chapter 25, G.DayCare.eggs(): they are not in the party); one picked says how close it is.
  */
@@ -15,7 +16,7 @@ G.PartyUI = (() => {
   const esc = s => G.U.esc(s);
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
   let el = null;
-  let st = null;          // { mode: 'menu' | 'pick', title, note, disabled, mons, action, done, moving }
+  let st = null;          // { mode: 'menu' | 'pick', title, note, disabled, mons, action, view, done, moving }
 
   function build() {
     el = document.createElement('section');
@@ -67,11 +68,12 @@ G.PartyUI = (() => {
     const box = el.querySelector('.party-eggs');
     box.innerHTML = eggs.length ? `<span class="sub">${esc(T('Eggs'))}</span>` + eggs.map((e, k) => `<button class="pt-egg" data-egg="${k}" aria-label="${esc(T('Egg'))}"><i></i></button>`).join('') : '';
     box.querySelectorAll('.pt-egg').forEach(b => { b.onclick = () => G.Popup.say(G.DayCare.hint(eggs[+b.dataset.egg])); });
-    el.querySelector('[data-back]').textContent = st.mode === 'pick' ? T('Cancel') : T('Back');
+    el.querySelector('[data-back]').textContent = st.mode === 'pick' && !st.view ? T('Cancel') : T('Back');
     if (focusIdx != null) { const b = grid.querySelector(`[data-i="${focusIdx}"]`); if (b) G.Nav.focusFirst(b); }
   }
 
   async function choose(i) {
+    if (st.mode === 'pick' && st.view) { G.SummaryUI.open(party(), i, () => { if (st) render(i); }); return; }
     if (st.mode === 'pick' && st.action) {
       const v = await G.Popup.choose(G.Mon.name(party()[i]), [{ label: st.action, value: 'pick' }, { label: T('Summary'), value: 'summary' },
         { label: T('Cancel'), value: null, back: true }]);
@@ -162,7 +164,7 @@ G.PartyUI = (() => {
 
   function open() { show({ mode: 'menu', moving: null }); }
   function pick(o = {}) {
-    return new Promise(res => show({ mode: 'pick', title: o.title, note: o.note, disabled: o.disabled, mons: o.mons || null, action: o.action || null, done: res, moving: null }));
+    return new Promise(res => show({ mode: 'pick', title: o.title, note: o.note, disabled: o.disabled, mons: o.mons || null, action: o.action || null, view: !!o.view, done: res, moving: null }));
   }
   /** Redraws the cards (after an item changed a Pokémon while the screen is open). */
   function refresh() { if (st && G.UI.isOpen('scr-party')) render(); }

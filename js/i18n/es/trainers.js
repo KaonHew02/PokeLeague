@@ -84,5 +84,6 @@ G.I18n.add({
   "Reporter": "Reportera",
   "Factory Head": "Jefe de Fábrica",
   "Arena Tycoon": "Magnate del Dojo",
-  "Palace Maven": "Guardián del Palacio"
+  "Palace Maven": "Guardián del Palacio",
+  "Dome Ace": "As de la Cúpula"
 }, "es");

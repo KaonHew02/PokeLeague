@@ -751,3 +751,23 @@ kbd {
 .pz-cell.pad-focus { outline: 3px solid #fff; outline-offset: -1px; position: relative; z-index: 2; }
 .pz-box.solved .pz-board { box-shadow: 0 0 1.2em #ffe37a; }
 .pz-hint { max-width: 11em; font-size: .9em; margin: 0; }
+
+/* ---------- the Battle Dome's tournament tree (chapter 81): two halves meeting in the final, eight rows high ---------- */
+.box.dome-box { width: 98%; height: 98%; display: flex; flex-direction: column; gap: .3em; padding: .5em; }
+.dome-t { margin: 0; text-align: center; font-weight: 700; color: var(--gold); }
+.dome-grid { flex: 1; min-height: 0; display: grid; gap: .2em .35em;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.3fr) repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(8, minmax(0, 1fr)); }
+.dome-c { display: flex; align-items: center; justify-content: center; min-width: 0; padding: 0 .3em; font-size: .78em; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; border-radius: .4em; border: .1em solid rgba(244,248,255,.3); background: rgba(255,255,255,.07); }
+.dome-c i { font-style: normal; color: var(--muted); margin-right: .2em; }
+.dome-c.tbd { border-style: dashed; opacity: .5; }
+.dome-c.won { border-color: var(--green); }
+.dome-c.out { opacity: .4; text-decoration: line-through; }
+.dome-c.me, .dome-fn.me { background: rgba(255,210,63,.25); border-color: var(--gold); color: #fff; font-weight: 700; }
+.dome-f { grid-column: 4; grid-row: 1 / span 8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .3em; text-align: center; min-width: 0; }
+.dome-f b { color: var(--gold); }
+.dome-fn { max-width: 100%; padding: .15em .4em; border-radius: .4em; border: .1em solid rgba(244,248,255,.3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: .85em; }
+.dome-fn.out { opacity: .4; text-decoration: line-through; }
+.dome-vs { font-size: .75em; color: var(--muted); }
+.dome-champ { margin-top: .4em; font-size: .8em; color: var(--gold); }
+.dome-foot { display: flex; justify-content: flex-end; }

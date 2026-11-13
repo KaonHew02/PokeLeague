@@ -118,5 +118,7 @@ G.TRAINER_CLASSES = {
   // Chapter 79: the Battle Arena's Frontier Brain (only Greta has this title, so it is translated as a woman's).
   'arena-tycoon': { title: 'Arena Tycoon', who: 'greta', prize: 0 },
   // Chapter 80: the Battle Palace's Frontier Brain.
-  'palace-maven': { title: 'Palace Maven', who: 'spenser', prize: 0 }
+  'palace-maven': { title: 'Palace Maven', who: 'spenser', prize: 0 },
+  // Chapter 81: the Battle Dome's Frontier Brain.
+  'dome-ace':    { title: 'Dome Ace', who: 'tucker', prize: 0 }
 };

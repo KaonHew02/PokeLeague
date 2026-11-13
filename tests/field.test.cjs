@@ -6056,3 +6056,136 @@ test('Hoenn (chapter 80): the Battle Palace: in from the island, three entered, 
   await pump(W, W.interact());
   assert.ok(said.some(t => /nature/.test(t)) && said.some(t => /twenty-one/.test(t)));
 });
+
+test('Hoenn (chapter 81): the Battle Dome: in from the island, three entered, sixteen in a tree, the data and the tree, two of three each match, four wins, the ending after chapter 80, losing, retiring, Tucker', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js', 'js/content/hoenn/evergrande.js', 'js/content/hoenn/postgame.js', 'js/content/hoenn/regis.js',
+                          'js/content/hoenn/legends.js', 'js/content/hoenn/tower.js', 'js/content/hoenn/factory.js', 'js/content/hoenn/arena.js',
+                          'js/content/hoenn/palace.js', 'js/content/hoenn/dome.js', 'js/world/roam.js', 'js/world/tower.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, Tw = G.Tower, D = G.DomeHall;
+  F.setFlag('hoenn-champion');
+  for (const [sp, lvl, item] of [['swampert', 72, 'leftovers'], ['gardevoir', 70, 'leftovers'], ['mewtwo', 70, null], ['manectric', 45, null], ['altaria', 60, null]]) {
+    const m = F.giveMon(sp, lvl, { moves: ['tackle'] });
+    if (item) m.item = item;
+  }
+  const own = JSON.stringify(F.party());
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const answers = [], picks = [], views = [], trees = [], said = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: o => {
+    if (o.view) { views.push({ title: o.title, mons: plain(o.mons.map(m => [m.sp, m.lvl, m.item])), notes: plain(o.mons.map(m => o.note(m))) }); return Promise.resolve(null); }
+    return Promise.resolve(picks.shift());
+  } };
+  G.DomeUI = { show: b => { trees.push(plain(b)); return Promise.resolve(); } };
+  const fights = [];
+  let outcome = () => 'win';
+  W.onTrainer = async (d, info) => { fights.push({ d, info }); return outcome(fights.length); };
+  const counter = async () => { W.load('battle-dome-lobby', 'single'); await pump(W, W.interact()); await until(() => W.map.id === 'battle-dome-lobby' && !W.locked); };
+  const enter = () => picks.push(3, 0, 4);                 // Manectric, Swampert, Altaria
+  const rounds = n => { for (let i = 0; i < n; i++) { answers.push(0); picks.push(0, 1); } };   // Battle, then two of three
+
+  // In through the new door at the east end of the island.
+  W.load('battle-tower', 'dome-door');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'battle-dome-lobby' && !W.locked);
+  assert.equal(W.map.def.loc, 'battle-dome');
+  assert.equal(G.Names.loc('battle-dome'), 'Battle Dome');
+
+  // The first tournament: the data and the tree before the first match, then four wins.
+  enter();
+  answers.push(0, 1, 2);                                     // the challenge; the opponent's data; the tree
+  rounds(4);
+  await counter();
+  assert.ok(F.flag('dome-rules'));
+  const t = D.last;
+  assert.equal(t.k, 1);
+  assert.equal(t.slots.length, 16);
+  assert.equal(t.slots[0], null);
+  assert.deepEqual([...t.ranks].sort((a, b) => a - b), [...Array(16).keys()].map(i => i + 1), 'ranks 1 to 16');
+  assert.equal(new Set(t.slots.slice(1).map(d => d.name).concat(S.player.name)).size, 16, 'sixteen different names');
+  assert.ok(t.slots.slice(1, 8).every(d => d.team.length === 3 && d.team.every(x => Tw.pool(0).includes(x[0]))), 'the first half from the first pool');
+  assert.ok(t.slots.slice(8).every(d => d.team.every(x => Tw.pool(1).includes(x[0]))), 'the final opponent\'s half one round stronger');
+  // The data: the first-round opponent's three, with their items; rank, style, training in the title.
+  assert.equal(views.length, 1);
+  assert.deepEqual(views[0].mons.map(x => x[0]), plain(t.slots[1].team.map(x => G.Maps.species(x[0]))));
+  assert.ok(views[0].title.startsWith('Rank ' + t.ranks[1] + '. ') && / Trained for [^.]+\.$/.test(views[0].title), views[0].title);
+  assert.ok(views[0].notes.every(n => typeof n === 'string' && n.length > 0), 'each card shows its item');
+  // The tree: sixteen names, the player first, before any result.
+  assert.equal(trees.length, 1);
+  assert.equal(trees[0].names.length, 16);
+  assert.equal(trees[0].names[0], S.player.name);
+  assert.equal(trees[0].me, 0);
+  assert.deepEqual(trees[0].results[0].slice(1).filter(x => x != null).length, 7, 'the other first-round matches are decided first');
+  // Four matches: two of three each, the opponent's best two, against the right one each round.
+  assert.equal(fights.length, 4);
+  const mine = [310, 260, 334];
+  const foes = [1, t.results[0][1], t.results[1][1], t.results[2][1]];
+  assert.ok([2, 3].includes(foes[1]) && [4, 5, 6, 7].includes(foes[2]) && foes[3] >= 8);
+  fights.forEach(({ d, info }, r) => {
+    assert.deepEqual(plain(info.party.map(m => [m.sp, m.lvl])), [[310, 45], [260, 50]], 'two of the three');
+    assert.ok(info.rules.noExp && info.rules.noBag && info.rules.shift === false && info.canLose && !info.rules.arena && !info.rules.palace);
+    assert.equal(d.team.length, 2);
+    assert.deepEqual(plain(d.team), plain(D.pickTwo(t.slots[foes[r]].team, mine)), 'the two that hit hardest');
+    assert.equal(d.name, t.slots[foes[r]].name);
+  });
+  assert.deepEqual(plain(t.results.map(r => r[0])), [0, 0, 0, 0]);
+  assert.deepEqual([Tw.streak('single', 'dome'), Tw.bp(), Tw.streak('single'), Tw.streak('single', 'factory'), Tw.streak('single', 'arena'), Tw.streak('single', 'palace')],
+                   [1, 3, 0, 0, 0, 0], 'a tournament won; the other halls\' streaks untouched');
+  assert.ok(said.some(s => s.includes('You won the tournament')));
+  assert.ok(!F.flag('chapter-81-done'), 'no ending before chapter 80');
+  assert.equal(JSON.stringify(F.party()), own, 'the party is as it was');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('battle-dome')));
+  // Once chapter 80 is done, the next tournament won ends chapter 81; it is the second, a round stronger.
+  F.setFlag('chapter-80-done');
+  fights.length = 0;
+  enter();
+  answers.push(0);
+  rounds(4);
+  await counter();
+  assert.equal(fights.length, 4);
+  assert.equal(D.last.k, 2);
+  assert.ok(D.last.slots.slice(1, 8).every(d => d.team.every(x => Tw.pool(1).includes(x[0]))));
+  assert.deepEqual([Tw.streak('single', 'dome'), Tw.bp()], [2, 6]);
+  assert.ok(F.flag('chapter-81-done'));
+  // Losing the second match ends the streak; so does retiring before one.
+  fights.length = 0;
+  outcome = k => (k === 2 ? 'lose' : 'win');
+  enter();
+  answers.push(0);
+  rounds(2);
+  await counter();
+  assert.equal(fights.length, 2);
+  assert.equal(D.last.results[1][0], D.last.results[0][1], 'the winner goes on in the tree');
+  assert.deepEqual([Tw.streak('single', 'dome'), Tw.best('single', 'dome')], [0, 2]);
+  fights.length = 0;
+  outcome = () => 'win';
+  Tw.setStreak('single', 1, 'dome');
+  enter();
+  answers.push(0, 3);
+  await counter();
+  assert.equal(fights.length, 0);
+  assert.equal(Tw.streak('single', 'dome'), 0);
+  assert.ok(said.some(s => s.includes('You retired from the tournament')));
+  // Tucker waits in the final of the fifth tournament: two of his silver team, the Silver Tactics Symbol and BP.
+  fights.length = 0;
+  Tw.setStreak('single', 4, 'dome');
+  const bp = Tw.bp();
+  enter();
+  answers.push(0);
+  rounds(4);
+  await counter();
+  assert.equal(fights.length, 4);
+  const ace = fights[3].d;
+  assert.deepEqual([ace.id, ace.cls, ace.who], ['tucker', 'dome-ace', 'tucker']);
+  assert.equal(D.last.results[2][1], D.ACE_SLOT, 'he always comes through his half');
+  assert.ok(ace.team.length === 2 && ace.team.every(x => ['swampert', 'salamence', 'charizard'].includes(x[0])));
+  assert.ok(F.flag('dome-silver') && !F.flag('dome-gold'));
+  assert.equal(Tw.bp(), bp + 10 + Tw.bpFor(5));
+  assert.equal(Tw.streak('single', 'dome'), 5);
+  assert.equal(JSON.stringify(F.party()), own);
+});

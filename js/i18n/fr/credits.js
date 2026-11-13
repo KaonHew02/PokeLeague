@@ -221,5 +221,8 @@ G.I18n.add({
   "The streak goes on: Greta, the Arena Tycoon, waits for whoever wins twenty-eight battles in a row.": "La série continue : Greta, la Championne du Dojo, attend celui qui gagnera vingt-huit combats d'affilée.",
   "Chapter 80 complete!": "Chapitre 80 terminé !",
   "{player} won seven battles in a row at the Battle Palace, where the Pokémon choose their own moves.": "{player} a gagné sept combats d'affilée au Palace de Combat, où les Pokémon choisissent eux-mêmes leurs capacités.",
-  "The streak goes on: Spenser, the Palace Maven, waits for whoever wins twenty-one battles in a row.": "La série continue : Spenser, le Gardien du Palace, attend celui qui gagnera vingt et un combats d'affilée."
+  "The streak goes on: Spenser, the Palace Maven, waits for whoever wins twenty-one battles in a row.": "La série continue : Spenser, le Gardien du Palace, attend celui qui gagnera vingt et un combats d'affilée.",
+  "Chapter 81 complete!": "Chapitre 81 terminé !",
+  "{player} won a tournament of sixteen Trainers at the Battle Dome, four matches in a row.": "{player} a remporté un tournoi de seize Dresseurs au Dôme de Combat, quatre matchs d'affilée.",
+  "The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.": "La série continue : Tucker, l'As du Dôme, attend en finale du cinquième tournoi d'affilée."
 }, "fr");

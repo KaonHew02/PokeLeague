@@ -84,5 +84,6 @@ G.I18n.add({
   "Reporter": "記者",
   "Factory Head": "工廠頭目",
   "Arena Tycoon": "競技場主將",
-  "Palace Maven": "宮殿守護者"
+  "Palace Maven": "宮殿守護者",
+  "Dome Ace": "巨蛋超級巨星"
 }, "zh-Hant");

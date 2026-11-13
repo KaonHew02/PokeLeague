@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 81) return { title: T('Chapter 81 complete!'),
+      done: fmt('{player} won a tournament of sixteen Trainers at the Battle Dome, four matches in a row.', { player }),
+      next: T('The streak goes on: Tucker, the Dome Ace, waits in the final of the fifth tournament in a row.') };
     if (n === 80) return { title: T('Chapter 80 complete!'),
       done: fmt('{player} won seven battles in a row at the Battle Palace, where the Pokémon choose their own moves.', { player }),
       next: T('The streak goes on: Spenser, the Palace Maven, waits for whoever wins twenty-one battles in a row.') };

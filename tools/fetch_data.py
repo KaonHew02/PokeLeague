@@ -360,6 +360,7 @@ LOC_NAMES = {
 OWN_LOCS = {
     'battle-arena': ('Battle Arena', 'Dojo Batalla', 'Dojo de Combat', 'Dojo Lotta', '对战竞技场', '對戰競技場'),   # chapter 79
     'battle-palace': ('Battle Palace', 'Palacio Batalla', 'Palace de Combat', 'Palazzo Lotta', '对战宫殿', '對戰宮殿'),   # chapter 80
+    'battle-dome': ('Battle Dome', 'Cúpula Batalla', 'Dôme de Combat', 'Cupola Lotta', '对战巨蛋', '對戰巨蛋'),   # chapter 81
 }
 
 # French names PokeAPI writes with a Pokémon's name in capitals.

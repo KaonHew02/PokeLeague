@@ -13,7 +13,8 @@
                roamer: false (a roaming wild Pokémon that flees),
  *               noExp: false (no Exp. Points), noBag: false (no items or balls from the Bag: the Battle Tower),
  *               expAll: false (the rest of the team gets half of one fighter's Exp. Points: the setting expAll),
- *               arena: false (the Battle Arena: one on one, three turns, then the judge; see below) } })
+ *               arena: false (the Battle Arena: one on one, three turns, then the judge; see below),
+ *               palace: false (the Battle Palace: Pokémon choose their own moves by their nature; see below) } })
  *   b.start()            -> events[]
  *   b.prompt             -> { kind: 'action' } | { kind: 'switch', forced: true } | { kind: 'shift', next: sp }
  *                           | { kind: 'learn', uid, move } | null (battle over)
@@ -58,6 +59,14 @@
  * three (higher 2 points, equal 1 each, lower 0): events 'judgeStart', 'judge' { marks } and 'judgeResult' { points, winner }, and the
  * loser (both on a tie) faints. A challenger whose last Pokémon goes down loses, as always, even on a tie.
  *
+ * The Battle Palace (chapter 80, rules.palace; a trainer battle in singles): nobody chooses moves. A move action of the
+ * player (any slot) and every action of the foe become palaceAction(bm): a locked action first; else a group drawn from
+ * the nature's odds (PALACE[nature] = [attack, defense] above half HP, then below half; support is the rest), and a
+ * random usable move of that group (palaceGroup: a damaging move is attack, a status move on its own side defense,
+ * any other support, Counter and Mirror Coat too). With none in that group, half the time it hesitates ({ hesitate }:
+ * 'cantMove' why 'palace', no move, no PP) and otherwise uses a random usable move; with none usable, Struggle.
+ * Switching stays (the player's only choice); no Shift question.
+ *
  * Events are plain objects { type, ... } that the battle screen plays in order
  * (text: G.BattleText.line(event, battle)). side 0 = the player, 1 = the foe.
  * Internally the turn is a queue of steps; a step that needs the player's
@@ -65,6 +74,24 @@
  */
 G.Battle = (() => {
   const STAGES = ['atk', 'def', 'spa', 'spd', 'spe', 'acc', 'eva'];
+  // The Battle Palace (chapter 80): each nature's odds of attack and defense (support is the rest), above half HP and
+  // below it (Emerald's table, as altissimo's Battle Palace page lists it).
+  const PALACE = {
+    adamant: [38, 31, 70, 15], bashful: [30, 58, 30, 58], bold: [30, 20, 32, 58], brave: [70, 15, 32, 60], calm: [40, 50, 25, 62],
+    careful: [42, 50, 42, 5], docile: [56, 22, 56, 22], gentle: [18, 70, 90, 5], hardy: [61, 7, 61, 7], hasty: [58, 37, 88, 6],
+    impish: [69, 6, 28, 55], jolly: [35, 5, 35, 60], lax: [35, 10, 29, 6], lonely: [20, 25, 84, 8], mild: [44, 50, 34, 6],
+    modest: [35, 45, 34, 60], naive: [56, 22, 56, 22], naughty: [20, 70, 70, 22], quiet: [56, 22, 56, 22], quirky: [56, 22, 56, 22],
+    rash: [30, 13, 27, 6], relaxed: [25, 15, 75, 15], sassy: [88, 6, 22, 20], serious: [34, 11, 29, 11], timid: [62, 10, 30, 20]
+  };
+  const OWN_SIDE = new Set(['user', 'users-field', 'user-and-allies', 'user-or-ally']);
+  /** A move's group in the Battle Palace: 'attack' | 'defense' | 'support'. */
+  function palaceGroup(id) {
+    const M = G.MOVES[id];
+    if (!M) return 'attack';
+    if (M.tgt === 'specific-move') return 'support';                // Counter, Mirror Coat
+    if (M.cat !== 'status') return 'attack';
+    return OWN_SIDE.has(M.tgt) ? 'defense' : 'support';
+  }
   const STAT_INDEX = { atk: 1, def: 2, spa: 3, spd: 4, spe: 5 };
 
   class Battle {
@@ -75,7 +102,8 @@ G.Battle = (() => {
       this.double = !!this.rules.double && this.kind === 'trainer';
       if (this.double) this.rules.shift = false;
       this.arena = !!this.rules.arena && this.kind === 'trainer' && !this.double;     // the Battle Arena (chapter 79)
-      if (this.arena) this.rules.shift = false;
+      this.palace = !!this.rules.palace && this.kind === 'trainer' && !this.double;   // the Battle Palace (chapter 80)
+      if (this.arena || this.palace) this.rules.shift = false;
       this.arenaTurns = 0;
       const pl = o.player, fo = o.foe;
       this.partner = this.double && o.partner ? { name: o.partner.name, first: pl.party.length } : null;
@@ -137,13 +165,15 @@ G.Battle = (() => {
     act(a) {
       if (!this.prompt || this.prompt.kind !== 'action') return [{ type: 'error', reason: 'not-now' }];
       this.events = [];
-      const bad = this.validate(a);
+      // The Battle Palace: the Pokémon picks its own move, whatever slot was asked for.
+      const own = this.palace && a.type === 'move';
+      const bad = own ? null : this.validate(a);
       if (bad) return [{ type: 'error', reason: bad }];
       if (a.type === 'run' && this.kind === 'trainer') { this.emit('noRunTrainer', {}); return this.events; }
       if (this.double) return this.actDouble(a);
       this.prompt = null;
-      const pa = a.type === 'move' && this.options().struggle ? { type: 'move', id: 'struggle' } : a;
-      const fa = this.lockedAction(this.foe.bm) || G.BattleAI.choose(this, this.foe);
+      const pa = own ? this.palaceAction(this.player.bm) : a.type === 'move' && this.options().struggle ? { type: 'move', id: 'struggle' } : a;
+      const fa = this.foeAction();
       this.queue.push(() => this.runTurn(pa, fa));
       this.process();
       return this.events;
@@ -221,7 +251,7 @@ G.Battle = (() => {
         // A new turn. Charging, recharging or rampaging Pokémon act on their own.
         const lock = this.lockedAction(this.player.bm);
         if (lock) {
-          const fa = this.lockedAction(this.foe.bm) || G.BattleAI.choose(this, this.foe);
+          const fa = this.foeAction();
           this.queue.push(() => this.runTurn(lock, fa));
           continue;
         }
@@ -612,6 +642,7 @@ G.Battle = (() => {
       }
       if (id !== 'rage') bm.vol.rage = false;
       if (id !== 'destiny-bond') bm.vol.destinyBond = false;
+      if (a.hesitate) { stop(); return say('palace'); }                    // the Battle Palace (chapter 80)
       if (!['protect', 'detect', 'endure'].includes(id)) bm.vol.protectCount = 0;
       if (id !== bm.lastMoveHit) bm.lastMoveHit = null;
       G.BattleFx.useMove(this, bm, target, id, { locked: a.locked || null });
@@ -619,7 +650,7 @@ G.Battle = (() => {
 
     /** After every action: berries, faints, experience, and whether the battle is over. */
     afterAction() {
-      for (const bm of this.allActive()) G.Held.berry(this, bm);
+      for (const bm of this.allActive()) { G.Held.berry(this, bm); G.Held.herb(this, bm); }
       const steps = [];
       for (const bm of this.allActive()) {
         const s = this.sides[bm.side];
@@ -736,6 +767,29 @@ G.Battle = (() => {
       this.afterAction();
       if (this.arena) this.queue.push(() => this.arenaJudge());
       this.queue.push(() => this.replacements());
+    }
+
+    // ================= the Battle Palace (rules.palace, chapter 80) =================
+
+    /** The foe's action in singles: a locked one, else its own choice in the Battle Palace, else the AI's. */
+    foeAction() {
+      return this.lockedAction(this.foe.bm) || (this.palace ? this.palaceAction(this.foe.bm) : G.BattleAI.choose(this, this.foe));
+    }
+    /** The move a Pokémon chooses by itself in the Battle Palace (see the header). */
+    palaceAction(bm) {
+      const lock = this.lockedAction(bm);
+      if (lock) return lock;
+      const usable = bm.mon.moves.map((m, slot) => ({ slot, id: m.id, pp: m.pp }))
+        .filter(x => x.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === x.id) && !(bm.vol.encore && bm.vol.encore.move !== x.id));
+      if (!usable.length) return { type: 'move', id: 'struggle' };
+      const row = PALACE[bm.mon.nature] || PALACE.hardy;
+      const [atk, def] = bm.mon.hp * 2 < this.maxHp(bm) ? row.slice(2) : row.slice(0, 2);
+      const r = this.rng.int(1, 100);
+      const group = r <= atk ? 'attack' : r <= atk + def ? 'defense' : 'support';
+      const mine = usable.filter(x => palaceGroup(x.id) === group);
+      if (mine.length) return { type: 'move', slot: this.rng.pick(mine).slot };
+      if (this.rng.next() < 0.5) return { type: 'move', slot: usable[0].slot, hesitate: true };
+      return { type: 'move', slot: this.rng.pick(usable).slot };
     }
 
     // ================= the Battle Arena (rules.arena, chapter 79) =================
@@ -984,5 +1038,5 @@ G.Battle = (() => {
     }
   }
 
-  return { create: o => new Battle(o), Battle, STAGES };
+  return { create: o => new Battle(o), Battle, STAGES, PALACE, palaceGroup };
 })();

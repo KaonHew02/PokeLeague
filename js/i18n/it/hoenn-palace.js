@@ -1,0 +1,26 @@
+/* Italian — hoenn-palace: the Battle Palace (js/content/hoenn/palace.js). */
+G.I18n.add({
+  "My Pokémon know what to do. I just watch!": "I miei Pokémon sanno cosa fare. Io guardo e basta!",
+  "In the Palace, you find out who your Pokémon really are.": "Nel Palazzo scopri come sono davvero i tuoi Pokémon.",
+  "I trust my Pokémon completely. Do you?": "Mi fido completamente dei miei Pokémon. E tu?",
+  "No orders here. Only character!": "Qui niente ordini. Solo carattere!",
+  "Let us see whose Pokémon have the stronger spirit!": "Vediamo quali Pokémon hanno più spirito!",
+  "Your Pokémon have a strong spirit...": "I tuoi Pokémon hanno uno spirito forte...",
+  "Mine did their best. I am proud of them.": "I miei hanno dato il massimo. Sono fiero di loro.",
+  "I should get to know my Pokémon better.": "Dovrei conoscere meglio i miei Pokémon.",
+  "Their natures beat mine today.": "Oggi la loro natura ha battuto i miei.",
+  "So you are the Trainer who keeps winning in my Palace. I am Spenser, the Palace Maven. Here, Pokémon show who they truly are. Let us see yours!": "Allora sei tu l'Allenatore che continua a vincere nel mio Palazzo. Sono Spenser, il Custode del Palazzo. Qui i Pokémon mostrano come sono davvero. Vediamo i tuoi!",
+  "You have returned. Then let my Pokémon speak for me once more.": "Sei tornato. Allora lascia che i miei Pokémon parlino per me ancora una volta.",
+  "Your Pokémon fight with heart, just as you do. Take this.": "I tuoi Pokémon lottano con il cuore, proprio come te. Prendi questo.",
+  "I have nothing left to teach you. Your bond with your Pokémon is the real thing.": "Non ho più niente da insegnarti. Il tuo legame con i tuoi Pokémon è autentico.",
+  "Welcome to the Battle Palace! Here, Pokémon choose their own moves.": "Benvenuto al Palazzo Lotta! Qui i Pokémon scelgono da soli le loro mosse.",
+  "Enter three Pokémon. In battle you cannot give them orders: each one picks its moves as its nature tells it. You may only switch them.": "Iscrivi tre Pokémon. In lotta non puoi dare ordini: ognuno sceglie le mosse secondo la sua natura. Puoi solo sostituirli.",
+  "The Palace Maven has come to battle you himself!": "Il Custode del Palazzo è venuto a sfidarti di persona!",
+  "Spenser recognizes your spirit. You earned the Silver Spirit Symbol!": "Spenser riconosce il tuo spirito. Hai ottenuto il Simbolo Spirito d'Argento!",
+  "Spenser recognizes your spirit. You earned the Gold Spirit Symbol!": "Spenser riconosce il tuo spirito. Hai ottenuto il Simbolo Spirito d'Oro!",
+  "In the Palace, Pokémon choose their own moves. Each one goes for attacking, defending or supporting moves, as its nature makes it want to.": "Nel Palazzo i Pokémon scelgono da soli le loro mosse. Ognuno preferisce attaccare, difendersi o dare supporto, come gli detta la sua natura.",
+  "When its HP falls below half, many a Pokémon changes its habits completely.": "Quando i PS scendono sotto la metà, molti Pokémon cambiano completamente abitudini.",
+  "A Pokémon that wants a kind of move it does not know may simply hesitate. Give each one moves its nature likes!": "Un Pokémon che vuole un tipo di mossa che non conosce può semplicemente esitare. Dai a ognuno mosse che piacciano alla sua natura!",
+  "They say the Palace Maven himself appears before Trainers who win twenty-one battles in a row.": "Si dice che il Custode del Palazzo in persona si presenti agli Allenatori che vincono ventuno lotte di fila.",
+  "Spenser": "Spenser"
+}, "it");

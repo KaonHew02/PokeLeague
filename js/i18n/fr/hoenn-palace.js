@@ -1,0 +1,26 @@
+/* French — hoenn-palace: the Battle Palace (js/content/hoenn/palace.js). */
+G.I18n.add({
+  "My Pokémon know what to do. I just watch!": "Mes Pokémon savent quoi faire. Moi, je regarde !",
+  "In the Palace, you find out who your Pokémon really are.": "Au Palace, on découvre qui sont vraiment ses Pokémon.",
+  "I trust my Pokémon completely. Do you?": "J'ai entièrement confiance en mes Pokémon. Et toi ?",
+  "No orders here. Only character!": "Ici, pas d'ordres. Seulement du caractère !",
+  "Let us see whose Pokémon have the stronger spirit!": "Voyons quels Pokémon ont le plus d'esprit !",
+  "Your Pokémon have a strong spirit...": "Tes Pokémon ont un esprit puissant...",
+  "Mine did their best. I am proud of them.": "Les miens ont fait de leur mieux. Je suis fier d'eux.",
+  "I should get to know my Pokémon better.": "Je devrais mieux connaître mes Pokémon.",
+  "Their natures beat mine today.": "Aujourd'hui, leur nature a eu raison des miens.",
+  "So you are the Trainer who keeps winning in my Palace. I am Spenser, the Palace Maven. Here, Pokémon show who they truly are. Let us see yours!": "Alors c'est toi qui gagnes sans cesse dans mon Palace. Je suis Spenser, le Gardien du Palace. Ici, les Pokémon montrent qui ils sont vraiment. Voyons les tiens !",
+  "You have returned. Then let my Pokémon speak for me once more.": "Te revoilà. Alors laissons encore une fois mes Pokémon parler pour moi.",
+  "Your Pokémon fight with heart, just as you do. Take this.": "Tes Pokémon combattent avec cœur, tout comme toi. Prends ceci.",
+  "I have nothing left to teach you. Your bond with your Pokémon is the real thing.": "Je n'ai plus rien à t'apprendre. Ton lien avec tes Pokémon est authentique.",
+  "Welcome to the Battle Palace! Here, Pokémon choose their own moves.": "Bienvenue au Palace de Combat ! Ici, les Pokémon choisissent eux-mêmes leurs capacités.",
+  "Enter three Pokémon. In battle you cannot give them orders: each one picks its moves as its nature tells it. You may only switch them.": "Inscris trois Pokémon. En combat, tu ne peux pas leur donner d'ordres : chacun choisit ses capacités selon sa nature. Tu peux seulement les remplacer.",
+  "The Palace Maven has come to battle you himself!": "Le Gardien du Palace est venu t'affronter en personne !",
+  "Spenser recognizes your spirit. You earned the Silver Spirit Symbol!": "Spenser reconnaît ton esprit. Tu as obtenu le Symbole Esprit d'Argent !",
+  "Spenser recognizes your spirit. You earned the Gold Spirit Symbol!": "Spenser reconnaît ton esprit. Tu as obtenu le Symbole Esprit d'Or !",
+  "In the Palace, Pokémon choose their own moves. Each one goes for attacking, defending or supporting moves, as its nature makes it want to.": "Au Palace, les Pokémon choisissent eux-mêmes leurs capacités. Chacun préfère attaquer, se défendre ou soutenir, selon ce que lui dicte sa nature.",
+  "When its HP falls below half, many a Pokémon changes its habits completely.": "Quand ses PV tombent sous la moitié, plus d'un Pokémon change complètement ses habitudes.",
+  "A Pokémon that wants a kind of move it does not know may simply hesitate. Give each one moves its nature likes!": "Un Pokémon qui veut un genre de capacité qu'il ne connaît pas peut tout simplement hésiter. Donne à chacun des capacités qui plaisent à sa nature !",
+  "They say the Palace Maven himself appears before Trainers who win twenty-one battles in a row.": "On dit que le Gardien du Palace en personne apparaît devant les Dresseurs qui gagnent vingt et un combats d'affilée.",
+  "Spenser": "Spenser"
+}, "fr");

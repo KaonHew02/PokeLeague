@@ -29,7 +29,7 @@ G.People = (() => {
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
                  'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa',
-                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta'];
+                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -383,7 +383,10 @@ G.People = (() => {
               p: '#b89a6a', P: '#8a7048', k: '#3a2e22' },
     // Chapter 79: Greta, the Arena Tycoon (my own look: short orange hair, a red top, yellow fighter's trousers).
     greta: { head: 'short', body: 'tee', legs: 'pants', h: '#f0a030', H: '#c07818', s: '#c08858', S: '#9a6a40', c: '#e0402a', C: '#a82a1a',
-             p: '#f0d040', P: '#c0a020', k: '#3a2a20' }
+             p: '#f0d040', P: '#c0a020', k: '#3a2a20' },
+    // Chapter 80: Spenser, the Palace Maven (my own look: white hair, a long deep purple robe, dark trousers).
+    spenser: { head: 'short', body: 'coat', legs: 'pants', h: '#ececf2', H: '#b8b8c4', j: '#5a2a7a', J: '#3e1c56', c: '#e8d8a8', C: '#c0b080',
+               p: '#2a2a34', P: '#16161e', k: '#2a2020' }
   };
 
   const mirror = half => half + [...half].reverse().join('');

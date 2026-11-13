@@ -1402,6 +1402,33 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
 });
 
+test('balance: the Battle Palace (chapter 80), win rates of a typical team under the palace rule are printed', () => {
+  const { G } = world(1);
+  const rate = (foe, n = 60) => {
+    let wins = 0;
+    for (let s = 1; s <= n; s++) {
+      const rng = G.RNG(s * 29);
+      const me = [[260, ['surf', 'earthquake', 'ice-beam', 'protect']], [282, ['psychic', 'thunderbolt', 'calm-mind', 'shadow-ball']],
+                  [310, ['thunderbolt', 'crunch', 'flamethrower', 'thunder-wave']]].map(([sp, moves]) => G.Mon.create(sp, 50, { rng, moves }));
+      me[0].item = 'leftovers'; me[1].item = 'sitrus-berry'; me[2].item = 'quick-claw';
+      const team = typeof foe === 'function' ? foe(G.RNG(s * 31)) : foe;
+      const foes = team.map(([sp, l, moves, item, x]) => Object.assign(G.Mon.create(G.Maps.species(sp), l, Object.assign({ rng, moves }, x)), { item }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } },
+        rules: { palace: true, noExp: true, noBag: true, shift: false, canLose: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / n;
+  };
+  const table = {};
+  for (let round = 0; round < 4; round++) table['round ' + (round + 1)] = rate(rng => G.Tower.team(rng, round, 3));
+  table['Spenser (silver)'] = rate(G.PalaceHall.MAVEN[21].team);
+  table['Spenser (gold)'] = rate(G.PalaceHall.MAVEN[42].team);
+  console.log('[balance] Battle Palace, Swampert, Gardevoir and Manectric at 50 (natures at random, moves by nature):', JSON.stringify(table));
+  assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
+});
+
 test('balance: the Battle Arena (chapter 79), win rates of a typical team under the arena rule are printed', () => {
   const { G } = world(1);
   const rate = (foe, n = 60) => {
@@ -4446,6 +4473,34 @@ async function chapter53(st) {
 }
 
 /** Chapter 77 after chapter 76: Mirage Island, with a Pokémon the sea chooses today. */
+/** Chapter 80 after chapter 79: the Battle Palace with the party's three strongest that may enter, until a set of seven. */
+async function chapter80(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower;
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 3 && !Tw.why(party[i], picks.map(j => party[j]))) picks.push(i);
+  }
+  const before = JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp]));
+  const bp = Tw.bp(), n = st.battles.length;
+  let tries = 0;
+  while (Tw.streak('single', 'palace') < 7 && tries < 15) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(...picks);
+    await run(st, 'battle-palace-lobby', 'palace.single', [0]);
+  }
+  const fights = st.battles.slice(n);
+  console.log('[story] the Battle Palace:', fights.map(b => b.outcome).join(), 'in', tries, 'challenge(s), with', picks.map(i => G.Names.mon(party[i].sp)).join(', '));
+  assert.equal(Tw.streak('single', 'palace'), 7, 'a set of seven');
+  assert.ok(fights.slice(-7).every(b => b.outcome === 'win'));
+  assert.equal(Tw.bp(), bp + 3);
+  assert.equal(JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp])), before, 'the party is as it was');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('battle-palace')), 'Palace trainers are not recorded');
+  assert.ok(F.flag('chapter-80-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 79 after chapter 78: the Battle Arena with the party's three strongest that may enter, until a set of seven. */
 async function chapter79(st) {
   const { G, S } = st;
@@ -5219,4 +5274,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter77(st);
   await chapter78(st);
   await chapter79(st);
+  await chapter80(st);
 });

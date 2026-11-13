@@ -345,6 +345,20 @@ test("the Salac Berry and the Lum Berry (chapter 79, Greta's): +1 Speed at a qua
   assert.equal(G.ITEM_FX['lum-berry'].field, 1, 'it also works from the Bag, like a Full Heal');
 });
 
+test("the White Herb (chapter 80, Spenser's): a stat lowered by its own move is put back at once, and the herb is gone; without a fall it stays", () => {
+  let d = duel(G, { me: ['arcanine', 50, ['superpower'], { item: 'white-herb' }], foe: ['snorlax', 50, ['splash']] });
+  const ev = d.b.act({ type: 'move', slot: 0 });
+  const bm = d.b.player.bm;
+  const herb = ev.find(e => e.type === 'herb');
+  assert.ok(herb, 'used');
+  assert.ok(ev.some(e => e.type === 'stage' && e.side === 0 && e.delta < 0), 'Superpower lowered its stats first');
+  assert.deepEqual([bm.stages.atk, bm.stages.def, bm.mon.item], [0, 0, null]);
+  assert.equal(G.BattleText.line(herb, d.b), 'Arcanine returned its stats to normal using its White Herb!');
+  d = duel(G, { me: ['arcanine', 50, ['flamethrower'], { item: 'white-herb' }], foe: ['snorlax', 50, ['splash']] });
+  d.b.act({ type: 'move', slot: 0 });
+  assert.equal(d.b.player.bm.mon.item, 'white-herb', 'nothing lowered: kept');
+});
+
 test('every new battle line has text, in English and in Chinese', () => {
   for (const lang of ['en', 'zh-Hans']) {
     const H = battleBoot({ lang });

@@ -5946,3 +5946,113 @@ test('Hoenn (chapter 79): the Battle Arena: in from the island, three entered in
   await pump(W, W.interact());
   assert.ok(said.some(t => /Mind/.test(t)) && said.some(t => /twenty-eight/.test(t)));
 });
+
+test('Hoenn (chapter 80): the Battle Palace: in from the island, three entered, the palace rule, seven in a row, the ending after chapter 79, losing, retiring, Spenser', async () => {
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/route101.js', 'js/content/hoenn/petalburg.js', 'js/content/hoenn/woods.js',
+                          'js/content/hoenn/rustboro.js', 'js/content/hoenn/rusturf.js', 'js/content/hoenn/dewford.js', 'js/content/hoenn/slateport.js',
+                          'js/content/hoenn/mauville.js', 'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/verdanturf.js',
+                          'js/content/hoenn/fortree.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/mossdeep.js', 'js/content/hoenn/seafloor.js',
+                          'js/content/hoenn/sootopolis.js', 'js/content/hoenn/evergrande.js', 'js/content/hoenn/postgame.js', 'js/content/hoenn/regis.js',
+                          'js/content/hoenn/legends.js', 'js/content/hoenn/tower.js', 'js/content/hoenn/factory.js', 'js/content/hoenn/arena.js', 'js/content/hoenn/palace.js',
+                          'js/world/roam.js', 'js/world/tower.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, Tw = G.Tower;
+  F.setFlag('hoenn-champion');
+  for (const [sp, lvl, item] of [['swampert', 72, 'leftovers'], ['gardevoir', 70, 'leftovers'], ['mewtwo', 70, null], ['manectric', 45, null], ['altaria', 60, null]]) {
+    const m = F.giveMon(sp, lvl, { moves: ['tackle'] });
+    if (item) m.item = item;
+  }
+  const own = JSON.stringify(F.party());
+  const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const answers = [], picks = [], asked = [], said = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: o => { asked.push(plain(F.party().map((m, i) => [o.disabled(m, i), o.note(m, i)]))); return Promise.resolve(picks.shift()); } };
+  const fights = [];
+  let outcome = () => 'win';
+  W.onTrainer = async (d, info) => { fights.push({ d, info }); return outcome(fights.length); };
+  const counter = async () => { W.load('battle-palace-lobby', 'single'); await pump(W, W.interact()); await until(() => W.map.id === 'battle-palace-lobby' && !W.locked); };
+  const keepGoing = n => { for (let i = 1; i < n; i++) answers.push(0); };
+
+  // In through the new door at the east end of the island.
+  W.load('battle-tower', 'palace-door');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'battle-palace-lobby' && !W.locked);
+  assert.equal(W.map.def.loc, 'battle-palace');
+  assert.equal(G.Names.loc('battle-palace'), 'Battle Palace');
+
+  // Three entered in the order picked (Gardevoir would hold the same item as Swampert; Mewtwo cannot enter): seven wins.
+  picks.push(3, 0, 4);
+  answers.push(0);
+  keepGoing(7);
+  await counter();
+  assert.ok(F.flag('palace-rules'));
+  assert.deepEqual(asked[1], [[false, null], [false, null], [true, 'Cannot enter'], [true, 'No. 1'], [false, null]]);
+  assert.deepEqual(asked[2], [[true, 'No. 2'], [true, 'Same item'], [true, 'Cannot enter'], [true, 'No. 1'], [false, null]]);
+  assert.equal(fights.length, 7, 'seven battles');
+  for (const { d, info } of fights) {
+    assert.deepEqual(plain(info.party.map(m => [m.sp, m.lvl])), [[310, 45], [260, 50], [334, 50]], 'in the order picked, level 50 at most');
+    assert.ok(info.rules.palace && !info.rules.arena && info.rules.noExp && info.rules.noBag && info.rules.shift === false && info.canLose);
+    assert.equal(d.team.length, 3);
+    assert.ok(!d.double);
+  }
+  assert.ok(fights[0].d.team.every(x => Tw.pool(0).includes(x[0])));
+  assert.equal(new Set(fights.map(f => f.d.team.map(x => x[0]).join())).size, 7, 'seven different teams');
+  assert.deepEqual([Tw.streak('single', 'palace'), Tw.bp(), Tw.streak('single'), Tw.streak('single', 'factory'), Tw.streak('single', 'arena')], [7, 3, 0, 0, 0], 'its own streak; the same BP');
+  assert.ok(!F.flag('chapter-80-done'), 'no ending before chapter 79');
+  assert.equal(JSON.stringify(F.party()), own, 'the party is as it was');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('battle-palace')));
+  // Once chapter 79 is done, the next set of seven ends chapter 80.
+  F.setFlag('chapter-79-done');
+  fights.length = 0;
+  picks.push(3, 0, 4);
+  answers.push(0);
+  keepGoing(7);
+  await counter();
+  assert.equal(fights.length, 7);
+  assert.ok(fights[0].d.team.every(x => Tw.pool(1).includes(x[0])), 'battle 8 is in the second set');
+  assert.deepEqual([Tw.streak('single', 'palace'), Tw.bp()], [14, 6]);
+  assert.ok(F.flag('chapter-80-done'));
+  // Losing ends the streak; so does retiring.
+  fights.length = 0;
+  outcome = k => (k === 2 ? 'lose' : 'win');
+  picks.push(3, 0, 4);
+  answers.push(0, 0);
+  await counter();
+  assert.equal(fights.length, 2);
+  assert.deepEqual([Tw.streak('single', 'palace'), Tw.best('single', 'palace')], [0, 15]);
+  fights.length = 0;
+  outcome = () => 'win';
+  picks.push(3, 0, 4);
+  answers.push(0, 1);
+  await counter();
+  assert.equal(fights.length, 1);
+  assert.equal(Tw.streak('single', 'palace'), 0);
+  // Picking one that cannot enter backs out: nothing starts.
+  fights.length = 0;
+  picks.push(2);
+  answers.push(0);
+  await counter();
+  assert.equal(fights.length, 0, 'Mewtwo cannot enter: back out');
+  assert.ok(said.some(t => t.includes('Please come again!')));
+  // Spenser is the 21st: his silver team with its natures, the Silver Spirit Symbol and 10 BP besides the third set's.
+  fights.length = 0;
+  Tw.setStreak('single', 20, 'palace');
+  const bp = Tw.bp();
+  picks.push(3, 0, 4);
+  answers.push(0);
+  await counter();
+  assert.equal(fights.length, 1, 'battle 21 also ends the third set');
+  const sp = fights[0].d;
+  assert.deepEqual([sp.id, sp.cls, sp.who], ['spenser', 'palace-maven', 'spenser']);
+  assert.deepEqual(plain(sp.team.map(x => [x[0], x[3], x[4].nature])), [['crobat', 'bright-powder', 'adamant'], ['slaking', 'scope-lens', 'hardy'], ['lapras', 'quick-claw', 'quiet']]);
+  assert.ok(fights[0].info.rules.palace);
+  assert.ok(F.flag('palace-silver') && !F.flag('palace-gold'));
+  assert.equal(Tw.bp(), bp + 10 + Tw.bpFor(3));
+  assert.equal(G.PalaceHall.MAVEN[42].team.map(x => x[0] + ':' + x[4].nature).join(), 'arcanine:hasty,slaking:hardy,suicune:hasty');
+  // The guide.
+  W.load('battle-palace-lobby', { x: 3, y: 6, dir: 'left' });
+  said.length = 0;
+  await pump(W, W.interact());
+  assert.ok(said.some(t => /nature/.test(t)) && said.some(t => /twenty-one/.test(t)));
+});

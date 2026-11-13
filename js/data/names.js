@@ -1141,6 +1141,7 @@ G.NAMES = {
     "liechi-berry": ["Liechi Berry","Baya Lichi","Baie Lichii","Baccalici","枝荔果","枝荔果"],
     "salac-berry": ["Salac Berry","Baya Aslac","Baie Sailak","Baccasalak","沙鳞果","沙鱗果"],
     "lum-berry": ["Lum Berry","Baya Ziuela","Baie Prine","Baccaprugna","木子果","木子果"],
+    "white-herb": ["White Herb","Hierba Blanca","Herbe Blanche","Erbachiara","白色香草","白色香草"],
     hm01: ["HM01","MO01","CS01","MN01","秘传学习器０１","秘傳學習器０１"],
     hm02: ["HM02","MO02","CS02","MN02","秘传学习器０２","秘傳學習器０２"],
     hm03: ["HM03","MO03","CS03","MN03","秘传学习器０３","秘傳學習器０３"],
@@ -1665,6 +1666,7 @@ G.NAMES = {
     "roaming-sinnoh": ["Roaming Sinnoh","Roaming Sinnoh","Sillonnant Sinnoh","Roaming Sinnoh","Roaming Sinnoh","Roaming Sinnoh"],
     "sinnoh-pokemart": ["sinnoh-pokemart","sinnoh-pokemart","sinnoh-pokemart","sinnoh-pokemart","sinnoh-pokemart","sinnoh-pokemart"],
     "battle-arena": ["Battle Arena","Dojo Batalla","Dojo de Combat","Dojo Lotta","对战竞技场","對戰競技場"],
+    "battle-palace": ["Battle Palace","Palacio Batalla","Palace de Combat","Palazzo Lotta","对战宫殿","對戰宮殿"],
   },
   nature: {
     hardy: ["Hardy","Fuerte","Hardi","Ardita","勤奋","勤奮"],

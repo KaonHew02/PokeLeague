@@ -207,5 +207,7 @@ G.I18n.add({
   "Three turns are up! The referee will decide.": "3 回合到了！由裁判来判定。",
   "Mind {a} : {b} · Skill {c} : {d} · Body {e} : {f}": "心 {a} : {b} · 技 {c} : {d} · 体 {e} : {f}",
   "Score: {mine} {n}, {theirs} {n}. It's a draw: both are out!": "得分：{mine} {n} 分，{theirs} {n} 分。平分：两只都倒下了！",
-  "Score: {mine} {p}, {theirs} {q}. {win} wins!": "得分：{mine} {p} 分，{theirs} {q} 分。{win}获胜！"
+  "Score: {mine} {p}, {theirs} {q}. {win} wins!": "得分：{mine} {p} 分，{theirs} {q} 分。{win}获胜！",
+  "{mon} hesitated and did nothing!": "{mon}犹豫了，什么都没做！",
+  "{mon} returned its stats to normal using its {item}!": "{mon}用{item}让能力恢复了原状！"
 }, "zh-Hans");

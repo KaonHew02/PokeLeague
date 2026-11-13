@@ -475,7 +475,8 @@ G.BattleUI = (() => {
       if (await debugHooks() && b.result) return null;
       const slot = b.prompt.slot || 0;
       const me = findMon(b.player.bms[slot].mon.uid);
-      box.set(fmt('What will {mon} do?', { mon: G.Mon.name(me) }));
+      // The Battle Palace (chapter 80): Fight lets the Pokémon choose its own move; switching is the only other choice.
+      box.set(b.palace ? fmt('{mon} chooses its own moves here. Let it fight, or switch?', { mon: G.Mon.name(me) }) : fmt('What will {mon} do?', { mon: G.Mon.name(me) }));
       // Doubles: B on the second Pokémon's menu goes back to the first one's choice.
       root.onBack = dbl() && slot > 0 ? () => pick('back') : () => {};
       root.querySelector('#bt-menu [data-a="bag"]').disabled = !!b.rules.noBag;      // the Battle Tower (chapter 43)
@@ -484,7 +485,7 @@ G.BattleUI = (() => {
       hideMenus(); setPhase('text');
       if (a === 'back') return { back: true };
       let act = null;
-      if (a === 'fight') act = await chooseMove();
+      if (a === 'fight') act = b.palace ? { type: 'move', slot: 0 } : await chooseMove();
       else if (a === 'bag') act = await chooseItem();
       else if (a === 'pokemon') act = await choosePokemon({});
       else if (a === 'run') act = { type: 'run' };

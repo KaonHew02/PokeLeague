@@ -83,5 +83,6 @@ G.I18n.add({
   "Cameraman": "Cameraman",
   "Reporter": "Giornalista",
   "Factory Head": "Capo Industria",
-  "Arena Tycoon": "Magnate del Dojo"
+  "Arena Tycoon": "Magnate del Dojo",
+  "Palace Maven": "Custode del Palazzo"
 }, "it");

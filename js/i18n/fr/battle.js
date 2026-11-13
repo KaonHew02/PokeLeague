@@ -207,5 +207,7 @@ G.I18n.add({
   "Three turns are up! The referee will decide.": "Les trois tours sont écoulés ! L'arbitre va trancher.",
   "Mind {a} : {b} · Skill {c} : {d} · Body {e} : {f}": "Mental {a} : {b} · Technique {c} : {d} · Physique {e} : {f}",
   "Score: {mine} {n}, {theirs} {n}. It's a draw: both are out!": "Score : {mine} {n}, {theirs} {n}. Égalité : les deux sont éliminés !",
-  "Score: {mine} {p}, {theirs} {q}. {win} wins!": "Score : {mine} {p}, {theirs} {q}. {win} l'emporte !"
+  "Score: {mine} {p}, {theirs} {q}. {win} wins!": "Score : {mine} {p}, {theirs} {q}. {win} l'emporte !",
+  "{mon} hesitated and did nothing!": "{mon} a hésité et n'a rien fait !",
+  "{mon} returned its stats to normal using its {item}!": "{mon} a rétabli ses statistiques grâce à son objet {item} !"
 }, "fr");

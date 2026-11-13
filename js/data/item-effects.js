@@ -60,6 +60,7 @@ G.ITEM_FX = {
   'liechi-berry':  { held: 'berry', pinch: 'atk' },     // Mirage Island (chapter 77): +1 Attack at a quarter of its HP
   'salac-berry':   { held: 'berry', pinch: 'spe' },     // Greta's Heracross (chapter 79): +1 Speed at a quarter of its HP
   'lum-berry':     { cure: 'all', field: 1, battle: 1, held: 'berry' },   // any status (chapter 79; not confusion here)
+  'white-herb':    { held: 'white-herb' },              // lowered stats back to normal, once (chapter 80)
   'pecha-berry':   { cure: ['psn', 'tox'], field: 1, battle: 1, held: 'berry' },
   'cheri-berry':   { cure: ['par'], field: 1, battle: 1, held: 'berry' },
   'chesto-berry':  { cure: ['slp'], field: 1, battle: 1, held: 'berry' },

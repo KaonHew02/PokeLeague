@@ -172,7 +172,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           # Chapter 77: Mirage Island.
                                           'liechi-berry',
                                           # Chapter 79: the Battle Arena (Greta's berries).
-                                          'salac-berry', 'lum-berry'],
+                                          'salac-berry', 'lum-berry',
+                                          # Chapter 80: the Battle Palace (Spenser's Arcanine).
+                                          'white-herb'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.
@@ -357,6 +359,7 @@ LOC_NAMES = {
 # Places PokeAPI does not have at all: the official names, in the columns of G.NAMES (en, es, fr, it, zh-Hans, zh-Hant).
 OWN_LOCS = {
     'battle-arena': ('Battle Arena', 'Dojo Batalla', 'Dojo de Combat', 'Dojo Lotta', '对战竞技场', '對戰競技場'),   # chapter 79
+    'battle-palace': ('Battle Palace', 'Palacio Batalla', 'Palace de Combat', 'Palazzo Lotta', '对战宫殿', '對戰宮殿'),   # chapter 80
 }
 
 # French names PokeAPI writes with a Pokémon's name in capitals.

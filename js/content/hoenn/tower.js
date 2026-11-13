@@ -8,7 +8,8 @@
  * streak goes on next time. In single battles Anabel, the Salon Maiden, is the 21st (Silver Print) and the
  * 49th (Gold Print) opponent. The Exchange Service Corner trades BP for vitamins and held items. The first
  * set of seven ends the chapter: `ending(43)`. Chapter 78 put the Battle Factory beside it on the island
- * (js/content/hoenn/factory.js), chapter 79 the Battle Arena (js/content/hoenn/arena.js), with the same opponents
+ * (js/content/hoenn/factory.js), chapter 79 the Battle Arena (js/content/hoenn/arena.js), chapter 80 the Battle
+ * Palace (js/content/hoenn/palace.js), with the same opponents
  * (trainerFor's options), the same way to enter (pickEntrants) and the same BP.
  */
 (() => {
@@ -20,26 +21,27 @@
   G.Maps.def(Object.assign({
     id: 'battle-tower', loc: 'hoenn-battle-tower', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: '~',
     // Chapter 78: the island grew to the east for the Battle Factory (js/content/hoenn/factory.js); chapter 79 again for
-    // the Battle Arena (js/content/hoenn/arena.js), in a building like a Gym.
+    // the Battle Arena (js/content/hoenn/arena.js), in a building like a Gym; chapter 80 for the Battle Palace
+    // (js/content/hoenn/palace.js), under a golden roof.
     rows: [
-      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-      '~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT~~~',
-      '~~TT................................TT~~',
-      '~~T...YYYYYYYY................GGGGGG.T~~',
-      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG.T~~',
-      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG.T~~',
-      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG.T~~',
-      '~~T...YYYYYYYY.....BBDBBB.....GGDGGG.T~~',
-      '~~T...YYYDYYYY.......,..........,....T~~',
-      '~~T.....,,,,,,,,,,,,,,,,,,,,,,,,,....T~~',
-      '~~TT....,,..........................TT~~',
-      '~~~TTT..,,..TTTTTTTTTTTTTTTTTTTTTTTTT~~~',
-      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT~~~',
+      '~~TT..........................................TT~~',
+      '~~T...YYYYYYYY................GGGGGG..IIIIIIII.T~~',
+      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG..IIIIIIII.T~~',
+      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG..IIIIIIII.T~~',
+      '~~T...YYYYYYYY.....BBBBBB.....GGGGGG..IIIIIIII.T~~',
+      '~~T...YYYYYYYY.....BBDBBB.....GGDGGG..IIIIIIII.T~~',
+      '~~T...YYYDYYYY.......,..........,.....IIIDIIII.T~~',
+      '~~T.....,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.....T~~',
+      '~~TT....,,....................................TT~~',
+      '~~~TTT..,,..TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT~~~',
+      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+      '~~~~~~~~==~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
     warps: [{ x: 9, y: 8, to: 'battle-tower-lobby', spot: 'door' }, { x: 21, y: 7, to: 'battle-factory-lobby', spot: 'door' },
-            { x: 32, y: 7, to: 'battle-arena-lobby', spot: 'door' }],
-    spots: { pier: [8, 12, 'up'], 'tower-door': [9, 9, 'down'], 'factory-door': [21, 8, 'down'], 'arena-door': [32, 8, 'down'] },
+            { x: 32, y: 7, to: 'battle-arena-lobby', spot: 'door' }, { x: 41, y: 8, to: 'battle-palace-lobby', spot: 'door' }],
+    spots: { pier: [8, 12, 'up'], 'tower-door': [9, 9, 'down'], 'factory-door': [21, 8, 'down'], 'arena-door': [32, 8, 'down'], 'palace-door': [41, 9, 'down'] },
     npcs: [{ id: 'sailor', who: 'sailor', x: 9, y: 13, dir: 'up', script: 'tower.ferry-back' }]
   }, HOENN));
 

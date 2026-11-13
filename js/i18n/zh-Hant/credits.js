@@ -218,5 +218,8 @@ G.I18n.add({
   "The streak goes on: Noland, the Factory Head, waits for whoever wins twenty-one single battles in a row.": "連勝還在繼續：工廠頭目達拉正等著單打取得二十一連勝的人。",
   "Chapter 79 complete!": "第七十九章完成！",
   "{player} won seven battles in a row at the Battle Arena, where the referee judges every match-up after three turns.": "{player}在對戰競技場取得了 7 連勝。在那裡，每組對決 3 回合後由裁判判定。",
-  "The streak goes on: Greta, the Arena Tycoon, waits for whoever wins twenty-eight battles in a row.": "連勝還在繼續：競技場主將黃瓜香正等著取得二十八連勝的人。"
+  "The streak goes on: Greta, the Arena Tycoon, waits for whoever wins twenty-eight battles in a row.": "連勝還在繼續：競技場主將黃瓜香正等著取得二十八連勝的人。",
+  "Chapter 80 complete!": "第八十章完成！",
+  "{player} won seven battles in a row at the Battle Palace, where the Pokémon choose their own moves.": "{player}在寶可夢自己選擇招式的對戰宮殿取得了 7 連勝。",
+  "The streak goes on: Spenser, the Palace Maven, waits for whoever wins twenty-one battles in a row.": "連勝還在繼續：宮殿守護者鬱金正等著取得二十一連勝的人。"
 }, "zh-Hant");

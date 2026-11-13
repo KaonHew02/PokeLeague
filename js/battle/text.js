@@ -132,6 +132,7 @@ G.BattleText = (() => {
           case 'recharge': return fmt('{mon} must recharge!', { mon });
           case 'attract': return fmt('{mon} is immobilized by love!', { mon });
           case 'disabled': return fmt("{mon}'s move is disabled!", { mon });
+          case 'palace': return fmt('{mon} hesitated and did nothing!', { mon });      // the Battle Palace (chapter 80)
         }
         return null;
       case 'wake': return fmt('{mon} woke up!', { mon });
@@ -152,6 +153,7 @@ G.BattleText = (() => {
         return fmt('{mon} regained health!', { mon });
       case 'status': return statusLine(mon, e.s);
       case 'eat': return fmt('{mon} ate its {item}!', { mon, item: G.Names.item(e.item) });      // a pinch berry (chapter 77)
+      case 'herb': return fmt('{mon} returned its stats to normal using its {item}!', { mon, item: G.Names.item(e.item) });   // chapter 80
       case 'cure': return e.item ? fmt('{mon} ate its {item} and was cured!', { mon, item: G.Names.item(e.item) })
                                  : fmt("{mon}'s status returned to normal!", { mon });
       case 'held': return fmt('{mon} hung on using its {item}!', { mon, item: G.Names.item(e.item) });

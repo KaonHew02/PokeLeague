@@ -36,5 +36,6 @@ G.I18n.add({
   "Bait": "Cebo",
   "Rock": "Roca",
   "What will {player} do?": "¿Qué hará {player}?",
-  "Use {move} on which Pokémon?": "¿Contra qué Pokémon usar {move}?"
+  "Use {move} on which Pokémon?": "¿Contra qué Pokémon usar {move}?",
+  "{mon} chooses its own moves here. Let it fight, or switch?": "Aquí {mon} elige sus propios movimientos. ¿Lo dejas luchar o lo cambias?"
 }, "es");

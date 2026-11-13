@@ -83,5 +83,6 @@ G.I18n.add({
   "Cameraman": "摄影师",
   "Reporter": "记者",
   "Factory Head": "工厂头目",
-  "Arena Tycoon": "竞技场主将"
+  "Arena Tycoon": "竞技场主将",
+  "Palace Maven": "宫殿守护者"
 }, "zh-Hans");

@@ -36,5 +36,6 @@ G.I18n.add({
   "Bait": "Esca",
   "Rock": "Sasso",
   "What will {player} do?": "Cosa farà {player}?",
-  "Use {move} on which Pokémon?": "Usare {move} su quale Pokémon?"
+  "Use {move} on which Pokémon?": "Usare {move} su quale Pokémon?",
+  "{mon} chooses its own moves here. Let it fight, or switch?": "Qui {mon} sceglie da solo le sue mosse. Lo lasci lottare o lo sostituisci?"
 }, "it");

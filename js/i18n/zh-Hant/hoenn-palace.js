@@ -1,0 +1,26 @@
+/* Traditional Chinese — hoenn-palace: the Battle Palace (js/content/hoenn/palace.js). */
+G.I18n.add({
+  "My Pokémon know what to do. I just watch!": "我的寶可夢知道該怎麼做。我只要看著就好！",
+  "In the Palace, you find out who your Pokémon really are.": "在宮殿裡，你會看清自己的寶可夢真正是什麼樣子。",
+  "I trust my Pokémon completely. Do you?": "我完全信任我的寶可夢。你呢？",
+  "No orders here. Only character!": "這裡沒有指令，只有性格！",
+  "Let us see whose Pokémon have the stronger spirit!": "來看看誰的寶可夢精神更強大吧！",
+  "Your Pokémon have a strong spirit...": "你的寶可夢精神真堅強……",
+  "Mine did their best. I am proud of them.": "我的寶可夢已經盡力了。我為牠們驕傲。",
+  "I should get to know my Pokémon better.": "我應該更了解我的寶可夢才對。",
+  "Their natures beat mine today.": "今天是牠們的性格贏了。",
+  "So you are the Trainer who keeps winning in my Palace. I am Spenser, the Palace Maven. Here, Pokémon show who they truly are. Let us see yours!": "原來在我的宮殿裡連連獲勝的訓練家就是你。我是宮殿守護者鬱金。在這裡，寶可夢會展現出真正的自己。讓我看看你的寶可夢吧！",
+  "You have returned. Then let my Pokémon speak for me once more.": "你又來了。那就再讓我的寶可夢替我說話吧。",
+  "Your Pokémon fight with heart, just as you do. Take this.": "你的寶可夢和你一樣，用心在戰鬥。收下這個吧。",
+  "I have nothing left to teach you. Your bond with your Pokémon is the real thing.": "我已經沒有什麼能教你的了。你和寶可夢之間的羈絆是真的。",
+  "Welcome to the Battle Palace! Here, Pokémon choose their own moves.": "歡迎來到對戰宮殿！在這裡，寶可夢會自己決定用什麼招式。",
+  "Enter three Pokémon. In battle you cannot give them orders: each one picks its moves as its nature tells it. You may only switch them.": "請報名 3 隻寶可夢。對戰中不能下指令：每隻寶可夢會按自己的性格選擇招式。你只能替換牠們。",
+  "The Palace Maven has come to battle you himself!": "宮殿守護者親自前來和你對戰了！",
+  "Spenser recognizes your spirit. You earned the Silver Spirit Symbol!": "鬱金認可了你的精神。你得到了銀色精神象徵！",
+  "Spenser recognizes your spirit. You earned the Gold Spirit Symbol!": "鬱金認可了你的精神。你得到了金色精神象徵！",
+  "In the Palace, Pokémon choose their own moves. Each one goes for attacking, defending or supporting moves, as its nature makes it want to.": "在宮殿裡，寶可夢會自己選擇招式。每隻寶可夢會按性格，傾向於使用攻擊、防守或輔助類的招式。",
+  "When its HP falls below half, many a Pokémon changes its habits completely.": "HP 降到一半以下時，很多寶可夢的習慣會完全改變。",
+  "A Pokémon that wants a kind of move it does not know may simply hesitate. Give each one moves its nature likes!": "如果寶可夢想用的那類招式牠不會，牠就可能只是猶豫不動。給每隻寶可夢配上合牠性格的招式吧！",
+  "They say the Palace Maven himself appears before Trainers who win twenty-one battles in a row.": "聽說連勝 21 場的訓練家，宮殿守護者會親自出現在他們面前。",
+  "Spenser": "鬱金"
+}, "zh-Hant");

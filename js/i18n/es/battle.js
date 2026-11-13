@@ -207,5 +207,7 @@ G.I18n.add({
   "Three turns are up! The referee will decide.": "¡Se acabaron los tres turnos! El árbitro decidirá.",
   "Mind {a} : {b} · Skill {c} : {d} · Body {e} : {f}": "Mente {a} : {b} · Técnica {c} : {d} · Cuerpo {e} : {f}",
   "Score: {mine} {n}, {theirs} {n}. It's a draw: both are out!": "Puntuación: {mine} {n}, {theirs} {n}. ¡Empate: los dos quedan fuera!",
-  "Score: {mine} {p}, {theirs} {q}. {win} wins!": "Puntuación: {mine} {p}, {theirs} {q}. ¡Gana {win}!"
+  "Score: {mine} {p}, {theirs} {q}. {win} wins!": "Puntuación: {mine} {p}, {theirs} {q}. ¡Gana {win}!",
+  "{mon} hesitated and did nothing!": "¡{mon} dudó y no hizo nada!",
+  "{mon} returned its stats to normal using its {item}!": "¡{mon} recuperó sus características gracias a su {item}!"
 }, "es");

@@ -218,5 +218,8 @@ G.I18n.add({
   "The streak goes on: Noland, the Factory Head, waits for whoever wins twenty-one single battles in a row.": "A sequência continua: Noland, o Factory Head, espera por quem vencer vinte e uma batalhas individuais seguidas.",
   "Chapter 79 complete!": "Capítulo 79 concluído!",
   "{player} won seven battles in a row at the Battle Arena, where the referee judges every match-up after three turns.": "{player} venceu sete batalhas seguidas na Battle Arena, onde o árbitro julga cada confronto depois de três turnos.",
-  "The streak goes on: Greta, the Arena Tycoon, waits for whoever wins twenty-eight battles in a row.": "A sequência continua: Greta, a Arena Tycoon, espera por quem vencer vinte e oito batalhas seguidas."
+  "The streak goes on: Greta, the Arena Tycoon, waits for whoever wins twenty-eight battles in a row.": "A sequência continua: Greta, a Arena Tycoon, espera por quem vencer vinte e oito batalhas seguidas.",
+  "Chapter 80 complete!": "Capítulo 80 concluído!",
+  "{player} won seven battles in a row at the Battle Palace, where the Pokémon choose their own moves.": "{player} venceu sete batalhas seguidas no Battle Palace, onde os Pokémon escolhem os próprios golpes.",
+  "The streak goes on: Spenser, the Palace Maven, waits for whoever wins twenty-one battles in a row.": "A sequência continua: Spenser, o Palace Maven, espera por quem vencer vinte e uma batalhas seguidas."
 }, "pt-BR");

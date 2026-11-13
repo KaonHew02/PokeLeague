@@ -21,10 +21,12 @@
  *   'smoke-ball'      it always gets away from wild Pokémon (battle.js)
  *   'cleanse-tag'     on the lead, a third fewer wild Pokémon (field.js, chapter 69)
  *   'light-clay'      its Reflect and Light Screen last 8 turns instead of 5 (moves-special.js, chapter 74)
+ *   'white-herb'      after an action that left a stat of it lowered, every lowered stat goes back to 0; then it
+ *                     is gone (chapter 80: Spenser's Arcanine, after Overheat)
  *   'everstone'       it does not evolve (evolution.js); at the Day Care it may pass on its nature (daycare.js)
  * The numbers are those of Generation 4. The battle asks:
  *   kind(mon) · is(mon, k) · power(mon, type) · statMult(mon, key) · critBonus(mon) · accMult(mon)
- *   · quick(b, bm) · afterHit(b, user, target, M, total) · survives(b, bm) · berry(b, bm) · endOfTurn(b, bm)
+ *   · quick(b, bm) · afterHit(b, user, target, M, total) · survives(b, bm) · berry(b, bm) · herb(b, bm) · endOfTurn(b, bm)
  *   · expMult(mon)
  * Random rolls are made only for a Pokémon that holds the item, so battles without held items
  * play exactly as before.
@@ -95,11 +97,22 @@ G.Held = (() => {
     }
   }
 
+  /** The White Herb (chapter 80): a lowered stat goes back to normal, once. */
+  function herb(b, bm) {
+    if (!b.alive(bm) || !is(bm.mon, 'white-herb')) return;
+    const low = Object.keys(bm.stages).filter(k => bm.stages[k] < 0);
+    if (!low.length) return;
+    for (const k of low) bm.stages[k] = 0;
+    bm.mon.item = null;
+    if (bm.ability === 'unburden') bm.vol.unburden = true;
+    b.emit('herb', { side: bm.side, uid: bm.mon.uid, item: 'white-herb' });
+  }
+
   /** The end of the turn: Leftovers. */
   function endOfTurn(b, bm) {
     if (b.alive(bm) && is(bm.mon, 'leftovers') && bm.mon.hp < b.maxHp(bm))
       b.heal(bm, Math.max(1, Math.floor(b.maxHp(bm) / 16)), 'held', { item: bm.mon.item, held: 'leftovers' });
   }
 
-  return { kind, is, power, statMult, critBonus, accMult, quick, survives, expMult, afterHit, berry, endOfTurn };
+  return { kind, is, power, statMult, critBonus, accMult, quick, survives, expMult, afterHit, berry, herb, endOfTurn };
 })();

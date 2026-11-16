@@ -236,5 +236,8 @@ G.I18n.add({
   "The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.": "Le catalogue est épais et rien n'y est bon marché ; plus la villa est meublée, plus il y a de visiteurs.",
   "Chapter 85 complete!": "Chapitre 85 terminé !",
   "{player} won a ribbon at the Contest Hall in Hearthome City, on looks, dance and performance.": "{player} a gagné un ruban à la Salle des Concours d'Unionpolis, grâce à l'allure, la danse et le jeu.",
-  "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Quatre rangs dans cinq catégories : vingt rubans t'attendent, et le Rang Maître n'est pas fait pour un Pokémon mal préparé."
+  "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Quatre rangs dans cinq catégories : vingt rubans t'attendent, et le Rang Maître n'est pas fait pour un Pokémon mal préparé.",
+  "Chapter 86 complete!": "Chapitre 86 terminé !",
+  "{player} won a ribbon on a Contest Hall stage in Hoenn.": "{player} a gagné un ruban sur la scène d'une Salle des Concours de Hoenn.",
+  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "Le Mixeur à Baies tourne, un Barpau attend de montrer sa beauté, et cinq cadres du Musée de Nénucrique restent à remplir."
 }, "fr");

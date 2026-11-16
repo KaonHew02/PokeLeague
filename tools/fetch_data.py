@@ -397,7 +397,9 @@ TIMES = ['morning', 'day', 'night']
 # Trade evolutions become level evolutions (there is no trading).
 TRADE_LEVEL = 37
 TRADE_LEVEL_OVERRIDE = {64: 36}          # Kadabra -> Alakazam
-BEAUTY_LEVEL = 35                        # Feebas -> Milotic (beauty needs Pokéblocks, not in this game)
+# Chapter 86: Feebas evolves on a level-up with Beauty 170 or more (52poke and the Generation 3-4 games; PokeAPI's
+# min_beauty says 171). Condition comes from Poffins and Pokéblocks (js/world/poffin.js, pokeblock.js).
+BEAUTY_MIN = 170
 
 
 def ability_slots(p, gen='generation-iii'):
@@ -913,7 +915,7 @@ def evo_rule(frm, to, details):
             if d.get('location'):
                 continue                       # place-based evolutions (Mt. Coronet, the Moss Rock): not yet
             if d.get('min_beauty'):
-                rec = {'to': to, 'how': 'level', 'level': BEAUTY_LEVEL, 'via': 'beauty'}   # Feebas: no beauty here
+                rec = {'to': to, 'how': 'level', 'level': 1, 'beauty': BEAUTY_MIN}   # Feebas: any level, its Beauty
             return rec
         if trig == 'use-item' and d.get('item'):
             rec = {'to': to, 'how': 'item', 'item': d['item']['name']}

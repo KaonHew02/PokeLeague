@@ -236,5 +236,8 @@ G.I18n.add({
   "The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.": "目錄很厚，上面沒有便宜的東西；別墅裡的東西越多，來訪的人就越多。",
   "Chapter 85 complete!": "第八十五章完成！",
   "{player} won a ribbon at the Contest Hall in Hearthome City, on looks, dance and performance.": "{player}在家緣市的華麗大賽會場靠外表、舞蹈和演技贏得了獎章。",
-  "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "五個類別各四個等級：共二十枚獎章等著你，而大師級可不是沒準備好的寶可夢能去的地方。"
+  "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "五個類別各四個等級：共二十枚獎章等著你，而大師級可不是沒準備好的寶可夢能去的地方。",
+  "Chapter 86 complete!": "第 86 章完成！",
+  "{player} won a ribbon on a Contest Hall stage in Hoenn.": "{player}在豐緣的華麗大賽會場舞台上贏得了獎章。",
+  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "樹果混合器轉個不停，醜醜魚等著展現牠的美麗，水靜市美術館還有五個畫框等著掛上畫。"
 }, "zh-Hant");

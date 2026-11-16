@@ -63,6 +63,7 @@ test('evolutions: levels, stones, friendship, and trades turned into levels or i
   assert.deepEqual(evo(95), [{ to: 208, how: 'item', item: 'metal-coat', via: 'trade' }]);   // Onix -> Steelix
   assert.deepEqual(plain(G.SPECIES[236].evo.map(e => e.stats)), [1, -1, 0]);                  // Tyrogue by its stats
   assert.equal(G.SPECIES[151].evo.length, 0);
+  assert.deepEqual(evo(349), [{ to: 350, how: 'level', level: 1, beauty: 170 }]);        // Feebas: its Beauty (chapter 86)
   for (const [d, s] of Object.entries(G.SPECIES)) {
     for (const e of s.evo) {
       assert.ok(G.SPECIES[e.to], `${d} evolves into unknown ${e.to}`);

@@ -5,6 +5,7 @@
  * Rock Smash). East of Mauville, Route 118 is cut by a sea channel: with Surf, the far bank, where
  * Steven waits (flag steven-118) and talks of the strange weather and of Route 119 and Fortree City,
  * then `ending(33)`. Route 119 (north, fortree.js) opens in chapter 34. Norman's Gym is in petalburg.js.
+ * Chapter 86: the Contest Hall opens (Normal Rank; js/content/hoenn/contesthalls.js).
  */
 (() => {
   const T = s => G.T(s);
@@ -93,10 +94,10 @@
       { x: 20, y: 6, to: 'verdanturf-mart', spot: 'door' },
       { x: 4, y: 16, to: 'wally-home', spot: 'door' },
       { x: 10, y: 16, to: 'wanda-house', spot: 'door' },
-      { x: 19, y: 17, locked: 'verdanturf.contest' }
+      { x: 19, y: 17, to: 'verdanturf-contest', spot: 'door' }
     ],
     spots: { tunnel: [4, 4, 'down'], 'center-door': [12, 7, 'down'], 'mart-door': [20, 7, 'down'], 'wally-door': [4, 17, 'down'],
-             'wanda-door': [10, 17, 'down'] },
+             'wanda-door': [10, 17, 'down'], 'contest-door': [19, 18, 'down'] },
     signs: {
       '8,9': 'Verdanturf Town. A town of fresh air, sheltered from the ash of Mt. Chimney.',
       '23,17': 'Pokémon Contest Hall. The stage where Pokémon show off their charm.'
@@ -231,7 +232,6 @@
 
   G.Script.def({
     'route118.steven': [['js', steven]],
-    'verdanturf.contest': [['say', 'The Contest Hall is closed. A note on the door says the stage is being repaired.']],
     'verdanturf.wally': [
       ['if', 'wally-battle', [
         ['say', '{player}! You came to visit? The air here is so clean, I already feel stronger.', WALLY],

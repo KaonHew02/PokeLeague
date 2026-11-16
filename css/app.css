@@ -844,3 +844,22 @@ kbd {
   .sc-beat { height: 1.7em; }
   .sc-pad .sc-dir { min-height: 2em; }
 }
+
+/* ---------- a painting of the Lilycove Museum (chapter 86, supercontest-ui.js) ---------- */
+.pt-box { display: flex; flex-direction: column; align-items: center; gap: .5em; max-width: min(24em, 92vw); margin: auto; text-align: center; }
+.pt-frame { padding: .9em; border: .45em solid #c49a30; border-radius: .2em; box-shadow: inset 0 0 0 .15em #fae49a, 0 .2em .6em rgba(0, 0, 0, .35);
+            background: radial-gradient(circle, #fff4d0 0 38%, #9aa0b0 39% 100%); }
+.pt-frame.cool { background: radial-gradient(circle, #fff4d0 0 38%, #e05a4a 39% 100%); }
+.pt-frame.beauty { background: radial-gradient(circle, #fff4d0 0 38%, #4a7ee0 39% 100%); }
+.pt-frame.cute { background: radial-gradient(circle, #fff4d0 0 38%, #f08cc0 39% 100%); }
+.pt-frame.smart { background: radial-gradient(circle, #fff4d0 0 38%, #4ab060 39% 100%); }
+.pt-frame.tough { background: radial-gradient(circle, #fff4d0 0 38%, #e8c040 39% 100%); }
+.pt-frame canvas { display: block; width: 6em; height: 6em; image-rendering: pixelated; }
+.pt-title { font-size: 1.05em; }
+.pt-plate { margin: 0; font-size: .82em; opacity: .85; }
+@media (max-height: 420px) {
+  .pt-box { flex-direction: row; flex-wrap: wrap; justify-content: center; max-width: 92vw; }
+  .pt-frame { padding: .5em; }
+  .pt-frame canvas { width: 4.5em; height: 4.5em; }
+  .pt-title, .pt-plate { flex-basis: 100%; }
+}

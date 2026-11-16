@@ -178,3 +178,32 @@ test('rivals: from the category\'s list, its moves first, stronger with the rank
   assert.ok(st.entrants.every(e => e.dance > 0 && e.acting > 0));
   assert.ok(SC.ribbonName('cool-normal') && SC.ribbonName('cute-master') !== SC.ribbonName('cute-normal'));
 });
+
+test('Hoenn (chapter 86): its ranks play as Sinnoh\'s of the same place, its rivals from the Hoenn lists, its ribbons and the label', () => {
+  assert.deepEqual(plain(SC.HOENN_RANKS), ['normal', 'super', 'hyper', 'master']);
+  assert.deepEqual(plain(SC.HOENN_RANKS.map(r => SC.TIER[r])), plain(SC.RANKS));
+  for (const cat of SC.CATS) {
+    const list = SC.ROSTERS.hoenn[cat];
+    assert.equal(list.length, 8, cat);
+    for (const slug of list) {
+      const sp = G.Maps.species(slug);
+      assert.ok(sp && sp <= 386, slug + ' is from the first three generations');
+      const moves = SC.movesFor(sp, cat, SC.LEVEL.normal, G.RNG(1));
+      assert.ok(moves.some(id => G.MOVES[id].ct === cat), slug + ' has a move of its category');
+    }
+    for (const rank of SC.RANKS) {
+      const r = SC.rivals(cat, rank, 5, 'hoenn');
+      assert.ok(r.every(x => list.map(s => G.Maps.species(s)).includes(x.mon.sp)), cat + ' ' + rank);
+      assert.deepEqual(plain(r), plain(SC.rivals(cat, rank, 5, 'hoenn')), 'the same for the same seed');
+    }
+  }
+  assert.ok(SC.rivals('cool', 'normal', 5).every(x => SC.ROSTER.cool.map(s => G.Maps.species(s)).includes(x.mon.sp)), 'Sinnoh by default');
+  assert.equal(SC.ribbonName('hoenn-cool-normal'), 'Cool Ribbon');
+  assert.equal(SC.ribbonName('hoenn-cool-super'), 'Cool Ribbon Super');
+  assert.equal(SC.ribbonName('hoenn-beauty-hyper'), 'Beauty Ribbon Hyper');
+  assert.equal(SC.ribbonName('hoenn-smart-master'), 'Smart Ribbon Master');
+  assert.equal(SC.hoennRankName('hyper'), 'Hyper Rank');
+  const st = SC.create({ cat: 'cool', rank: 'great', seed: 3, label: 'Super Rank', entrants: [entrant(['tackle'])] });
+  assert.equal(st.label, 'Super Rank');
+  assert.equal(SC.create({ cat: 'cool', rank: 'great', seed: 3, entrants: [entrant(['tackle'])] }).label, null);
+});

@@ -4,6 +4,8 @@
  * track (the four arrows: keys, the pad or the buttons on screen; the lead's steps light up on the first half of the
  * track, the copies go on the second half); four turns of Acting (pick a move, then a judge; then each performance in
  * order, the judges' voltage stars, their hearts); the results. Everything shown is translated here (translate="no").
+ * Chapter 86: the title shows `state.label` (Hoenn's ranks) when there is one, and
+ *   await G.SuperContestUI.painting({ cat, sp, title, plate })   one of the Lilycove Museum's paintings (A or B closes it).
  */
 G.SuperContestUI = (() => {
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v), esc = s => G.U.esc(s);
@@ -202,7 +204,7 @@ G.SuperContestUI = (() => {
     if (!el) build();
     state = st;
     el.querySelector('.sc-cards').innerHTML = '';
-    el.querySelector('.sc-t').textContent = fmt('{cat} Contest · {rank}', { cat: catName(st.cat), rank: rankName(st.rank) });
+    el.querySelector('.sc-t').textContent = fmt('{cat} Contest · {rank}', { cat: catName(st.cat), rank: st.label || rankName(st.rank) });
     G.UI.open(el, { onBack: () => {} });
     try {
       await visual();
@@ -215,5 +217,31 @@ G.SuperContestUI = (() => {
     }
   }
 
-  return { run, catName, rankName, judgeName, effectText, RIVALS };
+  // ---------------- a painting (chapter 86: the Lilycove Museum's second floor) ----------------
+  let pel = null;
+  /** The Pokémon in a gold frame on its category's color, the title and the plate. -> when it is closed */
+  function painting({ cat, sp, title, plate }) {
+    if (!pel) {
+      pel = document.createElement('section');
+      pel.id = 'scr-painting';
+      pel.className = 'scr dim hidden';
+      pel.setAttribute('translate', 'no');
+      pel.innerHTML = '<div class="box pt-box"><div class="pt-frame"><canvas width="96" height="96"></canvas></div>'
+        + '<b class="pt-title"></b><p class="pt-plate"></p><button class="btn small pt-back" data-back></button></div>';
+      document.getElementById('frame').appendChild(pel);
+    }
+    pel.querySelector('.pt-frame').className = 'pt-frame ' + (cat || '');
+    if (G.UI.sprite) G.UI.sprite(pel.querySelector('canvas'), sp, { scale: 2 });
+    pel.querySelector('.pt-title').textContent = '“' + title + '”';
+    pel.querySelector('.pt-plate').textContent = plate;
+    const back = pel.querySelector('.pt-back');
+    back.textContent = T('Back');
+    return new Promise(res => {
+      const done = () => { G.UI.close(pel); res(); };
+      back.onclick = done;
+      G.UI.open(pel, { onBack: done });
+    });
+  }
+
+  return { run, painting, catName, rankName, judgeName, effectText, RIVALS };
 })();

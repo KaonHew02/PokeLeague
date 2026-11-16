@@ -8,6 +8,7 @@
  * the Gym shows itself and you battle it (flag kecleon-gone). Winona's Gym: the Feather Badge (badge 22:
  * Pokémon up to Lv. 60 obey in Hoenn) and TM40 Aerial Ace, then `ending(34)`. Route 121, south of
  * Route 120, opens in chapter 35 (lilycove.js).
+ * Chapter 86: six of the river's tiles a day are Feebas tiles (`feebasTiles`, field.js), as in Ruby and Sapphire.
  */
 (() => {
   const T = s => G.T(s);
@@ -19,6 +20,7 @@
   // ---------------- Route 119 ----------------
   G.Maps.def(Object.assign({
     id: 'route119', loc: 'hoenn-route-119', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
+    feebasTiles: 6,
     rows: [
       'TTTTTTTTTT,,TTTTTTTTTTTTTTTTTTTTTTTT',
       'T.........,,...................TTTTT',

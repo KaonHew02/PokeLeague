@@ -1318,7 +1318,10 @@ G.Tiles = (() => {
   };
   const DECOR_SIZE = { 'big-sofa': [48, 22], 'small-sofa': [32, 22], bed: [32, 34], 'night-table': [16, 24], tv: [32, 28], audio: [16, 28],
     bookshelf: [32, 30], rack: [16, 28], houseplant: [16, 30], 'pc-desk': [32, 28], 'music-box': [16, 16], bust: [16, 30], 'silver-bust': [16, 30],
-    piano: [32, 30], 'guest-set': [32, 22], 'wall-clock': [16, 16], masterpiece: [32, 16], 'tea-set': [16, 10], chandelier: [32, 20] };
+    piano: [32, 30], 'guest-set': [32, 22], 'wall-clock': [16, 16], masterpiece: [32, 16], 'tea-set': [16, 10], chandelier: [32, 20],
+    // Chapter 86: Hoenn's Contest Halls (the Berry Blender) and the Lilycove Museum (a contest painting, an empty frame).
+    blender: [32, 24], 'painting-cool': [32, 16], 'painting-beauty': [32, 16], 'painting-cute': [32, 16], 'painting-smart': [32, 16],
+    'painting-tough': [32, 16], frame: [32, 16] };
   function furnish(kind) {
     const F = {};
     for (const [n, v] of Object.entries(DECOR_COLORS)) F[n] = Array.isArray(v) ? v.map(c => pack(c)) : pack(v);
@@ -1443,6 +1446,26 @@ G.Tiles = (() => {
           for (let y = 12; y < 15; y++) P.set(x + (y & 1), y, pack('#cfe8ff'));
         }
         for (const x of [7, 15, 23]) for (let y = 12; y < 17; y++) P.set(x + (y & 1), y, pack('#e4f2ff'));
+        break;
+      case 'blender': {
+        // A round machine on a stand: the bowl, the lid with four slots, a light.
+        R(4, 16, 24, 7, F.metal[1]); R(4, 16, 24, 1, F.metal[2]); R(6, 22, 3, 2, F.metal[0]); R(23, 22, 3, 2, F.metal[0]);
+        disc(P, 15.5, 10, 9.5, (x, y, t) => (t > 0.85 ? F.metal[0] : t > 0.6 ? F.metal[2] : F.metal[3]));
+        disc(P, 15.5, 10, 4, (x, y, t) => (t > 0.7 ? F.black[1] : F.black[2]));
+        for (const [x, y, c] of [[15, 2, F.red[2]], [24, 10, F.blue[2]], [15, 18, F.green[2]], [7, 10, F.gold[2]]]) R(x, y, 2, 2, c);
+        R(14, 9, 3, 3, F.white[2]);
+        break;
+      }
+      case 'painting-cool': case 'painting-beauty': case 'painting-cute': case 'painting-smart': case 'painting-tough': {
+        // A contest painting: a gold frame, the category's color, a Pokémon's shape in the light.
+        const bg = { cool: '#e05a4a', beauty: '#4a7ee0', cute: '#f08cc0', smart: '#4ab060', tough: '#e8c040' }[kind.slice(9)];
+        R(1, 1, 30, 14, F.gold[1]); R(1, 1, 30, 1, F.gold[3]); R(2, 2, 28, 12, F.gold[2]); R(3, 3, 26, 10, pack(bg));
+        disc(P, 16, 8, 5, () => pack('#fff4d0'));
+        disc(P, 16, 9, 3.2, () => F.black[1]); R(13, 4, 2, 3, F.black[1]); R(18, 4, 2, 3, F.black[1]); R(14, 11, 5, 2, F.black[1]);
+        break;
+      }
+      case 'frame':
+        R(1, 1, 30, 14, F.gold[1]); R(1, 1, 30, 1, F.gold[3]); R(2, 2, 28, 12, F.gold[2]); R(3, 3, 26, 10, F.white[1]);
         break;
       default: R(2, 2, 12, 12, F.metal[1]);
     }

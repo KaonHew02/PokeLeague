@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 86) return { title: T('Chapter 86 complete!'),
+      done: fmt('{player} won a ribbon on a Contest Hall stage in Hoenn.', { player }),
+      next: T('The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.') };
     if (n === 85) return { title: T('Chapter 85 complete!'),
       done: fmt('{player} won a ribbon at the Contest Hall in Hearthome City, on looks, dance and performance.', { player }),
       next: T('Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.') };

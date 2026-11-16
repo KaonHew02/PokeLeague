@@ -236,5 +236,8 @@ G.I18n.add({
   "The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.": "El catálogo es grueso y nada es barato; cuantas más cosas haya en la villa, más visitas vendrán.",
   "Chapter 85 complete!": "¡Capítulo 85 completado!",
   "{player} won a ribbon at the Contest Hall in Hearthome City, on looks, dance and performance.": "{player} ganó una cinta en la Sala de Concursos de Ciudad Corazón, con presencia, baile y actuación.",
-  "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Cuatro rangos en cinco categorías: te esperan veinte cintas, y el Rango Maestro no es lugar para un Pokémon sin preparar."
+  "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Cuatro rangos en cinco categorías: te esperan veinte cintas, y el Rango Maestro no es lugar para un Pokémon sin preparar.",
+  "Chapter 86 complete!": "¡Capítulo 86 completado!",
+  "{player} won a ribbon on a Contest Hall stage in Hoenn.": "{player} ganó una cinta en el escenario de una Sala de Concursos de Hoenn.",
+  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "El Licuabayas gira, un Feebas espera mostrar su belleza y cinco marcos del Museo de Ciudad Calagua siguen vacíos."
 }, "es");

@@ -22,6 +22,10 @@
  * - The result (`standings`): Visual + Dance + Acting (my own sum), ties by Acting, then Visual.
  * - Rivals (`rivals`): three per contest from a list per category, their condition, dance and choices by rank (my own),
  *   all from the contest's seed.
+ * - Chapter 86, Hoenn's Contest Halls (js/content/hoenn/contesthalls.js): the same rules. Hoenn's ranks (HOENN_RANKS:
+ *   Normal, Super, Hyper, Master) play as Sinnoh's of the same place (TIER: Super as Great, Hyper as Ultra); the rivals
+ *   come from Hoenn's lists (ROSTERS.hoenn: Pokémon of the Hoenn Pokédex); `label` is the rank shown on screen. Hoenn's
+ *   ribbons are 'hoenn-<category>-<rank>' (帅气奖章, 帅气超级奖章...: the names in the context "hoenn").
  *
  *   G.SuperContest.create({ cat, rank, entrants, seed }) -> state; visual(state); leadOf(state, round);
  *   danceLead(inputs, rank) -> { points, seq }; danceBack(inputs, seq, rank) -> points; npcSteps(state, i, seq) -> inputs;
@@ -48,9 +52,9 @@ G.SuperContest = (() => {
 
   // ---------------- a contest ----------------
   /** entrants: [{ name, mon: { sp, moves: [ids], cond, sheen, nature }, player? , skill? }] (four; the player's first). */
-  function create({ cat, rank, entrants, seed }) {
+  function create({ cat, rank, entrants, seed, label }) {
     return {
-      cat, rank, seed, rng: G.RNG(seed >>> 0),
+      cat, rank, seed, label: label || null, rng: G.RNG(seed >>> 0),
       entrants: entrants.map((e, i) => Object.assign({ i, visual: 0, dance: 0, acting: 0, last: null, double: false, next: null, skill: 0.5 }, e)),
       voltage: [0, 0, 0], turn: 0, order: null, shuffle: false
     };
@@ -228,12 +232,28 @@ G.SuperContest = (() => {
     smart: ['alakazam', 'bronzong', 'chimecho', 'xatu', 'slowking', 'girafarig', 'espeon', 'porygon-z'],
     tough: ['machamp', 'golem', 'steelix', 'rhyperior', 'sudowoodo', 'rampardos', 'bastiodon', 'hariyama']
   };
+  // Chapter 86: Hoenn's lists, Pokémon of the Hoenn Pokédex (my own picks, as Sinnoh's).
+  const ROSTERS = {
+    sinnoh: ROSTER,
+    hoenn: {
+      cool: ['blaziken', 'sceptile', 'swellow', 'manectric', 'absol', 'zangoose', 'ninjask', 'crawdaunt'],
+      beauty: ['milotic', 'gardevoir', 'altaria', 'roselia', 'ninetales', 'beautifly', 'lanturn', 'starmie'],
+      cute: ['delcatty', 'plusle', 'minun', 'azumarill', 'wigglytuff', 'spinda', 'castform', 'pikachu'],
+      smart: ['alakazam', 'xatu', 'claydol', 'grumpig', 'chimecho', 'solrock', 'lunatone', 'medicham'],
+      tough: ['hariyama', 'aggron', 'torkoal', 'camerupt', 'swampert', 'armaldo', 'cradily', 'breloom']
+    }
+  };
+  const HOENN_RANKS = ['normal', 'super', 'hyper', 'master'];
+  const TIER = { normal: 'normal', super: 'great', hyper: 'ultra', master: 'master' };
   const NAMES = ['Lena', 'Marco', 'Yuki', 'Sasha', 'Tomas', 'Ivy', 'Remy', 'Nadia', 'Lucio', 'Clara', 'Hugo', 'Mina', 'Oscar', 'Pia', 'Ravi', 'Selma'];
   const LEVEL = { normal: 25, great: 35, ultra: 45, master: 55 };
   // Set for a normal difficulty (tests/story.test.cjs prints it): a Pokémon fed 20 above the rivals' condition, played by an
   // average player (skill 0.5), wins about 0.6-0.7 at every rank.
   const COND = { normal: 60, great: 110, ultra: 160, master: 210 };
   const SKILL = { normal: 0.2, great: 0.25, ultra: 0.3, master: 0.35 };
+  // Hoenn's rivals (chapter 86) dance and choose a little worse, set for a normal difficulty: with Sinnoh's skill the same
+  // line (tests/story.test.cjs) gave 0.64 / 0.66 / 0.52 / 0.47 by rank, with these about 0.7 / 0.7 / 0.65 / 0.6.
+  const SKILLS = { sinnoh: SKILL, hoenn: { normal: 0.15, great: 0.2, ultra: 0.2, master: 0.25 } };
   /** Four moves for a rival: of the category first (different effects first), then related ones, then any it knows. */
   function movesFor(spId, cat, lvl, rng) {
     const s = G.SPECIES[spId] || {}, known = new Set((s.learn || []).filter(([l]) => l <= lvl).map(([, m]) => m));
@@ -248,14 +268,14 @@ G.SuperContest = (() => {
     }
     return out;
   }
-  /** Three rivals for a contest (their names are dictionary keys: the screen translates them). */
-  function rivals(cat, rank, seed) {
-    const rng = G.RNG((seed ^ 0x5c0e57) >>> 0), names = NAMES.slice(), list = ROSTER[cat].slice(), out = [];
+  /** Three rivals for a contest (their names are dictionary keys: the screen translates them); `region` picks the lists. */
+  function rivals(cat, rank, seed, region = 'sinnoh') {
+    const rng = G.RNG((seed ^ 0x5c0e57) >>> 0), names = NAMES.slice(), list = (ROSTERS[region] || ROSTER)[cat].slice(), out = [];
     for (let k = 0; k < 3; k++) {
       const name = names.splice(rng.int(0, names.length - 1), 1)[0], slug = list.splice(rng.int(0, list.length - 1), 1)[0];
       const sp = G.Maps.species(slug), base = COND[rank] + rng.int(-20, 20), cond = {};
       for (const c of CATS) cond[c] = c === cat ? Math.min(255, base) : near(cat).includes(c) ? Math.floor(base / 2) : rng.int(0, 40);
-      out.push({ name, skill: SKILL[rank], mon: { sp, lvl: LEVEL[rank], moves: movesFor(sp, cat, LEVEL[rank], rng), cond, sheen: Math.min(255, COND[rank] + rng.int(-30, 10)), nature: 'hardy' } });
+      out.push({ name, skill: (SKILLS[region] || SKILL)[rank], mon: { sp, lvl: LEVEL[rank], moves: movesFor(sp, cat, LEVEL[rank], rng), cond, sheen: Math.min(255, COND[rank] + rng.int(-30, 10)), nature: 'hardy' } });
     }
     return out;
   }
@@ -265,9 +285,18 @@ G.SuperContest = (() => {
   const catName = c => ({ cool: G.T('Cool', 'contest'), beauty: G.T('Beauty', 'contest'), cute: G.T('Cute', 'contest'),
                           smart: G.T('Smart', 'contest'), tough: G.T('Tough', 'contest') })[c] || c;
   const rankName = r => ({ normal: T('Normal Rank'), great: T('Great Rank'), ultra: T('Ultra Rank'), master: T('Master Rank') })[r] || r;
-  /** A ribbon's name: 'cool-normal' -> "Cool Ribbon", 'cool-great' -> "Cool Ribbon Great" (Sinnoh's: 神奥帅气奖章, 神奥帅气高手奖章). */
+  /** Hoenn's ranks (chapter 86). */
+  const hoennRankName = r => ({ normal: T('Normal Rank'), super: T('Super Rank'), hyper: T('Hyper Rank'), master: T('Master Rank') })[r] || r;
+  /** A ribbon's name: 'cool-normal' -> "Cool Ribbon", 'cool-great' -> "Cool Ribbon Great" (Sinnoh's: 神奥帅气奖章, 神奥帅气高手奖章);
+   *  Hoenn's 'hoenn-cool-normal' -> "Cool Ribbon", 'hoenn-cool-super' -> "Cool Ribbon Super" (帅气奖章, 帅气超级奖章). */
   function ribbonName(id) {
-    const [c, r] = String(id).split('-');
+    const parts = String(id).split('-');
+    if (parts[0] === 'hoenn') {
+      const [, c, r] = parts, H = 'hoenn';
+      return r === 'normal' ? G.I18n.fmt('{cat} Ribbon', { cat: catName(c) }, H)
+        : G.I18n.fmt('{cat} Ribbon {rank}', { cat: catName(c), rank: ({ super: T('Super'), hyper: T('Hyper'), master: T('Master') })[r] || r }, H);
+    }
+    const [c, r] = parts;
     return r === 'normal' ? fmt('{cat} Ribbon', { cat: catName(c) })
       : fmt('{cat} Ribbon {rank}', { cat: catName(c), rank: ({ great: T('Great'), ultra: T('Ultra'), master: T('Master') })[r] || r });
   }
@@ -284,7 +313,7 @@ G.SuperContest = (() => {
     return standings(state);
   }
 
-  return { CATS, RANKS, JUDGES, catName, rankName, ribbonName, auto, TURNS, VMAX, ROUNDS, SHARE, STEPS, BEAT, WIN, VDIV, DIRS, ROSTER, NAMES, COND, SKILL, LEVEL,
+  return { CATS, RANKS, HOENN_RANKS, TIER, ROSTERS, JUDGES, catName, rankName, hoennRankName, ribbonName, auto, TURNS, VMAX, ROUNDS, SHARE, STEPS, BEAT, WIN, VDIV, DIRS, ROSTER, NAMES, COND, SKILL, SKILLS, LEVEL,
            near, clash, create, visualPoints, visual, leadOf, grade, danceLead, danceBack, npcSteps,
            startTurn, allowed, choices, worth, pick, playTurn, standings, movesFor, rivals };
 })();

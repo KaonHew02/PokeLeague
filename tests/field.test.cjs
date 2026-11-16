@@ -6812,3 +6812,141 @@ test('Sinnoh (chapter 85): the Contest Hall and the Poffin House in Hearthome: t
   assert.ok(F.flag('chapter-85-done'));
   assert.deepEqual(plain(mon.ribbons), ['cute-normal'], 'one of each');
 });
+
+test('Hoenn (chapter 86): the Contest Halls of Verdanturf, Fallarbor and Lilycove (the doors, the Berry Blender, the ranks each holds, the ribbons), the artist and the Lilycove Museum\'s second floor, Feebas on Route 119, the ending after chapter 85', async () => {
+  const { G, W } = world(['js/world/poffin.js', 'js/world/pokeblock.js', 'js/world/supercontest.js', 'js/content/hoenn/littleroot.js', 'js/content/hoenn/verdanturf.js',
+    'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/fortree.js', 'js/content/hoenn/contesthalls.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, SC = G.SuperContest, HALL = G.HoennContestHall;
+  const said = [], answers = [], picks = [], pops = [], shops = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  G.Popup = { choose: (title, opts) => { const v = pops.shift(); const o = opts.find(x => x.value === v); return Promise.resolve(o && !o.disabled ? v : null); } };
+  G.ShopUI = { open: stock => { shops.push(stock); return Promise.resolve(); } };
+  const until = async ok => { for (let i = 0; i < 600 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  const beauty = [];
+  for (const id of Object.keys(G.MOVES)) if (G.MOVES[id].ct === 'beauty' && !beauty.some(b => G.MOVES[b].sce === G.MOVES[id].sce) && beauty.length < 4) beauty.push(id);
+  const mon = F.giveMon('milotic', 40, { moves: beauty });
+  mon.nature = 'hardy';
+
+  // The three doors are open, and the Museum's stairs.
+  for (const [town, x, y, hall] of [['verdanturf', 19, 18, 'verdanturf-contest'], ['fallarbor', 13, 7, 'fallarbor-contest'], ['lilycove', 30, 7, 'lilycove-contest']]) {
+    W.load(town, { x, y, dir: 'up' });
+    assert.equal(step(W, 'up'), 'moved', town);
+    await until(() => W.map.id === hall && !W.locked);
+    W.load(hall, 'door');
+    assert.equal(step(W, 'down'), 'warped', hall + ': out');
+    await until(() => W.map.id === town && !W.locked);
+  }
+  W.load('lilycove-museum', 'stairs');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'lilycove-museum-2f' && !W.locked);
+
+  // The clerk sells the five plain berries; the blender's host gives the Pokéblock Case, blends, feeds.
+  W.load('verdanturf-contest', { x: 2, y: 3, dir: 'left' });
+  await talk();
+  assert.deepEqual(plain(shops[0]), ['cheri-berry', 'chesto-berry', 'pecha-berry', 'rawst-berry', 'aspear-berry']);
+  F.giveItem('chesto-berry', 3);
+  F.giveItem('oran-berry', 3);
+  W.load('verdanturf-contest', 'blender');
+  answers.push(0, 2);
+  pops.push('chesto-berry', 'oran-berry', '#blend');
+  await talk();
+  assert.ok(F.flag('pokeblock-case') && said.some(s => /Pokéblock Case/.test(s)));
+  assert.deepEqual(plain(S.pokeblocks.map(p => [p.color, p.level, p.feel])), [['blue', 23, 20]]);
+  assert.deepEqual([F.count('chesto-berry'), F.count('oran-berry')], [2, 2]);
+  assert.ok(said.some(s => /Blue Pokéblock/.test(s)));
+  // The blender itself works too (two of one kind: a black one).
+  W.load('verdanturf-contest', { x: 12, y: 4, dir: 'up' });
+  answers.push(0, 2);
+  pops.push('chesto-berry', 'chesto-berry', '#blend');
+  await talk();
+  assert.deepEqual(plain(S.pokeblocks.map(p => p.color)), ['blue', 'black']);
+  // Fed to Milotic: Beauty up by 23, the sheen by the feel.
+  W.load('verdanturf-contest', 'blender');
+  answers.push(1, 2);
+  pops.push('p0');
+  picks.push(0);
+  await talk();
+  assert.deepEqual([G.Poffin.read(mon).beauty, mon.sheen, S.pokeblocks.length], [23, 20, 1]);
+
+  // The desks: Fallarbor holds the Super Rank, so it waits for the Normal Rank ribbon from Verdanturf.
+  const desk = async (hall, cat, extra = []) => { W.load(hall, 'desk'); answers.push(0, SC.CATS.indexOf(cat), ...extra); picks.push(0); await talk(); return HALL.last; };
+  HALL.last = null;
+  said.length = 0;
+  assert.equal(await desk('fallarbor-contest', 'beauty'), null, 'no contest');
+  assert.ok(said.some(s => /needs the Beauty Ribbon/.test(s) && /Normal Rank at Verdanturf Town/.test(s)), said.join(' | '));
+  mon.cond = { cool: 0, beauty: 255, cute: 150, smart: 0, tough: 150 };
+  mon.sheen = 255;
+  const win = async (hall, cat, extra) => {
+    for (let k = 0; k < 12; k++) { const r = await desk(hall, cat, extra); if (r && r.place === 1) return r; }
+    assert.fail('no win at ' + hall);
+  };
+  const a = await win('verdanturf-contest', 'beauty');
+  assert.equal(a.rank, 'normal');
+  assert.deepEqual([a.state.rank, a.state.label], ['normal', 'Normal Rank']);
+  assert.ok(a.state.entrants.slice(1).every(e => SC.ROSTERS.hoenn.beauty.map(s => G.Maps.species(s)).includes(e.mon.sp)), 'Hoenn rivals');
+  assert.deepEqual(plain(mon.ribbons), ['hoenn-beauty-normal']);
+  assert.ok(said.some(s => /won the Beauty Ribbon!/.test(s)) && said.some(s => /Super Rank of the Beauty contest, held in Fallarbor Town/.test(s)));
+  assert.deepEqual(plain(HALL.ranksFor(mon, 'beauty')), ['normal', 'super']);
+  assert.deepEqual(plain(HALL.ranksFor(mon, 'cool')), ['normal'], 'per category');
+  assert.ok(!F.flag('chapter-86-done'), 'no ending before chapter 85');
+  // Fallarbor: the Super Rank (played as Sinnoh's Great Rank). Chapter 85 done: the win ends chapter 86.
+  F.setFlag('chapter-85-done');
+  const b = await win('fallarbor-contest', 'beauty');
+  assert.deepEqual([b.rank, b.state.rank, b.state.label], ['super', 'great', 'Super Rank']);
+  assert.ok(F.flag('chapter-86-done'));
+  assert.ok(said.some(s => /Hyper Rank of the Beauty contest, held in Lilycove City/.test(s)));
+  // Lilycove: the Hyper Rank first (one rank open, no question), then the Master Rank is offered second.
+  const c = await win('lilycove-contest', 'beauty');
+  assert.equal(c.rank, 'hyper');
+  said.length = 0;
+  const d = await win('lilycove-contest', 'beauty', [1]);
+  assert.equal(d.rank, 'master');
+  assert.deepEqual(plain(mon.ribbons), ['hoenn-beauty-normal', 'hoenn-beauty-super', 'hoenn-beauty-hyper', 'hoenn-beauty-master']);
+  assert.ok(said.some(s => /May I paint Milotic/.test(s)), 'the artist asks');
+  assert.deepEqual(plain(S.paintings), { beauty: { sp: G.Maps.species('milotic'), nick: null, ot: S.player.name } });
+  assert.ok(F.flag('painting-beauty'));
+
+  // The second floor: the Beauty frame holds the painting, the others are empty.
+  W.load('lilycove-museum-2f', 'stairs');
+  const shown = id => W.decor.find(o => o.def.id === id).shown;
+  assert.ok(shown('painting-beauty') && !shown('frame-beauty') && !shown('painting-cool') && shown('frame-cool'));
+  said.length = 0;
+  W.load('lilycove-museum-2f', { x: 4, y: 2, dir: 'up' });
+  await talk();
+  assert.ok(said.some(s => /"Light on Still Water"/.test(s) && /Milotic, champion of the Beauty Contest, Master Rank/.test(s)), said.join(' | '));
+  W.load('lilycove-museum-2f', { x: 1, y: 2, dir: 'up' });
+  await talk();
+  assert.ok(said.some(s => /An empty frame/.test(s) && /Cool Contest/.test(s)));
+  // The curator: one of five, then all five and a Lucky Egg, once.
+  W.load('lilycove-museum', { x: 6, y: 6, dir: 'up' });
+  said.length = 0;
+  await talk();
+  assert.ok(said.some(s => /1 of the five frames/.test(s)));
+  for (const cat of ['cool', 'cute', 'smart', 'tough']) { S.paintings[cat] = { sp: 25, nick: null, ot: 'May' }; F.setFlag('painting-' + cat); }
+  await talk();
+  assert.ok(F.flag('museum-gift'));
+  assert.equal(F.count('lucky-egg'), 1);
+  await talk();
+  assert.equal(F.count('lucky-egg'), 1, 'only once');
+
+  // Feebas on Route 119: six of the river's tiles a day; half the bites there are Feebas, whatever the rod.
+  const m = G.Maps.get('route119');
+  G.Clock.day = () => '2026-11-16';
+  const tiles = W.feebasTiles(m);
+  assert.equal(tiles.length, 6);
+  assert.ok(tiles.every(k => { const [x, y] = k.split(',').map(Number); return G.Maps.kindAt(m, x, y) === 'water'; }));
+  F.giveItem('good-rod');
+  const got = [];
+  W.onEncounter = async (sp, lvl, area, info) => { got.push([G.Maps.species(sp), lvl]); return 'run'; };
+  const [fx, fy] = tiles[0].split(',').map(Number);
+  const from = [['down', 0, -1], ['up', 0, 1]].map(([dir, dx, dy]) => ({ dir, x: fx + dx, y: fy + dy })).find(p => G.Maps.kindAt(m, p.x, p.y) === 'water');
+  S.player.surf = 1;
+  W.load('route119', from);
+  W.seed(86);
+  for (let i = 0; i < 30; i++) await pump(W, W.fish('good-rod'));
+  assert.ok(got.some(([sp, lvl]) => sp === 349 && lvl >= 20 && lvl <= 25), JSON.stringify(got));
+});

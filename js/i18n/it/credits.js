@@ -236,5 +236,8 @@ G.I18n.add({
   "The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.": "Il catalogo è grosso e niente è economico; più la villa è arredata, più visitatori arrivano.",
   "Chapter 85 complete!": "Capitolo 85 completato!",
   "{player} won a ribbon at the Contest Hall in Hearthome City, on looks, dance and performance.": "{player} ha vinto un fiocco alla Sala Gare di Cuoripoli, con aspetto, ballo e recitazione.",
-  "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Quattro gradi in cinque categorie: ti aspettano venti fiocchi, e il Grado Master non fa per un Pokémon impreparato."
+  "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Quattro gradi in cinque categorie: ti aspettano venti fiocchi, e il Grado Master non fa per un Pokémon impreparato.",
+  "Chapter 86 complete!": "Capitolo 86 completato!",
+  "{player} won a ribbon on a Contest Hall stage in Hoenn.": "{player} ha vinto un fiocco sul palco di una Sala Gare di Hoenn.",
+  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "Il Frullabacche gira, un Feebas aspetta di mostrare la sua bellezza e cinque cornici del Museo di Porto Alghepoli sono ancora vuote."
 }, "it");

@@ -58,6 +58,8 @@ G.Store = (() => {
       daycareEgg: false, eggs: [],                        // an Egg found at the Day Care; the Eggs you carry: [{ mon, steps }]
       contest: null,                                      // a Bug-Catching Contest under way (contest.js)
       poffins: [],                                        // the Poffin Case (chapter 85, poffin.js): [{ flavors, level, smooth }]
+      pokeblocks: [],                                     // the Pokéblock Case (chapter 86, pokeblock.js): [{ flavors, level, feel, color }]
+      paintings: {},                                      // the Lilycove Museum's (chapter 86): { cool: { sp, nick, ot }, ... }
       roamer: null,                                       // a roaming Pokémon (chapter 42, roam.js): { mon, map, seen }
       sinnohRoamer: null,                                 // Sinnoh's (chapter 60): the same
       cresselia: null                                     // Cresselia, Sinnoh's second (chapter 70): the same
@@ -83,6 +85,7 @@ G.Store = (() => {
 
   const obj = v => v && typeof v === 'object' && !Array.isArray(v);
   const int = (v, lo, hi, d) => (typeof v === 'number' && isFinite(v) ? Math.max(lo, Math.min(hi, Math.floor(v))) : d);
+  const BLOCK_COLORS = ['red', 'blue', 'pink', 'green', 'yellow', 'purple', 'indigo', 'brown', 'lightblue', 'olive', 'gray', 'white', 'black', 'gold'];
   const DIRS = ['up', 'down', 'left', 'right'];
   const STATUS = ['psn', 'tox', 'brn', 'par', 'slp', 'frz'];
   const knownSp = id => !G.SPECIES || !!G.SPECIES[id];
@@ -200,6 +203,16 @@ G.Store = (() => {
       flavors: { spicy: int(p.flavors.spicy, 0, 255, 0), dry: int(p.flavors.dry, 0, 255, 0), sweet: int(p.flavors.sweet, 0, 255, 0),
                  bitter: int(p.flavors.bitter, 0, 255, 0), sour: int(p.flavors.sour, 0, 255, 0) },
       level: int(p.level, 0, 255, 0), smooth: int(p.smooth, 1, 255, 1) }));
+    // The Pokéblock Case (chapter 86): at most 40, each with its five flavors, its level, its feel and its color.
+    const flv = f => ({ spicy: int(f.spicy, 0, 255, 0), dry: int(f.dry, 0, 255, 0), sweet: int(f.sweet, 0, 255, 0), bitter: int(f.bitter, 0, 255, 0), sour: int(f.sour, 0, 255, 0) });
+    out.pokeblocks = (Array.isArray(s.pokeblocks) ? s.pokeblocks : []).filter(p => obj(p) && obj(p.flavors) && BLOCK_COLORS.includes(p.color)).slice(0, 40)
+      .map(p => ({ flavors: flv(p.flavors), level: int(p.level, 0, 255, 0), feel: int(p.feel, 0, 255, 0), color: p.color }));
+    // The Lilycove Museum's paintings (chapter 86): one a contest category, the Pokémon's species, nickname and Trainer.
+    out.paintings = {};
+    if (obj(s.paintings)) for (const c of ['cool', 'beauty', 'cute', 'smart', 'tough']) {
+      const x = s.paintings[c];
+      if (obj(x) && Number.isInteger(x.sp) && knownSp(x.sp)) out.paintings[c] = { sp: x.sp, nick: cleanName(x.nick) || null, ot: cleanName(x.ot) || '' };
+    }
     // A roaming Pokémon (chapter 42): the Pokémon itself (its HP and status stay), its route, met or not.
     const roamer = ro => { const m = obj(ro) ? fixMon(ro.mon) : null; return m && typeof ro.map === 'string' ? { mon: m, map: ro.map, seen: ro.seen === true } : null; };
     out.roamer = roamer(s.roamer);

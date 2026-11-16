@@ -6,6 +6,7 @@
  * Route 114 leads to Meteor Falls, where Maxie, Team Magma's leader, takes Cozmo's meteorite; Archie and
  * Team Aqua come after them, and both teams leave for Mt. Chimney (flag meteorite-stolen): the cable car
  * is free (lavaridge.js). Back home, Cozmo gives TM27 Return for his Meteorite (flag meteorite-returned).
+ * Chapter 86: the Contest Hall opens (Super Rank; js/content/hoenn/contesthalls.js).
  */
 (() => {
   const T = s => G.T(s);
@@ -255,9 +256,10 @@
       { x: 21, y: 7, to: 'fallarbor-mart', spot: 'door' },
       { x: 6, y: 16, to: 'cozmo-house', spot: 'door' },
       { x: 20, y: 16, to: 'fallarbor-house', spot: 'door' },
-      { x: 13, y: 6, locked: 'fallarbor.contest' }
+      { x: 13, y: 6, to: 'fallarbor-contest', spot: 'door' }
     ],
-    spots: { 'center-door': [5, 8, 'down'], 'mart-door': [21, 8, 'down'], 'cozmo-door': [6, 17, 'down'], 'house-door': [20, 17, 'down'] },
+    spots: { 'center-door': [5, 8, 'down'], 'mart-door': [21, 8, 'down'], 'cozmo-door': [6, 17, 'down'], 'house-door': [20, 17, 'down'],
+             'contest-door': [13, 7, 'down'] },
     signs: {
       '9,9': 'Fallarbor Town. A quiet farming town where the ash falls like soft snow.',
       '17,7': 'Pokémon Contest Hall. The stage where Pokémon show off their charm.'
@@ -454,7 +456,6 @@
         ['say', 'A sandstorm rages in the desert ahead. Without goggles, the sand would blind you after a few steps.']
       ]]
     ],
-    'fallarbor.contest': [['say', 'The Contest Hall is closed. A note on the door says the stage is being repaired.']],
     'fallarbor.cozmo-wife': [
       ['if', 'meteorite-stolen', [
         ['say', 'My husband came home looking so sad. Those people in red took his precious meteorite...', WIFE]

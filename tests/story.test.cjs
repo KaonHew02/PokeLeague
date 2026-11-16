@@ -10,7 +10,7 @@ const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 const dev = source('dev.html');
 const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/world/poffin.js', 'js/world/supercontest.js', 'js/script/script.js'], CONTENT);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/world/poffin.js', 'js/world/pokeblock.js', 'js/world/supercontest.js', 'js/script/script.js'], CONTENT);
 
 function world(seed = 1) {
   const ctx = boot(FILES);
@@ -1428,6 +1428,28 @@ test('balance: the Super Contest (chapter 85), how often a prepared Pokémon win
     table[rank] = +(wins / 150).toFixed(2);
   }
   console.log('[balance] Super Contest, a prepared Luxray in the Cool contest (condition just above the rivals\', four Cool moves, an average player): win rates', JSON.stringify(table));
+  assert.ok(table.normal >= 0.6 && table.master >= 0.5, 'normal difficulty');
+});
+
+test('balance: the Contest Halls of Hoenn (chapter 86), how often a prepared Pokémon wins at each rank, is printed', () => {
+  // As the Super Contest's line: a Manectric in the Cool contest with four Cool moves, its condition a little above the
+  // rivals', an average player, 150 contests a rank; Hoenn's ranks against Hoenn's rivals.
+  const { G } = world(1);
+  const SC = G.SuperContest, table = {};
+  for (const rank of SC.HOENN_RANKS) {
+    const tier = SC.TIER[rank];
+    let wins = 0;
+    for (let s = 1; s <= 150; s++) {
+      const c = SC.COND[tier] + 20, cond = { cool: Math.min(255, c), beauty: Math.floor(c / 2), tough: Math.floor(c / 2), cute: 0, smart: 0 };
+      const me = { name: 'Red', player: true, skill: 0.5,
+                   mon: { sp: G.Maps.species('manectric'), moves: ['aerial-ace', 'cross-chop', 'detect', 'air-cutter'], cond, sheen: Math.min(255, SC.COND[tier]), nature: 'hardy' } };
+      const seed = s * 6151 + SC.HOENN_RANKS.indexOf(rank);
+      const st = SC.create({ cat: 'cool', rank: tier, seed, entrants: [me].concat(SC.rivals('cool', tier, seed, 'hoenn')) });
+      if (SC.auto(st)[0].i === 0) wins++;
+    }
+    table[rank] = +(wins / 150).toFixed(2);
+  }
+  console.log('[balance] Hoenn\'s contests, a prepared Manectric in the Cool contest (condition just above the rivals\', four Cool moves, an average player): win rates', JSON.stringify(table));
   assert.ok(table.normal >= 0.6 && table.master >= 0.5, 'normal difficulty');
 });
 
@@ -4662,6 +4684,58 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 86 after chapter 85: a Feebas (as if fished on one of Route 119's six tiles) fed blue Pokéblocks, each from a Chesto
+ *  and an Oran Berry blended at Verdanturf's Contest Hall, until its Beauty reaches 170; a Rare Candy and it evolves into
+ *  Milotic. Then the lead (its Cool full since chapter 85) in the Cool contest, Normal Rank, at Verdanturf until it wins. */
+async function chapter86(st) {
+  const { G, S } = st;
+  const F = G.Field, B = G.Pokeblock, HALL = G.HoennContestHall;
+  assert.equal(G.Maps.get('route119').def.feebasTiles, 6);
+  const back = S.party.length >= 6 ? S.party.pop() : null;
+  const feebas = F.giveMon('feebas', 22);
+  const fi = S.party.indexOf(feebas);
+  assert.ok(fi >= 0);
+  await run(st, 'verdanturf-contest', 'hcontest.blender', [2]);
+  assert.ok(F.flag('pokeblock-case'));
+  let blocks = 0;
+  while (B.read(feebas).beauty < 170 && B.canEat(feebas) && blocks < 20) {
+    if (F.count('chesto-berry') < 2) { F.giveItem('chesto-berry', 10); F.money(-1000); }
+    if (F.count('oran-berry') < 2) F.giveItem('oran-berry', 10);                 // from the berry trees
+    // The dialog's choices: Blend, Chesto, Oran (their places in the list of berries in the Bag), Blend!; Feed, the first
+    // Pokéblock, Feebas; Nothing.
+    const have = Object.keys(G.BERRY_FLAVORS).filter(b => F.count(b) > 0);
+    st.picks.length = 0;
+    st.picks.push(fi);
+    await run(st, 'verdanturf-contest', 'hcontest.blender', [0, have.indexOf('chesto-berry'), have.indexOf('oran-berry'), have.length, 1, 0, 2]);
+    blocks++;
+  }
+  assert.equal(S.pokeblocks.length, 0, 'every Pokéblock eaten');
+  const beauty = B.read(feebas).beauty;
+  assert.ok(beauty >= 170, 'Beauty ' + beauty);
+  const r = G.FieldItems.use('rare-candy', feebas);
+  assert.equal(r.evolve, G.Maps.species('milotic'), 'a level-up with its Beauty high');
+  G.Evolution.evolve(feebas, r.evolve);
+  assert.equal(feebas.sp, G.Maps.species('milotic'));
+  S.party.splice(fi, 1);
+  if (back) S.party.push(back);
+  // The lead in the Cool contest at Verdanturf (Normal Rank: no rank to choose).
+  const lead = 0, mon = S.party[lead];
+  let tries = 0, won = false;
+  while (!won && tries < 10) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(lead);
+    await run(st, 'verdanturf-contest', 'hcontest.desk.verdanturf', [0, 0]);
+    won = HALL.last && HALL.last.place === 1;
+  }
+  console.log('[story] Hoenn\'s Contest Halls: Feebas ate', blocks, 'blue Pokéblocks (Beauty', beauty + ') and evolved into Milotic;', G.Names.mon(mon.sp),
+    'won the Cool contest, Normal Rank, at Verdanturf in', tries, 'contest(s)');
+  assert.ok(won, 'a ribbon in ten contests');
+  assert.ok((mon.ribbons || []).includes('hoenn-cool-normal') && mon.ribbons.includes('cool-normal'), 'Hoenn\'s and Sinnoh\'s');
+  assert.ok(F.flag('chapter-86-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 85 after chapter 84: the Poffin House (the case; Poffins of four Cheri Berries cooked and fed to the lead until
  *  its Cool is full), then the Cool contest, Normal Rank, at the Contest Hall until it wins (the ribbon, the ending). */
 async function chapter85(st) {
@@ -5611,4 +5685,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter83(st);
   await chapter84(st);
   await chapter85(st);
+  await chapter86(st);
 });

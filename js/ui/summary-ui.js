@@ -104,8 +104,11 @@ G.SummaryUI = (() => {
     const bar = (label, v, cls) => `<div class="sum-row"><span class="sub">${esc(label)}</span><span class="sum-hp"><span class="hpbar sum-cbar ${cls}">`
       + `<i style="width:${((v | 0) / 255 * 100).toFixed(0)}%"></i></span> ${v | 0}</span></div>`;
     let h = (SC ? SC.CATS : []).map(k => bar(SC.catName(k), c[k], k)).join('') + bar(T('Sheen'), m.sheen | 0, 'sheen');
-    const rib = (m.ribbons || []).map(id => (SC ? SC.ribbonName(id) : id));
-    h += row(T('Ribbons'), esc(rib.length ? rib.join(', ') : T('None')));
+    // Hoenn's ribbons (chapter 86) and Sinnoh's apart: in English they have the same names.
+    const all = m.ribbons || [], name = id => (SC ? SC.ribbonName(id) : id);
+    const groups = [[T('Hoenn'), all.filter(id => id.startsWith('hoenn-'))], [T('Sinnoh'), all.filter(id => !id.startsWith('hoenn-'))]].filter(g => g[1].length);
+    if (!groups.length) h += row(T('Ribbons'), esc(T('None')));
+    for (const [region, ids] of groups) h += row(T('Ribbons') + ' · ' + region, esc(ids.map(name).join(', ')));
     return h;
   }
 

@@ -15,6 +15,8 @@
  * when it evolves), the time of day (`time`), a gender (`gender`: 'm' | 'f', for items too: a male
  * Kirlia with a Dawn Stone), a known move (`move`: Aipom's Double Hit) or a species in the party
  * (`party`: Mantyke with a Remoraid; o.party, default the player's).
+ * Chapter 86: a level rule may need a Beauty condition (`beauty`: Feebas at 170 or more, mon.cond.beauty from Poffins
+ * and Pokéblocks), whatever the level.
  */
 G.Evolution = (() => {
   function candidates(mon, o = {}) {
@@ -25,7 +27,8 @@ G.Evolution = (() => {
     const timeOk = e => !e.time || (e.time === 'night' ? time === 'night' : time !== 'night');
     const party = o.party || (G.Field && G.Field.party ? G.Field.party() : []);
     const more = e => (!e.gender || mon.gender === e.gender) && (!e.move || G.Mon.knows(mon, e.move))
-      && (!e.party || party.some(m => m && m !== mon && m.sp === e.party));
+      && (!e.party || party.some(m => m && m !== mon && m.sp === e.party))
+      && (!e.beauty || ((mon.cond && mon.cond.beauty) | 0) >= e.beauty);
     for (const e of S.evo || []) {
       if (o.trigger === 'item') { if (e.how === 'item' && e.item === o.item && more(e)) out.push(e.to); continue; }
       if (e.how === 'level' && mon.lvl >= e.level && statsOk(mon, e) && timeOk(e) && (!e.item || mon.item === e.item) && more(e)) out.push(e.to);

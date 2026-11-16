@@ -1,12 +1,14 @@
 /* ============ lilycove.js — Route 121, Lilycove City, Route 122, Mt. Pyre ============
  * Chapter 35. South of Route 120, Route 121 passes the Safari Zone's gate (closed for now) and runs east
- * to Lilycove City: a Department Store over two floors, a Pokémon Center, the Contest Hall (closed),
+ * to Lilycove City: a Department Store over two floors, a Pokémon Center, the Contest Hall (open in chapter 86),
  * the Museum, houses, a harbour, and a cave in the cove that a Team Aqua grunt guards. In front of the
  * Department Store the rival battles you (flag rival3-lilycove). The sea south of Route 121 is Route
  * 122, around Mt. Pyre's island: inside, graves and two Trainers; on the summit, a Team Aqua grunt and a
  * Team Magma grunt, then Archie and Maxie at the altar take the Blue Orb and the Red Orb (flag
  * orbs-taken) while its old guardians look on, then `ending(35)`. Once the orbs are gone, the grunt leaves
  * the cove and the cave leads into Team Aqua's hideout; the sea east of town is Route 124 (mossdeep.js).
+ * Chapter 86 (js/content/hoenn/contesthalls.js): the Contest Hall (Hyper and Master Rank) and the Museum's second floor,
+ * up the stairs, where the paintings of Master Rank champions hang; the curator's words are there too.
  */
 (() => {
   const T = s => G.T(s);
@@ -115,14 +117,14 @@
     warps: [
       { x: 19, y: 7, to: 'dept-store-1f', spot: 'door' },
       { x: 6, y: 7, to: 'lilycove-center', spot: 'door' },
-      { x: 30, y: 6, locked: 'lilycove.contest' },
+      { x: 30, y: 6, to: 'lilycove-contest', spot: 'door' },
       { x: 6, y: 17, to: 'lilycove-museum', spot: 'door' },
       { x: 15, y: 17, to: 'lilycove-house', spot: 'door' },
       { x: 26, y: 17, to: 'lilycove-house2', spot: 'door' },
       { x: 38, y: 20, to: 'aqua-hideout-1f', spot: 'door', locked: 'lilycove.cave', if: 'orbs-taken' }
     ],
     spots: { 'center-door': [6, 8, 'down'], 'dept-door': [19, 8, 'down'], 'museum-door': [6, 18, 'down'], 'house-door': [15, 18, 'down'],
-             'house2-door': [26, 18, 'down'], hideout: [38, 21, 'down'], harbor: [21, 22, 'up'] },
+             'house2-door': [26, 18, 'down'], hideout: [38, 21, 'down'], harbor: [21, 22, 'up'], 'contest-door': [30, 7, 'down'] },
     signs: {
       '12,8': 'Lilycove City. Where the land ends and the sea begins.',
       '24,8': 'Lilycove Department Store. Everything a Trainer could wish for, under one roof!',
@@ -195,17 +197,16 @@
 
   G.Maps.def(Object.assign({
     id: 'lilycove-museum', loc: 'lilycove-city', tileset: 'indoor', palette: 'lab', music: 'town', battleBg: 'indoor',
-    rows: ['WWWWWWWWWWWWW', 'WWWWWWWWWWWWW', '+++++++++++++', '+j++j++j++j++', '+++++++++++++', '+++++++++++++', '+++++++++++++', '++++++X++++++'],
-    warps: [{ x: 6, y: 7, to: 'lilycove', spot: 'museum-door' }],
-    spots: { door: [6, 7, 'up'] },
+    rows: ['WWWWWWWWWWWWW', 'WWWWWWWWWWWWW', '+++++++++++^+', '+j++j++j++j++', '+++++++++++++', '+++++++++++++', '+++++++++++++', '++++++X++++++'],
+    warps: [{ x: 6, y: 7, to: 'lilycove', spot: 'museum-door' }, { x: 11, y: 2, to: 'lilycove-museum-2f', spot: 'stairs' }],
+    spots: { door: [6, 7, 'up'], stairs: [11, 3, 'down'] },
     signs: {
       '1,3': 'A painting of a Wailord leaping out of a calm sea at sunset.',
       '4,3': 'A painting of Mt. Pyre in the morning mist. It feels peaceful, and a little sad.',
       '7,3': 'A painting of two huge Pokémon, one of the land and one of the sea, clashing under a stormy sky. The plate reads: "The Ancient Battle".',
       '10,3': 'A sculpture of a Pokémon made of bright, curving lines. The plate has not been filled in yet.'
     },
-    npcs: [{ id: 'curator', who: 'gentleman', x: 6, y: 5, dir: 'down',
-             say: 'Welcome to the Lilycove Museum. Our gallery shows Pokémon as artists have seen them through the ages.' }]
+    npcs: [{ id: 'curator', who: 'gentleman', x: 6, y: 5, dir: 'down', script: 'lilycove.curator' }]
   }, HOENN));
 
   G.Maps.def(Object.assign({
@@ -383,7 +384,6 @@
 
   G.Script.def({
     'lilycove.rival': [['js', rival]],
-    'lilycove.contest': [['say', 'The Contest Hall is closed. A note on the door says the stage is being repaired.']],
     'lilycove.cave': [['say', 'This cave belongs to Team Aqua! Nobody gets in. Now beat it, kid!', { name: 'Team Aqua Grunt' }]],
     'route121.safari': [['say', 'The Safari Zone is closed for repairs. Please come back another time.']],
     'pyre.orbs': [['js', orbs]],

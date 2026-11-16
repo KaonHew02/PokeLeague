@@ -2,14 +2,15 @@
  *   G.SummaryUI.open(list, index, onClose)    list: the party or a PC box (nulls are skipped)
  * Pages: Info (Pokédex number, types, trainer, nature, ability and what it does, item, where it was met) ·
  * Stats (HP, the five stats with the nature's ▲▼, EXP) · Moves (type, PP, power,
- * accuracy, description). Left / right change the page; ◀ ▶ the Pokémon.
+ * accuracy, description) · Contest (chapter 85: the five conditions, the sheen, the ribbons). Left / right change the
+ * page; ◀ ▶ the Pokémon.
  */
 G.SummaryUI = (() => {
   const esc = s => G.U.esc(s);
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
   let el = null;
   let st = null;              // { list, i, page, move, onClose }
-  const PAGES = ['info', 'stats', 'moves'];
+  const PAGES = ['info', 'stats', 'moves', 'contest'];
 
   function build() {
     el = document.createElement('section');
@@ -21,7 +22,7 @@ G.SummaryUI = (() => {
       + '<div class="sum-title"></div><button class="btn small ghost sum-next" data-sfx="select">▶</button>'
       + '<button class="btn small ghost sum-back" data-back></button></div>'
       + '<div class="opt-tabs sum-tabs"><button class="opt-tab" data-p="info"></button><button class="opt-tab" data-p="stats"></button>'
-      + '<button class="opt-tab" data-p="moves"></button></div><div class="sum-body"></div></div>';
+      + '<button class="opt-tab" data-p="moves"></button><button class="opt-tab" data-p="contest"></button></div><div class="sum-body"></div></div>';
     document.getElementById('frame').appendChild(el);
     el.querySelectorAll('[data-p]').forEach(b => { b.onclick = () => { st.page = b.dataset.p; render(); }; });
     el.querySelector('.sum-prev').onclick = () => turn(-1);
@@ -97,6 +98,17 @@ G.SummaryUI = (() => {
     return h;
   }
 
+  /** Chapter 85: the five conditions and the sheen (bars to 255), and the ribbons won. */
+  function contest(m) {
+    const c = G.Poffin ? G.Poffin.read(m) : {}, SC = G.SuperContest;
+    const bar = (label, v, cls) => `<div class="sum-row"><span class="sub">${esc(label)}</span><span class="sum-hp"><span class="hpbar sum-cbar ${cls}">`
+      + `<i style="width:${((v | 0) / 255 * 100).toFixed(0)}%"></i></span> ${v | 0}</span></div>`;
+    let h = (SC ? SC.CATS : []).map(k => bar(SC.catName(k), c[k], k)).join('') + bar(T('Sheen'), m.sheen | 0, 'sheen');
+    const rib = (m.ribbons || []).map(id => (SC ? SC.ribbonName(id) : id));
+    h += row(T('Ribbons'), esc(rib.length ? rib.join(', ') : T('None')));
+    return h;
+  }
+
   function render() {
     const m = st.list[st.i];
     const cv = el.querySelector('canvas');
@@ -107,10 +119,10 @@ G.SummaryUI = (() => {
     el.querySelector('.sum-prev').classList.toggle('hidden', !multi);
     el.querySelector('.sum-next').classList.toggle('hidden', !multi);
     el.querySelector('.sum-back').textContent = T('Back');
-    const labels = { info: T('Info'), stats: T('Stats'), moves: T('Moves') };
+    const labels = { info: T('Info'), stats: T('Stats'), moves: T('Moves'), contest: T('Contest') };
     el.querySelectorAll('[data-p]').forEach(b => { b.textContent = labels[b.dataset.p]; b.classList.toggle('on', b.dataset.p === st.page); });
     const body = el.querySelector('.sum-body');
-    body.innerHTML = st.page === 'info' ? info(m) : st.page === 'stats' ? stats(m) : moves(m);
+    body.innerHTML = st.page === 'info' ? info(m) : st.page === 'stats' ? stats(m) : st.page === 'contest' ? contest(m) : moves(m);
     body.querySelectorAll('[data-m]').forEach(b => { b.onclick = () => { st.move = +b.dataset.m; render(); G.Nav.focusFirst(el.querySelector(`[data-m="${st.move}"]`)); }; });
   }
 

@@ -2,6 +2,7 @@
  * Names, pockets and descriptions are generated (items.js, names.js, dex-text.js);
  * the behaviour and the shop prices are here. Prices are those of the Kanto
  * remakes; an item sells for half its price. Items with no price are not sold.
+ * The five plain berries (Cheri, Chesto, Pecha, Rawst, Aspear) cost 100 at Hearthome's Poffin House (chapter 85; my own price).
  *
  *   price      shop price (sell = floor(price / 2))
  *   field: 1   usable from the bag outside battle      battle: 1  usable in battle
@@ -61,11 +62,11 @@ G.ITEM_FX = {
   'salac-berry':   { held: 'berry', pinch: 'spe' },     // Greta's Heracross (chapter 79): +1 Speed at a quarter of its HP
   'lum-berry':     { cure: 'all', field: 1, battle: 1, held: 'berry' },   // any status (chapter 79; not confusion here)
   'white-herb':    { held: 'white-herb' },              // lowered stats back to normal, once (chapter 80)
-  'pecha-berry':   { cure: ['psn', 'tox'], field: 1, battle: 1, held: 'berry' },
-  'cheri-berry':   { cure: ['par'], field: 1, battle: 1, held: 'berry' },
-  'chesto-berry':  { cure: ['slp'], field: 1, battle: 1, held: 'berry' },
-  'rawst-berry':   { cure: ['brn'], field: 1, battle: 1, held: 'berry' },
-  'aspear-berry':  { cure: ['frz'], field: 1, battle: 1, held: 'berry' },
+  'pecha-berry':   { cure: ['psn', 'tox'], field: 1, battle: 1, held: 'berry', price: 100 },
+  'cheri-berry':   { cure: ['par'], field: 1, battle: 1, held: 'berry', price: 100 },
+  'chesto-berry':  { cure: ['slp'], field: 1, battle: 1, held: 'berry', price: 100 },
+  'rawst-berry':   { cure: ['brn'], field: 1, battle: 1, held: 'berry', price: 100 },
+  'aspear-berry':  { cure: ['frz'], field: 1, battle: 1, held: 'berry', price: 100 },
   'ether':         { pp: 10,     field: 1, battle: 1, price: 1200 },
   'max-ether':     { pp: 'full', field: 1, battle: 1 },
   'elixir':        { pp: 10,     ppAll: 1, field: 1, battle: 1 },

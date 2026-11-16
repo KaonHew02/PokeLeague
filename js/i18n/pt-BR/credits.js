@@ -233,5 +233,8 @@ G.I18n.add({
   "The streak goes on: Brandon, the Pyramid King, waits at the top of the third climb in a row.": "A sequência continua: Brandon, o Pyramid King, espera no topo da terceira subida seguida.",
   "Chapter 84 complete!": "Capítulo 84 concluído!",
   "{player} became the owner of a villa by the sea in the Resort Area.": "{player} agora é dono de uma mansão à beira-mar na Resort Area.",
-  "The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.": "O catálogo é grosso e nada é barato; quanto mais a mansão tiver, mais visitas aparecem."
+  "The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.": "O catálogo é grosso e nada é barato; quanto mais a mansão tiver, mais visitas aparecem.",
+  "Chapter 85 complete!": "Capítulo 85 concluído!",
+  "{player} won a ribbon at the Contest Hall in Hearthome City, on looks, dance and performance.": "{player} ganhou uma fita no Salão de Concursos de Hearthome City, com aparência, dança e atuação.",
+  "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Quatro classes em cinco categorias: vinte fitas esperam, e a Classe Mestre não é lugar para um Pokémon despreparado."
 }, "pt-BR");

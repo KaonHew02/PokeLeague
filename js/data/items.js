@@ -285,3 +285,17 @@ G.ITEMS = {
   tm91: {"id":395,"pocket":"tms","cat":"all-machines","move":"flash-cannon"},
   tm92: {"id":396,"pocket":"tms","cat":"all-machines","move":"trick-room"},
 };
+
+// Chapter 85: each berry's flavors and smoothness (Poffins, js/world/poffin.js).
+G.BERRY_FLAVORS = {
+  "oran-berry": {"spicy":10,"dry":10,"sweet":0,"bitter":10,"sour":10,"smooth":20},
+  "sitrus-berry": {"spicy":0,"dry":10,"sweet":10,"bitter":10,"sour":10,"smooth":20},
+  "pecha-berry": {"spicy":0,"dry":0,"sweet":10,"bitter":0,"sour":0,"smooth":25},
+  "cheri-berry": {"spicy":10,"dry":0,"sweet":0,"bitter":0,"sour":0,"smooth":25},
+  "chesto-berry": {"spicy":0,"dry":10,"sweet":0,"bitter":0,"sour":0,"smooth":25},
+  "rawst-berry": {"spicy":0,"dry":0,"sweet":0,"bitter":10,"sour":0,"smooth":25},
+  "aspear-berry": {"spicy":0,"dry":0,"sweet":0,"bitter":0,"sour":10,"smooth":25},
+  "liechi-berry": {"spicy":30,"dry":10,"sweet":30,"bitter":0,"sour":0,"smooth":40},
+  "salac-berry": {"spicy":0,"dry":0,"sweet":30,"bitter":10,"sour":30,"smooth":40},
+  "lum-berry": {"spicy":10,"dry":10,"sweet":10,"bitter":10,"sour":0,"smooth":20},
+};

@@ -637,9 +637,16 @@ def build(region):
                      'flinch': nz('flinch_chance'), 'statP': nz('stat_chance'),
                      'hits': rng('min_hits', 'max_hits'), 'turns': rng('min_turns', 'max_turns')},
             'stats': [[STAT[s['stat']['name']], s['change']] for s in m.get('stat_changes', [])],
+            # Chapter 85: the Super Contest category and effect (G.SUPER_CONTEST).
+            'ct': (m.get('contest_type') or {}).get('name'),
+            'sce': url_id(m['super_contest_effect']['url']) if m.get('super_contest_effect') else None,
         }
         names_move[n] = names_of(m['names'], 'move', fallback=n)
         move_txt[n] = texts_of(m.get('flavor_text_entries'), cfg, 'move text', 'flavor_text', 'version_group')
+
+    # Chapter 85: each Super Contest effect's appeal (hearts), for the effects these moves have.
+    sce_ids = sorted({v['sce'] for v in MOVES.values() if v['sce']})
+    SUPER_CONTEST = {i: {'appeal': e['appeal']} for i, e in zip(sce_ids, pmap(lambda i: get('super-contest-effect', i), sce_ids))}
 
     # ---- evolutions ----
     chain_urls = sorted({species[d]['evolution_chain']['url'] for d in dexes})
@@ -736,6 +743,13 @@ def build(region):
             tcfg = dict(cfg, text_vgs=['emerald', 'ruby-sapphire'] + cfg['text_vgs'])
         item_txt[n] = texts_of(v.get('flavor_text_entries'), tcfg, 'item text', 'text', 'version_group')
 
+    # Chapter 85: the berries' flavors and smoothness (PokeAPI's berry endpoint: cheri-berry -> berry/cheri), for Poffins.
+    berry_ids = [n for n, r in ITEMS.items() if r['pocket'] == 'berries' and n.endswith('-berry')]
+    BERRY_FLAVORS = {}
+    for n, b in zip(berry_ids, pmap(lambda n: get('berry', n[:-6]), berry_ids)):
+        f = {x['flavor']['name']: x['potency'] for x in b['flavors']}
+        BERRY_FLAVORS[n] = dict({k: f.get(k, 0) for k in ('spicy', 'dry', 'sweet', 'bitter', 'sour')}, smooth=b['smoothness'])
+
     # ---- growth rates, natures, types, stats ----
     GROWTH = {}
     for g in pmap(lambda i: get('growth-rate', i), range(1, 7)):
@@ -747,7 +761,9 @@ def build(region):
     NATURES, names_nature = {}, {}
     for n, v in zip(nature_names, pmap(lambda n: get('nature', n), nature_names)):
         up, down = v.get('increased_stat'), v.get('decreased_stat')
-        NATURES[n] = {'up': STAT[up['name']] if up else None, 'down': STAT[down['name']] if down else None}
+        NATURES[n] = {'up': STAT[up['name']] if up else None, 'down': STAT[down['name']] if down else None,
+                      # Chapter 85: the Poffin flavors it likes and dislikes (null for neutral natures).
+                      'likes': (v.get('likes_flavor') or {}).get('name'), 'hates': (v.get('hates_flavor') or {}).get('name')}
         names_nature[n] = names_of(v['names'], 'nature', fallback=n)
     names_type = {t: names_of(get('type', t)['names'], 'type', fallback=t) for t in TYPES}
     names_stat = {}
@@ -840,11 +856,15 @@ def build(region):
           + obj('G.SPECIES', SPECIES))
     write('moves.js', head('Moves (cat: physical | special | status; acc null = never misses; meta.k = PokeAPI move category)\n'
                            ' * and G.TMS: TM/HM item -> move, for this region\'s games.')
-          + obj('G.MOVES', MOVES) + '\n' + obj('G.TMS', dict(sorted(tms.items()))))
+          + obj('G.MOVES', MOVES) + '\n' + obj('G.TMS', dict(sorted(tms.items())))
+          + '\n// Chapter 85: Super Contest effects (a move\'s `sce`): the hearts it earns before its own rule (js/world/supercontest.js).\n'
+          + obj('G.SUPER_CONTEST', SUPER_CONTEST))
     write('items.js', head('Items: bag pocket (items | balls | tms | key | berries), PokeAPI category, TM move,\n'
                            ' * and cost only when PokeAPI has a price for these games.\n'
                            ' * What each item does and the shop prices are hand-written in js/data/item-effects.js.')
-          + obj('G.ITEMS', ITEMS))
+          + obj('G.ITEMS', ITEMS)
+          + '\n// Chapter 85: each berry\'s flavors and smoothness (Poffins, js/world/poffin.js).\n'
+          + obj('G.BERRY_FLAVORS', BERRY_FLAVORS))
     write('growth.js', head('Total EXP needed for each level (index = level, 1-100) per growth rate.')
           + obj('G.GROWTH', GROWTH))
     write('natures.js', head('Natures: the stat raised by 10 % and the one lowered (null for neutral natures).')

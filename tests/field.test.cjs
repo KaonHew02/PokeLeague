@@ -6733,3 +6733,82 @@ test('Sinnoh (chapter 84): the villa in the Resort Area: the owner gives it, the
   await until(() => W.map.id === 'villa' && !W.locked);
   assert.ok(F.flag('chapter-84-done'));
 });
+
+test('Sinnoh (chapter 85): the Contest Hall and the Poffin House in Hearthome: the case, the berries, cooking and feeding; entering (category, Pokémon, rank), a contest without a screen, the ribbon and the next rank, the ending after chapter 84', async () => {
+  const { G, W } = world(['js/world/poffin.js', 'js/world/supercontest.js', 'js/content/sinnoh/hearthome.js', 'js/content/sinnoh/contesthall.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, SC = G.SuperContest, HALL = G.SuperContestHall;
+  const said = [], answers = [], picks = [], pops = [], shops = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  G.Popup = { choose: (title, opts) => { const v = pops.shift(); const o = opts.find(x => x.value === v); return Promise.resolve(o && !o.disabled ? v : null); } };
+  G.ShopUI = { open: stock => { shops.push(stock); return Promise.resolve(); } };
+  const until = async ok => { for (let i = 0; i < 600 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  const mon = F.giveMon('pachirisu', 30, { moves: ['fake-out', 'return', 'charm', 'last-resort'] });
+  mon.nature = 'hardy';
+
+  // The doors in Hearthome City: the Contest Hall is open now, and the Poffin House east of the road.
+  W.load('hearthome', { x: 6, y: 21, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'hearthome-contest' && !W.locked);
+  W.load('hearthome', { x: 30, y: 12, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'hearthome-poffin' && !W.locked);
+  // The clerk sells the five plain berries.
+  W.load('hearthome-poffin', { x: 6, y: 3, dir: 'right' });
+  await talk();
+  assert.deepEqual(plain(shops[0]), ['cheri-berry', 'chesto-berry', 'pecha-berry', 'rawst-berry', 'aspear-berry']);
+  assert.ok(G.ITEM_FX['pecha-berry'].price > 0);
+  // The chef: the Poffin Case, then four Pecha Berries into one sweet Poffin.
+  F.giveItem('pecha-berry', 5);
+  W.load('hearthome-poffin', { x: 3, y: 4, dir: 'up' });       // across the counter
+  answers.push(0, 2);
+  pops.push('pecha-berry', 'pecha-berry', 'pecha-berry', 'pecha-berry', '#cook');
+  await talk();
+  assert.ok(F.flag('poffin-case') && said.some(s => /Poffin Case/.test(s)));
+  assert.equal(S.poffins.length, 1);
+  assert.deepEqual([S.poffins[0].level, S.poffins[0].flavors.sweet, F.count('pecha-berry')], [40, 40, 1]);
+  assert.ok(said.some(s => /Sweet Poffin/.test(s)));
+  // Fed to Pachirisu: Cute up by 40, the sheen by the smoothness.
+  answers.push(1, 2);
+  pops.push('p0');
+  picks.push(0);
+  await talk();
+  assert.deepEqual([G.Poffin.read(mon).cute, mon.sheen, S.poffins.length], [40, 21, 0]);
+  // The desk: Normal Rank only at first; a fainted Pokémon cannot enter.
+  assert.deepEqual(plain(HALL.ranksFor(mon, 'cute')), ['normal']);
+  W.load('hearthome-contest', 'desk');
+  mon.hp = 0;
+  answers.push(0, 2);
+  picks.push(0);
+  said.length = 0;
+  await talk();
+  assert.ok(said.some(s => /hope to see you/.test(s)) && !HALL.last, 'no contest');
+  F.healAll();
+  // A strong Cute Pokémon enters the Cute contest, Normal Rank, until it wins (each contest has its own seed).
+  mon.cond = { cool: 0, beauty: 120, cute: 255, smart: 120, tough: 0 };
+  mon.sheen = 200;
+  const enter = async rank => { answers.push(0, 2, rank); picks.push(0); await talk(); return HALL.last; };
+  let tries = 0, won = null;
+  while (!won && tries < 10) { tries++; const r = await enter(0); assert.equal(r.rank, 'normal'); if (r.place === 1) won = r; }
+  assert.ok(won, 'a win in ten tries');
+  assert.deepEqual(plain(mon.ribbons), ['cute-normal']);
+  assert.ok(said.some(s => /Cute Ribbon/.test(s)) && said.some(s => /Great Rank of the Cute contest/.test(s)));
+  assert.deepEqual(plain(HALL.ranksFor(mon, 'cute')), ['normal', 'great']);
+  assert.deepEqual(plain(HALL.ranksFor(mon, 'cool')), ['normal'], 'per category');
+  assert.ok(!F.flag('chapter-85-done'), 'no ending before chapter 84');
+  // The contest itself: four entrants, three rounds played.
+  const st = won.state;
+  assert.equal(st.entrants.length, 4);
+  assert.ok(st.entrants[0].player && st.turn === SC.TURNS && st.entrants.every(e => e.dance > 0));
+  // Once chapter 84 is done, a win ends chapter 85 (Great Rank now offered second).
+  F.setFlag('chapter-84-done');
+  tries = 0;
+  let again = null;
+  while (!again && tries < 10) { tries++; const r = await enter(0); if (r.place === 1) again = r; }
+  assert.ok(again && said.some(s => /won again/.test(s)));
+  assert.ok(F.flag('chapter-85-done'));
+  assert.deepEqual(plain(mon.ribbons), ['cute-normal'], 'one of each');
+});

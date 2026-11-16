@@ -57,6 +57,7 @@ G.Store = (() => {
       daycare: [],                                        // the Day Care's Pokémon: [{ mon, lvl }] (daycare.js)
       daycareEgg: false, eggs: [],                        // an Egg found at the Day Care; the Eggs you carry: [{ mon, steps }]
       contest: null,                                      // a Bug-Catching Contest under way (contest.js)
+      poffins: [],                                        // the Poffin Case (chapter 85, poffin.js): [{ flavors, level, smooth }]
       roamer: null,                                       // a roaming Pokémon (chapter 42, roam.js): { mon, map, seen }
       sinnohRoamer: null,                                 // Sinnoh's (chapter 60): the same
       cresselia: null                                     // Cresselia, Sinnoh's second (chapter 70): the same
@@ -111,6 +112,13 @@ G.Store = (() => {
       // A held item (chapter 26): any item the game knows that is not a key item.
       item: typeof m.item === 'string' && (!G.ITEMS || (G.ITEMS[m.item] && G.ITEMS[m.item].pocket !== 'key')) ? m.item : null
     });
+    // Condition, sheen and ribbons (chapter 85, poffin.js and the Super Contest): kept within bounds, dropped when unsound.
+    if (obj(m.cond)) out.cond = { cool: int(m.cond.cool, 0, 255, 0), beauty: int(m.cond.beauty, 0, 255, 0), cute: int(m.cond.cute, 0, 255, 0),
+                                  smart: int(m.cond.smart, 0, 255, 0), tough: int(m.cond.tough, 0, 255, 0) };
+    else delete out.cond;
+    if (m.sheen != null) out.sheen = int(m.sheen, 0, 255, 0);
+    if (Array.isArray(m.ribbons)) out.ribbons = [...new Set(m.ribbons.filter(r => typeof r === 'string' && /^[a-z]+-[a-z]+(-[a-z]+)?$/.test(r)))].slice(0, 60);
+    else delete out.ribbons;
     if (G.NATURES && !G.NATURES[out.nature]) out.nature = 'hardy';
     if (G.Mon && G.Stats && G.GROWTH) {
       const gr = G.SPECIES[sp].gr, lo = G.Stats.expAt(gr, out.lvl), hi = out.lvl < 100 ? G.Stats.expAt(gr, out.lvl + 1) - 1 : lo;
@@ -187,6 +195,11 @@ G.Store = (() => {
     const c = s.contest;
     out.contest = obj(c) && typeof c.uid === 'string'
       ? { uid: c.uid.slice(0, 24), balls: int(c.balls, 0, 99, 0), steps: int(c.steps, 0, 9999, 0), mon: fixMon(c.mon) } : null;
+    // The Poffin Case (chapter 85): at most 100 Poffins, each with its five flavors, its level and its smoothness.
+    out.poffins = (Array.isArray(s.poffins) ? s.poffins : []).filter(p => obj(p) && obj(p.flavors)).slice(0, 100).map(p => ({
+      flavors: { spicy: int(p.flavors.spicy, 0, 255, 0), dry: int(p.flavors.dry, 0, 255, 0), sweet: int(p.flavors.sweet, 0, 255, 0),
+                 bitter: int(p.flavors.bitter, 0, 255, 0), sour: int(p.flavors.sour, 0, 255, 0) },
+      level: int(p.level, 0, 255, 0), smooth: int(p.smooth, 1, 255, 1) }));
     // A roaming Pokémon (chapter 42): the Pokémon itself (its HP and status stay), its route, met or not.
     const roamer = ro => { const m = obj(ro) ? fixMon(ro.mon) : null; return m && typeof ro.map === 'string' ? { mon: m, map: ro.map, seen: ro.seen === true } : null; };
     out.roamer = roamer(s.roamer);

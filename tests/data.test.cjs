@@ -118,10 +118,11 @@ test('items: every hand-written effect matches a real item; shop items have pric
   for (const id of ['poke-ball', 'potion', 'antidote', 'paralyze-heal', 'escape-rope', 'repel']) assert.ok(G.ITEM_FX[id].price, id);
 });
 
-test('natures: 25, five of them neutral', () => {
+test('natures: 25, five of them neutral; the flavors each likes and dislikes (chapter 85, Poffins)', () => {
   assert.equal(Object.keys(G.NATURES).length, 25);
   assert.equal(Object.values(G.NATURES).filter(n => !n.up && !n.down).length, 5);
-  assert.deepEqual(plain(G.NATURES.adamant), { up: 'atk', down: 'spa' });
+  assert.deepEqual(plain(G.NATURES.adamant), { up: 'atk', down: 'spa', likes: 'spicy', hates: 'dry' });
+  assert.ok(Object.values(G.NATURES).every(n => (!n.up) === (!n.likes) && (!n.down) === (!n.hates)), 'a neutral nature has no favourite');
 });
 
 test('names: every species, move, item, type and stat has six names; Chinese is really Chinese', () => {

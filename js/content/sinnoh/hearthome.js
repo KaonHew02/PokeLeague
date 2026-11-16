@@ -3,7 +3,7 @@
  * 208: a Hiker, and the first meeting with Cyrus, Team Galactic's boss, who talks of a new world and
  * walks on (flag cyrus-coronet; no battle). Route 208 crosses a river to Hearthome City; the Berry
  * Master gives two Sitrus Berries (flag berry-master). Hearthome: a Pokémon Center, a Mart, a house and
- * Fantina's Gym; the Contest Hall and Amity Square are closed, and so is Route 212 (south) until the Fen Badge; Route 209
+ * Fantina's Gym; Amity Square is closed (the Contest Hall and the Poffin House open in chapter 85, contesthall.js), and so is Route 212 (south) until the Fen Badge; Route 209
  * (east, solaceon.js) opens with the Relic Badge. Fantina uses Ghost types (Duskull, Haunter, Mismagius); beating her gives the
  * Relic Badge (badge 29, the third in Platinum's order: Pokémon up to Lv. 35 obey in Sinnoh) and TM65
  * (Shadow Claw), then `ending(47)`. Platinum's wild Pokémon.
@@ -115,9 +115,9 @@
       'T...CCCCC.MMMM...,,....GGGGGG......T',
       'T...CCDCC.MDMM...,,....GGDGGG......T',
       'T.....,....,.....,,......,.........T',
-      'T.....,....,.fff.,,.fff..,.........T',
-      'T.....,....,.fffS,,.fff..,.........T',
-      'T.....,....,.fff.,,.fff..,.........T',
+      'T.....,....,.fff.,,.fff..,...HHHH..T',
+      'T.....,....,.fffS,,.fff..,...HHHH..T',
+      'T.....,....,.fff.,,.fff..,...HDHH..T',
       'T.....,....,.....,,......,.........T',
       ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,',
       ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.T',
@@ -140,11 +140,13 @@
       { x: 6, y: 7, to: 'hearthome-center', spot: 'door' },
       { x: 11, y: 7, to: 'hearthome-mart', spot: 'door' },
       { x: 25, y: 7, to: 'hearthome-gym', spot: 'door' },
-      { x: 6, y: 20, locked: 'hearthome.contest-hall' },
+      { x: 6, y: 20, to: 'hearthome-contest', spot: 'door' },           // the Contest Hall (chapter 85)
+      { x: 30, y: 11, to: 'hearthome-poffin', spot: 'door' },            // the Poffin House (chapter 85)
       { x: 25, y: 20, to: 'amity-gate', spot: 'door' },          // Amity Square (amity.js, chapter 72)
       { x: 13, y: 23, to: 'hearthome-house', spot: 'door' }
     ],
-    spots: { 'center-door': [6, 8, 'down'], 'mart-door': [11, 8, 'down'], 'gym-door': [25, 8, 'down'], 'house-door': [13, 24, 'down'], 'amity-door': [25, 21, 'down'] },
+    spots: { 'center-door': [6, 8, 'down'], 'mart-door': [11, 8, 'down'], 'gym-door': [25, 8, 'down'], 'house-door': [13, 24, 'down'], 'amity-door': [25, 21, 'down'],
+             'contest-door': [6, 21, 'down'], 'poffin-door': [30, 12, 'down'] },
     signs: { '16,10': 'Hearthome City. The warm-hearted city, where people and Pokémon come together.' },
     npcs: [
       // Route 209 (east) opens with the Relic Badge (chapter 48); Route 212 (south) with the Fen Badge (chapter 64).
@@ -247,7 +249,6 @@
         ['setFlag', 'berry-master']
       ]]
     ],
-    'hearthome.contest-hall': [['say', 'The Contest Hall. A sign says: "No contests today. Please come again!"']],
     'hearthome.barry': [
       ['say', 'Hey, {player}! I crossed Mt. Coronet ahead of you. I bumped into a weird guy in a grey coat in there...', BARRY],
       ['say', 'Anyway! Fantina\'s Ghost types are tough, so I am training first. Do not you dare beat her before me!', BARRY]

@@ -80,6 +80,10 @@ python tools/fetch_data.py --region kanto --offline  # cache only; fails on a mi
 python tools/fetch_data.py --region kanto --refresh  # download again
 ```
 
+- **Chapter 85 (Super Contests):** each move also carries `ct` (its contest category: cool, beauty, cute, smart, tough)
+  and `sce` (its Super Contest effect); `G.SUPER_CONTEST` (moves.js) gives each effect's `appeal` (PokeAPI's
+  `super-contest-effect`, 22 of them); each nature its `likes` / `hates` flavor (null for the neutral five);
+  `G.BERRY_FLAVORS` (items.js) each berry's five flavors and `smooth` (PokeAPI's `berry`).
 - **Cache:** raw responses go to `tools/cache/pokeapi/<endpoint>/<key>.json` (gitignored),
   written to a temp file and renamed. 8 threads.
 - **Region config** (`REGIONS` in the tool):
@@ -218,6 +222,8 @@ What follows is the original spec, still accurate in its rules.
   moves:[{ id:'scratch', pp:35, ppUp:0 }], ivs:[6], evs:[6], nature:'adamant', gender:'m'|'f'|null, shiny:false,
   friendship:70, ball:'poke-ball', ot:{ name, id }, met:{ map, lvl }, item:null, ability:null }
 ```
+Chapter 85 adds, only once there is something to keep: `cond:{ cool, beauty, cute, smart, tough }` (0-255 each),
+`sheen` (0-255) and `ribbons:['cute-normal', ...]` (Super Contest ribbons, `<category>-<rank>`).
 
 **Modules**
 - **stats.js**
@@ -683,12 +689,15 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
 | `G.StartMenu` | `open()`: Pokédex (flag `has-pokedex`, or debug) · Pokémon · Bag · {player} (trainer card) · Save · Settings · Close; `card()`, `save()` |
 | `G.PartyUI` | `open()` (Summary, Switch), `pick({ title, note(mon, i), disabled(mon, i), mons, action, view })` → index \| null (`mons`: another list, chapter 78; `action`: a tap asks first, beside the Summary; `view`: only to look at, chapter 81), `refresh()` |
 | `G.DomeUI` | `show({ names, ranks, me, results })` → when closed: the Battle Dome's tournament tree, two halves of eight meeting in the final (chapter 81) |
-| `G.SummaryUI` | `open(list, index, onClose)`: Info · Stats · Moves; left / right change the page |
+| `G.SummaryUI` | `open(list, index, onClose)`: Info · Stats · Moves · Contest (chapter 85: conditions, sheen, ribbons); left / right change the page |
 | `G.BagUI` | `open()` (Use / Teach, Toss), `pick({ title, filter, price })` → item (the shop's Sell), `itemLabel(id)` |
 | `G.FieldItems` | pure logic: `kind(item)`, `needsMove`, `canUse(item, mon, { move })`, `use(...)` → `{ ok, lines, level, learn, evolve }`, `tm(item)`, `tmFor(mon, item)` → able / unable / learned, `repel(save, item)` |
 | `G.Dex`, `G.DexUI` | `seen(sp)`, `caught(sp)`, `counts()`; `open()` |
 | `G.PCUI` | `open()` → Promise when logged off: party and the current box (6 × 5), Withdraw / Deposit / Summary / Release |
 | `G.ShopUI` | `open(stock)` → Promise: Buy (G.ITEM_FX prices), Sell (half price, not key items or HMs) |
+| `G.Poffin` | chapter 85, js/world/poffin.js: `cook(berries)` (1-4, flavors added, level = the strongest, smoothness = the average less one a berry), `name(p)`, `feed(mon, p)` (each flavor its condition, x1.1 liked / x0.9 disliked, sheen + smoothness, none at 255), `read(mon)`, `sheen`, `canEat`, the Poffin Case `list / add / take` (100) |
+| `G.SuperContest` | chapter 85, js/world/supercontest.js, rules only: `create`, `visual`, `leadOf` / `danceLead` / `danceBack` / `npcSteps`, `startTurn` / `choices` / `pick` / `playTurn`, `standings`, `rivals`, `auto` (a whole contest without a screen), names (`catName`, `rankName`, `ribbonName`) |
+| `G.SuperContestUI` | chapter 85, js/ui/supercontest-ui.js: `run(state)` → standings: the Visual hearts, four dances on a beat track (arrows, pad or buttons), four Acting turns (a move, then a judge), the results |
 
 - **Rules chosen:** TMs and HMs are not used up (as in the newer games), so a shop sells each
   once. A stone is only used up when the evolution is not cancelled. Vitamins raise a stat's EVs
@@ -706,7 +715,8 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
   dex:{ seen:{16:1}, caught:{4:1} }, flags:{}, vars:{}, done:{ 'route2:rick':1 },
   fame:[{ at, party:[{ sp, lvl, nick, shiny }] }],       // the Hall of Fame (chapter 9)
   daycare:[{ mon, lvl }],                                 // the Day Care (chapter 13): at most two, lvl = level when left
-  contest:null | { uid, balls, steps, mon } }             // a Bug-Catching Contest under way (chapter 14)
+  contest:null | { uid, balls, steps, mon },             // a Bug-Catching Contest under way (chapter 14)
+  poffins:[{ flavors:{ spicy, dry, sweet, bitter, sour }, level, smooth }] }   // the Poffin Case (chapter 85), 100 at most
 ```
 - `migrate(s)` runs `while (s.v < V) MIG[s.v++](s)`, then sanitises the shapes.
 - Export writes `{ app:'PokeLeague', kind:'save', v, at, save }` to a JSON file. Import
@@ -2107,7 +2117,7 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
     Cyclists; Route 207 joins it to Oreburgh and Mt. Coronet. Mt. Coronet 1F: a Hiker, and Cyrus, Team
     Galactic's boss, who speaks of a new world and walks on (a trigger across the cave; flag cyrus-coronet).
     Route 208 crosses a river; the Berry Master gives two Sitrus Berries (flag berry-master). Hearthome City:
-    a Center, a Mart, a house, the Gym; the Contest Hall and Amity Square are locked doors, Routes 209 and
+    a Center, a Mart, a house, the Gym; the Contest Hall (open in chapter 85) and Amity Square are locked doors, Routes 209 and
     212 closed by people. Fantina (Duskull 24, Haunter 24, Mismagius 26): the Relic Badge (badge 29, the
     third Sinnoh badge: up to Lv. 35 obey), TM65 (Shadow Claw), `ending(47)`.
 - **Balance:** Prinplup beats Jupiter 73% at Lv. 22, Monferno 43%; Grotle needs a friend (65-75% with a
@@ -2647,11 +2657,24 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** no battles; no `[balance]` line. `tests/story.test.cjs` prints one `[story]` line (the first piece the money in hand pays for).
 - **Tests:** `tests/field.test.cjs` the engine (a piece shown by its flag, in the way, read with A; on the wall read from below; over and top taking no room; a plain map unchanged; validate's errors) and the chapter on the real maps (the locked door and the owner; the sign; in, the first word, no ending before chapter 83; the catalog: too little money, a purchase there at once and in the way, not twice; a waiting piece's message; each condition; the four counters; with everything bought, every floor tile, every visitor and the table's sides reachable from the door; the four brought visitors first, the same all day, days with nobody, many visitors, one outdoors; the bed and the clock; the ending); `tests/story.test.cjs` the chapter after chapter 83.
 
-### After chapter 84
+- **Chapter 85** ✅, Super Contests in Hearthome City (`js/content/sinnoh/contesthall.js`, `js/world/poffin.js`, `js/world/supercontest.js`, `js/ui/supercontest-ui.js`; translations `sinnoh-contest`, `sinnoh-contest-cat` (the categories in the context `contest`: the plain "Beauty" is the Trainer class), `menus`, `credits`). Platinum's Super Contest, mid-game; `ending(85)` waits for chapter 84 (checked at each win). Sources: Serebii's Platinum Super Contest page (three rounds, ranks, categories, voltage and its bonus), Smogon's Ribbon Master Guide (four Acting turns, the judges' hearts by how many chose them, voltage up and down, dance steps), Sweetcharm's guide (the same numbers), 52poke (Chinese names: 佐助, 毕克 the head judge, 蜜蜜; 普通, 高手, 究极, 大师; 兴奋度; the ribbons 神奥帅气奖章..., Platinum's dance steps 3/4/4/4 and points 2/1/0, Visual from condition and sheen), PokeAPI (the 22 effects). 52poke says five Acting turns; Serebii and Smogon say four, which the game uses.
+  - **Data**: moves' `ct` and `sce`, `G.SUPER_CONTEST`, natures' `likes` / `hates`, `G.BERRY_FLAVORS` (section 2); the five plain berries cost 100 (item-effects.js, my own price; so they also sell for 50).
+  - **Condition and Poffins** (`G.Poffin`): five conditions and the sheen on the Pokémon, Poffins cooked from 1-4 berries without Platinum's stirring game (my own rule: flavors added; the strongest is the level; smoothness the average less one a berry), fed for each flavor's condition (x1.1 / x0.9 by nature), the sheen up by the smoothness, nothing more at 255. The save checks `cond`, `sheen`, `ribbons` and `poffins`. The summary's fourth page shows them.
+  - **The rules** (`G.SuperContest`): categories on a circle (neighbours related, the other two clash). Visual: the matching condition + half of the two related and the sheen, in hearts by rank (/20, /30, /40, /50; my own). Dance: four dances, each led once (the lowest after Visual first), 3 steps at Normal and 4 above (Platinum), beat 700 / 640 / 580 / 520 ms and windows (110, 240) down to (80, 180) ms (my own), Excellent 2 / Good 1 / Miss 0, a copy only in the lead's direction (any where the lead missed). Acting: four turns; a move not repeated (effect 7 may); its appeal and its effect (all 22; my own numbers for 12: the voltage the one before left, 16: 4 less the voltage, 21: the place in the order); voltage +1 for the category, -1 for a clash (never below 0), five: +5 (+8 Dexter, the head judge) and back to 0; the judges' hearts +3 / +2 / +1 / 0 by how many chose them; the first order by Visual + Dance, then by the turn's hearts, moved by effects 1, 2, 14. The total is Visual + Dance + Acting (my own), ties by Acting then Visual.
+  - **Rivals** (my own): three from eight Pokémon a category (`ROSTER`), moves of the category first from their learnsets and TMs, condition 60 / 110 / 160 / 210 and skill 0.2 / 0.25 / 0.3 / 0.35 by rank, all from the contest's seed (`scontest-runs` and the player id). Set for a normal difficulty: see the balance line.
+  - **The screen** (`G.SuperContestUI`): the four entrants on top; the Visual hearts; a beat track with the lead's half in blue, a cursor, the four arrows (keys, pad, buttons; graded at once); the judges with their voltage stars, the moves (category, hearts, what the effect does), then the judge; each performance in turn; the results table. It fits a phone held sideways (a smaller layout under 420 px of height).
+  - **The places**: Hearthome's Contest Hall door opens (`hearthome-contest`: the desk, a fan, a coach, a lady who points to the Poffin House); a new house east of the road is the Poffin House (`hearthome-poffin`: the chef behind the cooking counter gives the Poffin Case, flag `poffin-case`, cooks and feeds; the clerk sells the five plain berries). At the desk: a category, a Pokémon (not fainted), a rank: Normal, or the rank above one whose ribbon it has in that category (`G.SuperContestHall.ranksFor`). First place: the ribbon `<category>-<rank>` (once each) and the next rank opens. Without a screen (tests, story harness: `h.pickMon`) `G.SuperContest.auto` plays it.
+  - **Left out**: accessories and dressing up, Platinum's stirring and cooking with others, the Hoenn Contest Halls (closed; they could use the same rules), the Ribbon Syndicate, Feebas's Beauty evolution.
+- **Balance:** a new `[balance]` line: a Luxray with four Cool moves, its condition 20 above the rivals' of that rank, played by an average player (skill 0.5), 150 contests a rank: about 0.69 at Normal, 0.64 Great, 0.55 Ultra, 0.61 Master. With the rivals' first strengths (condition 60 / 120 / 180 / 230, skill 0.35-0.65) it was 0.43 at Normal and 0.12 at Master, so they were set lower for a normal difficulty. `tests/story.test.cjs` also prints one `[story]` line (the lead fed Cheri Poffins until its Cool is full, then the Cool contest until it wins).
+- **Tests:** `tests/supercontest.test.cjs` (the circle; Visual; the dance grades, the lead and the copies, missed steps, each input once, the computers' steps; voltage up, down, filled and back to 0, the judges' hearts; no repeats; every effect; the order; the standings and ties; the rivals and a whole contest the same for the same seed); `tests/poffin.test.cjs` (cooking, names, feeding with liked and disliked flavors, the sheen's limit, the Case's 100, the save's checks and an old save); `tests/field.test.cjs` the chapter on the real maps (both doors; the berries for sale; the case, a Poffin of four Pecha Berries, fed; a fainted Pokémon turned away; a win, the ribbon and the next rank, per category; no ending before chapter 84, then the ending); `tests/data.test.cjs` the natures' flavors; `tests/save.test.cjs` the save's new field; `tests/story.test.cjs` the chapter after chapter 84 and the balance line.
+
+### After chapter 85
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn,
-the whole Battle Frontier (Tower, Factory, Arena, Palace, Dome, Pike and Pyramid), the whole Battle Zone and the villa. Ideas:
-1. Sinnoh: the Contest Hall; the Ribbon Syndicate.
+the whole Battle Frontier (Tower, Factory, Arena, Palace, Dome, Pike and Pyramid), the whole Battle Zone, the villa and
+Sinnoh's Super Contests. Ideas:
+1. Contests: the Hoenn Contest Halls (Verdanturf, Fallarbor, Lilycove) with the same rules; the Ribbon Syndicate in the
+   Resort Area (members with ten ribbons); Feebas evolving by its Beauty; accessories.
 2. Hoenn after the League: double battles at the Battle Palace, the Battle Dome, the Battle Pike and the Pyramid;
    more of the Pyramid's wild themes.
 3. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;

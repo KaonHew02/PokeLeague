@@ -233,5 +233,8 @@ G.I18n.add({
   "The streak goes on: Brandon, the Pyramid King, waits at the top of the third climb in a row.": "连胜还在继续：连续第 3 次爬到顶端时，金字塔法老神代在那里等着。",
   "Chapter 84 complete!": "第八十四章完成！",
   "{player} became the owner of a villa by the sea in the Resort Area.": "{player}成为了名胜区一栋海边别墅的主人。",
-  "The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.": "目录很厚，上面没有便宜的东西；别墅里的东西越多，来访的人就越多。"
+  "The catalog is thick and nothing in it is cheap; the more the villa holds, the more visitors come by.": "目录很厚，上面没有便宜的东西；别墅里的东西越多，来访的人就越多。",
+  "Chapter 85 complete!": "第八十五章完成！",
+  "{player} won a ribbon at the Contest Hall in Hearthome City, on looks, dance and performance.": "{player}在家缘市的华丽大赛会场靠外表、舞蹈和演技赢得了奖章。",
+  "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "五个类别各四个等级：共二十枚奖章等着你，而大师级可不是没准备好的宝可梦能去的地方。"
 }, "zh-Hans");

@@ -211,5 +211,8 @@ G.I18n.add({
   "Tap a town you have been to, to teleport there.": "Touche une ville où tu es déjà allé pour t'y téléporter.",
   "You can't teleport from here.": "Tu ne peux pas te téléporter d'ici.",
   "From Google Drive": "Depuis Google Drive",
-  "You can't save here.": "Impossible de sauvegarder ici."
+  "You can't save here.": "Impossible de sauvegarder ici.",
+  "Sheen": "Lustre",
+  "Ribbons": "Rubans",
+  "Contest": "Concours"
 }, "fr");

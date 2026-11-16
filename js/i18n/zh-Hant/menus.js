@@ -211,5 +211,8 @@ G.I18n.add({
   "Tap a town you have been to, to teleport there.": "點一個去過的城鎮就能傳送過去。",
   "You can't teleport from here.": "這裡不能傳送。",
   "From Google Drive": "從 Google Drive 讀回",
-  "You can't save here.": "這裡不能存檔。"
+  "You can't save here.": "這裡不能存檔。",
+  "Sheen": "光澤",
+  "Ribbons": "獎章",
+  "Contest": "華麗大賽"
 }, "zh-Hant");

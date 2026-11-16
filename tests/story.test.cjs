@@ -10,7 +10,7 @@ const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 const dev = source('dev.html');
 const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/script/script.js'], CONTENT);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/world/poffin.js', 'js/world/supercontest.js', 'js/script/script.js'], CONTENT);
 
 function world(seed = 1) {
   const ctx = boot(FILES);
@@ -1408,6 +1408,27 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
   console.log('[balance] Battle Tower, Swampert, Gardevoir and Manectric at 50:', JSON.stringify(table));
   // Each round is harder; the first is mostly won, the last ones are a real test.
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
+});
+
+test('balance: the Super Contest (chapter 85), how often a prepared Pokémon wins at each rank, is printed', () => {
+  // A Luxray in the Cool contest with four Cool moves, its condition fed a little above the rivals' of that rank, played by
+  // an average player (skill 0.5: dances and choices as G.SuperContest's computers do), 150 contests a rank.
+  const { G } = world(1);
+  const SC = G.SuperContest, table = {};
+  for (const rank of SC.RANKS) {
+    let wins = 0;
+    for (let s = 1; s <= 150; s++) {
+      const c = SC.COND[rank] + 20, cond = { cool: Math.min(255, c), beauty: Math.floor(c / 2), tough: Math.floor(c / 2), cute: 0, smart: 0 };
+      const me = { name: 'Red', player: true, skill: 0.5,
+                   mon: { sp: G.Maps.species('luxray'), moves: ['aerial-ace', 'cross-chop', 'detect', 'air-cutter'], cond, sheen: Math.min(255, SC.COND[rank]), nature: 'hardy' } };
+      const seed = s * 7919 + SC.RANKS.indexOf(rank);
+      const st = SC.create({ cat: 'cool', rank, seed, entrants: [me].concat(SC.rivals('cool', rank, seed)) });
+      if (SC.auto(st)[0].i === 0) wins++;
+    }
+    table[rank] = +(wins / 150).toFixed(2);
+  }
+  console.log('[balance] Super Contest, a prepared Luxray in the Cool contest (condition just above the rivals\', four Cool moves, an average player): win rates', JSON.stringify(table));
+  assert.ok(table.normal >= 0.6 && table.master >= 0.5, 'normal difficulty');
 });
 
 test('balance: the Battle Pyramid (chapter 83), how often a typical team climbs a round, and against Brandon, are printed', async () => {
@@ -4641,6 +4662,42 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 85 after chapter 84: the Poffin House (the case; Poffins of four Cheri Berries cooked and fed to the lead until
+ *  its Cool is full), then the Cool contest, Normal Rank, at the Contest Hall until it wins (the ribbon, the ending). */
+async function chapter85(st) {
+  const { G, S } = st;
+  const F = G.Field, P = G.Poffin, HALL = G.SuperContestHall;
+  const lead = 0, mon = S.party[lead];
+  await run(st, 'hearthome-poffin', 'poffin.chef', [2]);
+  assert.ok(F.flag('poffin-case'));
+  let made = 0;
+  while (P.read(mon).cool < 255 && P.canEat(mon) && made < 20) {
+    if (F.count('cheri-berry') < 5) { F.giveItem('cheri-berry', 20); F.money(-2000); }
+    // The dialog's choices: Cook, then Cheri four times (its place in the list of berries in the Bag), Cook!; Feed, the first
+    // Poffin, the lead; Nothing.
+    const k = Object.keys(G.BERRY_FLAVORS).filter(b => F.count(b) > 0).indexOf('cheri-berry');
+    st.picks.length = 0;
+    st.picks.push(lead);
+    await run(st, 'hearthome-poffin', 'poffin.chef', [0, k, k, k, k, 0, 1, 0, 2]);
+    made++;
+  }
+  assert.equal(S.poffins.length, 0, 'every Poffin eaten');
+  assert.ok(P.read(mon).cool > 200, 'Cool fed up');
+  let tries = 0, won = false;
+  while (!won && tries < 10) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(lead);
+    await run(st, 'hearthome-contest', 'scontest.desk', [0, 0, 0]);
+    won = HALL.last && HALL.last.place === 1;
+  }
+  console.log('[story] the Super Contest:', G.Names.mon(mon.sp), 'won the Cool contest, Normal Rank, in', tries, 'contest(s), after', made, 'Poffins');
+  assert.ok(won, 'a ribbon in ten contests');
+  assert.ok((mon.ribbons || []).includes('cool-normal'));
+  assert.ok(F.flag('chapter-85-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 84 after chapter 83: the villa in the Resort Area from its owner, the end of the chapter on walking in, and the
  *  first piece of furniture the money in hand pays for (through the catalog's list, as h.choice). */
 async function chapter84(st) {
@@ -5553,4 +5610,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter82(st);
   await chapter83(st);
   await chapter84(st);
+  await chapter85(st);
 });

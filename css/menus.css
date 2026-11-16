@@ -280,3 +280,76 @@ kbd {
 .dome-vs { font-size: .75em; color: var(--muted); }
 .dome-champ { margin-top: .4em; font-size: .8em; color: var(--gold); }
 .dome-foot { display: flex; justify-content: flex-end; }
+
+/* The summary's Contest page (chapter 85): a bar per condition in its category's colour. */
+.sum-cbar i { background: #9aa0b0; }
+.sum-cbar.cool i { background: #e05050; }
+.sum-cbar.beauty i { background: #4a8ae0; }
+.sum-cbar.cute i { background: #f088c0; }
+.sum-cbar.smart i { background: #50b860; }
+.sum-cbar.tough i { background: #e8c040; }
+.sum-cbar.sheen i { background: #d8dce8; }
+/* The Super Contest (chapter 85, supercontest-ui.js): the four entrants on top, the round in the middle, choices below. */
+.box.sc-box { width: 98%; height: 98%; display: flex; flex-direction: column; gap: .3em; padding: .45em .55em; }
+.sc-head { display: flex; justify-content: space-between; align-items: baseline; gap: .5em; }
+.sc-t { color: var(--gold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sc-round { font-size: .85em; color: var(--muted); white-space: nowrap; }
+.sc-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .3em; }
+.sc-card { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; column-gap: .3em; align-items: center;
+  padding: .15em .3em; border-radius: .45em; border: .1em solid rgba(244,248,255,.25); background: rgba(255,255,255,.06); min-width: 0; }
+.sc-card.me { border-color: var(--gold); background: rgba(255,210,63,.16); }
+.sc-card canvas { grid-row: 1 / span 2; width: 2.4em; height: 2.4em; image-rendering: pixelated; }
+.sc-who { display: flex; flex-direction: column; min-width: 0; font-size: .78em; line-height: 1.15; }
+.sc-who b, .sc-who span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sc-who span { color: var(--muted); }
+.sc-pts { display: flex; flex-wrap: wrap; gap: 0 .45em; font-size: .68em; color: var(--muted); }
+.sc-pts em { font-style: normal; color: var(--gold); font-weight: 700; }
+.sc-stage { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: .35em; text-align: center; overflow: auto; }
+/* Centred while it fits, from the top when it does not (justify-content: center would cut its top off). */
+.sc-stage > :first-child { margin-top: auto; }
+.sc-stage > :last-child { margin-bottom: auto; }
+.sc-msg { margin: 0; font-size: .85em; max-width: 46em; }
+.sc-grade { margin: 0; min-height: 1.2em; font-weight: 700; color: var(--gold); }
+.sc-track { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .25em; width: min(34em, 96%); }
+.sc-beat { height: 2.1em; display: flex; align-items: center; justify-content: center; border-radius: .4em; font-size: 1em;
+  border: .1em solid rgba(244,248,255,.3); background: rgba(255,255,255,.06); }
+.sc-beat.lead { background: rgba(90,150,255,.35); border-color: rgba(150,190,255,.7); }
+.sc-beat.npc { color: #9ec4ff; }
+.sc-beat.great { color: var(--gold); border-color: var(--gold); }
+.sc-beat.good { color: var(--green); }
+.sc-beat.miss { color: #ff7a7a; }
+.sc-cursor { position: absolute; top: -.25em; bottom: -.25em; width: .25em; margin-left: -.12em; border-radius: .2em; background: var(--gold); pointer-events: none; }
+.sc-pad { display: flex; gap: .5em; }
+.sc-pad .sc-dir { min-width: 3.4em; min-height: 2.4em; font-size: 1.05em; touch-action: manipulation; }
+.sc-judges { display: flex; gap: .6em; justify-content: center; }
+.sc-judge { display: flex; flex-direction: column; align-items: center; padding: .15em .7em; border-radius: .45em; border: .1em solid rgba(244,248,255,.25); font-size: .85em; }
+.sc-judge.head { border-color: var(--gold); }
+.sc-volt { color: var(--gold); letter-spacing: .05em; }
+.sc-foot { display: flex; flex-wrap: wrap; justify-content: center; gap: .3em; }
+.sc-foot .sc-move { flex: 1 1 45%; display: flex; flex-direction: column; align-items: flex-start; text-align: left; line-height: 1.15; padding: .25em .5em; min-width: 0; }
+.sc-mv-top { display: flex; align-items: baseline; justify-content: space-between; gap: .5em; width: 100%; }
+.sc-move b { font-size: .9em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sc-move i { font-style: normal; font-size: .72em; opacity: .85; white-space: nowrap; }
+.sc-move small { font-size: .66em; opacity: .8; white-space: normal; }
+.sc-move.cool { border-left: .35em solid #e05050; }
+.sc-move.beauty { border-left: .35em solid #4a8ae0; }
+.sc-move.cute { border-left: .35em solid #f088c0; }
+.sc-move.smart { border-left: .35em solid #50b860; }
+.sc-move.tough { border-left: .35em solid #e8c040; }
+.sc-res { border-collapse: collapse; font-size: .82em; }
+.sc-res th, .sc-res td { padding: .1em .55em; text-align: right; }
+.sc-res td:nth-child(2) { text-align: left; }
+.sc-res tr.me td { color: var(--gold); }
+/* A phone held sideways: smaller cards and texts, so the judges, the turn and the four moves fit. */
+@media (max-height: 420px) {
+  .box.sc-box { gap: .2em; padding: .3em .45em; }
+  .sc-card { padding: .05em .25em; }
+  .sc-card canvas { width: 1.8em; height: 1.8em; }
+  .sc-who { font-size: .7em; }
+  .sc-pts { font-size: .62em; }
+  .sc-msg { font-size: .76em; }
+  .sc-judge { font-size: .76em; padding: .05em .6em; }
+  .sc-foot .sc-move { padding: .15em .45em; }
+  .sc-beat { height: 1.7em; }
+  .sc-pad .sc-dir { min-height: 2em; }
+}

@@ -239,5 +239,8 @@ G.I18n.add({
   "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "五個類別各四個等級：共二十枚獎章等著你，而大師級可不是沒準備好的寶可夢能去的地方。",
   "Chapter 86 complete!": "第 86 章完成！",
   "{player} won a ribbon on a Contest Hall stage in Hoenn.": "{player}在豐緣的華麗大賽會場舞台上贏得了獎章。",
-  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "樹果混合器轉個不停，醜醜魚等著展現牠的美麗，水靜市美術館還有五個畫框等著掛上畫。"
+  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "樹果混合器轉個不停，醜醜魚等著展現牠的美麗，水靜市美術館還有五個畫框等著掛上畫。",
+  "Chapter 87 complete!": "第 87 章完成！",
+  "{player} walked into the Ribbon Syndicate with a Pokémon wearing ten ribbons.": "{player}帶著一隻佩戴十枚獎章的寶可夢，走進了獎章尊享會。",
+  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "一週每天各有一枚獎章，腳印也有一枚，還有三枚留給出得起錢的人。"
 }, "zh-Hant");

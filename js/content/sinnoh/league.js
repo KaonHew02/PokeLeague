@@ -8,6 +8,7 @@
  * Cynthia six (her Garchomp five, and one Full Restore where Platinum has four), so that a sensible team of six wins six times in ten.
  * The Elite Four are named in the dictionaries as "Elite Four Aaron" and so on, with no class:
  * the plain keys "Aaron" and "Flint" already belong to people in Kanto.
+ * Chapter 87: each time, the team gets the Sinnoh Champ Ribbon (G.Ribbons), said once some Pokémon is new to it.
  */
 (() => {
   const T = s => G.T(s);
@@ -252,6 +253,12 @@
     S.fame = S.fame || [];
     S.fame.push({ at: Date.now(), party: S.party.map(m => ({ sp: m.sp, lvl: m.lvl, nick: m.nick || null, shiny: !!m.shiny })) });
   };
+  /** Chapter 87: the Sinnoh Champ Ribbon for the team (a line only if some Pokémon is new to it). */
+  async function champRibbon(h) {
+    const S = G.Field.save;
+    if (!G.Ribbons || !S.party.map(m => G.Ribbons.give(m, 'sinnoh-champion')).some(Boolean)) return;
+    await h.say(T('Your team received the Sinnoh Champ Ribbon!'));
+  }
 
   /** The Champion: Cynthia, Professor Rowan, then the Hall of Fame. */
   async function champion(h) {
@@ -300,6 +307,7 @@
     remember(S);
     await h.jingle('fame');
     await h.say(T("{player}'s team has entered the Hall of Fame!"));
+    await champRibbon(h);
     await h.warp('barry-house-2f', 'stairs');
   }
 
@@ -320,6 +328,7 @@
     h.face('player', 'up');
     await h.jingle('fame');
     await h.say(T("{player}'s team has entered the Hall of Fame!"));
+    await champRibbon(h);
     h.face('player', 'rowan');
     await h.say(T('Sinnoh has its old stories, and now it has a new one. Be sure to write to Birch. He will want to hear all of it.'), ROWAN);
     h.face('player', 'cynthia');

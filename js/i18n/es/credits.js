@@ -239,5 +239,8 @@ G.I18n.add({
   "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Cuatro rangos en cinco categorías: te esperan veinte cintas, y el Rango Maestro no es lugar para un Pokémon sin preparar.",
   "Chapter 86 complete!": "¡Capítulo 86 completado!",
   "{player} won a ribbon on a Contest Hall stage in Hoenn.": "{player} ganó una cinta en el escenario de una Sala de Concursos de Hoenn.",
-  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "El Licuabayas gira, un Feebas espera mostrar su belleza y cinco marcos del Museo de Ciudad Calagua siguen vacíos."
+  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "El Licuabayas gira, un Feebas espera mostrar su belleza y cinco marcos del Museo de Ciudad Calagua siguen vacíos.",
+  "Chapter 87 complete!": "¡Capítulo 87 completado!",
+  "{player} walked into the Ribbon Syndicate with a Pokémon wearing ten ribbons.": "{player} entró en la Sociedad de las Cintas con un Pokémon que llevaba diez cintas.",
+  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Una cinta para cada día de la semana, una para cada huella, y tres más para quien pueda pagarlas."
 }, "es");

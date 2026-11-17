@@ -10,7 +10,7 @@ const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 const dev = source('dev.html');
 const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/world/poffin.js', 'js/world/pokeblock.js', 'js/world/supercontest.js', 'js/script/script.js'], CONTENT);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/world/poffin.js', 'js/world/pokeblock.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/script/script.js'], CONTENT);
 
 function world(seed = 1) {
   const ctx = boot(FILES);
@@ -4684,6 +4684,61 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 87 after chapter 86: the lead collects ribbons: Julia's seven over a week, the Effort and Footprint Ribbons if it
+ *  has earned them; with ten it walks into the Ribbon Syndicate (the ending), buys the Gorgeous Ribbon and has a massage.
+ *  Then the Battle Tower's 56th win in a row gives its three the Winning Ribbon. */
+async function chapter87(st) {
+  const { G, S } = st;
+  const F = G.Field, R = G.Ribbons, Tw = G.Tower;
+  const lead = S.party[0], before = R.count(lead), clock = { weekday: G.Clock.weekday, day: G.Clock.day };
+  assert.ok(lead.ribbons.includes('sinnoh-champion') || S.party.some(m => R.has(m, 'sinnoh-champion')), 'the Sinnoh Champ Ribbon from the Hall of Fame');
+  for (let d = 0; d < 7; d++) {
+    G.Clock.weekday = () => d;
+    G.Clock.day = () => '2026-11-' + (16 + d);
+    st.picks.length = 0;
+    st.picks.push(0);
+    await run(st, 'sunyshore-house', 'julia.ribbon');
+  }
+  Object.assign(G.Clock, clock);
+  assert.ok(R.DAILY.every(id => R.has(lead, id)), 'all seven of Julia\'s');
+  for (const [m, script] of [['sunyshore-market', 'effort.ribbon'], ['footstep-house', 'footstep.doctor']]) {
+    st.picks.length = 0;
+    st.picks.push(0);
+    await run(st, m, script);
+  }
+  assert.ok(R.count(lead) >= 10, 'ten ribbons: ' + lead.ribbons.join());
+  await run(st, 'resort-area', 'syndicate.door');
+  assert.equal(st.W.map, 'syndicate-1f');
+  assert.ok(F.flag('syndicate-member') && F.flag('chapter-87-done'));
+  if (F.money() < 10000) F.money(10000);
+  st.picks.length = 0;
+  st.picks.push(0);
+  await run(st, 'syndicate-1f', 'syndicate.butler', [0]);
+  assert.ok(R.has(lead, 'gorgeous'));
+  const fr = lead.friendship;
+  st.picks.length = 0;
+  st.picks.push(0);
+  await run(st, 'syndicate-2f', 'syndicate.spa', [0]);
+  assert.equal(lead.friendship, Math.min(255, fr + 20));
+  // The Battle Tower: from 55 wins in a row, battle No. 56 with the three strongest that may enter.
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 3 && !Tw.why(party[i], picks.map(j => party[j]))) picks.push(i);
+  }
+  let tries = 0;
+  while (!R.has(party[picks[0]], 'winning') && tries < 10) {
+    tries++;
+    Tw.setStreak('single', 55);
+    st.picks.length = 0;
+    st.picks.push(...picks);
+    await run(st, 'battle-tower-lobby', 'tower.single', [0]);
+  }
+  assert.ok(picks.every(i => R.has(party[i], 'winning')), 'the Winning Ribbon for the three');
+  console.log('[story] ribbons:', G.Names.mon(lead.sp), 'went from', before, 'to', R.count(lead), 'ribbons and joined the Ribbon Syndicate; the Battle Tower\'s 56th win in',
+    tries, 'challenge(s)');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 86 after chapter 85: a Feebas (as if fished on one of Route 119's six tiles) fed blue Pokéblocks, each from a Chesto
  *  and an Oran Berry blended at Verdanturf's Contest Hall, until its Beauty reaches 170; a Rare Candy and it evolves into
  *  Milotic. Then the lead (its Cool full since chapter 85) in the Cool contest, Normal Rank, at Verdanturf until it wins. */
@@ -5686,4 +5741,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter84(st);
   await chapter85(st);
   await chapter86(st);
+  await chapter87(st);
 });

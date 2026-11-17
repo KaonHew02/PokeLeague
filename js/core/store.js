@@ -115,12 +115,13 @@ G.Store = (() => {
       // A held item (chapter 26): any item the game knows that is not a key item.
       item: typeof m.item === 'string' && (!G.ITEMS || (G.ITEMS[m.item] && G.ITEMS[m.item].pocket !== 'key')) ? m.item : null
     });
-    // Condition, sheen and ribbons (chapter 85, poffin.js and the Super Contest): kept within bounds, dropped when unsound.
+    // Condition, sheen and ribbons (chapter 85, poffin.js and the Super Contest; chapter 87 the others, G.Ribbons: one to three
+    // words, 'effort', 'cool-normal', 'gorgeous-royal', 'hoenn-cool-master'): kept within bounds, dropped when unsound.
     if (obj(m.cond)) out.cond = { cool: int(m.cond.cool, 0, 255, 0), beauty: int(m.cond.beauty, 0, 255, 0), cute: int(m.cond.cute, 0, 255, 0),
                                   smart: int(m.cond.smart, 0, 255, 0), tough: int(m.cond.tough, 0, 255, 0) };
     else delete out.cond;
     if (m.sheen != null) out.sheen = int(m.sheen, 0, 255, 0);
-    if (Array.isArray(m.ribbons)) out.ribbons = [...new Set(m.ribbons.filter(r => typeof r === 'string' && /^[a-z]+-[a-z]+(-[a-z]+)?$/.test(r)))].slice(0, 60);
+    if (Array.isArray(m.ribbons)) out.ribbons = [...new Set(m.ribbons.filter(r => typeof r === 'string' && /^[a-z]+(-[a-z]+){0,2}$/.test(r)))].slice(0, 60);
     else delete out.ribbons;
     if (G.NATURES && !G.NATURES[out.nature]) out.nature = 'hardy';
     if (G.Mon && G.Stats && G.GROWTH) {

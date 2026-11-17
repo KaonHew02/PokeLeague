@@ -7,6 +7,7 @@
  * so nobody gets shut in (the map generator solves it: 16 moves, 5 presses, through all nine rooms). Volkner's Beacon Badge is
  * badge 32, the last in Sinnoh: every Pokémon obeys. Jasmine waits on the beach to the north (flag jasmine-beach), then `ending(57)`.
  * Platinum's Trainers, teams and wild Pokémon.
+ * Chapter 87 (syndicate.js): Julia in the house gives the ribbon of the day, a lady at the Market the Effort Ribbon.
  */
 (() => {
   const T = s => G.T(s);
@@ -201,7 +202,8 @@
     rows: HOUSE,
     warps: [{ x: 4, y: 7, to: 'sunyshore', spot: 'market-door' }],
     spots: { door: [4, 7, 'up'] },
-    npcs: [{ id: 'clerk', who: 'beauty', x: 7, y: 3, dir: 'down', move: 'look', say: 'Welcome to the Sunyshore Market! The stalls are shut today. Everybody has gone to look at the sea.' }]
+    npcs: [{ id: 'clerk', who: 'beauty', x: 7, y: 3, dir: 'down', move: 'look', say: 'Welcome to the Sunyshore Market! The stalls are shut today. Everybody has gone to look at the sea.' },
+           { id: 'effort', who: 'lady', x: 2, y: 4, dir: 'right', script: 'effort.ribbon' }]
   }, SINNOH));
 
   G.Maps.def(Object.assign({
@@ -209,7 +211,8 @@
     rows: HOUSE,
     warps: [{ x: 4, y: 7, to: 'sunyshore', spot: 'house-door' }],
     spots: { door: [4, 7, 'up'] },
-    npcs: [{ id: 'gran', who: 'granny', x: 8, y: 3, dir: 'left', move: 'look', say: 'When I was young, you could see every star from here. Then we lit up the city, and now the stars are in the streets.' }]
+    npcs: [{ id: 'gran', who: 'granny', x: 8, y: 3, dir: 'left', move: 'look', say: 'When I was young, you could see every star from here. Then we lit up the city, and now the stars are in the streets.' },
+           { id: 'julia', who: 'lady', x: 2, y: 5, dir: 'right', script: 'julia.ribbon' }]
   }, SINNOH));
 
   // ---------------- Vista Lighthouse ----------------

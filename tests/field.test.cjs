@@ -6814,7 +6814,7 @@ test('Sinnoh (chapter 85): the Contest Hall and the Poffin House in Hearthome: t
 });
 
 test('Hoenn (chapter 86): the Contest Halls of Verdanturf, Fallarbor and Lilycove (the doors, the Berry Blender, the ranks each holds, the ribbons), the artist and the Lilycove Museum\'s second floor, Feebas on Route 119, the ending after chapter 85', async () => {
-  const { G, W } = world(['js/world/poffin.js', 'js/world/pokeblock.js', 'js/world/supercontest.js', 'js/content/hoenn/littleroot.js', 'js/content/hoenn/verdanturf.js',
+  const { G, W } = world(['js/world/poffin.js', 'js/world/pokeblock.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/content/hoenn/littleroot.js', 'js/content/hoenn/verdanturf.js',
     'js/content/hoenn/fallarbor.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/fortree.js', 'js/content/hoenn/contesthalls.js']);
   W.debug.noEnc = true;
   const F = G.Field, S = F.save, SC = G.SuperContest, HALL = G.HoennContestHall;
@@ -6905,7 +6905,7 @@ test('Hoenn (chapter 86): the Contest Halls of Verdanturf, Fallarbor and Lilycov
   said.length = 0;
   const d = await win('lilycove-contest', 'beauty', [1]);
   assert.equal(d.rank, 'master');
-  assert.deepEqual(plain(mon.ribbons), ['hoenn-beauty-normal', 'hoenn-beauty-super', 'hoenn-beauty-hyper', 'hoenn-beauty-master']);
+  assert.deepEqual(plain(mon.ribbons), ['hoenn-beauty-normal', 'hoenn-beauty-super', 'hoenn-beauty-hyper', 'hoenn-beauty-master', 'artist'], 'and the Artist Ribbon (chapter 87)');
   assert.ok(said.some(s => /May I paint Milotic/.test(s)), 'the artist asks');
   assert.deepEqual(plain(S.paintings), { beauty: { sp: G.Maps.species('milotic'), nick: null, ot: S.player.name } });
   assert.ok(F.flag('painting-beauty'));
@@ -6949,4 +6949,126 @@ test('Hoenn (chapter 86): the Contest Halls of Verdanturf, Fallarbor and Lilycov
   W.seed(86);
   for (let i = 0; i < 30; i++) await pump(W, W.fish('good-rod'));
   assert.ok(got.some(([sp, lvl]) => sp === 349 && lvl >= 20 && lvl <= 25), JSON.stringify(got));
+});
+
+test('Sinnoh (chapter 87): Dr. Footstep on Route 213, the Effort Ribbon at the Sunyshore Market, Julia\'s ribbon of the day, the Ribbon Syndicate (the door, the butler, the spa), the ending after chapter 86', async () => {
+  const { G, W } = world(['js/world/poffin.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/content/sinnoh/lakefront.js', 'js/content/sinnoh/sunyshore.js',
+    'js/content/sinnoh/villa.js', 'js/content/sinnoh/resort.js', 'js/content/sinnoh/syndicate.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, R = G.Ribbons;
+  const said = [], answers = [], picks = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  const until = async ok => { for (let i = 0; i < 600 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  const last = () => said[said.length - 1] || '';
+  let weekday = 1, day = '2026-11-16';
+  G.Clock.weekday = () => weekday;
+  G.Clock.day = () => day;
+  const mon = F.giveMon('pachirisu', 40), mon2 = F.giveMon('buneary', 30);
+
+  // Route 213: the first cottage is Dr. Footstep's house.
+  W.load('route213', { x: 31, y: 5, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'footstep-house' && !W.locked);
+  W.load('footstep-house', 'doctor');
+  for (const [f, re] of [[40, /keeps its distance/], [100, /getting to know you/], [160, /fond of you/], [220, /loves being with you/]]) {
+    mon.friendship = f;
+    picks.push(0);
+    await talk();
+    assert.ok(re.test(last()), f + ': ' + last());
+  }
+  assert.ok(!R.has(mon, 'footprint'));
+  mon.friendship = 255;
+  picks.push(0);
+  await talk();
+  assert.ok(R.has(mon, 'footprint') && said.some(s => /received the Footprint Ribbon/.test(s)));
+  picks.push(0);
+  said.length = 0;
+  await talk();
+  assert.ok(!said.some(s => /received/.test(s)) && R.count(mon) === 1, 'once');
+
+  // The Sunyshore Market: the Effort Ribbon only with all 510 EVs.
+  W.load('sunyshore-market', { x: 3, y: 4, dir: 'left' });
+  mon.evs = [252, 252, 4, 0, 0, 0];
+  picks.push(0);
+  await talk();
+  assert.ok(/could grow stronger still/.test(last()) && !R.has(mon, 'effort'));
+  mon.evs = [252, 252, 6, 0, 0, 0];
+  picks.push(0);
+  await talk();
+  assert.ok(R.has(mon, 'effort'));
+
+  // Julia: Monday's Alert Ribbon, once a day; Tuesday's Shock Ribbon; not twice to one Pokémon.
+  W.load('sunyshore-house', { x: 3, y: 5, dir: 'left' });
+  picks.push(1);
+  await talk();
+  assert.ok(said.some(s => /Julia/.test(s)) && R.has(mon2, 'alert'));
+  await talk();
+  assert.ok(/given away today/.test(last()) && !R.has(mon, 'alert'), 'one a day');
+  day = '2026-11-17'; weekday = 2;
+  picks.push(1);
+  await talk();
+  assert.ok(R.has(mon2, 'shock'));
+  day = '2026-11-23'; weekday = 1;
+  picks.push(1);
+  await talk();
+  assert.ok(/already has the Alert Ribbon/.test(last()), last());
+  picks.push(0);
+  await talk();
+  assert.ok(R.has(mon, 'alert'));
+  assert.deepEqual(plain(mon2.ribbons), ['alert', 'shock']);
+
+  // The Ribbon Syndicate's door: refused below ten ribbons, in from ten; no ending before chapter 86.
+  W.load('resort-area', 'syndicate');
+  W.player.face('up');
+  said.length = 0;
+  step(W, 'up');
+  await until(() => !W.locked);
+  assert.equal(W.map.id, 'resort-area');
+  assert.ok(said.some(s => /most any of yours has is 3/.test(s)), said.join(' | '));
+  mon.ribbons = mon.ribbons.concat(['smile', 'relax', 'snooze', 'careless', 'downcast', 'shock', 'cool-normal']);
+  assert.equal(R.count(mon), 10);
+  W.load('resort-area', 'syndicate');
+  step(W, 'up');
+  await until(() => W.map.id === 'syndicate-1f' && !W.locked);
+  assert.ok(F.flag('syndicate-member') && !F.flag('chapter-87-done'));
+  // The butler: the three ribbons in order, if the money is there.
+  W.load('syndicate-1f', 'counter');
+  S.player.money = 5000;
+  picks.push(1); answers.push(0);
+  await talk();
+  assert.ok(/beyond your means/.test(last()) && !R.has(mon2, 'gorgeous'));
+  S.player.money = 999999;
+  for (const id of ['gorgeous', 'royal', 'gorgeous-royal']) {
+    S.player.money = 999999;
+    picks.push(1); answers.push(0);
+    await talk();
+    assert.ok(R.has(mon2, id), id);
+  }
+  assert.equal(S.player.money, 0, 'the last one costs everything');
+  picks.push(1);
+  await talk();
+  assert.ok(/every ribbon we offer/.test(last()));
+  // The spa: friendship +20 up to 255, once a day.
+  W.load('syndicate-2f', 'spa');
+  mon2.friendship = 240;
+  answers.push(0); picks.push(1);
+  await talk();
+  assert.equal(mon2.friendship, 255);
+  mon.friendship = 100;
+  await talk();
+  assert.ok(/come back tomorrow/.test(last()) && mon.friendship === 100, 'once a day');
+  assert.deepEqual([answers.length, picks.length], [0, 0]);
+  day = '2026-11-24';
+  answers.push(0); picks.push(0);
+  await talk();
+  assert.equal(mon.friendship, 120);
+  // Out and in again once chapter 86 is done: the ending.
+  F.setFlag('chapter-86-done');
+  W.load('resort-area', 'syndicate');
+  step(W, 'up');
+  await until(() => W.map.id === 'syndicate-1f' && !W.locked);
+  assert.ok(F.flag('chapter-87-done') && said.some(s => /Welcome back/.test(s)));
 });

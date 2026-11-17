@@ -4,7 +4,8 @@
  * Seven Stars restaurant; a guard closes the way to Lake Valor. After the bomb at the Great Marsh (pastoria.js,
  * flag marsh-bomb) the grunt stands before the hotel: Croagunk 31 (flag lakefront-grunt), then Crasher Wake
  * sends you back to Barry. Once he is beaten too, Cynthia waits here with a Secret Potion for the Psyduck on Route 210
- * (chapter 50, flag cynthia-potion). Route 213 is a beach, with the hotel's locked cottages, down to Pastoria City.
+ * (chapter 50, flag cynthia-potion). Route 213 is a beach, with the hotel's locked cottages, down to Pastoria City
+ * (chapter 87: the first cottage is Dr. Footstep's house, syndicate.js).
  * Platinum's Trainers and wild Pokémon.
  * Chapter 76: the Seven Stars restaurant's double battles, as in Platinum. Nine pairs of Trainers of two classes each
  * (`partner: { cls, name }`, field.js: "Rich Boy Roman & Lady Kylie"), five of them a day from 9:00 to 23:00, drawn from
@@ -338,7 +339,8 @@
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
     connect: { north: { map: 'valor-lakefront', offset: 24 }, west: { map: 'pastoria', offset: -8 } },
-    warps: [{ x: 31, y: 4, locked: 'route213.cottage' }, { x: 37, y: 4, locked: 'route213.cottage' }],
+    warps: [{ x: 31, y: 4, to: 'footstep-house', spot: 'door' }, { x: 37, y: 4, locked: 'route213.cottage' }],   // chapter 87: Dr. Footstep (syndicate.js)
+    spots: { 'footstep-door': [31, 5, 'down'] },
     signs: { '46,3': 'Route 213. West: Pastoria City. North: Valor Lakefront.' },
     items: [{ x: 52, y: 10, item: 'water-stone', flag: 'route213-stone' }],
     trainers: [

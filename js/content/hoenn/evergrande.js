@@ -9,6 +9,7 @@
  * (save.fame, flag hoenn-champion), home to Littleroot and `ending(39)`. As in Kanto and Johto, the teams
  * are Emerald's three levels lower (Wallace six), and once you are Hoenn's Champion everyone battles ten
  * levels up.
+ * Chapter 87: each time, the team gets the Champion Ribbon (G.Ribbons), said once some Pokémon is new to it.
  */
 (() => {
   const T = s => G.T(s);
@@ -408,7 +409,15 @@
     S.fame.push({ at: Date.now(), party: S.party.map(m => ({ sp: m.sp, lvl: m.lvl, nick: m.nick || null, shiny: !!m.shiny })) });
     await h.jingle('fame');
     await h.say(T("{player}'s team has entered the Hall of Fame!"));
+    await champRibbon(h);
     await h.warp('birch-house-2f', 'stairs');
+  }
+
+  /** Chapter 87: the Champion Ribbon for the team (a line only if some Pokémon is new to it; G.Ribbons). */
+  async function champRibbon(h) {
+    const S = G.Field.save;
+    if (!G.Ribbons || !S.party.map(m => G.Ribbons.give(m, 'champion')).some(Boolean)) return;
+    await h.say(T('Your team received the Champion Ribbon!'));
   }
 
   /** Hoenn's Hall of Fame: the team is remembered, then home to Littleroot and the credits. */
@@ -426,6 +435,7 @@
     h.face('player', 'up');
     await h.jingle('fame');
     await h.say(T("{player}'s team has entered the Hall of Fame!"));
+    await champRibbon(h);
     h.face('player', 'wallace');
     await h.say(T('The land, the sea and the sky of Hoenn are at peace, thanks to you. Go home and rest, Champion. You have earned it.'), WALLACE);
     h.hide('wallace');

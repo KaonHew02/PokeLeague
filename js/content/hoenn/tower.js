@@ -12,6 +12,7 @@
  * Palace (js/content/hoenn/palace.js), chapter 81 the Battle Dome (js/content/hoenn/dome.js), chapter 82 the Battle Pike
  * (js/content/hoenn/pike.js), chapter 83 the Battle Pyramid (js/content/hoenn/pyramid.js), with the same opponents
  * (trainerFor's options), the same way to enter (pickEntrants) and the same BP.
+ * Chapter 87: the 56th win in a row gives the Pokémon that entered (not their copies) the Winning Ribbon (G.Ribbons).
  */
 (() => {
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
@@ -203,6 +204,8 @@
       await h.say(d.defeat, speaker(d));
       h.hide('foe');
       Tw.setStreak(mode, no);
+      // Chapter 87: the Winning Ribbon at the 56th win in a row (Generation 3's Level 50 Tower), for the Pokémon themselves.
+      if (no === 56 && G.Ribbons && team.map(m => G.Ribbons.give(m, 'winning')).some(Boolean)) await h.say(T('Fifty-six wins in a row! Your Pokémon received the Winning Ribbon!'));
       if (d.brain) {
         if (d.brain.print === 'silver') F.setFlag('tower-silver'); else F.setFlag('tower-gold');
         Tw.addBp(d.brain.bp);

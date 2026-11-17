@@ -239,5 +239,8 @@ G.I18n.add({
   "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Quatre rangs dans cinq catégories : vingt rubans t'attendent, et le Rang Maître n'est pas fait pour un Pokémon mal préparé.",
   "Chapter 86 complete!": "Chapitre 86 terminé !",
   "{player} won a ribbon on a Contest Hall stage in Hoenn.": "{player} a gagné un ruban sur la scène d'une Salle des Concours de Hoenn.",
-  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "Le Mixeur à Baies tourne, un Barpau attend de montrer sa beauté, et cinq cadres du Musée de Nénucrique restent à remplir."
+  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "Le Mixeur à Baies tourne, un Barpau attend de montrer sa beauté, et cinq cadres du Musée de Nénucrique restent à remplir.",
+  "Chapter 87 complete!": "Chapitre 87 terminé !",
+  "{player} walked into the Ribbon Syndicate with a Pokémon wearing ten ribbons.": "{player} est entré au Club des Rubans avec un Pokémon portant dix rubans.",
+  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Un ruban pour chaque jour de la semaine, un pour chaque empreinte, et trois de plus pour qui peut se les offrir."
 }, "fr");

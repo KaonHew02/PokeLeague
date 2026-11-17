@@ -12,6 +12,7 @@
  * winner; the painting hangs in that category's frame (save.paintings, flags painting-<category>; a later one takes its
  * place). With all five, the curator downstairs gives a Lucky Egg (flag museum-gift; Ruby and Sapphire's prize is a Glass
  * Ornament for a Secret Base, which this game does not have). The words and the paintings' titles are my own.
+ * Chapter 87: the Pokémon painted gets the Artist Ribbon (G.Ribbons).
  */
 (() => {
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
@@ -182,6 +183,8 @@
     P[cat] = { sp: mon.sp, nick: mon.nick || null, ot: G.Field.save.player.name };
     HANG[cat]();
     await h.say(fmt('There! "{title}". It will hang on the second floor of the Lilycove Museum.', { title: TITLE(cat) }), ARTIST);
+    // Chapter 87: the Artist Ribbon (G.Ribbons).
+    if (G.Ribbons && G.Ribbons.give(mon, 'artist')) await h.say(fmt('{mon} received the Artist Ribbon!', { mon: G.Mon.name(mon) }));
   }
 
   /** A frame on the museum's second floor: its painting (on screen, G.SuperContestUI.painting), or the empty frame. */

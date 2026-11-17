@@ -239,5 +239,8 @@ G.I18n.add({
   "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Quatro classes em cinco categorias: vinte fitas esperam, e a Classe Mestre não é lugar para um Pokémon despreparado.",
   "Chapter 86 complete!": "Capítulo 86 concluído!",
   "{player} won a ribbon on a Contest Hall stage in Hoenn.": "{player} ganhou uma fita no palco de um Salão de Concursos de Hoenn.",
-  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "O Liquidificador de Frutas gira, um Feebas espera para mostrar sua beleza, e cinco molduras do Museu de Lilycove ainda estão vazias."
+  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "O Liquidificador de Frutas gira, um Feebas espera para mostrar sua beleza, e cinco molduras do Museu de Lilycove ainda estão vazias.",
+  "Chapter 87 complete!": "Capítulo 87 concluído!",
+  "{player} walked into the Ribbon Syndicate with a Pokémon wearing ten ribbons.": "{player} entrou na Sociedade das Fitas com um Pokémon usando dez fitas.",
+  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Uma fita para cada dia da semana, uma para cada pegada, e mais três para quem puder pagar por elas."
 }, "pt-BR");

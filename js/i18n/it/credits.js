@@ -239,5 +239,8 @@ G.I18n.add({
   "Four ranks in five categories: twenty ribbons wait, and the Master Rank is no place for an unprepared Pokémon.": "Quattro gradi in cinque categorie: ti aspettano venti fiocchi, e il Grado Master non fa per un Pokémon impreparato.",
   "Chapter 86 complete!": "Capitolo 86 completato!",
   "{player} won a ribbon on a Contest Hall stage in Hoenn.": "{player} ha vinto un fiocco sul palco di una Sala Gare di Hoenn.",
-  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "Il Frullabacche gira, un Feebas aspetta di mostrare la sua bellezza e cinque cornici del Museo di Porto Alghepoli sono ancora vuote."
+  "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "Il Frullabacche gira, un Feebas aspetta di mostrare la sua bellezza e cinque cornici del Museo di Porto Alghepoli sono ancora vuote.",
+  "Chapter 87 complete!": "Capitolo 87 completato!",
+  "{player} walked into the Ribbon Syndicate with a Pokémon wearing ten ribbons.": "{player} è entrato nel Club dei Fiocchi con un Pokémon che indossava dieci fiocchi.",
+  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Un fiocco per ogni giorno della settimana, uno per ogni impronta, e altri tre per chi può permetterseli."
 }, "it");

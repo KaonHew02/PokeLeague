@@ -3,7 +3,7 @@
  * stops (`sandstorm`: blowing sand on the screen, a sandstorm in battles), Route 229 green and warm with the sea to the west,
  * and the Resort Area by the beach, where a guide welcomes you the first time (`ending(63)`). Route 230 is the sea from
  * Route 229 west to Fight Area, with an island in the middle. Platinum needs Rock Climb nowhere here; Surf, Cut and Rock
- * Smash open the side ways. Platinum's Trainers and wild Pokémon. Left out: the Ribbon Syndicate (its door stays shut),
+ * Smash open the side ways. Platinum's Trainers and wild Pokémon. Left out: the Ribbon Syndicate (open in chapter 87, syndicate.js),
  * Pokémon Kid Ariel, Rock Peak Ruins, the tutor of the strongest moves, berries, the Dowsing Machine's items. The villa is
  * chapter 84's (villa.js): its owner by the door, the door, the sign, the guide's words and the visitors outside.
  */
@@ -284,8 +284,8 @@
     connect: { north: { map: 'route229', offset: 0 } },
     encounters: { water: '@resort-area-area' },
     enter: 'villa.today',
-    warps: [{ x: 6, y: 8, to: 'villa', spot: 'door', if: 'villa-owned', locked: 'resort.villa' }, { x: 16, y: 8, locked: 'resort.club' }],
-    spots: { north: [25, 2, 'down'], villa: [6, 9, 'down'] },
+    warps: [{ x: 6, y: 8, to: 'villa', spot: 'door', if: 'villa-owned', locked: 'resort.villa' }, { x: 16, y: 8, to: 'syndicate-1f', spot: 'door', if: 'scripted', locked: 'syndicate.door' }],
+    spots: { north: [25, 2, 'down'], villa: [6, 9, 'down'], syndicate: [16, 9, 'down'] },
     signs: { '11,9': { script: 'villa.sign' },
              '21,8': 'The Ribbon Syndicate. Members only.',
              '26,2': 'The Resort Area. Rest, relax, and leave your battles at the door.' },
@@ -326,6 +326,5 @@
   G.Script.def({
     'resort.arrive': [['js', arrive]],
     'resort.villa': [['say', 'The door is locked. A note says the villa is waiting for its owner.']],
-    'resort.club': [['say', 'The door is locked. A sign says: "Members only. Trainers whose Pokémon have earned ten ribbons or more."']]
   });
 })();

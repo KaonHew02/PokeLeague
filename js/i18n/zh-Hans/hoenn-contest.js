@@ -45,7 +45,7 @@ G.I18n.add({
   "Plain berries, perfect for the Berry Blender!": "普通的树果，最适合放进树果混合器！",
   "Blender host": "混合器负责人",
   "Curator": "馆长",
-  "My first contest was here! Win the Normal Rank, then try the Super Rank in Fallarbor Town.": "我第一次参赛就是在这里！先赢下普通级，再去釜炎镇挑战超级级别吧。",
+  "My first contest was here! Win the Normal Rank, then try the Super Rank in Fallarbor Town.": "我第一次参赛就是在这里！先赢下普通级，再去秋叶镇挑战超级级别吧。",
   "Never put two of the same berry in the blender: the Pokéblock comes out black. For Beauty, a Chesto Berry with an Oran Berry makes a fine blue one.": "千万别把两颗一样的树果放进混合器：做出来的宝可方块会是黑色的。想提升美丽的话，零余果配橙橙果能做出很好的蓝色方块。",
   "Pokéblocks raise a Pokémon's condition, but it can only eat so many. Make every one count!": "宝可方块能提升宝可梦的状态，可是能吃的数量有限。每一块都要用得值得！",
   "I paint the champions of the Master Rank for the Lilycove Museum. Win one, and I will ask to paint your Pokémon!": "我为水静市美术馆画大师级的冠军。只要你赢下一场，我就会请求画你的宝可梦！",

@@ -29,7 +29,7 @@ G.People = (() => {
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
                  'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa',
-                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser', 'tucker', 'lucy', 'brandon'];
+                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser', 'tucker', 'lucy', 'brandon', 'palmer'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -394,7 +394,11 @@ G.People = (() => {
     lucy: { head: 'long', body: 'dress', legs: 'bare', h: '#1e1a26', H: '#0e0a14', c: '#4a2a6a', C: '#321a4a', j: '#6a3a8a', J: '#4a2662', k: '#5a7a3a' },
     // Chapter 83: Brandon, the Pyramid King (my own look: an explorer's sand hat, a khaki jacket, brown trousers).
     brandon: { head: 'cap', body: 'jacket', legs: 'pants', a: '#d8c08a', A: '#b09a68', b: '#8a6a3a', h: '#3a2a1c', H: '#24180f', j: '#a8945a', J: '#82703e',
-               c: '#f0e8d0', C: '#c8bea4', p: '#6a4a2a', P: '#4a321c', k: '#3a2618' }
+               c: '#f0e8d0', C: '#c8bea4', p: '#6a4a2a', P: '#4a321c', k: '#3a2618' },
+    // Chapter 88: Palmer, the Tower Tycoon of Sinnoh's Battle Tower and Barry's father (my own look: Barry's blond spikes,
+    // a long dark coat over an orange shirt).
+    palmer: { head: 'spiky', body: 'coat', legs: 'pants', h: '#f0d050', H: '#c0a030', j: '#3a3a52', J: '#26263a', c: '#f08a30', C: '#c06a20',
+              p: '#3a3a44', P: '#24242c', k: '#2a2020' }
   };
 
   const mirror = half => half + [...half].reverse().join('');

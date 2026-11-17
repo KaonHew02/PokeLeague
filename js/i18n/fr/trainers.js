@@ -87,5 +87,6 @@ G.I18n.add({
   "Palace Maven": "Gardien du Palace",
   "Dome Ace": "As du Dôme",
   "Pike Queen": "Reine du Reptile",
-  "Pyramid King": "Roi de la Pyramide"
+  "Pyramid King": "Roi de la Pyramide",
+  "Tower Tycoon": "Magnat de la Tour"
 }, "fr");

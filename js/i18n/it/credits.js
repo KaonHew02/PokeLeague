@@ -242,5 +242,8 @@ G.I18n.add({
   "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "Il Frullabacche gira, un Feebas aspetta di mostrare la sua bellezza e cinque cornici del Museo di Porto Alghepoli sono ancora vuote.",
   "Chapter 87 complete!": "Capitolo 87 completato!",
   "{player} walked into the Ribbon Syndicate with a Pokémon wearing ten ribbons.": "{player} è entrato nel Club dei Fiocchi con un Pokémon che indossava dieci fiocchi.",
-  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Un fiocco per ogni giorno della settimana, uno per ogni impronta, e altri tre per chi può permetterseli."
+  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Un fiocco per ogni giorno della settimana, uno per ogni impronta, e altri tre per chi può permetterseli.",
+  "Chapter 88 complete!": "Capitolo 88 completato!",
+  "{player} won a round of seven in Sinnoh's Battle Tower, at the Battle Frontier behind Fight Area.": "{player} ha vinto un giro di sette nella Torre Lotta di Sinnoh, al Parco Lotta dietro l'Area Lotta.",
+  "Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.": "Palmer, il Magnate della Torre, aspetta alla 21ª e alla 49ª lotta, e altre quattro strutture si preparano ad aprire."
 }, "it");

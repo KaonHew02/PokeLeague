@@ -242,5 +242,8 @@ G.I18n.add({
   "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "树果混合器转个不停，丑丑鱼等着展现它的美丽，水静市美术馆还有五个画框等着挂上画。",
   "Chapter 87 complete!": "第 87 章完成！",
   "{player} walked into the Ribbon Syndicate with a Pokémon wearing ten ribbons.": "{player}带着一只佩戴十枚奖章的宝可梦，走进了奖章尊享会。",
-  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "一周每天各有一枚奖章，脚印也有一枚，还有三枚留给出得起钱的人。"
+  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "一周每天各有一枚奖章，脚印也有一枚，还有三枚留给出得起钱的人。",
+  "Chapter 88 complete!": "第 88 章完成！",
+  "{player} won a round of seven in Sinnoh's Battle Tower, at the Battle Frontier behind Fight Area.": "{player}在战斗区后方对战开拓区的神奥对战塔里，赢下了一轮七连胜。",
+  "Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.": "塔主桄榔在第 21 场和第 49 场等着你，另外四个设施也在准备开放。"
 }, "zh-Hans");

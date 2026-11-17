@@ -87,5 +87,6 @@ G.I18n.add({
   "Palace Maven": "宫殿守护者",
   "Dome Ace": "巨蛋超级巨星",
   "Pike Queen": "水管皇后",
-  "Pyramid King": "金字塔法老"
+  "Pyramid King": "金字塔法老",
+  "Tower Tycoon": "塔主"
 }, "zh-Hans");

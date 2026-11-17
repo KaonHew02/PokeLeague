@@ -73,5 +73,8 @@ G.I18n.add({
   "The spa is upstairs. A massage there leaves any Pokémon glowing with happiness.": "La spa è al piano di sopra. Un massaggio lì rende qualsiasi Pokémon raggiante di felicità.",
   "Hearthome's Gym Leader is one of us, you know. She says the ribbons on her Pokémon are her proudest decorations.": "La Capopalestra di Cuoripoli è una di noi, sai. Dice che i fiocchi dei suoi Pokémon sono il suo ornamento più prezioso.",
   "A Pokémon's ribbons tell its story. The Gorgeous Royal Ribbon tells everyone it is very, very rich.": "I fiocchi di un Pokémon raccontano la sua storia. Il Fiocco Lusso Reale dice a tutti che è molto, molto ricco.",
-  "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "Dicono che gli oli qui siano fatti con perle tritate. Il mio Pokémon non è mai stato così calmo."
+  "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "Dicono che gli oli qui siano fatti con perle tritate. Il mio Pokémon non è mai stato così calmo.",
+  "Ability Ribbon": "Fiocco Abilità",
+  "Great Ability Ribbon": "Fiocco Grande Abilità",
+  "Double Ability Ribbon": "Fiocco Abilità Doppia"
 }, "it");

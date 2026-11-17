@@ -2,8 +2,10 @@
  * The challenge itself (the counters, the battle room, the exchange) is in js/content/hoenn/tower.js.
  *   G.Tower.BANNED               species that cannot enter (Mewtwo, Mew, Lugia, Ho-Oh, Celebi, Kyogre,
  *                                Groudon, Rayquaza, Jirachi, Deoxys)
- *   G.Tower.why(mon, chosen)     -> null, or why it cannot join the Pokémon chosen so far:
- *                                'banned' | 'species' (one of each) | 'item' (no two hold the same item)
+ *   G.Tower.why(mon, chosen, banned)  -> null, or why it cannot join the Pokémon chosen so far:
+ *                                'banned' | 'species' (one of each) | 'item' (no two hold the same item);
+ *                                `banned` another list (chapter 88: Sinnoh's Battle Tower, SINNOH_BANNED), BANNED without
+ *   G.Tower.SINNOH_BANNED        Platinum's: BANNED and Dialga, Palkia, Giratina, Phione, Manaphy, Darkrai, Shaymin, Arceus
  *   G.Tower.copy(mon)            a copy for one battle: level 50 at most (a higher one is brought down to
  *                                50), HP, PP and status restored; the party itself never changes
  *   G.Tower.pool(round)          the species opponents use in a round of seven (0, 1, 2, 3+): fully
@@ -38,8 +40,9 @@ G.Tower = (() => {
     fighting: 'black-belt', poison: 'poison-barb', ground: 'soft-sand', flying: 'sharp-beak', psychic: 'twisted-spoon',
     bug: 'silver-powder', rock: 'hard-stone', ghost: 'spell-tag', dragon: 'dragon-fang', dark: 'black-glasses', normal: 'silk-scarf' };
 
-  function why(mon, chosen) {
-    if (BANNED.includes(mon.sp)) return 'banned';
+  const SINNOH_BANNED = BANNED.concat([483, 484, 487, 489, 490, 491, 492, 493]);
+  function why(mon, chosen, banned = BANNED) {
+    if (banned.includes(mon.sp)) return 'banned';
     if (chosen.some(c => c.sp === mon.sp)) return 'species';
     if (mon.item && chosen.some(c => c.item === mon.item)) return 'item';
     return null;
@@ -135,5 +138,5 @@ G.Tower = (() => {
   const bp = () => num('bp');
   const addBp = n => G.Field.setVar('bp', Math.max(0, bp() + n));
 
-  return { BANNED, why, copy, pool, learnable, moveset, team, bpFor, streak, setStreak, best, bp, addBp };
+  return { BANNED, SINNOH_BANNED, why, copy, pool, learnable, moveset, team, bpFor, streak, setStreak, best, bp, addBp };
 })();

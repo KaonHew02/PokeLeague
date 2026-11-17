@@ -3928,10 +3928,8 @@ test('the Battle Zone (chapter 61): the ship, Flint and Volkner beside Barry, Ro
   assert.deepEqual(fights.splice(0), ['flint-volkner', 'flint-volkner']);
   assert.equal(G.Maps.get('fight-area').def.barryTeams[393][5][0], 'empoleon');
   assert.ok(!seen('barry') && seen('flint') && seen('volkner'));
-  // The Frontier stays shut; a gift in the mart; back to Snowpoint and over again.
-  W.load('fight-area', { x: 7, y: 7, dir: 'up' });
-  assert.equal(step(W, 'up'), 'blocked', 'shut');
-  await settle();
+  // The Frontier's door leads to its gate since chapter 88 (frontier.js, tested there); a gift in the mart; back to Snowpoint and over again.
+  assert.equal(G.Maps.get('fight-area').warps.find(w => w.x === 7 && w.y === 6).to, 'frontier-gate');
   W.load('fight-mart', { x: 5, y: 5, dir: 'right' });
   await talk();
   assert.equal(F.count('scope-lens'), 1);
@@ -7071,4 +7069,112 @@ test('Sinnoh (chapter 87): Dr. Footstep on Route 213, the Effort Ribbon at the S
   step(W, 'up');
   await until(() => W.map.id === 'syndicate-1f' && !W.locked);
   assert.ok(F.flag('chapter-87-done') && said.some(s => /Welcome back/.test(s)));
+});
+
+test('Sinnoh (chapter 88): the Battle Frontier (the gate, the plaza, four shut facilities), the Battle Tower (Platinum\'s banned list, rounds and BP, Palmer at the 21st and 49th single battle, the prints and the Ability ribbons, the Double Ability Ribbon), the Battle Shops, the ending after chapter 87', async () => {
+  const { G, W } = world(['js/world/tower.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/content/hoenn/tower.js', 'js/content/sinnoh/battlezone.js',
+    'js/content/sinnoh/frontier.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, Tw = G.Tower, R = G.Ribbons, H = G.SinnohTowerHall;
+  const said = [], answers = [], picks = [], pops = [], fights = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  G.Popup = { choose: (title, opts) => { const v = pops.shift(); const o = opts.find(x => x.value === v); return Promise.resolve(o ? v : null); } };
+  W.onTrainer = async d => { fights.push(d.id); return 'win'; };
+  const until = async ok => { for (let i = 0; i < 2000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  const mons = ['garchomp', 'lucario', 'togekiss', 'gyarados'].map(sp => F.giveMon(sp, 60));
+  const dialga = F.giveMon('dialga', 70);
+
+  // Fight Area's door, the gate, the plaza, the Tower's lobby and the shops.
+  W.load('fight-area', 'gate-door');
+  W.player.face('up');
+  assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'frontier-gate' && !W.locked);
+  W.load('frontier-gate', { x: 8, y: 6, dir: 'down' });
+  step(W, 'down');
+  await until(() => W.map.id === 'sinnoh-frontier' && !W.locked);
+  assert.deepEqual([W.player.x, W.player.y], [19, 17]);
+  for (const [x, y, re] of [[33, 6, /Battle Factory/], [5, 7, /Battle Hall/], [6, 16, /Battle Castle/], [33, 15, /Battle Arcade/]]) {
+    W.load('sinnoh-frontier', { x, y, dir: 'up' });
+    said.length = 0;
+    step(W, 'up');
+    await until(() => !W.locked);
+    assert.ok(W.map.id === 'sinnoh-frontier' && said.some(s => re.test(s) && /opens soon/.test(s)), re + ': ' + said.join(' | '));
+  }
+  W.load('sinnoh-frontier', 'shop-door');
+  step(W, 'up');
+  await until(() => W.map.id === 'frontier-shop' && !W.locked);
+  W.load('sinnoh-frontier', 'tower-door');
+  step(W, 'up');
+  await until(() => W.map.id === 'sinnoh-tower-lobby' && !W.locked);
+
+  // Platinum's banned list: Dialga cannot enter here (it still may in Hoenn's tower).
+  assert.equal(Tw.why(dialga, [], Tw.SINNOH_BANNED), 'banned');
+  assert.equal(Tw.why(dialga, []), null, 'Hoenn as before');
+  W.load('sinnoh-tower-lobby', 'single');
+  picks.push(S.party.indexOf(dialga));
+  await talk();
+  assert.ok(/Please come again/.test(said[said.length - 1]) && Tw.streak('single', 'stower') === 0 && !fights.length);
+  // A round of seven single battles: 3 BP, the Tower's own streak (Hoenn's untouched), no ending before chapter 87.
+  picks.push(0, 1, 2);
+  await talk();
+  assert.deepEqual([fights.length, Tw.streak('single', 'stower'), Tw.streak('single'), Tw.bp()], [7, 7, 0, 3]);
+  assert.ok(fights.every(id => id === 'tower') && !F.flag('chapter-88-done'));
+  // Palmer at the 21st: the Silver Print, 20 BP for that round, the Ability Ribbon for the three.
+  Tw.setStreak('single', 20, 'stower');
+  fights.length = 0;
+  picks.push(0, 1, 2);
+  await talk();
+  assert.deepEqual(plain(fights), ['palmer']);
+  assert.ok(F.flag('stower-silver') && said.some(s => /Silver Print/.test(s)));
+  assert.equal(Tw.bp(), 23);
+  assert.ok(mons.slice(0, 3).every(m => R.has(m, 'ability')) && !R.has(mons[3], 'ability'));
+  assert.equal(H.trainerFor(21, 'single', 1).team[0][0], 'milotic');
+  // The 49th: the Gold Print and the Great Ability Ribbon.
+  Tw.setStreak('single', 48, 'stower');
+  fights.length = 0;
+  picks.push(0, 1, 2);
+  await talk();
+  assert.deepEqual(plain(fights), ['palmer']);
+  assert.ok(F.flag('stower-gold') && mons.slice(0, 3).every(m => R.has(m, 'great-ability')));
+  assert.equal(Tw.bp(), 43);
+  // Double battles: no Palmer; the 50th in a row gives the four the Double Ability Ribbon (then on to the end of the round).
+  assert.equal(H.trainerFor(21, 'double', 1).id, 'tower');
+  W.load('sinnoh-tower-lobby', 'double');
+  Tw.setStreak('double', 49, 'stower');
+  fights.length = 0;
+  picks.push(0, 1, 2, 3);
+  await talk();
+  assert.ok(fights.every(id => id === 'tower') && fights.length === 7, fights.join());
+  assert.ok(mons.every(m => R.has(m, 'double-ability')));
+  assert.equal(Tw.streak('double', 'stower'), 56);
+  // Once chapter 87 is done, a round won ends chapter 88.
+  F.setFlag('chapter-87-done');
+  Tw.setStreak('single', 0, 'stower');
+  W.load('sinnoh-tower-lobby', 'single');
+  picks.push(0, 1, 2);
+  await talk();
+  assert.ok(F.flag('chapter-88-done'));
+  W.load('sinnoh-tower-lobby', 'guide');
+  await talk();
+  assert.ok(said.some(s => /Silver Print: Yes/.test(s)));
+
+  // The Battle Shops: Battle Points for a Protein and a TM; not enough for a Rare Candy.
+  const bp = Tw.bp();
+  W.load('frontier-shop', 'training');
+  pops.push('protein', 'rare-candy');
+  Tw.addBp(48 - bp);                                      // 48 BP: a Protein leaves 47, a Rare Candy costs 48
+  said.length = 0;
+  await talk();
+  assert.deepEqual([F.count('protein'), F.count('rare-candy'), Tw.bp()], [1, 0, 47]);
+  assert.ok(said.some(s => /not have enough BP/.test(s)));
+  W.load('frontier-shop', 'moves');
+  pops.push('tm40', 'tm26');
+  said.length = 0;
+  await talk();
+  assert.deepEqual([F.count('tm40'), F.count('tm26'), Tw.bp()], [1, 0, 7], 'Aerial Ace for 40; Earthquake costs 80');
+  assert.ok(said.some(s => /not have enough BP/.test(s)));
+  assert.deepEqual(plain(H.MOVES.map(([, p]) => p)), [32, 32, 32, 32, 40, 40, 48, 48, 64, 64, 64, 80, 80, 80, 80]);
 });

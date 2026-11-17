@@ -1968,7 +1968,7 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   the Bag). field.js `battle(ref, o)` takes `o.party` (these Pokémon fight instead of the party, with no
   Bag), `o.rules` (more rules) and `o.record: false` (not marked as done); `onTrainer` gets them too.
   `js/world/tower.js` (G.Tower): banned species (Mewtwo, Mew, Lugia, Ho-Oh, Celebi, Kyogre, Groudon,
-  Rayquaza, Jirachi, Deoxys), `why(mon, chosen)` (the species and item clauses), `copy(mon)` (a battle
+  Rayquaza, Jirachi, Deoxys), `why(mon, chosen, banned)` (the species and item clauses; chapter 88: another banned list, `SINNOH_BANNED`), `copy(mon)` (a battle
   copy at level 50 at most, all restored: the party never changes), the opponents' species by round of
   seven (fully evolved, not legendary, base stat totals 400-479, 450-509, 480-539, then 500-600),
   `moveset(sp, rng)` (the strongest attacks of different types it can learn by level 50, TM or tutor,
@@ -2690,15 +2690,24 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   - **Left out**: the Ability ribbons (Sinnoh's Battle Tower is not in this game), the Victory Ribbon (the Battle Tower's Open Level), the event ribbons, the Effort Ribbon at Slateport's market.
 - **Tests:** `tests/ribbons.test.cjs` (names and regions, giving once, Julia's days, the Syndicate's order, the save's ids); `tests/field.test.cjs` the chapter on the real maps (Dr. Footstep's door and his five lines, the ribbon once; the Effort Ribbon at 510 only; Julia day by day, once a day, not twice to one Pokémon; the Syndicate's door refusing at 3 and opening at 10, the butler's three in order and the money, the spa once a day and its limit, the ending only after chapter 86) and chapter 86's test the Artist Ribbon; `tests/story.test.cjs` the chapter after chapter 86 (`[story]`: the lead from 3 to 13 ribbons with Julia's week, the Effort and Footprint Ribbons, the Syndicate, a massage, and the Battle Tower's 56th win; the Sinnoh Champ Ribbon from chapter 59's Hall of Fame).
 
-### After chapter 87
+- **Chapter 88** ✅, Sinnoh's Battle Frontier and its Battle Tower (`js/content/sinnoh/frontier.js`; changes in battlezone.js, js/world/tower.js, hoenn/tower.js, ribbons.js, trainer-classes.js, people.js; translations `sinnoh-frontier`, `trainers`, `sinnoh-ribbons`, `credits`). Post-game; `ending(88)` waits for chapter 87 (the first round of seven won). Sources: altissimo's Platinum Battle Tower page (rounds and BP 3, 3, 4, 4, 5, 5, 7 then 7, 20 for a Frontier Brain's round, Palmer after 20 and 48 wins with his two teams, the prints and the Ability, Great Ability and Double Ability Ribbons), 52poke's Palmer (桄榔) and Battle Tower (Generation 4) pages (the teams and natures, three or four Pokémon, level 50), Serebii's Battle Shops page (the stalls and their prices).
+  - **The places**: Fight Area's building opens on `frontier-gate` (a door back, a door on); the plaza `sinnoh-frontier` has the Battle Tower and the Battle Shops open, the Battle Factory, Hall, Castle and Arcade shut (`sfrontier.*`: "opens soon"), and a gate building back. `sinnoh-tower-lobby` (single and double counters, a guide), `sinnoh-tower-room`, `frontier-shop` (the Training Stall and the Move Stall, lists in a pop-up).
+  - **The rules**: the Hoenn Tower's way (`G.TowerHall.pickEntrants` with `banned`, `G.TowerHall.trainerFor` with another seed and lines, `G.Tower.copy`, `bpFor`), its own streaks (G.Tower hall `stower`), Platinum's banned list (`G.Tower.SINNOH_BANNED`: Hoenn's and Dialga, Palkia, Giratina, Phione, Manaphy, Darkrai, Shaymin, Arceus; `G.Tower.why(mon, chosen, banned)`). The Battle Points are shared with the Hoenn Frontier (one save; my own). Palmer (class `tower-tycoon`, look `palmer`: my own, Barry's blond spikes and a long dark coat) at the 21st and 49th single battle with Platinum's teams at level 50 (Heatran holds a Focus Band: no Focus Sash in the game; natures and IVs are not modelled, as for Anabel); beating him: the Silver / Gold Print (flags `stower-silver`, `stower-gold`), 20 BP for that round, the Ability / Great Ability Ribbon for the three; the 50th double win in a row: the Double Ability Ribbon for the four.
+  - **The shops**: Platinum's prices for the items the game has: the six vitamins (1 BP), White Herb (32), BrightPowder, Focus Band, Scope Lens, Razor Claw, Razor Fang, Rare Candy (48); fifteen TMs (32 to 80).
+  - **Left out**: multi battles with a partner (the Multi Ability Ribbon), the Wi-Fi modes, the scratch cards, the trophies; the Platinum items not yet in the game (Choice Band and Scarf, Focus Sash, Muscle Band, the Power items, Toxic and Flame Orbs, Power Herb).
+- **Balance:** a new `[balance]` line beside the Battle Tower's: Palmer against Swampert, Gardevoir and Manectric at 50 (60 battles each): about 0.58 for the Silver Print team, 0.75 for the Gold (normal difficulty; kept at Platinum's level 50).
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the doors through to the Tower and the shops; the four shut facilities; Dialga refused here, not in Hoenn; a round of seven and 3 BP on the Tower's own streak; Palmer at 21 and 49, the prints, 20 BP, the Ability ribbons for the three; no Palmer in doubles, the Double Ability Ribbon at 50; the ending after chapter 87; the stalls and the BP); chapter 61's test now checks the door's way; `tests/tower.test.cjs` the banned list and the streaks; `tests/ribbons.test.cjs` the three new ribbons; `tests/story.test.cjs` the chapter after chapter 87 (`[story]`: a round of seven and Palmer beaten) and the balance line.
+
+### After chapter 88
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn,
-the whole Battle Frontier (Tower, Factory, Arena, Palace, Dome, Pike and Pyramid), the whole Battle Zone, the villa,
+the whole Battle Frontier of Hoenn and Sinnoh's Battle Tower, the whole Battle Zone, the villa,
 contests in Sinnoh and Hoenn with Poffins and Pokéblocks, and ribbons. Ideas:
-1. Contests: accessories; Hoenn's own contest rules.
-2. Hoenn after the League: double battles at the Battle Palace, the Battle Dome, the Battle Pike and the Pyramid;
+1. Sinnoh's Battle Frontier: the Battle Factory (Thorton), Hall (Argenta), Castle (Darach) and Arcade (Dahlia); multi
+   battles with a partner at the Battle Tower.
+2. Generation 4's held items: Choice Band, Specs and Scarf, Focus Sash, Life Orb, Muscle Band, the Power items, the orbs.
+3. Contests: accessories; Hoenn's own contest rules.
+4. Hoenn after the League: double battles at the Battle Palace, the Battle Dome, the Battle Pike and the Pyramid;
    more of the Pyramid's wild themes.
-3. Sinnoh's Battle Frontier (Platinum's Fight Area: the Battle Tower with Palmer and the Ability ribbons, the Battle
-   Factory, Hall, Castle and Arcade).
-4. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;
+5. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;
    Cheryl in Eterna Forest), abilities outside battle, Repel steps.

@@ -73,5 +73,8 @@ G.I18n.add({
   "The spa is upstairs. A massage there leaves any Pokémon glowing with happiness.": "Le spa est à l'étage. Un massage là-haut rend n'importe quel Pokémon rayonnant de bonheur.",
   "Hearthome's Gym Leader is one of us, you know. She says the ribbons on her Pokémon are her proudest decorations.": "La Championne d'Unionpolis est des nôtres, tu sais. Elle dit que les rubans de ses Pokémon sont sa plus grande fierté.",
   "A Pokémon's ribbons tell its story. The Gorgeous Royal Ribbon tells everyone it is very, very rich.": "Les rubans d'un Pokémon racontent son histoire. Le Ruban Luxe Royal dit à tout le monde qu'il est très, très riche.",
-  "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "On dit que les huiles d'ici sont faites de perles broyées. Mon Pokémon n'a jamais été aussi calme."
+  "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "On dit que les huiles d'ici sont faites de perles broyées. Mon Pokémon n'a jamais été aussi calme.",
+  "Ability Ribbon": "Ruban Capacité",
+  "Great Ability Ribbon": "Ruban Super Capacité",
+  "Double Ability Ribbon": "Ruban Capacité Duo"
 }, "fr");

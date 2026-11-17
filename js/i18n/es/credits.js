@@ -242,5 +242,8 @@ G.I18n.add({
   "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "El Licuabayas gira, un Feebas espera mostrar su belleza y cinco marcos del Museo de Ciudad Calagua siguen vacíos.",
   "Chapter 87 complete!": "¡Capítulo 87 completado!",
   "{player} walked into the Ribbon Syndicate with a Pokémon wearing ten ribbons.": "{player} entró en la Sociedad de las Cintas con un Pokémon que llevaba diez cintas.",
-  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Una cinta para cada día de la semana, una para cada huella, y tres más para quien pueda pagarlas."
+  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Una cinta para cada día de la semana, una para cada huella, y tres más para quien pueda pagarlas.",
+  "Chapter 88 complete!": "¡Capítulo 88 completado!",
+  "{player} won a round of seven in Sinnoh's Battle Tower, at the Battle Frontier behind Fight Area.": "{player} ganó una ronda de siete en la Torre Batalla de Sinnoh, en el Frente Batalla detrás del Área Batalla.",
+  "Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.": "Palmer, el Magnate de la Torre, espera en el combate 21 y en el 49, y cuatro instalaciones más se preparan para abrir."
 }, "es");

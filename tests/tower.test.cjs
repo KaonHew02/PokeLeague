@@ -84,3 +84,14 @@ test('battle rules: noExp gives no Exp. Points; noBag refuses items and balls', 
   ({ b } = duel(G, { me: ['charizard', 50, ['flamethrower']], foe: ['bulbasaur', 10, ['growl']], bag: { 'poke-ball': 3 }, rules: { noBag: true } }));
   assert.equal(b.act({ type: 'ball', item: 'poke-ball' })[0].reason, 'no-bag');
 });
+
+test('Sinnoh\'s Battle Tower (chapter 88): Platinum\'s banned list on top of Hoenn\'s, and streaks of its own', () => {
+  assert.ok(T.BANNED.every(sp => T.SINNOH_BANNED.includes(sp)));
+  for (const sp of [483, 484, 487, 489, 490, 491, 492, 493]) {
+    assert.equal(T.why(mon(sp, 50), [], T.SINNOH_BANNED), 'banned', String(sp));
+    assert.equal(T.why(mon(sp, 50), []), null, 'Hoenn as before: ' + sp);
+  }
+  assert.equal(T.why(mon(445, 50), [], T.SINNOH_BANNED), null, 'Garchomp may enter');
+  T.setStreak('single', 12, 'stower');
+  assert.deepEqual([T.streak('single', 'stower'), T.best('single', 'stower'), T.streak('single')], [12, 12, 0]);
+});

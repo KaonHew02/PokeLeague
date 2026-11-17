@@ -73,5 +73,8 @@ G.I18n.add({
   "The spa is upstairs. A massage there leaves any Pokémon glowing with happiness.": "水療中心在樓上。在那裡按摩過的寶可夢，都會幸福得容光煥發。",
   "Hearthome's Gym Leader is one of us, you know. She says the ribbons on her Pokémon are her proudest decorations.": "家緣市的道館館主也是我們的會員哦。她說她寶可夢身上的獎章，是她最自豪的裝飾。",
   "A Pokémon's ribbons tell its story. The Gorgeous Royal Ribbon tells everyone it is very, very rich.": "寶可夢的獎章訴說著牠的故事。豪華高貴獎章則告訴大家：牠非常、非常有錢。",
-  "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "聽說這裡的精油是用磨碎的珍珠做的。我的寶可夢從來沒有這麼平靜過。"
+  "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "聽說這裡的精油是用磨碎的珍珠做的。我的寶可夢從來沒有這麼平靜過。",
+  "Ability Ribbon": "才能獎章",
+  "Great Ability Ribbon": "超級才能獎章",
+  "Double Ability Ribbon": "雙人才能獎章"
 }, "zh-Hant");

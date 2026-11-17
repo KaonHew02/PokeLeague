@@ -73,5 +73,8 @@ G.I18n.add({
   "The spa is upstairs. A massage there leaves any Pokémon glowing with happiness.": "O spa fica lá em cima. Uma massagem lá deixa qualquer Pokémon radiante de felicidade.",
   "Hearthome's Gym Leader is one of us, you know. She says the ribbons on her Pokémon are her proudest decorations.": "A Líder de Ginásio de Hearthome é uma de nós, sabia? Ela diz que as fitas dos seus Pokémon são seu maior orgulho.",
   "A Pokémon's ribbons tell its story. The Gorgeous Royal Ribbon tells everyone it is very, very rich.": "As fitas de um Pokémon contam sua história. A Fita Luxo Real diz a todos que ele é muito, muito rico.",
-  "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "Dizem que os óleos daqui são feitos com pérolas moídas. Meu Pokémon nunca esteve tão calmo."
+  "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "Dizem que os óleos daqui são feitos com pérolas moídas. Meu Pokémon nunca esteve tão calmo.",
+  "Ability Ribbon": "Fita Habilidade",
+  "Great Ability Ribbon": "Fita Grande Habilidade",
+  "Double Ability Ribbon": "Fita Habilidade Dupla"
 }, "pt-BR");

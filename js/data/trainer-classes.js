@@ -124,5 +124,7 @@ G.TRAINER_CLASSES = {
   // Chapter 82: the Battle Pike's Frontier Brain (only Lucy has this title).
   'pike-queen':  { title: 'Pike Queen', who: 'lucy', prize: 0 },
   // Chapter 83: the Battle Pyramid's Frontier Brain.
-  'pyramid-king': { title: 'Pyramid King', who: 'brandon', prize: 0 }
+  'pyramid-king': { title: 'Pyramid King', who: 'brandon', prize: 0 },
+  // Chapter 88: Sinnoh's Battle Tower.
+  'tower-tycoon': { title: 'Tower Tycoon', who: 'palmer', prize: 0 }
 };

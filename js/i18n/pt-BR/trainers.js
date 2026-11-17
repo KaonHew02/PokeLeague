@@ -87,5 +87,6 @@ G.I18n.add({
   "Palace Maven": "Palace Maven",
   "Dome Ace": "Dome Ace",
   "Pike Queen": "Pike Queen",
-  "Pyramid King": "Pyramid King"
+  "Pyramid King": "Pyramid King",
+  "Tower Tycoon": "Magnata da Torre"
 }, "pt-BR");

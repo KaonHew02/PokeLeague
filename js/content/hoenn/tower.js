@@ -146,10 +146,10 @@
   }
 
   /** The n Pokémon to enter from the party, one by one (G.Tower.why): -> them in that order, or null (it said why).
-   *  The Battle Arena (chapter 79) enters its three the same way. */
-  async function pickEntrants(h, n) {
+   *  The Battle Arena (chapter 79) enters its three the same way; Sinnoh's Battle Tower (chapter 88) with its own `banned`. */
+  async function pickEntrants(h, n, banned = G.Tower.BANNED) {
     const F = G.Field, Tw = G.Tower, party = F.party();
-    if (party.filter(m => !Tw.BANNED.includes(m.sp)).length < n) {
+    if (party.filter(m => !banned.includes(m.sp)).length < n) {
       await h.say(T('You need at least {n} Pokémon that can enter.'), { vars: { n } });
       return null;
     }
@@ -158,9 +158,9 @@
     while (picks.length < n) {
       const chosen = picks.map(i => party[i]);
       const i = await pick({ title: fmt('Choose Pokémon {k} of {n}.', { k: picks.length + 1, n }),
-        note: (m, j) => (picks.includes(j) ? fmt('No. {k}', { k: picks.indexOf(j) + 1 }) : NOTE[Tw.why(m, chosen)] || null),
-        disabled: (m, j) => picks.includes(j) || !!Tw.why(m, chosen) });
-      if (i == null || i < 0 || picks.includes(i) || Tw.why(party[i], chosen)) { await h.say(T('Please come again!')); return null; }
+        note: (m, j) => (picks.includes(j) ? fmt('No. {k}', { k: picks.indexOf(j) + 1 }) : NOTE[Tw.why(m, chosen, banned)] || null),
+        disabled: (m, j) => picks.includes(j) || !!Tw.why(m, chosen, banned) });
+      if (i == null || i < 0 || picks.includes(i) || Tw.why(party[i], chosen, banned)) { await h.say(T('Please come again!')); return null; }
       picks.push(i);
     }
     return picks.map(i => party[i]);

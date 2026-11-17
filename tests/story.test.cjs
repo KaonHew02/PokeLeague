@@ -1406,6 +1406,9 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
   table['Anabel (silver)'] = rate(G.TowerHall.BRAIN[21].team);
   table['Anabel (gold)'] = rate(G.TowerHall.BRAIN[49].team);
   console.log('[balance] Battle Tower, Swampert, Gardevoir and Manectric at 50:', JSON.stringify(table));
+  // Chapter 88: Sinnoh's Tower Tycoon, the same team (normal difficulty: about 0.6 or more).
+  const palmer = { silver: rate(G.SinnohTowerHall.PALMER[21].team, 60), gold: rate(G.SinnohTowerHall.PALMER[49].team, 60) };
+  console.log('[balance] Sinnoh\'s Battle Tower, Palmer against Swampert, Gardevoir and Manectric at 50:', JSON.stringify(palmer));
   // Each round is harder; the first is mostly won, the last ones are a real test.
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
 });
@@ -4684,6 +4687,43 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 88 after chapter 87: Sinnoh's Battle Tower with the three strongest Pokémon that may enter (Platinum's list): single
+ *  battles until a round of seven is won (the ending), then from twenty wins in a row against Palmer until he is beaten. */
+async function chapter88(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower, R = G.Ribbons, HALL = 'stower';
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 3 && !Tw.why(party[i], picks.map(j => party[j]), Tw.SINNOH_BANNED)) picks.push(i);
+  }
+  const n = st.battles.length, bp = Tw.bp();
+  let tries = 0;
+  while (Tw.streak('single', HALL) < 7 && tries < 10) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(...picks);
+    await run(st, 'sinnoh-tower-lobby', 'stower.single', [0]);
+  }
+  assert.ok(Tw.streak('single', HALL) >= 7, 'a round of seven');
+  assert.ok(F.flag('chapter-88-done'));
+  assert.ok(Tw.bp() >= bp + 3);
+  let palmer = 0;
+  while (!F.flag('stower-silver') && palmer < 10) {
+    palmer++;
+    Tw.setStreak('single', 20, HALL);
+    st.picks.length = 0;
+    st.picks.push(...picks);
+    await run(st, 'sinnoh-tower-lobby', 'stower.single', [0]);
+  }
+  const fights = st.battles.slice(n);
+  console.log('[story] Sinnoh\'s Battle Tower: a round of seven in', tries, 'challenge(s), Palmer beaten in', palmer, 'attempt(s), with',
+    picks.map(i => G.Names.mon(party[i].sp)).join(', '), '(' + fights.length + ' battles)');
+  assert.ok(F.flag('stower-silver'), 'the Silver Print');
+  assert.ok(picks.every(i => R.has(party[i], 'ability')), 'the Ability Ribbon for the three');
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('sinnoh-tower')), 'tower trainers are not recorded');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 87 after chapter 86: the lead collects ribbons: Julia's seven over a week, the Effort and Footprint Ribbons if it
  *  has earned them; with ten it walks into the Ribbon Syndicate (the ending), buys the Gorgeous Ribbon and has a massage.
  *  Then the Battle Tower's 56th win in a row gives its three the Winning Ribbon. */
@@ -5742,4 +5782,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter85(st);
   await chapter86(st);
   await chapter87(st);
+  await chapter88(st);
 });

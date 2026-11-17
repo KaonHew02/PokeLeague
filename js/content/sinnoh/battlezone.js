@@ -5,6 +5,7 @@
  * where Platinum needs Rock Climb, to the Survival Area: a Center, a mart, the Battleground (battleground.js), a house, the shard tutor's house
  * (he is out). The road east goes on to Route 226 (stark.js). Barry waits in town (flag survival-barry), then `ending(61)`.
  * Left out: Route 230, the reporter and the cameraman, Lax Incense and the Green Shard (not in the game), the Super Rod (you have had one since Kanto).
+ * Chapter 88: the Battle Frontier's door opens on its gate (frontier.js).
  */
 (() => {
   const T = s => G.T(s);
@@ -61,14 +62,14 @@
     ],
     connect: { north: { map: 'route225', offset: 0 }, east: { map: 'route230', offset: 2 } },
     warps: [
-      { x: 7, y: 6, locked: 'bzone.frontier' },
+      { x: 7, y: 6, to: 'frontier-gate', spot: 'door' },
       { x: 7, y: 14, to: 'fight-center', spot: 'door' },
       { x: 23, y: 13, to: 'fight-mart', spot: 'door' },
       { x: 23, y: 5, to: 'fight-house', spot: 'door' }
     ],
-    spots: { pier: [15, 22, 'up'], frontier: [7, 9, 'up'], 'center-door': [7, 15, 'down'], 'mart-door': [23, 14, 'down'], 'house-door': [23, 6, 'down'] },
+    spots: { pier: [15, 22, 'up'], frontier: [7, 9, 'up'], 'gate-door': [7, 7, 'down'], 'center-door': [7, 15, 'down'], 'mart-door': [23, 14, 'down'], 'house-door': [23, 6, 'down'] },
     signs: { '13,18': 'Fight Area. North: Route 225 to the Survival Area.',
-             '10,7': 'The Battle Frontier. Opening soon. Trainers, keep training!' },
+             '10,7': 'The Battle Frontier. The Battle Tower is open: the other facilities follow soon.' },
     triggers: [{ x: 15, y: 19, w: 2, h: 1, if: '!fight-zone-met', script: 'bzone.arrival' }],
     npcs: [
       { id: 'sailor', who: 'sailor', x: 16, y: 22, dir: 'left', script: 'bzone.sailor' },
@@ -350,7 +351,6 @@
   G.Script.def({
     'bzone.arrival': [['js', arrival]],
     'bzone.barry': [['js', barry]],
-    'bzone.frontier': [['say', 'The doors are shut. Through the glass you can see ladders and buckets of paint.']],
     'bzone.flint': [['if', 'fight-zone-met', [['say', 'That was a good fire. Come and find us at the Battleground when it opens.', FLINT]], [['say', 'Let us burn!', FLINT]]]],
     'bzone.volkner': [['if', 'fight-zone-met', [['say', 'I am not bored. It is a strange feeling.', VOLKNER]], [['say', 'I get bored.', VOLKNER]]]],
     'bzone.sailor': [

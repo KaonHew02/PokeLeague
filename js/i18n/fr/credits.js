@@ -242,5 +242,8 @@ G.I18n.add({
   "The Berry Blender turns, a Feebas waits to show its beauty, and five frames in the Lilycove Museum are still to be filled.": "Le Mixeur à Baies tourne, un Barpau attend de montrer sa beauté, et cinq cadres du Musée de Nénucrique restent à remplir.",
   "Chapter 87 complete!": "Chapitre 87 terminé !",
   "{player} walked into the Ribbon Syndicate with a Pokémon wearing ten ribbons.": "{player} est entré au Club des Rubans avec un Pokémon portant dix rubans.",
-  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Un ruban pour chaque jour de la semaine, un pour chaque empreinte, et trois de plus pour qui peut se les offrir."
+  "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Un ruban pour chaque jour de la semaine, un pour chaque empreinte, et trois de plus pour qui peut se les offrir.",
+  "Chapter 88 complete!": "Chapitre 88 terminé !",
+  "{player} won a round of seven in Sinnoh's Battle Tower, at the Battle Frontier behind Fight Area.": "{player} a remporté une série de sept à la Tour de Combat de Sinnoh, dans la Zone de Combat derrière l'Aire de Combat.",
+  "Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.": "Palmer, le Magnat de la Tour, attend au 21e et au 49e combat, et quatre autres installations se préparent à ouvrir."
 }, "fr");

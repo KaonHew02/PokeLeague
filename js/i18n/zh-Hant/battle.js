@@ -221,5 +221,13 @@ G.I18n.add({
   "{mon} was burned by the {item}!": "{mon}因為{item}而灼傷了！",
   "{mon} was badly poisoned by the {item}!": "{mon}因為{item}而中了劇毒！",
   "The {item} weakened the damage to {mon}!": "{item}減輕了{mon}受到的傷害！",
-  "{mon} became fully charged due to its {item}!": "{mon}因為{item}而蓄滿了力量！"
+  "{mon} became fully charged due to its {item}!": "{mon}因為{item}而蓄滿了力量！",
+  "{mon} flung its {item}!": "{mon}投擲了{item}！",
+  "{mon} switched items with its target!": "{mon}和對手交換了道具！",
+  "{mon} obtained one {item}.": "{mon}得到了{item}。",
+  "{mon} stole {target}'s {item}!": "{mon}從{target}那裡偷走了{item}！",
+  "{mon} knocked off {target}'s {item}!": "{mon}拍落了{target}的{item}！",
+  "{mon} stole and ate its target's {item}!": "{mon}搶走並吃掉了對手的{item}！",
+  "{mon} used its {item} to come back to its senses!": "{mon}用{item}恢復了理智！",
+  "{mon} fell in love because of the {item}!": "{mon}因為{item}而著迷了！"
 }, "zh-Hant");

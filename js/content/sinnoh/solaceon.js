@@ -167,7 +167,8 @@
     warps: [{ x: 6, y: 9, to: 'solaceon', spot: 'ruins' }],
     spots: { door: [6, 9, 'up'] },
     signs: { '6,1': 'Letters are carved all over the wall. Together they seem to say: "Every life began from one, and every thread still leads back to it."' },
-    items: [{ x: 11, y: 2, item: 'ultra-ball', flag: 'solaceon-ruins-ball' }],
+    items: [{ x: 1, y: 8, item: 'mind-plate', flag: 'solaceon-ruins-mind-plate', then: 'sitems.found' },   // chapter 94
+            { x: 11, y: 2, item: 'ultra-ball', flag: 'solaceon-ruins-ball' }],
     encounters: { walk: '@solaceon-ruins-1f' }
   }, SINNOH));
 

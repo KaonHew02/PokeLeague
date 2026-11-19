@@ -214,7 +214,8 @@
   }, MARSH));
 
   G.Maps.def(Object.assign({
-    id: 'great-marsh-2',
+    id: 'great-marsh-2', items: [{ x: 8, y: 15, item: 'toxic-plate', flag: 'great-marsh-toxic-plate', then: 'sitems.found' }],   // chapter 94
+   
     rows: [
       'TTTTTTTTTTTTTT,,TTTTTTTTTTTTTT',
       'T.............,,.............T',

@@ -105,6 +105,47 @@ G.SpecialMoves = (() => {
     'trick-room':   { use: (b, u) => {
                         if (b.trickRoom) { b.trickRoom = 0; b.emit('trickRoomEnd', {}); return {}; }
                         b.trickRoom = 5; b.emit('trickRoom', me(u)); return {}; } },
+    // ---------- moves that move items (chapter 94, Generation 4) ----------
+    // Fling: its own item thrown (used up even if it misses), Fling's power and effect from PokeAPI; no item that can be
+    // thrown: it fails (Klutz does not stop it in Generation 4).
+    'fling':        { check: (b, u) => {
+                        const it = u.mon.item, d = it && G.ITEMS[it];
+                        if (!d || !d.fling) return false;
+                        u.vol.flung = { item: it, pow: d.fling, fx: d.flingFx || null };
+                        G.Held.throwAway(b, u);
+                        b.emit('flung', Object.assign({ item: it }, me(u)));
+                        return true; },
+                      power: (b, u) => (u.vol.flung ? u.vol.flung.pow : 0),
+                      onMiss: (b, u) => { u.vol.flung = null; },
+                      after: (b, u, t, M, res) => {
+                        const f = u.vol.flung; u.vol.flung = null;
+                        if (f && res.total > 0 && !res.sub) G.Held.flingEffect(b, u, t, f); } },
+    // Natural Gift: its own berry's type and power (Generation 4's), the berry used up; Klutz stops it.
+    'natural-gift': { check: (b, u) => {
+                        const it = u.mon.item, g = it && G.NATURAL_GIFT && G.NATURAL_GIFT[it];
+                        if (!g || G.Abilities.klutz(u.mon)) return false;
+                        u.vol.gift = g;
+                        G.Held.throwAway(b, u);
+                        return true; },
+                      moveType: (b, u) => (u.vol.gift ? u.vol.gift[0] : 'normal'),
+                      power: (b, u) => (u.vol.gift ? u.vol.gift[1] : 0) },
+    // Trick and Switcheroo: the two swap items (nothing to swap, Sticky Hold, Multitype or a substitute: it fails). A Choice
+    // item got this way holds its new owner from its next move (my own simplification).
+    'trick':        { use: (b, u, t) => swapItems(b, u, t) },
+    'switcheroo':   { use: (b, u, t) => swapItems(b, u, t) },
+    // Thief and Covet: a hit takes the target's item if the user holds none (not Sticky Hold, Multitype, a substitute).
+    'thief':        { after: (b, u, t, M, res) => steal(b, u, t, res) },
+    'covet':        { after: (b, u, t, M, res) => steal(b, u, t, res) },
+    // Knock Off: the target's item is gone for the rest of the battle.
+    'knock-off':    { after: (b, u, t, M, res) => {
+                        if (!res || !res.total || res.sub || !t.mon.item || !b.alive(u)) return;
+                        if (G.Held.sticky(b, t)) return G.Abilities.say(b, t, 'protect');
+                        const item = t.mon.item;
+                        G.Held.takeAway(b, t);
+                        b.emit('knockOff', Object.assign({ item, target: t.mon.uid, tside: t.side }, me(u))); } },
+    // Pluck and Bug Bite: the user eats the target's berry and gets its effect (with Klutz, nothing: Generation 4).
+    'pluck':        { after: (b, u, t, M, res) => pluck(b, u, t, res) },
+    'bug-bite':     { after: (b, u, t, M, res) => pluck(b, u, t, res) },
     'gravity':      { use: b => {
                         if (b.gravity) return fail(b);
                         b.gravity = 5; b.emit('gravity', {}); return {}; } },
@@ -271,9 +312,41 @@ G.SpecialMoves = (() => {
 
   // Moves Metronome / Sleep Talk never call.
   const NO_CALL = new Set(['metronome', 'struggle', 'mirror-move', 'sleep-talk', 'protect', 'detect', 'endure', 'counter',
-    'mirror-coat', 'destiny-bond', 'mimic', 'transform', 'helping-hand', 'follow-me', 'snatch', 'trick', 'focus-punch', 'thief', 'covet']);
+    'mirror-coat', 'destiny-bond', 'mimic', 'transform', 'helping-hand', 'follow-me', 'snatch', 'trick', 'focus-punch', 'thief', 'covet',
+    'switcheroo']);
 
   function selfKO(b, u) { if (u.mon.hp > 0) b.hurt(u, u.mon.hp, { why: 'selfKO' }); }
+
+  // ---------- items moved (chapter 94) ----------
+  function swapItems(b, u, t) {
+    if (!b.alive(t) || (!u.mon.item && !t.mon.item) || t.vol.substitute > 0 || u.ability === 'multitype') return fail(b);
+    if (G.Held.sticky(b, t)) { G.Abilities.say(b, t, 'protect'); return false; }
+    const mine = u.mon.item, theirs = t.mon.item;
+    u.mon.item = theirs; t.mon.item = mine;
+    for (const [bm, gave] of [[u, mine], [t, theirs]]) {
+      bm.vol.choice = null;
+      if (gave && !bm.mon.item && bm.ability === 'unburden') bm.vol.unburden = true;
+    }
+    b.emit('trick', me(u));
+    if (theirs) b.emit('obtain', Object.assign({ item: theirs }, me(u)));
+    if (mine) b.emit('obtain', { side: t.side, uid: t.mon.uid, item: mine });
+    return {};
+  }
+  function steal(b, u, t, res) {
+    if (!res || !res.total || res.sub || u.mon.item || !t.mon.item || !b.alive(u)) return;
+    if (G.Held.sticky(b, t)) return G.Abilities.say(b, t, 'protect');
+    const item = t.mon.item;
+    G.Held.takeAway(b, t);
+    u.mon.item = item;
+    b.emit('steal', Object.assign({ item, target: t.mon.uid, tside: t.side }, me(u)));
+  }
+  function pluck(b, u, t, res) {
+    const item = t.mon.item, fx = item && G.ITEM_FX[item];
+    if (!res || !res.total || res.sub || !fx || (fx.held !== 'berry' && fx.held !== 'resist') || !b.alive(u)) return;
+    G.Held.takeAway(b, t);
+    b.emit('pluck', Object.assign({ item }, me(u)));
+    if (!G.Abilities.klutz(u.mon)) G.Held.eatBerry(b, u, item);
+  }
   function crash(b, u) { if (b.alive(u)) { b.emit('crash', me(u)); b.hurt(u, Math.max(1, Math.floor(G.Mon.maxHp(u.mon) / 2)), { why: 'crash' }); } }
 
   function reversalPower(u) {
@@ -331,13 +404,13 @@ G.SpecialMoves = (() => {
   const FALLBACK = new Set([
     // status: no effect in a single battle without abilities / held items yet
     'baton-pass', 'camouflage', 'conversion-2', 'grudge', 'imprison', 'mimic', 'recycle', 'role-play',
-    'skill-swap', 'snatch', 'spikes', 'taunt', 'torment', 'transform', 'trick', 'mud-sport', 'water-sport',
+    'skill-swap', 'snatch', 'spikes', 'taunt', 'torment', 'transform', 'mud-sport', 'water-sport',
     'sketch', 'wish', 'assist', 'nature-power',
     'aqua-ring', 'copycat', 'embargo', 'gastro-acid', 'guard-swap', 'heal-block', 'healing-wish', 'lunar-dance', 'lucky-chant',
     'magic-coat', 'magnet-rise', 'power-swap', 'power-trick', 'psycho-shift', 'tailwind', 'toxic-spikes', 'worry-seed',
-    // damaging: just their damage (no delayed hit, uproar lock, item theft, switch hit)
-    'future-sight', 'uproar', 'covet', 'thief', 'knock-off', 'pursuit', 'focus-punch', 'bide', 'present', 'triple-kick',
-    'fling', 'natural-gift', 'me-first', 'trump-card'
+    // damaging: just their damage (no delayed hit, uproar lock, switch hit; the item moves are real since chapter 94)
+    'future-sight', 'uproar', 'pursuit', 'focus-punch', 'bide', 'present', 'triple-kick',
+    'me-first', 'trump-card'
   ]);
 
   S.FALLBACK = FALLBACK;

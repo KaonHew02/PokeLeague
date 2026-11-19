@@ -15,7 +15,8 @@
 
   // ---------------- Route 215 ----------------
   G.Maps.def(Object.assign({
-    id: 'route215', loc: 'sinnoh-route-215', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
+    id: 'route215', items: [{ x: 8, y: 9, item: 'fist-plate', flag: 'route215-fist-plate', then: 'sitems.found' }],   // chapter 94
+    loc: 'sinnoh-route-215', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     storm: true,
     rows: [
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',

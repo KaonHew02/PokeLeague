@@ -198,9 +198,26 @@ G.ITEM_FX = {
   'dragon-fang':   { held: 'boost', type: 'dragon',   price: 2000 },
   'black-glasses': { held: 'boost', type: 'dark',     price: 2000 },
   // Chapter 69: the Dread Plate (the Old Chateau) and the Cleanse Tag (the Lost Tower).
-  'dread-plate':   { held: 'boost', type: 'dark' },
-  'splash-plate':  { held: 'boost', type: 'water' },          // Sea Route 220 (chapter 71)
-  'spooky-plate':  { held: 'boost', type: 'ghost' },          // Amity Square (chapter 72)
+  'dread-plate':   { held: 'boost', type: 'dark', plate: 1 },
+  'splash-plate':  { held: 'boost', type: 'water', plate: 1 },          // Sea Route 220 (chapter 71)
+  'spooky-plate':  { held: 'boost', type: 'ghost', plate: 1 },          // Amity Square (chapter 72)
+  // Chapter 94: the other plates, where Platinum has them (plate: Arceus's Multitype takes their type).
+  'flame-plate':   { held: 'boost', type: 'fire', plate: 1 },
+  'zap-plate':     { held: 'boost', type: 'electric', plate: 1 },
+  'meadow-plate':  { held: 'boost', type: 'grass', plate: 1 },
+  'icicle-plate':  { held: 'boost', type: 'ice', plate: 1 },
+  'fist-plate':    { held: 'boost', type: 'fighting', plate: 1 },
+  'toxic-plate':   { held: 'boost', type: 'poison', plate: 1 },
+  'earth-plate':   { held: 'boost', type: 'ground', plate: 1 },
+  'sky-plate':     { held: 'boost', type: 'flying', plate: 1 },
+  'mind-plate':    { held: 'boost', type: 'psychic', plate: 1 },
+  'insect-plate':  { held: 'boost', type: 'bug', plate: 1 },
+  'stone-plate':   { held: 'boost', type: 'rock', plate: 1 },
+  'draco-plate':   { held: 'boost', type: 'dragon', plate: 1 },
+  'iron-plate':    { held: 'boost', type: 'steel', plate: 1 },
+  'shed-shell':    { held: 'shed-shell' },                    // it can always switch out
+  'mental-herb':   { held: 'mental-herb' },                   // infatuation cured at once, once
+  'destiny-knot':  { held: 'destiny-knot' },                  // infatuated, it infatuates the one who did it
   'cleanse-tag':   { held: 'cleanse-tag' },
   'light-clay':    { held: 'light-clay' },     // Mt. Coronet B1F (chapter 74): Reflect and Light Screen last 8 turns
   // Chapter 93: Generation 4's held items (js/battle/held.js says what each kind does).

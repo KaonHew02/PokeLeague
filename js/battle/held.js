@@ -44,6 +44,13 @@
  *                     any Normal hit)
  *   berries: the Persim Berry cures confusion; pinch berries for Defense, Sp. Atk, Sp. Def, the Lansat Berry (as Focus
  *   Energy) and the Starf Berry (a random stat +2)
+ * Chapter 94: 'shed-shell' (it can always switch out: battle.js), 'mental-herb' (infatuation cured at once, used up),
+ *   'destiny-knot' (infatuated, it infatuates the one who did it); the plates (boost, `plate`: Arceus's Multitype takes the
+ *   type, `multitype(mon)`). The moves that move items (moves-special.js) use `sticky(b, bm)` (Sticky Hold, Multitype),
+ *   `takeAway(b, bm)` (an item lost to another Pokémon), `throwAway(b, bm)` (its own item used up by Fling, Natural Gift),
+ *   `eatBerry(b, bm, item)` (a berry's effect at once: Pluck, Bug Bite, a flung berry), `flingEffect(b, user, target, f)`.
+ *   An item used up by its own holder is noted on the battle (`b.markUsed`): at the end the player's Pokémon get back what
+ *   they held at the start, unless they used it up themselves (battle.js `finish`).
  * The numbers are those of Generation 4. The battle asks:
  *   kind(mon) · is(mon, k) · power(mon, type, M, bm) · statMult(mon, key) · critBonus(mon) · accMult(mon) · userAcc(user, target)
  *   · finalMult(user, eff) · resist(b, target, type, eff) · drainMult(bm) · locked(bm) · beforeMove(bm, id) · afterMove(b, bm)
@@ -60,10 +67,23 @@ G.Held = (() => {
     return k && k !== 'exp-share' && k !== 'lucky-egg' && G.Abilities && G.Abilities.klutz(mon) ? null : k;
   };
   const is = (mon, k) => kind(mon) === k;
-  /** An item used up: gone, and Unburden (chapter 44) at work. */
-  function useUp(bm) {
+  /** An item used up by its holder: gone (noted on the battle, chapter 94), and Unburden (chapter 44) at work. */
+  function useUp(b, bm) {
+    if (b && b.markUsed) b.markUsed(bm.mon);
     bm.mon.item = null;
     if (bm.ability === 'unburden') bm.vol.unburden = true;
+  }
+  /** An item taken by another Pokémon (Thief, Covet, Knock Off, Pluck, Trick): gone from it, Unburden at work. */
+  function takeAway(b, bm) {
+    bm.mon.item = null;
+    if (bm.ability === 'unburden') bm.vol.unburden = true;
+  }
+  /** Sticky Hold (not against Mold Breaker) and Multitype keep their item (chapter 94). */
+  const sticky = (b, bm) => bm.ability === 'multitype' || G.Abilities.ab(b, bm) === 'sticky-hold';
+  /** Arceus's Multitype: the type of the plate it holds, else null. */
+  function multitype(mon) {
+    const fx = fxOf(mon);
+    return fx && fx.plate && G.Abilities.of(mon) === 'multitype' ? [fx.type] : null;
   }
 
   /** Power: type boosters; Muscle Band, Wise Glasses and Metronome (chapter 93: with the move M and the battler bm). */
@@ -108,7 +128,7 @@ G.Held = (() => {
     const fx = G.ITEM_FX[target.mon.item];
     if (type !== fx.type || !(fx.any || eff > 1)) return 1;
     const item = target.mon.item;
-    useUp(target);
+    useUp(b, target);
     b.emit('resist', { side: target.side, uid: target.mon.uid, item });
     return 0.5;
   }
@@ -131,7 +151,7 @@ G.Held = (() => {
   function powerHerb(b, bm) {
     if (!is(bm.mon, 'power-herb')) return false;
     const item = bm.mon.item;
-    useUp(bm);
+    useUp(b, bm);
     b.emit('powerHerb', { side: bm.side, uid: bm.mon.uid, item });
     return true;
   }
@@ -139,7 +159,7 @@ G.Held = (() => {
   /** Against a hit that would knock it out: the Focus Sash at full HP (used up), else the Focus Band one time in ten.
    *  -> the item's kind, or false. */
   function survives(b, bm) {
-    if (is(bm.mon, 'focus-sash') && bm.mon.hp >= b.maxHp(bm)) { useUp(bm); return 'focus-sash'; }
+    if (is(bm.mon, 'focus-sash') && bm.mon.hp >= b.maxHp(bm)) { useUp(b, bm); return 'focus-sash'; }
     return is(bm.mon, 'focus-band') && b.rng.pct(10) ? 'focus-band' : false;
   }
   const expMult = mon => (is(mon, 'lucky-egg') ? 1.5 : 1);
@@ -158,36 +178,84 @@ G.Held = (() => {
     if (!b.alive(bm) || !is(bm.mon, 'berry')) return;
     const item = bm.mon.item, fx = G.ITEM_FX[item], max = b.maxHp(bm), st = bm.mon.status;
     if (fx.heal && bm.mon.hp * 2 <= max) {
-      useUp(bm);                                                           // Unburden (chapter 44)
+      useUp(b, bm);                                                        // Unburden (chapter 44)
       b.heal(bm, fx.heal === 'full' ? max : fx.heal, 'held', { item, held: 'berry' });
     } else if (fx.cure && st && (fx.cure === 'all' || fx.cure.includes(st))) {
-      useUp(bm);
+      useUp(b, bm);
       bm.mon.status = null; bm.mon.slp = 0; bm.mon.tox = 0;
       b.emit('cure', { side: bm.side, uid: bm.mon.uid, item });
     } else if (Array.isArray(fx.cure) && fx.cure.includes('confusion') && bm.vol.confusion) {     // the Persim Berry (chapter 93)
-      useUp(bm);
+      useUp(b, bm);
       bm.vol.confusion = 0;
       b.emit('cure', { side: bm.side, uid: bm.mon.uid, item, confusion: true });
     } else if (fx.pinch && bm.mon.hp * 4 <= max && pinchCan(bm, fx.pinch)) {
-      useUp(bm);
+      useUp(b, bm);
       b.emit('eat', { side: bm.side, uid: bm.mon.uid, item });
-      if (fx.pinch === 'crit') { bm.vol.focusEnergy = true; b.emit('pumped', { side: bm.side, uid: bm.mon.uid }); }      // Lansat
-      else if (fx.pinch === 'random') b.stage(bm, b.rng.pick(PINCH.filter(k => bm.stages[k] < 6)), 2, { source: bm });  // Starf
-      else b.stage(bm, fx.pinch, 1, { source: bm });
+      pinch(b, bm, fx.pinch);
     }
+  }
+  function pinch(b, bm, p) {
+    if (p === 'crit') { bm.vol.focusEnergy = true; b.emit('pumped', { side: bm.side, uid: bm.mon.uid }); }      // Lansat
+    else if (p === 'random') b.stage(bm, b.rng.pick(PINCH.filter(k => bm.stages[k] < 6)), 2, { source: bm });  // Starf
+    else b.stage(bm, p, 1, { source: bm });
+  }
+  /** A berry's effect at once, whatever the HP (chapter 94: Pluck, Bug Bite, a flung berry). -> true if it did something. */
+  function eatBerry(b, bm, item) {
+    const fx = G.ITEM_FX[item] || {}, max = b.maxHp(bm), st = bm.mon.status;
+    if (!b.alive(bm)) return false;
+    if (fx.heal) { if (bm.mon.hp >= max) return false; b.heal(bm, fx.heal === 'full' ? max : fx.heal, 'held', { item, held: 'berry' }); return true; }
+    if (fx.cure && st && (fx.cure === 'all' || fx.cure.includes(st))) {
+      bm.mon.status = null; bm.mon.slp = 0; bm.mon.tox = 0;
+      b.emit('cure', { side: bm.side, uid: bm.mon.uid, item });
+      return true;
+    }
+    if (Array.isArray(fx.cure) && fx.cure.includes('confusion') && bm.vol.confusion) {
+      bm.vol.confusion = 0;
+      b.emit('cure', { side: bm.side, uid: bm.mon.uid, item, confusion: true });
+      return true;
+    }
+    if (fx.pinch && pinchCan(bm, fx.pinch)) { pinch(b, bm, fx.pinch); return true; }
+    return false;
+  }
+  /** Its own item used up by a move (Fling, Natural Gift). */
+  const throwAway = (b, bm) => useUp(b, bm);
+  /** A flung item's effect on the target (PokeAPI's fling effects). f: { item, fx } */
+  function flingEffect(b, user, target, f) {
+    if (!b.alive(target) || !f.fx) return;
+    const st = { burn: 'brn', poison: 'psn', 'badly-poison': 'tox', paralyze: 'par' }[f.fx];
+    if (st) b.inflict(target, st, { source: user });
+    else if (f.fx === 'flinch') { if (!target.moved) target.vol.flinch = true; }
+    else if (f.fx === 'berry-effect') eatBerry(b, target, f.item);
+    else if (f.fx === 'herb-effect') {
+      if (f.item === 'mental-herb' && target.vol.attract) { target.vol.attract = false; b.emit('mentalHerb', { side: target.side, uid: target.mon.uid, item: f.item }); }
+      const low = Object.keys(target.stages).filter(k => target.stages[k] < 0);
+      if (f.item === 'white-herb' && low.length) { for (const k of low) target.stages[k] = 0; b.emit('herb', { side: target.side, uid: target.mon.uid, item: f.item }); }
+    }
+  }
+  /** Destiny Knot: infatuated, the holder infatuates the one who did it, if it can. */
+  function destinyKnot(b, holder, source) {
+    if (!is(holder.mon, 'destiny-knot') || !source || !b.alive(source) || source.vol.attract || G.Abilities.blocksAttract(source)) return;
+    source.vol.attract = true;
+    b.emit('attract', { side: source.side, uid: source.mon.uid, why: 'destiny-knot', from: holder.mon.uid, fromSide: holder.side, item: holder.mon.item });
   }
   const PINCH = ['atk', 'def', 'spa', 'spd', 'spe'];
   /** Whether a pinch berry would do anything: its stat can still rise (Lansat: not pumped yet; Starf: any of five). */
   const pinchCan = (bm, p) => (p === 'crit' ? !bm.vol.focusEnergy : p === 'random' ? PINCH.some(k => bm.stages[k] < 6) : bm.stages[p] < 6);
 
-  /** The White Herb (chapter 80): a lowered stat goes back to normal, once. */
+  /** The White Herb (chapter 80): a lowered stat goes back to normal, once. The Mental Herb (chapter 94): infatuation cured. */
   function herb(b, bm) {
+    if (b.alive(bm) && is(bm.mon, 'mental-herb') && bm.vol.attract) {
+      const item = bm.mon.item;
+      useUp(b, bm);
+      bm.vol.attract = false;
+      b.emit('mentalHerb', { side: bm.side, uid: bm.mon.uid, item });
+      return;
+    }
     if (!b.alive(bm) || !is(bm.mon, 'white-herb')) return;
     const low = Object.keys(bm.stages).filter(k => bm.stages[k] < 0);
     if (!low.length) return;
     for (const k of low) bm.stages[k] = 0;
-    bm.mon.item = null;
-    if (bm.ability === 'unburden') bm.vol.unburden = true;
+    useUp(b, bm);
     b.emit('herb', { side: bm.side, uid: bm.mon.uid, item: 'white-herb' });
   }
 
@@ -207,5 +275,6 @@ G.Held = (() => {
   }
 
   return { kind, is, power, statMult, critBonus, accMult, userAcc, finalMult, resist, drainMult, locked, beforeMove, afterMove, powerHerb,
-           quick, survives, expMult, afterHit, berry, herb, endOfTurn, orbs };
+           quick, survives, expMult, afterHit, berry, herb, endOfTurn, orbs,
+           takeAway, sticky, multitype, eatBerry, throwAway, flingEffect, destinyKnot };
 })();

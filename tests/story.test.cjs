@@ -4750,6 +4750,21 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 94 after chapter 93: the items Platinum hides in Sinnoh: the Shed Shell picked up on Route 228 (the ending). */
+async function chapter94(st) {
+  const { G } = st;
+  const F = G.Field;
+  const place = G.SinnohItems.PLACES.find(r => r[3] === 'shed-shell');
+  const def = G.Maps.get(place[0]).items.find(it => it.item === 'shed-shell');
+  assert.ok(def && def.then === 'sitems.found' && def.x === place[1] && def.y === place[2]);
+  await run(st, place[0], [['found', 'shed-shell', 1, place[0] + ':' + place[4]]].concat(G.Script.get(def.then)));
+  console.log('[story] the items Platinum hides in Sinnoh:', G.Names.item('shed-shell'), 'on', G.Names.loc(G.Maps.get(place[0]).loc),
+    '(' + G.SinnohItems.PLACES.length + ' in all)');
+  assert.equal(F.count('shed-shell'), 1);
+  assert.ok(F.flag('chapter-94-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 93 after chapter 92: Generation 4's held items: a Choice Band from the Battle Shops' Training Stall for 48 BP (the
  *  ending). */
 async function chapter93(st) {
@@ -5980,4 +5995,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter91(st);
   await chapter92(st);
   await chapter93(st);
+  await chapter94(st);
 });

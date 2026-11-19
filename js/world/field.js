@@ -1113,11 +1113,13 @@ G.World = (() => {
     return runScript([['say', line[1], { vars: { mon: lead.nick || G.Names.mon(lead.sp) } }]], {});
   }
 
-  /** An item ball: into the bag. One with a `script` runs that instead (the starter balls in Oak's lab). */
+  /** An item ball: into the bag. One with a `script` runs that instead (the starter balls in Oak's lab); one with `then`
+   *  runs that script after it is picked up (chapter 94: the items that end the chapter). */
   function pickUp(it) {
     const d = it.def;
     if (d.script) return runScript(d.script, { item: it });
-    return runScript([['found', d.item, d.n || 1, it.key]], {});
+    const then = d.then ? G.Script.get(d.then) || [] : [];
+    return runScript([['found', d.item, d.n || 1, it.key]].concat(then), { item: it });
   }
 
   /** A small tree in the way: a Pokémon that knows Cut can clear it (with the Cascade Badge, as in the games). */

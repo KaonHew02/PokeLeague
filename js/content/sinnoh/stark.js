@@ -8,7 +8,7 @@
  * (flag magma-stone-back) Heatran waits in the deepest room at Platinum's level. Caught or beaten: `ending(62)`.
  * Platinum's Trainers and wild Pokémon. Chapter 93: the Lagging Tail (Route 226, left of the Dragon Tamer), the Life Orb (past
  * the Dragon Tamer outside the mountain) and the Iron Ball (inside, beneath the psychic pair), where Platinum has them (Serebii).
- * Left out: the island house and its trade, the Dowsing Machine's items, the Flame Plate and Yellow Shard (not in the game).
+ * Left out: the island house and its trade, the Dowsing Machine's items, the Yellow Shard (not in the game; the Flame Plate inside since chapter 94, sitems.js).
  */
 (() => {
   const T = s => G.T(s);
@@ -303,7 +303,8 @@
     spots: { south: [22, 36, 'up'], north: [23, 1, 'down'] },
     boulders: [{ id: 'corridor', x: 39, y: 18 }],
     triggers: [{ x: 21, y: 35, w: 3, h: 1, if: '!buck-met', script: 'stark.buck' }],
-    items: [{ x: 41, y: 33, item: 'max-revive', flag: 'stark-max-revive' }, { x: 3, y: 34, item: 'tm50', flag: 'stark-tm50' },
+    items: [{ x: 3, y: 24, item: 'flame-plate', flag: 'stark-flame-plate', then: 'sitems.found' },   // chapter 94
+            { x: 41, y: 33, item: 'max-revive', flag: 'stark-max-revive' }, { x: 3, y: 34, item: 'tm50', flag: 'stark-tm50' },
             { x: 41, y: 21, item: 'rare-candy', flag: 'stark-candy' }, { x: 41, y: 12, item: 'max-elixir', flag: 'stark-elixir' },
             { x: 3, y: 12, item: 'nugget', flag: 'stark-nugget' }, { x: 41, y: 3, item: 'ultra-ball', flag: 'stark-ball' },
             { x: 10, y: 24, item: 'iron-ball', flag: 'stark-iron-ball' }],                         // chapter 93

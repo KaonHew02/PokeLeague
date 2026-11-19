@@ -21,7 +21,7 @@
  *   truant(b, bm) -> loafs this turn    pressure(target) · damp(b, id) · traps(b, bm) · runAway(bm)
  *   suctionCups(bm) · liquidOoze(bm) · earlyBird(bm)
  * Abilities with no effect in a single battle (Stench, Illuminate, Pickup, Plus, Minus, Lightning
- * Rod, Sticky Hold here) have a name and a description, and do nothing. Random rolls are made only
+ * Rod here) have a name and a description, and do nothing (Sticky Hold and Multitype: chapter 94, G.Held). Random rolls are made only
  * when an ability is at work, so battles where none is play as before. Events: `ability`
  * { side, uid, ability, why: 'show' | 'protect' | 'trace' | 'flash-fire' | 'type' | 'truant' | 'pressure' | 'damp',
  *   target, tside (Trace), to (the new type), move (Damp) } and heal with `why: 'ability'`.
@@ -68,10 +68,11 @@ G.Abilities = (() => {
   const FORECAST = { sun: 'fire', rain: 'water', hail: 'ice' };
   // Every ability of the game's Pokémon (Generation 3): each one is handled here, or knowingly has
   // no effect in a single battle (NO_EFFECT). tests/abilities.test.cjs checks the species data.
-  const NO_EFFECT = new Set(['stench', 'illuminate', 'pickup', 'sticky-hold', 'honey-gather', 'multitype', 'gluttony']);
+  // Sticky Hold and Multitype keep their item since chapter 94 (G.Held.sticky; Multitype's type: G.Held.multitype).
+  const NO_EFFECT = new Set(['stench', 'illuminate', 'pickup', 'honey-gather', 'gluttony']);
   // Double battles (chapter 40): Plus and Minus (Special Attack ×1.5 beside the other one), Lightning
   // Rod (draws the Electric moves aimed at another Pokémon; effects.js), Intimidate on both foes.
-  const KNOWN = new Set([...NO_EFFECT, 'plus', 'minus', 'lightning-rod', ...`air-lock arena-trap battle-armor blaze chlorophyll clear-body cloud-nine color-change
+  const KNOWN = new Set([...NO_EFFECT, 'sticky-hold', 'multitype', 'plus', 'minus', 'lightning-rod', ...`air-lock arena-trap battle-armor blaze chlorophyll clear-body cloud-nine color-change
     compound-eyes cute-charm damp drizzle drought early-bird effect-spore flame-body flash-fire forecast guts huge-power hustle
     hyper-cutter immunity inner-focus insomnia intimidate keen-eye levitate limber liquid-ooze magma-armor magnet-pull
     marvel-scale natural-cure oblivious overgrow own-tempo poison-point pressure pure-power rain-dish rock-head rough-skin
@@ -260,6 +261,7 @@ G.Abilities = (() => {
         say(b, target, 'show');
         user.vol.attract = true;
         b.emit('attract', { side: user.side, uid: user.mon.uid });
+        G.Held.destinyKnot(b, user, target);                                 // Destiny Knot (chapter 94)
       }
     }
   }

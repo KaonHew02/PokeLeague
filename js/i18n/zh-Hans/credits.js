@@ -260,5 +260,8 @@ G.I18n.add({
   "Dahlia waits at the 21st and the 49th battle, and every facility of Sinnoh's Battle Frontier is open.": "大丽在第 21 场和第 49 场等着你，神奥对战开拓区的设施全部开放了。",
   "Chapter 93 complete!": "第 93 章完成！",
   "{player} traded Battle Points for one of the new held items: Choice items, Focus Sashes, Life Orbs and berries that soften a blow.": "{player}用对战点数换到了新的携带道具：讲究系列、气势披带、生命宝珠，还有能减轻伤害的树果。",
-  "The Castle rents and the Arcade hands out the whole of Platinum's lists now, and Palmer's and Darach's teams hold what they should.": "对战城堡和对战轮盘现在提供白金版的完整道具清单，桄榔和石兰的队伍也拿回了原本的道具。"
+  "The Castle rents and the Arcade hands out the whole of Platinum's lists now, and Palmer's and Darach's teams hold what they should.": "对战城堡和对战轮盘现在提供白金版的完整道具清单，桄榔和石兰的队伍也拿回了原本的道具。",
+  "Chapter 94 complete!": "第 94 章完成！",
+  "{player} found one of the plates and tools Sinnoh had hidden away, while Thief, Trick and Knock Off began to move items in battle.": "{player}找到了神奥藏起来的石板和道具之一，小偷、戏法和拍落也开始在对战里移动道具了。",
+  "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "神奥各地一共有十六块石板，还有美丽空壳、心灵香草和红线等着你。"
 }, "zh-Hans");

@@ -50,7 +50,8 @@
     spots: { ladder: [2, 3, 'down'] },
     triggers: [{ x: 5, y: 5, w: 3, h: 1, if: '!chapter-74-done', script: 'b1f.coronet' }],
     npcs: [{ id: 'fisher', who: 'fisherman', x: 3, y: 8, dir: 'right', script: 'b1f.fisher' }],
-    items: [
+    items: [{ x: 7, y: 3, item: 'stone-plate', flag: 'coronetb1f-stone-plate', then: 'sitems.found' },   // chapter 94
+            
       { x: 8, y: 9, item: 'tm69', flag: 'coronetb1f-tm69' }, { x: 13, y: 11, item: 'rare-candy', flag: 'coronetb1f-candy' },
       { x: 22, y: 7, item: 'ultra-ball', flag: 'coronetb1f-ultra' }, { x: 17, y: 17, item: 'revive', flag: 'coronetb1f-revive' },
       { x: 21, y: 12, item: 'full-restore', flag: 'coronetb1f-restore' }, { x: 21, y: 15, item: 'max-elixir', flag: 'coronetb1f-elixir' },

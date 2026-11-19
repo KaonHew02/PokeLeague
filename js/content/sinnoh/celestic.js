@@ -54,7 +54,8 @@
     warps: [{ x: 39, y: 19, to: 'cafe-cabin', spot: 'door' }],
     spots: { 'cafe-door': [39, 20, 'down'] },
     signs: { '36,25': 'Route 210. West: Celestic Town. South: Solaceon Town. Mind the fog!' },
-    items: [{ x: 40, y: 4, item: 'max-repel', flag: 'route210-repel' }, { x: 3, y: 25, item: 'hyper-potion', flag: 'route210-potion' }],
+    items: [{ x: 18, y: 1, item: 'meadow-plate', flag: 'route210-meadow-plate', then: 'sitems.found' },   // chapter 94
+            { x: 40, y: 4, item: 'max-repel', flag: 'route210-repel' }, { x: 3, y: 25, item: 'hyper-potion', flag: 'route210-potion' }],
     trainers: [
       { id: 'patrick', who: 'cooltrainerm', cls: 'dragon-tamer', name: 'Patrick', x: 33, y: 22, dir: 'right', sight: 1, team: [['gible', 34]],
         before: 'A Dragon Tamer fears nothing, not even fog. Come on!',

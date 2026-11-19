@@ -529,6 +529,7 @@ G.Maps = (() => {
       else if (!it.hidden && !it.script && !open(m, it.x, it.y)) E.push(`item at ${at} is on a ${kindAt(m, it.x, it.y)} tile`);
       if (!it.flag) E.push(`item at ${at} needs a flag (its id once collected)`);
       if (it.script && typeof it.script === 'string' && !G.Script.get(it.script)) E.push(`item at ${at}: unknown script "${it.script}"`);
+      if (it.then && !G.Script.get(it.then)) E.push(`item at ${at}: unknown script "${it.then}" (then)`);
       if (G.ITEMS && !G.ITEMS[it.item]) E.push(`item at ${at}: unknown item "${it.item}"`);
     }
     // Boulders (Strength): on open ground, unless `fixed` (one that fell into the water from above).

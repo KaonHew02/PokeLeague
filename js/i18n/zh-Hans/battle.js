@@ -221,5 +221,13 @@ G.I18n.add({
   "{mon} was burned by the {item}!": "{mon}因为{item}而灼伤了！",
   "{mon} was badly poisoned by the {item}!": "{mon}因为{item}而中了剧毒！",
   "The {item} weakened the damage to {mon}!": "{item}减轻了{mon}受到的伤害！",
-  "{mon} became fully charged due to its {item}!": "{mon}因为{item}而蓄满了力量！"
+  "{mon} became fully charged due to its {item}!": "{mon}因为{item}而蓄满了力量！",
+  "{mon} flung its {item}!": "{mon}投掷了{item}！",
+  "{mon} switched items with its target!": "{mon}和对手交换了道具！",
+  "{mon} obtained one {item}.": "{mon}得到了{item}。",
+  "{mon} stole {target}'s {item}!": "{mon}从{target}那里偷走了{item}！",
+  "{mon} knocked off {target}'s {item}!": "{mon}拍落了{target}的{item}！",
+  "{mon} stole and ate its target's {item}!": "{mon}抢走并吃掉了对手的{item}！",
+  "{mon} used its {item} to come back to its senses!": "{mon}用{item}恢复了理智！",
+  "{mon} fell in love because of the {item}!": "{mon}因为{item}而着迷了！"
 }, "zh-Hans");

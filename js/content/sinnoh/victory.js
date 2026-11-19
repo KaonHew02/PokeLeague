@@ -345,7 +345,8 @@
 
   // ---------------- The Pokémon League ----------------
   G.Maps.def(Object.assign({}, LEAGUE, {
-    id: 'sinnoh-league', border: 'T', fly: { spot: 'center-door' }, barryTeams: BARRY_TEAMS,
+    id: 'sinnoh-league', items: [{ x: 4, y: 15, item: 'sky-plate', flag: 'sinnoh-league-sky-plate', then: 'sitems.found' }],   // chapter 94
+    border: 'T', fly: { spot: 'center-door' }, barryTeams: BARRY_TEAMS,
     rows: [
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
       'T..............................T',

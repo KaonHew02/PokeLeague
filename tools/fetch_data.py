@@ -184,7 +184,11 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           'grip-claw', 'persim-berry', 'occa-berry', 'passho-berry', 'wacan-berry', 'rindo-berry',
                                           'yache-berry', 'chople-berry', 'kebia-berry', 'shuca-berry', 'coba-berry', 'payapa-berry',
                                           'tanga-berry', 'charti-berry', 'kasib-berry', 'haban-berry', 'colbur-berry', 'babiri-berry',
-                                          'chilan-berry', 'ganlon-berry', 'petaya-berry', 'apicot-berry', 'lansat-berry', 'starf-berry'],
+                                          'chilan-berry', 'ganlon-berry', 'petaya-berry', 'apicot-berry', 'lansat-berry', 'starf-berry',
+                                          # Chapter 94: the plates, Shed Shell, Mental Herb and Destiny Knot (where Platinum has them).
+                                          'flame-plate', 'zap-plate', 'meadow-plate', 'icicle-plate', 'fist-plate', 'toxic-plate', 'earth-plate',
+                                          'sky-plate', 'mind-plate', 'insect-plate', 'stone-plate', 'draco-plate', 'iron-plate',
+                                          'shed-shell', 'mental-herb', 'destiny-knot'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.
@@ -746,6 +750,11 @@ def build(region):
             rec['cost'] = price
         if n in tms:
             rec['move'] = tms[n]
+        # Chapter 94: Fling's power and what the item does when flung.
+        if v.get('fling_power'):
+            rec['fling'] = v['fling_power']
+            if v.get('fling_effect'):
+                rec['flingFx'] = v['fling_effect']['name']
         ITEMS[n] = rec
         names_item[n] = names_of(v['names'], 'item', fallback=n)
         if n in ITEM_ZH:
@@ -757,10 +766,12 @@ def build(region):
 
     # Chapter 85: the berries' flavors and smoothness (PokeAPI's berry endpoint: cheri-berry -> berry/cheri), for Poffins.
     berry_ids = [n for n, r in ITEMS.items() if r['pocket'] == 'berries' and n.endswith('-berry')]
-    BERRY_FLAVORS = {}
+    BERRY_FLAVORS, NATURAL_GIFT = {}, {}
     for n, b in zip(berry_ids, pmap(lambda n: get('berry', n[:-6]), berry_ids)):
         f = {x['flavor']['name']: x['potency'] for x in b['flavors']}
         BERRY_FLAVORS[n] = dict({k: f.get(k, 0) for k in ('spicy', 'dry', 'sweet', 'bitter', 'sour')}, smooth=b['smoothness'])
+        # Chapter 94: Natural Gift's type and power with this berry (PokeAPI keeps Generation 4's 60 / 70 / 80).
+        NATURAL_GIFT[n] = [b['natural_gift_type']['name'], b['natural_gift_power']]
 
     # ---- growth rates, natures, types, stats ----
     GROWTH = {}
@@ -876,7 +887,7 @@ def build(region):
                            ' * What each item does and the shop prices are hand-written in js/data/item-effects.js.')
           + obj('G.ITEMS', ITEMS)
           + '\n// Chapter 85: each berry\'s flavors and smoothness (Poffins, js/world/poffin.js).\n'
-          + obj('G.BERRY_FLAVORS', BERRY_FLAVORS))
+          + obj('G.BERRY_FLAVORS', BERRY_FLAVORS) + '\n' + obj('G.NATURAL_GIFT', NATURAL_GIFT))
     write('growth.js', head('Total EXP needed for each level (index = level, 1-100) per growth rate.')
           + obj('G.GROWTH', GROWTH))
     write('natures.js', head('Natures: the stat raised by 10 % and the one lowered (null for neutral natures).')

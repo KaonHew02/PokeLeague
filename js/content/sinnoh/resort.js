@@ -67,7 +67,8 @@
     connect: { north: { map: 'route226', offset: -36 }, south: { map: 'route229', offset: 0 } },
     encounters: { walk: '@sinnoh-route-228-area', water: '@sinnoh-route-228-area' },
     signs: { '16,1': 'Route 228. South: Route 229 and the Resort Area. The sand never stops blowing.' },
-    items: [{ x: 26, y: 28, item: 'rare-candy', flag: 'route228-candy' }, { x: 2, y: 2, item: 'protector', flag: 'route228-protector' },
+    items: [{ x: 28, y: 12, item: 'shed-shell', flag: 'route228-shed-shell', then: 'sitems.found' },   // chapter 94
+            { x: 26, y: 28, item: 'rare-candy', flag: 'route228-candy' }, { x: 2, y: 2, item: 'protector', flag: 'route228-protector' },
             { x: 29, y: 2, item: 'tm37', flag: 'route228-tm37' }, { x: 2, y: 44, item: 'iron', flag: 'route228-iron' },
             { x: 6, y: 15, item: 'shiny-stone', flag: 'route228-shiny' }],
     trainers: [

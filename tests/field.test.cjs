@@ -5196,7 +5196,8 @@ test('Fuego Ironworks (chapter 73): north of the meadow, the river, the belts, t
 test('Mt. Coronet B1F and Victory Road\'s inner B1F (chapter 74): the boulder both ways, the fog, the items, Feebas\'s four tiles a day, the two shores and the ending', async () => {
   const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'villa', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower', 'fullmoon', 'route219', 'amity', 'fuego', 'b1f']
     .map(f => 'js/content/sinnoh/' + f + '.js');
-  const FILES74 = ['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/regis.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh];
+  // sitems.js: the Stone Plate on B1F calls its script (chapter 94).
+  const FILES74 = ['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/hoenn/regis.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh, 'js/content/sinnoh/sitems.js'];
   const { G, W, later } = world(FILES74);
   W.debug.noEnc = true;
   const F = G.Field, S = F.save;
@@ -7555,5 +7556,33 @@ test('Sinnoh (chapter 93): Generation 4\'s held items: the Battle Shops\' new st
     W.load(map, at);
     await talk();
     assert.ok(F.count(item) === 1 && F.isDone(map + ':' + flag), item);
+  }
+});
+
+test('Sinnoh (chapter 94): the plates, the Shed Shell, the Mental Herb and the Destiny Knot where Platinum has them; the ending after chapter 93 (once)', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'villa', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower', 'fullmoon', 'route219', 'amity', 'fuego', 'b1f', 'sitems']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  G.Dialog.ask = () => Promise.resolve(0);
+  G.Dialog.say = () => Promise.resolve();
+  W.onTrainer = async () => 'win';
+  const until = async ok => { for (let i = 0; i < 3000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  // Where to stand: below the item, or beside it where below is a wall.
+  const BESIDE = { 'route217-icicle-plate': [-1, 0, 'right'], 'iron-b2f-iron-plate': [-1, 0, 'right'] };
+  const P = G.SinnohItems.PLACES;
+  assert.equal(P.length, 16);
+  for (const [k, [map, x, y, item, flag]] of P.entries()) {
+    const def = G.Maps.get(map).items.find(it => it.item === item);
+    assert.ok(def && def.x === x && def.y === y && def.flag === flag && def.then === 'sitems.found', item);
+    if (k === 1) F.setFlag('chapter-93-done');               // the first one before chapter 93 is done: no ending
+    const [dx, dy, dir] = BESIDE[flag] || [0, 1, 'up'];
+    W.load(map, { x: x + dx, y: y + dy, dir });
+    await talk();
+    assert.ok(F.count(item) === 1 && F.isDone(map + ':' + flag), item + ' on ' + map);
+    if (k === 0) assert.ok(!F.flag('chapter-94-done'), 'not before chapter 93');
+    if (k === 1) assert.ok(F.flag('chapter-94-done'), 'the ending');
   }
 });

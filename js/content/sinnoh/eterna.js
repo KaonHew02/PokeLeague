@@ -78,7 +78,8 @@
         defeat: 'Back to my berries, then.',
         after: 'Cherubi\'s little ball is full of nutrients. That is what it feeds on.' }
     ],
-    items: [{ x: 21, y: 20, item: 'super-potion', flag: 'eterna-forest-potion' }, { x: 2, y: 4, item: 'great-ball', flag: 'eterna-forest-ball' }],
+    items: [{ x: 37, y: 7, item: 'insect-plate', flag: 'eterna-forest-insect-plate', then: 'sitems.found' },   // chapter 94
+            { x: 21, y: 20, item: 'super-potion', flag: 'eterna-forest-potion' }, { x: 2, y: 4, item: 'great-ball', flag: 'eterna-forest-ball' }],
     encounters: { walk: '@eterna-forest-area' }
   }, SINNOH));
 
@@ -118,7 +119,8 @@
 
   // ---------------- Eterna City ----------------
   G.Maps.def(Object.assign({
-    id: 'eterna', loc: 'eterna-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
+    id: 'eterna', items: [{ x: 33, y: 2, item: 'draco-plate', flag: 'eterna-draco-plate', then: 'sitems.found' }],   // chapter 94
+    loc: 'eterna-city', tileset: 'outdoor', palette: 'kanto', music: 'town', battleBg: 'grass', border: 'T',
     fly: { spot: 'center-door' },
     rows: [
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',

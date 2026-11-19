@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 94) return { title: T('Chapter 94 complete!'),
+      done: fmt('{player} found one of the plates and tools Sinnoh had hidden away, while Thief, Trick and Knock Off began to move items in battle.', { player }),
+      next: T('Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.') };
     if (n === 93) return { title: T('Chapter 93 complete!'),
       done: fmt('{player} traded Battle Points for one of the new held items: Choice items, Focus Sashes, Life Orbs and berries that soften a blow.', { player }),
       next: T('The Castle rents and the Arcade hands out the whole of Platinum\'s lists now, and Palmer\'s and Darach\'s teams hold what they should.') };

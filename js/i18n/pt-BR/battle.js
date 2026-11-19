@@ -221,5 +221,13 @@ G.I18n.add({
   "{mon} was burned by the {item}!": "{mon} foi queimado pelo {item}!",
   "{mon} was badly poisoned by the {item}!": "{mon} foi gravemente envenenado pelo {item}!",
   "The {item} weakened the damage to {mon}!": "A {item} reduziu o dano em {mon}!",
-  "{mon} became fully charged due to its {item}!": "{mon} ficou totalmente carregado graças ao seu {item}!"
+  "{mon} became fully charged due to its {item}!": "{mon} ficou totalmente carregado graças ao seu {item}!",
+  "{mon} flung its {item}!": "{mon} arremessou seu {item}!",
+  "{mon} switched items with its target!": "{mon} trocou de item com o alvo!",
+  "{mon} obtained one {item}.": "{mon} obteve {item}.",
+  "{mon} stole {target}'s {item}!": "{mon} roubou o {item} de {target}!",
+  "{mon} knocked off {target}'s {item}!": "{mon} derrubou o {item} de {target}!",
+  "{mon} stole and ate its target's {item}!": "{mon} roubou e comeu o {item} do alvo!",
+  "{mon} used its {item} to come back to its senses!": "{mon} usou seu {item} e voltou a si!",
+  "{mon} fell in love because of the {item}!": "{mon} se apaixonou por causa do {item}!"
 }, "pt-BR");

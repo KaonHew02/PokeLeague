@@ -181,7 +181,8 @@
       { id: 'man', who: 'gentleman', x: 24, y: 18, move: 'look', say: 'Volkner used to battle everybody who came. These days the lighthouse sees more of him than the Gym.' },
       { id: 'sailor', who: 'sailor', x: 35, y: 2, dir: 'right', move: 'look', say: 'Past this water lies Route 223, and at the end of it the Pokémon League. It is a long way, and the current is strong.' }
     ],
-    items: [{ x: 33, y: 21, item: 'thunder-stone', flag: 'sunyshore-thunder-stone' }, { x: 3, y: 23, item: 'carbos', flag: 'sunyshore-carbos', hidden: true }],
+    items: [{ x: 32, y: 23, item: 'zap-plate', flag: 'sunyshore-zap-plate', then: 'sitems.found' },   // chapter 94
+            { x: 33, y: 21, item: 'thunder-stone', flag: 'sunyshore-thunder-stone' }, { x: 3, y: 23, item: 'carbos', flag: 'sunyshore-carbos', hidden: true }],
     encounters: { water: '@sunyshore-city-area' }
   }, SINNOH));
 

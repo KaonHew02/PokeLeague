@@ -301,7 +301,7 @@ G.BattleFx = (() => {
     if (M.meta.k === 'damage-raise' && total > 0 && b.alive(user) && b.rng.pct(pct(M.meta.statP || 100))) for (const [s, d] of M.stats) b.stage(user, s, d, { source: user });
     if (total > 0 && !S.typeless) G.Abilities.afterHit(b, user, target, type);    // Color Change
     G.Held.afterHit(b, user, target, M, total);          // King's Rock, Shell Bell
-    return { total, hits: done };
+    return { total, hits: done, sub: subBefore };
   }
 
   function secondaryAilment(b, user, target, M, ail) {
@@ -364,7 +364,9 @@ G.BattleFx = (() => {
       case 'infatuation':
         if (G.Abilities.blocksAttract(target)) { G.Abilities.say(b, target, 'protect'); return false; }      // Oblivious
         if (!user.mon.gender || !target.mon.gender || user.mon.gender === target.mon.gender || target.vol.attract || subBlocks) { b.emit('fail', {}); return false; }
-        target.vol.attract = true; b.emit('attract', tid); return {};
+        target.vol.attract = true; b.emit('attract', tid);
+        G.Held.destinyKnot(b, target, user);                                 // Destiny Knot (chapter 94)
+        return {};
       case 'yawn':
         if (target.mon.status || target.vol.yawn || subBlocks || b.sideOf(target).field.safeguard) { b.emit('fail', {}); return false; }
         target.vol.yawn = 2; b.emit('yawn', tid); return {};

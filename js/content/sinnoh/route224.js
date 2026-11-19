@@ -8,7 +8,7 @@
  * (battleground.js). Platinum's Trainers and wild Pokémon; the pairs are mine (Serebii only marks Micah as a partner).
  * Chapter 74: a ladder in a notch of the west corridor goes down to the inner B1F (b1f.js).
  * Left out: Seabreak Path and Shaymin (Platinum's event item, Oak's Letter), the Dowsing Machine's items (a few are hidden
- * on the inner B1F, chapter 74), berries, the Destiny Knot and the Repeat Ball (not in the game), double wild battles with a partner.
+ * on the inner B1F, chapter 74), berries and the Repeat Ball (not in the game; the Destiny Knot since chapter 94, sitems.js), double wild battles with a partner.
  */
 (() => {
   const T = s => G.T(s);
@@ -201,7 +201,8 @@
     signs: { '20,1': 'A great white stone stands at the end of the road. Words are carved into it, worn almost smooth: "Give thanks to the land, and the land gives back."' },
     triggers: [{ x: 18, y: 2, w: 5, h: 1, if: 'marley-along', script: 'r224.stone' }],
     npcs: [{ id: 'marley', who: 'marley', x: 20, y: 3, dir: 'up', if: 'scripted' }],     // only the stone shows her
-    items: [{ x: 10, y: 13, item: 'up-grade', flag: 'route224-upgrade' }, { x: 37, y: 28, item: 'pp-max', flag: 'route224-ppmax' },
+    items: [{ x: 26, y: 24, item: 'destiny-knot', flag: 'route224-destiny-knot', then: 'sitems.found' },   // chapter 94
+            { x: 10, y: 13, item: 'up-grade', flag: 'route224-upgrade' }, { x: 37, y: 28, item: 'pp-max', flag: 'route224-ppmax' },
             { x: 8, y: 1, item: 'ultra-ball', flag: 'route224-ball' }, { x: 14, y: 24, item: 'razor-claw', flag: 'route224-claw' }],
     trainers: [
       { id: 'ruben', who: 'cooltrainerm', cls: 'cooltrainer', name: 'Ruben', x: 15, y: 20, dir: 'down', sight: 2,

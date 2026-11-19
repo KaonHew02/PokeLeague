@@ -133,7 +133,8 @@
     warps: [{ x: 3, y: 3, to: 'iron-b1f', spot: 'down' }],
     spots: { up: [3, 4, 'down'] },
     afterBattle: WITH_RILEY,
-    items: [{ x: 33, y: 2, item: 'max-potion', flag: 'iron-potion' }, { x: 32, y: 13, item: 'ultra-ball', flag: 'iron-ball' }],
+    items: [{ x: 30, y: 13, item: 'iron-plate', flag: 'iron-b2f-iron-plate', then: 'sitems.found' },   // chapter 94
+            { x: 33, y: 2, item: 'max-potion', flag: 'iron-potion' }, { x: 32, y: 13, item: 'ultra-ball', flag: 'iron-ball' }],
     npcs: [
       { id: 'riley2', who: 'riley', x: 12, y: 16, dir: 'left', if: 'scripted' },
       { id: 'riley3', who: 'riley', x: 14, y: 16, dir: 'left', if: ['riley-egg-wait', '!riolu-egg'], script: 'iron.riley-egg' }

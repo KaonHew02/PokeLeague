@@ -121,6 +121,10 @@ G.Battle = (() => {
       this.events = []; this.queue = []; this.prompt = null; this.pending = null; this.result = null;
       this.turn = 0; this.runs = 0; this.weather = null; this.payDay = 0;
       this.seen = new Set(); this.leveled = new Set();
+      // Chapter 94: the items the player's Pokémon hold at the start, and those they used up themselves (finish gives the
+      // others back: taken, knocked off, swapped).
+      this.startItems = new Map(pl.party.map(m => [m, m.item || null]));
+      this.usedUp = new Set();
     }
 
     // ================= public =================
@@ -156,12 +160,13 @@ G.Battle = (() => {
       const moves = bm.mon.moves.map((m, slot) => ({ slot, id: m.id, pp: m.pp, max: G.Mon.ppMax(m.id, m.ppUp),
         usable: m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id)
           && !(G.Held.locked(bm) && G.Held.locked(bm) !== m.id) }));            // a Choice item (chapter 93)
-      const trapped = this.trapped(bm) || G.Abilities.traps(this, bm);     // Shadow Tag, Arena Trap, Magnet Pull
+      const caught = this.trapped(bm) || G.Abilities.traps(this, bm);     // Shadow Tag, Arena Trap, Magnet Pull
+      const trapped = caught && !G.Held.is(bm.mon, 'shed-shell');          // Shed Shell (chapter 94): it switches out, it does not flee
       return {
         moves, struggle: !moves.some(m => m.usable),
         switchable: this.player.party.map((m, i) => i).filter(i => this.mine(i) && !this.player.actives.includes(i) && this.player.party[i].hp > 0
                                                                 && !this.choices.some(c => c && c.type === 'switch' && c.to === i)),
-        canSwitch: !trapped && !this.arena, canRun: this.kind === 'wild' && (!trapped || G.Abilities.runAway(bm)),
+        canSwitch: !trapped && !this.arena, canRun: this.kind === 'wild' && (!caught || G.Abilities.runAway(bm)),
         canBall: this.kind === 'wild' && !this.rules.noCatch, trapped
       };
     }
@@ -267,7 +272,15 @@ G.Battle = (() => {
 
     emit(type, data = {}) { this.events.push(Object.assign({ type }, data)); }
 
+    /** Its own item used up by a Pokémon of the player's (G.Held): it does not come back after the battle. */
+    markUsed(mon) { if (this.startItems.has(mon) && mon.item && mon.item === this.startItems.get(mon)) this.usedUp.add(mon); }
+    /** The player's Pokémon get back what they held at the start, unless they used it up themselves (chapter 94). */
+    restoreItems() {
+      for (const [m, it] of this.startItems) if ((m.item || null) !== it) m.item = this.usedUp.has(m) ? null : it;
+    }
+
     finish(outcome, extra = {}) {
+      this.restoreItems();
       const money = (extra.money || 0) + (outcome === 'win' ? this.payDay : 0);
       if (outcome === 'win' && this.payDay) this.emit('payDay', { amt: this.payDay });
       if (money && outcome === 'win') this.emit('money', { amt: money });
@@ -899,7 +912,7 @@ G.Battle = (() => {
 
     makeBM(side, mon, slot = 0) {
       return { mon, side: side.side, slot, stages: { atk: 0, def: 0, spa: 0, spd: 0, spe: 0, acc: 0, eva: 0 }, vol: {},
-               types: G.SPECIES[mon.sp].types.slice(), moved: false, turns: 0, lastMove: null, lastHit: null,
+               types: G.Held.multitype(mon) || G.SPECIES[mon.sp].types.slice(), moved: false, turns: 0, lastMove: null, lastHit: null,   // Multitype (94)
                fainted: false, participants: new Set(), ability: G.Abilities.of(mon), entered: this.turn };
     }
 

@@ -158,6 +158,14 @@ G.BattleText = (() => {
           : fmt('{mon} was badly poisoned by the {item}!', { mon, item: G.Names.item(e.item) });
         return statusLine(mon, e.s);
       case 'resist': return fmt('The {item} weakened the damage to {mon}!', { mon, item: G.Names.item(e.item) });
+      // The moves that move items (chapter 94).
+      case 'flung': return fmt('{mon} flung its {item}!', { mon, item: G.Names.item(e.item) });
+      case 'trick': return fmt('{mon} switched items with its target!', { mon });
+      case 'obtain': return fmt('{mon} obtained one {item}.', { mon, item: G.Names.item(e.item) });
+      case 'steal': return fmt("{mon} stole {target}'s {item}!", { mon, target: who(b, e.target, e.tside), item: G.Names.item(e.item) });
+      case 'knockOff': return fmt("{mon} knocked off {target}'s {item}!", { mon, target: who(b, e.target, e.tside), item: G.Names.item(e.item) });
+      case 'pluck': return fmt("{mon} stole and ate its target's {item}!", { mon, item: G.Names.item(e.item) });
+      case 'mentalHerb': return fmt('{mon} used its {item} to come back to its senses!', { mon, item: G.Names.item(e.item) });
       case 'powerHerb': return fmt('{mon} became fully charged due to its {item}!', { mon, item: G.Names.item(e.item) });
       case 'eat': return fmt('{mon} ate its {item}!', { mon, item: G.Names.item(e.item) });      // a pinch berry (chapter 77)
       case 'herb': return fmt('{mon} returned its stats to normal using its {item}!', { mon, item: G.Names.item(e.item) });   // chapter 80
@@ -190,7 +198,8 @@ G.BattleText = (() => {
       case 'trap': return fmt('{mon} was trapped by {move}!', { mon, move: G.Names.move(e.move) });
       case 'freed': return fmt('{mon} was freed from {move}!', { mon, move: G.Names.move(e.move) });
       case 'seeded': return fmt('{mon} was seeded!', { mon });
-      case 'attract': return fmt('{mon} fell in love!', { mon });
+      case 'attract': return e.why === 'destiny-knot' ? fmt('{mon} fell in love because of the {item}!', { mon, item: G.Names.item(e.item) })   // (chapter 94)
+        : fmt('{mon} fell in love!', { mon });
       case 'yawn': return fmt('{mon} grew drowsy!', { mon });
       case 'nightmare': return fmt('{mon} began having a nightmare!', { mon });
       case 'perishSong': return fmt('All Pokémon that hear the song will faint in three turns!', {});

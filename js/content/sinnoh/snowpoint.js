@@ -127,7 +127,8 @@
       '36,11': 'Route 216. West, then north: Route 217. Hail is falling, so take care in battle!',
       '8,9': 'A lodge for travellers. Come in and get warm!'
     },
-    items: [
+    items: [{ x: 41, y: 12, item: 'mental-herb', flag: 'route216-mental-herb', then: 'sitems.found' },   // chapter 94
+            
       { x: 17, y: 3, item: 'ultra-ball', flag: 'route216-ball' }, { x: 30, y: 15, item: 'tm13', flag: 'route216-tm13' },
       { x: 40, y: 9, item: 'revive', flag: 'route216-revive' }, { x: 3, y: 18, item: 'max-potion', flag: 'route216-potion' }
     ],
@@ -213,7 +214,8 @@
     ],
     connect: { south: { map: 'route216', offset: 8 }, north: { map: 'acuity-lakefront', offset: 4 } },
     signs: { '17,2': 'Route 217. North: Acuity Lakefront. South: Route 216.' },
-    items: [
+    items: [{ x: 25, y: 25, item: 'icicle-plate', flag: 'route217-icicle-plate', then: 'sitems.found' },   // chapter 94
+            
       { x: 25, y: 2, item: 'nugget', flag: 'route217-nugget' }, { x: 3, y: 24, item: 'iron', flag: 'route217-iron' },
       { x: 18, y: 30, item: 'tm07', flag: 'route217-tm07' }
     ],

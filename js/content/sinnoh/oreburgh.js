@@ -82,7 +82,8 @@
     spots: { west: [3, 9, 'up'], east: [26, 9, 'up'] },
     npcs: [{ id: 'hiker', who: 'hiker', x: 12, y: 6, move: 'look',
              say: 'This tunnel goes right under the mountain to Oreburgh City. The miners dug it long ago.' }],
-    items: [{ x: 23, y: 3, item: 'escape-rope', flag: 'oreburgh-gate-rope' }],
+    items: [{ x: 2, y: 8, item: 'earth-plate', flag: 'oreburgh-gate-earth-plate', then: 'sitems.found' },   // chapter 94
+            { x: 23, y: 3, item: 'escape-rope', flag: 'oreburgh-gate-rope' }],
     encounters: { walk: '@oreburgh-gate-1f' }
   }, CAVE));
 

@@ -260,5 +260,8 @@ G.I18n.add({
   "Dahlia waits at the 21st and the 49th battle, and every facility of Sinnoh's Battle Frontier is open.": "Dahlia espera na 21ª e na 49ª batalha, e todas as instalações da Fronteira de Batalha de Sinnoh estão abertas.",
   "Chapter 93 complete!": "Capítulo 93 concluído!",
   "{player} traded Battle Points for one of the new held items: Choice items, Focus Sashes, Life Orbs and berries that soften a blow.": "{player} trocou Pontos de Batalha por um dos novos itens para segurar: itens Choice, Focus Sash, Life Orb e frutinhas que amortecem os golpes.",
-  "The Castle rents and the Arcade hands out the whole of Platinum's lists now, and Palmer's and Darach's teams hold what they should.": "O Castelo aluga e o Fliperama distribui agora as listas completas de Platina, e as equipes de Palmer e Darach seguram o que devem."
+  "The Castle rents and the Arcade hands out the whole of Platinum's lists now, and Palmer's and Darach's teams hold what they should.": "O Castelo aluga e o Fliperama distribui agora as listas completas de Platina, e as equipes de Palmer e Darach seguram o que devem.",
+  "Chapter 94 complete!": "Capítulo 94 concluído!",
+  "{player} found one of the plates and tools Sinnoh had hidden away, while Thief, Trick and Knock Off began to move items in battle.": "{player} encontrou uma das placas e ferramentas escondidas em Sinnoh, enquanto Thief, Trick e Knock Off passaram a mover itens nas batalhas.",
+  "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "Dezesseis placas ao todo, um Shed Shell, uma Mental Herb e um Destiny Knot esperam por toda Sinnoh."
 }, "pt-BR");

@@ -7071,7 +7071,7 @@ test('Sinnoh (chapter 87): Dr. Footstep on Route 213, the Effort Ribbon at the S
   assert.ok(F.flag('chapter-87-done') && said.some(s => /Welcome back/.test(s)));
 });
 
-test('Sinnoh (chapter 88): the Battle Frontier (the gate, the plaza, four shut facilities), the Battle Tower (Platinum\'s banned list, rounds and BP, Palmer at the 21st and 49th single battle, the prints and the Ability ribbons, the Double Ability Ribbon), the Battle Shops, the ending after chapter 87', async () => {
+test('Sinnoh (chapter 88): the Battle Frontier (the gate, the plaza, its doors), the Battle Tower (Platinum\'s banned list, rounds and BP, Palmer at the 21st and 49th single battle, the prints and the Ability ribbons, the Double Ability Ribbon), the Battle Shops, the ending after chapter 87', async () => {
   const { G, W } = world(['js/world/tower.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/content/hoenn/tower.js', 'js/content/sinnoh/battlezone.js',
     'js/content/sinnoh/frontier.js']);
   W.debug.noEnc = true;
@@ -7096,13 +7096,8 @@ test('Sinnoh (chapter 88): the Battle Frontier (the gate, the plaza, four shut f
   step(W, 'down');
   await until(() => W.map.id === 'sinnoh-frontier' && !W.locked);
   assert.deepEqual([W.player.x, W.player.y], [19, 17]);
-  for (const [x, y, re] of [[33, 15, /Battle Arcade/]]) {        // the Factory opens in chapter 89, the Hall in 90, the Castle in 91
-    W.load('sinnoh-frontier', { x, y, dir: 'up' });
-    said.length = 0;
-    step(W, 'up');
-    await until(() => !W.locked);
-    assert.ok(W.map.id === 'sinnoh-frontier' && said.some(s => re.test(s) && /opens soon/.test(s)), re + ': ' + said.join(' | '));
-  }
+  // The other facilities open in their own chapters (the Factory 89, the Hall 90, the Castle 91, the Arcade 92): no door is shut.
+  assert.ok(G.Maps.get('sinnoh-frontier').warps.every(w => w.to), 'every door on the plaza opens');
   W.load('sinnoh-frontier', 'shop-door');
   step(W, 'up');
   await until(() => W.map.id === 'frontier-shop' && !W.locked);
@@ -7399,4 +7394,123 @@ test('Sinnoh (chapter 91): the Battle Castle at the Battle Frontier (the door; t
   assert.ok(fights.length === 7 && fights.every(f => f.n === 3));
   assert.ok(F.flag('chapter-91-done'));
   assert.equal(mine[2].item, 'leftovers', 'your own Pokémon keep their items');
+});
+
+test('Sinnoh (chapter 92): the Battle Arcade at the Battle Frontier (the door; three of your own, not two of a species, no held items; the roulette before each battle: a panel on the opponents, Level Up for one battle, items kept, a swap, Speed Up, 1 BP, No Battle; Dahlia at the 21st; a loss starts over), the ending after chapter 91', async () => {
+  const { G, W } = world(['js/world/tower.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/content/hoenn/tower.js',
+    'js/content/sinnoh/battlezone.js', 'js/content/sinnoh/frontier.js', 'js/content/sinnoh/scastle.js', 'js/content/sinnoh/sarcade.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, Tw = G.Tower, A = G.Arcade;
+  const said = [], answers = [], picks = [], fights = [], spins = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  // The roulette: the test says which panel it stops on (`want`: a panel id, or null for the first one).
+  let want = [];
+  G.ArcadeUI = { tick() {}, spin: o => {
+    spins.push({ frames: o.frames, random: o.random, board: o.board.map(t => t.p + (t.who ? ':' + t.who : '')) });
+    const w = want.shift();
+    if (!w) return Promise.resolve(0);
+    const [p, who] = w.split(':');
+    o.board[0] = { p, who: who || null };               // put the wanted panel under the cursor
+    return Promise.resolve(0);
+  } };
+  let onFight = null, result = 'win';
+  W.onTrainer = async (d, o) => {
+    fights.push({ id: d.id, n: d.team.length, mine: o.party.map(m => ({ sp: m.sp, lvl: m.lvl, item: m.item, status: m.status, hp: m.hp, max: G.Mon.maxHp(m) })),
+                  theirs: d.mons.map(m => ({ sp: m.sp, lvl: m.lvl, item: m.item, status: m.status })), rows: d.team.map(r => r[3]),
+                  rowSp: d.team.map(r => G.Maps.species(r[0])), rules: o.rules });
+    if (onFight) onFight(o.party, fights.length);
+    return typeof result === 'function' ? result(fights.length) : result;
+  };
+  const until = async ok => { for (let i = 0; i < 3000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  const mine = ['garchomp', 'garchomp', 'lucario', 'togekiss'].map(sp => F.giveMon(sp, 62));
+  mine[2].item = 'leftovers';
+  const sp = slug => G.Maps.species(slug);
+
+  // The plaza's door.
+  W.load('sinnoh-frontier', 'arcade-door');
+  W.player.face('up');
+  step(W, 'up');
+  await until(() => W.map.id === 'sarcade-lobby' && !W.locked);
+  W.load('sarcade-lobby', 'single');
+  // Not two of one species.
+  picks.push(0, 1);
+  await talk();
+  assert.ok(/Please come again/.test(said[said.length - 1]) && !fights.length);
+  // A round: 1 Poison on the opponents, 2 Level Up for yours, 3 Berries for yours, 4 a swap, 5 Speed Up, 6 1 BP... (an odd
+  // place for 1 BP is the 5th; the 6th: No Battle), 7 No Event.
+  want = ['psn:foe', 'level:me', 'berry:me', 'swap', 'fast', 'skip', 'none'];
+  picks.push(0, 2, 3);
+  await talk();
+  assert.equal(Tw.streak('single', 'sarcade'), 7);
+  assert.equal(fights.length, 6, 'battle 6 had no battle');
+  const [f1, f2, f3, f4, f5] = fights;
+  assert.deepEqual(plain(f1.mine.map(m => [m.lvl, m.item])), [[50, null], [50, null], [50, null]], 'level 50, no held items');
+  assert.deepEqual(plain(f1.rows), [null, null, null], 'the opponents hold nothing');
+  assert.ok(f1.theirs.some(m => m.status === 'psn') && f1.mine.every(m => !m.status), 'Poison: the opponents');
+  assert.deepEqual(plain(f2.mine.map(m => m.lvl)), [53, 53, 53], 'Level Up: three levels');
+  assert.ok(f2.mine.every(m => m.hp === m.max));
+  assert.deepEqual(plain(f3.mine.map(m => m.lvl)), [50, 50, 50], 'only for that battle');
+  assert.ok(f3.mine.every(m => A.ITEMS[0].berry.includes(m.item)), 'Berries for yours');
+  assert.deepEqual(plain(f4.mine.map(m => m.sp)), plain(f4.rowSp), 'the swap: you battle with theirs');
+  assert.deepEqual(plain(f4.theirs.map(m => m.sp)), [sp('garchomp'), sp('lucario'), sp('togekiss')], '...and they with yours');
+  assert.deepEqual(plain(f4.theirs.map(m => m.item)), plain(f3.mine.map(m => m.item)), 'the Berries kept (none used)');
+  assert.deepEqual(plain(f5.mine.map(m => m.sp)), [sp('garchomp'), sp('lucario'), sp('togekiss')], 'the swap lasts one battle');
+  assert.equal(spins[5].frames, A.frames(6, 1), 'Speed Up: the next spin is faster');
+  assert.ok(said.some(s => /No battle! Battle No. 6 counts as won/.test(s)));
+  assert.equal(Tw.bp(), 2, 'the first round: 2 BP');
+  assert.ok(!F.flag('chapter-92-done'), 'no ending before chapter 91');
+  // 1 BP on the first battle of a round (22nd: the fourth round allows it); Random makes the next spin jump.
+  Tw.setStreak('single', 21, 'sarcade');
+  fights.length = 0; spins.length = 0;
+  want = ['bp', 'none', 'none', 'none', 'none', 'none', 'none'];
+  let bp = Tw.bp();
+  picks.push(0, 2, 3);
+  await talk();
+  assert.equal(Tw.bp(), bp + 1 + A.bpFor(4));
+  Tw.setStreak('single', 28, 'sarcade');
+  spins.length = 0;
+  want = ['random', 'none', 'none', 'none', 'none', 'none', 'none'];
+  picks.push(0, 2, 3);
+  await talk();
+  assert.deepEqual(plain(spins.slice(0, 3).map(x => x.random)), [false, true, false], 'Random: the next spin only');
+  // Weather and Trick Room go to the battle's rules.
+  Tw.setStreak('single', 42, 'sarcade');
+  fights.length = 0;
+  want = ['fog', 'trick', 'sun', 'none', 'none', 'none', 'none'];
+  picks.push(0, 2, 3);
+  await talk();
+  assert.deepEqual(plain([fights[0].rules.weather, fights[1].rules.trickRoom, fights[2].rules.weather, fights[3].rules.weather]), ['fog', true, 'sun', null]);
+  // Dahlia at the 21st: the Silver Print and 20 BP.
+  Tw.setStreak('single', 20, 'sarcade');
+  fights.length = 0;
+  bp = Tw.bp();
+  want = ['none'];
+  picks.push(0, 2, 3);
+  await talk();
+  assert.deepEqual(plain(fights.map(f => f.id)), ['dahlia']);
+  assert.deepEqual(plain(fights[0].theirs.map(m => m.sp).sort()), plain([sp('dusknoir'), sp('medicham'), sp('ludicolo')].sort()));
+  assert.ok(F.flag('sarcade-silver') && Tw.bp() === bp + 20);
+  assert.equal(G.SinnohArcadeHall.trainerFor(21, 'double', 1).id, 'tower', 'not in doubles');
+  // A loss: the streak starts over.
+  result = 'lose';
+  want = ['none'];
+  picks.push(0, 2, 3);
+  await talk();
+  assert.equal(Tw.streak('single', 'sarcade'), 0);
+  // Once chapter 91 is done, a round won (doubles of three) ends chapter 92.
+  result = 'win';
+  F.setFlag('chapter-91-done');
+  W.load('sarcade-lobby', 'double');
+  fights.length = 0;
+  want = ['none', 'none', 'none', 'none', 'none', 'none', 'none'];
+  picks.push(0, 2, 3);
+  await talk();
+  assert.ok(fights.length === 7 && fights.every(f => f.n === 3 && f.theirs.length === 3 && f.mine.length === 3));
+  assert.equal(Tw.streak('double', 'sarcade'), 7);
+  assert.ok(F.flag('chapter-92-done'));
+  assert.equal(mine[2].item, 'leftovers', 'your own Pokémon keep their items');
+  assert.equal(mine[0].lvl, 62);
 });

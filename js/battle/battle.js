@@ -8,7 +8,8 @@
  *     foe:    { party, trainer: { id, name, title, ai: 'basic' | 'leader', items: {potion: 1}, prize: 20 } | null },
  *     partner: { name, party } (a multi battle, doubles only: see below),
  *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', noCatch: false, forceCatch: false (debug),
- *               fishing: false (hooked with a rod: the Lure Ball), weather: 'rain' (the overworld's, for the whole battle),
+ *               fishing: false (hooked with a rod: the Lure Ball), weather: 'rain' | 'sun' | 'sand' | 'hail' | 'fog' (the overworld's or the
+ *               Battle Arcade's, for the whole battle; fog: accuracy x0.6), trickRoom: false (the Battle Arcade: Trick Room for five turns),
  *               double: false (two Pokémon a side, trainers only), tag: false (doubles: two foes, one slot each),
                roamer: false (a roaming wild Pokémon that flees),
  *               noExp: false (no Exp. Points), noBag: false (no items or balls from the Bag: the Battle Tower),
@@ -129,6 +130,8 @@ G.Battle = (() => {
       this.emit('start', { kind: this.kind, trainer: this.foe.trainer ? this.foe.trainer.id : null });
       // The overworld's weather (rules.weather, chapter 38: the storm): it lasts the whole battle.
       if (this.rules.weather) { this.weather = { w: this.rules.weather, turns: Infinity }; this.emit('weather', { w: this.rules.weather, field: true }); }
+      // The Battle Arcade's Trick Room panel (rules.trickRoom, chapter 92): five turns from the start.
+      if (this.rules.trickRoom) { this.trickRoom = 5; this.emit('trickRoom', { field: true }); }
       if (!this.double) {
         this.sendOut(this.foe, this.firstHealthy(this.foe));
         this.sendOut(this.player, this.firstHealthy(this.player));
@@ -272,7 +275,7 @@ G.Battle = (() => {
         const m = this.player.party.find(x => x.uid === uid);
         return m && m.hp > 0 && G.Evolution.candidates(m, { trigger: 'level' }).length > 0;
       });
-      this.result = Object.assign({ outcome, money, leveled, evolve, seen: [...this.seen], caught: null, toBox: false }, extra, { money });
+      this.result = Object.assign({ outcome, money, leveled, evolve, seen: [...this.seen], caught: null, toBox: false, turns: this.turn }, extra, { money });
       for (const bm of this.allActive()) { bm.mon.tox = 0; if (!bm.fainted) G.Abilities.switchOut(this, bm); }   // Natural Cure
       this.emit('end', { outcome });
     }

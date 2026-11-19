@@ -233,12 +233,14 @@ G.Field = (() => {
   const vars = () => ({ player: S.player.name, rival: S.rival.name, rival2: (S.rival2 && S.rival2.name) || '???', rival3: rival3(),
                         assistant: assistant() });
   /** The outcome of the last battle ('win', 'lose', 'run', 'caught'): scripts test it with 'battle=win'. */
-  let last = null;
+  let last = null, turns = null;
 
   return { get save() { return S; }, get fake() { return fake; }, bind, reset,
            flag, setFlag, clearFlag, getVar, setVar, isDone, markDone,
            party, lead, makeMon, giveMon, toBox, count, giveItem, takeItem, money, healAll, badge, johtoBadges, hoennBadges, obeyCap, OBEY, test, vars,
-           get lastBattle() { return last; }, set lastBattle(v) { last = v; } };
+           get lastBattle() { return last; }, set lastBattle(v) { last = v; },
+           // How many turns the last trainer battle took (chapter 92: the Battle Arcade's performance), or null.
+           get lastTurns() { return turns; }, set lastTurns(v) { turns = v; } };
 })();
 
 G.World = (() => {
@@ -976,7 +978,7 @@ G.World = (() => {
     const cls = (G.TRAINER_CLASSES && G.TRAINER_CLASSES[d.cls]) || {};
     const t = { id: key, name: d.name ? G.T(d.name, 'trainer-name') : '', title: classTitle(d), titleCtx: classCtx(d), who: d.who, cls: d.cls,
                 ai: d.ai || (d.leader ? 'leader' : 'basic'), prize: d.prize != null ? d.prize : cls.prize,
-                items: d.items || {}, leader: !!d.leader, team: d.team, music: d.music || null };
+                items: d.items || {}, leader: !!d.leader, team: d.team, mons: d.mons || null, music: d.music || null };
     const q = d.partner;
     if (q && q.cls && q.name) {
       t.name = G.I18n.fmt('{one} & {two}', { one: trainerName(d), two: trainerName(q) });
@@ -1017,6 +1019,7 @@ G.World = (() => {
       else if (G.BattleUI && G.BattleUI.trainer) r = await G.BattleUI.trainer(me, battleTrainer(d, key), opts);
       else r = await fallbackBattle(trainerName(d) || G.Names.pretty(d.id));
       out = settle(r);
+      G.Field.lastTurns = r && typeof r === 'object' && Number.isFinite(r.turns) ? r.turns : null;
     } finally { locks--; }
     G.Field.lastBattle = out;
     if (out !== 'lose') { if (o.record !== false) G.Field.markDone(key); }

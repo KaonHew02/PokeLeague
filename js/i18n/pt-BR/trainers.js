@@ -90,5 +90,6 @@ G.I18n.add({
   "Pyramid King": "Pyramid King",
   "Tower Tycoon": "Magnata da Torre",
   "Hall Matron": "Dama do Salão",
-  "Castle Valet": "Mordomo do Castelo"
+  "Castle Valet": "Mordomo do Castelo",
+  "Arcade Star": "Estrela do Fliperama"
 }, "pt-BR");

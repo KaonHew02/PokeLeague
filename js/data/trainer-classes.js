@@ -128,5 +128,6 @@ G.TRAINER_CLASSES = {
   // Chapter 88: Sinnoh's Battle Tower.
   'tower-tycoon': { title: 'Tower Tycoon', who: 'palmer', prize: 0 },
   'hall-matron': { title: 'Hall Matron', who: 'argenta', prize: 0 },       // chapter 90
-  'castle-valet': { title: 'Castle Valet', who: 'darach', prize: 0 }       // chapter 91
+  'castle-valet': { title: 'Castle Valet', who: 'darach', prize: 0 },      // chapter 91
+  'arcade-star': { title: 'Arcade Star', who: 'dahlia', prize: 0 }         // chapter 92
 };

@@ -117,7 +117,7 @@ async function fight(st, ref, o, h) {
   const cls = G.TRAINER_CLASSES[d.cls] || {};
   const rng = G.RNG(W.seed * 977 + st.battles.length);
   const team = list => list.map(([sp, lvl, moves, item, x]) => Object.assign(G.Mon.create(G.Maps.species(sp), lvl, Object.assign({ rng, moves }, x)), item ? { item } : {}));
-  const party = team(d.team), partner = o && o.partner ? { name: o.partner.name, party: team(o.partner.team) } : undefined;
+  const party = d.mons || team(d.team), partner = o && o.partner ? { name: o.partner.name, party: team(o.partner.team) } : undefined;
   // o.party / o.rules / o.record (the Battle Tower, chapter 43): copies fight, with more rules, and are not recorded.
   const b = G.Battle.create({ kind: 'trainer', seed: W.seed * 31 + st.battles.length,
     player: { name: S.player.name, id: S.player.id, party: (o && o.party) || S.party, bag: o && o.party ? {} : S.bag }, partner,
@@ -127,6 +127,7 @@ async function fight(st, ref, o, h) {
   const r = autoplay(G, b);
   st.battles.push({ key, outcome: r.outcome, levels: S.party.map(m => m.lvl), team: d.team });
   G.Field.lastBattle = r.outcome;
+  G.Field.lastTurns = r.turns;
   for (const sp of r.seen || []) S.dex.seen[sp] = 1;
   if (r.outcome === 'win' && r.money > 0) G.Field.money(r.money);
   evolve(G, S, r);
@@ -1436,6 +1437,24 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
   // items the Castle rents (as one would after a few rounds).
   const darach = n => +((rate(G.Castle.darach(n, 0)) + rate(G.Castle.darach(n, 1))) / 2).toFixed(2);
   console.log('[balance] Sinnoh\'s Battle Castle, Darach against Swampert, Gardevoir and Manectric at 50:', JSON.stringify({ silver: darach(21), gold: darach(49) }));
+  // Chapter 92: Dahlia, the Arcade Star (her IVs and natures, in her order of each challenge), against the same three holding
+  // nothing (the Arcade takes their items), no roulette (60 battles each).
+  const dahlia = (no, n = 60) => {
+    let wins = 0;
+    for (let s = 1; s <= n; s++) {
+      const rng = G.RNG(s * 29);
+      const me = [[260, ['surf', 'earthquake', 'ice-beam', 'protect']], [282, ['psychic', 'thunderbolt', 'calm-mind', 'shadow-ball']],
+                  [310, ['thunderbolt', 'crunch', 'flamethrower', 'thunder-wave']]].map(([sp, moves]) => G.Mon.create(sp, 50, { rng, moves }));
+      const d = G.SinnohArcadeHall.trainerFor(no, 'single', s);
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: G.SinnohArcadeHall.make(d.team, rng), trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } },
+        rules: { noExp: true, noBag: true, shift: false, canLose: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return +(wins / n).toFixed(2);
+  };
+  console.log('[balance] Sinnoh\'s Battle Arcade, Dahlia against Swampert, Gardevoir and Manectric at 50 holding nothing:', JSON.stringify({ silver: dahlia(21), gold: dahlia(49) }));
   // Each round is harder; the first is mostly won, the last ones are a real test.
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
 });
@@ -4731,6 +4750,32 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 92 after chapter 91: Sinnoh's Battle Arcade, single battles with the three strongest Pokémon that may enter (one of each
+ *  species), the roulette stopping at random (seeded), until a round of seven is won (the ending). */
+async function chapter92(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower;
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 3 && !Tw.SINNOH_BANNED.includes(party[i].sp) && !picks.some(j => party[j].sp === party[i].sp)) picks.push(i);
+  }
+  const n = st.battles.length, log = st.log.length;
+  let tries = 0;
+  while (Tw.streak('single', 'sarcade') < 7 && tries < 20) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(...picks);
+    await run(st, 'sarcade-lobby', 'sarcade.single', [0]);
+  }
+  const fights = st.battles.slice(n);
+  const panels = st.log.slice(log).filter(l => /The roulette stopped on/.test(l)).map(l => l.replace(/^.*stopped on /, '').replace(/!$/, ''));
+  console.log('[story] Sinnoh\'s Battle Arcade:', fights.map(b => b.outcome).join(), 'in', tries, 'challenge(s) with', picks.map(i => G.Names.mon(party[i].sp)).join(', '),
+    '(panels: ' + panels.join('; ') + ')');
+  assert.equal(Tw.streak('single', 'sarcade'), 7, 'a round of seven');
+  assert.ok(F.flag('chapter-92-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 91 after chapter 90: Sinnoh's Battle Castle, single battles with the three strongest Pokémon that may enter (one of each
  *  species), the HP of the most hurt bought back before each battle while the Castle Points last, until a round of seven is won
  *  (the ending). */
@@ -5919,4 +5964,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter89(st);
   await chapter90(st);
   await chapter91(st);
+  await chapter92(st);
 });

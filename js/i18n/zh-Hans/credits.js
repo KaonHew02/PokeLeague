@@ -254,5 +254,8 @@ G.I18n.add({
   "Ten ranks for every type, Argenta at the 50th and the 170th battle, and only one Pokémon to take you there.": "每种属性十个等级，青葙在第 50 场和第 170 场等着你，而陪你走到那里的只有一只宝可梦。",
   "Chapter 91 complete!": "第 91 章完成！",
   "{player} won seven battles in a row at Sinnoh's Battle Castle, paying for every potion in Castle Points.": "{player}在神奥对战城堡连赢了七场，每一次回复都用城堡点数支付。",
-  "Darach serves the castle at the 21st and the 49th battle, and only the Battle Arcade is still to open.": "石兰在第 21 场和第 49 场为城堡效劳，只剩对战轮盘还没开放。"
+  "Darach serves the castle at the 21st and the 49th battle, and only the Battle Arcade is still to open.": "石兰在第 21 场和第 49 场为城堡效劳，只剩对战轮盘还没开放。",
+  "Chapter 92 complete!": "第 92 章完成！",
+  "{player} won seven battles in a row at Sinnoh's Battle Arcade, whatever the roulette had in store.": "{player}在神奥对战轮盘连赢了七场，不管轮盘停在哪一格。",
+  "Dahlia waits at the 21st and the 49th battle, and every facility of Sinnoh's Battle Frontier is open.": "大丽在第 21 场和第 49 场等着你，神奥对战开拓区的设施全部开放了。"
 }, "zh-Hans");

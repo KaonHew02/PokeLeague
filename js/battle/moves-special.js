@@ -15,7 +15,7 @@ G.SpecialMoves = (() => {
   const S = {
     // ---------- two-turn moves ----------
     'solar-beam':  { charge: true, noChargeIf: b => W(b) === 'sun',
-                     power: (b, u, t, M) => (['rain', 'sand', 'hail'].includes(W(b)) ? M.pow / 2 : M.pow) },
+                     power: (b, u, t, M) => (['rain', 'sand', 'hail', 'fog'].includes(W(b)) ? M.pow / 2 : M.pow) },
     'dig':         { charge: (b, u) => { u.vol.invuln = 'dig'; } },
     'fly':         { charge: (b, u) => { u.vol.invuln = 'fly'; } },
     'bounce':      { charge: (b, u) => { u.vol.invuln = 'fly'; } },
@@ -96,6 +96,7 @@ G.SpecialMoves = (() => {
                         const s = b.sideOf(t), f = s.field;
                         for (const k of ['reflect', 'lightScreen', 'safeguard', 'mist']) if (f[k]) { delete f[k]; b.emit('fieldEnd', { side: t.side, effect: k }); }
                         if (s.rocks) { s.rocks = false; b.emit('rocksGone', { side: t.side }); }
+                        if (b.weather && b.weather.w === 'fog') { b.weather = null; b.emit('weatherEnd', { w: 'fog' }); }   // (chapter 92)
                         return {}; } },
     'stealth-rock': { use: (b, u, t) => {
                         const s = b.sideOf(t);

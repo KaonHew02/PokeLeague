@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 92) return { title: T('Chapter 92 complete!'),
+      done: fmt('{player} won seven battles in a row at Sinnoh\'s Battle Arcade, whatever the roulette had in store.', { player }),
+      next: T('Dahlia waits at the 21st and the 49th battle, and every facility of Sinnoh\'s Battle Frontier is open.') };
     if (n === 91) return { title: T('Chapter 91 complete!'),
       done: fmt('{player} won seven battles in a row at Sinnoh\'s Battle Castle, paying for every potion in Castle Points.', { player }),
       next: T('Darach serves the castle at the 21st and the 49th battle, and only the Battle Arcade is still to open.') };

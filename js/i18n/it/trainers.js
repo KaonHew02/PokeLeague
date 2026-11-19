@@ -90,5 +90,6 @@ G.I18n.add({
   "Pyramid King": "Re della Piramide",
   "Tower Tycoon": "Magnate della Torre",
   "Hall Matron": "Regina del Salone",
-  "Castle Valet": "Maggiordomo del Castello"
+  "Castle Valet": "Maggiordomo del Castello",
+  "Arcade Star": "Stella della Roulette"
 }, "it");

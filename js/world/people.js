@@ -29,7 +29,7 @@ G.People = (() => {
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
                  'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa',
-                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser', 'tucker', 'lucy', 'brandon', 'palmer', 'thorton', 'argenta', 'darach'];
+                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser', 'tucker', 'lucy', 'brandon', 'palmer', 'thorton', 'argenta', 'darach', 'dahlia'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -408,7 +408,10 @@ G.People = (() => {
     // Chapter 91: Darach, the Castle Valet of Sinnoh's Battle Castle (my own look: a butler's black tailcoat over a white shirt,
     // neat grey hair).
     darach: { head: 'short', body: 'coat', legs: 'pants', h: '#8a8a96', H: '#62626e', j: '#1e1e26', J: '#101016', c: '#f4f4f4', C: '#c8c8d0',
-              p: '#1e1e26', P: '#101016', k: '#101016' }
+              p: '#1e1e26', P: '#101016', k: '#101016' },
+    // Chapter 92: Dahlia, the Arcade Star of Sinnoh's Battle Arcade (my own look: long black hair, a scarlet stage dress
+    // trimmed with gold).
+    dahlia: { head: 'long', body: 'dress', legs: 'bare', h: '#2a1e24', H: '#140e12', c: '#d8263a', C: '#a41a2a', j: '#f0c040', J: '#c49a28', k: '#a41a2a' }
   };
 
   const mirror = half => half + [...half].reverse().join('');

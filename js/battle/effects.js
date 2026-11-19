@@ -194,7 +194,8 @@ G.BattleFx = (() => {
     const st = Math.max(-6, Math.min(6, (G.Abilities.unaware(b, target) ? 0 : user.stages.acc) - eva));
     // Bright Powder; Compound Eyes, Hustle, Sand Veil
     return b.rng.int(1, 100) <= Math.floor(acc * G.Stats.accStage(st) * G.Held.accMult(target.mon) * G.Abilities.accMult(b, user, target, M)
-                                           * (b.gravity ? 5 / 3 : 1));          // Gravity
+                                           * (b.gravity ? 5 / 3 : 1)            // Gravity
+                                           * (b.weatherNow() === 'fog' ? 0.6 : 1));   // fog (chapter 92: the Battle Arcade)
   }
 
   /** One hit's damage: { dmg, crit } (power already known). spread: doubles, a move on both foes. */

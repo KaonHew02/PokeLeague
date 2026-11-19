@@ -112,6 +112,7 @@ G.Game = (() => {
     G.UI.tick(dt);
     if (G.Stick) G.Stick.tick();
     if (G.Minimap) G.Minimap.tick();
+    if (G.ArcadeUI) G.ArcadeUI.tick(dt);         // the Battle Arcade's roulette (chapter 92)
 
     G.Input.endFrame();
   }

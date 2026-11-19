@@ -209,5 +209,11 @@ G.I18n.add({
   "Score: {mine} {n}, {theirs} {n}. It's a draw: both are out!": "得分：{mine} {n} 分，{theirs} {n} 分。平分：兩隻都倒下了！",
   "Score: {mine} {p}, {theirs} {q}. {win} wins!": "得分：{mine} {p} 分，{theirs} {q} 分。{win}獲勝！",
   "{mon} hesitated and did nothing!": "{mon}猶豫了，什麼都沒做！",
-  "{mon} returned its stats to normal using its {item}!": "{mon}用{item}讓能力恢復了原狀！"
+  "{mon} returned its stats to normal using its {item}!": "{mon}用{item}讓能力恢復了原狀！",
+  "The dimensions are twisted!": "時空扭曲了！",
+  "The sunlight is strong.": "日照很強。",
+  "A sandstorm is raging.": "沙暴正在肆虐。",
+  "It is hailing.": "正在下冰雹。",
+  "The fog is deep...": "濃霧瀰漫……",
+  "The fog lifted.": "霧散了。"
 }, "zh-Hant");

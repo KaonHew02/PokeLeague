@@ -863,3 +863,22 @@ kbd {
   .pt-frame canvas { width: 4.5em; height: 4.5em; }
   .pt-title, .pt-plate { flex-basis: 100%; }
 }
+
+/* ---------- the Battle Arcade's roulette (chapter 92): sixteen panels, four by four; the colour says whose ---------- */
+.box.arc-box { width: 98%; max-width: 40em; height: 98%; display: flex; flex-direction: column; gap: .3em; padding: .5em; }
+.arc-t { margin: 0; text-align: center; font-weight: 700; color: var(--gold); }
+.arc-grid { flex: 1; min-height: 0; display: grid; gap: .25em; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(0, 1fr)); cursor: pointer; }
+.arc-c { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; padding: 0 .25em; border-radius: .4em;
+  border: .12em solid rgba(244,248,255,.25); text-align: center; line-height: 1.1; transition: transform .05s; }
+.arc-c b { font-size: .8em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.arc-c i { font-style: normal; font-size: .65em; opacity: .85; }
+.k-me { background: rgba(40,190,255,.55); }
+.k-foe { background: rgba(240,60,80,.62); }
+.k-field { background: rgba(60,200,100,.58); }
+.k-special { background: rgba(200,140,20,.72); }
+.arc-c.on { border-color: #fff; box-shadow: 0 0 .6em rgba(255,255,255,.8); transform: scale(1.04); color: #fff; }
+.arc-c.hit { border-color: var(--gold); }
+.arc-foot { display: flex; align-items: center; justify-content: space-between; gap: .5em; }
+.arc-key { display: flex; gap: .3em; flex-wrap: wrap; font-size: .7em; }
+.arc-key span { padding: .1em .4em; border-radius: .3em; }
+.arc-stop { min-width: 6em; }

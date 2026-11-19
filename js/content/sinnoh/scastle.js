@@ -359,5 +359,5 @@
     'scastle.guide': [['js', guide]],
     'scastle.door': [['say', 'The door to the battle room. Challengers must register at one of the counters first.']]
   });
-  G.SinnohCastleHall = { trainerFor };
+  G.SinnohCastleHall = { trainerFor, pickEntrants };          // pickEntrants: the Battle Arcade's too (chapter 92)
 })();

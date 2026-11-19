@@ -235,19 +235,20 @@ G.BattleText = (() => {
       case 'heartSwap': return fmt('{mon} switched stat changes with {target}!', { mon, target: who(b, e.target, e.tside) });
       case 'rocks': return e.side === 0 ? fmt('Pointed stones float in the air around your team!', {}) : fmt('Pointed stones float in the air around the foe team!', {});
       case 'rocksGone': return fmt('The pointed stones disappeared!', {});
-      case 'trickRoom': return fmt('{mon} twisted the dimensions!', { mon });
+      case 'trickRoom': return e.field ? fmt('The dimensions are twisted!', {}) : fmt('{mon} twisted the dimensions!', { mon });
       case 'trickRoomEnd': return fmt('The twisted dimensions returned to normal!', {});
       case 'gravity': return fmt('Gravity intensified!', {});
       case 'gravityEnd': return fmt('Gravity returned to normal!', {});
       case 'crash': return fmt('{mon} kept going and crashed!', { mon });
       case 'field': return fieldLine(e.side, e.effect, true);
       case 'fieldEnd': return fieldLine(e.side, e.effect, false);
-      // (A battle that starts in the overworld's rain, chapter 38: it is already raining.)
-      case 'weather': if (e.field) return fmt('It is raining.', {});
+      // (A battle that starts in the overworld's rain, chapter 38: it is already raining; the Battle Arcade's panels, chapter 92.)
+      case 'weather': if (e.field) return { rain: fmt('It is raining.', {}), sun: fmt('The sunlight is strong.', {}), sand: fmt('A sandstorm is raging.', {}),
+                                             hail: fmt('It is hailing.', {}), fog: fmt('The fog is deep...', {}) }[e.w];
         return { sun: fmt('The sunlight turned harsh!', {}), rain: fmt('It started to rain!', {}),
                                sand: fmt('A sandstorm kicked up!', {}), hail: fmt('It started to hail!', {}) }[e.w];
       case 'weatherEnd': return { sun: fmt('The sunlight faded.', {}), rain: fmt('The rain stopped.', {}),
-                                  sand: fmt('The sandstorm subsided.', {}), hail: fmt('The hail stopped.', {}) }[e.w];
+                                  sand: fmt('The sandstorm subsided.', {}), hail: fmt('The hail stopped.', {}), fog: fmt('The fog lifted.', {}) }[e.w];
       case 'weatherTick': return null;
       case 'run': return e.ok ? fmt('Got away safely!', {}) : fmt("Can't escape!", {});
       case 'noRunTrainer': return fmt("No! There's no running from a trainer battle!", {});

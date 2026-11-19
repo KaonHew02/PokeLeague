@@ -254,5 +254,8 @@ G.I18n.add({
   "Ten ranks for every type, Argenta at the 50th and the 170th battle, and only one Pokémon to take you there.": "Dez níveis para cada tipo, Argenta na 50ª e na 170ª batalha, e só um Pokémon para chegar lá.",
   "Chapter 91 complete!": "Capítulo 91 concluído!",
   "{player} won seven battles in a row at Sinnoh's Battle Castle, paying for every potion in Castle Points.": "{player} venceu sete batalhas seguidas no Castelo de Batalha de Sinnoh, pagando cada cura com Pontos de Castelo.",
-  "Darach serves the castle at the 21st and the 49th battle, and only the Battle Arcade is still to open.": "Darach serve ao castelo na 21ª e na 49ª batalha, e só falta abrir o Fliperama de Batalha."
+  "Darach serves the castle at the 21st and the 49th battle, and only the Battle Arcade is still to open.": "Darach serve ao castelo na 21ª e na 49ª batalha, e só falta abrir o Fliperama de Batalha.",
+  "Chapter 92 complete!": "Capítulo 92 concluído!",
+  "{player} won seven battles in a row at Sinnoh's Battle Arcade, whatever the roulette had in store.": "{player} venceu sete batalhas seguidas no Fliperama de Batalha de Sinnoh, fosse qual fosse o resultado da roleta.",
+  "Dahlia waits at the 21st and the 49th battle, and every facility of Sinnoh's Battle Frontier is open.": "Dahlia espera na 21ª e na 49ª batalha, e todas as instalações da Fronteira de Batalha de Sinnoh estão abertas."
 }, "pt-BR");

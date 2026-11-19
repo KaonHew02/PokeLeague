@@ -209,5 +209,11 @@ G.I18n.add({
   "Score: {mine} {n}, {theirs} {n}. It's a draw: both are out!": "Placar: {mine} {n}, {theirs} {n}. Empate: os dois estão fora!",
   "Score: {mine} {p}, {theirs} {q}. {win} wins!": "Placar: {mine} {p}, {theirs} {q}. {win} vence!",
   "{mon} hesitated and did nothing!": "{mon} hesitou e não fez nada!",
-  "{mon} returned its stats to normal using its {item}!": "{mon} restaurou seus atributos usando {item}!"
+  "{mon} returned its stats to normal using its {item}!": "{mon} restaurou seus atributos usando {item}!",
+  "The dimensions are twisted!": "As dimensões estão distorcidas!",
+  "The sunlight is strong.": "O sol está forte.",
+  "A sandstorm is raging.": "Uma tempestade de areia está soprando.",
+  "It is hailing.": "Está caindo granizo.",
+  "The fog is deep...": "A neblina está densa...",
+  "The fog lifted.": "A neblina se dissipou."
 }, "pt-BR");

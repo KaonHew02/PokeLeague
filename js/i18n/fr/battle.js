@@ -209,5 +209,11 @@ G.I18n.add({
   "Score: {mine} {n}, {theirs} {n}. It's a draw: both are out!": "Score : {mine} {n}, {theirs} {n}. Égalité : les deux sont éliminés !",
   "Score: {mine} {p}, {theirs} {q}. {win} wins!": "Score : {mine} {p}, {theirs} {q}. {win} l'emporte !",
   "{mon} hesitated and did nothing!": "{mon} a hésité et n'a rien fait !",
-  "{mon} returned its stats to normal using its {item}!": "{mon} a rétabli ses statistiques grâce à son objet {item} !"
+  "{mon} returned its stats to normal using its {item}!": "{mon} a rétabli ses statistiques grâce à son objet {item} !",
+  "The dimensions are twisted!": "Les dimensions sont faussées !",
+  "The sunlight is strong.": "Le soleil brille fort.",
+  "A sandstorm is raging.": "Une tempête de sable fait rage.",
+  "It is hailing.": "Il grêle.",
+  "The fog is deep...": "Le brouillard est épais...",
+  "The fog lifted.": "Le brouillard s'est levé."
 }, "fr");

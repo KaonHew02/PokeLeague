@@ -7096,7 +7096,7 @@ test('Sinnoh (chapter 88): the Battle Frontier (the gate, the plaza, four shut f
   step(W, 'down');
   await until(() => W.map.id === 'sinnoh-frontier' && !W.locked);
   assert.deepEqual([W.player.x, W.player.y], [19, 17]);
-  for (const [x, y, re] of [[33, 6, /Battle Factory/], [5, 7, /Battle Hall/], [6, 16, /Battle Castle/], [33, 15, /Battle Arcade/]]) {
+  for (const [x, y, re] of [[5, 7, /Battle Hall/], [6, 16, /Battle Castle/], [33, 15, /Battle Arcade/]]) {        // the Factory opens in chapter 89
     W.load('sinnoh-frontier', { x, y, dir: 'up' });
     said.length = 0;
     step(W, 'up');
@@ -7177,4 +7177,67 @@ test('Sinnoh (chapter 88): the Battle Frontier (the gate, the plaza, four shut f
   assert.deepEqual([F.count('tm40'), F.count('tm26'), Tw.bp()], [1, 0, 7], 'Aerial Ace for 40; Earthquake costs 80');
   assert.ok(said.some(s => /not have enough BP/.test(s)));
   assert.deepEqual(plain(H.MOVES.map(([, p]) => p)), [32, 32, 32, 32, 40, 40, 48, 48, 64, 64, 64, 80, 80, 80, 80]);
+});
+
+test('Sinnoh (chapter 89): the Battle Factory at the Battle Frontier (the door; level 50 or the Open Level; six rentals, three chosen, a swap; rounds and BP; Thorton at the 21st and 49th single battle; doubles of three), the ending after chapter 88', async () => {
+  const { G, W } = world(['js/world/tower.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/content/hoenn/tower.js', 'js/content/hoenn/factory.js',
+    'js/content/sinnoh/battlezone.js', 'js/content/sinnoh/frontier.js', 'js/content/sinnoh/sfactory.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, Tw = G.Tower, H = G.SinnohFactoryHall;
+  const said = [], answers = [], picks = [], fights = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  W.onTrainer = async (d, o) => { fights.push({ id: d.id, lvls: d.team.map(t => t[1]), mine: (o.party || []).map(m => m.lvl), n: d.team.length, double: !!d.double }); return 'win'; };
+  const until = async ok => { for (let i = 0; i < 2000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  F.giveMon('garchomp', 60);
+
+  // The plaza's door.
+  W.load('sinnoh-frontier', 'factory-door');
+  W.player.face('up');
+  step(W, 'up');
+  await until(() => W.map.id === 'sfactory-lobby' && !W.locked);
+  // Level 50 singles: six offered, three rented, a swap after the first win, a round of seven for 5 BP.
+  W.load('sfactory-lobby', 'single');
+  answers.push(0, 0);                                        // Level 50; take the challenge
+  picks.push(0, 1, 2, 0, 0);                                  // three rentals; then give the first, take the first beaten
+  await talk();
+  assert.equal(fights.length, 7);
+  assert.ok(fights.every(f => f.id !== 'thorton' && f.n === 3 && f.lvls.every(l => l === 50) && f.mine.every(l => l === 50) && f.mine.length === 3));
+  assert.ok(said.some(s => /went back to the Factory/.test(s)), 'a swap');
+  assert.deepEqual([Tw.streak('single', 'sfactory'), Tw.streak('single', 'sfactory100'), Tw.streak('single', 'factory'), Tw.bp()], [7, 0, 0, 5]);
+  assert.ok(!F.flag('chapter-89-done'), 'no ending before chapter 88');
+  // The Open Level: rentals, opponents and the battle copies at level 100.
+  assert.ok(H.offerFor('single', 9, 0, 100).every(m => m.lvl === 100) && H.offerFor('single', 9, 0).every(m => m.lvl === 50));
+  fights.length = 0;
+  answers.push(1, 0);
+  picks.push(0, 1, 2);
+  await talk();
+  assert.ok(fights.length === 7 && fights.every(f => f.lvls.every(l => l === 100) && f.mine.every(l => l === 100)), JSON.stringify(fights[0]));
+  assert.deepEqual([Tw.streak('single', 'sfactory100'), Tw.bp()], [7, 10]);
+  // Thorton at the 21st: the Silver Print and 20 BP for that round; not in doubles.
+  Tw.setStreak('single', 20, 'sfactory');
+  fights.length = 0;
+  answers.push(0, 0);
+  picks.push(0, 1, 2);
+  await talk();
+  assert.deepEqual(fights.map(f => f.id), ['thorton']);
+  assert.ok(F.flag('sfactory-silver') && said.some(s => /Silver Print/.test(s)));
+  assert.equal(Tw.bp(), 30);
+  const d21 = H.trainerFor(21, 'double', 1);
+  assert.ok(d21.id !== 'thorton' && d21.team.length === 3 && d21.double);
+  assert.equal(H.trainerFor(49, 'single', 1, 100).id, 'thorton');
+  assert.ok(H.trainerFor(49, 'single', 1, 100).team.every(t => t[1] === 100));
+  // Doubles: three rentals each side; once chapter 88 is done, a round won ends chapter 89.
+  F.setFlag('chapter-88-done');
+  W.load('sfactory-lobby', 'double');
+  fights.length = 0;
+  answers.push(0, 0);
+  picks.push(0, 1, 2);
+  await talk();
+  assert.ok(fights.length === 7 && fights.every(f => f.double && f.n === 3 && f.mine.length === 3));
+  assert.equal(Tw.streak('double', 'sfactory'), 7);
+  assert.ok(F.flag('chapter-89-done'));
+  assert.deepEqual([1, 4, 5, 6, 7, 8, 12].map(H.bpFor), [5, 5, 7, 7, 8, 9, 9]);
 });

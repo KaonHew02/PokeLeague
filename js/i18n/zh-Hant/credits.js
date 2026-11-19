@@ -245,5 +245,8 @@ G.I18n.add({
   "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "一週每天各有一枚獎章，腳印也有一枚，還有三枚留給出得起錢的人。",
   "Chapter 88 complete!": "第 88 章完成！",
   "{player} won a round of seven in Sinnoh's Battle Tower, at the Battle Frontier behind Fight Area.": "{player}在戰鬥區後方對戰開拓區的神奧對戰塔裡，贏下了一輪七連勝。",
-  "Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.": "塔主桄榔在第 21 場和第 49 場等著你，另外四個設施也在準備開放。"
+  "Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.": "塔主桄榔在第 21 場和第 49 場等著你，另外四個設施也在準備開放。",
+  "Chapter 89 complete!": "第 89 章完成！",
+  "{player} won a round of seven with rented Pokémon at Sinnoh's Battle Factory.": "{player}在神奧對戰工廠用租借寶可夢贏下了一輪七連勝。",
+  "Thorton, the Factory Head, knows every rental by heart, and the Open Level puts every Pokémon at level 100.": "工廠頭目捩木熟知每隻租借寶可夢，而開放級別會讓所有寶可夢都以 100 級對戰。"
 }, "zh-Hant");

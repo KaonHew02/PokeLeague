@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 89) return { title: T('Chapter 89 complete!'),
+      done: fmt('{player} won a round of seven with rented Pokémon at Sinnoh\'s Battle Factory.', { player }),
+      next: T('Thorton, the Factory Head, knows every rental by heart, and the Open Level puts every Pokémon at level 100.') };
     if (n === 88) return { title: T('Chapter 88 complete!'),
       done: fmt('{player} won a round of seven in Sinnoh\'s Battle Tower, at the Battle Frontier behind Fight Area.', { player }),
       next: T('Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.') };

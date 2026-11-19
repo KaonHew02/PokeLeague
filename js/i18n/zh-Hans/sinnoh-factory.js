@@ -1,0 +1,27 @@
+/* Simplified Chinese — sinnoh-factory: Sinnoh's Battle Factory and Thorton (js/content/sinnoh/sfactory.js; the plaza's sign in frontier.js). */
+G.I18n.add({
+  "The Battle Factory. Rental Pokémon, at level 50 or the Open Level.": "对战工厂。租借宝可梦，可选 50 级或开放级别。",
+  "Every rental in this building has a weakness. I know all of them. Do you?": "这栋楼里的每只租借宝可梦都有弱点。我全都知道。你呢？",
+  "A team you have never trained, against a team you have never seen. That is the Factory!": "用从没训练过的队伍，对抗从没见过的队伍。这就是工厂！",
+  "I spent all night reading the rental list. Let us see if it pays off.": "我整晚都在读租借名单。看看有没有用吧。",
+  "Choose well, battle better!": "选得好，打得更好！",
+  "You used them better than I would have...": "你用得比我还好……",
+  "I chose the wrong three. Again.": "我又选错三只了。",
+  "Not bad! Want to trade one of mine?": "不错嘛！要不要换一只我的？",
+  "Rentals, but no luck at all on my side.": "都是租来的，可运气一点也不站在我这边。",
+  "Twenty wins with rentals? Then you can read a Pokémon at a glance. I am Thorton, the Factory Head. I can too. Let us compare!": "用租借宝可梦连赢二十场？那你一眼就能看透宝可梦。我是工厂头目捩木。我也能。来比比看吧！",
+  "You again! I have run every number since our last battle. This time the odds are mine.": "又是你！上次对战后我把所有数字都算了一遍。这次胜算在我这边。",
+  "Hm. Your choices beat my calculations. Take this, you earned it.": "嗯。你的选择胜过了我的计算。拿去吧，这是你应得的。",
+  "Unbelievable... No table I made predicted that. You are the real deal.": "难以置信……我做的表格没有一张预料到这个。你是货真价实的高手。",
+  "Here, you battle with rented Pokémon. Out of the six we offer, choose three, for single and for double battles alike.": "这里用租借宝可梦对战。我们提供六只，单打和双打都从中选三只。",
+  "At level 50, every Pokémon battles at level 50. At the Open Level, every Pokémon battles at level 100.": "50 级时，所有宝可梦都以 50 级对战。开放级别时，所有宝可梦都以 100 级对战。",
+  "Which level will you challenge?": "要挑战哪个级别？",
+  "Level 50": "50 级",
+  "Open Level": "开放级别",
+  "Thorton recognizes your knowledge. You earned the Silver Print!": "捩木认可了你的知识。你得到了银色印记！",
+  "Thorton recognizes your knowledge. You earned the Gold Print!": "捩木认可了你的知识。你得到了金色印记！",
+  "Nobody here battles with their own Pokémon. Read the moves and the held item of each rental before you choose.": "这里没有人用自己的宝可梦对战。选之前，先看清每只租借宝可梦的招式和携带道具。",
+  "The Factory Head, Thorton, battles Trainers who reach the 21st and the 49th single battle in a row. He knows every rental by heart.": "工厂头目捩木会和单打连胜到第 21 场和第 49 场的训练家对战。他把每只租借宝可梦都记得清清楚楚。",
+  "At the Open Level, everything battles at level 100. Only this Factory offers that.": "开放级别时，全都以 100 级对战。只有这座工厂有这种玩法。",
+  "Thorton": "捩木"
+}, "zh-Hans");

@@ -95,3 +95,10 @@ test('Sinnoh\'s Battle Tower (chapter 88): Platinum\'s banned list on top of Hoe
   T.setStreak('single', 12, 'stower');
   assert.deepEqual([T.streak('single', 'stower'), T.best('single', 'stower'), T.streak('single')], [12, 12, 0]);
 });
+
+test('a copy at the Open Level (chapter 89, Sinnoh\'s Battle Factory): level 100 stays 100 with a cap of 100', () => {
+  const m = mon(445, 100, { moves: ['earthquake', 'dragon-claw'] });
+  const a = T.copy(m), b = T.copy(m, 100);
+  assert.deepEqual([a.lvl, b.lvl, m.lvl], [50, 100, 100]);
+  assert.equal(b.hp, G.Mon.maxHp(b));
+});

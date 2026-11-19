@@ -1968,7 +1968,7 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   the Bag). field.js `battle(ref, o)` takes `o.party` (these Pokémon fight instead of the party, with no
   Bag), `o.rules` (more rules) and `o.record: false` (not marked as done); `onTrainer` gets them too.
   `js/world/tower.js` (G.Tower): banned species (Mewtwo, Mew, Lugia, Ho-Oh, Celebi, Kyogre, Groudon,
-  Rayquaza, Jirachi, Deoxys), `why(mon, chosen, banned)` (the species and item clauses; chapter 88: another banned list, `SINNOH_BANNED`), `copy(mon)` (a battle
+  Rayquaza, Jirachi, Deoxys), `why(mon, chosen, banned)` (the species and item clauses; chapter 88: another banned list, `SINNOH_BANNED`), `copy(mon, cap)` (chapter 89: `cap`, default 50; the Open Level's 100) (a battle
   copy at level 50 at most, all restored: the party never changes), the opponents' species by round of
   seven (fully evolved, not legendary, base stat totals 400-479, 450-509, 480-539, then 500-600),
   `moveset(sp, rng)` (the strongest attacks of different types it can learn by level 50, TM or tutor,
@@ -2698,13 +2698,20 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** a new `[balance]` line beside the Battle Tower's: Palmer against Swampert, Gardevoir and Manectric at 50 (60 battles each): about 0.58 for the Silver Print team, 0.75 for the Gold (normal difficulty; kept at Platinum's level 50).
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the doors through to the Tower and the shops; the four shut facilities; Dialga refused here, not in Hoenn; a round of seven and 3 BP on the Tower's own streak; Palmer at 21 and 49, the prints, 20 BP, the Ability ribbons for the three; no Palmer in doubles, the Double Ability Ribbon at 50; the ending after chapter 87; the stalls and the BP); chapter 61's test now checks the door's way; `tests/tower.test.cjs` the banned list and the streaks; `tests/ribbons.test.cjs` the three new ribbons; `tests/story.test.cjs` the chapter after chapter 87 (`[story]`: a round of seven and Palmer beaten) and the balance line.
 
-### After chapter 88
+- **Chapter 89** ✅, Sinnoh's Battle Factory (`js/content/sinnoh/sfactory.js`; changes in frontier.js, js/world/tower.js, people.js; translations `sinnoh-factory`, `credits`). Post-game; `ending(89)` waits for chapter 88 (the first round of seven won). Sources: altissimo's Platinum Battle Factory page (singles, doubles, level 50 and the Open Level, a draft of six and three entered in both modes, a swap after each battle, BP by round 5, 5, 5, 5, 7, 7, 8 then 9 and 20 for the Frontier Brain's round, Thorton after 20 and 48 wins), 52poke's Battle Factory (Generation 4) page (捩木, the Factory Head; three in singles and doubles; the only level 100 mode of the Frontier).
+  - **The places**: the plaza's Factory door (frontier.js) opens on `sfactory-lobby` (single and double counters, a guide) and `sfactory-room`.
+  - **The rules**: Hoenn's Factory's ways (`G.FactoryHall.rent`, `rentalRound`; `G.TowerHall.trainerFor` with another seed and lines) with Platinum's numbers: three rentals of six in both modes, the opponents' teams three in doubles too; the level asked at the counter, 50 or the Open Level (100 for the rentals, the opponents and the battle copies: `G.Tower.copy(mon, 100)`); four streaks (halls `sfactory` and `sfactory100`, single and double); BP by round (`G.SinnohFactoryHall.bpFor`) and 20 for Thorton's round. Thorton (class `factory-head`, look `thorton`: my own, short grey-white hair, a dark green vest) at the 21st and 49th single battle: three at random from the strongest pool at the challenge's level (no legends, my own), the Silver / Gold Print (flags `sfactory-silver`, `sfactory-gold`).
+  - **Left out**: the upgraded rentals that Platinum gives for swaps made, multi battles.
+- **Balance:** a new `[balance]` line beside Hoenn's Factory's: Thorton against the three strongest of six rentals of round 3 (100 battles each): about 0.61 at level 50 and 0.64 at the Open Level.
+- **Tests:** `tests/field.test.cjs` the chapter on the real maps (the door; a level 50 round with a swap and 5 BP on its own streak; the Open Level at 100 for both sides and the copies; Thorton at 21, the Silver Print and 20 BP; not in doubles; doubles of three; the ending after chapter 88; the BP table) and chapter 88's test (three facilities shut now); `tests/tower.test.cjs` the copy's cap; `tests/story.test.cjs` the chapter after chapter 88 (`[story]`: a round of seven at level 50 with the strongest rentals) and the balance line.
+
+### After chapter 89
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn,
-the whole Battle Frontier of Hoenn and Sinnoh's Battle Tower, the whole Battle Zone, the villa,
+the whole Battle Frontier of Hoenn and Sinnoh's Battle Tower and Battle Factory, the whole Battle Zone, the villa,
 contests in Sinnoh and Hoenn with Poffins and Pokéblocks, and ribbons. Ideas:
-1. Sinnoh's Battle Frontier: the Battle Factory (Thorton), Hall (Argenta), Castle (Darach) and Arcade (Dahlia); multi
-   battles with a partner at the Battle Tower.
+1. Sinnoh's Battle Frontier: the Battle Hall (Argenta), Castle (Darach) and Arcade (Dahlia); multi battles with a partner
+   at the Battle Tower.
 2. Generation 4's held items: Choice Band, Specs and Scarf, Focus Sash, Life Orb, Muscle Band, the Power items, the orbs.
 3. Contests: accessories; Hoenn's own contest rules.
 4. Hoenn after the League: double battles at the Battle Palace, the Battle Dome, the Battle Pike and the Pyramid;

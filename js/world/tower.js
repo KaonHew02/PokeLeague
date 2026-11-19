@@ -6,8 +6,9 @@
  *                                'banned' | 'species' (one of each) | 'item' (no two hold the same item);
  *                                `banned` another list (chapter 88: Sinnoh's Battle Tower, SINNOH_BANNED), BANNED without
  *   G.Tower.SINNOH_BANNED        Platinum's: BANNED and Dialga, Palkia, Giratina, Phione, Manaphy, Darkrai, Shaymin, Arceus
- *   G.Tower.copy(mon)            a copy for one battle: level 50 at most (a higher one is brought down to
- *                                50), HP, PP and status restored; the party itself never changes
+ *   G.Tower.copy(mon, cap)       a copy for one battle: level `cap` at most (default 50: a higher one is brought down
+ *                                to 50; chapter 89, the Battle Factory's Open Level: 100), HP, PP and status restored;
+ *                                the party itself never changes
  *   G.Tower.pool(round)          the species opponents use in a round of seven (0, 1, 2, 3+): fully
  *                                evolved, not legendary, base stat total rising with the round
  *   G.Tower.moveset(sp, rng)     four moves it can learn by level 50, by TM or tutor: the strongest
@@ -48,10 +49,10 @@ G.Tower = (() => {
     return null;
   }
 
-  function copy(mon) {
+  function copy(mon, cap = 50) {
     const c = JSON.parse(JSON.stringify(mon));
     c.uid = mon.uid + '-tower';
-    if (c.lvl > 50) { c.lvl = 50; c.exp = G.Stats.expAt(G.SPECIES[c.sp].gr, 50); }
+    if (c.lvl > cap) { c.lvl = cap; c.exp = G.Stats.expAt(G.SPECIES[c.sp].gr, cap); }
     c.status = null; c.slp = 0; c.tox = 0;
     c.hp = G.Mon.maxHp(c);
     for (const m of c.moves) m.pp = G.Mon.ppMax(m.id, m.ppUp);

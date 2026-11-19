@@ -1,7 +1,8 @@
 /* ============ frontier.js — Sinnoh's Battle Frontier: its gate, its plaza, the Battle Tower and the Battle Shops ============
  * Chapter 88 (Platinum's Battle Frontier, after the League). The building in Fight Area (battlezone.js), shut since chapter 61, is
  * the Battle Frontier's gate (`frontier-gate`): a door back to Fight Area, a door on to the plaza (`sinnoh-frontier`). On the
- * plaza: the Battle Tower and the Battle Shops are open; the Battle Factory, Hall, Castle and Arcade stand shut for now.
+ * plaza: the Battle Tower and the Battle Shops are open (chapter 89: the Battle Factory, sfactory.js); the Battle Hall, Castle
+ * and Arcade stand shut for now.
  * The Battle Tower (`sinnoh-tower-lobby`, `sinnoh-tower-room`): Platinum's rules on G.Tower (js/world/tower.js) and the Hoenn
  * Tower's way of playing (G.TowerHall, js/content/hoenn/tower.js): three Pokémon for single battles, four for doubles, at level
  * 50 at most, seven battles a round, Battle Points by the round (G.Tower.bpFor: 3, 3, 4, 4, 5, 5, 7) and 20 for a round with
@@ -61,16 +62,16 @@
       { x: 19, y: 16, to: 'frontier-gate', spot: 'plaza' },
       { x: 19, y: 7, to: 'sinnoh-tower-lobby', spot: 'door' },
       { x: 25, y: 12, to: 'frontier-shop', spot: 'door' },
-      { x: 33, y: 5, locked: 'sfrontier.factory' },
+      { x: 33, y: 5, to: 'sfactory-lobby', spot: 'door' },                 // chapter 89 (sfactory.js)
       { x: 5, y: 6, locked: 'sfrontier.hall' },
       { x: 6, y: 15, locked: 'sfrontier.castle' },
       { x: 33, y: 14, locked: 'sfrontier.arcade' }
     ],
-    spots: { gate: [19, 17, 'down'], 'tower-door': [19, 8, 'down'], 'shop-door': [25, 13, 'down'] },
+    spots: { gate: [19, 17, 'down'], 'tower-door': [19, 8, 'down'], 'shop-door': [25, 13, 'down'], 'factory-door': [33, 6, 'down'] },
     signs: {
       '24,7': 'The Battle Tower. Single and double battles, seven in a row, for Battle Points.',
       '28,12': 'The Battle Shops. Battle Points for items and TMs.',
-      '35,6': 'The Battle Factory. Opening soon.',
+      '35,6': 'The Battle Factory. Rental Pokémon, at level 50 or the Open Level.',
       '7,7': 'The Battle Hall. Opening soon.',
       '11,15': 'The Battle Castle. Opening soon.',
       '35,15': 'The Battle Arcade. Opening soon.'
@@ -274,7 +275,6 @@
     'stower.door': [['say', 'The door to the battle room. Challengers must register at one of the counters first.']],
     'sfrontier.training': [['js', h => stall(h, TRAINING, T('Welcome to the Training Stall! Vitamins and held items, for Battle Points.'))]],
     'sfrontier.moves': [['js', h => stall(h, MOVES, T('Welcome to the Move Stall! Our TMs teach the moves the Battle Frontier\'s best Trainers use.'))]],
-    'sfrontier.factory': [['say', 'The Battle Factory. The doors are shut: it opens soon.']],
     'sfrontier.hall': [['say', 'The Battle Hall. The doors are shut: it opens soon.']],
     'sfrontier.castle': [['say', 'The Battle Castle. The doors are shut: it opens soon.']],
     'sfrontier.arcade': [['say', 'The Battle Arcade. The doors are shut: it opens soon.']]

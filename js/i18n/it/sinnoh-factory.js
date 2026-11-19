@@ -1,0 +1,27 @@
+/* Italian — sinnoh-factory: Sinnoh's Battle Factory and Thorton (js/content/sinnoh/sfactory.js; the plaza's sign in frontier.js). */
+G.I18n.add({
+  "The Battle Factory. Rental Pokémon, at level 50 or the Open Level.": "Industria Lotta. Pokémon a noleggio, al livello 50 o al Livello Libero.",
+  "Every rental in this building has a weakness. I know all of them. Do you?": "Ogni Pokémon a noleggio qui ha un punto debole. Io li conosco tutti. E tu?",
+  "A team you have never trained, against a team you have never seen. That is the Factory!": "Una squadra mai allenata contro una mai vista. Questa è l'Industria!",
+  "I spent all night reading the rental list. Let us see if it pays off.": "Ho passato la notte a leggere l'elenco dei noleggi. Vediamo se serve.",
+  "Choose well, battle better!": "Scegli bene, lotta meglio!",
+  "You used them better than I would have...": "Li hai usati meglio di quanto avrei fatto io...",
+  "I chose the wrong three. Again.": "Ho scelto i tre sbagliati. Di nuovo.",
+  "Not bad! Want to trade one of mine?": "Niente male! Vuoi scambiarne uno dei miei?",
+  "Rentals, but no luck at all on my side.": "Noleggi, ma nemmeno un po' di fortuna dalla mia parte.",
+  "Twenty wins with rentals? Then you can read a Pokémon at a glance. I am Thorton, the Factory Head. I can too. Let us compare!": "Venti vittorie con i noleggi? Allora sai leggere un Pokémon con un'occhiata. Sono Thorton, il Capo dell'Industria. Anch'io. Confrontiamoci!",
+  "You again! I have run every number since our last battle. This time the odds are mine.": "Ancora tu! Ho rifatto ogni calcolo dalla nostra ultima lotta. Stavolta le probabilità sono mie.",
+  "Hm. Your choices beat my calculations. Take this, you earned it.": "Mm. Le tue scelte hanno battuto i miei calcoli. Prendi, te lo sei guadagnato.",
+  "Unbelievable... No table I made predicted that. You are the real deal.": "Incredibile... Nessuna delle mie tabelle lo prevedeva. Sei davvero forte.",
+  "Here, you battle with rented Pokémon. Out of the six we offer, choose three, for single and for double battles alike.": "Qui si lotta con Pokémon a noleggio. Dei sei che offriamo, scegline tre, sia in singolo sia in doppio.",
+  "At level 50, every Pokémon battles at level 50. At the Open Level, every Pokémon battles at level 100.": "Al livello 50, tutti i Pokémon lottano al livello 50. Al Livello Libero, tutti lottano al livello 100.",
+  "Which level will you challenge?": "Quale livello vuoi affrontare?",
+  "Level 50": "Livello 50",
+  "Open Level": "Livello Libero",
+  "Thorton recognizes your knowledge. You earned the Silver Print!": "Thorton riconosce la tua conoscenza. Hai ottenuto l'Emblema d'Argento!",
+  "Thorton recognizes your knowledge. You earned the Gold Print!": "Thorton riconosce la tua conoscenza. Hai ottenuto l'Emblema d'Oro!",
+  "Nobody here battles with their own Pokémon. Read the moves and the held item of each rental before you choose.": "Qui nessuno lotta con i propri Pokémon. Leggi le mosse e lo strumento di ogni noleggio prima di scegliere.",
+  "The Factory Head, Thorton, battles Trainers who reach the 21st and the 49th single battle in a row. He knows every rental by heart.": "Il Capo dell'Industria, Thorton, sfida chi arriva alla 21ª e alla 49ª lotta in singolo di fila. Conosce ogni noleggio a memoria.",
+  "At the Open Level, everything battles at level 100. Only this Factory offers that.": "Al Livello Libero, si lotta tutti al livello 100. Solo questa Industria lo offre.",
+  "Thorton": "Thorton"
+}, "it");

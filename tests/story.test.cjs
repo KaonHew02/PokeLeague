@@ -1647,6 +1647,23 @@ test('balance: the Battle Factory (chapter 78), win rates of the three strongest
   for (let round = 0; round < 4; round++) table['round ' + (round + 1)] = rate(round, round);
   table['Noland (battles 21 and 42)'] = rate(2, 3);
   console.log('[balance] Battle Factory, the three strongest of six rentals at 50 (no switching, no swaps):', JSON.stringify(table));
+  // Chapter 89: Sinnoh's Factory Head, Thorton (three from the strongest pool), against the three strongest rentals of round 3,
+  // at level 50 and at the Open Level (100).
+  const thorton = lvl => {
+    let wins = 0;
+    for (let s = 1; s <= 100; s++) {
+      const rng = G.RNG(s * 59);
+      const six = G.Tower.team(G.RNG(s * 61), G.FactoryHall.rentalRound(2), 6).sort((a, b) => total(b[0]) - total(a[0]));
+      const make = list => list.map(([sp, , moves, item]) => Object.assign(G.Mon.create(G.Maps.species(sp), lvl, { rng, moves }), { item }));
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: make(six.slice(0, 3)), bag: {} },
+        foe: { party: make(G.Tower.team(G.RNG(s * 67), 3, 3)), trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } },
+        rules: { noExp: true, noBag: true, shift: false, canLose: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / 100;
+  };
+  console.log('[balance] Sinnoh\'s Battle Factory, Thorton against the three strongest of six rentals:', JSON.stringify({ 'level 50': thorton(50), 'Open Level': thorton(100) }));
   // Rentals a round ahead: the first set is mostly won; from round 4 both sides draw from the same pool.
   assert.ok(table['round 1'] >= 0.7, 'round 1');
   for (const k in table) assert.ok(table[k] >= 0.5, k);
@@ -4687,6 +4704,32 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 89 after chapter 88: Sinnoh's Battle Factory at level 50, single battles, renting the three strongest of the six on
+ *  offer (no swaps), until a round of seven is won (the ending). */
+async function chapter89(st) {
+  const { G } = st;
+  const F = G.Field, Tw = G.Tower, H = G.SinnohFactoryHall;
+  const total = sp => G.SPECIES[sp].base.reduce((a, b) => a + b, 0);
+  const n = st.battles.length;
+  let tries = 0;
+  // Seven wins in a row with the first rentals (no swaps) take a few tries: each battle is won about three times in four.
+  while (Tw.streak('single', 'sfactory') < 7 && tries < 30) {
+    tries++;
+    const next = (+F.getVar('sfactory-runs') || 0) + 1;
+    const offer = H.offerFor('single', next, 0);
+    const best = offer.map((m, i) => i).sort((a, b) => total(offer[b].sp) - total(offer[a].sp) || a - b).slice(0, 3);
+    st.picks.length = 0;
+    st.picks.push(...best);
+    // Level 50, take the challenge, these three; after each win keep going (the default), and no swap (no Pokémon picked).
+    await run(st, 'sfactory-lobby', 'sfactory.single', [0, 0, 0]);
+  }
+  const fights = st.battles.slice(n);
+  console.log('[story] Sinnoh\'s Battle Factory:', fights.map(b => b.outcome).join(), 'in', tries, 'challenge(s)');
+  assert.equal(Tw.streak('single', 'sfactory'), 7, 'a round of seven');
+  assert.ok(F.flag('chapter-89-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 88 after chapter 87: Sinnoh's Battle Tower with the three strongest Pokémon that may enter (Platinum's list): single
  *  battles until a round of seven is won (the ending), then from twenty wins in a row against Palmer until he is beaten. */
 async function chapter88(st) {
@@ -5783,4 +5826,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter86(st);
   await chapter87(st);
   await chapter88(st);
+  await chapter89(st);
 });

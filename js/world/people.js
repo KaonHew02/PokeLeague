@@ -29,7 +29,7 @@ G.People = (() => {
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
                  'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa',
-                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser', 'tucker', 'lucy', 'brandon', 'palmer'];
+                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser', 'tucker', 'lucy', 'brandon', 'palmer', 'thorton'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -398,7 +398,11 @@ G.People = (() => {
     // Chapter 88: Palmer, the Tower Tycoon of Sinnoh's Battle Tower and Barry's father (my own look: Barry's blond spikes,
     // a long dark coat over an orange shirt).
     palmer: { head: 'spiky', body: 'coat', legs: 'pants', h: '#f0d050', H: '#c0a030', j: '#3a3a52', J: '#26263a', c: '#f08a30', C: '#c06a20',
-              p: '#3a3a44', P: '#24242c', k: '#2a2020' }
+              p: '#3a3a44', P: '#24242c', k: '#2a2020' },
+    // Chapter 89: Thorton, the Factory Head of Sinnoh's Battle Factory (my own look: short grey-white hair, a dark green
+    // vest over a white shirt).
+    thorton: { head: 'short', body: 'jacket', legs: 'pants', h: '#d8d8e0', H: '#a8a8b4', j: '#2e5a3a', J: '#1e3e28', c: '#f4f4f4', C: '#c8c8d0',
+               p: '#4a4a56', P: '#30303a', k: '#2a2020' }
   };
 
   const mirror = half => half + [...half].reverse().join('');

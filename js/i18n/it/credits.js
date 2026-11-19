@@ -245,5 +245,8 @@ G.I18n.add({
   "A ribbon for every day of the week, a ribbon for every footstep, and three more for anyone who can pay for them.": "Un fiocco per ogni giorno della settimana, uno per ogni impronta, e altri tre per chi può permetterseli.",
   "Chapter 88 complete!": "Capitolo 88 completato!",
   "{player} won a round of seven in Sinnoh's Battle Tower, at the Battle Frontier behind Fight Area.": "{player} ha vinto un giro di sette nella Torre Lotta di Sinnoh, al Parco Lotta dietro l'Area Lotta.",
-  "Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.": "Palmer, il Magnate della Torre, aspetta alla 21ª e alla 49ª lotta, e altre quattro strutture si preparano ad aprire."
+  "Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.": "Palmer, il Magnate della Torre, aspetta alla 21ª e alla 49ª lotta, e altre quattro strutture si preparano ad aprire.",
+  "Chapter 89 complete!": "Capitolo 89 completato!",
+  "{player} won a round of seven with rented Pokémon at Sinnoh's Battle Factory.": "{player} ha vinto un giro di sette con Pokémon a noleggio all'Industria Lotta di Sinnoh.",
+  "Thorton, the Factory Head, knows every rental by heart, and the Open Level puts every Pokémon at level 100.": "Thorton, il Capo dell'Industria, conosce ogni noleggio a memoria, e il Livello Libero porta tutti al livello 100."
 }, "it");

@@ -701,6 +701,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
 | `G.SuperContestUI` | chapter 85, js/ui/supercontest-ui.js: `run(state)` → standings: the Visual hearts, four dances on a beat track (arrows, pad or buttons), four Acting turns (a move, then a judge), the results; chapter 86: `painting({ cat, sp, title, plate })`, a Lilycove Museum painting |
 | `G.Pokeblock` | chapter 86, js/world/pokeblock.js: `blend(berries, { rng })` (1-4, Generation 3's rule: each flavor less the next, less the flavors below 0, x1.30 at RPM 100; the feel; a Black one from two of a kind or more than three flavors below 0), `color`, `name`, `feed(mon, p)` (x1.1 / x0.9, only the stronger when both), the Pokéblock Case `list / add / take` (40) |
 | `G.Ribbons` | chapter 87, js/world/ribbons.js: every ribbon's `name(id)` (the contest ones through `G.SuperContest.ribbonName`), `region(id)`, `has`, `give(mon, id)` (true if new), `count`; Julia's `DAILY` / `today()`, the Ribbon Syndicate's `SHOP` / `next(mon)` |
+| `G.Hall` | chapter 90, js/content/sinnoh/shall.js: Sinnoh's Battle Hall: `level(lp, rank, others)` (the opponents' level), `opponent(type, rank, lvl, rng)`, `brainMon(gold, lvl, rng)`, `can(mon)`, the state in vars (`state()`, `win(type)`, `reset(sp)`, `others`), `bpFor(lastBattle)`, `TYPES` (G.Types.LIST) |
 
 - **Rules chosen:** TMs and HMs are not used up (as in the newer games), so a shop sells each
   once. A stone is only used up when the evolution is not cancelled. Vitamins raise a stat's EVs
@@ -2705,13 +2706,20 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** a new `[balance]` line beside Hoenn's Factory's: Thorton against the three strongest of six rentals of round 3 (100 battles each): about 0.61 at level 50 and 0.64 at the Open Level.
 - **Tests:** `tests/field.test.cjs` the chapter on the real maps (the door; a level 50 round with a swap and 5 BP on its own streak; the Open Level at 100 for both sides and the copies; Thorton at 21, the Silver Print and 20 BP; not in doubles; doubles of three; the ending after chapter 88; the BP table) and chapter 88's test (three facilities shut now); `tests/tower.test.cjs` the copy's cap; `tests/story.test.cjs` the chapter after chapter 88 (`[story]`: a round of seven at level 50 with the strongest rentals) and the balance line.
 
-### After chapter 89
+- **Chapter 90** ✅, Sinnoh's Battle Hall, 对战舞台 (`js/content/sinnoh/shall.js`, `G.Hall`; changes in frontier.js, people.js, trainer-classes.js; translations `sinnoh-hall`, `trainers`, `credits`, and chapter 88's 对战大厅 now 对战舞台 in `sinnoh-frontier`). Post-game; `ending(90)` waits for chapter 89 (the first round of ten won). Sources: altissimo's Platinum Battle Hall page (one Pokémon of level 30 or more, 475 species, types and ten ranks, closed at 10 until all are done, ten battles a round, BP by battle 1/2/3/4/6/8/10/12 and 20 for the Frontier Brain's round, Argenta after 49 and 169 wins: a Pokémon of the player's group, then of the strongest group, at the player's level), 52poke's 对战舞台 page (青葙, 舞台名伶; the streak follows the species), ludo.guide and Bulbapedia (the opponents' level).
+  - **The places**: the plaza's Hall door (frontier.js) opens on `shall-lobby` (the counter, a guide who tells the ranks and the prints) and `shall-room` (the stage).
+  - **The rules** (`G.Hall`): the opponents' level min(L, ceil(L - 3 sqrt(L) + others / 2 + (rank - 1) sqrt(L) / 5)) (others: the other types at rank 2 or more; "/2" is my reading of the page); the opponent: one Pokémon of the type, from the type's non-legends sorted by base stat total, a slice three tenths wide starting at (rank - 1) tenths (my own), moves by G.Tower.moveset and a held item from the Tower's list; the state in vars (`shall-ranks`: one character a type, `shall-sp`, the streak in G.Tower hall `shall`); a win raises the type's rank, a win at rank 10 closes it, all closed opens them again; a loss or another species starts over (asked first). The battle copy keeps its level (`G.Tower.copy(mon, 100)`). Argenta (class `hall-matron`, look `argenta`: my own, long silver hair, a plum stage gown) at the 50th (Silver Print: base stat total 450-519) and 170th battle (Gold: 520 or more), fully evolved, no legends, at your level; flags `shall-silver`, `shall-gold`. This game has 18 types (Fairy too), so a full turn is 180 battles.
+  - **Left out**: double and multi battles (two of one species), the one-time bonuses for total wins, Platinum's other types at ranks 8-10.
+- **Balance:** a new `[balance]` line beside Palmer's: Argenta one on one against each of Swampert, Gardevoir and Manectric at 50 (90 battles each): about 0.72 for the Silver Print and 0.59 for the Gold.
+- **Tests:** `tests/hall.test.cjs` (the level formula and its cap; who may enter; opponents of the type, stronger with the rank, no legends; Argenta's gold; the ranks, closing, a full turn of 180, a reset; the BP); `tests/field.test.cjs` the chapter on the real maps (the door; below level 30 and Dialga refused; a round of ten with the types chosen, their levels and 1 BP; Argenta at the 50th, the Silver Print and 20 BP; another species asked and started over; the ending after chapter 89; the guide) and chapter 88's test (two facilities shut now); `tests/story.test.cjs` the chapter after chapter 89 (`[story]`: a round of ten with the lead) and the balance line.
+
+### After chapter 90
 
 The journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of Hoenn,
-the whole Battle Frontier of Hoenn and Sinnoh's Battle Tower and Battle Factory, the whole Battle Zone, the villa,
+the whole Battle Frontier of Hoenn and Sinnoh's Battle Tower, Factory and Hall, the whole Battle Zone, the villa,
 contests in Sinnoh and Hoenn with Poffins and Pokéblocks, and ribbons. Ideas:
-1. Sinnoh's Battle Frontier: the Battle Hall (Argenta), Castle (Darach) and Arcade (Dahlia); multi battles with a partner
-   at the Battle Tower.
+1. Sinnoh's Battle Frontier: the Battle Castle (Darach) and Arcade (Dahlia); multi battles with a partner at the Battle
+   Tower; double battles at the Battle Hall.
 2. Generation 4's held items: Choice Band, Specs and Scarf, Focus Sash, Life Orb, Muscle Band, the Power items, the orbs.
 3. Contests: accessories; Hoenn's own contest rules.
 4. Hoenn after the League: double battles at the Battle Palace, the Battle Dome, the Battle Pike and the Pyramid;

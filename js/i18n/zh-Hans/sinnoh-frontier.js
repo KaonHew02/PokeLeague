@@ -26,7 +26,7 @@ G.I18n.add({
   "Welcome to the Training Stall! Vitamins and held items, for Battle Points.": "欢迎光临训练摊位！营养饮料和携带道具，都用对战点数兑换。",
   "Welcome to the Move Stall! Our TMs teach the moves the Battle Frontier's best Trainers use.": "欢迎光临招式摊位！我们的招式学习器能教会对战开拓区高手们爱用的招式。",
   "The Battle Factory. The doors are shut: it opens soon.": "对战工厂。大门紧闭，即将开放。",
-  "The Battle Hall. The doors are shut: it opens soon.": "对战大厅。大门紧闭，即将开放。",
+  "The Battle Hall. The doors are shut: it opens soon.": "对战舞台。大门紧闭，即将开放。",
   "The Battle Castle. The doors are shut: it opens soon.": "对战城堡。大门紧闭，即将开放。",
   "The Battle Arcade. The doors are shut: it opens soon.": "对战轮盘。大门紧闭，即将开放。",
   "Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers. Today the Battle Tower is open.": "欢迎来到对战开拓区！五个设施等待着最强的训练家。今天对战塔开放。",
@@ -37,7 +37,7 @@ G.I18n.add({
   "The Battle Tower. Single and double battles, seven in a row, for Battle Points.": "对战塔。单打与双打，连赢七场，就能获得对战点数。",
   "The Battle Shops. Battle Points for items and TMs.": "对战商店。用对战点数兑换道具和招式学习器。",
   "The Battle Factory. Opening soon.": "对战工厂。即将开放。",
-  "The Battle Hall. Opening soon.": "对战大厅。即将开放。",
+  "The Battle Hall. Opening soon.": "对战舞台。即将开放。",
   "The Battle Castle. Opening soon.": "对战城堡。即将开放。",
   "The Battle Arcade. Opening soon.": "对战轮盘。即将开放。"
 }, "zh-Hans");

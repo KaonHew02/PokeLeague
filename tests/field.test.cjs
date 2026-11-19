@@ -7096,7 +7096,7 @@ test('Sinnoh (chapter 88): the Battle Frontier (the gate, the plaza, four shut f
   step(W, 'down');
   await until(() => W.map.id === 'sinnoh-frontier' && !W.locked);
   assert.deepEqual([W.player.x, W.player.y], [19, 17]);
-  for (const [x, y, re] of [[5, 7, /Battle Hall/], [6, 16, /Battle Castle/], [33, 15, /Battle Arcade/]]) {        // the Factory opens in chapter 89
+  for (const [x, y, re] of [[6, 16, /Battle Castle/], [33, 15, /Battle Arcade/]]) {        // the Factory opens in chapter 89, the Hall in 90
     W.load('sinnoh-frontier', { x, y, dir: 'up' });
     said.length = 0;
     step(W, 'up');
@@ -7240,4 +7240,66 @@ test('Sinnoh (chapter 89): the Battle Factory at the Battle Frontier (the door; 
   assert.equal(Tw.streak('double', 'sfactory'), 7);
   assert.ok(F.flag('chapter-89-done'));
   assert.deepEqual([1, 4, 5, 6, 7, 8, 12].map(H.bpFor), [5, 5, 7, 7, 8, 9, 9]);
+});
+
+test('Sinnoh (chapter 90): the Battle Hall at the Battle Frontier (the door; one Pokémon of level 30 or more; a type before each battle, its rank and level; a round of ten and its BP; Argenta at the 50th; another Pokémon starts over), the ending after chapter 89', async () => {
+  const { G, W } = world(['js/world/tower.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/content/hoenn/tower.js',
+    'js/content/sinnoh/battlezone.js', 'js/content/sinnoh/frontier.js', 'js/content/sinnoh/shall.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, Tw = G.Tower, H = G.Hall;
+  const said = [], answers = [], picks = [], pops = [], fights = [];
+  G.Dialog.ask = t => { said.push([].concat(t).join(' ')); return Promise.resolve(answers.length ? answers.shift() : 0); };
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  G.Popup = { choose: (title, opts) => Promise.resolve(pops.length ? pops.shift() : opts[0].value) };
+  W.onTrainer = async (d, o) => { fights.push({ id: d.id, sp: G.Maps.species(d.team[0][0]), lvl: d.team[0][1], n: d.team.length, mine: (o.party || []).map(m => m.lvl) }); return 'win'; };
+  const until = async ok => { for (let i = 0; i < 2000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  F.giveMon('pikachu', 25);
+  F.giveMon('dialga', 70);
+  const chomp = F.giveMon('garchomp', 60);
+  F.giveMon('lucario', 64);
+
+  // The plaza's door.
+  W.load('sinnoh-frontier', 'hall-door');
+  W.player.face('up');
+  step(W, 'up');
+  await until(() => W.map.id === 'shall-lobby' && !W.locked);
+  // Below level 30, or banned: no.
+  W.load('shall-lobby', 'counter');
+  for (const i of [0, 1]) { picks.push(i); await talk(); assert.ok(/Please come again/.test(said[said.length - 1]) && !fights.length); }
+  // A round of ten with Garchomp: Fire twice, then Water and the rest at the top of the list; each opponent of its type, at the
+  // level of the formula; 1 BP; the ranks went up.
+  pops.push('fire', 'fire', 'water');
+  picks.push(2);
+  await talk();
+  assert.equal(fights.length, 10);
+  assert.ok(fights.every(f => f.n === 1 && f.mine[0] === 60 && f.id !== 'argenta'));
+  assert.ok(G.SPECIES[fights[0].sp].types.includes('fire') && G.SPECIES[fights[1].sp].types.includes('fire') && G.SPECIES[fights[2].sp].types.includes('water'));
+  assert.deepEqual([fights[0].lvl, fights[1].lvl], [H.level(60, 1, 0), H.level(60, 2, 0)]);
+  let st = H.state();
+  assert.deepEqual([st.streak, st.sp, st.ranks.fire, st.ranks.water, Tw.bp()], [10, chomp.sp, 3, 2, 1]);
+  assert.ok(!F.flag('chapter-90-done'), 'no ending before chapter 89');
+  // Argenta at the 50th: the Silver Print, 20 BP for that round, her Pokémon at Garchomp's level.
+  Tw.setStreak('single', 49, 'shall');
+  fights.length = 0;
+  picks.push(2);
+  await talk();
+  assert.deepEqual(fights.map(f => [f.id, f.lvl]), [['argenta', 60]]);
+  assert.ok(F.flag('shall-silver') && said.some(s => /Silver Print/.test(s)));
+  assert.equal(Tw.bp(), 21);
+  // Another Pokémon: asked, then the streak starts over with it; once chapter 89 is done, the round won ends chapter 90.
+  F.setFlag('chapter-89-done');
+  fights.length = 0;
+  said.length = 0;
+  picks.push(3);
+  answers.push(0, 0);
+  await talk();
+  assert.ok(said.some(s => /belongs to Garchomp/.test(s) && /starts over/.test(s)), 'asked first');
+  st = H.state();
+  assert.deepEqual([st.sp, st.streak, fights.length, fights[0].lvl], [G.Maps.species('lucario'), 10, 10, H.level(64, 1, 0)]);
+  assert.ok(F.flag('chapter-90-done'));
+  W.load('shall-lobby', 'guide');
+  await talk();
+  assert.ok(said.some(s => /Lucario: 10 wins in a row/.test(s)), said.slice(-3).join(' | '));
 });

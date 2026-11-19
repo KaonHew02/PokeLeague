@@ -248,5 +248,8 @@ G.I18n.add({
   "Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.": "Palmer, o Magnata da Torre, espera na 21ª e na 49ª batalha, e mais quatro instalações se preparam para abrir.",
   "Chapter 89 complete!": "Capítulo 89 concluído!",
   "{player} won a round of seven with rented Pokémon at Sinnoh's Battle Factory.": "{player} venceu uma rodada de sete com Pokémon alugados na Fábrica de Batalha de Sinnoh.",
-  "Thorton, the Factory Head, knows every rental by heart, and the Open Level puts every Pokémon at level 100.": "Thorton, o Chefe da Fábrica, conhece cada alugado de cor, e o Nível Livre coloca todos no nível 100."
+  "Thorton, the Factory Head, knows every rental by heart, and the Open Level puts every Pokémon at level 100.": "Thorton, o Chefe da Fábrica, conhece cada alugado de cor, e o Nível Livre coloca todos no nível 100.",
+  "Chapter 90 complete!": "Capítulo 90 concluído!",
+  "{player} won ten battles in a row on the stage of Sinnoh's Battle Hall, choosing a type for each one.": "{player} venceu dez batalhas seguidas no palco do Salão de Batalha de Sinnoh, escolhendo um tipo para cada uma.",
+  "Ten ranks for every type, Argenta at the 50th and the 170th battle, and only one Pokémon to take you there.": "Dez níveis para cada tipo, Argenta na 50ª e na 170ª batalha, e só um Pokémon para chegar lá."
 }, "pt-BR");

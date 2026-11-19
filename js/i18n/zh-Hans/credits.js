@@ -248,5 +248,8 @@ G.I18n.add({
   "Palmer, the Tower Tycoon, waits at the 21st and the 49th battle, and four more facilities are getting ready to open.": "塔主桄榔在第 21 场和第 49 场等着你，另外四个设施也在准备开放。",
   "Chapter 89 complete!": "第 89 章完成！",
   "{player} won a round of seven with rented Pokémon at Sinnoh's Battle Factory.": "{player}在神奥对战工厂用租借宝可梦赢下了一轮七连胜。",
-  "Thorton, the Factory Head, knows every rental by heart, and the Open Level puts every Pokémon at level 100.": "工厂头目捩木熟知每只租借宝可梦，而开放级别会让所有宝可梦都以 100 级对战。"
+  "Thorton, the Factory Head, knows every rental by heart, and the Open Level puts every Pokémon at level 100.": "工厂头目捩木熟知每只租借宝可梦，而开放级别会让所有宝可梦都以 100 级对战。",
+  "Chapter 90 complete!": "第 90 章完成！",
+  "{player} won ten battles in a row on the stage of Sinnoh's Battle Hall, choosing a type for each one.": "{player}在神奥对战舞台上，每场自选属性，连赢了十场。",
+  "Ten ranks for every type, Argenta at the 50th and the 170th battle, and only one Pokémon to take you there.": "每种属性十个等级，青葙在第 50 场和第 170 场等着你，而陪你走到那里的只有一只宝可梦。"
 }, "zh-Hans");

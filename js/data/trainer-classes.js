@@ -126,5 +126,6 @@ G.TRAINER_CLASSES = {
   // Chapter 83: the Battle Pyramid's Frontier Brain.
   'pyramid-king': { title: 'Pyramid King', who: 'brandon', prize: 0 },
   // Chapter 88: Sinnoh's Battle Tower.
-  'tower-tycoon': { title: 'Tower Tycoon', who: 'palmer', prize: 0 }
+  'tower-tycoon': { title: 'Tower Tycoon', who: 'palmer', prize: 0 },
+  'hall-matron': { title: 'Hall Matron', who: 'argenta', prize: 0 }        // chapter 90
 };

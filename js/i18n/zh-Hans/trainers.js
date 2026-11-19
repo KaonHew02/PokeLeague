@@ -88,5 +88,6 @@ G.I18n.add({
   "Dome Ace": "巨蛋超级巨星",
   "Pike Queen": "水管皇后",
   "Pyramid King": "金字塔法老",
-  "Tower Tycoon": "塔主"
+  "Tower Tycoon": "塔主",
+  "Hall Matron": "舞台名伶"
 }, "zh-Hans");

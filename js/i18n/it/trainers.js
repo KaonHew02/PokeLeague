@@ -88,5 +88,6 @@ G.I18n.add({
   "Dome Ace": "Asso della Cupola",
   "Pike Queen": "Regina della Serpe",
   "Pyramid King": "Re della Piramide",
-  "Tower Tycoon": "Magnate della Torre"
+  "Tower Tycoon": "Magnate della Torre",
+  "Hall Matron": "Regina del Salone"
 }, "it");

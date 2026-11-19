@@ -1409,6 +1409,26 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
   // Chapter 88: Sinnoh's Tower Tycoon, the same team (normal difficulty: about 0.6 or more).
   const palmer = { silver: rate(G.SinnohTowerHall.PALMER[21].team, 60), gold: rate(G.SinnohTowerHall.PALMER[49].team, 60) };
   console.log('[balance] Sinnoh\'s Battle Tower, Palmer against Swampert, Gardevoir and Manectric at 50:', JSON.stringify(palmer));
+  // Chapter 90: Argenta, the Hall Matron, one on one against each of the three at 50 (her Pokémon at the same level).
+  const hall = gold => {
+    let wins = 0, all = 0;
+    for (let s = 1; s <= 30; s++) {
+      for (const [sp, moves, item] of [[260, ['surf', 'earthquake', 'ice-beam', 'protect'], 'leftovers'], [282, ['psychic', 'thunderbolt', 'calm-mind', 'shadow-ball'], 'sitrus-berry'],
+                                       [310, ['thunderbolt', 'crunch', 'flamethrower', 'thunder-wave'], 'quick-claw']]) {
+        const rng = G.RNG(s * 71 + sp);
+        const me = Object.assign(G.Mon.create(sp, 50, { rng, moves }), { item });
+        const [fsp, l, fmoves, fitem] = G.Hall.brainMon(gold, 50, G.RNG(s * 73 + sp));
+        const foe = Object.assign(G.Mon.create(G.Maps.species(fsp), l, { rng, moves: fmoves }), { item: fitem });
+        const b = G.Battle.create({ kind: 'trainer', seed: s * 7 + sp, player: { name: 'Red', party: [me], bag: {} },
+          foe: { party: [foe], trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } }, rules: { noExp: true, noBag: true, shift: false, canLose: true } });
+        b.start();
+        all++;
+        if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+      }
+    }
+    return +(wins / all).toFixed(2);
+  };
+  console.log('[balance] Sinnoh\'s Battle Hall, Argenta one on one against each of Swampert, Gardevoir and Manectric at 50:', JSON.stringify({ silver: hall(false), gold: hall(true) }));
   // Each round is harder; the first is mostly won, the last ones are a real test.
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
 });
@@ -4704,6 +4724,28 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 90 after chapter 89: Sinnoh's Battle Hall with the lead, the first open type each time, until a round of ten is won
+ *  (the ending). */
+async function chapter90(st) {
+  const { G, S } = st;
+  const F = G.Field, H = G.Hall;
+  const lead = S.party[0];
+  assert.equal(H.can(lead), null, 'the lead may enter');
+  const n = st.battles.length;
+  let tries = 0;
+  while (H.state().streak < 10 && tries < 10) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(0);
+    await run(st, 'shall-lobby', 'shall.counter', [0]);
+  }
+  const fights = st.battles.slice(n);
+  console.log('[story] Sinnoh\'s Battle Hall:', G.Names.mon(lead.sp), 'at level', lead.lvl + ':', fights.map(b => b.outcome).join(), 'in', tries, 'challenge(s)');
+  assert.ok(H.state().streak >= 10, 'a round of ten');
+  assert.ok(F.flag('chapter-90-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 89 after chapter 88: Sinnoh's Battle Factory at level 50, single battles, renting the three strongest of the six on
  *  offer (no swaps), until a round of seven is won (the ending). */
 async function chapter89(st) {
@@ -5827,4 +5869,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter87(st);
   await chapter88(st);
   await chapter89(st);
+  await chapter90(st);
 });

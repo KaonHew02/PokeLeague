@@ -215,5 +215,11 @@ G.I18n.add({
   "A sandstorm is raging.": "Une tempête de sable fait rage.",
   "It is hailing.": "Il grêle.",
   "The fog is deep...": "Le brouillard est épais...",
-  "The fog lifted.": "Le brouillard s'est levé."
+  "The fog lifted.": "Le brouillard s'est levé.",
+  "{mon} lost some of its HP!": "{mon} perd quelques PV !",
+  "{mon} is hurt by its {item}!": "{mon} est blessé par son {item} !",
+  "{mon} was burned by the {item}!": "{mon} est brûlé par l'objet {item} !",
+  "{mon} was badly poisoned by the {item}!": "{mon} est gravement empoisonné par l'objet {item} !",
+  "The {item} weakened the damage to {mon}!": "L'objet {item} a réduit les dégâts subis par {mon} !",
+  "{mon} became fully charged due to its {item}!": "{mon} est chargé à bloc grâce à son {item} !"
 }, "fr");

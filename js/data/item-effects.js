@@ -203,6 +203,56 @@ G.ITEM_FX = {
   'spooky-plate':  { held: 'boost', type: 'ghost' },          // Amity Square (chapter 72)
   'cleanse-tag':   { held: 'cleanse-tag' },
   'light-clay':    { held: 'light-clay' },     // Mt. Coronet B1F (chapter 74): Reflect and Light Screen last 8 turns
+  // Chapter 93: Generation 4's held items (js/battle/held.js says what each kind does).
+  'choice-band':   { held: 'choice', stat: 'atk' },          // x1.5, one move until it switches out
+  'choice-specs':  { held: 'choice', stat: 'spa' },
+  'choice-scarf':  { held: 'choice', stat: 'spe' },
+  'focus-sash':    { held: 'focus-sash' },                   // at full HP it holds on with 1 HP, once
+  'life-orb':      { held: 'life-orb' },                     // x1.3 damage, a tenth of its HP after each move that hits
+  'muscle-band':   { held: 'muscle-band' },                  // physical moves x1.1
+  'wise-glasses':  { held: 'wise-glasses' },                 // special moves x1.1
+  'expert-belt':   { held: 'expert-belt' },                  // super effective x1.2
+  'metronome':     { held: 'metronome' },                    // the same move again and again: +10% each time, x2 at most
+  'wide-lens':     { held: 'wide-lens' },                    // accuracy x1.1
+  'zoom-lens':     { held: 'zoom-lens' },                    // accuracy x1.2 after its target has moved
+  'big-root':      { held: 'big-root' },                     // HP drained, from Leech Seed and Ingrain x1.3
+  'black-sludge':  { held: 'black-sludge' },                 // poison types 1/16 back a turn, the others 1/8 lost
+  'iron-ball':     { held: 'iron-ball' },                    // Speed halved; Ground moves hit it even in the air
+  'lagging-tail':  { held: 'lagging-tail' },                 // it moves last
+  'power-weight':  { held: 'power', ev: 0 },                 // Speed halved; +4 EVs in that stat (HP)
+  'power-bracer':  { held: 'power', ev: 1 },                 // Attack
+  'power-belt':    { held: 'power', ev: 2 },                 // Defense
+  'power-lens':    { held: 'power', ev: 3 },                 // Sp. Atk
+  'power-band':    { held: 'power', ev: 4 },                 // Sp. Def
+  'power-anklet':  { held: 'power', ev: 5 },                 // Speed
+  'toxic-orb':     { held: 'status-orb', status: 'tox' },    // badly poisons it at the end of a turn
+  'flame-orb':     { held: 'status-orb', status: 'brn' },    // burns it at the end of a turn
+  'power-herb':    { held: 'power-herb' },                   // a two-turn move at once, once
+  'grip-claw':     { held: 'grip-claw' },                    // its binding moves last five turns
+  'persim-berry':  { cure: ['confusion'], battle: 1, held: 'berry' },
+  'ganlon-berry':  { held: 'berry', pinch: 'def' },
+  'petaya-berry':  { held: 'berry', pinch: 'spa' },
+  'apicot-berry':  { held: 'berry', pinch: 'spd' },
+  'lansat-berry':  { held: 'berry', pinch: 'crit' },         // its critical-hit ratio up, as Focus Energy
+  'starf-berry':   { held: 'berry', pinch: 'random' },       // a random stat +2
+  // Half the damage of a super-effective move of its type, once (the Chilan Berry: any Normal move).
+  'occa-berry':    { held: 'resist', type: 'fire' },
+  'passho-berry':  { held: 'resist', type: 'water' },
+  'wacan-berry':   { held: 'resist', type: 'electric' },
+  'rindo-berry':   { held: 'resist', type: 'grass' },
+  'yache-berry':   { held: 'resist', type: 'ice' },
+  'chople-berry':  { held: 'resist', type: 'fighting' },
+  'kebia-berry':   { held: 'resist', type: 'poison' },
+  'shuca-berry':   { held: 'resist', type: 'ground' },
+  'coba-berry':    { held: 'resist', type: 'flying' },
+  'payapa-berry':  { held: 'resist', type: 'psychic' },
+  'tanga-berry':   { held: 'resist', type: 'bug' },
+  'charti-berry':  { held: 'resist', type: 'rock' },
+  'kasib-berry':   { held: 'resist', type: 'ghost' },
+  'haban-berry':   { held: 'resist', type: 'dragon' },
+  'colbur-berry':  { held: 'resist', type: 'dark' },
+  'babiri-berry':  { held: 'resist', type: 'steel' },
+  'chilan-berry':  { held: 'resist', type: 'normal', any: true },
 
   // ---- key items ----
   'oaks-parcel':   { key: 1 },

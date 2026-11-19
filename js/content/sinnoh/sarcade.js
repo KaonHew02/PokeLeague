@@ -20,8 +20,8 @@
  * My own reading where the source says nothing: a new board for every battle, a kind with no panel in that battle drawn again,
  * the panels of one kind equally likely, the cursor stops where it is, Level Up and Swap last one battle, Sleep and Freeze hit one at
  * random of those they can, paralysis also spares electric types (this game's rule), No Battle skips the battle as won (no
- * performance points), three opponents in doubles too, Dahlia in single battles only. The items of the groups this game lacks are
- * left out. The first round won once chapter 91 is done ends the chapter: `ending(92)`. The words are my own.
+ * performance points), three opponents in doubles too, Dahlia in single battles only. The item groups are Platinum's (complete
+ * since chapter 93). The first round won once chapter 91 is done ends the chapter: `ending(92)`. The words are my own.
  *
  *   G.Arcade.allowed(no) · board(no, points, rng) · land(board, rng) · frames(no, speed) · performance(team, turns) · impact(points)
  *   afflict(mon, s, rng) · apply(tile, mine, theirs, no, rng) · items(no) · bpFor(round) · dahlia(no) · label(tile)
@@ -93,12 +93,18 @@
   const KINDS = ['me', 'foe', 'field', 'special'];
   /** Frames a panel, by battle (1-28, 29-49, 50+) and speed (-3 ... +3). */
   const FRAMES = [[20, 16, 8, 4, 3, 2, 1], [16, 8, 4, 3, 2, 1, 1], [8, 4, 3, 2, 1, 1, 1]];
-  /** The items the Berries and Items panels give, by battle (1-21, 22-49, 50+): the ones of Platinum's groups this game has. */
+  /** The items the Berries and Items panels give, by battle (1-21, 22-49, 50+): Platinum's groups (complete since chapter 93). */
   const ITEMS = [
-    { berry: ['cheri-berry', 'chesto-berry', 'pecha-berry', 'rawst-berry', 'aspear-berry', 'sitrus-berry', 'lum-berry'],
-      item: ['kings-rock', 'quick-claw', 'bright-powder', 'focus-band', 'leftovers'] },
-    { berry: ['sitrus-berry', 'lum-berry'], item: ['white-herb', 'shell-bell', 'scope-lens'] },
-    { berry: ['sitrus-berry', 'lum-berry', 'liechi-berry', 'salac-berry'], item: ['focus-band', 'leftovers', 'scope-lens'] }
+    { berry: ['cheri-berry', 'chesto-berry', 'pecha-berry', 'rawst-berry', 'aspear-berry', 'persim-berry', 'sitrus-berry', 'lum-berry'],
+      item: ['kings-rock', 'quick-claw', 'bright-powder', 'metronome', 'big-root', 'focus-band', 'focus-sash', 'leftovers', 'iron-ball',
+             'lagging-tail', 'black-sludge'] },
+    { berry: ['persim-berry', 'sitrus-berry', 'lum-berry', 'occa-berry', 'passho-berry', 'wacan-berry', 'rindo-berry', 'yache-berry', 'chople-berry', 'kebia-berry', 'shuca-berry', 'coba-berry', 'payapa-berry', 'tanga-berry', 'charti-berry', 'kasib-berry', 'haban-berry', 'colbur-berry', 'babiri-berry', 'chilan-berry'],
+      item: ['iron-ball', 'lagging-tail', 'black-sludge', 'white-herb', 'power-herb', 'muscle-band', 'wise-glasses', 'shell-bell', 'scope-lens',
+             'wide-lens', 'zoom-lens', 'expert-belt', 'life-orb'] },
+    { berry: ['persim-berry', 'sitrus-berry', 'lum-berry', 'liechi-berry', 'ganlon-berry', 'salac-berry', 'petaya-berry', 'apicot-berry',
+              'lansat-berry', 'starf-berry'],
+      item: ['focus-band', 'focus-sash', 'leftovers', 'scope-lens', 'wide-lens', 'zoom-lens', 'expert-belt', 'life-orb', 'choice-band',
+             'choice-scarf', 'choice-specs'] }
   ];
   const items = no => ITEMS[no <= 21 ? 0 : no <= 49 ? 1 : 2];
   const BP = [2, 2, 2, 2, 4, 4, 5, 6];

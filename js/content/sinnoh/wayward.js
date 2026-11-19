@@ -8,8 +8,9 @@
  * into the hidden cave, where Gible lives. Platinum's Trainers (Lv. 19-22), their teams paired by me (the sources only say
  * they may be battled in pairs with Mira), and wild Pokémon. Once she is out, Mira comes to the Battleground
  * (battleground.js). The chapter ends (`ending(65)`) when you bring her out after chapter 64; a player who brought her out
- * in the middle of the game sees it later, from the Battleground's clerk. Left out: the hidden cave's Bicycle slopes, the
- * Dowsing Machine's items, the shards and the Grip Claw (not in the game).
+ * in the middle of the game sees it later, from the Battleground's clerk. Chapter 93: the Grip Claw in the hidden cave, between
+ * its two halves (Serebii: between the bike bridges). Left out: the hidden cave's Bicycle slopes, the Dowsing Machine's items,
+ * the shards (not in the game).
  */
 (() => {
   const T = s => G.T(s);
@@ -126,7 +127,8 @@
     warps: [{ x: 11, y: 0, to: 'route206', spot: 'hidden' }],
     spots: { mouth: [11, 1, 'down'] },
     items: [{ x: 18, y: 20, item: 'tm26', flag: 'wayward-tm26' }, { x: 4, y: 19, item: 'stardust', flag: 'wayward-stardust' },
-            { x: 19, y: 9, item: 'max-ether', flag: 'wayward-ether' }, { x: 9, y: 1, item: 'rare-candy', flag: 'wayward-candy2' }]
+            { x: 19, y: 9, item: 'max-ether', flag: 'wayward-ether' }, { x: 9, y: 1, item: 'rare-candy', flag: 'wayward-candy2' },
+            { x: 4, y: 15, item: 'grip-claw', flag: 'wayward-grip-claw' }]                            // chapter 93
   }, DARK, SINNOH));
 
   // ---------------- Mira ----------------

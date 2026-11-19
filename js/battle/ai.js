@@ -16,7 +16,8 @@
 G.BattleAI = (() => {
   function usable(bm) {
     return bm.mon.moves.map((m, slot) => ({ m, slot }))
-      .filter(({ m }) => m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id));
+      .filter(({ m }) => m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id)
+        && !(G.Held.locked(bm) && G.Held.locked(bm) !== m.id));               // a Choice item (chapter 93)
   }
 
   function choose(b, side, slot) {

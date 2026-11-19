@@ -10,10 +10,10 @@
  * -5 for 15: each per Pokémon, here for the whole team at once, my own), the ranks (Info to 2 for 50; Recovery 100 a rank to 3;
  * Items 100 to 2 and 150 to 3), Pass (from the 21st win, 50: the next battle is skipped and counted won). Battle Points by the
  * round (G.Tower.bpFor) and 20 for a round with Darach, the Castle Valet, at the 21st and 49th single battle (Platinum's two
- * teams for each, A or B at random a challenge; Houndoom's Focus Sash a Focus Band and Entei's Shuca Berry a Lum Berry, the
- * game having neither): the Silver / Gold Print (flags scastle-silver, scastle-gold).
+ * teams for each, A or B at random a challenge; Houndoom's Focus Sash and Entei's Shuca Berry since chapter 93, a Focus Band and
+ * a Lum Berry before): the Silver / Gold Print (flags scastle-silver, scastle-gold).
  * Each round starts with the three at full HP and PP and without rented items (my own reading); the CP and the ranks go on.
- * The rentals are the items of Platinum's lists this game has. The first round won once chapter 90 is done ends the chapter:
+ * The rentals are Platinum's lists (complete since chapter 93). The first round won once chapter 90 is done ends the chapter:
  * `ending(91)`. The words are my own.
  *
  *   G.Castle.earn(team, ppUsed, raised) · state() · start() · lose() · spend(n) -> bool · rank(kind) · rankUp(kind) -> bool
@@ -62,11 +62,15 @@
   const PRICES = { identify: 1, summary: 2, moves: 5, up: 1, down: 15, hp: 10, pp: 8, full: 12, pass: 50 };
   const RANK_COST = { info: [50], rec: [100, 100], item: [100, 150] };        // to rank 2, then to rank 3
   const MAX_RANK = { info: 2, rec: 3, item: 3 };
-  /** The rentals by Items rank: [item, CP] (the ones of Platinum's lists this game has). */
+  /** The rentals by Items rank: [item, CP] (Platinum's lists). */
   const ITEMS = [
-    [['cheri-berry', 2], ['chesto-berry', 2], ['pecha-berry', 2], ['rawst-berry', 2], ['aspear-berry', 2], ['lum-berry', 5], ['sitrus-berry', 5]],
-    [['kings-rock', 10], ['light-clay', 10], ['quick-claw', 15], ['shell-bell', 15], ['light-ball', 15], ['thick-club', 15]],
-    [['white-herb', 5], ['focus-band', 15], ['leftovers', 20], ['bright-powder', 20], ['scope-lens', 20]]
+    [['cheri-berry', 2], ['chesto-berry', 2], ['pecha-berry', 2], ['rawst-berry', 2], ['aspear-berry', 2], ['persim-berry', 2], ['lum-berry', 5], ['sitrus-berry', 5]],
+    [['power-herb', 5], ['kings-rock', 10], ['metronome', 10], ['light-clay', 10], ['grip-claw', 10], ['big-root', 10], ['toxic-orb', 10], ['flame-orb', 10],
+     ['quick-claw', 15], ['shell-bell', 15], ['light-ball', 15], ['thick-club', 15]],
+    [['white-herb', 5]].concat(['liechi-berry', 'ganlon-berry', 'salac-berry', 'petaya-berry', 'apicot-berry', 'lansat-berry', 'starf-berry', 'occa-berry', 'passho-berry', 'wacan-berry', 'rindo-berry', 'yache-berry', 'chople-berry', 'kebia-berry', 'shuca-berry', 'coba-berry', 'payapa-berry', 'tanga-berry', 'charti-berry', 'kasib-berry', 'haban-berry', 'colbur-berry', 'babiri-berry', 'chilan-berry']
+      .map(id => [id, 5]), [['focus-sash', 10], ['focus-band', 15]],
+      ['leftovers', 'bright-powder', 'scope-lens', 'wide-lens', 'zoom-lens', 'choice-band', 'choice-specs', 'choice-scarf', 'muscle-band', 'wise-glasses',
+       'expert-belt', 'life-orb'].map(id => [id, 20]))
   ];
   const items = rank => ITEMS.slice(0, rank).flat();
 
@@ -109,15 +113,15 @@
     21: { print: 'silver', teams: [
       [['staraptor', 50, ['return', 'aerial-ace', 'double-team', 'roost'], 'kings-rock'],
        ['empoleon', 50, ['waterfall', 'metal-claw', 'brick-break', 'knock-off'], 'razor-claw'],
-       ['houndoom', 50, ['fire-fang', 'crunch', 'roar', 'payback'], 'focus-band']],
+       ['houndoom', 50, ['fire-fang', 'crunch', 'roar', 'payback'], 'focus-sash']],
       [['staraptor', 50, ['close-combat', 'aerial-ace', 'endure', 'quick-attack'], 'kings-rock'],
        ['empoleon', 50, ['drill-peck', 'aqua-jet', 'shadow-claw', 'rock-slide'], 'razor-claw'],
-       ['houndoom', 50, ['fire-fang', 'thunder-fang', 'reversal', 'endure'], 'focus-band']]] },
+       ['houndoom', 50, ['fire-fang', 'thunder-fang', 'reversal', 'endure'], 'focus-sash']]] },
     49: { print: 'gold', teams: [
-      [['entei', 50, ['fire-blast', 'solar-beam', 'hyper-beam', 'sunny-day'], 'lum-berry'],
+      [['entei', 50, ['fire-blast', 'solar-beam', 'hyper-beam', 'sunny-day'], 'shuca-berry'],
        ['empoleon', 50, ['surf', 'earthquake', 'blizzard', 'signal-beam'], 'quick-claw'],
        ['gallade', 50, ['psycho-cut', 'stone-edge', 'aerial-ace', 'x-scissor'], 'scope-lens']],
-      [['entei', 50, ['overheat', 'extrasensory', 'shadow-ball', 'calm-mind'], 'lum-berry'],
+      [['entei', 50, ['overheat', 'extrasensory', 'shadow-ball', 'calm-mind'], 'shuca-berry'],
        ['empoleon', 50, ['hydro-pump', 'flash-cannon', 'drill-peck', 'earthquake'], 'quick-claw'],
        ['gallade', 50, ['psycho-cut', 'close-combat', 'leaf-blade', 'sucker-punch'], 'scope-lens']]] }
   };

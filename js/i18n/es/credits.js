@@ -257,5 +257,8 @@ G.I18n.add({
   "Darach serves the castle at the 21st and the 49th battle, and only the Battle Arcade is still to open.": "Darach sirve al castillo en el combate 21 y en el 49, y solo queda por abrir la Ruleta Batalla.",
   "Chapter 92 complete!": "¡Capítulo 92 completado!",
   "{player} won seven battles in a row at Sinnoh's Battle Arcade, whatever the roulette had in store.": "{player} ganó siete combates seguidos en la Ruleta Batalla de Sinnoh, le tocara lo que le tocara en la ruleta.",
-  "Dahlia waits at the 21st and the 49th battle, and every facility of Sinnoh's Battle Frontier is open.": "Dahlia espera en el combate 21 y en el 49, y todas las instalaciones del Frente Batalla de Sinnoh están abiertas."
+  "Dahlia waits at the 21st and the 49th battle, and every facility of Sinnoh's Battle Frontier is open.": "Dahlia espera en el combate 21 y en el 49, y todas las instalaciones del Frente Batalla de Sinnoh están abiertas.",
+  "Chapter 93 complete!": "¡Capítulo 93 completado!",
+  "{player} traded Battle Points for one of the new held items: Choice items, Focus Sashes, Life Orbs and berries that soften a blow.": "{player} cambió Puntos de Batalla por uno de los nuevos objetos para llevar: objetos Elección, Bandas Aguante, Vidasferas y bayas que amortiguan los golpes.",
+  "The Castle rents and the Arcade hands out the whole of Platinum's lists now, and Palmer's and Darach's teams hold what they should.": "El Castillo alquila y la Ruleta reparte ya las listas completas de Platino, y los equipos de Palmer y Darach llevan lo que les corresponde."
 }, "es");

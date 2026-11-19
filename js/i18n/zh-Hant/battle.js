@@ -215,5 +215,11 @@ G.I18n.add({
   "A sandstorm is raging.": "沙暴正在肆虐。",
   "It is hailing.": "正在下冰雹。",
   "The fog is deep...": "濃霧瀰漫……",
-  "The fog lifted.": "霧散了。"
+  "The fog lifted.": "霧散了。",
+  "{mon} lost some of its HP!": "{mon}的HP減少了一些！",
+  "{mon} is hurt by its {item}!": "{mon}受到了{item}的傷害！",
+  "{mon} was burned by the {item}!": "{mon}因為{item}而灼傷了！",
+  "{mon} was badly poisoned by the {item}!": "{mon}因為{item}而中了劇毒！",
+  "The {item} weakened the damage to {mon}!": "{item}減輕了{mon}受到的傷害！",
+  "{mon} became fully charged due to its {item}!": "{mon}因為{item}而蓄滿了力量！"
 }, "zh-Hant");

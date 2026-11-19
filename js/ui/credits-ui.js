@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 93) return { title: T('Chapter 93 complete!'),
+      done: fmt('{player} traded Battle Points for one of the new held items: Choice items, Focus Sashes, Life Orbs and berries that soften a blow.', { player }),
+      next: T('The Castle rents and the Arcade hands out the whole of Platinum\'s lists now, and Palmer\'s and Darach\'s teams hold what they should.') };
     if (n === 92) return { title: T('Chapter 92 complete!'),
       done: fmt('{player} won seven battles in a row at Sinnoh\'s Battle Arcade, whatever the roulette had in store.', { player }),
       next: T('Dahlia waits at the 21st and the 49th battle, and every facility of Sinnoh\'s Battle Frontier is open.') };

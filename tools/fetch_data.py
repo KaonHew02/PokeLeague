@@ -174,7 +174,17 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           # Chapter 79: the Battle Arena (Greta's berries).
                                           'salac-berry', 'lum-berry',
                                           # Chapter 80: the Battle Palace (Spenser's Arcanine).
-                                          'white-herb'],
+                                          'white-herb',
+                                          # Chapter 93: Generation 4's held items (the Battle Shops, the Castle's rentals,
+                                          # the Arcade's panels, Stark Mountain and Wayward Cave).
+                                          'choice-band', 'choice-specs', 'choice-scarf', 'focus-sash', 'life-orb', 'muscle-band',
+                                          'wise-glasses', 'expert-belt', 'metronome', 'wide-lens', 'zoom-lens', 'big-root',
+                                          'black-sludge', 'iron-ball', 'lagging-tail', 'power-weight', 'power-bracer', 'power-belt',
+                                          'power-lens', 'power-band', 'power-anklet', 'toxic-orb', 'flame-orb', 'power-herb',
+                                          'grip-claw', 'persim-berry', 'occa-berry', 'passho-berry', 'wacan-berry', 'rindo-berry',
+                                          'yache-berry', 'chople-berry', 'kebia-berry', 'shuca-berry', 'coba-berry', 'payapa-berry',
+                                          'tanga-berry', 'charti-berry', 'kasib-berry', 'haban-berry', 'colbur-berry', 'babiri-berry',
+                                          'chilan-berry', 'ganlon-berry', 'petaya-berry', 'apicot-berry', 'lansat-berry', 'starf-berry'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.

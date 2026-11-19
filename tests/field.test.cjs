@@ -7514,3 +7514,46 @@ test('Sinnoh (chapter 92): the Battle Arcade at the Battle Frontier (the door; t
   assert.equal(mine[2].item, 'leftovers', 'your own Pokémon keep their items');
   assert.equal(mine[0].lvl, 62);
 });
+
+test('Sinnoh (chapter 93): Generation 4\'s held items: the Battle Shops\' new stock for BP, the ending after chapter 92 (a new item bought), the items back on Route 226, at Stark Mountain and in Wayward Cave', async () => {
+  const { G, W } = world(['js/world/tower.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/content/hoenn/tower.js', 'js/content/sinnoh/battlezone.js',
+    'js/content/sinnoh/frontier.js', 'js/content/sinnoh/stark.js', 'js/content/sinnoh/wayward.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, Tw = G.Tower, H = G.SinnohTowerHall;
+  const said = [], pops = [];
+  G.Dialog.ask = () => Promise.resolve(0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.Popup = { choose: (title, opts) => { const v = pops.shift(); return Promise.resolve(opts.some(o => o.value === v) ? v : null); } };
+  W.onTrainer = async () => 'win';
+  const until = async ok => { for (let i = 0; i < 2000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+
+  // Platinum's Training Stall: 26 items, 13 of them new.
+  assert.equal(H.TRAINING.length, 26);
+  assert.deepEqual(plain(H.TRAINING.filter(([id]) => H.GEN4.has(id)).map(([, p]) => p)), [16, 16, 16, 16, 16, 16, 16, 16, 32, 48, 48, 48, 48]);
+  for (const [id] of H.TRAINING) assert.ok(G.ITEMS[id] && G.ITEM_FX[id], id);
+  // Before chapter 92 is done: a Choice Band for 48 BP, no ending.
+  Tw.addBp(200);
+  W.load('frontier-shop', 'training');
+  pops.push('choice-band');
+  await talk();
+  assert.deepEqual([F.count('choice-band'), Tw.bp(), F.flag('chapter-93-done')], [1, 152, false]);
+  // Once it is: an old item does not end it; a new one does, once.
+  F.setFlag('chapter-92-done');
+  pops.push('protein');
+  await talk();
+  assert.ok(!F.flag('chapter-93-done'), 'a Protein is not new');
+  pops.push('power-anklet', 'focus-sash');
+  await talk();
+  assert.deepEqual([F.count('power-anklet'), F.count('focus-sash'), Tw.bp(), F.flag('chapter-93-done')], [1, 1, 152 - 1 - 16 - 48, true]);
+
+  // The items Platinum has where chapters 62 and 65 left them out.
+  for (const [map, at, item, flag] of [['route226', { x: 25, y: 11, dir: 'up' }, 'lagging-tail', 'route226-lagging-tail'],
+    ['stark-mountain', { x: 23, y: 13, dir: 'left' }, 'life-orb', 'stark-life-orb'],
+    ['stark-inside', { x: 11, y: 24, dir: 'left' }, 'iron-ball', 'stark-iron-ball'],
+    ['wayward-hidden', { x: 4, y: 16, dir: 'up' }, 'grip-claw', 'wayward-grip-claw']]) {
+    W.load(map, at);
+    await talk();
+    assert.ok(F.count(item) === 1 && F.isDone(map + ':' + flag), item);
+  }
+});

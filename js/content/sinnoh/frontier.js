@@ -6,13 +6,14 @@
  * The Battle Tower (`sinnoh-tower-lobby`, `sinnoh-tower-room`): Platinum's rules on G.Tower (js/world/tower.js) and the Hoenn
  * Tower's way of playing (G.TowerHall, js/content/hoenn/tower.js): three Pokémon for single battles, four for doubles, at level
  * 50 at most, seven battles a round, Battle Points by the round (G.Tower.bpFor: 3, 3, 4, 4, 5, 5, 7) and 20 for a round with
- * Palmer, the Tower Tycoon, at the 21st and 49th single battle (Platinum's teams, at level 50; Heatran holds a Focus Band, the
- * Focus Sash not being in the game). Its own streaks (G.Tower hall 'stower'); the Battle Points are the Hoenn Frontier's (one
+ * Palmer, the Tower Tycoon, at the 21st and 49th single battle (Platinum's teams, at level 50; Heatran's Focus Sash since
+ * chapter 93, a Focus Band before). Its own streaks (G.Tower hall 'stower'); the Battle Points are the Hoenn Frontier's (one
  * save). Platinum's banned list (G.Tower.SINNOH_BANNED). Beating Palmer: the Silver or Gold Print (flags stower-silver,
  * stower-gold) and the Ability or Great Ability Ribbon for the three; the 50th double win in a row: the Double Ability Ribbon
  * for the four (G.Ribbons). The first round won once chapter 87 is done ends the chapter: `ending(88)`.
- * The Battle Shops (`frontier-shop`): Platinum's Training Stall and Move Stall at Platinum's prices, the items this game has
- * (no Choice items, Focus Sash, Power items, orbs or Power Herb yet). The plaza's layout and the words are my own.
+ * The Battle Shops (`frontier-shop`): Platinum's Training Stall and Move Stall at Platinum's prices (the Training Stall's
+ * Generation 4 items since chapter 93: the first of them bought once chapter 92 is done ends that chapter, `ending(93)`).
+ * The plaza's layout and the words are my own.
  */
 (() => {
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
@@ -136,7 +137,7 @@
       ['dragonite', 50, ['dragon-claw', 'aerial-ace', 'thunder-wave', 'dragon-dance'], 'lum-berry']] },
     49: { print: 'gold', ribbon: 'great-ability', team: [
       ['regigigas', 50, ['crush-grip', 'earthquake', 'stone-edge', 'drain-punch'], 'bright-powder'],
-      ['heatran', 50, ['magma-storm', 'flash-cannon', 'earth-power', 'explosion'], 'focus-band'],
+      ['heatran', 50, ['magma-storm', 'flash-cannon', 'earth-power', 'explosion'], 'focus-sash'],
       ['cresselia', 50, ['psychic', 'ice-beam', 'signal-beam', 'moonlight'], 'leftovers']] }
   };
   const BRAIN_BP = 20;
@@ -242,8 +243,14 @@
   }
 
   // ---------------- the Battle Shops ----------------
-  const TRAINING = [['hp-up', 1], ['protein', 1], ['iron', 1], ['calcium', 1], ['zinc', 1], ['carbos', 1], ['white-herb', 32],
-                    ['bright-powder', 48], ['focus-band', 48], ['scope-lens', 48], ['razor-claw', 48], ['razor-fang', 48], ['rare-candy', 48]];
+  const TRAINING = [['hp-up', 1], ['protein', 1], ['iron', 1], ['calcium', 1], ['zinc', 1], ['carbos', 1],
+                    ['power-bracer', 16], ['power-belt', 16], ['power-lens', 16], ['power-band', 16], ['power-anklet', 16], ['power-weight', 16],
+                    ['toxic-orb', 16], ['flame-orb', 16], ['white-herb', 32], ['power-herb', 32],
+                    ['bright-powder', 48], ['choice-band', 48], ['focus-band', 48], ['scope-lens', 48], ['muscle-band', 48], ['focus-sash', 48],
+                    ['choice-scarf', 48], ['razor-claw', 48], ['razor-fang', 48], ['rare-candy', 48]];
+  /** The Training Stall's items that came with chapter 93 (Generation 4's held items). */
+  const GEN4 = new Set(['power-bracer', 'power-belt', 'power-lens', 'power-band', 'power-anklet', 'power-weight', 'toxic-orb', 'flame-orb',
+                        'power-herb', 'choice-band', 'muscle-band', 'focus-sash', 'choice-scarf']);
   const MOVES = [['tm06', 32], ['tm73', 32], ['tm61', 32], ['tm45', 32], ['tm40', 40], ['tm31', 40], ['tm08', 48], ['tm04', 48],
                  ['tm81', 64], ['tm30', 64], ['tm53', 64], ['tm36', 80], ['tm59', 80], ['tm71', 80], ['tm26', 80]];
   /** A list to pick from: the pop-up on screen, the dialog's choices without one. -> the chosen option's value */
@@ -253,7 +260,8 @@
     return (opts[k] || {}).value;
   }
   async function stall(h, list, hello) {
-    const Tw = G.Tower;
+    const Tw = G.Tower, F = G.Field;
+    let gen4 = false;
     await h.say(hello);
     for (;;) {
       const v = await choose(h, fmt('You have {n} BP. What would you like?', { n: Tw.bp() }),
@@ -264,8 +272,13 @@
       if (Tw.bp() < p) { await h.say(T('You do not have enough BP.')); continue; }
       Tw.addBp(-p);
       await G.Script.exec([['giveItem', v, 1]], h);
+      if (GEN4.has(v)) gen4 = true;
     }
     await h.say(T('Please come again!'));
+    // The end of the ninety-third chapter (credits-ui.js): a Generation 4 item bought once the ninety-second is done.
+    if (gen4 && F.flag('chapter-92-done') && !F.flag('chapter-93-done')) {
+      if (G.CreditsUI) await G.CreditsUI.ending(93); else F.setFlag('chapter-93-done');
+    }
   }
 
   G.Script.def({
@@ -276,5 +289,5 @@
     'sfrontier.training': [['js', h => stall(h, TRAINING, T('Welcome to the Training Stall! Vitamins and held items, for Battle Points.'))]],
     'sfrontier.moves': [['js', h => stall(h, MOVES, T('Welcome to the Move Stall! Our TMs teach the moves the Battle Frontier\'s best Trainers use.'))]]
   });
-  G.SinnohTowerHall = { PALMER, BRAIN_BP, HALL, trainerFor, TRAINING, MOVES };
+  G.SinnohTowerHall = { PALMER, BRAIN_BP, HALL, trainerFor, TRAINING, MOVES, GEN4 };
 })();

@@ -257,5 +257,8 @@ G.I18n.add({
   "Darach serves the castle at the 21st and the 49th battle, and only the Battle Arcade is still to open.": "石兰在第 21 场和第 49 场为城堡效劳，只剩对战轮盘还没开放。",
   "Chapter 92 complete!": "第 92 章完成！",
   "{player} won seven battles in a row at Sinnoh's Battle Arcade, whatever the roulette had in store.": "{player}在神奥对战轮盘连赢了七场，不管轮盘停在哪一格。",
-  "Dahlia waits at the 21st and the 49th battle, and every facility of Sinnoh's Battle Frontier is open.": "大丽在第 21 场和第 49 场等着你，神奥对战开拓区的设施全部开放了。"
+  "Dahlia waits at the 21st and the 49th battle, and every facility of Sinnoh's Battle Frontier is open.": "大丽在第 21 场和第 49 场等着你，神奥对战开拓区的设施全部开放了。",
+  "Chapter 93 complete!": "第 93 章完成！",
+  "{player} traded Battle Points for one of the new held items: Choice items, Focus Sashes, Life Orbs and berries that soften a blow.": "{player}用对战点数换到了新的携带道具：讲究系列、气势披带、生命宝珠，还有能减轻伤害的树果。",
+  "The Castle rents and the Arcade hands out the whole of Platinum's lists now, and Palmer's and Darach's teams hold what they should.": "对战城堡和对战轮盘现在提供白金版的完整道具清单，桄榔和石兰的队伍也拿回了原本的道具。"
 }, "zh-Hans");

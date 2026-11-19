@@ -154,7 +154,8 @@ G.Battle = (() => {
       if (slot == null) slot = this.prompt && this.prompt.slot != null ? this.prompt.slot : 0;
       const bm = this.player.bms[slot];
       const moves = bm.mon.moves.map((m, slot) => ({ slot, id: m.id, pp: m.pp, max: G.Mon.ppMax(m.id, m.ppUp),
-        usable: m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id) }));
+        usable: m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id)
+          && !(G.Held.locked(bm) && G.Held.locked(bm) !== m.id) }));            // a Choice item (chapter 93)
       const trapped = this.trapped(bm) || G.Abilities.traps(this, bm);     // Shadow Tag, Arena Trap, Magnet Pull
       return {
         moves, struggle: !moves.some(m => m.usable),
@@ -325,7 +326,7 @@ G.Battle = (() => {
     /** Type effectiveness against this battler (Foresight lets Normal and Fighting hit Ghosts; Levitate). */
     eff(type, bm, user) {
       // Gravity (chapter 44) brings Flying types and Levitate down to the ground.
-      if (type === 'ground' && this.gravity) return G.Types.eff(type, bm.types.filter(t => t !== 'flying'));
+      if (type === 'ground' && (this.gravity || G.Held.is(bm.mon, 'iron-ball'))) return G.Types.eff(type, bm.types.filter(t => t !== 'flying'));   // and the Iron Ball (chapter 93)
       if (type === 'ground' && G.Abilities.ab(this, bm) === 'levitate') return 0;        // (not against Mold Breaker)
       let types = bm.types;
       // Foresight, and Scrappy (chapter 44): Normal and Fighting moves hit Ghosts.
@@ -356,7 +357,8 @@ G.Battle = (() => {
         return d;
       }
       let amt = Math.min(dmg, target.mon.hp);
-      // A Focus Band may hold on against a foe's hit that would knock it out.
+      // A Focus Band (or, at full HP, a Focus Sash: chapter 93) may hold on against a foe's hit that would knock it out.
+      const item = target.mon.item;
       const band = amt >= target.mon.hp && !target.vol.endure && !o.leaveOne && !!o.user && o.user !== target && G.Held.survives(this, target);
       if (amt >= target.mon.hp && (target.vol.endure || o.leaveOne || band)) {
         amt = target.mon.hp - 1;
@@ -365,7 +367,7 @@ G.Battle = (() => {
       target.mon.hp -= amt;
       this.emit('damage', { side: target.side, uid: target.mon.uid, amt, hp: target.mon.hp, max: this.maxHp(target),
                             crit: !!o.crit, eff: o.eff == null ? 1 : o.eff, why: o.why || 'hit', src: o.src || null });
-      if (band) this.emit('held', { side: target.side, uid: target.mon.uid, item: target.mon.item, why: 'focus-band' });
+      if (band) this.emit('held', { side: target.side, uid: target.mon.uid, item, why: band });
       if (o.user && o.user !== target && o.move) {
         target.lastHit = { cat: o.move.cat, amt, from: o.user.side, uid: o.user.mon.uid };
         if (target.vol.rage && target.mon.hp > 0) this.stage(target, 'atk', 1, { source: target, rage: true });
@@ -403,7 +405,7 @@ G.Battle = (() => {
       target.mon.status = s;
       if (s === 'slp') target.mon.slp = o.sleepTurns || this.rng.int(1, 3);
       if (s === 'tox') target.mon.tox = 0;
-      this.emit('status', { side: target.side, uid: target.mon.uid, s });
+      this.emit('status', Object.assign({ side: target.side, uid: target.mon.uid, s }, o.item ? { item: o.item } : {}));
       G.Abilities.afterStatus(this, target, s, o.source);         // Synchronize
       return true;
     }
@@ -486,7 +488,7 @@ G.Battle = (() => {
         const id = x.a.type === 'move' ? (x.a.id || (bm.mon.moves[x.a.slot] || {}).id) : null;
         return Object.assign(x, {
           bracket: x.a.type === 'move' || x.a.type === 'flee' ? 0 : 1,
-          stall: G.Abilities.stall(bm) ? 1 : 0,                                    // Stall (chapter 44)
+          stall: G.Abilities.stall(bm) || G.Held.is(bm.mon, 'lagging-tail') ? 1 : 0,   // Stall (chapter 44), Lagging Tail (93)
           pri: id && G.MOVES[id] ? G.MOVES[id].pri : 0,
           quick: x.a.type === 'move' && G.Held.quick(this, bm) ? 1 : 0,          // Quick Claw
           spe: this.stat(bm, 'spe'), tie: this.rng.next()
@@ -514,7 +516,7 @@ G.Battle = (() => {
         const id = x.a.type === 'move' ? (x.a.id || (x.bm.mon.moves[x.a.slot] || {}).id) : null;
         Object.assign(x, {
           bracket: x.a.type === 'move' || x.a.type === 'flee' ? 0 : 1,
-          stall: G.Abilities.stall(x.bm) ? 1 : 0,                                    // Stall (chapter 44)
+          stall: G.Abilities.stall(x.bm) || G.Held.is(x.bm.mon, 'lagging-tail') ? 1 : 0,   // Stall (chapter 44), Lagging Tail (93)
           pri: id && G.MOVES[id] ? G.MOVES[id].pri : 0,
           quick: x.a.type === 'move' && G.Held.quick(this, x.bm) ? 1 : 0,          // Quick Claw
           spe: this.stat(x.bm, 'spe'), tie: this.rng.next()
@@ -648,7 +650,9 @@ G.Battle = (() => {
       if (a.hesitate) { stop(); return say('palace'); }                    // the Battle Palace (chapter 80)
       if (!['protect', 'detect', 'endure'].includes(id)) bm.vol.protectCount = 0;
       if (id !== bm.lastMoveHit) bm.lastMoveHit = null;
+      if (!a.locked) G.Held.beforeMove(bm, id);                            // Choice items, Metronome (chapter 93)
       G.BattleFx.useMove(this, bm, target, id, { locked: a.locked || null });
+      G.Held.afterMove(this, bm);                                          // the Life Orb
     }
 
     /** After every action: berries, faints, experience, and whether the battle is over. */
@@ -716,9 +720,9 @@ G.Battle = (() => {
           const foe = this.double && by ? this.sides[by.side].bms[by.slot] : this.other(bm);
           const d = this.hurt(bm, Math.max(1, Math.floor(max / 8)), { why: 'seed' });
           if (this.alive(foe) && G.Abilities.liquidOoze(bm)) this.hurt(foe, d, { why: 'ooze' });
-          else if (this.alive(foe)) this.heal(foe, d, 'leech');
+          else if (this.alive(foe)) this.heal(foe, G.Held.is(foe.mon, 'big-root') ? Math.floor(d * 1.3) : d, 'leech');   // Big Root (chapter 93)
         }
-        if (this.alive(bm) && bm.vol.ingrain) this.heal(bm, max / 16, 'ingrain');
+        if (this.alive(bm) && bm.vol.ingrain) this.heal(bm, max / 16 * G.Held.drainMult(bm), 'ingrain');
         G.Held.endOfTurn(this, bm);
         G.Abilities.endOfTurn(this, bm);
         const st = bm.mon.status;
@@ -751,6 +755,7 @@ G.Battle = (() => {
           this.emit('perish', { side: bm.side, uid, n: bm.vol.perish });
           if (bm.vol.perish <= 0) { bm.mon.hp = 0; this.emit('damage', { side: bm.side, uid, amt: 0, hp: 0, max, why: 'perish' }); }
         }
+        G.Held.orbs(this, bm);                                               // Toxic Orb, Flame Orb (chapter 93)
         if (bm.vol.disable && --bm.vol.disable.turns <= 0) { bm.vol.disable = null; this.emit('disableEnd', { side: bm.side, uid }); }
         if (bm.vol.encore && (--bm.vol.encore.turns <= 0 || !bm.mon.moves.some(m => m.id === bm.vol.encore.move && m.pp > 0))) {
           bm.vol.encore = null;
@@ -783,7 +788,8 @@ G.Battle = (() => {
       const lock = this.lockedAction(bm);
       if (lock) return lock;
       const usable = bm.mon.moves.map((m, slot) => ({ slot, id: m.id, pp: m.pp }))
-        .filter(x => x.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === x.id) && !(bm.vol.encore && bm.vol.encore.move !== x.id));
+        .filter(x => x.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === x.id) && !(bm.vol.encore && bm.vol.encore.move !== x.id)
+          && !(G.Held.locked(bm) && G.Held.locked(bm) !== x.id));
       if (!usable.length) return { type: 'move', id: 'struggle' };
       const row = PALACE[bm.mon.nature] || PALACE.hardy;
       const [atk, def] = bm.mon.hp * 2 < this.maxHp(bm) ? row.slice(2) : row.slice(0, 2);

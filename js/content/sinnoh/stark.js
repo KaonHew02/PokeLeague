@@ -6,8 +6,9 @@
  * Jupiter fight you and Buck, then leave Team Galactic. Charon wants the Magma Stone to wake Heatran; one of his grunts is
  * Looker, who arrests him (flag charon-caught). Buck takes the stone home to the Survival Area; once you have seen him there
  * (flag magma-stone-back) Heatran waits in the deepest room at Platinum's level. Caught or beaten: `ending(62)`.
- * Platinum's Trainers and wild Pokémon. Left out: the island house and its trade, the Dowsing Machine's items, the Lagging Tail,
- * Life Orb, Iron Ball, Flame Plate and Yellow Shard (not in the game).
+ * Platinum's Trainers and wild Pokémon. Chapter 93: the Lagging Tail (Route 226, left of the Dragon Tamer), the Life Orb (past
+ * the Dragon Tamer outside the mountain) and the Iron Ball (inside, beneath the psychic pair), where Platinum has them (Serebii).
+ * Left out: the island house and its trade, the Dowsing Machine's items, the Flame Plate and Yellow Shard (not in the game).
  */
 (() => {
   const T = s => G.T(s);
@@ -54,7 +55,8 @@
     encounters: { walk: '@sinnoh-sea-route-226-area', water: '@sinnoh-sea-route-226-area' },
     signs: { '2,11': 'Route 226. East: the sea. Beyond it, the road to Stark Mountain.',
              '49,11': 'Route 226. North: Route 227 to Stark Mountain. South: Route 228. West: the sea and the Survival Area.' },
-    items: [{ x: 25, y: 5, item: 'carbos', flag: 'route226-carbos' }, { x: 38, y: 6, item: 'tm53', flag: 'route226-tm53' }],
+    items: [{ x: 25, y: 5, item: 'carbos', flag: 'route226-carbos' }, { x: 38, y: 6, item: 'tm53', flag: 'route226-tm53' },
+            { x: 25, y: 10, item: 'lagging-tail', flag: 'route226-lagging-tail' }],                // chapter 93
     npcs: [{ id: 'hiker', who: 'hiker', x: 49, y: 3, move: 'look', say: 'See the smoke up north? That is Stark Mountain. People say it has not slept in a long time.' }],
     trainers: [
       { id: 'graham', who: 'cooltrainerm', cls: 'cooltrainer', name: 'Graham', x: 14, y: 10, dir: 'down', sight: 3,
@@ -202,7 +204,7 @@
     encounters: { walk: '@stark-mountain-area' },
     warps: [{ x: 15, y: 7, to: 'stark-entrance', spot: 'south' }],
     spots: { mouth: [15, 8, 'down'] },
-    items: [{ x: 28, y: 13, item: 'ether', flag: 'stark-ether' }],
+    items: [{ x: 28, y: 13, item: 'ether', flag: 'stark-ether' }, { x: 22, y: 13, item: 'life-orb', flag: 'stark-life-orb' }],   // (chapter 93)
     trainers: [
       { id: 'darien', who: 'cooltrainerm', cls: 'dragon-tamer', name: 'Darien', x: 25, y: 12, dir: 'down', sight: 1,
         before: 'My Dragonite and I keep watch on this slope. Nobody gets up here by accident.',
@@ -303,7 +305,8 @@
     triggers: [{ x: 21, y: 35, w: 3, h: 1, if: '!buck-met', script: 'stark.buck' }],
     items: [{ x: 41, y: 33, item: 'max-revive', flag: 'stark-max-revive' }, { x: 3, y: 34, item: 'tm50', flag: 'stark-tm50' },
             { x: 41, y: 21, item: 'rare-candy', flag: 'stark-candy' }, { x: 41, y: 12, item: 'max-elixir', flag: 'stark-elixir' },
-            { x: 3, y: 12, item: 'nugget', flag: 'stark-nugget' }, { x: 41, y: 3, item: 'ultra-ball', flag: 'stark-ball' }],
+            { x: 3, y: 12, item: 'nugget', flag: 'stark-nugget' }, { x: 41, y: 3, item: 'ultra-ball', flag: 'stark-ball' },
+            { x: 10, y: 24, item: 'iron-ball', flag: 'stark-iron-ball' }],                         // chapter 93
     npcs: [{ id: 'buck', who: 'buck', x: 22, y: 32, dir: 'down', if: 'scripted' }],
     trainers: [
       { id: 'keenan-kassandra', who: 'cooltrainerm', cls: 'double-team', name: 'Keenan & Kassandra', x: 32, y: 31, dir: 'left', sight: 5, double: true, partner: { who: 'cooltrainer', x: 32, y: 32, dir: 'left' },

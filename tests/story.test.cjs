@@ -4750,6 +4750,20 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 93 after chapter 92: Generation 4's held items: a Choice Band from the Battle Shops' Training Stall for 48 BP (the
+ *  ending). */
+async function chapter93(st) {
+  const { G } = st;
+  const F = G.Field, Tw = G.Tower, H = G.SinnohTowerHall;
+  const bp = Tw.bp(), k = H.TRAINING.findIndex(([id]) => id === 'choice-band');
+  assert.ok(bp >= 48, 'enough BP for a Choice Band: ' + bp);
+  await run(st, 'frontier-shop', 'sfrontier.training', [k, H.TRAINING.length]);
+  console.log('[story] Generation 4\'s held items:', G.Names.item('choice-band'), 'for', bp - Tw.bp(), 'BP (' + Tw.bp() + ' left)');
+  assert.equal(F.count('choice-band'), 1);
+  assert.ok(F.flag('chapter-93-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 92 after chapter 91: Sinnoh's Battle Arcade, single battles with the three strongest Pokémon that may enter (one of each
  *  species), the roulette stopping at random (seeded), until a round of seven is won (the ending). */
 async function chapter92(st) {
@@ -5965,4 +5979,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter90(st);
   await chapter91(st);
   await chapter92(st);
+  await chapter93(st);
 });

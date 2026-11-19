@@ -40,7 +40,10 @@ test('the state: 10 CP and rank 1 at a new streak; spending; the ranks and their
 });
 
 test('the rentals by rank are items the game has; Darach\'s two teams for each print', () => {
-  assert.deepEqual([C.items(1).length, C.items(2).length, C.items(3).length], [7, 13, 18]);
+  // Platinum's lists (complete since chapter 93): 8 at rank 1, 12 more at rank 2, 39 more at rank 3.
+  assert.deepEqual([C.items(1).length, C.items(2).length, C.items(3).length], [8, 20, 59]);
+  const cp = id => C.items(3).find(r => r[0] === id)[1];
+  assert.deepEqual([cp('persim-berry'), cp('power-herb'), cp('grip-claw'), cp('occa-berry'), cp('focus-sash'), cp('life-orb')], [2, 5, 10, 5, 10, 20]);
   for (const [id, cp] of C.items(3)) assert.ok(G.ITEMS[id] && G.ITEM_FX[id] && cp >= 2 && cp <= 20, id);
   for (const n of [21, 49]) {
     for (const k of [0, 1]) {
@@ -53,4 +56,6 @@ test('the rentals by rank are items the game has; Darach\'s two teams for each p
   }
   assert.deepEqual(plain(C.darach(21, 0).map(r => r[0])), ['staraptor', 'empoleon', 'houndoom']);
   assert.deepEqual(plain(C.darach(49, 1).map(r => r[0])), ['entei', 'empoleon', 'gallade']);
+  // Platinum's items (chapter 93): Houndoom's Focus Sash, Entei's Shuca Berry.
+  assert.deepEqual(plain([0, 1].map(k => C.darach(21, k)[2][3]).concat([0, 1].map(k => C.darach(49, k)[0][3]))), ['focus-sash', 'focus-sash', 'shuca-berry', 'shuca-berry']);
 });

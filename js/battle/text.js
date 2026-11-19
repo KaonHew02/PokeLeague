@@ -81,6 +81,8 @@ G.BattleText = (() => {
       case 'rocks': return fmt('Pointed stones dug into {mon}!', { mon });
       case 'hail': return fmt('{mon} is pelted by hail!', { mon });
       case 'ooze': return fmt('{mon} sucked up the liquid ooze!', { mon });
+      case 'life-orb': return fmt('{mon} lost some of its HP!', { mon });                                  // chapter 93
+      case 'sludge': return fmt('{mon} is hurt by its {item}!', { mon, item: G.Names.item(e.src) });
       case 'ability': return fmt('{mon} was hurt!', { mon });
       case 'crash': return null;
       default: return null;                       // ordinary hits: only the HP bar moves
@@ -151,7 +153,12 @@ G.BattleText = (() => {
         if (e.why === 'held' && e.held === 'berry') return fmt('{mon} restored its HP using its {item}!', { mon, item: G.Names.item(e.item) });
         if (e.why === 'held') return fmt('{mon} restored a little HP using its {item}!', { mon, item: G.Names.item(e.item) });
         return fmt('{mon} regained health!', { mon });
-      case 'status': return statusLine(mon, e.s);
+      case 'status':                                           // the Toxic Orb, the Flame Orb (chapter 93)
+        if (e.item) return e.s === 'brn' ? fmt('{mon} was burned by the {item}!', { mon, item: G.Names.item(e.item) })
+          : fmt('{mon} was badly poisoned by the {item}!', { mon, item: G.Names.item(e.item) });
+        return statusLine(mon, e.s);
+      case 'resist': return fmt('The {item} weakened the damage to {mon}!', { mon, item: G.Names.item(e.item) });
+      case 'powerHerb': return fmt('{mon} became fully charged due to its {item}!', { mon, item: G.Names.item(e.item) });
       case 'eat': return fmt('{mon} ate its {item}!', { mon, item: G.Names.item(e.item) });      // a pinch berry (chapter 77)
       case 'herb': return fmt('{mon} returned its stats to normal using its {item}!', { mon, item: G.Names.item(e.item) });   // chapter 80
       case 'cure': return e.item ? fmt('{mon} ate its {item} and was cured!', { mon, item: G.Names.item(e.item) })

@@ -87,7 +87,7 @@ G.BattleFx = (() => {
 
     // Two-turn moves: the first turn only charges.
     if (S.charge && ctx.locked !== 'charge') {
-      if (!(S.noChargeIf && S.noChargeIf(b, user))) {
+      if (!(S.noChargeIf && S.noChargeIf(b, user)) && !G.Held.powerHerb(b, user)) {     // Power Herb (chapter 93)
         user.vol.charging = id;
         b.emit('charge', Object.assign({ move: id }, who));
         if (typeof S.charge === 'function') S.charge(b, user);
@@ -194,12 +194,13 @@ G.BattleFx = (() => {
     const st = Math.max(-6, Math.min(6, (G.Abilities.unaware(b, target) ? 0 : user.stages.acc) - eva));
     // Bright Powder; Compound Eyes, Hustle, Sand Veil
     return b.rng.int(1, 100) <= Math.floor(acc * G.Stats.accStage(st) * G.Held.accMult(target.mon) * G.Abilities.accMult(b, user, target, M)
+                                           * G.Held.userAcc(user, target)                // Wide Lens, Zoom Lens (chapter 93)
                                            * (b.gravity ? 5 / 3 : 1)            // Gravity
                                            * (b.weatherNow() === 'fog' ? 0.6 : 1));   // fog (chapter 92: the Battle Arcade)
   }
 
   /** One hit's damage: { dmg, crit } (power already known). spread: doubles, a move on both foes. */
-  function hitDamage(b, user, target, M, S, pow, eff, type, spread) {
+  function hitDamage(b, user, target, M, S, pow, eff, type, spread, mult = 1) {
     const stage = (M.meta.crit || 0) + (user.vol.focusEnergy ? 2 : 0) + G.Held.critBonus(user.mon) + G.Abilities.critBonus(user);   // Super Luck
     const crit = b.rng.int(1, CRIT[Math.min(3, stage)]) === 1 && !G.Abilities.noCrit(target, b);     // Battle Armor, Shell Armor
     const phys = M.cat === 'physical';
@@ -208,12 +209,13 @@ G.BattleFx = (() => {
     const def = b.stat(target, phys ? 'def' : 'spd', { crit, defending: true, noStages: user.ability === 'unaware' });
     const field = b.sideOf(target).field;
     const dmg = G.Damage.calc({
-      lvl: user.mon.lvl, pow: Math.floor(pow * G.Held.power(user.mon, type) * (S.typeless ? 1 : G.Abilities.powerMult(b, user, target, type, M, pow))
+      lvl: user.mon.lvl, pow: Math.floor(pow * G.Held.power(user.mon, type, M, user) * (S.typeless ? 1 : G.Abilities.powerMult(b, user, target, type, M, pow))
                                 * (user.vol.helped ? 1.5 : 1)),                // Helping Hand
       spread,
       atk, def, eff, crit: crit && G.Abilities.critMult(user), roll: b.rng.int(85, 100),     // Sniper
       stab: !S.typeless && user.types.includes(type) && G.Abilities.stab(user),              // Adaptability
-      final: S.typeless ? 1 : G.Abilities.finalMult(b, user, target, eff),                 // Tinted Lens, Filter, Solid Rock
+      final: (S.typeless ? 1 : G.Abilities.finalMult(b, user, target, eff))                // Tinted Lens, Filter, Solid Rock
+             * G.Held.finalMult(user, eff) * mult,                                       // Life Orb, Expert Belt, a resist berry (93)
       burn: phys && user.mon.status === 'brn' && user.ability !== 'guts',
       screen: !crit && (phys ? field.reflect : field.lightScreen) > 0,
       weather: S.typeless ? 1 : b.weatherMult(type)
@@ -265,7 +267,8 @@ G.BattleFx = (() => {
         let pow = ctx && ctx.pow != null ? ctx.pow : S.power ? S.power(b, user, target, M, i) : M.pow;
         if (!pow) { b.emit('fail', {}); return false; }
         if (S.doubleVsInvuln && target.vol.invuln && S.hitsInvuln.includes(target.vol.invuln)) pow *= 2;
-        ({ dmg, crit } = hitDamage(b, user, target, M, S, pow, eff, type, ctx && ctx.spread));
+        const res = S.typeless ? 1 : G.Held.resist(b, target, type, eff);       // a type-resist berry (chapter 93)
+        ({ dmg, crit } = hitDamage(b, user, target, M, S, pow, eff, type, ctx && ctx.spread, res));
       }
       const sub = target.vol.substitute > 0;
       total += b.hurt(target, dmg, { user, move: M, crit, eff: S.fixed ? 1 : eff, leaveOne: S.leaveOne });
@@ -280,7 +283,7 @@ G.BattleFx = (() => {
     if (M.meta.drain > 0 && total > 0 && b.alive(user)) {
       const amt = Math.max(1, Math.floor(total * M.meta.drain / 100));
       if (G.Abilities.liquidOoze(target)) b.hurt(user, amt, { why: 'ooze' });      // Liquid Ooze
-      else b.heal(user, amt, 'drain', { from: target.mon.uid, fromSide: target.side });
+      else b.heal(user, G.Held.is(user.mon, 'big-root') ? Math.floor(amt * 1.3) : amt, 'drain', { from: target.mon.uid, fromSide: target.side });   // Big Root (93)
     }
     if (M.meta.drain < 0 && total > 0 && b.alive(user) && !G.Abilities.noRecoil(user)) b.hurt(user, Math.max(1, Math.floor(total * -M.meta.drain / 100)), { why: 'recoil' });
 
@@ -305,7 +308,7 @@ G.BattleFx = (() => {
     if (AIL[ail]) return b.inflict(target, AIL[ail], { source: user, silent: true });
     if (ail === 'confusion') return b.confuse(target, { source: user, silent: true });
     if (ail === 'trap' && !target.vol.trap) {
-      target.vol.trap = { turns: b.rng.int(4, 5), move: idOf(M), src: user.mon.uid };
+      target.vol.trap = { turns: G.Held.is(user.mon, 'grip-claw') ? 5 : b.rng.int(4, 5), move: idOf(M), src: user.mon.uid };   // Grip Claw (93)
       b.emit('trap', { side: target.side, uid: target.mon.uid, move: target.vol.trap.move });
     }
     return false;

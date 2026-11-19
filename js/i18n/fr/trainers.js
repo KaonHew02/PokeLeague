@@ -89,5 +89,6 @@ G.I18n.add({
   "Pike Queen": "Reine du Reptile",
   "Pyramid King": "Roi de la Pyramide",
   "Tower Tycoon": "Magnat de la Tour",
-  "Hall Matron": "Reine du Hall"
+  "Hall Matron": "Reine du Hall",
+  "Castle Valet": "Valet du Château"
 }, "fr");

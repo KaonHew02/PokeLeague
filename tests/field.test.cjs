@@ -7096,7 +7096,7 @@ test('Sinnoh (chapter 88): the Battle Frontier (the gate, the plaza, four shut f
   step(W, 'down');
   await until(() => W.map.id === 'sinnoh-frontier' && !W.locked);
   assert.deepEqual([W.player.x, W.player.y], [19, 17]);
-  for (const [x, y, re] of [[6, 16, /Battle Castle/], [33, 15, /Battle Arcade/]]) {        // the Factory opens in chapter 89, the Hall in 90
+  for (const [x, y, re] of [[33, 15, /Battle Arcade/]]) {        // the Factory opens in chapter 89, the Hall in 90, the Castle in 91
     W.load('sinnoh-frontier', { x, y, dir: 'up' });
     said.length = 0;
     step(W, 'up');
@@ -7302,4 +7302,101 @@ test('Sinnoh (chapter 90): the Battle Hall at the Battle Frontier (the door; one
   W.load('shall-lobby', 'guide');
   await talk();
   assert.ok(said.some(s => /Lucario: 10 wins in a row/.test(s)), said.slice(-3).join(' | '));
+});
+
+test('Sinnoh (chapter 91): the Battle Castle at the Battle Frontier (the door; three of your own, not two of a species; HP kept between battles, the fainted back with 1 HP; Castle Points earned and spent: recovery, a rental, the opponents\' level, the ranks, a pass; Darach at the 21st; a loss starts over), the ending after chapter 90', async () => {
+  const { G, W } = world(['js/world/tower.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/content/hoenn/tower.js',
+    'js/content/sinnoh/battlezone.js', 'js/content/sinnoh/frontier.js', 'js/content/sinnoh/scastle.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, Tw = G.Tower, C = G.Castle;
+  const said = [], answers = [], picks = [], pops = [], fights = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  G.Popup = { choose: (title, opts) => { const v = pops.shift(); return Promise.resolve(opts.some(o => o.value === v) ? v : null); } };
+  let onFight = null, result = 'win';
+  W.onTrainer = async (d, o) => {
+    fights.push({ id: d.id, lvls: d.team.map(t => t[1]), hp: o.party.map(m => m.hp), items: o.party.map(m => m.item), cp: C.state().cp, n: d.team.length });
+    if (onFight) onFight(o.party, fights.length);
+    return result;
+  };
+  const until = async ok => { for (let i = 0; i < 3000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  const mine = ['garchomp', 'garchomp', 'lucario', 'togekiss'].map(sp => F.giveMon(sp, 62));
+  mine[2].item = 'leftovers';
+
+  // The plaza's door.
+  W.load('sinnoh-frontier', 'castle-door');
+  W.player.face('up');
+  step(W, 'up');
+  await until(() => W.map.id === 'scastle-lobby' && !W.locked);
+  W.load('scastle-lobby', 'single');
+  // Not two of one species.
+  picks.push(0, 1);
+  await talk();
+  assert.ok(/Please come again/.test(said[said.length - 1]) && !fights.length);
+  // Battle 1: Garchomp ends below half having used 3 PP, Lucario faints. Battle 2: before it, Garchomp's HP back (10 CP), the
+  // opponents raised to 55 (3 CP), a Sitrus Berry for Lucario (5 CP), an Info rank too dear; the rest as it comes.
+  onFight = (party, k) => {
+    if (k !== 1) return;
+    party[0].hp = Math.floor(G.Mon.maxHp(party[0]) * 0.4);
+    party[0].moves[0].pp -= 3;
+    party[1].hp = 0;
+  };
+  answers.push(0, 0, 0, 1, 3, 2, 4, 0);
+  pops.push('m0', 'hp', 'up', 'm1', 'sitrus-berry', 'info');
+  picks.push(0, 2, 3);
+  await talk();
+  assert.equal(fights.length, 7);
+  const [f1, f2, f3] = fights;
+  assert.deepEqual(plain([f1.cp, f1.lvls, f1.items, f1.n]), [10, [50, 50, 50], [null, null, null], 3], 'a new streak: 10 CP; no held items');
+  const max = G.Mon.maxHp, team1 = f1.hp;
+  // After battle 1: 5 (Garchomp: standing, below half, no status) + 0 (fainted) + 7 (Togekiss) + 8 (3 PP) = 20.
+  assert.equal(f2.cp, 10 + 20 - 10 - 3 - 5, 'earned 20, then paid for the HP, the level and the berry');
+  assert.equal(f2.hp[1], 1, 'the fainted came back with 1 HP');
+  assert.equal(f2.hp[0], team1[0], 'Garchomp healed to full before battle 2');
+  assert.deepEqual(plain([f2.lvls, f2.items[1]]), [[55, 55, 55], 'sitrus-berry']);
+  assert.deepEqual(plain(f3.lvls), [50, 50, 50], 'the level change lasts one battle');
+  assert.ok(said.some(s => /not have enough Castle Points/.test(s)), 'the Info rank costs 50');
+  // After battle 2 (nothing lost, 0 PP): Garchomp 7, Lucario 3 + 1 + 1 = 5, Togekiss 7, 8, and 21 for three at 55.
+  assert.equal(f3.cp, f2.cp + 7 + 5 + 7 + 8 + 21);
+  assert.equal(Tw.streak('single', 'scastle'), 7);
+  assert.equal(Tw.bp(), 3);
+  assert.ok(!F.flag('chapter-91-done'), 'no ending before chapter 90');
+  onFight = null;
+  // A pass from the 21st win (50 CP): battle 22 skipped and counted.
+  Tw.setStreak('single', 21, 'scastle');
+  C.addCp(100);
+  fights.length = 0;
+  answers.push(0, 5, 0);
+  picks.push(0, 2, 3);
+  await talk();
+  assert.ok(said.some(s => /Battle No. 22 was skipped/.test(s)));
+  assert.equal(fights.length, 6, 'battles 23 to 28');
+  assert.equal(Tw.streak('single', 'scastle'), 28);
+  // Darach at the 21st (a new streak's points carry on as they are): the Silver Print and 20 BP.
+  Tw.setStreak('single', 20, 'scastle');
+  fights.length = 0;
+  const bp = Tw.bp();
+  picks.push(0, 2, 3);
+  await talk();
+  assert.deepEqual(plain(fights.map(f => f.id)), ['darach']);
+  assert.ok(F.flag('scastle-silver') && Tw.bp() === bp + 20);
+  assert.equal(G.SinnohCastleHall.trainerFor(21, 'double', 1).id, 'tower', 'not in doubles');
+  // A loss: the streak, the points and the ranks start over.
+  C.rankUp('rec');
+  result = 'lose';
+  picks.push(0, 2, 3);
+  await talk();
+  assert.deepEqual([Tw.streak('single', 'scastle'), C.state().cp, C.state().rec], [0, 10, 1]);
+  // Once chapter 90 is done, a round won (doubles of three) ends chapter 91.
+  result = 'win';
+  F.setFlag('chapter-90-done');
+  W.load('scastle-lobby', 'double');
+  fights.length = 0;
+  picks.push(0, 2, 3);
+  await talk();
+  assert.ok(fights.length === 7 && fights.every(f => f.n === 3));
+  assert.ok(F.flag('chapter-91-done'));
+  assert.equal(mine[2].item, 'leftovers', 'your own Pokémon keep their items');
 });

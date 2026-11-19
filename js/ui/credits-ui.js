@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 91) return { title: T('Chapter 91 complete!'),
+      done: fmt('{player} won seven battles in a row at Sinnoh\'s Battle Castle, paying for every potion in Castle Points.', { player }),
+      next: T('Darach serves the castle at the 21st and the 49th battle, and only the Battle Arcade is still to open.') };
     if (n === 90) return { title: T('Chapter 90 complete!'),
       done: fmt('{player} won ten battles in a row on the stage of Sinnoh\'s Battle Hall, choosing a type for each one.', { player }),
       next: T('Ten ranks for every type, Argenta at the 50th and the 170th battle, and only one Pokémon to take you there.') };

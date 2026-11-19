@@ -89,5 +89,6 @@ G.I18n.add({
   "Pike Queen": "水管皇后",
   "Pyramid King": "金字塔法老",
   "Tower Tycoon": "塔主",
-  "Hall Matron": "舞台名伶"
+  "Hall Matron": "舞台名伶",
+  "Castle Valet": "城堡管家"
 }, "zh-Hans");

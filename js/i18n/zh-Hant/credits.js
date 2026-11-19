@@ -251,5 +251,8 @@ G.I18n.add({
   "Thorton, the Factory Head, knows every rental by heart, and the Open Level puts every Pokémon at level 100.": "工廠頭目捩木熟知每隻租借寶可夢，而開放級別會讓所有寶可夢都以 100 級對戰。",
   "Chapter 90 complete!": "第 90 章完成！",
   "{player} won ten battles in a row on the stage of Sinnoh's Battle Hall, choosing a type for each one.": "{player}在神奧對戰舞台上，每場自選屬性，連贏了十場。",
-  "Ten ranks for every type, Argenta at the 50th and the 170th battle, and only one Pokémon to take you there.": "每種屬性十個等級，青葙在第 50 場和第 170 場等著你，而陪你走到那裡的只有一隻寶可夢。"
+  "Ten ranks for every type, Argenta at the 50th and the 170th battle, and only one Pokémon to take you there.": "每種屬性十個等級，青葙在第 50 場和第 170 場等著你，而陪你走到那裡的只有一隻寶可夢。",
+  "Chapter 91 complete!": "第 91 章完成！",
+  "{player} won seven battles in a row at Sinnoh's Battle Castle, paying for every potion in Castle Points.": "{player}在神奧對戰城堡連贏了七場，每一次回復都用城堡點數支付。",
+  "Darach serves the castle at the 21st and the 49th battle, and only the Battle Arcade is still to open.": "石蘭在第 21 場和第 49 場為城堡效勞，只剩對戰輪盤還沒開放。"
 }, "zh-Hant");

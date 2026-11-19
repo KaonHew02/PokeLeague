@@ -251,5 +251,8 @@ G.I18n.add({
   "Thorton, the Factory Head, knows every rental by heart, and the Open Level puts every Pokémon at level 100.": "Thorton, il Capo dell'Industria, conosce ogni noleggio a memoria, e il Livello Libero porta tutti al livello 100.",
   "Chapter 90 complete!": "Capitolo 90 completato!",
   "{player} won ten battles in a row on the stage of Sinnoh's Battle Hall, choosing a type for each one.": "{player} ha vinto dieci lotte di fila sul palco del Salone Lotta di Sinnoh, scegliendo un tipo per ognuna.",
-  "Ten ranks for every type, Argenta at the 50th and the 170th battle, and only one Pokémon to take you there.": "Dieci gradi per ogni tipo, Argenta alla 50ª e alla 170ª lotta, e un solo Pokémon per arrivarci."
+  "Ten ranks for every type, Argenta at the 50th and the 170th battle, and only one Pokémon to take you there.": "Dieci gradi per ogni tipo, Argenta alla 50ª e alla 170ª lotta, e un solo Pokémon per arrivarci.",
+  "Chapter 91 complete!": "Capitolo 91 completato!",
+  "{player} won seven battles in a row at Sinnoh's Battle Castle, paying for every potion in Castle Points.": "{player} ha vinto sette lotte di fila al Castello Lotta di Sinnoh, pagando ogni cura in Punti Castello.",
+  "Darach serves the castle at the 21st and the 49th battle, and only the Battle Arcade is still to open.": "Darach serve il castello alla 21ª e alla 49ª lotta, e resta da aprire solo la Roulette Lotta."
 }, "it");

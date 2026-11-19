@@ -29,7 +29,7 @@ G.People = (() => {
                  'archie', 'stern', 'wattson', 'magma', 'maxie', 'tabitha', 'flannery', 'kindler', 'shelly', 'winona', 'matt', 'tate', 'liza',
                  'juan', 'wallace', 'sidney', 'phoebe', 'glacia', 'drake', 'twin', 'barry', 'rowan', 'dawn', 'lucas',
                  'galactic', 'roark', 'mars', 'cheryl', 'gardenia', 'jupiter', 'cyrus', 'fantina', 'cyclist', 'maylene', 'wake', 'cynthia', 'byron', 'riley', 'saturn', 'candice', 'looker', 'volkner', 'flint', 'aaron', 'bertha', 'lucian', 'ranger', 'rangerf', 'buck', 'charon', 'maid', 'lady', 'socialite', 'parasol', 'mira', 'marley', 'belle', 'pa',
-                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser', 'tucker', 'lucy', 'brandon', 'palmer', 'thorton', 'argenta'];
+                 'richboy', 'breeder', 'artist', 'cameraman', 'reporter', 'noland', 'greta', 'spenser', 'tucker', 'lucy', 'brandon', 'palmer', 'thorton', 'argenta', 'darach'];
 
   // Face rows shared by most heads (front view, rows 6..11).
   const FACE = ['..hsssss', '..hssess', '..hssess', '..hSssss', '...Sssss', '....SSss'];
@@ -404,7 +404,11 @@ G.People = (() => {
     thorton: { head: 'short', body: 'jacket', legs: 'pants', h: '#d8d8e0', H: '#a8a8b4', j: '#2e5a3a', J: '#1e3e28', c: '#f4f4f4', C: '#c8c8d0',
                p: '#4a4a56', P: '#30303a', k: '#2a2020' },
     // Chapter 90: Argenta, the Hall Matron of Sinnoh's Battle Hall (my own look: long silver hair, a dark plum stage gown).
-    argenta: { head: 'long', body: 'dress', legs: 'bare', h: '#e4e4ec', H: '#b0b0c0', c: '#5a2a4a', C: '#3e1a32', j: '#6a3458', J: '#4a2240', k: '#3e1a32' }
+    argenta: { head: 'long', body: 'dress', legs: 'bare', h: '#e4e4ec', H: '#b0b0c0', c: '#5a2a4a', C: '#3e1a32', j: '#6a3458', J: '#4a2240', k: '#3e1a32' },
+    // Chapter 91: Darach, the Castle Valet of Sinnoh's Battle Castle (my own look: a butler's black tailcoat over a white shirt,
+    // neat grey hair).
+    darach: { head: 'short', body: 'coat', legs: 'pants', h: '#8a8a96', H: '#62626e', j: '#1e1e26', J: '#101016', c: '#f4f4f4', C: '#c8c8d0',
+              p: '#1e1e26', P: '#101016', k: '#101016' }
   };
 
   const mirror = half => half + [...half].reverse().join('');

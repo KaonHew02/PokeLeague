@@ -202,6 +202,9 @@ function host(st) {
     },
     choice(text, o = {}) {
       st.log.push('? ' + G.I18n.fmt(text, Object.assign(G.Field.vars(), o.vars || {})));
+      // A chapter may answer for itself (st.onChoice: chapter 91's Castle Points), else the queued answers.
+      const own = st.onChoice ? st.onChoice(text, o.options || []) : null;
+      if (own != null) return Promise.resolve(own);
       return Promise.resolve(st.answers.length ? st.answers.shift() : 0);
     },
     actor: () => null, move: P, walkTo: P, face() {}, emote: P, show() {}, hide() {}, place() {},
@@ -1429,6 +1432,10 @@ test('balance: the Battle Tower (chapter 43), win rates of a typical team at lev
     return +(wins / all).toFixed(2);
   };
   console.log('[balance] Sinnoh\'s Battle Hall, Argenta one on one against each of Swampert, Gardevoir and Manectric at 50:', JSON.stringify({ silver: hall(false), gold: hall(true) }));
+  // Chapter 91: Darach, the Castle Valet, his teams A and B (30 battles each), against the same three at full HP, holding the
+  // items the Castle rents (as one would after a few rounds).
+  const darach = n => +((rate(G.Castle.darach(n, 0)) + rate(G.Castle.darach(n, 1))) / 2).toFixed(2);
+  console.log('[balance] Sinnoh\'s Battle Castle, Darach against Swampert, Gardevoir and Manectric at 50:', JSON.stringify({ silver: darach(21), gold: darach(49) }));
   // Each round is harder; the first is mostly won, the last ones are a real test.
   assert.ok(table['round 1'] >= 0.6 && table['round 1'] >= table['round 4']);
 });
@@ -4724,6 +4731,47 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 91 after chapter 90: Sinnoh's Battle Castle, single battles with the three strongest Pokémon that may enter (one of each
+ *  species), the HP of the most hurt bought back before each battle while the Castle Points last, until a round of seven is won
+ *  (the ending). */
+async function chapter91(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower, C = G.Castle;
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 3 && !Tw.SINNOH_BANNED.includes(party[i].sp) && !picks.some(j => party[j].sp === party[i].sp)) picks.push(i);
+  }
+  // Before each battle: Castle Points on HP for the most hurt below 60%, while there are 10 to spend; then battle.
+  let phase = 'menu';
+  st.onChoice = (text, options) => {
+    if (/What will you do\?/.test(text)) { if (phase === 'battle' || C.state().cp < C.PRICES.hp) { phase = 'menu'; return 0; } return 1; }
+    if (text === 'Which Pokémon?') {
+      const ratio = options.map(l => { const m = /HP (-?\d+)\/(\d+)/.exec(l); return m ? +m[1] / +m[2] : 2; });
+      const k = ratio.indexOf(Math.min(...ratio));
+      if (ratio[k] < 0.6) return k;
+      phase = 'battle';
+      return options.length - 1;
+    }
+    if (/^Castle Points: \d+\.$/.test(text)) return 0;
+    return null;
+  };
+  const n = st.battles.length;
+  let tries = 0;
+  while (Tw.streak('single', 'scastle') < 7 && tries < 20) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(...picks);
+    await run(st, 'scastle-lobby', 'scastle.single', [0]);
+  }
+  const fights = st.battles.slice(n);
+  st.onChoice = null;
+  console.log('[story] Sinnoh\'s Battle Castle:', fights.map(b => b.outcome).join(), 'in', tries, 'challenge(s) with', picks.map(i => G.Names.mon(party[i].sp)).join(', '),
+    '(' + C.state().cp + ' CP left)');
+  assert.equal(Tw.streak('single', 'scastle'), 7, 'a round of seven');
+  assert.ok(F.flag('chapter-91-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 90 after chapter 89: Sinnoh's Battle Hall with the lead, the first open type each time, until a round of ten is won
  *  (the ending). */
 async function chapter90(st) {
@@ -5870,4 +5918,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter88(st);
   await chapter89(st);
   await chapter90(st);
+  await chapter91(st);
 });

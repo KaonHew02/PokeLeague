@@ -132,6 +132,8 @@ G.SpecialMoves = (() => {
                         return true; },
                       moveType: (b, u) => (u.vol.gift ? u.vol.gift[0] : 'normal'),
                       power: (b, u) => (u.vol.gift ? u.vol.gift[1] : 0) },
+    // Judgment (chapter 100): the type of the plate its user holds (Generation 4's), else Normal.
+    'judgment':     { moveType: (b, u) => { const fx = u.mon.item && G.ITEM_FX[u.mon.item]; return fx && fx.plate ? fx.type : 'normal'; } },
     // Trick and Switcheroo: the two swap items (nothing to swap, Sticky Hold, Multitype or a substitute: it fails). A Choice
     // item got this way holds its new owner from its next move (my own simplification).
     'trick':        { use: (b, u, t) => swapItems(b, u, t) },

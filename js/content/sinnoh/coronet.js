@@ -258,8 +258,35 @@
       'WWWWWWWW^WWWWWWWWW'
     ],
     warps: [{ x: 8, y: 16, to: 'coronet-top', spot: 'from-above' }, { x: 8, y: 5, to: 'distortion-1', spot: 'start', if: '!distortion-done', locked: 'pillar.rift-closed' }],
-    spots: { 'from-below': [8, 15, 'up'], rift: [8, 6, 'down'] },
-    triggers: [{ x: 1, y: 10, w: 16, h: 1, if: ['pillar-grunts', '!pillar-done'], script: 'pillar.ritual' }],
+    spots: { 'from-below': [8, 15, 'up'], rift: [8, 6, 'down'], origin: [8, 10, 'down'] },
+    triggers: [{ x: 1, y: 10, w: 16, h: 1, if: ['pillar-grunts', '!pillar-done'], script: 'pillar.ritual' },
+               // Chapter 100 (origin.js): the Azure Flute plays by itself on the first step in, as in Platinum.
+               { x: 1, y: 14, w: 16, h: 1, if: ['sinnoh-champion', 'national-dex', 'has:azure-flute', '!arceus-caught', '!origin-stairs'], script: 'origin.flute' }],
+    // Chapter 100: the stairs of light up to the Hall of Origin, once the flute has played and until Arceus is caught.
+    changes: {
+      if: ['origin-stairs', '!arceus-caught'],
+      rows: [
+      'WWWWWWWWWWWWWWWWWW',
+      'WWWWWWWWWWWWWWWWWW',
+      'W+j++++++++++++j+W',
+      'W++++++++++++++++W',
+      'W++++++++++++++++W',
+      'W+j+++++w++++++j+W',
+      'W++++++++++++++++W',
+      'W++++++++++++++++W',
+      'W+j++++++++++++j+W',
+      'W+++++++^++++++++W',
+      'W++++++++++++++++W',
+      'W+j++++++++++++j+W',
+      'W++++++++++++++++W',
+      'WWWWWWWW++WWWWWWWW',
+      'W++++++++++++++++W',
+      'W++++++++++++++++W',
+      'WWWWWWWW^WWWWWWWWW'
+      ],
+      warps: [{ x: 8, y: 16, to: 'coronet-top', spot: 'from-above' }, { x: 8, y: 5, to: 'distortion-1', spot: 'start', if: '!distortion-done', locked: 'pillar.rift-closed' },
+              { x: 8, y: 9, to: 'hall-of-origin', spot: 'stairs' }]
+    },
     npcs: [
       { id: 'cyrus', who: 'cyrus', x: 8, y: 5, dir: 'up', if: '!pillar-done', script: 'pillar.ritual' },
       { id: 'mars', who: 'mars', x: 7, y: 7, dir: 'down', if: '!pillar-done', script: 'pillar.ritual' },

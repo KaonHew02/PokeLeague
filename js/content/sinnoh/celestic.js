@@ -222,6 +222,8 @@
       await h.say(T('The orbs lie in Mt. Coronet, on the way up to the Spear Pillar. Mind your step up there.'), ELDER);
       return;
     }
+    // Chapter 100 (origin.js): the sixteen plates and the Azure Flute.
+    if (G.HallOfOrigin && await G.HallOfOrigin.elder(h, ELDER)) return;
     if (F.flag('chapter-50-done') || !F.count('old-charm')) {
       await h.say(T('The ruins have stood for longer than anyone can remember. We only look after them.'), ELDER);
       return;

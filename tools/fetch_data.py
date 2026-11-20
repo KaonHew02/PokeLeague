@@ -194,7 +194,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           'sea-incense', 'lax-incense', 'rock-incense', 'odd-incense', 'rose-incense', 'wave-incense',
                                           'full-incense', 'luck-incense', 'pure-incense',
                                           # Chapter 98: Honey (Honey Gather picks it up after a battle won).
-                                          'honey'],
+                                          'honey',
+                                          # Chapter 100: the Azure Flute (the Spear Pillar's stairs to the Hall of Origin).
+                                          'azure-flute'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.
@@ -326,6 +328,7 @@ LOC_NAMES = {
     'galactic-hq':       ('Galactic HQ',        'Galactic HQ',         '银河队帷幕大楼', '銀河隊帷幕大樓'),
     'spear-pillar':      ('Columnas Lanza',     'Vetta Lancia',        '枪之柱',     '槍之柱'),
     'distortion-world':  ('Mundo Distorsión',   'Mondo Distorto',      '毁坏的世界', '毀壞的世界'),
+    'sinnoh-hall-of-origin-1': ('Sala Origen',  'Sala Origine',        '始源之厅',   '始源之廳'),   # chapter 100
     'sunyshore-city':    ('Ciudad Marina',      'Arenipoli',           '滨海市',     '濱海市'),
     'sinnoh-sea-route-223': ('Ruta 223',        'Percorso 223',        '223号水路',  '223號水路'),
     'sinnoh-victory-road': ('Calle Victoria',   'Via Vittoria',        '冠军之路',   '冠軍之路'),

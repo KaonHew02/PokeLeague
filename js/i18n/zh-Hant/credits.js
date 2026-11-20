@@ -278,5 +278,8 @@ G.I18n.add({
   "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "隊伍裡的第一隻寶可夢會影響遇到的野生寶可夢；撿拾和採蜜在獲勝後會撿到東西；火焰之軀會讓蛋保持溫暖。",
   "Chapter 99 complete!": "第 99 章完成！",
   "{player} spread Honey on a tree and, hours later, found a Pokémon clinging to it.": "{player}在樹上塗了甜甜蜜，幾個小時後發現有寶可夢攀在樹上。",
-  "Twenty-one Honey trees stand across Sinnoh. Floaroma's Honey seller has plenty, and four of the trees are dear to Munchlax.": "神奧各地有二十一棵甜甜蜜樹。苑之鎮賣甜甜蜜的人有很多存貨，其中四棵樹特別受小卡比獸喜愛。"
+  "Twenty-one Honey trees stand across Sinnoh. Floaroma's Honey seller has plenty, and four of the trees are dear to Munchlax.": "神奧各地有二十一棵甜甜蜜樹。苑之鎮賣甜甜蜜的人有很多存貨，其中四棵樹特別受小卡比獸喜愛。",
+  "Chapter 100 complete!": "第 100 章完成！",
+  "{player} gathered all sixteen plates, played the Azure Flute at the Spear Pillar and stood before Arceus in the Hall of Origin.": "{player}集齊了全部十六塊石板，在槍之柱吹響了天界之笛，並在始源之廳站到了阿爾宙斯面前。",
+  "A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.": "一百章，從真新鎮邁出的第一步，一路走到創世之神面前。謝謝你陪著走完這麼遠的路。"
 }, "zh-Hant");

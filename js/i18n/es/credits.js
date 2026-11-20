@@ -278,5 +278,8 @@ G.I18n.add({
   "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "El primer Pokémon de tu equipo cambia los Pokémon salvajes que encuentras; Recogida y Recogemiel encuentran cosas tras ganar; Cuerpo Llama calienta tus Huevos.",
   "Chapter 99 complete!": "¡Capítulo 99 completado!",
   "{player} spread Honey on a tree and, hours later, found a Pokémon clinging to it.": "{player} untó Miel en un árbol y, horas después, encontró un Pokémon agarrado a él.",
-  "Twenty-one Honey trees stand across Sinnoh. Floaroma's Honey seller has plenty, and four of the trees are dear to Munchlax.": "Hay veintiún árboles de Miel por todo Sinnoh. El vendedor de Miel de Pueblo Aromaflor tiene de sobra, y cuatro de los árboles le encantan a Munchlax."
+  "Twenty-one Honey trees stand across Sinnoh. Floaroma's Honey seller has plenty, and four of the trees are dear to Munchlax.": "Hay veintiún árboles de Miel por todo Sinnoh. El vendedor de Miel de Pueblo Aromaflor tiene de sobra, y cuatro de los árboles le encantan a Munchlax.",
+  "Chapter 100 complete!": "¡Capítulo 100 completado!",
+  "{player} gathered all sixteen plates, played the Azure Flute at the Spear Pillar and stood before Arceus in the Hall of Origin.": "{player} reunió las dieciséis tablas, tocó la Flauta Azur en las Columnas Lanza y se presentó ante Arceus en la Sala Origen.",
+  "A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.": "Cien capítulos, desde un primer paso en Pueblo Paleta hasta el Ser Original. Gracias por recorrer todo este camino."
 }, "es");

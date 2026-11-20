@@ -284,6 +284,8 @@ G.ITEM_FX = {
   // Chapter 98: Honey, from Honey Gather after a battle won; sold for Platinum's price by Floaroma's Honey seller (100).
   // Spreading it on trees is left out.
   'honey':         { price: 100 },
+  // Chapter 100: the Azure Flute (the Celestic elder's, for all sixteen plates; origin.js).
+  'azure-flute':   { key: 1 },
 
   // ---- key items ----
   'oaks-parcel':   { key: 1 },

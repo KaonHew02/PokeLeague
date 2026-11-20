@@ -8010,3 +8010,74 @@ test('Sinnoh (chapter 99): Honey trees on their maps (Honey from Floaroma\'s sel
   await talk();
   assert.ok(met.length === 2 && F.flag('chapter-99-done'));
 });
+
+test('Sinnoh (chapter 100): the sixteen plates and the Celestic elder\'s Azure Flute, the stairs of light at the Spear Pillar, Arceus at level 80 in the Hall of Origin (beaten it comes back, caught it is gone with the stairs), the ending after chapter 99', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'villa', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower', 'fullmoon', 'route219', 'amity', 'fuego', 'b1f', 'sitems', 'tutors', 'incense', 'honeytree', 'origin']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/world/field-abilities.js', 'js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, O = G.HallOfOrigin;
+  const said = [], met = [], outcomes = [];
+  G.Dialog.ask = () => Promise.resolve(0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  W.onEncounter = async (sp, lvl) => { met.push({ sp, lvl }); return outcomes.length ? outcomes.shift() : 'win'; };
+  W.onTrainer = async () => 'win';
+  const until = async ok => { for (let i = 0; i < 3000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  F.giveMon('garchomp', 80);
+  for (const f of ['sinnoh-champion', 'national-dex', 'elder-orbs', 'chapter-60-done', 'pillar-grunts', 'pillar-done', 'distortion-done']) F.setFlag(f);
+  const elder = async () => { W.load('celestic-elder', { x: 6, y: 4, dir: 'right' }); said.length = 0; await talk(); return said.join(' | '); };
+
+  // No plates: her own words. Three plates: she counts them.
+  assert.ok(!/plates|Azure Flute/.test(await elder()));
+  for (const p of ['flame-plate', 'splash-plate', 'zap-plate']) F.giveItem(p, 1);
+  assert.ok(/3 of them/.test(await elder()));
+  // The Spear Pillar without the flute: no stairs, no tune.
+  W.load('spear-pillar', 'from-below');
+  step(W, 'up');
+  await until(() => !W.locked);
+  assert.ok(!F.flag('origin-stairs') && !said.some(s => /clear note/.test(s)));
+  // All sixteen: the Azure Flute; then a reminder.
+  for (const p of O.PLATES) if (!F.count(p)) F.giveItem(p, 1);
+  assert.ok(/Original One/.test(await elder()) && F.count('azure-flute') === 1);
+  assert.ok(/Play the Azure Flute at the Spear Pillar/.test(await elder()));
+
+  // The first step into the Spear Pillar: the flute plays and the stairs appear at its center.
+  W.load('spear-pillar', 'from-below');
+  said.length = 0;
+  step(W, 'up');
+  await until(() => !W.locked && F.flag('origin-stairs'));
+  await until(() => !W.locked);
+  assert.ok(said.some(s => /clear note/.test(s)) && said.some(s => /Steps of light/.test(s)));
+  assert.equal(G.Maps.kindAt(W.map, 8, 9), 'stairs');
+  W.load('spear-pillar', 'origin');
+  W.player.face('up');
+  step(W, 'up');
+  await until(() => W.map.id === 'hall-of-origin' && !W.locked);
+
+  // Arceus at level 80: running leaves it there; beaten (before chapter 99) it vanishes and comes back next time.
+  const toArceus = () => W.load('hall-of-origin', { x: 7, y: 4, dir: 'up' });
+  toArceus();
+  assert.ok(seen('arceus'));
+  outcomes.push('run');
+  await talk();
+  assert.deepEqual(plain(met[0]), { sp: 493, lvl: 80 });
+  assert.ok(seen('arceus') && !F.flag('arceus-met'));
+  outcomes.push('win');
+  said.length = 0;
+  await talk();
+  assert.ok(F.flag('arceus-met') && !F.flag('arceus-caught') && !seen('arceus') && said.some(s => /vanished/.test(s)));
+  assert.ok(!F.flag('chapter-100-done'), 'not before chapter 99');
+  toArceus();
+  assert.ok(seen('arceus'), 'back again');
+  // Caught once chapter 99 is done: the ending; then no Arceus, no stairs.
+  F.setFlag('chapter-99-done');
+  outcomes.push('caught');
+  await talk();
+  assert.ok(F.flag('arceus-caught') && F.flag('chapter-100-done'));
+  toArceus();
+  assert.ok(!seen('arceus'));
+  assert.notEqual(G.Maps.kindAt(G.Maps.get('spear-pillar'), 8, 9), 'stairs', 'the stairs are gone');
+  assert.ok(!/Azure Flute/.test(await elder()), 'the elder has nothing more to say about it');
+});

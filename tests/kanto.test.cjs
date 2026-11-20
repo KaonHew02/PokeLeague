@@ -17,7 +17,8 @@ function scriptWarps(name, seen = new Set()) {
     .concat([...json.matchAll(/\["call","([\w.-]+)"/g)].flatMap(m => scriptWarps(m[1], seen)));
 }
 
-/** Maps reachable from one map through doors, mats, stairs, edges and Dive (and the warps of locked doors' and people's scripts). */
+/** Maps reachable from one map through doors, mats, stairs, edges and Dive (and the warps of locked doors' and people's scripts,
+ *  and of a map's flag-dependent version, `changes`: the Spear Pillar's stairs of light). */
 function reachable(from) {
   const seen = new Set([from]), todo = [from];
   while (todo.length) {
@@ -25,6 +26,7 @@ function reachable(from) {
     const dive = m.def.dive ? [typeof m.def.dive === 'string' ? m.def.dive : m.def.dive.to] : [];
     const next = m.warps.filter(w => w.to).map(w => w.to).concat(Object.values(m.def.connect || {}).map(c => c.map), dive,
       m.def.surface ? [m.def.surface] : [], (m.def.up || []).map(u => u.to),
+      [].concat(m.def.changes || []).flatMap(c => (c.warps || []).filter(w => w.to).map(w => w.to)),
       m.warps.filter(w => typeof w.locked === 'string').flatMap(w => scriptWarps(w.locked)),
       (m.def.npcs || []).filter(p => typeof p.script === 'string').flatMap(p => scriptWarps(p.script)));
     for (const id of next) if (!seen.has(id)) { seen.add(id); todo.push(id); }

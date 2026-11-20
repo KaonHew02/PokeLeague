@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 100) return { title: T('Chapter 100 complete!'),
+      done: fmt('{player} gathered all sixteen plates, played the Azure Flute at the Spear Pillar and stood before Arceus in the Hall of Origin.', { player }),
+      next: T('A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.') };
     if (n === 99) return { title: T('Chapter 99 complete!'),
       done: fmt('{player} spread Honey on a tree and, hours later, found a Pokémon clinging to it.', { player }),
       next: T('Twenty-one Honey trees stand across Sinnoh. Floaroma\'s Honey seller has plenty, and four of the trees are dear to Munchlax.') };

@@ -1132,6 +1132,30 @@ test("balance: Sinnoh's legends (chapter 60), win rates of a team of six are pri
   for (const id of Object.keys(FOES)) for (const k of Object.keys(TEAMS)) assert.ok(table[id][k] >= 0.6, id + ', ' + k);
 });
 
+test("balance: Arceus in the Hall of Origin (chapter 100), win rates of a team of six are printed", () => {
+  const { G } = world(1);
+  // The team that met Sinnoh's legends, fourteen levels on (Arceus waits at 80, as in Platinum).
+  const TOR = [389, 76, ['earthquake', 'crunch', 'giga-drain', 'synthesis']], INF = [392, 76, ['flare-blitz', 'close-combat', 'mach-punch', 'punishment']];
+  const EMP = [395, 76, ['surf', 'drill-peck', 'flash-cannon', 'aqua-jet']];
+  const LUX = [405, 74, ['crunch', 'thunder-fang', 'discharge', 'roar']], STA = [398, 74, ['brave-bird', 'close-combat', 'aerial-ace', 'agility']];
+  const GAS = [423, 72, ['earthquake', 'surf', 'muddy-water', 'recover']], LUC = [448, 72, ['aura-sphere', 'close-combat', 'extreme-speed', 'dragon-pulse']];
+  const FLO = [419, 72, ['surf', 'crunch', 'aqua-jet', 'ice-fang']];
+  const TEAMS = { 'torterra 76 + 5': [TOR, LUX, STA, GAS, LUC, FLO], 'infernape 76 + 5': [INF, LUX, STA, GAS, LUC, FLO], 'empoleon 76 + 5': [EMP, LUX, STA, GAS, LUC, FLO] };
+  const table = {};
+  for (const [k, me] of Object.entries(TEAMS)) {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const mine = me.map(([x, l, moves]) => G.Mon.create(x, l, { rng, moves }));
+      const b = G.Battle.create({ kind: 'wild', seed: s, player: { name: 'Red', party: mine, bag: {} }, foe: { party: [G.Mon.create(493, 80, { rng, wild: true })] } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    table[k] = Math.round(wins / 40 * 100) / 100;
+  }
+  console.log('[balance] vs Arceus:', JSON.stringify(table));
+});
+
 test("balance: Sinnoh's Elite Four and Cynthia (chapter 59), win rates of teams of six are printed", () => {
   const { G } = world(1);
   // A Sinnoh team of six at the League: the starter at 58 and Pokémon met along the way a few levels lower, with moves a player can have.
@@ -4775,6 +4799,42 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 100 after chapter 99: Arceus: the plates still missing picked up where Platinum has them, the sixteen shown to
+ *  the Celestic elder (the Azure Flute), the flute played at the Spear Pillar, the stairs of light up to the Hall of Origin,
+ *  Arceus battled at level 80 (the ending). */
+async function chapter100(st) {
+  const { G, S } = st;
+  const F = G.Field, O = G.HallOfOrigin;
+  const before = O.platesOwned().size;
+  // Where each plate lies: the item balls of every map (found as the player would pick them up).
+  const lying = {};
+  for (const id of G.Maps.all()) for (const it of (G.Maps.get(id).items || [])) if (O.PLATES.includes(it.item)) lying[it.item] = [id, it];
+  for (const p of O.PLATES) {
+    if (O.platesOwned().has(p)) continue;
+    const [map, it] = lying[p];
+    await run(st, map, [['found', p, 1, map + ':' + it.flag]].concat(it.then ? G.Script.get(it.then) : []));
+  }
+  assert.equal(O.platesOwned().size, 16);
+  const n = st.log.length;
+  await run(st, 'celestic-elder', 'celestic.elder');
+  assert.equal(F.count('azure-flute'), 1);
+  assert.ok(st.log.slice(n).some(l => l.includes(G.Names.item('azure-flute'))));
+  await run(st, 'spear-pillar', 'origin.flute');
+  assert.ok(F.flag('origin-stairs'));
+  const pillar = G.Maps.get('spear-pillar');
+  assert.ok(pillar.warps.some(w => w.to === 'hall-of-origin'), 'the stairs of light');
+  let tries = 0;
+  while (!F.flag('arceus-met') && tries < 5) {
+    tries++;
+    F.healAll();
+    await run(st, 'hall-of-origin', 'origin.arceus');
+  }
+  const b = st.battles[st.battles.length - 1];
+  console.log('[story] Arceus:', 16 - before, 'plate(s) still to find; the Azure Flute from the Celestic elder;', b.outcome, 'in the Hall of Origin with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl, '(' + tries + ' challenge(s))');
+  assert.ok(F.flag('chapter-100-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 99 after chapter 98: Honey trees: Honey bought from Floaroma's seller (the harness's shop is a stand-in: the
  *  Honey and its price are given and taken here), spread on Route 205's tree; six hours later (the clock moved on) a Pokémon
  *  in the tree, battled (the ending). */
@@ -6146,4 +6206,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter97(st);
   await chapter98(st);
   await chapter99(st);
+  await chapter100(st);
 });

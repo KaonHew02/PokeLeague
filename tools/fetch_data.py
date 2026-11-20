@@ -189,7 +189,10 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           # Chapter 94: the plates, Shed Shell, Mental Herb and Destiny Knot (where Platinum has them).
                                           'flame-plate', 'zap-plate', 'meadow-plate', 'icicle-plate', 'fist-plate', 'toxic-plate', 'earth-plate',
                                           'sky-plate', 'mind-plate', 'insect-plate', 'stone-plate', 'draco-plate', 'iron-plate',
-                                          'shed-shell', 'mental-herb', 'destiny-knot'],
+                                          'shed-shell', 'mental-herb', 'destiny-knot',
+                                          # Chapter 97: the incenses (where Platinum has them; breeding the babies).
+                                          'sea-incense', 'lax-incense', 'rock-incense', 'odd-incense', 'rose-incense', 'wave-incense',
+                                          'full-incense', 'luck-incense', 'pure-incense'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.

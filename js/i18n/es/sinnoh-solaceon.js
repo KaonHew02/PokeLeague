@@ -42,5 +42,6 @@ G.I18n.add({
   "The Psyduck stopped holding their heads and waddled away, quacking happily!": "¡Los Psyduck dejaron de sujetarse la cabeza y se alejaron contentos, graznando!",
   "You cured them! Thank you, {player}. The road north is open again.": "¡Los has curado! Gracias, {player}. El camino al norte vuelve a estar abierto.",
   "Could I ask one more favor? This Old Charm belongs to my grandmother, the elder of Celestic Town, past the fog to the west.": "¿Puedo pedirte otro favor? Este Talismán es de mi abuela, la anciana de Pueblo Caelestis, al oeste, pasada la niebla.",
-  "I hear Team Galactic has been seen near the ruins there. Please be careful.": "He oído que se ha visto al Equipo Galaxia cerca de las ruinas de allí. Ten cuidado, por favor."
+  "I hear Team Galactic has been seen near the ruins there. Please be careful.": "He oído que se ha visto al Equipo Galaxia cerca de las ruinas de allí. Ten cuidado, por favor.",
+  "My Snorlax only ever left Snorlax Eggs here. Then I let it hold a Full Incense, and out came a Munchlax! Some Pokémon lay their baby only when one of the pair holds the right incense.": "Mi Snorlax solo dejaba Huevos de Snorlax aquí. Entonces le di un Incienso Lento para que lo llevara, ¡y salió un Munchlax! Algunos Pokémon solo ponen a su cría si uno de la pareja lleva el incienso adecuado."
 }, "es");

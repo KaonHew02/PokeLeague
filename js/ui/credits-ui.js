@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 97) return { title: T('Chapter 97 complete!'),
+      done: fmt('{player} found one of the incenses Sinnoh keeps: held in battle, each has its own power, and at the Day Care it brings a baby Pokémon into the world.', { player }),
+      next: T('Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.') };
     if (n === 96) return { title: T('Chapter 96 complete!'),
       done: fmt('{player} found the old tutors of Routes 210 and 228, and a Pokémon that loves its Trainer with all its heart learned a move few ever master.', { player }),
       next: T('Dragon-types can learn Draco Meteor on Route 210, and every region\'s fully grown starters their ultimate move on Route 228, once their friendship is full.') };

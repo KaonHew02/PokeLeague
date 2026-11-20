@@ -55,7 +55,8 @@
             { x: 40, y: 13, to: 'wilma-house', spot: 'door' }],                // chapter 96 (tutors.js)
     spots: { 'cafe-door': [39, 20, 'down'], 'wilma-door': [40, 14, 'down'] },
     signs: { '36,25': 'Route 210. West: Celestic Town. South: Solaceon Town. Mind the fog!' },
-    items: [{ x: 18, y: 1, item: 'meadow-plate', flag: 'route210-meadow-plate', then: 'sitems.found' },   // chapter 94
+    items: [{ x: 44, y: 15, item: 'wave-incense', flag: 'route210-wave-incense', then: 'incense.found' },   // chapter 97
+            { x: 18, y: 1, item: 'meadow-plate', flag: 'route210-meadow-plate', then: 'sitems.found' },   // chapter 94
             { x: 40, y: 4, item: 'max-repel', flag: 'route210-repel' }, { x: 3, y: 25, item: 'hyper-potion', flag: 'route210-potion' }],
     trainers: [
       { id: 'patrick', who: 'cooltrainerm', cls: 'dragon-tamer', name: 'Patrick', x: 33, y: 22, dir: 'right', sight: 1, team: [['gible', 34]],

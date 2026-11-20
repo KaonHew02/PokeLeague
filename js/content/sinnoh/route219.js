@@ -168,7 +168,8 @@
     warps: [{ x: 30, y: 11, to: 'pal-park-gate', spot: 'door' }],
     spots: { gate: [30, 12, 'down'] },
     signs: { '27,13': 'Route 221. East: Pal Park.' },
-    items: [{ x: 12, y: 20, item: 'protein', flag: 'route221-protein' }, { x: 33, y: 20, item: 'ultra-ball', flag: 'route221-ball' },
+    items: [{ x: 26, y: 10, item: 'pure-incense', flag: 'route221-pure-incense', then: 'incense.found' },   // chapter 97
+            { x: 12, y: 20, item: 'protein', flag: 'route221-protein' }, { x: 33, y: 20, item: 'ultra-ball', flag: 'route221-ball' },
             { x: 14, y: 2, item: 'tm81', flag: 'route221-tm81' }, { x: 26, y: 3, item: 'cleanse-tag', flag: 'route221-tag' }],
     trainers: [
       { id: 'dillon', who: 'swimmer', cls: 'swimmer', name: 'Dillon', x: 3, y: 6, dir: 'down', sight: 4, swim: true,

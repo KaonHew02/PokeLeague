@@ -15,13 +15,17 @@
  * other Trainers, 20 otherwise, as in the games). The Day-Care Man keeps it (save.daycareEgg)
  * until you take it: the mother's species (with Ditto, the other one's) at its first stage, Lv. 5,
  * with three IVs from the parents, the egg moves the father knows, and Nidoran of either gender;
- * an Everstone held by the mother (or by a Ditto) passes on its nature half the time (chapter 26).
+ * an Everstone held by the mother (or by a Ditto) passes on its nature half the time (chapter 26). The babies that need an
+ * incense (chapter 97) hatch when either parent holds it (Generation 4's rule): Azurill (Sea Incense), Wynaut (Lax),
+ * Budew (Rose), Chingling (Pure), Bonsly (Rock), Mime Jr. (Odd), Happiny (Luck), Munchlax (Full), Mantyke (Wave); without it,
+ * the family's next stage.
  * You carry Eggs apart from the party (save.eggs, at most six; the party screen shows them), like
  * the Mystery Egg: each step brings them closer, and one that is due hatches (hatch: to the party,
  * or the PC when it is full; flag daycare-hatched). The Day-Care Man's Odd Egg holds a baby
  * Pokémon, shiny one time in eight.
  *   save.eggs = [{ mon, steps }]
  *   canBreed(a, b) · compat(a, b) -> 0 | 20 | 50 | 70 · root(sp) · breed(a, b, rng) -> egg · odd(rng) -> egg
+ *   incenseFor(baby) -> the incense it needs, or null
  *   breeding() · waiting() · collect() -> egg | 'full' | null · eggs() · eggSteps(n) -> index due or -1
  *   hatch(h, i) (a script step) · hint(egg) -> how close it is, as a text · seed(s)
  */
@@ -113,8 +117,12 @@ G.DayCare = (() => {
 
   let prevo = null;
   // Babies hatched only with an incense: Azurill, Wynaut (Generation 3); Budew, Chingling, Bonsly, Mime Jr.,
-  // Happiny, Munchlax, Mantyke (Generation 4, chapter 44). Without it, their family's second stage.
-  const INCENSE = new Set([298, 360, 406, 433, 438, 439, 440, 446, 458]);
+  // Happiny, Munchlax, Mantyke (Generation 4, chapter 44). Without it, their family's second stage; with it held by either
+  // parent (chapter 97), the baby.
+  const BY_INCENSE = { 298: 'sea-incense', 360: 'lax-incense', 406: 'rose-incense', 433: 'pure-incense', 438: 'rock-incense',
+                       439: 'odd-incense', 440: 'luck-incense', 446: 'full-incense', 458: 'wave-incense' };
+  const INCENSE = new Set(Object.keys(BY_INCENSE).map(Number));
+  const incenseFor = baby => BY_INCENSE[baby] || null;
   /** The first stage of a species' family, among the game's species (Pikachu -> Pichu, Marill -> Marill). */
   function root(sp) {
     if (!prevo) {
@@ -140,6 +148,9 @@ G.DayCare = (() => {
     const mother = a.sp === DITTO ? b : b.sp === DITTO ? a : a.gender === 'f' ? a : b;
     const father = mother === a ? b : a;
     let sp = root(mother.sp);
+    // Chapter 97: the baby, when either parent holds its incense.
+    const baby = prevo[sp];
+    if (baby && INCENSE.has(baby) && [mother, father].some(p => p.item === BY_INCENSE[baby])) sp = baby;
     if (NIDORAN.includes(sp)) sp = NIDORAN[r.int(0, 1)];
     const mon = newborn(sp, r);
     // Three IVs from the parents, each from one of the two.
@@ -220,5 +231,6 @@ G.DayCare = (() => {
   }
 
   return { MAX, list, full, canLeave, deposit, withdraw, grown, price, gain, step,
-           MAX_EGGS, EGG_EVERY, BABIES, breeding, eggs, waiting, canBreed, compat, root, breed, odd, egg, collect, eggSteps, hint, hatch, seed };
+           MAX_EGGS, EGG_EVERY, BABIES, breeding, eggs, waiting, canBreed, compat, root, breed, odd, egg, collect, eggSteps, hint, hatch, seed,
+           incenseFor };
 })();

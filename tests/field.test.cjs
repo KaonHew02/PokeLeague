@@ -7815,3 +7815,51 @@ test('Sinnoh (chapter 96): Platinum\'s free move tutors, Draco Meteor on Route 2
   await talk();
   assert.ok(knows(gible, 'draco-meteor') && F.flag('chapter-96-done'));
 });
+
+test('Sinnoh (chapter 97): the nine incenses where Platinum has them, the Pure Incense on the lead keeps wild Pokémon away, the ending after chapter 96 (once)', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'villa', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower', 'fullmoon', 'route219', 'amity', 'fuego', 'b1f', 'sitems', 'tutors', 'incense']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  G.Dialog.ask = () => Promise.resolve(0);
+  G.Dialog.say = () => Promise.resolve();
+  W.onTrainer = async () => 'win';
+  const until = async ok => { for (let i = 0; i < 3000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  F.giveMon('chimecho', 40);
+  // Where to stand: below the item, or beside it where below is water.
+  const BESIDE = { 'route225-lax-incense': [1, 0, 'left'] };
+  const P = G.SinnohIncense.PLACES;
+  assert.equal(P.length, 9);
+  assert.deepEqual(plain(P.map(r => r[3]).sort()), ['full-incense', 'lax-incense', 'luck-incense', 'odd-incense', 'pure-incense', 'rock-incense', 'rose-incense', 'sea-incense', 'wave-incense']);
+  for (const [k, [map, x, y, item, flag]] of P.entries()) {
+    const def = G.Maps.get(map).items.find(it => it.item === item);
+    assert.ok(def && def.x === x && def.y === y && def.flag === flag && def.then === 'incense.found', item);
+    if (k === 1) F.setFlag('chapter-96-done');               // the first one before chapter 96 is done: no ending
+    const [dx, dy, dir] = BESIDE[flag] || [0, 1, 'up'];
+    W.load(map, { x: x + dx, y: y + dy, dir });
+    await talk();
+    assert.ok(F.count(item) === 1 && F.isDone(map + ':' + flag), item + ' on ' + map);
+    if (k === 0) assert.ok(!F.flag('chapter-97-done'), 'not before chapter 96');
+    if (k === 1) assert.ok(F.flag('chapter-97-done'), 'the ending');
+  }
+
+  // The Day Care's breeder tells of the incenses.
+  assert.ok(/Full Incense/.test(G.Maps.get('solaceon-daycare').npcs.find(n => n.id === 'breeder').say));
+
+  // The Pure Incense on the lead: fewer wild Pokémon in the grass of Route 221, on the same seed.
+  W.debug.noEnc = false;
+  const settle = async () => { for (let i = 0; i < 200 && W.locked; i++) { W.update(0.05); await tick(); } };
+  const count = async item => {
+    F.party()[0].item = item || undefined;
+    let n = 0;
+    W.onEncounter = async () => { n++; return 'run'; };
+    W.load('route221', { x: 22, y: 5, dir: 'right' });
+    W.seed(97);
+    for (let i = 0; i < 300; i++) { step(W, i % 2 ? 'left' : 'right'); await settle(); }
+    return n;
+  };
+  const none = await count(null), pure = await count('pure-incense');
+  assert.ok(none > 30 && pure < none * 0.85, 'the Pure Incense keeps wild Pokémon away: ' + none + ' -> ' + pure);
+});

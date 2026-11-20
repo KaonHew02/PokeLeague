@@ -42,5 +42,6 @@ G.I18n.add({
   "The Psyduck stopped holding their heads and waddled away, quacking happily!": "Os Psyduck pararam de segurar a cabeça e foram embora gingando, grasnando felizes!",
   "You cured them! Thank you, {player}. The road north is open again.": "Você os curou! Obrigada, {player}. O caminho para o norte está aberto de novo.",
   "Could I ask one more favor? This Old Charm belongs to my grandmother, the elder of Celestic Town, past the fog to the west.": "Posso pedir mais um favor? Este Old Charm é da minha avó, a anciã de Celestic, a oeste, depois da neblina.",
-  "I hear Team Galactic has been seen near the ruins there. Please be careful.": "Ouvi dizer que a Equipe Galáctica foi vista perto das ruínas de lá. Tome cuidado, por favor."
+  "I hear Team Galactic has been seen near the ruins there. Please be careful.": "Ouvi dizer que a Equipe Galáctica foi vista perto das ruínas de lá. Tome cuidado, por favor.",
+  "My Snorlax only ever left Snorlax Eggs here. Then I let it hold a Full Incense, and out came a Munchlax! Some Pokémon lay their baby only when one of the pair holds the right incense.": "Meu Snorlax só deixava Ovos de Snorlax aqui. Aí eu dei um Full Incense para ele segurar, e saiu um Munchlax! Alguns Pokémon só botam o filhote quando um dos dois segura o incenso certo."
 }, "pt-BR");

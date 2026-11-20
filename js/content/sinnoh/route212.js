@@ -101,7 +101,8 @@
     spots: { 'mansion-door': [7, 13, 'down'] },
     signs: { '16,2': 'Route 212. North: Hearthome City. South: Pastoria City.',
              '14,19': 'The Pokémon Mansion. The home of Mr. Backlot. Visitors welcome, Pokémon most welcome.' },
-    items: [{ x: 4, y: 8, item: 'pearl', flag: 'route212-pearl' }, { x: 33, y: 1, item: 'elixir', flag: 'route212-elixir' },
+    items: [{ x: 33, y: 20, item: 'rose-incense', flag: 'route212-rose-incense', then: 'incense.found' },   // chapter 97
+            { x: 4, y: 8, item: 'pearl', flag: 'route212-pearl' }, { x: 33, y: 1, item: 'elixir', flag: 'route212-elixir' },
             { x: 6, y: 26, item: 'tm11', flag: 'route212-tm11' }, { x: 28, y: 15, item: 'iron', flag: 'route212-iron' },
             { x: 12, y: 8, item: 'ultra-ball', flag: 'route212-ball' }],
     trainers: [

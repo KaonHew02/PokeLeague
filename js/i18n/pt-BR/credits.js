@@ -269,5 +269,8 @@ G.I18n.add({
   "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "Cheryl, Mira, Riley, Marley e Buck trazem dois Pokémon novos a cada desafio: cinquenta vitórias seguidas dão a Fita Habilidade Múltipla.",
   "Chapter 96 complete!": "Capítulo 96 concluído!",
   "{player} found the old tutors of Routes 210 and 228, and a Pokémon that loves its Trainer with all its heart learned a move few ever master.": "{player} encontrou os velhos tutores das Rotas 210 e 228, e um Pokémon que ama seu Treinador de todo o coração aprendeu um golpe que poucos dominam.",
-  "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "Pokémon do tipo Dragão podem aprender Draco Meteor na Rota 210, e os iniciais de cada região totalmente evoluídos, seu golpe supremo na Rota 228, quando a amizade estiver no máximo."
+  "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "Pokémon do tipo Dragão podem aprender Draco Meteor na Rota 210, e os iniciais de cada região totalmente evoluídos, seu golpe supremo na Rota 228, quando a amizade estiver no máximo.",
+  "Chapter 97 complete!": "Capítulo 97 concluído!",
+  "{player} found one of the incenses Sinnoh keeps: held in battle, each has its own power, and at the Day Care it brings a baby Pokémon into the world.": "{player} encontrou um dos incensos que Sinnoh guarda: em batalha, cada um tem seu próprio poder, e na Creche ele traz ao mundo um Pokémon bebê.",
+  "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "Nove incensos estão espalhados por Sinnoh. Deixe um Snorlax com um Full Incense, ou uma Chansey com um Luck Incense, e veja o que choca."
 }, "pt-BR");

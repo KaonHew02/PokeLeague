@@ -72,6 +72,7 @@
     ],
     warps: [{ x: 9, y: 13, to: 'fuego-ironworks', spot: 'door' }],
     spots: { door: [9, 13, 'up'] },
+    items: [{ x: 18, y: 12, item: 'rock-incense', flag: 'fuego-rock-incense', then: 'incense.found' }],   // chapter 97
     npcs: [{ id: 'fuego', who: 'hiker', x: 9, y: 3, dir: 'down', script: 'fuego.fuego' }],
     trainers: [
       { id: 'dillan', who: 'engineer', cls: 'worker', name: 'Dillan', x: 3, y: 9, dir: 'right', sight: 2,

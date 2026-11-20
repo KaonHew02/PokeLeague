@@ -269,5 +269,8 @@ G.I18n.add({
   "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "芽米、麦儿、亚玄、米依和麦可每次挑战都会带上不同的两只宝可梦：五十连胜就能获得配合才能奖章。",
   "Chapter 96 complete!": "第 96 章完成！",
   "{player} found the old tutors of Routes 210 and 228, and a Pokémon that loves its Trainer with all its heart learned a move few ever master.": "{player}找到了210号道路和228号道路的老教学者，全心全意爱着训练家的宝可梦学会了极少有人掌握的招式。",
-  "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "亲密度满的龙属性宝可梦可以在210号道路学流星群，各地区完全进化的御三家可以在228号道路学究极招式。"
+  "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "亲密度满的龙属性宝可梦可以在210号道路学流星群，各地区完全进化的御三家可以在228号道路学究极招式。",
+  "Chapter 97 complete!": "第 97 章完成！",
+  "{player} found one of the incenses Sinnoh keeps: held in battle, each has its own power, and at the Day Care it brings a baby Pokémon into the world.": "{player}找到了神奥收藏的薰香之一：在对战中各有各的效果，放在培育屋时还能让幼年宝可梦诞生。",
+  "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "神奥各地有九种薰香。让卡比兽带着饱腹薰香、或让吉利蛋带着幸运薰香寄放在培育屋，看看会孵出什么吧。"
 }, "zh-Hans");

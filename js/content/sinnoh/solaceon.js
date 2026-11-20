@@ -147,7 +147,10 @@
     spots: { door: [4, 7, 'up'] },
     signs: { '0,2': 'A note on the shelf: "Our cousins run the Day Care on Route 34 in Johto. A Pokémon left with one of us can be picked up at either!"',
              '1,2': 'A note on the shelf: "Our cousins run the Day Care on Route 34 in Johto. A Pokémon left with one of us can be picked up at either!"' },
-    npcs: [{ id: 'lady', who: 'granny', x: 7, y: 4, dir: 'left', script: 'daycare.lady' }]
+    npcs: [{ id: 'lady', who: 'granny', x: 7, y: 4, dir: 'left', script: 'daycare.lady' },
+           // Chapter 97: the incenses and the babies (incense.js, daycare.js).
+           { id: 'breeder', who: 'breeder', x: 9, y: 6, dir: 'left',
+             say: 'My Snorlax only ever left Snorlax Eggs here. Then I let it hold a Full Incense, and out came a Munchlax! Some Pokémon lay their baby only when one of the pair holds the right incense.' }]
   }, SINNOH));
 
   G.Maps.def(Object.assign({
@@ -167,7 +170,8 @@
     warps: [{ x: 6, y: 9, to: 'solaceon', spot: 'ruins' }],
     spots: { door: [6, 9, 'up'] },
     signs: { '6,1': 'Letters are carved all over the wall. Together they seem to say: "Every life began from one, and every thread still leads back to it."' },
-    items: [{ x: 1, y: 8, item: 'mind-plate', flag: 'solaceon-ruins-mind-plate', then: 'sitems.found' },   // chapter 94
+    items: [{ x: 11, y: 8, item: 'odd-incense', flag: 'solaceon-ruins-odd-incense', then: 'incense.found' },   // chapter 97
+            { x: 1, y: 8, item: 'mind-plate', flag: 'solaceon-ruins-mind-plate', then: 'sitems.found' },   // chapter 94
             { x: 11, y: 2, item: 'ultra-ball', flag: 'solaceon-ruins-ball' }],
     encounters: { walk: '@solaceon-ruins-1f' }
   }, SINNOH));

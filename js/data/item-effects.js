@@ -270,6 +270,17 @@ G.ITEM_FX = {
   'colbur-berry':  { held: 'resist', type: 'dark' },
   'babiri-berry':  { held: 'resist', type: 'steel' },
   'chilan-berry':  { held: 'resist', type: 'normal', any: true },
+  // Chapter 97: the incenses (Generation 4's effects; held by a parent at the Day Care, a baby hatches: daycare.js).
+  // Not sold in Platinum: no price.
+  'sea-incense':   { held: 'boost', type: 'water' },
+  'wave-incense':  { held: 'boost', type: 'water' },
+  'rock-incense':  { held: 'boost', type: 'rock' },
+  'odd-incense':   { held: 'boost', type: 'psychic' },
+  'rose-incense':  { held: 'boost', type: 'grass' },
+  'lax-incense':   { held: 'bright-powder' },                // moves against it a tenth less accurate
+  'full-incense':  { held: 'lagging-tail' },                 // it moves last
+  'luck-incense':  { held: 'amulet-coin' },                  // double prize money (not twice with an Amulet Coin)
+  'pure-incense':  { held: 'cleanse-tag' },                  // on the lead, a third fewer wild Pokémon
 
   // ---- key items ----
   'oaks-parcel':   { key: 1 },

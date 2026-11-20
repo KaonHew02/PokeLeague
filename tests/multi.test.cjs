@@ -14,8 +14,8 @@ const mon = (sp, item, o = {}) => Object.assign(G.Mon.create(id(sp), 50, Object.
 
 test('the partners\' sets: Platinum\'s lists without the items this game lacks; every species, move, item and nature known', () => {
   assert.deepEqual(plain(M.PARTNERS), ['cheryl', 'mira', 'riley', 'marley', 'buck']);
-  assert.deepEqual(plain(Object.fromEntries(M.PARTNERS.map(p => [p, M.LISTS[p].length]))), { cheryl: 50, mira: 56, riley: 67, marley: 53, buck: 60 });
-  assert.equal(Object.keys(M.SETS).length, 262);
+  assert.deepEqual(plain(Object.fromEntries(M.PARTNERS.map(p => [p, M.LISTS[p].length]))), { cheryl: 52, mira: 57, riley: 69, marley: 57, buck: 64 });
+  assert.equal(Object.keys(M.SETS).length, 273);
   for (const p of M.PARTNERS) for (const k of M.LISTS[p]) assert.ok(M.SETS[k], p + ': ' + k);
   for (const [k, [sp, moves, item, nature]] of Object.entries(M.SETS)) {
     assert.ok(id(sp) != null, k);
@@ -31,7 +31,10 @@ test('the partners\' sets: Platinum\'s lists without the items this game lacks; 
   // Chapter 96: the sets with Draco Meteor and Hydro Cannon are back (Platinum's tutors).
   assert.deepEqual(plain(M.SETS['empoleon-4']), ['empoleon', ['hydro-cannon', 'flash-cannon', 'drill-peck', 'earthquake'], 'quick-claw', 'brave']);
   assert.ok(M.LISTS.riley.includes('garchomp-2') && M.LISTS.mira.includes('latios-4'));
-  assert.ok(!Object.values(M.SETS).some(([, , item]) => ['damp-rock', 'heat-rock', 'icy-rock', 'lax-incense', 'wave-incense'].includes(item)));
+  assert.ok(!Object.values(M.SETS).some(([, , item]) => ['damp-rock', 'heat-rock', 'icy-rock'].includes(item)));
+  // Chapter 97: the sets with the Lax and Wave Incense are back.
+  assert.deepEqual(plain(M.SETS['floatzel-3'].slice(2)), ['wave-incense', M.SETS['floatzel-3'][3]]);
+  assert.equal(Object.values(M.SETS).filter(([, , item]) => item === 'lax-incense').length, 10);
 });
 
 test('a partner\'s two: from their own list, at level 50 with IVs of 31, two species, never yours, no item twice nor one of yours; the same challenge, the same two', () => {

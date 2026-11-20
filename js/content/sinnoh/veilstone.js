@@ -105,6 +105,7 @@
     ],
     spots: { 'center-door': [4, 8, 'down'], 'store-door': [11, 8, 'down'], 'gym-door': [25, 8, 'down'], 'house-door': [12, 24, 'down'],
              'warehouse-door': [31, 6, 'down'], 'hq-door': [26, 23, 'down'] },
+    items: [{ x: 33, y: 16, item: 'full-incense', flag: 'veilstone-full-incense', then: 'incense.found' }],   // chapter 97
     signs: {
       '15,11': 'Veilstone City. A city carved out of the rock, where stones fell from the sky.',
       '29,6': 'Team Galactic Warehouse. Authorized members only.',

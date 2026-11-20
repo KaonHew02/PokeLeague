@@ -52,6 +52,7 @@
     connect: { south: { map: 'jubilife', offset: -8 } },
     warps: [{ x: 9, y: 2, to: 'ravaged-path', spot: 'south' }],
     spots: { cave: [9, 3, 'down'] },
+    items: [{ x: 18, y: 17, item: 'sea-incense', flag: 'route204-sea-incense', then: 'incense.found' }],   // chapter 97
     signs: { '11,17': 'Route 204. North: the Ravaged Path and Floaroma Town. South: Jubilife City.' },
     trainers: [
       { id: 'sarah', who: 'lass', cls: 'lass', name: 'Sarah', x: 8, y: 11, dir: 'right', sight: 1, team: [['bidoof', 8], ['starly', 8]],
@@ -87,7 +88,8 @@
     spots: { south: [9, 11, 'up'], north: [18, 2, 'down'] },
     npcs: [{ id: 'hiker', who: 'hiker', x: 11, y: 4, move: 'look',
              say: 'This tunnel was dug to carry flowers from Floaroma to the city. Now it is mostly Zubat.' }],
-    items: [{ x: 3, y: 10, item: 'tm39', flag: 'ravaged-path-tm39' }],
+    items: [{ x: 21, y: 10, item: 'luck-incense', flag: 'ravaged-path-luck-incense', then: 'incense.found' },   // chapter 97
+            { x: 3, y: 10, item: 'tm39', flag: 'ravaged-path-tm39' }],
     encounters: { walk: '@ravaged-path-area', water: '@ravaged-path-area' }
   }, CAVE));
 

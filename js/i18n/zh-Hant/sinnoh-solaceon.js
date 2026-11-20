@@ -42,5 +42,6 @@ G.I18n.add({
   "The Psyduck stopped holding their heads and waddled away, quacking happily!": "可達鴨們不再抱著頭，開心地嘎嘎叫著搖搖擺擺走了！",
   "You cured them! Thank you, {player}. The road north is open again.": "你治好牠們了！謝謝你，{player}。往北的路又通了。",
   "Could I ask one more favor? This Old Charm belongs to my grandmother, the elder of Celestic Town, past the fog to the west.": "能再拜託你一件事嗎？這個古代護符是我奶奶的。她是神和鎮的長老，穿過霧往西走就到了。",
-  "I hear Team Galactic has been seen near the ruins there. Please be careful.": "聽說有人在那裡的遺跡附近看到了銀河隊。請多加小心。"
+  "I hear Team Galactic has been seen near the ruins there. Please be careful.": "聽說有人在那裡的遺跡附近看到了銀河隊。請多加小心。",
+  "My Snorlax only ever left Snorlax Eggs here. Then I let it hold a Full Incense, and out came a Munchlax! Some Pokémon lay their baby only when one of the pair holds the right incense.": "我的卡比獸在這裡只會生下卡比獸的蛋。後來我讓牠帶著飽腹薰香，結果孵出了小卡比獸！有些寶可夢要兩隻之中有一隻帶著對的薰香，才會生下幼年寶可夢。"
 }, "zh-Hant");

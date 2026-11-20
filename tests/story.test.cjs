@@ -4775,6 +4775,22 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 97 after chapter 96: the incenses: the Full Incense picked up in Veilstone City (the ending). */
+async function chapter97(st) {
+  const { G } = st;
+  const F = G.Field;
+  const place = G.SinnohIncense.PLACES.find(r => r[3] === 'full-incense');
+  const def = G.Maps.get(place[0]).items.find(it => it.item === 'full-incense');
+  assert.ok(def && def.then === 'incense.found' && def.x === place[1] && def.y === place[2]);
+  await run(st, place[0], [['found', 'full-incense', 1, place[0] + ':' + place[4]]].concat(G.Script.get(def.then)));
+  console.log('[story] the incenses:', G.Names.item('full-incense'), 'in', G.Names.loc(G.Maps.get(place[0]).loc),
+    '(' + G.SinnohIncense.PLACES.length + ' in all; held at the Day Care, a Snorlax leaves a', G.Names.mon(G.Maps.species('munchlax')) + ' Egg)');
+  assert.equal(F.count('full-incense'), 1);
+  assert.equal(G.DayCare.incenseFor(G.Maps.species('munchlax')), 'full-incense');
+  assert.ok(F.flag('chapter-97-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 96 after chapter 95: Platinum's free move tutors: the team's last-stage starter (Blastoise) has a massage at the
  *  Ribbon Syndicate's spa once a day until its friendship is full, then learns its ultimate move on Route 228 (the ending). */
 async function chapter96(st) {
@@ -6083,4 +6099,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter94(st);
   await chapter95(st);
   await chapter96(st);
+  await chapter97(st);
 });

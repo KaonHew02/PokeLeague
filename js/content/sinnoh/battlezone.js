@@ -155,8 +155,8 @@
     ],
     connect: { south: { map: 'fight-area', offset: 0 }, east: { map: 'survival-area', offset: -4 } },
     signs: { '17,43': 'Route 225. North: Survival Area. South: Fight Area.' },
-    items: [
-      { x: 3, y: 43, item: 'hp-up', flag: 'route225-hp-up' }, { x: 27, y: 43, item: 'revive', flag: 'route225-revive' },
+    items: [{ x: 4, y: 23, item: 'lax-incense', flag: 'route225-lax-incense', then: 'incense.found' },   // chapter 97
+            { x: 3, y: 43, item: 'hp-up', flag: 'route225-hp-up' }, { x: 27, y: 43, item: 'revive', flag: 'route225-revive' },
       { x: 27, y: 31, item: 'fresh-water', flag: 'route225-water' }, { x: 2, y: 29, item: 'dubious-disc', flag: 'route225-disc' },
       { x: 27, y: 23, item: 'dawn-stone', flag: 'route225-stone' }, { x: 26, y: 9, item: 'rare-candy', flag: 'route225-candy' },
       { x: 2, y: 6, item: 'razor-fang', flag: 'route225-fang' }

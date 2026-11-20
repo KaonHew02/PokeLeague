@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 98) return { title: T('Chapter 98 complete!'),
+      done: fmt('{player} read a student\'s notebook in Jubilife\'s Trainers\' School and learned that a Pokémon\'s ability works even outside battle.', { player }),
+      next: T('The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.') };
     if (n === 97) return { title: T('Chapter 97 complete!'),
       done: fmt('{player} found one of the incenses Sinnoh keeps: held in battle, each has its own power, and at the Day Care it brings a baby Pokémon into the world.', { player }),
       next: T('Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.') };

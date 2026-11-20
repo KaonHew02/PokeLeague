@@ -10,7 +10,7 @@ const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 const dev = source('dev.html');
 const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/world/poffin.js', 'js/world/pokeblock.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/script/script.js'], CONTENT);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-abilities.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/world/poffin.js', 'js/world/pokeblock.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/script/script.js'], CONTENT);
 
 function world(seed = 1) {
   const ctx = boot(FILES);
@@ -4775,6 +4775,23 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 98 after chapter 97: abilities outside battle: the notebook in Jubilife's Trainers' School (the ending); what the
+ *  team's first Pokémon does outside battle. */
+async function chapter98(st) {
+  const { G, S } = st;
+  const F = G.Field, FA = G.FieldAbilities;
+  const sign = G.Maps.get('jubilife-school').signs['9,6'];
+  assert.ok(sign && sign.script === 'fieldnotes.read');
+  const n = st.log.length;
+  await run(st, 'jubilife-school', sign.script);
+  const lead = FA.lead(S.party), ab = FA.ab(lead);
+  console.log('[story] abilities outside battle: the notebook read (' + (st.log.length - n) + ' lines); the first Pokémon,', G.Names.mon(lead.sp) + ',',
+    'has', G.Names.ability(ab), '(encounter rate x' + FA.rate(ab, 'walk', null) + ')');
+  assert.ok(st.log.slice(n).some(l => l.includes(G.Names.ability('illuminate'))));
+  assert.ok(F.flag('chapter-98-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 97 after chapter 96: the incenses: the Full Incense picked up in Veilstone City (the ending). */
 async function chapter97(st) {
   const { G } = st;
@@ -6100,4 +6117,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter95(st);
   await chapter96(st);
   await chapter97(st);
+  await chapter98(st);
 });

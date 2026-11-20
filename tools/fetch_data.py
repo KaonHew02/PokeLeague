@@ -192,7 +192,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           'shed-shell', 'mental-herb', 'destiny-knot',
                                           # Chapter 97: the incenses (where Platinum has them; breeding the babies).
                                           'sea-incense', 'lax-incense', 'rock-incense', 'odd-incense', 'rose-incense', 'wave-incense',
-                                          'full-incense', 'luck-incense', 'pure-incense'],
+                                          'full-incense', 'luck-incense', 'pure-incense',
+                                          # Chapter 98: Honey (Honey Gather picks it up after a battle won).
+                                          'honey'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.

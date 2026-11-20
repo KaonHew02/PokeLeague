@@ -733,12 +733,14 @@ G.World = (() => {
     if (G.DayCare) G.DayCare.step(1);
     V.walk = ((+V.walk || 0) + 1) % 128;
     if (!V.walk) for (const m of G.Field.party()) if (m.hp > 0) m.friendship = Math.min(255, (m.friendship || 0) + 1);
-    if (V['egg-steps'] > 0 && --V['egg-steps'] === 0 && G.Script.get('egg.hatch')) {
+    // Chapter 98: Flame Body or Magma Armor in the party: Eggs hatch twice as fast.
+    const eggStep = G.FieldAbilities ? G.FieldAbilities.eggFactor(G.Field.party()) : 1;
+    if (V['egg-steps'] > 0 && (V['egg-steps'] = Math.max(0, V['egg-steps'] - eggStep)) === 0 && G.Script.get('egg.hatch')) {
       G.Player.walk(null);
       runScript('egg.hatch', {});
       return true;
     }
-    const due = G.DayCare && G.DayCare.eggSteps ? G.DayCare.eggSteps(1) : -1;
+    const due = G.DayCare && G.DayCare.eggSteps ? G.DayCare.eggSteps(eggStep) : -1;
     if (due >= 0) {
       G.Player.walk(null);
       runScript([['js', h => G.DayCare.hatch(h, due)]], {});
@@ -769,29 +771,48 @@ G.World = (() => {
     if (S.repel > 0 && --S.repel === 0) repelOut = true;
   }
 
+  /** The weather of this map for the abilities that care (chapter 98): 'sand', 'hail', 'rain' or null. */
+  const fieldWeather = () => (map && (map.def.desert || map.def.sandstorm) ? 'sand' : map && map.def.hail ? 'hail' : stormy() ? 'rain' : null);
+  /** The first Pokémon's ability for the rules outside battle (chapter 98, G.FieldAbilities), or null. */
+  const fieldAbility = () => (G.FieldAbilities ? G.FieldAbilities.ab(G.FieldAbilities.lead(G.Field.party())) : null);
+
   function rollWild(method) {
     const table = M().encounters(map, method);
     if (!table || !table.mons || !table.mons.length) return null;
-    if (!(rng.next() < (table.rate || 0) / 180)) return null;
+    const FA = G.FieldAbilities, ab = fieldAbility();
+    // Chapter 98: Illuminate, Stench, Sand Veil... change the rate.
+    const rate = (table.rate || 0) * (FA ? FA.rate(ab, method, fieldWeather()) : 1);
+    if (!(rng.next() < Math.min(180, rate) / 180)) return null;
     // Johto's tables may have their own morning and night slots.
     const mons = (G.Clock && table[G.Clock.period()]) || table.mons;
-    let r = rng.next() * 100;
-    let pick = mons[mons.length - 1];
-    for (const row of mons) { if ((r -= row[3]) < 0) { pick = row; break; } }
+    // Chapter 98: Magnet Pull and Static draw a Steel or Electric row half the time.
+    let pick = FA ? FA.slot(ab, mons, rng) : null;
+    if (!pick) {
+      let r = rng.next() * 100;
+      pick = mons[mons.length - 1];
+      for (const row of mons) { if ((r -= row[3]) < 0) { pick = row; break; } }
+    }
     const sp = M().species(pick[0]);
-    return { sp, lvl: rng.int(pick[1], pick[2]), method, map: map.id, area: typeof map.encounters[method] === 'string' ? map.encounters[method].slice(1) : null };
+    // Chapter 98: Hustle, Vital Spirit and Pressure: the highest level half the time.
+    const lvl = FA ? FA.level(ab, pick, rng) : rng.int(pick[1], pick[2]);
+    return { sp, lvl, method, map: map.id, area: typeof map.encounters[method] === 'string' ? map.encounters[method].slice(1) : null };
   }
 
   function maybeEncounter(method) {
     if (debug.noEnc || !G.Field.party().length) return false;
     const wild = rollWild(method);
     if (!wild) return false;
+    const FA = G.FieldAbilities, ab = fieldAbility(), first = FA ? FA.lead(G.Field.party()) : null;
+    // Chapter 98: Keen Eye and Intimidate keep the much weaker ones away half the time.
+    if (FA && FA.blocks(ab, first, wild.lvl, rng)) return false;
     const lead = G.Field.lead();
     // A Cleanse Tag on the lead (chapter 69): a third fewer wild Pokémon, as in Generations 3 and 4.
     if (lead && G.Held && G.Held.is(lead, 'cleanse-tag') && rng.int(0, 2) === 0) return false;
     // The roaming Pokémon on this route (chapter 42): one wild encounter in four is it.
     const rm = (method === 'walk' || method === 'surf') && G.Roam && G.Roam.meets(rng, map.id);
     if (rm) Object.assign(wild, { sp: rm.sp, lvl: rm.lvl, roamer: rm });
+    // Chapter 98: Synchronize (its nature) and Cute Charm (the other gender).
+    else if (FA) Object.assign(wild, FA.traits(ab, first, wild.sp, rng));
     if (G.Field.save.repel > 0 && lead && wild.lvl < lead.lvl) return false;
     G.Player.walk(null);
     wildBattle(wild);
@@ -820,12 +841,15 @@ G.World = (() => {
         if (wild.form) o.form = wild.form;
         if (wild.moves) o.moves = wild.moves;
         if (wild.shiny) o.shinyOdds = 1;
+        if (wild.nature) o.nature = wild.nature;                 // Synchronize (chapter 98)
+        if (wild.gender) o.gender = wild.gender;                 // Cute Charm
         if (wild.roamer) { o.mon = wild.roamer; o.rules.roamer = true; }
         r = await G.BattleUI.wild(me, wild.sp, wild.lvl, o);
       }
       else r = await fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) }));
       if (contest) caught = G.Contest.after(r);
       out = settle(r);
+      if (out === 'win' && !contest && !wild.party) foundAfterBattle();
     } finally { locks--; }
     G.Field.lastBattle = out;
     if (wild.roamer && G.Roam) {
@@ -864,6 +888,15 @@ G.World = (() => {
     if (G.Settings && G.Settings.get('expAll') !== false) rules.expAll = true;
     return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld', rules };
   }
+  /** Chapter 98: after a battle won with your own team, Pickup and Honey Gather may find an item (no message, as in Platinum). */
+  function foundAfterBattle() {
+    if (!G.FieldAbilities) return;
+    for (const m of G.Field.party()) {
+      const it = G.FieldAbilities.pickup(m, rng);
+      if (it) m.item = it;
+    }
+  }
+
   /** After a battle: Pokédex, prize money, a caught Pokémon that goes to the PC. -> the outcome */
   function settle(r) {
     if (!r || typeof r !== 'object') return r || 'win';
@@ -1019,6 +1052,7 @@ G.World = (() => {
       else if (G.BattleUI && G.BattleUI.trainer) r = await G.BattleUI.trainer(me, battleTrainer(d, key), opts);
       else r = await fallbackBattle(trainerName(d) || G.Names.pretty(d.id));
       out = settle(r);
+      if (out === 'win' && !o.party) foundAfterBattle();
       G.Field.lastTurns = r && typeof r === 'object' && Number.isFinite(r.turns) ? r.turns : null;
     } finally { locks--; }
     G.Field.lastBattle = out;

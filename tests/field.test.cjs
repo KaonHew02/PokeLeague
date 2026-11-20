@@ -7863,3 +7863,82 @@ test('Sinnoh (chapter 97): the nine incenses where Platinum has them, the Pure I
   const none = await count(null), pure = await count('pure-incense');
   assert.ok(none > 30 && pure < none * 0.85, 'the Pure Incense keeps wild Pokémon away: ' + none + ' -> ' + pure);
 });
+
+test('Sinnoh (chapter 98): abilities outside battle on Route 202 (Stench, Illuminate, Intimidate, Static, Synchronize, Cute Charm), Pickup after a battle won, Flame Body and Eggs, the notebook in the Trainers\' School and the ending after chapter 97', async () => {
+  const { G, W } = world(['js/world/field-abilities.js', 'js/content/sinnoh/sandgem.js', 'js/content/sinnoh/twinleaf.js', 'js/content/sinnoh/jubilife.js',
+    'js/content/sinnoh/fieldnotes.js']);
+  const F = G.Field, FA = G.FieldAbilities;
+  const said = [];
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  const until = async ok => { for (let i = 0; i < 3000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  const settle = async () => { for (let i = 0; i < 200 && W.locked; i++) { W.update(0.05); await tick(); } };
+  /** A first Pokémon with this ability; 400 steps in Route 202's grass on the same seed. -> the wild Pokémon met */
+  const walk = async (sp, lvl, ability, o = {}) => {
+    const lead = F.giveMon(sp, lvl);
+    Object.assign(lead, { ability }, o);
+    F.party().splice(F.party().indexOf(lead), 1);
+    F.party().unshift(lead);
+    const met = [];
+    W.onEncounter = async (wsp, wlvl, area, wild) => { met.push({ sp: wsp, lvl: wlvl, nature: wild.nature, gender: wild.gender }); return 'run'; };
+    W.debug.noEnc = false;
+    W.load('route202', { x: 3, y: 4, dir: 'right' });
+    W.seed(98);
+    for (let i = 0; i < 400; i++) { step(W, i % 2 ? 'left' : 'right'); await settle(); }
+    F.party().shift();
+    return met;
+  };
+  F.giveMon('bidoof', 10);
+  const none = await walk('bidoof', 10, 'simple');
+  assert.ok(none.length > 40, 'wild Pokémon met: ' + none.length);
+  // Stench fewer, Illuminate more.
+  const stench = await walk('stunky', 10, 'stench'), lum = await walk('staryu', 10, 'illuminate');
+  assert.ok(stench.length < none.length * 0.75 && lum.length > none.length * 1.4, [none.length, stench.length, lum.length].join(' / '));
+  // Intimidate at level 10: Route 202's are all 5 or more levels below, so about half are not met.
+  const intim = await walk('arbok', 10, 'intimidate');
+  assert.ok(intim.length < none.length * 0.75, none.length + ' -> ' + intim.length);
+  // Static: more Shinx (Electric); Synchronize: its nature; Cute Charm: the other gender.
+  const shinx = list => list.filter(m => m.sp === G.Maps.species('shinx')).length / list.length;
+  const stat = await walk('pikachu', 10, 'static');
+  assert.ok(shinx(stat) > shinx(none) + 0.15, shinx(none) + ' -> ' + shinx(stat));
+  const sync = await walk('abra', 10, 'synchronize', { nature: 'timid' });
+  assert.ok(sync.filter(m => m.nature === 'timid').length > sync.length * 0.35 && !none.some(m => m.nature));
+  const charm = await walk('clefairy', 10, 'cute-charm', { gender: 'f' });
+  assert.ok(charm.filter(m => m.gender === 'm').length > charm.length * 0.5);
+
+  // Pickup after battles won (not after running away): a Meowth holding nothing picks something up within some wins.
+  const meowth = F.giveMon('meowth', 15);
+  meowth.ability = 'pickup';
+  W.debug.noEnc = false;
+  W.onEncounter = async () => 'run';
+  W.load('route202', { x: 3, y: 4, dir: 'right' });
+  W.seed(981);
+  for (let i = 0; i < 200; i++) { step(W, i % 2 ? 'left' : 'right'); await settle(); }
+  assert.ok(!meowth.item, 'nothing after running away');
+  W.onEncounter = async () => 'win';
+  for (let i = 0; i < 1200 && !meowth.item; i++) { step(W, i % 2 ? 'left' : 'right'); await settle(); }
+  assert.ok(meowth.item && FA.COMMON.slice(1, 10).concat(FA.RARE.slice(1, 3)).includes(meowth.item), 'picked up: ' + meowth.item);
+  W.debug.noEnc = true;
+
+  // Flame Body in the party: an Egg's steps go down by two.
+  const egg = G.DayCare.egg(G.Maps.species('pichu'));
+  egg.steps = 100;
+  G.DayCare.eggs().push(egg);
+  W.load('route202', { x: 9, y: 8, dir: 'down' });
+  for (let i = 0; i < 10; i++) { step(W, i % 2 ? 'up' : 'down'); await settle(); }
+  assert.equal(egg.steps, 90, 'one a step');
+  const magmar = F.giveMon('magmar', 30);
+  magmar.ability = 'flame-body';
+  for (let i = 0; i < 10; i++) { step(W, i % 2 ? 'up' : 'down'); await settle(); }
+  assert.equal(egg.steps, 70, 'two a step with Flame Body');
+
+  // The notebook in the Trainers' School: the abilities by their names; the ending once chapter 97 is done (once).
+  W.load('jubilife-school', { x: 9, y: 7, dir: 'up' });
+  said.length = 0;
+  await talk();
+  assert.ok(said.some(s => s.includes('Illuminate') && s.includes('Stench')) && said.some(s => s.includes('Flame Body')), said.join(' | '));
+  assert.ok(!F.flag('chapter-98-done'));
+  F.setFlag('chapter-97-done');
+  await talk();
+  assert.ok(F.flag('chapter-98-done'));
+});

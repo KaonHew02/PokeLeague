@@ -166,8 +166,12 @@
     warps: [{ x: 6, y: 8, to: 'jubilife', spot: 'school-door' }],
     spots: { door: [6, 8, 'up'] },
     signs: { '0,2': 'The blackboard says: "Some Pokémon evolve when they level up holding an item, some only by day or only by night, and some once they know a certain move."',
-             '1,2': 'The blackboard says: "The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve."' },
-    npcs: [{ id: 'teacher', who: 'lass', x: 5, y: 2, dir: 'down', script: 'jubilife.teacher' }],
+             '1,2': 'The blackboard says: "The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve."',
+             // Chapter 98: a notebook about abilities outside battle (fieldnotes.js).
+             '9,6': { script: 'fieldnotes.read' } },
+    npcs: [{ id: 'teacher', who: 'lass', x: 5, y: 2, dir: 'down', script: 'jubilife.teacher' },
+           { id: 'student', who: 'youngster', x: 11, y: 7, dir: 'left',
+             say: 'That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!' }],
     trainers: [
       { id: 'harrison', who: 'youngster', cls: 'school-kid', name: 'Harrison', x: 4, y: 3, dir: 'down', sight: 1, team: [['bidoof', 7], ['kricketot', 7]],
         before: 'Today we are learning about battles. Will you be my homework?',

@@ -257,6 +257,7 @@ G.ITEMS = {
   "full-incense": {"id":293,"pocket":"items","cat":"bad-held-items","fling":10},
   "luck-incense": {"id":296,"pocket":"items","cat":"training","fling":10},
   "pure-incense": {"id":297,"pocket":"items","cat":"training","fling":10},
+  honey: {"id":94,"pocket":"items","cat":"dex-completion","fling":30},
   hm01: {"id":397,"pocket":"tms","cat":"all-machines","move":"cut"},
   hm02: {"id":398,"pocket":"tms","cat":"all-machines","move":"fly"},
   hm03: {"id":399,"pocket":"tms","cat":"all-machines","move":"surf"},

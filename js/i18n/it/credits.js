@@ -272,5 +272,8 @@ G.I18n.add({
   "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "I Pokémon di tipo Drago possono imparare Dragobolide sul Percorso 210, e gli starter di ogni regione del tutto evoluti la loro mossa definitiva sul Percorso 228, quando la loro amicizia è al massimo.",
   "Chapter 97 complete!": "Capitolo 97 completato!",
   "{player} found one of the incenses Sinnoh keeps: held in battle, each has its own power, and at the Day Care it brings a baby Pokémon into the world.": "{player} ha trovato uno degli aromi custoditi a Sinnoh: in lotta ognuno ha il suo potere, e alla Pensione fa nascere un Pokémon cucciolo.",
-  "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "Nove aromi sono sparsi per Sinnoh. Lascia uno Snorlax con un Gonfioaroma, o un Chansey con un Fortunaroma, e guarda cosa si schiude."
+  "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "Nove aromi sono sparsi per Sinnoh. Lascia uno Snorlax con un Gonfioaroma, o un Chansey con un Fortunaroma, e guarda cosa si schiude.",
+  "Chapter 98 complete!": "Capitolo 98 completato!",
+  "{player} read a student's notebook in Jubilife's Trainers' School and learned that a Pokémon's ability works even outside battle.": "{player} ha letto il quaderno di uno studente alla Scuola Allenatori di Giubilopoli e ha scoperto che l'abilità di un Pokémon funziona anche fuori dalle lotte.",
+  "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "Il primo Pokémon della squadra cambia i Pokémon selvatici che incontri; Raccolta e Mielincetta trovano oggetti dopo una vittoria; Corpodifuoco scalda le tue Uova."
 }, "it");

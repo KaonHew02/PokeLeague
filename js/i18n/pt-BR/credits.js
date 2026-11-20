@@ -272,5 +272,8 @@ G.I18n.add({
   "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "Pokémon do tipo Dragão podem aprender Draco Meteor na Rota 210, e os iniciais de cada região totalmente evoluídos, seu golpe supremo na Rota 228, quando a amizade estiver no máximo.",
   "Chapter 97 complete!": "Capítulo 97 concluído!",
   "{player} found one of the incenses Sinnoh keeps: held in battle, each has its own power, and at the Day Care it brings a baby Pokémon into the world.": "{player} encontrou um dos incensos que Sinnoh guarda: em batalha, cada um tem seu próprio poder, e na Creche ele traz ao mundo um Pokémon bebê.",
-  "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "Nove incensos estão espalhados por Sinnoh. Deixe um Snorlax com um Full Incense, ou uma Chansey com um Luck Incense, e veja o que choca."
+  "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "Nove incensos estão espalhados por Sinnoh. Deixe um Snorlax com um Full Incense, ou uma Chansey com um Luck Incense, e veja o que choca.",
+  "Chapter 98 complete!": "Capítulo 98 concluído!",
+  "{player} read a student's notebook in Jubilife's Trainers' School and learned that a Pokémon's ability works even outside battle.": "{player} leu o caderno de um aluno na Escola de Treinadores de Jubilife City e aprendeu que a habilidade de um Pokémon funciona mesmo fora das batalhas.",
+  "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "O primeiro Pokémon da sua equipe muda os Pokémon selvagens que você encontra; Pickup e Honey Gather acham coisas depois de uma vitória; Flame Body aquece seus Ovos."
 }, "pt-BR");

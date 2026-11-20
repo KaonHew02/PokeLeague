@@ -50,5 +50,6 @@ G.I18n.add({
   "Trainer Tips: the Oreburgh Gym is east of here, past Route 203 and Oreburgh Gate.": "訓練家小提示：黑金道館在東邊，穿過203號道路和黑金關口就到。",
   "The blackboard says: \"Some Pokémon evolve when they level up holding an item, some only by day or only by night, and some once they know a certain move.\"": "黑板上寫著：「有些寶可夢要攜帶道具升級才會進化，有些只在白天或只在夜晚進化，有些則要學會某個招式。」",
   "The blackboard says: \"The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve.\"": "黑板上寫著：「光之石、暗之石和覺醒之石都能讓特定的寶可夢進化。」",
-  "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "去水脈市的船停開了，今天218號道路的海浪也太大。改天再來吧。"
+  "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "去水脈市的船停開了，今天218號道路的海浪也太大。改天再來吧。",
+  "That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!": "桌上那本筆記本是我的。你知道特性在對戰以外也有用嗎？我的熔岩蟲會幫我把帶著的蛋保溫，很快就孵出來了！"
 }, "zh-Hant");

@@ -272,5 +272,8 @@ G.I18n.add({
   "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "親密度滿的龍屬性寶可夢可以在210號道路學流星群，各地區完全進化的御三家可以在228號道路學究極招式。",
   "Chapter 97 complete!": "第 97 章完成！",
   "{player} found one of the incenses Sinnoh keeps: held in battle, each has its own power, and at the Day Care it brings a baby Pokémon into the world.": "{player}找到了神奧收藏的薰香之一：在對戰中各有各的效果，放在培育屋時還能讓幼年寶可夢誕生。",
-  "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "神奧各地有九種薰香。讓卡比獸帶著飽腹薰香、或讓吉利蛋帶著幸運薰香寄放在培育屋，看看會孵出什麼吧。"
+  "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "神奧各地有九種薰香。讓卡比獸帶著飽腹薰香、或讓吉利蛋帶著幸運薰香寄放在培育屋，看看會孵出什麼吧。",
+  "Chapter 98 complete!": "第 98 章完成！",
+  "{player} read a student's notebook in Jubilife's Trainers' School and learned that a Pokémon's ability works even outside battle.": "{player}在祝慶市的訓練家學校讀了一本學生的筆記，知道了寶可夢的特性在對戰以外也有作用。",
+  "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "隊伍裡的第一隻寶可夢會影響遇到的野生寶可夢；撿拾和採蜜在獲勝後會撿到東西；火焰之軀會讓蛋保持溫暖。"
 }, "zh-Hant");

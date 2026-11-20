@@ -281,6 +281,9 @@ G.ITEM_FX = {
   'full-incense':  { held: 'lagging-tail' },                 // it moves last
   'luck-incense':  { held: 'amulet-coin' },                  // double prize money (not twice with an Amulet Coin)
   'pure-incense':  { held: 'cleanse-tag' },                  // on the lead, a third fewer wild Pokémon
+  // Chapter 98: Honey, from Honey Gather after a battle won; sold for Platinum's price by Floaroma's Honey seller (100).
+  // Spreading it on trees is left out.
+  'honey':         { price: 100 },
 
   // ---- key items ----
   'oaks-parcel':   { key: 1 },

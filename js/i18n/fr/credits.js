@@ -272,5 +272,8 @@ G.I18n.add({
   "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "Les Pokémon de type Dragon peuvent apprendre Draco-Météore sur la Route 210, et les starters de chaque région pleinement évolués leur capacité ultime sur la Route 228, une fois leur amitié au maximum.",
   "Chapter 97 complete!": "Chapitre 97 terminé !",
   "{player} found one of the incenses Sinnoh keeps: held in battle, each has its own power, and at the Day Care it brings a baby Pokémon into the world.": "{player} a trouvé l'un des encens que cache Sinnoh : tenu en combat, chacun a son propre pouvoir, et à la Pension, il fait naître un bébé Pokémon.",
-  "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "Neuf encens sont cachés dans tout Sinnoh. Confie un Ronflex avec un Encens Plein, ou un Leveinard avec un Encens Veine, et vois ce qui éclot."
+  "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "Neuf encens sont cachés dans tout Sinnoh. Confie un Ronflex avec un Encens Plein, ou un Leveinard avec un Encens Veine, et vois ce qui éclot.",
+  "Chapter 98 complete!": "Chapitre 98 terminé !",
+  "{player} read a student's notebook in Jubilife's Trainers' School and learned that a Pokémon's ability works even outside battle.": "{player} a lu le cahier d'un élève à l'École des Dresseurs de Littorella et a appris que le talent d'un Pokémon agit même hors des combats.",
+  "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "Le premier Pokémon de ton équipe change les Pokémon sauvages que tu croises ; Ramassage et Cherche Miel trouvent des objets après une victoire ; Corps Ardent réchauffe tes Œufs."
 }, "fr");

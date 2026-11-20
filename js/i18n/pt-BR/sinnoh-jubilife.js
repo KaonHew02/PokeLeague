@@ -50,5 +50,6 @@ G.I18n.add({
   "Trainer Tips: the Oreburgh Gym is east of here, past Route 203 and Oreburgh Gate.": "Dicas para Treinadores: o Ginásio de Oreburgh fica a leste, depois da Rota 203 e do túnel.",
   "The blackboard says: \"Some Pokémon evolve when they level up holding an item, some only by day or only by night, and some once they know a certain move.\"": "O quadro diz: \"Alguns Pokémon evoluem ao subir de nível segurando um item, outros só de dia ou só à noite, e outros quando sabem certo golpe.\"",
   "The blackboard says: \"The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve.\"": "O quadro diz: \"A Shiny Stone, a Dusk Stone e a Dawn Stone fazem certos Pokémon evoluírem.\"",
-  "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "Os barcos para Canalave não estão saindo, e o mar da Rota 218 está agitado demais hoje. Volte outra hora."
+  "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "Os barcos para Canalave não estão saindo, e o mar da Rota 218 está agitado demais hoje. Volte outra hora.",
+  "That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!": "Aquele caderno na carteira é meu. Sabia que as habilidades funcionam fora das batalhas também? Meu Slugma mantém quentinhos os Ovos que carrego, e eles chocam rapidinho!"
 }, "pt-BR");

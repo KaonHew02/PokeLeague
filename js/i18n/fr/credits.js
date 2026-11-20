@@ -266,5 +266,8 @@ G.I18n.add({
   "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "Seize plaques en tout, une Carapace Mue, une Herbe Mental et un Nœud Destin attendent dans tout Sinnoh.",
   "Chapter 95 complete!": "Chapitre 95 terminé !",
   "{player} won seven multi battles in a row at Sinnoh's Battle Tower, side by side with a friend from the journey.": "{player} a gagné sept combats multi d'affilée à la Tour de Combat de Sinnoh, aux côtés d'un ami rencontré en chemin.",
-  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "Cheryl, Maïté, Armand, Viviane et Cornil amènent deux nouveaux Pokémon à chaque défi : cinquante victoires d'affilée rapportent le Ruban Capacité Multi."
+  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "Cheryl, Maïté, Armand, Viviane et Cornil amènent deux nouveaux Pokémon à chaque défi : cinquante victoires d'affilée rapportent le Ruban Capacité Multi.",
+  "Chapter 96 complete!": "Chapitre 96 terminé !",
+  "{player} found the old tutors of Routes 210 and 228, and a Pokémon that loves its Trainer with all its heart learned a move few ever master.": "{player} a trouvé les vieux maîtres des Routes 210 et 228, et un Pokémon qui aime son Dresseur de tout son cœur a appris une capacité que peu maîtrisent.",
+  "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "Les Pokémon de type Dragon peuvent apprendre Draco-Météore sur la Route 210, et les starters de chaque région pleinement évolués leur capacité ultime sur la Route 228, une fois leur amitié au maximum."
 }, "fr");

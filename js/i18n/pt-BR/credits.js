@@ -266,5 +266,8 @@ G.I18n.add({
   "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "Dezesseis placas ao todo, um Shed Shell, uma Mental Herb e um Destiny Knot esperam por toda Sinnoh.",
   "Chapter 95 complete!": "Capítulo 95 concluído!",
   "{player} won seven multi battles in a row at Sinnoh's Battle Tower, side by side with a friend from the journey.": "{player} venceu sete batalhas múltiplas seguidas na Torre de Batalha de Sinnoh, lado a lado com um amigo da jornada.",
-  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "Cheryl, Mira, Riley, Marley e Buck trazem dois Pokémon novos a cada desafio: cinquenta vitórias seguidas dão a Fita Habilidade Múltipla."
+  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "Cheryl, Mira, Riley, Marley e Buck trazem dois Pokémon novos a cada desafio: cinquenta vitórias seguidas dão a Fita Habilidade Múltipla.",
+  "Chapter 96 complete!": "Capítulo 96 concluído!",
+  "{player} found the old tutors of Routes 210 and 228, and a Pokémon that loves its Trainer with all its heart learned a move few ever master.": "{player} encontrou os velhos tutores das Rotas 210 e 228, e um Pokémon que ama seu Treinador de todo o coração aprendeu um golpe que poucos dominam.",
+  "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "Pokémon do tipo Dragão podem aprender Draco Meteor na Rota 210, e os iniciais de cada região totalmente evoluídos, seu golpe supremo na Rota 228, quando a amizade estiver no máximo."
 }, "pt-BR");

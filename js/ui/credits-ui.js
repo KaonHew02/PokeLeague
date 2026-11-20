@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 96) return { title: T('Chapter 96 complete!'),
+      done: fmt('{player} found the old tutors of Routes 210 and 228, and a Pokémon that loves its Trainer with all its heart learned a move few ever master.', { player }),
+      next: T('Dragon-types can learn Draco Meteor on Route 210, and every region\'s fully grown starters their ultimate move on Route 228, once their friendship is full.') };
     if (n === 95) return { title: T('Chapter 95 complete!'),
       done: fmt('{player} won seven multi battles in a row at Sinnoh\'s Battle Tower, side by side with a friend from the journey.', { player }),
       next: T('Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.') };

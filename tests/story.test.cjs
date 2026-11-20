@@ -4775,6 +4775,35 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 96 after chapter 95: Platinum's free move tutors: the team's last-stage starter (Blastoise) has a massage at the
+ *  Ribbon Syndicate's spa once a day until its friendship is full, then learns its ultimate move on Route 228 (the ending). */
+async function chapter96(st) {
+  const { G, S } = st;
+  const F = G.Field, Tu = G.SinnohTutors;
+  const i = S.party.findIndex(m => Tu.ultimateFor(m));
+  assert.ok(i >= 0, 'a last-stage starter in the team');
+  const mon = S.party[i], move = Tu.ultimateFor(mon), before = mon.friendship;
+  const day = G.Clock.day;
+  let days = 0;
+  while ((mon.friendship | 0) < Tu.MAX && days < 20) {
+    days++;
+    G.Clock.day = () => '2026-12-' + String(days).padStart(2, '0');
+    st.picks.length = 0;
+    st.picks.push(i);
+    await run(st, 'syndicate-2f', 'syndicate.spa', [0]);
+  }
+  G.Clock.day = day;
+  assert.equal(mon.friendship, Tu.MAX, 'full friendship');
+  st.picks.length = 0;
+  st.picks.push(i);
+  await run(st, 'r228-house', 'tutor.ultimate', [0, 0]);
+  console.log('[story] Platinum\'s free move tutors:', G.Names.mon(mon.sp), 'from friendship', before, 'to', mon.friendship, 'in', days,
+    'massage(s), then', G.Names.move(move), 'on Route 228');
+  assert.ok(G.Mon.knows(mon, move));
+  assert.ok(F.flag('chapter-96-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 95 after chapter 94: the Battle Tower's multi battles: the two strongest Pokémon that may enter, beside the first
  *  partner who waits in the Battle Salon, until a round of seven is won (the ending). */
 async function chapter95(st) {
@@ -6053,4 +6082,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter93(st);
   await chapter94(st);
   await chapter95(st);
+  await chapter96(st);
 });

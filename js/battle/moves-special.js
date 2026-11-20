@@ -29,6 +29,9 @@ G.SpecialMoves = (() => {
     'giga-impact': { recharge: true },
     'rock-wrecker': { recharge: true },
     'roar-of-time': { recharge: true },
+    'blast-burn':  { recharge: true },              // the ultimate moves (chapter 96: Route 228's tutor)
+    'hydro-cannon': { recharge: true },
+    'frenzy-plant': { recharge: true },
     'thrash':      { rampage: true },
     'petal-dance': { rampage: true },
     'outrage':     { rampage: true },

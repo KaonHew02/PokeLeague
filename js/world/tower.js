@@ -31,7 +31,9 @@ G.Tower = (() => {
   const SKIP = new Set(['hyper-beam', 'blast-burn', 'hydro-cannon', 'frenzy-plant', 'solar-beam', 'sky-attack', 'razor-wind',
     'skull-bash', 'focus-punch', 'dream-eater', 'self-destruct', 'explosion', 'fly', 'dig', 'dive', 'bounce', 'future-sight',
     'doom-desire', 'snore', 'false-swipe', 'fake-out', 'spit-up', 'bide', 'counter', 'mirror-coat', 'present', 'magnitude',
-    'endeavor', 'flail', 'reversal', 'beat-up', 'rage', 'feint', 'last-resort', 'natural-gift', 'trump-card', 'hidden-power']);
+    'endeavor', 'flail', 'reversal', 'beat-up', 'rage', 'feint', 'last-resort', 'natural-gift', 'trump-card', 'hidden-power',
+    // Chapter 96: Draco Meteor (Route 210's tutor) harshly lowers the user's Sp. Atk; the rolls stay as they were.
+    'draco-meteor']);
   const FIXED = { 'seismic-toss': 75, 'night-shade': 75 };          // level 50 damage, as strong as a 75-power move
   const STATUS = ['swords-dance', 'dragon-dance', 'calm-mind', 'bulk-up', 'curse', 'recover', 'soft-boiled', 'milk-drink',
     'slack-off', 'synthesis', 'moonlight', 'morning-sun', 'toxic', 'will-o-wisp', 'thunder-wave', 'spore', 'sleep-powder',

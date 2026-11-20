@@ -7703,3 +7703,115 @@ test('Sinnoh (chapter 95): the Battle Tower\'s multi battles (the counter, the B
   assert.ok(said.some(s => /In multi battles/.test(s)));
   assert.ok(/multi battles/.test(G.Maps.get('sinnoh-frontier').signs['24,7']));
 });
+
+test('Sinnoh (chapter 96): Platinum\'s free move tutors, Draco Meteor on Route 210 and the ultimate moves on Route 228 (their houses, who may learn, full friendship), the ending after chapter 95', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'villa', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower', 'fullmoon', 'route219', 'amity', 'fuego', 'b1f', 'sitems', 'tutors']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field;
+  const said = [], answers = [], picks = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  W.onTrainer = async () => 'win';
+  const until = async ok => { for (let i = 0; i < 3000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  const last = () => said[said.length - 1];
+  const knows = (m, id) => G.Mon.knows(m, id);
+
+  // The doors: Route 210's north side and Route 228, in and out.
+  for (const [route, spot, house] of [['route210n', 'wilma-door', 'wilma-house'], ['route228', 'tutor-door', 'r228-house']]) {
+    W.load(route, spot);
+    W.player.face('up');
+    assert.equal(step(W, 'up'), 'moved');
+    await until(() => W.map.id === house && !W.locked);
+    W.load(house, 'door');
+    step(W, 'down');
+    await until(() => W.map.id === route && !W.locked);
+  }
+
+  // The old woman: no Dragon-type yet.
+  const lucario = F.giveMon('lucario', 60);
+  W.load('wilma-house', { x: 6, y: 4, dir: 'up' });
+  await talk();
+  assert.ok(said.some(s => /raised more dragons/.test(s)), 'her story, the first time');
+  assert.ok(/Bring me a Dragon-type/.test(last()));
+  // A Dragonite that does not trust you enough yet; at 255 it learns Draco Meteor (no ending before chapter 95).
+  const dragonite = F.giveMon('dragonite', 60);
+  dragonite.friendship = 200;
+  picks.push(1);
+  await talk();
+  assert.ok(/does not trust you with all its heart/.test(last()) && !knows(dragonite, 'draco-meteor'));
+  dragonite.friendship = 255;
+  said.length = 0;
+  picks.push(1);
+  await talk();
+  assert.ok(knows(dragonite, 'draco-meteor') && dragonite.moves.length === 4);
+  assert.ok(said.some(s => /Sp. Atk falls sharply/.test(s)) && !said.some(s => /raised more dragons/.test(s)));
+  assert.ok(!F.flag('chapter-96-done'));
+  // A Gible joins: Dragonite knows it already; Lucario is no Dragon; an Egg cannot learn; saying no.
+  const gible = F.giveMon('gible', 30);
+  gible.friendship = 70;
+  picks.push(1);
+  await talk();
+  assert.ok(/already knows/.test(last()));
+  picks.push(0);
+  await talk();
+  assert.ok(/Only a Dragon-type/.test(last()) && !knows(lucario, 'draco-meteor'));
+  const egg = F.giveMon('dratini', 1);
+  egg.egg = true;
+  picks.push(3);
+  await talk();
+  assert.ok(/An Egg cannot learn/.test(last()) && !knows(egg, 'draco-meteor'));
+  F.party().splice(F.party().indexOf(egg), 1);                   // room for three starters
+  answers.push(1);
+  await talk();
+  assert.ok(/Do come back/.test(last()));
+
+  // The old man: the list on the shelf; Charizard and Empoleon learn their ultimate moves, Torterra not close enough yet,
+  // Lucario no starter, Charizard knows it already; saying no to the move itself.
+  W.load('r228-house', { x: 1, y: 3, dir: 'up' });
+  said.length = 0;
+  await talk();
+  assert.ok(said.some(s => s.includes('Charizard') && s.includes('Infernape') && s.includes('Blast Burn')), said.join(' | '));
+  assert.ok(said.some(s => s.includes('Torterra') && s.includes('Frenzy Plant')));
+  const charizard = F.giveMon('charizard', 60), empoleon = F.giveMon('empoleon', 60), torterra = F.giveMon('torterra', 60);
+  charizard.friendship = empoleon.friendship = 255;
+  torterra.friendship = 100;
+  const at = m => F.party().indexOf(m);
+  W.load('r228-house', { x: 3, y: 4, dir: 'up' });
+  picks.push(at(charizard));
+  await talk();
+  assert.ok(knows(charizard, 'blast-burn'));
+  assert.ok(said.some(s => /must rest for a turn/.test(s)));
+  picks.push(at(empoleon));
+  answers.push(0, 1);                                        // teach? yes; Hydro Cannon? no
+  await talk();
+  assert.ok(!knows(empoleon, 'hydro-cannon'));
+  picks.push(at(empoleon));
+  await talk();
+  assert.ok(knows(empoleon, 'hydro-cannon'));
+  picks.push(at(torterra));
+  await talk();
+  assert.ok(/not close enough/.test(last()) && !knows(torterra, 'frenzy-plant'));
+  picks.push(at(lucario));
+  await talk();
+  assert.ok(/cannot learn an ultimate move/.test(last()));
+  picks.push(at(charizard));
+  await talk();
+  assert.ok(/already knows/.test(last()));
+  assert.ok(!F.flag('chapter-96-done'));
+
+  // Once chapter 95 is done, the first move taught ends chapter 96 (once).
+  F.setFlag('chapter-95-done');
+  torterra.friendship = 255;
+  picks.push(at(torterra));
+  await talk();
+  assert.ok(knows(torterra, 'frenzy-plant') && F.flag('chapter-96-done'));
+  gible.friendship = 255;
+  W.load('wilma-house', { x: 6, y: 4, dir: 'up' });
+  picks.push(at(gible));
+  await talk();
+  assert.ok(knows(gible, 'draco-meteor') && F.flag('chapter-96-done'));
+});

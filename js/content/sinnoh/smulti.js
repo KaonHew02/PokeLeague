@@ -12,8 +12,9 @@
  * Sources: Platinum's decompilation (github.com/pret/pokeplatinum): the partners' sets (res/trainers/frontier), how their
  * Pokémon are drawn and the multi battle's party size, BP and ribbon (src/battle_tower.c, battle_tower_helpers.c), who waits
  * in the salon (res/field/maps/battle_tower_battle_salon). Their IVs are 31, as the decompilation gives them; EVs are left
- * out (the Tower's opponents have none here either). Of their 280 sets the 24 with Draco Meteor, Hydro Cannon, a weather rock
- * or an incense (not in this game) are left out. The rooms and the words are my own.
+ * out (the Tower's opponents have none here either). Of their 280 sets the 18 with a weather rock or an incense (not in this
+ * game) are left out; the 6 with Draco Meteor or Hydro Cannon came back with chapter 96 (Platinum's tutors, tutors.js). The
+ * rooms and the words are my own.
  *
  *   G.SinnohMulti.SETS {id: [species, moves, item, nature]} · LISTS {partner: [set ids]} · PARTNERS · MET · NAME
  *   met() -> the partners you have traveled with · partnerTeam(id, run, mine) -> two team rows · foesFor(n, run) -> a trainer def
@@ -79,6 +80,7 @@
     'crobat-4': ['crobat', ['cross-poison', 'brave-bird', 'x-scissor', 'zen-headbutt'], 'razor-claw', 'adamant'],
     'dragonite-1': ['dragonite', ['dragon-claw', 'aerial-ace', 'thunder-wave', 'dragon-dance'], 'lum-berry', 'adamant'],
     'dragonite-2': ['dragonite', ['dragon-rush', 'fire-punch', 'thunder-punch', 'ice-punch'], 'razor-claw', 'adamant'],
+    'dragonite-3': ['dragonite', ['draco-meteor', 'flamethrower', 'thunderbolt', 'surf'], 'expert-belt', 'modest'],
     'dragonite-4': ['dragonite', ['outrage', 'giga-impact', 'earthquake', 'superpower'], 'choice-band', 'adamant'],
     'dugtrio-1': ['dugtrio', ['earthquake', 'rock-slide', 'astonish', 'sand-tomb'], 'grip-claw', 'jolly'],
     'dugtrio-3': ['dugtrio', ['fissure', 'giga-impact', 'aerial-ace', 'night-slash'], 'razor-claw', 'jolly'],
@@ -90,6 +92,7 @@
     'electrode-1': ['electrode', ['thunderbolt', 'swift', 'thunder-wave', 'light-screen'], 'chesto-berry', 'modest'],
     'electrode-2': ['electrode', ['charge-beam', 'thunder-wave', 'flash', 'swagger'], 'bright-powder', 'timid'],
     'empoleon-3': ['empoleon', ['surf', 'earthquake', 'blizzard', 'signal-beam'], 'quick-claw', 'brave'],
+    'empoleon-4': ['empoleon', ['hydro-cannon', 'flash-cannon', 'drill-peck', 'earthquake'], 'quick-claw', 'brave'],
     'entei-1': ['entei', ['fire-fang', 'return', 'roar', 'reflect'], 'shuca-berry', 'jolly'],
     'entei-2': ['entei', ['fire-fang', 'bite', 'iron-head', 'stone-edge'], 'kings-rock', 'jolly'],
     'entei-3': ['entei', ['fire-blast', 'solar-beam', 'hyper-beam', 'sunny-day'], 'shuca-berry', 'modest'],
@@ -109,6 +112,7 @@
     'gallade-3': ['gallade', ['psycho-cut', 'stone-edge', 'aerial-ace', 'x-scissor'], 'scope-lens', 'adamant'],
     'gallade-4': ['gallade', ['psycho-cut', 'close-combat', 'leaf-blade', 'night-slash'], 'scope-lens', 'adamant'],
     'garchomp-1': ['garchomp', ['dragon-claw', 'earthquake', 'double-team', 'sandstorm'], 'bright-powder', 'jolly'],
+    'garchomp-2': ['garchomp', ['draco-meteor', 'earth-power', 'flamethrower', 'surf'], 'white-herb', 'modest'],
     'garchomp-3': ['garchomp', ['dragon-rush', 'stone-edge', 'aqua-tail', 'aerial-ace'], 'focus-sash', 'adamant'],
     'garchomp-4': ['garchomp', ['outrage', 'earthquake', 'crunch', 'fire-fang'], 'persim-berry', 'adamant'],
     'gardevoir-1': ['gardevoir', ['psychic', 'shadow-ball', 'thunder-wave', 'confuse-ray'], 'lum-berry', 'calm'],
@@ -144,9 +148,11 @@
     'latias-1': ['latias', ['psychic', 'dragon-pulse', 'attract', 'calm-mind'], 'lum-berry', 'calm'],
     'latias-2': ['latias', ['dragon-claw', 'zen-headbutt', 'earthquake', 'aerial-ace'], 'expert-belt', 'adamant'],
     'latias-3': ['latias', ['psychic', 'ice-beam', 'energy-ball', 'shadow-ball'], 'bright-powder', 'timid'],
+    'latias-4': ['latias', ['mist-ball', 'draco-meteor', 'thunderbolt', 'surf'], 'white-herb', 'modest'],
     'latios-1': ['latios', ['psychic', 'dragon-pulse', 'thunder-wave', 'calm-mind'], 'focus-band', 'calm'],
     'latios-2': ['latios', ['dragon-claw', 'shadow-claw', 'earthquake', 'dragon-dance'], 'lum-berry', 'adamant'],
     'latios-3': ['latios', ['psychic', 'thunderbolt', 'ice-beam', 'energy-ball'], 'bright-powder', 'timid'],
+    'latios-4': ['latios', ['luster-purge', 'draco-meteor', 'hyper-beam', 'surf'], 'white-herb', 'modest'],
     'leafeon-1': ['leafeon', ['leaf-blade', 'aerial-ace', 'double-team', 'baton-pass'], 'scope-lens', 'jolly'],
     'leafeon-2': ['leafeon', ['leaf-blade', 'last-resort', 'curse', 'grass-whistle'], 'bright-powder', 'jolly'],
     'leafeon-4': ['leafeon', ['leaf-blade', 'x-scissor', 'aerial-ace', 'bite'], 'quick-claw', 'adamant'],
@@ -216,6 +222,7 @@
     'roserade-4': ['roserade', ['leaf-storm', 'sludge-bomb', 'shadow-ball', 'weather-ball'], 'white-herb', 'modest'],
     'salamence-1': ['salamence', ['dragon-claw', 'aerial-ace', 'aqua-tail', 'scary-face'], 'cheri-berry', 'adamant'],
     'salamence-2': ['salamence', ['dragon-claw', 'fire-fang', 'thunder-fang', 'dragon-dance'], 'razor-fang', 'jolly'],
+    'salamence-3': ['salamence', ['draco-meteor', 'hydro-pump', 'flamethrower', 'ominous-wind'], 'wise-glasses', 'modest'],
     'salamence-4': ['salamence', ['outrage', 'crunch', 'earthquake', 'zen-headbutt'], 'lum-berry', 'adamant'],
     'sceptile-1': ['sceptile', ['leaf-blade', 'crunch', 'quick-attack', 'screech'], 'liechi-berry', 'jolly'],
     'sceptile-2': ['sceptile', ['giga-drain', 'leech-seed', 'toxic', 'double-team'], 'leftovers', 'timid'],
@@ -295,19 +302,20 @@
       'alakazam-1', 'gengar-1', 'roserade-1', 'yanmega-1', 'gardevoir-1', 'exeggutor-1', 'espeon-1', 'magnezone-1',
       'porygon-z-1', 'alakazam-2', 'gengar-2', 'roserade-2', 'gardevoir-2', 'exeggutor-2', 'espeon-2', 'glaceon-2',
       'porygon-z-2', 'togekiss-2', 'empoleon-3', 'alakazam-3', 'gengar-3', 'roserade-3', 'yanmega-3', 'gardevoir-3',
-      'espeon-3', 'glaceon-3', 'magnezone-3', 'porygon-z-3', 'togekiss-3', 'alakazam-4', 'gengar-4', 'roserade-4',
-      'yanmega-4', 'gardevoir-4', 'exeggutor-4', 'espeon-4', 'glaceon-4', 'magnezone-4', 'porygon-z-4', 'magmortar-4',
-      'togekiss-4', 'moltres-1', 'latias-1', 'latios-1', 'heatran-1', 'zapdos-2', 'latias-2', 'latios-2',
-      'latias-3', 'latios-3', 'heatran-3', 'zapdos-4', 'moltres-4'],
+      'espeon-3', 'glaceon-3', 'magnezone-3', 'porygon-z-3', 'togekiss-3', 'empoleon-4', 'alakazam-4', 'gengar-4',
+      'roserade-4', 'yanmega-4', 'gardevoir-4', 'exeggutor-4', 'espeon-4', 'glaceon-4', 'magnezone-4', 'porygon-z-4',
+      'magmortar-4', 'togekiss-4', 'moltres-1', 'latias-1', 'latios-1', 'heatran-1', 'zapdos-2', 'latias-2',
+      'latios-2', 'latias-3', 'latios-3', 'heatran-3', 'zapdos-4', 'moltres-4', 'latias-4', 'latios-4'],
     riley: [
       'breloom-1', 'absol-1', 'pinsir-1', 'heracross-1', 'ursaring-1', 'rampardos-1', 'machamp-1', 'gallade-1',
       'lucario-1', 'rhyperior-1', 'gyarados-1', 'dragonite-1', 'tyranitar-1', 'salamence-1', 'metagross-1', 'garchomp-1',
       'breloom-2', 'absol-2', 'pinsir-2', 'heracross-2', 'ursaring-2', 'rampardos-2', 'machamp-2', 'gallade-2',
-      'lucario-2', 'rhyperior-2', 'gyarados-2', 'dragonite-2', 'tyranitar-2', 'salamence-2', 'slaking-2', 'breloom-3',
-      'absol-3', 'heracross-3', 'ursaring-3', 'rampardos-3', 'machamp-3', 'gallade-3', 'lucario-3', 'gyarados-3',
-      'tyranitar-3', 'metagross-3', 'garchomp-3', 'slaking-3', 'breloom-4', 'absol-4', 'pinsir-4', 'heracross-4',
-      'ursaring-4', 'rampardos-4', 'machamp-4', 'gallade-4', 'lucario-4', 'rhyperior-4', 'gyarados-4', 'dragonite-4',
-      'tyranitar-4', 'salamence-4', 'garchomp-4', 'slaking-4', 'entei-1', 'entei-2', 'entei-3', 'entei-4'],
+      'lucario-2', 'rhyperior-2', 'gyarados-2', 'dragonite-2', 'tyranitar-2', 'salamence-2', 'garchomp-2', 'slaking-2',
+      'breloom-3', 'absol-3', 'heracross-3', 'ursaring-3', 'rampardos-3', 'machamp-3', 'gallade-3', 'lucario-3',
+      'gyarados-3', 'dragonite-3', 'tyranitar-3', 'salamence-3', 'metagross-3', 'garchomp-3', 'slaking-3', 'breloom-4',
+      'absol-4', 'pinsir-4', 'heracross-4', 'ursaring-4', 'rampardos-4', 'machamp-4', 'gallade-4', 'lucario-4',
+      'rhyperior-4', 'gyarados-4', 'dragonite-4', 'tyranitar-4', 'salamence-4', 'garchomp-4', 'slaking-4', 'entei-1',
+      'entei-2', 'entei-3', 'entei-4'],
     marley: [
       'ninjask-1', 'swellow-2', 'ninjask-2', 'sceptile-1', 'dugtrio-1', 'electrode-1', 'ambipom-1', 'alakazam-1',
       'floatzel-1', 'pinsir-1', 'weavile-1', 'aerodactyl-1', 'starmie-1', 'jolteon-1', 'crobat-1', 'arcanine-1',

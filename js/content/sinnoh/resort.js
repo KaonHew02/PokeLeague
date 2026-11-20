@@ -19,9 +19,9 @@
     rows: [
       '##############,,################',
       '#:::::::::::::,,S::::::::::::::#',
-      '#:::::::::::::,,:::::::::::::::#',
-      '#:::::::::::::,,:::::::::::::::#',
-      '#:::::::::::::,,:::::::::::::::#',
+      '#:::::::::::::,,:::::HHHH::::::#',
+      '#:::::::::::::,,:::::HHHH::::::#',
+      '#:::::::::::::,,:::::HDHH::::::#',
       '#:::::::::::::,,:::::::::::::::#',
       '#:::::::::::::,,:::::::::::::::#',
       '#:::::::::::::,,:::::::::::::::#',
@@ -65,6 +65,9 @@
       '##############,,################'
     ],
     connect: { north: { map: 'route226', offset: -36 }, south: { map: 'route229', offset: 0 } },
+    // Chapter 96: the house of the old man who teaches the ultimate moves (tutors.js).
+    warps: [{ x: 22, y: 4, to: 'r228-house', spot: 'door' }],
+    spots: { 'tutor-door': [22, 5, 'down'] },
     encounters: { walk: '@sinnoh-route-228-area', water: '@sinnoh-route-228-area' },
     signs: { '16,1': 'Route 228. South: Route 229 and the Resort Area. The sand never stops blowing.' },
     items: [{ x: 28, y: 12, item: 'shed-shell', flag: 'route228-shed-shell', then: 'sitems.found' },   // chapter 94

@@ -266,5 +266,8 @@ G.I18n.add({
   "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "神奧各地一共有十六塊石板，還有美麗空殼、心靈香草和紅線等著你。",
   "Chapter 95 complete!": "第 95 章完成！",
   "{player} won seven multi battles in a row at Sinnoh's Battle Tower, side by side with a friend from the journey.": "{player}在神奧的對戰塔和旅途中結識的朋友並肩作戰，組隊對戰連贏了七場。",
-  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "芽米、麥兒、亞玄、米依和麥可每次挑戰都會帶上不同的兩隻寶可夢：五十連勝就能獲得配合才能獎章。"
+  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "芽米、麥兒、亞玄、米依和麥可每次挑戰都會帶上不同的兩隻寶可夢：五十連勝就能獲得配合才能獎章。",
+  "Chapter 96 complete!": "第 96 章完成！",
+  "{player} found the old tutors of Routes 210 and 228, and a Pokémon that loves its Trainer with all its heart learned a move few ever master.": "{player}找到了210號道路和228號道路的老教學者，全心全意愛著訓練家的寶可夢學會了極少有人掌握的招式。",
+  "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "親密度滿的龍屬性寶可夢可以在210號道路學流星群，各地區完全進化的御三家可以在228號道路學究極招式。"
 }, "zh-Hant");

@@ -266,5 +266,8 @@ G.I18n.add({
   "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "Sedici lastre in tutto, un Disfoguscio, una Mentalerba e un Destincomune attendono in tutta Sinnoh.",
   "Chapter 95 complete!": "Capitolo 95 completato!",
   "{player} won seven multi battles in a row at Sinnoh's Battle Tower, side by side with a friend from the journey.": "{player} ha vinto sette lotte multiple di fila alla Torre Lotta di Sinnoh, fianco a fianco con un amico del viaggio.",
-  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "Cheryl, Matilde, Marisio, Risetta e Chicco portano due Pokémon nuovi a ogni sfida: cinquanta vittorie di fila fanno guadagnare il Fiocco Abilità Multipla."
+  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "Cheryl, Matilde, Marisio, Risetta e Chicco portano due Pokémon nuovi a ogni sfida: cinquanta vittorie di fila fanno guadagnare il Fiocco Abilità Multipla.",
+  "Chapter 96 complete!": "Capitolo 96 completato!",
+  "{player} found the old tutors of Routes 210 and 228, and a Pokémon that loves its Trainer with all its heart learned a move few ever master.": "{player} ha trovato i vecchi maestri dei Percorsi 210 e 228, e un Pokémon che ama il suo Allenatore con tutto il cuore ha imparato una mossa che pochi padroneggiano.",
+  "Dragon-types can learn Draco Meteor on Route 210, and every region's fully grown starters their ultimate move on Route 228, once their friendship is full.": "I Pokémon di tipo Drago possono imparare Dragobolide sul Percorso 210, e gli starter di ogni regione del tutto evoluti la loro mossa definitiva sul Percorso 228, quando la loro amicizia è al massimo."
 }, "it");

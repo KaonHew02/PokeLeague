@@ -49,8 +49,9 @@ API_LANG = {'en': 'en', 'es': 'es', 'fr': 'fr', 'it': 'it', 'zh-Hans': 'zh-hans'
 STAT = {'hp': 'hp', 'attack': 'atk', 'defense': 'def', 'special-attack': 'spa',
         'special-defense': 'spd', 'speed': 'spe', 'accuracy': 'acc', 'evasion': 'eva'}
 STAT_ORDER = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed']
-# Moves taught by a move tutor in the game (Ilex Forest: Headbutt), from HeartGold / SoulSilver.
-TUTOR_MOVES = {'headbutt'}
+# Moves taught by a move tutor in the game (Ilex Forest: Headbutt), from HeartGold / SoulSilver; chapter 96: Platinum's
+# free tutors, Draco Meteor (Route 210) and the ultimate moves (Route 228), whose learners are the same in both games.
+TUTOR_MOVES = {'headbutt', 'draco-meteor', 'blast-burn', 'hydro-cannon', 'frenzy-plant'}
 # HeartGold / SoulSilver's HMs that FireRed / LeafGreen's machines lack (HM06 there is Rock Smash):
 # a tutor teaches them, to the species that learn them from a machine in HeartGold / SoulSilver.
 TUTOR_FROM_HM = {'whirlpool'}

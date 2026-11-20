@@ -12,10 +12,10 @@ const M = G.SinnohMulti;
 const id = slug => G.Maps.species(slug);
 const mon = (sp, item, o = {}) => Object.assign(G.Mon.create(id(sp), 50, Object.assign({ rng: G.RNG(7), nature: 'hardy' }, o)), { item });
 
-test('the partners\' sets: Platinum\'s lists without the moves and items this game lacks; every species, move, item and nature known', () => {
+test('the partners\' sets: Platinum\'s lists without the items this game lacks; every species, move, item and nature known', () => {
   assert.deepEqual(plain(M.PARTNERS), ['cheryl', 'mira', 'riley', 'marley', 'buck']);
-  assert.deepEqual(plain(Object.fromEntries(M.PARTNERS.map(p => [p, M.LISTS[p].length]))), { cheryl: 50, mira: 53, riley: 64, marley: 53, buck: 60 });
-  assert.equal(Object.keys(M.SETS).length, 256);
+  assert.deepEqual(plain(Object.fromEntries(M.PARTNERS.map(p => [p, M.LISTS[p].length]))), { cheryl: 50, mira: 56, riley: 67, marley: 53, buck: 60 });
+  assert.equal(Object.keys(M.SETS).length, 262);
   for (const p of M.PARTNERS) for (const k of M.LISTS[p]) assert.ok(M.SETS[k], p + ': ' + k);
   for (const [k, [sp, moves, item, nature]] of Object.entries(M.SETS)) {
     assert.ok(id(sp) != null, k);
@@ -24,11 +24,14 @@ test('the partners\' sets: Platinum\'s lists without the moves and items this ga
     for (const m of moves) assert.ok(G.MOVES[m], k + ': ' + m);
     assert.ok(item === null || G.ITEMS[item], k + ': ' + item);
     assert.ok(G.NATURES[nature], k + ': ' + nature);
-    assert.ok(!moves.includes('draco-meteor') && !moves.includes('hydro-cannon'), k);
   }
   // A few of Platinum's sets as the decompilation has them.
   assert.deepEqual(plain(M.SETS['snorlax-1']), ['snorlax', ['return', 'rock-slide', 'curse', 'yawn'], 'leftovers', 'adamant']);
   assert.ok(M.LISTS.cheryl.includes('blissey-1') && M.LISTS.buck.includes('claydol-1') && M.LISTS.riley.includes('lucario-1'));
+  // Chapter 96: the sets with Draco Meteor and Hydro Cannon are back (Platinum's tutors).
+  assert.deepEqual(plain(M.SETS['empoleon-4']), ['empoleon', ['hydro-cannon', 'flash-cannon', 'drill-peck', 'earthquake'], 'quick-claw', 'brave']);
+  assert.ok(M.LISTS.riley.includes('garchomp-2') && M.LISTS.mira.includes('latios-4'));
+  assert.ok(!Object.values(M.SETS).some(([, , item]) => ['damp-rock', 'heat-rock', 'icy-rock', 'lax-incense', 'wave-incense'].includes(item)));
 });
 
 test('a partner\'s two: from their own list, at level 50 with IVs of 31, two species, never yours, no item twice nor one of yours; the same challenge, the same two', () => {

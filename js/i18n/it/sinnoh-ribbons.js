@@ -76,5 +76,6 @@ G.I18n.add({
   "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "Dicono che gli oli qui siano fatti con perle tritate. Il mio Pokémon non è mai stato così calmo.",
   "Ability Ribbon": "Fiocco Abilità",
   "Great Ability Ribbon": "Fiocco Grande Abilità",
-  "Double Ability Ribbon": "Fiocco Abilità Doppia"
+  "Double Ability Ribbon": "Fiocco Abilità Doppia",
+  "Multi Ability Ribbon": "Fiocco Abilità Multipla"
 }, "it");

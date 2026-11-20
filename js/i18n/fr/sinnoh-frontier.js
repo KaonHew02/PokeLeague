@@ -29,15 +29,16 @@ G.I18n.add({
   "The Battle Hall. The doors are shut: it opens soon.": "Le Hall de Combat. Les portes sont fermées : il ouvre bientôt.",
   "The Battle Castle. The doors are shut: it opens soon.": "Le Château de Combat. Les portes sont fermées : il ouvre bientôt.",
   "The Battle Arcade. The doors are shut: it opens soon.": "L'Arcade de Combat. Les portes sont fermées : elle ouvre bientôt.",
-  "Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers. Today the Battle Tower is open.": "Bienvenue à la Zone de Combat ! Cinq installations attendent les Dresseurs les plus forts. Aujourd'hui, la Tour de Combat est ouverte.",
   "They say the Tower Tycoon is the father of a boy from Twinleaf Town. He waits at the top for anyone who wins twenty in a row.": "On dit que le Magnat de la Tour est le père d'un garçon de Bonaugure. Il attend au sommet quiconque gagne vingt fois de suite.",
   "Battle Points from the Tower can be spent at the Battle Shops. I want a Scope Lens!": "Les Points de Combat de la Tour se dépensent aux Boutiques de Combat. Je veux un Viseur !",
-  "Four more buildings, and every one of them still shut. I hope they open while I am young enough to battle.": "Quatre autres bâtiments, et tous encore fermés. J'espère qu'ils ouvriront tant que je suis assez jeune pour combattre.",
   "Palmer": "Palmer",
-  "The Battle Tower. Single and double battles, seven in a row, for Battle Points.": "Tour de Combat. Combats simples et en duo, sept d'affilée, pour des Points de Combat.",
   "The Battle Shops. Battle Points for items and TMs.": "Boutiques de Combat. Des Points de Combat contre des objets et des CT.",
   "The Battle Factory. Opening soon.": "Usine de Combat. Ouverture prochaine.",
   "The Battle Hall. Opening soon.": "Hall de Combat. Ouverture prochaine.",
   "The Battle Castle. Opening soon.": "Château de Combat. Ouverture prochaine.",
-  "The Battle Arcade. Opening soon.": "Arcade de Combat. Ouverture prochaine."
+  "The Battle Arcade. Opening soon.": "Arcade de Combat. Ouverture prochaine.",
+  "In multi battles, a Trainer you have traveled with battles beside you. Fifty wins in a row earn a ribbon as well.": "En combat multi, un Dresseur avec qui tu as voyagé se bat à tes côtés. Cinquante victoires d'affilée rapportent aussi un ruban.",
+  "Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers.": "Bienvenue à la Zone de Combat ! Cinq installations attendent les Dresseurs les plus forts.",
+  "All five facilities are open at last. I hope I am still young enough to battle in every one of them.": "Les cinq installations sont enfin ouvertes. J'espère être encore assez jeune pour combattre dans chacune d'elles.",
+  "The Battle Tower. Single, double and multi battles, seven in a row, for Battle Points.": "Tour de Combat. Combats en solo, en duo et multi, sept d'affilée, pour des Points de Combat."
 }, "fr");

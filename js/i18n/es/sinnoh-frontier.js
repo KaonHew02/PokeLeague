@@ -29,15 +29,16 @@ G.I18n.add({
   "The Battle Hall. The doors are shut: it opens soon.": "La Sala Batalla. Las puertas están cerradas: abrirá pronto.",
   "The Battle Castle. The doors are shut: it opens soon.": "El Castillo Batalla. Las puertas están cerradas: abrirá pronto.",
   "The Battle Arcade. The doors are shut: it opens soon.": "La Ruleta Batalla. Las puertas están cerradas: abrirá pronto.",
-  "Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers. Today the Battle Tower is open.": "¡Bienvenido al Frente Batalla! Cinco instalaciones esperan a los Entrenadores más fuertes. Hoy está abierta la Torre Batalla.",
   "They say the Tower Tycoon is the father of a boy from Twinleaf Town. He waits at the top for anyone who wins twenty in a row.": "Dicen que el Magnate de la Torre es el padre de un chico de Pueblo Hojaverde. Espera en lo alto a quien gane veinte seguidos.",
   "Battle Points from the Tower can be spent at the Battle Shops. I want a Scope Lens!": "Los Puntos de Batalla de la Torre se gastan en las Tiendas Batalla. ¡Quiero un Periscopio!",
-  "Four more buildings, and every one of them still shut. I hope they open while I am young enough to battle.": "Cuatro edificios más, y todos siguen cerrados. Espero que abran mientras aún sea lo bastante joven para combatir.",
   "Palmer": "Palmer",
-  "The Battle Tower. Single and double battles, seven in a row, for Battle Points.": "Torre Batalla. Combates individuales y dobles, siete seguidos, por Puntos de Batalla.",
   "The Battle Shops. Battle Points for items and TMs.": "Tiendas Batalla. Puntos de Batalla a cambio de objetos y MT.",
   "The Battle Factory. Opening soon.": "Fábrica Batalla. Próxima apertura.",
   "The Battle Hall. Opening soon.": "Sala Batalla. Próxima apertura.",
   "The Battle Castle. Opening soon.": "Castillo Batalla. Próxima apertura.",
-  "The Battle Arcade. Opening soon.": "Ruleta Batalla. Próxima apertura."
+  "The Battle Arcade. Opening soon.": "Ruleta Batalla. Próxima apertura.",
+  "In multi battles, a Trainer you have traveled with battles beside you. Fifty wins in a row earn a ribbon as well.": "En los combates múltiples, un Entrenador con el que has viajado combate a tu lado. Cincuenta victorias seguidas también dan una cinta.",
+  "Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers.": "¡Bienvenido al Frente Batalla! Cinco instalaciones esperan a los Entrenadores más fuertes.",
+  "All five facilities are open at last. I hope I am still young enough to battle in every one of them.": "Por fin están abiertas las cinco instalaciones. Espero seguir siendo lo bastante joven para combatir en todas.",
+  "The Battle Tower. Single, double and multi battles, seven in a row, for Battle Points.": "Torre Batalla. Combates individuales, dobles y múltiples, siete seguidos, por Puntos de Batalla."
 }, "es");

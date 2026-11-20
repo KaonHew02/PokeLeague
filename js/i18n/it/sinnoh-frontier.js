@@ -29,15 +29,16 @@ G.I18n.add({
   "The Battle Hall. The doors are shut: it opens soon.": "Il Salone Lotta. Le porte sono chiuse: aprirà presto.",
   "The Battle Castle. The doors are shut: it opens soon.": "Il Castello Lotta. Le porte sono chiuse: aprirà presto.",
   "The Battle Arcade. The doors are shut: it opens soon.": "La Roulette Lotta. Le porte sono chiuse: aprirà presto.",
-  "Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers. Today the Battle Tower is open.": "Benvenuto al Parco Lotta! Cinque strutture aspettano gli Allenatori più forti. Oggi è aperta la Torre Lotta.",
   "They say the Tower Tycoon is the father of a boy from Twinleaf Town. He waits at the top for anyone who wins twenty in a row.": "Dicono che il Magnate della Torre sia il padre di un ragazzo di Duefoglie. Aspetta in cima chiunque vinca venti volte di fila.",
   "Battle Points from the Tower can be spent at the Battle Shops. I want a Scope Lens!": "I Punti Lotta della Torre si spendono ai Negozi Lotta. Voglio un Mirino!",
-  "Four more buildings, and every one of them still shut. I hope they open while I am young enough to battle.": "Altri quattro edifici, e tutti ancora chiusi. Spero che aprano finché sono abbastanza giovane per lottare.",
   "Palmer": "Palmer",
-  "The Battle Tower. Single and double battles, seven in a row, for Battle Points.": "Torre Lotta. Lotte in singolo e in doppio, sette di fila, per Punti Lotta.",
   "The Battle Shops. Battle Points for items and TMs.": "Negozi Lotta. Punti Lotta in cambio di strumenti e MT.",
   "The Battle Factory. Opening soon.": "Industria Lotta. Prossima apertura.",
   "The Battle Hall. Opening soon.": "Salone Lotta. Prossima apertura.",
   "The Battle Castle. Opening soon.": "Castello Lotta. Prossima apertura.",
-  "The Battle Arcade. Opening soon.": "Roulette Lotta. Prossima apertura."
+  "The Battle Arcade. Opening soon.": "Roulette Lotta. Prossima apertura.",
+  "In multi battles, a Trainer you have traveled with battles beside you. Fifty wins in a row earn a ribbon as well.": "Nelle lotte multiple, un Allenatore con cui hai viaggiato lotta al tuo fianco. Anche cinquanta vittorie di fila fanno guadagnare un fiocco.",
+  "Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers.": "Benvenuto al Parco Lotta! Cinque strutture aspettano gli Allenatori più forti.",
+  "All five facilities are open at last. I hope I am still young enough to battle in every one of them.": "Finalmente tutte e cinque le strutture sono aperte. Spero di essere ancora abbastanza giovane per lottare in ognuna.",
+  "The Battle Tower. Single, double and multi battles, seven in a row, for Battle Points.": "Torre Lotta. Lotte in singolo, in doppio e multiple, sette di fila, per Punti Lotta."
 }, "it");

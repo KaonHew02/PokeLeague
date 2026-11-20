@@ -76,5 +76,6 @@ G.I18n.add({
   "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "聽說這裡的精油是用磨碎的珍珠做的。我的寶可夢從來沒有這麼平靜過。",
   "Ability Ribbon": "才能獎章",
   "Great Ability Ribbon": "超級才能獎章",
-  "Double Ability Ribbon": "雙人才能獎章"
+  "Double Ability Ribbon": "雙人才能獎章",
+  "Multi Ability Ribbon": "配合才能獎章"
 }, "zh-Hant");

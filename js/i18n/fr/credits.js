@@ -263,5 +263,8 @@ G.I18n.add({
   "The Castle rents and the Arcade hands out the whole of Platinum's lists now, and Palmer's and Darach's teams hold what they should.": "Le Château loue et l'Arcade distribue désormais les listes complètes de Platine, et les équipes de Palmer et de Darach tiennent ce qu'il faut.",
   "Chapter 94 complete!": "Chapitre 94 terminé !",
   "{player} found one of the plates and tools Sinnoh had hidden away, while Thief, Trick and Knock Off began to move items in battle.": "{player} a trouvé l'une des plaques et des objets que Sinnoh cachait, tandis que Larcin, Tour de Magie et Sabotage déplacent désormais les objets en combat.",
-  "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "Seize plaques en tout, une Carapace Mue, une Herbe Mental et un Nœud Destin attendent dans tout Sinnoh."
+  "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "Seize plaques en tout, une Carapace Mue, une Herbe Mental et un Nœud Destin attendent dans tout Sinnoh.",
+  "Chapter 95 complete!": "Chapitre 95 terminé !",
+  "{player} won seven multi battles in a row at Sinnoh's Battle Tower, side by side with a friend from the journey.": "{player} a gagné sept combats multi d'affilée à la Tour de Combat de Sinnoh, aux côtés d'un ami rencontré en chemin.",
+  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "Cheryl, Maïté, Armand, Viviane et Cornil amènent deux nouveaux Pokémon à chaque défi : cinquante victoires d'affilée rapportent le Ruban Capacité Multi."
 }, "fr");

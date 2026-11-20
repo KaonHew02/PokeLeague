@@ -263,5 +263,8 @@ G.I18n.add({
   "The Castle rents and the Arcade hands out the whole of Platinum's lists now, and Palmer's and Darach's teams hold what they should.": "对战城堡和对战轮盘现在提供白金版的完整道具清单，桄榔和石兰的队伍也拿回了原本的道具。",
   "Chapter 94 complete!": "第 94 章完成！",
   "{player} found one of the plates and tools Sinnoh had hidden away, while Thief, Trick and Knock Off began to move items in battle.": "{player}找到了神奥藏起来的石板和道具之一，小偷、戏法和拍落也开始在对战里移动道具了。",
-  "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "神奥各地一共有十六块石板，还有美丽空壳、心灵香草和红线等着你。"
+  "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "神奥各地一共有十六块石板，还有美丽空壳、心灵香草和红线等着你。",
+  "Chapter 95 complete!": "第 95 章完成！",
+  "{player} won seven multi battles in a row at Sinnoh's Battle Tower, side by side with a friend from the journey.": "{player}在神奥的对战塔和旅途中结识的朋友并肩作战，组队对战连赢了七场。",
+  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "芽米、麦儿、亚玄、米依和麦可每次挑战都会带上不同的两只宝可梦：五十连胜就能获得配合才能奖章。"
 }, "zh-Hans");

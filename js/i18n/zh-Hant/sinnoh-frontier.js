@@ -29,15 +29,16 @@ G.I18n.add({
   "The Battle Hall. The doors are shut: it opens soon.": "對戰舞台。大門緊閉，即將開放。",
   "The Battle Castle. The doors are shut: it opens soon.": "對戰城堡。大門緊閉，即將開放。",
   "The Battle Arcade. The doors are shut: it opens soon.": "對戰輪盤。大門緊閉，即將開放。",
-  "Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers. Today the Battle Tower is open.": "歡迎來到對戰開拓區！五個設施等待著最強的訓練家。今天對戰塔開放。",
   "They say the Tower Tycoon is the father of a boy from Twinleaf Town. He waits at the top for anyone who wins twenty in a row.": "聽說塔主是雙葉鎮某個男孩的父親。他在塔頂等著連贏二十場的人。",
   "Battle Points from the Tower can be spent at the Battle Shops. I want a Scope Lens!": "對戰塔的對戰點數可以在對戰商店用掉。我想要焦點鏡！",
-  "Four more buildings, and every one of them still shut. I hope they open while I am young enough to battle.": "還有四棟樓，全都還關著。希望它們在我還打得動的時候開放。",
   "Palmer": "桄榔",
-  "The Battle Tower. Single and double battles, seven in a row, for Battle Points.": "對戰塔。單打與雙打，連贏七場，就能獲得對戰點數。",
   "The Battle Shops. Battle Points for items and TMs.": "對戰商店。用對戰點數兌換道具和招式學習器。",
   "The Battle Factory. Opening soon.": "對戰工廠。即將開放。",
   "The Battle Hall. Opening soon.": "對戰舞台。即將開放。",
   "The Battle Castle. Opening soon.": "對戰城堡。即將開放。",
-  "The Battle Arcade. Opening soon.": "對戰輪盤。即將開放。"
+  "The Battle Arcade. Opening soon.": "對戰輪盤。即將開放。",
+  "In multi battles, a Trainer you have traveled with battles beside you. Fifty wins in a row earn a ribbon as well.": "組隊對戰中，旅途上同行過的訓練家會和你並肩作戰。連贏五十場也能獲得獎章。",
+  "Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers.": "歡迎來到對戰開拓區！五個設施等待著最強的訓練家。",
+  "All five facilities are open at last. I hope I am still young enough to battle in every one of them.": "五個設施終於都開放了。希望我還打得動，每一個都去挑戰看看。",
+  "The Battle Tower. Single, double and multi battles, seven in a row, for Battle Points.": "對戰塔。單打、雙打與組隊對戰，連贏七場，就能獲得對戰點數。"
 }, "zh-Hant");

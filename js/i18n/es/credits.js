@@ -263,5 +263,8 @@ G.I18n.add({
   "The Castle rents and the Arcade hands out the whole of Platinum's lists now, and Palmer's and Darach's teams hold what they should.": "El Castillo alquila y la Ruleta reparte ya las listas completas de Platino, y los equipos de Palmer y Darach llevan lo que les corresponde.",
   "Chapter 94 complete!": "¡Capítulo 94 completado!",
   "{player} found one of the plates and tools Sinnoh had hidden away, while Thief, Trick and Knock Off began to move items in battle.": "{player} encontró una de las tablas y herramientas que Sinnoh tenía escondidas, mientras Ladrón, Truco y Desarme empezaban a mover objetos en combate.",
-  "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "Dieciséis tablas en total, una Muda Concha, una Hierba Mental y un Lazo Destino esperan por todo Sinnoh."
+  "Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.": "Dieciséis tablas en total, una Muda Concha, una Hierba Mental y un Lazo Destino esperan por todo Sinnoh.",
+  "Chapter 95 complete!": "¡Capítulo 95 completado!",
+  "{player} won seven multi battles in a row at Sinnoh's Battle Tower, side by side with a friend from the journey.": "{player} ganó siete combates múltiples seguidos en la Torre Batalla de Sinnoh, codo con codo con un amigo del viaje.",
+  "Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.": "Cheryl, Maiza, Quinoa, Sémola y Bulgur traen dos Pokémon nuevos a cada desafío: cincuenta victorias seguidas dan la Cinta Habilidad Múltiple."
 }, "es");

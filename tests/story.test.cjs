@@ -1644,6 +1644,31 @@ test('balance: the Battle Palace (chapter 80), win rates of a typical team under
   assert.ok(table['Spenser (silver)'] >= 0.55 && table['Spenser (gold)'] >= 0.55, 'normal difficulty');
 });
 
+test('balance: Sinnoh\'s Battle Tower in multi battles (chapter 95), win rates of two of a typical team beside each partner are printed', () => {
+  const { G } = world(1);
+  const M = G.SinnohMulti;
+  const make = (list, rng) => list.map(([sp, l, moves, item, o]) => Object.assign(G.Mon.create(G.Maps.species(sp), l, Object.assign({ rng, moves }, o)), item ? { item } : {}));
+  const rate = (who, no, n = 20) => {
+    let wins = 0;
+    for (let s = 1; s <= n; s++) {
+      const rng = G.RNG(s * 29);
+      const me = [[260, ['surf', 'earthquake', 'ice-beam', 'protect']], [282, ['psychic', 'thunderbolt', 'calm-mind', 'shadow-ball']]]
+        .map(([sp, moves]) => G.Mon.create(sp, 50, { rng, moves }));
+      me[0].item = 'leftovers'; me[1].item = 'sitrus-berry';
+      const d = M.foesFor(no, s);
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} }, partner: { name: M.NAME[who], party: make(M.partnerTeam(who, s, me), rng) },
+        foe: { party: make(d.team, rng), trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } },
+        rules: { double: true, tag: true, noExp: true, noBag: true, shift: false, canLose: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / n;
+  };
+  const table = {};
+  for (const who of M.PARTNERS) table[who] = { 'round 1': rate(who, 1), 'round 4': rate(who, 22) };
+  console.log('[balance] Sinnoh\'s Battle Tower, multi battles, Swampert and Gardevoir at 50 beside each partner:', JSON.stringify(table));
+});
+
 test('balance: the Battle Arena (chapter 79), win rates of a typical team under the arena rule are printed', () => {
   const { G } = world(1);
   const rate = (foe, n = 60) => {
@@ -4750,6 +4775,37 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 95 after chapter 94: the Battle Tower's multi battles: the two strongest Pokémon that may enter, beside the first
+ *  partner who waits in the Battle Salon, until a round of seven is won (the ending). */
+async function chapter95(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower, M = G.SinnohMulti;
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 2 && !Tw.why(party[i], picks.map(j => party[j]), Tw.SINNOH_BANNED)) picks.push(i);
+  }
+  const met = M.met();
+  assert.ok(met.length, 'someone waits in the salon');
+  const who = met[0], n = st.battles.length, bp = Tw.bp();
+  let tries = 0;
+  while (Tw.streak('multi', M.HALL) < 7 && tries < 10) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(...picks);
+    await run(st, 'sinnoh-tower-lobby', 'stower.multi', [0]);
+    assert.ok(M.entrants(), 'registered');
+    await run(st, 'sinnoh-tower-salon', 'smulti.' + who, [0]);
+  }
+  const fights = st.battles.slice(n);
+  console.log('[story] Sinnoh\'s Battle Tower, multi battles: a round of seven in', tries, 'challenge(s), with',
+    picks.map(i => G.Names.mon(party[i].sp)).join(', '), 'beside', M.NAME[who], '(' + met.length + ' partners in the salon, ' + fights.length + ' battles)');
+  assert.ok(Tw.streak('multi', M.HALL) >= 7, 'a round of seven');
+  assert.ok(F.flag('chapter-95-done'));
+  assert.ok(Tw.bp() >= bp + 3);
+  assert.ok(!Object.keys(S.done).some(k => k.startsWith('sinnoh-tower')), 'tower trainers are not recorded');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 94 after chapter 93: the items Platinum hides in Sinnoh: the Shed Shell picked up on Route 228 (the ending). */
 async function chapter94(st) {
   const { G } = st;
@@ -5996,4 +6052,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter92(st);
   await chapter93(st);
   await chapter94(st);
+  await chapter95(st);
 });

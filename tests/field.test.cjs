@@ -7586,3 +7586,120 @@ test('Sinnoh (chapter 94): the plates, the Shed Shell, the Mental Herb and the D
     if (k === 1) assert.ok(F.flag('chapter-94-done'), 'the ending');
   }
 });
+
+test('Sinnoh (chapter 95): the Battle Tower\'s multi battles (the counter, the Battle Salon and the partners you have traveled with, two of theirs beside two of yours against two Trainers, BP, the Multi Ability Ribbon), the ending after chapter 94', async () => {
+  const { G, W } = world(['js/world/tower.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/content/hoenn/tower.js', 'js/content/sinnoh/battlezone.js',
+    'js/content/sinnoh/frontier.js', 'js/content/sinnoh/smulti.js']);
+  W.debug.noEnc = true;
+  const F = G.Field, Tw = G.Tower, R = G.Ribbons, H = G.SinnohMulti;
+  const said = [], answers = [], picks = [], fights = [], outcomes = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.PartyUI = { pick: () => Promise.resolve(picks.shift()) };
+  W.onTrainer = async (d, info) => { fights.push({ d, info }); return outcomes.length ? outcomes.shift() : 'win'; };
+  const until = async ok => { for (let i = 0; i < 3000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  const seen = id => W.actors.some(a => a.visible !== false && a.def && a.def.id === id);
+  const mons = ['garchomp', 'lucario', 'togekiss', 'gyarados'].map(sp => F.giveMon(sp, 60));
+  mons[0].item = 'leftovers';
+  mons[1].item = 'life-orb';
+  /** The counter, then the salon: -> the run */
+  const register = async () => {
+    W.load('sinnoh-tower-lobby', 'multi');
+    picks.push(0, 1);
+    await talk();
+    assert.equal(W.map.id, 'sinnoh-tower-salon');
+    return +F.getVar('stower-multi-runs');
+  };
+  const partner = async (x = 2) => { W.load('sinnoh-tower-salon', { x, y: 4, dir: 'up' }); await talk(); };
+
+  // The lobby's four counters; no one to team up with yet.
+  W.load('sinnoh-tower-lobby', 'multi');
+  await talk();
+  assert.ok(said.some(s => /No one is waiting/.test(s)) && W.map.id === 'sinnoh-tower-lobby' && !F.getVar('stower-multi-team'));
+  assert.ok(said.some(s => /two Pokémon and battle two Trainers/.test(s)), 'the rules, the first time');
+
+  // Cheryl and Riley have traveled with you: they wait in the salon, the others do not.
+  F.setFlag('cheryl-with');
+  F.setFlag('riley-done');
+  let run = await register();
+  assert.ok(seen('cheryl') && seen('riley') && !seen('mira') && !seen('marley') && !seen('buck'));
+  assert.equal(F.getVar('stower-multi-team'), mons[0].uid + ',' + mons[1].uid);
+  // The door on to the multi battle room opens only with a partner.
+  W.load('sinnoh-tower-salon', { x: 6, y: 2, dir: 'up' });
+  assert.equal(step(W, 'up'), 'blocked');
+  await until(() => !W.locked);
+  assert.ok(W.map.id === 'sinnoh-tower-salon' && said.some(s => /door to the multi battle room/.test(s)));
+  // Cheryl tells which two she brings; saying no keeps you in the salon.
+  let rows = H.partnerTeam('cheryl', run, [mons[0], mons[1]]);
+  said.length = 0;
+  answers.push(1);
+  await partner(2);
+  const names = rows.map(r => G.Names.mon(G.Maps.species(r[0])));
+  assert.ok(said.some(s => s.includes(names[0]) && s.includes(names[1]) && s.includes(G.Names.move(rows[0][2][0]))), said.join(' | '));
+  assert.ok(!fights.length && W.map.id === 'sinnoh-tower-salon');
+
+  // Teaming up: seven multi battles in a row, 3 BP, the streak its own, no ending before chapter 94.
+  await partner(2);
+  assert.equal(fights.length, 7);
+  for (const { d, info } of fights) {
+    assert.ok(d.double && d.team.length === 4 && d.partner && d.partner.cls && d.a && d.b);
+    assert.ok(info.rules.tag && info.rules.noBag && info.rules.noExp && info.canLose);
+    assert.deepEqual(plain(info.partner), plain({ name: 'Cheryl', team: rows }));
+    assert.deepEqual(plain(info.party.map(m => m.sp)), [mons[0].sp, mons[1].sp]);
+    assert.ok(info.party.every(m => m.lvl === 50 && m.uid.endsWith('-tower')), 'copies at 50');
+  }
+  assert.deepEqual([W.map.id, Tw.streak('multi', 'stower'), Tw.streak('single', 'stower'), Tw.streak('double', 'stower'), Tw.bp()], ['sinnoh-tower-lobby', 7, 0, 0, 3]);
+  assert.ok(mons[0].lvl === 60 && mons[0].item === 'leftovers' && !F.getVar('stower-multi-team'), 'the party untouched, the challenge over');
+  assert.ok(!F.flag('chapter-95-done'));
+  assert.ok(said.some(s => /Seven wins in a row! Battling beside you/.test(s)), 'Cheryl is glad');
+
+  // Riley this time; a loss ends the streak.
+  fights.length = 0;
+  run = await register();
+  outcomes.push('win', 'lose');
+  await partner(6);
+  assert.deepEqual([fights.length, Tw.streak('multi', 'stower'), Tw.best('multi', 'stower')], [2, 0, 8]);
+  assert.deepEqual(plain(fights[0].info.partner), plain({ name: 'Riley', team: H.partnerTeam('riley', run, [mons[0], mons[1]]) }));
+  // Retiring after the first.
+  fights.length = 0;
+  await register();
+  answers.push(0, 1);                                         // team up; then retire
+  await partner(2);
+  assert.deepEqual([fights.length, Tw.streak('multi', 'stower')], [1, 0]);
+  assert.ok(said.some(s => /You retired/.test(s)));
+
+  // The salon's exit mat and its attendant: stay, or call the challenge off.
+  fights.length = 0;
+  await register();
+  W.load('sinnoh-tower-salon', 'player');
+  answers.push(1);
+  assert.equal(step(W, 'down'), 'blocked');
+  await until(() => !W.locked);
+  assert.ok(W.map.id === 'sinnoh-tower-salon' && F.getVar('stower-multi-team'));
+  W.load('sinnoh-tower-salon', { x: 7, y: 7, dir: 'right' });
+  await talk();
+  assert.ok(W.map.id === 'sinnoh-tower-lobby' && !F.getVar('stower-multi-team') && !fights.length);
+  assert.ok(said.some(s => /called off/.test(s)));
+
+  // The 50th multi battle in a row: the Multi Ability Ribbon for the two (on to the end of the round).
+  Tw.setStreak('multi', 49, 'stower');
+  await register();
+  await partner(2);
+  assert.equal(Tw.streak('multi', 'stower'), 56);
+  assert.ok(R.has(mons[0], 'multi-ability') && R.has(mons[1], 'multi-ability') && !R.has(mons[2], 'multi-ability'));
+  assert.ok(said.some(s => /Fifty multi battles in a row/.test(s)));
+  assert.ok(!fights.some(f => f.d.id === 'palmer'), 'no Palmer in multi battles');
+
+  // Once chapter 94 is done, a round won ends chapter 95.
+  F.setFlag('chapter-94-done');
+  Tw.setStreak('multi', 0, 'stower');
+  await register();
+  await partner(2);
+  assert.ok(F.flag('chapter-95-done'));
+  // The guide and the plaza's sign speak of multi battles.
+  W.load('sinnoh-tower-lobby', 'guide');
+  await talk();
+  assert.ok(said.some(s => /In multi battles/.test(s)));
+  assert.ok(/multi battles/.test(G.Maps.get('sinnoh-frontier').signs['24,7']));
+});

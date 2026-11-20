@@ -3,6 +3,7 @@
  * the Battle Frontier's gate (`frontier-gate`): a door back to Fight Area, a door on to the plaza (`sinnoh-frontier`). On the
  * plaza: the Battle Tower and the Battle Shops are open (chapter 89: the Battle Factory, sfactory.js; chapter 90: the Battle Hall,
  * shall.js; chapter 91: the Battle Castle, scastle.js; chapter 92: the Battle Arcade, sarcade.js).
+ * Chapter 95: the lobby's third counter, multi battles beside a partner (smulti.js).
  * The Battle Tower (`sinnoh-tower-lobby`, `sinnoh-tower-room`): Platinum's rules on G.Tower (js/world/tower.js) and the Hoenn
  * Tower's way of playing (G.TowerHall, js/content/hoenn/tower.js): three Pokémon for single battles, four for doubles, at level
  * 50 at most, seven battles a round, Battle Points by the round (G.Tower.bpFor: 3, 3, 4, 4, 5, 5, 7) and 20 for a round with
@@ -28,7 +29,7 @@
     spots: { door: [2, 7, 'up'], plaza: [8, 7, 'up'] },
     npcs: [
       { id: 'clerk', who: 'clerk', x: 5, y: 3, dir: 'down',
-        say: 'Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers. Today the Battle Tower is open.' },
+        say: 'Welcome to the Battle Frontier! Five facilities wait for the strongest Trainers.' },
       { id: 'fan', who: 'cooltrainer', x: 9, y: 5, dir: 'left',
         say: 'They say the Tower Tycoon is the father of a boy from Twinleaf Town. He waits at the top for anyone who wins twenty in a row.' }
     ]
@@ -70,7 +71,7 @@
     ],
     spots: { gate: [19, 17, 'down'], 'tower-door': [19, 8, 'down'], 'shop-door': [25, 13, 'down'], 'factory-door': [33, 6, 'down'], 'hall-door': [5, 7, 'down'], 'castle-door': [6, 16, 'down'], 'arcade-door': [33, 15, 'down'] },
     signs: {
-      '24,7': 'The Battle Tower. Single and double battles, seven in a row, for Battle Points.',
+      '24,7': 'The Battle Tower. Single, double and multi battles, seven in a row, for Battle Points.',
       '28,12': 'The Battle Shops. Battle Points for items and TMs.',
       '35,6': 'The Battle Factory. Rental Pokémon, at level 50 or the Open Level.',
       '7,7': 'The Battle Hall. One Pokémon, a type of your choice for every battle.',
@@ -79,7 +80,7 @@
     },
     npcs: [
       { id: 'girl', who: 'lass', x: 27, y: 15, move: 'wander', r: 2, say: 'Battle Points from the Tower can be spent at the Battle Shops. I want a Scope Lens!' },
-      { id: 'man', who: 'gentleman', x: 13, y: 12, dir: 'down', say: 'Four more buildings, and every one of them still shut. I hope they open while I am young enough to battle.' }
+      { id: 'man', who: 'gentleman', x: 13, y: 12, dir: 'down', say: 'All five facilities are open at last. I hope I am still young enough to battle in every one of them.' }
     ]
   }, SINNOH));
 
@@ -88,7 +89,7 @@
     id: 'sinnoh-tower-lobby', loc: 'fight-area', tileset: 'indoor', palette: 'center', music: 'center', battleBg: 'indoor',
     rows: [
       'WWWWWWWWWWWWWWW',
-      'WWWWWWWWWWWWWeW',
+      'WeWWWWWWWWWWWeW',
       'p+++++++++++++P',
       '++===========++',
       '+++++++++++++++',
@@ -98,13 +99,15 @@
       '+++++++X+++++++'
     ],
     warps: [{ x: 7, y: 8, to: 'sinnoh-frontier', spot: 'tower-door' },
-            { x: 13, y: 1, to: 'sinnoh-tower-room', spot: 'player', if: 'scripted', locked: 'stower.door' }],
-    spots: { door: [7, 8, 'up'], single: [3, 4, 'up'], double: [7, 4, 'up'], guide: [11, 4, 'up'] },
-    signs: { '13,1': { script: 'stower.door' } },
+            { x: 13, y: 1, to: 'sinnoh-tower-room', spot: 'player', if: 'scripted', locked: 'stower.door' },
+            { x: 1, y: 1, to: 'sinnoh-tower-salon', spot: 'player', if: 'scripted', locked: 'stower.door' }],   // chapter 95 (smulti.js)
+    spots: { door: [7, 8, 'up'], single: [3, 4, 'up'], double: [6, 4, 'up'], multi: [9, 4, 'up'], guide: [12, 4, 'up'] },
+    signs: { '13,1': { script: 'stower.door' }, '1,1': { script: 'stower.door' } },
     npcs: [
       { id: 'single', who: 'clerk', x: 3, y: 2, dir: 'down', script: 'stower.single' },
-      { id: 'double', who: 'clerk', x: 7, y: 2, dir: 'down', script: 'stower.double' },
-      { id: 'guide', who: 'clerk', x: 11, y: 2, dir: 'down', script: 'stower.guide' }
+      { id: 'double', who: 'clerk', x: 6, y: 2, dir: 'down', script: 'stower.double' },
+      { id: 'multi', who: 'clerk', x: 9, y: 2, dir: 'down', script: 'stower.multi' },        // chapter 95 (smulti.js)
+      { id: 'guide', who: 'clerk', x: 12, y: 2, dir: 'down', script: 'stower.guide' }
     ]
   }, SINNOH));
 
@@ -238,6 +241,7 @@
     const F = G.Field, Tw = G.Tower;
     await h.say(T('The Tower Tycoon, Palmer, battles challengers who reach the 21st and the 49th single battle in a row.'));
     await h.say(T('Beat him and you earn a Print, and your Pokémon earn a ribbon. Fifty double battles in a row earn a ribbon too.'));
+    await h.say(T('In multi battles, a Trainer you have traveled with battles beside you. Fifty wins in a row earn a ribbon as well.'));
     await h.say(T('Silver Print: {s}. Gold Print: {g}. Battle Points: {n}.'), { vars: {
       s: F.flag('stower-silver') ? T('Yes') : T('No'), g: F.flag('stower-gold') ? T('Yes') : T('No'), n: Tw.bp() } });
   }
@@ -289,5 +293,5 @@
     'sfrontier.training': [['js', h => stall(h, TRAINING, T('Welcome to the Training Stall! Vitamins and held items, for Battle Points.'))]],
     'sfrontier.moves': [['js', h => stall(h, MOVES, T('Welcome to the Move Stall! Our TMs teach the moves the Battle Frontier\'s best Trainers use.'))]]
   });
-  G.SinnohTowerHall = { PALMER, BRAIN_BP, HALL, trainerFor, TRAINING, MOVES, GEN4 };
+  G.SinnohTowerHall = { PALMER, BRAIN_BP, HALL, trainerFor, TRAINING, MOVES, GEN4, BEFORE, DEFEAT };
 })();

@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 95) return { title: T('Chapter 95 complete!'),
+      done: fmt('{player} won seven multi battles in a row at Sinnoh\'s Battle Tower, side by side with a friend from the journey.', { player }),
+      next: T('Cheryl, Mira, Riley, Marley and Buck each bring two new Pokémon to every challenge: fifty wins in a row earn the Multi Ability Ribbon.') };
     if (n === 94) return { title: T('Chapter 94 complete!'),
       done: fmt('{player} found one of the plates and tools Sinnoh had hidden away, while Thief, Trick and Knock Off began to move items in battle.', { player }),
       next: T('Sixteen plates in all, a Shed Shell, a Mental Herb and a Destiny Knot wait across Sinnoh.') };

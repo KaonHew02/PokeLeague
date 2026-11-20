@@ -76,5 +76,6 @@ G.I18n.add({
   "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "Dizem que os óleos daqui são feitos com pérolas moídas. Meu Pokémon nunca esteve tão calmo.",
   "Ability Ribbon": "Fita Habilidade",
   "Great Ability Ribbon": "Fita Grande Habilidade",
-  "Double Ability Ribbon": "Fita Habilidade Dupla"
+  "Double Ability Ribbon": "Fita Habilidade Dupla",
+  "Multi Ability Ribbon": "Fita Habilidade Múltipla"
 }, "pt-BR");

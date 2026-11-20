@@ -76,5 +76,6 @@ G.I18n.add({
   "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "On dit que les huiles d'ici sont faites de perles broyées. Mon Pokémon n'a jamais été aussi calme.",
   "Ability Ribbon": "Ruban Capacité",
   "Great Ability Ribbon": "Ruban Super Capacité",
-  "Double Ability Ribbon": "Ruban Capacité Duo"
+  "Double Ability Ribbon": "Ruban Capacité Duo",
+  "Multi Ability Ribbon": "Ruban Capacité Multi"
 }, "fr");

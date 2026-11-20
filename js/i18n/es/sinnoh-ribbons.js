@@ -76,5 +76,6 @@ G.I18n.add({
   "They say the oils here are made with crushed pearls. My Pokémon has never been so calm.": "Dicen que los aceites de aquí se hacen con perlas molidas. Mi Pokémon nunca ha estado tan tranquilo.",
   "Ability Ribbon": "Cinta Habilidad",
   "Great Ability Ribbon": "Cinta Gran Habilidad",
-  "Double Ability Ribbon": "Cinta Habilidad Doble"
+  "Double Ability Ribbon": "Cinta Habilidad Doble",
+  "Multi Ability Ribbon": "Cinta Habilidad Múltiple"
 }, "es");

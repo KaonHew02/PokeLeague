@@ -9,11 +9,12 @@ G.Field.bind(G.Store.newSave({ name: 'Dawn', id: 4321 }));
 const R = G.Ribbons;
 
 test('every ribbon has a name and a region; the contest ones are named by the Super Contest', () => {
-  assert.equal(Object.keys(R.LIST).length, 19);
+  assert.equal(Object.keys(R.LIST).length, 20);
   for (const id of Object.keys(R.LIST)) assert.ok(/ Ribbon$/.test(R.name(id)), id + ': ' + R.name(id));
   assert.equal(R.name('sinnoh-champion'), 'Sinnoh Champ Ribbon');
   assert.equal(R.name('gorgeous-royal'), 'Gorgeous Royal Ribbon');
   assert.equal(R.name('great-ability'), 'Great Ability Ribbon');                      // chapter 88
+  assert.equal(R.name('multi-ability'), 'Multi Ability Ribbon');                      // chapter 95
   assert.equal(R.name('cool-great'), 'Cool Ribbon Great');
   assert.equal(R.name('hoenn-cute-super'), 'Cute Ribbon Super');
   assert.deepEqual(['champion', 'winning', 'artist', 'hoenn-cool-normal'].map(R.region), ['hoenn', 'hoenn', 'hoenn', 'hoenn']);

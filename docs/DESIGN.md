@@ -1801,7 +1801,8 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
   Lv. 70) and TM04 Calm Mind. After the badge Team Magma raids the Space Center (`ATTACK` =
   `badge:23`, `!space-center-saved`): two grunts on 1F; arriving on 2F (`space.enter`) Steven heals
   your team, Tabitha battles you, then Maxie (Mightyena 42, Crobat 42, Camerupt 43;
-  `space.maxie`, also on talking to him), flag `space-center-saved`, then `ending(36)`. Files:
+  `space.maxie`, also on talking to him), flag `space-center-saved`, then `ending(36)`. (Chapter 101: three of
+  yours beside Steven against both at once, Emerald's multi battle and teams.) Files:
   `js/content/hoenn/mossdeep.js` (translations `hoenn-mossdeep`); `lilycove.js` (the cave, the sea
   road east).
 - **Engine and data for chapter 36:** Team Aqua's hideout's Spanish, Italian and Chinese names
@@ -2069,7 +2070,7 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
     condominium; Jubilife TV and the Pokétch Company are locked doors (`locked` warps), a worker keeps Route
     204 closed. Coming in from Route 202 (a trigger across the city), two Team Galactic grunts press the
     assistant for Rowan's research: you battle one (Glameow Lv. 8), the assistant the other (flag
-    galactic-jubilife). Route 203: Barry (Starly Lv. 7 and the starter strong against yours, Lv. 9; losing is
+    galactic-jubilife; chapter 101: both at once beside the assistant, Platinum's multi battle). Route 203: Barry (Starly Lv. 7 and the starter strong against yours, Lv. 9; losing is
     allowed, flag barry-203), four Trainers, Oreburgh Gate (a cave). Oreburgh City: a Center, a Mart, the
     Mining Museum, a house and the Gym, locked until you meet Roark on B1F of the Oreburgh Mine (flag
     roark-met; Workers on both floors). Roark: Geodude and Onix Lv. 12 (Stealth Rock), Cranidos Lv. 14; the
@@ -2101,7 +2102,7 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
     Drifloon (Lv. 15) floats by the windworks once (flag drifloon-met). Eterna Forest: Cheryl asks at the
     edge (flag cheryl-met; yes: cheryl-with), heals after each battle, and at the east exit gives two
     Sitrus Berries (flag cheryl-done); four Trainers (one pair battles two at a time), a loop and a dead
-    end. Route 205 east to Eterna City: a Center, a Mart, a house, the ancient statue, Team Galactic's
+    end (chapter 101: Cheryl walks behind you and fights beside you against Platinum's eight Trainers in four pairs). Route 205 east to Eterna City: a Center, a Mart, a house, the ancient statue, Team Galactic's
     building (a guard, a locked door), the cycle shop (closed); Routes 211 and 206 are closed by people
     standing on the one-tile ways out. Gardenia (Cherubi 20, Turtwig 20, Roserade 22): the Forest Badge
     (badge 26: up to Lv. 30 obey in Sinnoh), TM86 (Grass Knot), `ending(46)`.
@@ -2238,7 +2239,8 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
     one-tile way; he comes along (flag riley-with) and heals the team after each battle (`afterBattle`, as
     Cheryl does: the engine has no multi battles). Two grunts wait at the end of B2F, one in a one-tile way
     before the other (flags iron-grunt1, riley-done; Diamond and Pearl's teams, Serebii lists none for
-    Platinum). Riley gives a Riolu Egg (`G.DayCare.egg(447)`, flag riolu-egg); with six Eggs carried he waits
+    Platinum; chapter 101: Riley walks behind you and fights beside you against B2F's four pairs and both grunts at once,
+    Platinum's Trainers and teams). Riley gives a Riolu Egg (`G.DayCare.egg(447)`, flag riolu-egg); with six Eggs carried he waits
     (flag riley-egg-wait) and gives it later. Byron's Gym: steel walls on the same plan as Wake's pool, the
     lifts left out. Byron (Magneton 37, Steelix 38, Bastiodon 41 with a Sitrus Berry, a Hyper Potion, a Full
     Restore): the Mine Badge (badge 30, the sixth Sinnoh badge: up to Lv. 60 obey), TM91 (Flash Cannon),
@@ -2802,18 +2804,27 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** a new line, Arceus at 80 against the team that met Sinnoh's legends raised by fourteen levels (76, 74, 72): 1.0 for each starter. Every earlier `[balance]` and `[story]` line as before.
 - **Tests:** `tests/origin.test.cjs` (the sixteen plates in the data, one per type but Normal and Fairy; Judgment's type by plate and Normal without one, with its matchups; the plates counted in the Bag, the team and the PC); `tests/field.test.cjs` the chapter on the real maps (the elder's count, the flute with all sixteen and the reminder after; no tune at the Spear Pillar without the flute; with it the note, the stairs and the way up; Arceus at 80: run from it stays, beaten it vanishes and comes back, caught it is gone with the stairs; the ending after chapter 99, once); `tests/story.test.cjs` the chapter after chapter 99 (`[story]`: the plates still to find picked up where they lie, the flute from the elder, the stairs, Arceus battled).
 
-### After chapter 100
+- **Chapter 101** ✅, battles beside a partner in the earlier story, as the games have them (js/content/hoenn/mossdeep.js, js/content/sinnoh/jubilife.js, eterna.js, ironisland.js, sandgem.js; `keepBag` in js/world/field.js; translations `hoenn-mossdeep`, `sinnoh-jubilife`, `sinnoh-eterna`, `sinnoh-ironisland`, `sinnoh-sandgem`, `credits`). Those scenes were written before the engine had multi battles (chapter 55) and a map's `ally` and `companion` (chapter 62). Post-game; `ending(101)` waits for chapter 100 (my own: Professor Rowan's assistant in the Sandgem lab remembers the battle beside you in Jubilife City). Sources: Emerald's decompilation, [pret/pokeemerald](https://github.com/pret/pokeemerald) (`data/maps/MossdeepCity_SpaceCenter_2F/scripts.inc`, `sStevenMons` in `src/battle_tower.c`, `sParty_MaxieMossdeep` and `sParty_TabithaMossdeep` in `src/data/trainer_parties.h`); Platinum's, [pret/pokeplatinum](https://github.com/pret/pokeplatinum) (`res/field/maps/jubilife_city`, `eterna_forest` and `iron_island_b2f_left_room`: their scripts and `events.json`; `res/trainers/data/*.json`).
+  - **The Space Center** (Emerald): after Steven heals your team, three of yours fight beside him against Maxie and Tabitha at once (`def.magma`, one foe whose teams alternate, rules.tag): Maxie's Mightyena 42, Crobat 43, Camerupt 44, Tabitha's Camerupt 36, Mightyena 38, Golbat 40; Steven's Metang 42, Skarmory 43, Aggron 44 with Emerald's moves, IVs of 31 and the natures the code means to give (the released game, through a bug, gives others), without their EVs (`def.stevenTeam`). With more than three able to battle you choose three (the party screen, Emerald's `ChooseHalfPartyForBattle`); called off, Steven waits, and talking to him, Maxie or Tabitha starts it again. `battle()`'s `o.keepBag`: with `o.party` (your own chosen Pokémon), the Bag stays and items are found after the battle. Tabitha is no longer a trainer on the map.
+  - **Jubilife City** (Platinum): you and the assistant battle both grunts together (Stunky 11, Glameow 11); the assistant has the starter neither you nor Barry took (Barry's beats yours, `barry-starter`), at level 13 with Platinum's two moves (`G.Sinnoh.assistantTeam`, `G.Sinnoh.jubilifeGrunts`).
+  - **Eterna Forest** (Platinum): Cheryl walks behind you (`companion`) and fights beside you (`ally`: Chansey 20, Egg Bomb, Soft-Boiled, Refresh) against the forest's Trainers, now Platinum's eight in four pairs, their teams Platinum's: Bug Catchers Phillip and Donald, Bug Catcher Jack and Lass Briana, Psychics Kody and Rachael, Psychics Lindsey and Elijah (my Young Couple and Picnicker are gone). Without her the pairs are plain double battles. Their places and words are my own.
+  - **Iron Island** (Platinum): Riley walks behind you on B1F and B2F and fights beside you (Lucario 41: Metal Claw, Force Palm, Quick Attack, Bone Rush) against B2F's Trainers, now Platinum's eight of that room in four pairs (Hikers Damon and Maurice, Ace Trainers Jonah and Brenda, Battle Girl Tyler and Black Belt Kendal, Workers Brendon and Quentin), and against the two grunts at the bottom at once, Platinum's teams (Zubat, Houndour, Golbat; Glameow, Stunky, Croagunk; all 34). The one-tile way is no longer blocked by a grunt (flag `iron-grunt1` gone). B1F's two Trainers stay single battles (they come before Riley in Platinum).
+  - **Story harness**: `tests/story.test.cjs` now gives a map's `ally` to its double-battle trainers, as field.js does (Buck's, Mira's and Marley's pairs too).
+  - **Left out**: the wild double battles Platinum has beside a partner (the engine has none, as with Buck, Mira and Marley); the assistant's second multi battle in Platinum, at Veilstone's warehouse after the Cobble Badge (this game's warehouse comes after Lake Acuity, at other levels); the three grunts on Emerald's Space Center 2F; Cheryl's Soothe Bell in Platinum (this game's two Sitrus Berries stay).
+- **Balance:** a new line, the battles beside a partner. Jubilife: a lone starter at 8-10 wins 0.23-0.83 (Chimchar, beside the assistant's Turtwig, is weakest: 0.23 at 8, 0.35 at 10); with a Starly at 8, 0.73-0.95. Eterna Forest beside Cheryl: 0.9-1.0 for a starter at 18 and a Staravia, but Prinplup and Staravia 0.35 against Jack and Briana (Briana's Pachirisu); a lone Monferno at 16 0.55-1.0. Iron Island's grunts beside Riley: 0.6-1.0 for a starter at 40, 0.95-1.0 with a Luxray. Maxie and Tabitha beside Steven: three of a typical team 0.93-1.0, a lone starter 0.53-0.98. Every earlier `[balance]` line as before. `[story]`: the Space Center's line is now Maxie and Tabitha beside Steven (Swampert, Typhlosion, Blastoise chosen); the levels after it moved by one here and there (Archie, Juan, Wallace, Steven at Meteor Falls, the Regis, Saturn, Candice, Route 212, the Battleground), Latias fled once more before being caught, the Battle Arena took 2 challenges instead of 1 and the Battle Factory's run changed (4 challenges as before); new lines for Jubilife, Eterna Forest, Iron Island and the ending.
+- **Tests:** `tests/field.test.cjs` the chapters on the real maps (the Space Center: the choice called off, then three chosen, Steven's team, the foes' order; Jubilife: both grunts beside the assistant with the right starter; Eterna Forest: Cheryl behind you, a pair beside her, healed, gone after her goodbye, a pair without her a plain double battle; Iron Island: Riley behind you, a pair and the grunts beside him, gone after; the assistant and the ending after chapter 100, once); `tests/story.test.cjs` the four scenes and the chapter after chapter 100 (`[story]`) and the balance line.
 
-A hundred chapters: the journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of
+### After chapter 101
+
+A hundred and one chapters: the journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of
 Hoenn and of Sinnoh up to Arceus in the Hall of Origin, the whole Battle Frontier of Hoenn and of Sinnoh (Tower with its multi
 battles, Factory, Hall, Castle and Arcade), the whole Battle Zone, the villa, contests in Sinnoh and Hoenn with Poffins and
 Pokéblocks, ribbons, Generation 4's held items, the moves that move them, Platinum's free move tutors, the incenses, the
-abilities outside battle and the Honey trees. Ideas:
+abilities outside battle, the Honey trees, and the story's battles beside a partner. Ideas:
 1. Items: Embargo and Recycle; Platinum's other field items and gifts (Route 221's Expert Belt and Focus Sash); Honey used in
    the field; the Underground (weather rocks, fossils, spheres, shards for the tutors of Route 212, Snowpoint City and the
    Survival Area).
 2. Contests: accessories; Hoenn's own contest rules.
 3. Hoenn after the League: double battles at the Battle Palace and the Battle Dome (Emerald has them, with four);
    more of the Pyramid's wild themes.
-4. Engine features: use multi battles for the earlier scenes (Steven at the Space Center; Dawn against Team Galactic;
-   Cheryl in Eterna Forest), Repel steps.
+4. Engine features: wild double battles (Platinum's, beside a partner).

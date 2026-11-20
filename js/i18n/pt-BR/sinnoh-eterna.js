@@ -75,5 +75,21 @@ G.I18n.add({
   "I cannot fight them on my own. Please, help my Clefairy!": "Não consigo enfrentá-los sozinho. Por favor, ajude meu Clefairy!",
   "Oh, {player}! Team Galactic took the cycle shop owner's Clefairy into their building.": "Ah, {player}! A Equipe Galáctica levou o Clefairy do dono da loja de bicicletas para o prédio deles.",
   "You beat me, so I know you are strong. Go on in! I will stay out here and make sure none of them sneak away.": "Você me venceu, então sei que é forte. Pode entrar! Vou ficar aqui fora para nenhum deles fugir.",
-  "Cycle Shop Owner": "Dono da loja de bicicletas"
+  "Cycle Shop Owner": "Dono da loja de bicicletas",
+  "The Trainers here like to battle two at a time. If they do, Chansey and I will battle beside you!": "Os Treinadores daqui gostam de batalhar em dupla. Se fizerem isso, Chansey e eu vamos batalhar ao seu lado!",
+  "Stay close! If Trainers come at us two at a time, Chansey and I will battle beside you.": "Fique perto! Se Treinadores vierem em dupla, Chansey e eu vamos batalhar ao seu lado.",
+  "Phillip & Donald": "Phillip e Donald",
+  "We are bug hunting in pairs today. Want to see what we caught?": "Hoje estamos caçando insetos em dupla. Quer ver o que pegamos?",
+  "Our bugs got squashed...": "Nossos insetos foram esmagados...",
+  "Jack & Briana": "Jack e Briana",
+  "The forest is our bug paradise! Two of you? Then two of us!": "A floresta é nosso paraíso dos insetos! São dois? Então nós também!",
+  "My collection got squashed, and her Pachirisu too...": "Minha coleção foi esmagada, e o Pachirisu dela também...",
+  "Pachirisu are not bugs, but Briana says it can come along anyway.": "Pachirisu não é inseto, mas a Briana diz que ele pode vir mesmo assim.",
+  "Kody & Rachael": "Kody e Rachael",
+  "We saw the two of you coming in a dream. In the dream, we won!": "Vimos vocês dois chegando em um sonho. No sonho, nós vencíamos!",
+  "The dream was wrong...": "O sonho estava errado...",
+  "The old house deep in the forest? Even we cannot see what waits inside.": "A casa velha no fundo da floresta? Nem nós conseguimos ver o que espera lá dentro.",
+  "Lindsey & Elijah": "Lindsey e Elijah",
+  "We sensed you coming from far away. We also sense that you will lose!": "Sentimos vocês chegando de longe. Também sentimos que vocês vão perder!",
+  "Our senses failed us...": "Nossos sentidos falharam..."
 }, "pt-BR");

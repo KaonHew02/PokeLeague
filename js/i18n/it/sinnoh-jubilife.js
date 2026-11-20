@@ -51,5 +51,7 @@ G.I18n.add({
   "The blackboard says: \"Some Pokémon evolve when they level up holding an item, some only by day or only by night, and some once they know a certain move.\"": "La lavagna dice: «Alcuni Pokémon si evolvono salendo di livello con uno strumento, altri solo di giorno o solo di notte, altri quando conoscono una certa mossa».",
   "The blackboard says: \"The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve.\"": "La lavagna dice: «La Pietrabrillo, la Neropietra e la Pietralbore fanno evolvere certi Pokémon».",
   "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "Le barche per Canalipoli non partono, e oggi il mare del Percorso 218 è troppo mosso. Meglio tornare un'altra volta.",
-  "That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!": "Quel quaderno sul banco è mio. Lo sapevi che le abilità funzionano anche fuori dalle lotte? Il mio Slugma tiene al caldo le Uova che porto, così si schiudono in un attimo!"
+  "That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!": "Quel quaderno sul banco è mio. Lo sapevi che le abilità funzionano anche fuori dalle lotte? Il mio Slugma tiene al caldo le Uova che porto, così si schiudono in un attimo!",
+  "Who are you, another Trainer? Fine: two of us, two of you. Team Galactic does not lose!": "E tu chi sei, un altro Allenatore? Va bene: due contro due. Il Team Galassia non perde!",
+  "{player}, let us battle them together! Two against two!": "{player}, lottiamo insieme contro di loro! Due contro due!"
 }, "it");

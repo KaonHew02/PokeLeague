@@ -1372,11 +1372,34 @@ test('Hoenn (chapter 36): Team Aqua\'s hideout, Route 124 to Mossdeep, the Gym, 
   await settle();
   assert.ok(!F.flag('space-center-saved'), 'no raid before the badge');
   for (const n of [17, 18, 19, 20, 21, 22, 23]) F.badge(n);
+  // Chapter 101: three of yours beside Steven against Maxie and Tabitha (Emerald's multi battle). Called off: no battle.
+  for (const sp of ['manectric', 'altaria', 'claydol']) F.giveMon(sp, 40);
+  const picks = [null], asked = [], infos = [], said = [];
+  G.PartyUI = { pick: o => { asked.push(F.party().map((m, i) => !!o.disabled(m, i))); return Promise.resolve(picks.shift()); } };
+  W.onTrainer = async (d, info) => { got.push(info.key); infos.push(info); return 'win'; };
+  const say0 = G.Dialog.say;
+  G.Dialog.say = (t, o) => { said.push([].concat(t).join(' ')); return say0(t, o); };
   W.load('space-center-1f', { x: 10, y: 3, dir: 'up' });
   assert.equal(step(W, 'up'), 'moved');
+  await until(() => W.map.id === 'space-center-2f' && !W.locked && asked.length === 1);
+  await settle();
+  assert.ok(!F.flag('space-center-saved') && !got.includes('space-center-2f:magma-space'));
+  assert.ok(said.some(s => /Get ready quickly/.test(s)));
+  // Talking to Steven: Swampert, Altaria, Claydol (an index already chosen cannot be chosen again).
+  picks.push(0, 2, 3);
+  W.load('space-center-2f', { x: 8, y: 6, dir: 'right' });
+  await pump(W, W.interact());
   await until(() => F.flag('chapter-36-done'));
-  assert.deepEqual(plain(got.slice(-2)), ['space-center-2f:tabitha', 'space-center-2f:maxie-space']);
+  assert.deepEqual(plain(asked.slice(1)), [[false, false, false, false], [true, false, false, false], [true, false, true, false]]);
+  assert.equal(got[got.length - 1], 'space-center-2f:magma-space');
+  const info = infos[infos.length - 1];
+  assert.deepEqual(plain(info.party.map(m => m.sp)), [260, 334, 344]);
+  assert.ok(info.keepBag && info.rules.tag && info.partner.name === 'Steven');
+  assert.deepEqual(plain(info.partner.team.map(r => [r[0], r[1]])), [['metang', 42], ['skarmory', 43], ['aggron', 44]]);
+  const magma = G.Maps.get('space-center-2f').def.magma;
+  assert.deepEqual(plain(magma.team.map(r => [r[0], r[1]])), [['mightyena', 42], ['camerupt', 36], ['crobat', 43], ['mightyena', 38], ['camerupt', 44], ['golbat', 40]]);
   assert.ok(F.flag('space-center-saved'));
+  G.Dialog.say = say0;
 });
 
 test('Dive: from deep water down to the sea floor (with the Mind Badge) and back up; seaweed has its own wild Pokémon', async () => {
@@ -2216,8 +2239,12 @@ test('Sinnoh (chapter 45): Route 202 after the Pokédex, Team Galactic in Jubili
   F.giveMon('piplup', 15, { moves: ['bubble'] });
   const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
   const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
-  const fights = [];
-  W.onTrainer = async (d, info) => { fights.push([d.id, d.team.map(t => t[0]).join(), !!info.canLose]); return 'win'; };
+  const fights = [], partners = [];
+  W.onTrainer = async (d, info) => {
+    fights.push([d.id, d.team.map(t => t[0]).join(), !!info.canLose]);
+    if (info.partner) partners.push([info.partner.name, info.partner.team, !!info.rules.tag]);
+    return 'win';
+  };
   // Sandgem's road north opens with the Pokédex for Sinnoh.
   W.load('sandgem', { x: 12, y: 2, dir: 'up' });
   assert.equal(step(W, 'up'), 'blocked', 'the worker');
@@ -2234,7 +2261,9 @@ test('Sinnoh (chapter 45): Route 202 after the Pokédex, Team Galactic in Jubili
   // Jubilife: Team Galactic, three steps in.
   for (let i = 0; i < 3; i++) { assert.equal(step(W, 'up'), 'moved'); await until(() => !W.locked); }
   await until(() => F.flag('galactic-jubilife') && !W.locked);
-  assert.deepEqual(plain(fights.shift()), ['grunt-jubilife', 'glameow', false]);
+  // Chapter 101: both grunts at once beside the assistant, who has the starter neither you (Piplup) nor Barry (Turtwig) took.
+  assert.deepEqual(plain(fights.shift()), ['grunts-jubilife', 'stunky,glameow', false]);
+  assert.deepEqual(plain(partners.shift()), ['Dawn', [[390, 13, ['ember', 'scratch']]], true]);
   W.load('jubilife', { x: 17, y: 2, dir: 'up' });
   assert.equal(step(W, 'up'), 'blocked', 'Route 204 is closed');
   // East to Route 203: Barry, losing allowed.
@@ -2293,7 +2322,8 @@ test('Sinnoh (chapter 46): Route 204, the twins, the meadow and the key, the win
   const walk = async (dir, n) => { for (let i = 0; i < n; i++) { assert.equal(step(W, dir), 'moved'); await until(() => !W.locked); } };
   const answers = [], fights = [], wild = [];
   G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
-  W.onTrainer = async (d, info) => { fights.push([d.id, !!(info.rules && info.rules.double)]); return 'win'; };
+  // Chapter 101: a battle beside a partner records the partner's name too.
+  W.onTrainer = async (d, info) => { fights.push([d.id, !!(info.rules && info.rules.double)].concat(info.partner ? [info.partner.name, !!info.rules.tag] : [])); return 'win'; };
   W.onEncounter = async (sp, lvl) => { wild.push([G.Maps.species(sp), lvl]); return 'win'; };
   // Jubilife's road north (the Coal Badge), Route 204, the Ravaged Path.
   W.load('jubilife', { x: 17, y: 0, dir: 'up' });
@@ -2334,31 +2364,38 @@ test('Sinnoh (chapter 46): Route 204, the twins, the meadow and the key, the win
   await pump(W, W.interact());
   assert.deepEqual(plain(wild.splice(0)), [[425, 15]]);
   assert.ok(F.flag('drifloon-met'));
-  // Eterna Forest: Cheryl comes along, and her Chansey heals the team after each battle.
+  // Eterna Forest: Cheryl comes along, and her Chansey heals the team after each battle. Chapter 101: she walks behind you
+  // and battles beside you against the forest's pairs, Platinum's eight Trainers.
+  const forest = G.Maps.get('eterna-forest');
+  assert.deepEqual(plain(forest.trainers.map(t => t.name)), ['Phillip & Donald', 'Jack & Briana', 'Kody & Rachael', 'Lindsey & Elijah']);
+  assert.ok(forest.trainers.every(t => t.double && t.partner));
   W.load('route205s', { x: 26, y: 0, dir: 'up' });
   await cross('up', 'eterna-forest');
   assert.deepEqual([W.player.x, W.player.y], [5, 25]);
   answers.push(0);
   assert.equal(step(W, 'up'), 'moved');
   await until(() => F.flag('cheryl-with') && !W.locked);
+  assert.equal((W.follower || {}).who, 'cheryl', 'Cheryl walks behind you');
   const lead = F.party()[0];
   lead.hp = 1;
-  W.load('eterna-forest', { x: 14, y: 9, dir: 'right' });
+  W.load('eterna-forest', { x: 8, y: 18, dir: 'right' });
   assert.equal(step(W, 'right'), 'moved');
   await until(() => fights.length === 1 && !W.locked);
-  assert.equal(fights.shift()[0], 'jack');
+  assert.deepEqual(plain(fights.shift()), ['phillip-donald', true, 'Cheryl', true]);
+  assert.deepEqual(plain(forest.def.ally.team), [['chansey', 20, ['egg-bomb', 'soft-boiled', 'refresh']]]);
   assert.equal(lead.hp, G.Mon.maxHp(lead), 'Cheryl healed the team');
   const sitrus = F.count('sitrus-berry');
   W.load('eterna-forest', { x: 36, y: 12, dir: 'right' });
   assert.equal(step(W, 'right'), 'moved');
   await until(() => F.flag('cheryl-done') && !W.locked);
   assert.equal(F.count('sitrus-berry'), sitrus + 2);
-  // Without Cheryl, no more healing.
+  assert.notEqual((W.follower || {}).who, 'cheryl', 'she has gone');
+  // Without Cheryl, a pair is a plain double battle, and no more healing.
   lead.hp = 1;
-  W.load('eterna-forest', { x: 33, y: 9, dir: 'up' });
-  assert.equal(step(W, 'up'), 'moved');
+  W.load('eterna-forest', { x: 32, y: 7, dir: 'down' });
+  assert.equal(step(W, 'down'), 'moved');
   await until(() => fights.length === 1 && !W.locked);
-  assert.equal(fights.shift()[0], 'lindsey');
+  assert.deepEqual(plain(fights.shift()), ['lindsey-elijah', true]);
   assert.equal(lead.hp, 1);
   // Route 205 east to Eterna City; Routes 211 and 206 are closed.
   W.load('eterna-forest', { x: 39, y: 12, dir: 'right' });
@@ -2751,7 +2788,8 @@ test('Sinnoh (chapter 51): Route 218 after chapter 50, Barry on the bridge, the 
   const until = async ok => { for (let i = 0; i < 400 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
   const cross = async (dir, to) => { assert.equal(step(W, dir), 'moved'); await until(() => W.map.id === to && !W.locked); };
   const fights = [];
-  W.onTrainer = async d => { fights.push(d.id); return 'win'; };
+  // Chapter 101: a battle beside a partner is recorded with the partner's name.
+  W.onTrainer = async (d, info) => { fights.push(info.partner ? d.id + '+' + info.partner.name : d.id); return 'win'; };
   // Jubilife: Route 218 is closed until chapter 50 is over.
   W.load('jubilife', { x: 2, y: 13, dir: 'left' });
   assert.equal(step(W, 'left'), 'blocked', 'closed before the end of chapter 50');
@@ -2803,6 +2841,7 @@ test('Sinnoh (chapter 51): Route 218 after chapter 50, Barry on the bridge, the 
   W.interact();
   await until(() => F.flag('riley-with') && !W.locked);
   assert.equal(step(W, 'right'), 'moved', 'he has joined you');
+  assert.equal((W.follower || {}).who, 'riley', 'Riley walks behind you');
   // After each battle his Lucario heals the team.
   W.load('iron-b1f', { x: 18, y: 10, dir: 'right' });
   assert.equal(step(W, 'right'), 'moved');
@@ -2812,20 +2851,24 @@ test('Sinnoh (chapter 51): Route 218 after chapter 50, Barry on the bridge, the 
   W.load('iron-b1f', { x: 26, y: 13, dir: 'down' });
   await cross('down', 'iron-b2f');
   assert.deepEqual([W.player.x, W.player.y], [3, 4]);
-  // The first grunt blocks the way to the second.
-  W.load('iron-b2f', { x: 3, y: 13, dir: 'down' });
-  assert.equal(step(W, 'down'), 'blocked', 'the first grunt');
-  W.interact();
-  await until(() => F.flag('iron-grunt1') && !W.locked);
-  assert.equal(step(W, 'down'), 'moved', 'he has run');
-  fights.splice(0);
+  // Chapter 101: B2F's Trainers are Platinum's eight in four pairs, battled beside Riley (the Workers by the narrow way).
+  const b2f = G.Maps.get('iron-b2f');
+  assert.deepEqual(plain(b2f.trainers.map(t => t.name || t.id)), ['Damon & Maurice', 'Jonah & Brenda', 'Tyler & Kendal', 'Brendon & Quentin', 'grunts-iron']);
+  W.load('iron-b2f', { x: 4, y: 13, dir: 'left' });
+  assert.equal(step(W, 'left'), 'moved');
+  await until(() => fights.length === 1 && !W.locked);
+  assert.deepEqual(fights.splice(0), ['brendon-quentin+Riley']);
+  assert.equal(step(W, 'down'), 'moved', 'the narrow way is open');
   // With six Eggs carried, Riley waits; with room, he gives the Riolu Egg.
   const full = [];
   while (D.eggs().length < D.MAX_EGGS) { const e = D.egg(172); D.eggs().push(e); full.push(e); }
   W.load('iron-b2f', { x: 6, y: 16, dir: 'right' });
   assert.equal(step(W, 'right'), 'moved');
   await until(() => F.flag('riley-done') && !W.locked);
-  assert.deepEqual(fights.splice(0), ['grunt-iron2']);
+  // Both grunts at once, beside Riley's Lucario (Platinum's teams).
+  assert.deepEqual(fights.splice(0), ['grunts-iron+Riley']);
+  assert.deepEqual(plain(b2f.def.ally.team), [['lucario', 41, ['metal-claw', 'force-palm', 'quick-attack', 'bone-rush']]]);
+  assert.notEqual((W.follower || {}).who, 'riley', 'Riley is done walking with you');
   assert.ok(!F.flag('riolu-egg') && F.flag('riley-egg-wait'), 'no room for it');
   D.eggs().splice(0);
   W.load('iron-b2f', { x: 13, y: 16, dir: 'right' });
@@ -8080,4 +8123,22 @@ test('Sinnoh (chapter 100): the sixteen plates and the Celestic elder\'s Azure F
   assert.ok(!seen('arceus'));
   assert.notEqual(G.Maps.kindAt(G.Maps.get('spear-pillar'), 8, 9), 'stairs', 'the stairs are gone');
   assert.ok(!/Azure Flute/.test(await elder()), 'the elder has nothing more to say about it');
+});
+
+test('Sinnoh (chapter 101): battles beside a partner; once chapter 100 is done, Professor Rowan\'s assistant remembers Jubilife City (the ending, once)', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife'].map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, said = [];
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  F.giveMon('infernape', 70);
+  for (const f of ['sinnoh-start', 'sinnoh-dex', 'galactic-jubilife', 'chapter-99-done']) F.setFlag(f);
+  const talk = async () => { said.length = 0; W.load('rowan-lab', { x: 6, y: 4, dir: 'right' }); await pump(W, W.interact()); return said.join(' | '); };
+  assert.ok(/one meeting at a time/.test(await talk()), 'the usual words before chapter 100');
+  assert.ok(!F.flag('chapter-101-done'));
+  F.setFlag('chapter-100-done');
+  assert.ok(/Jubilife City/.test(await talk()) && F.flag('chapter-101-done'));
+  assert.ok(/one meeting at a time/.test(await talk()), 'and after');
+  // The assistant's Pokémon in Jubilife: the starter neither you nor Barry took.
+  assert.deepEqual(plain([387, 390, 393].map(b => G.Sinnoh.assistantTeam(b)[0][0])), [390, 393, 387]);
 });

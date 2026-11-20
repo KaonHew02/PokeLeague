@@ -281,5 +281,8 @@ G.I18n.add({
   "Twenty-one Honey trees stand across Sinnoh. Floaroma's Honey seller has plenty, and four of the trees are dear to Munchlax.": "神奥各地有二十一棵甜甜蜜树。苑之镇卖甜甜蜜的人有很多存货，其中四棵树特别受小卡比兽喜爱。",
   "Chapter 100 complete!": "第 100 章完成！",
   "{player} gathered all sixteen plates, played the Azure Flute at the Spear Pillar and stood before Arceus in the Hall of Origin.": "{player}集齐了全部十六块石板，在枪之柱吹响了天界之笛，并在始源之厅站到了阿尔宙斯面前。",
-  "A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.": "一百章，从真新镇迈出的第一步，一路走到创世之神面前。谢谢你陪着走完这么远的路。"
+  "A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.": "一百章，从真新镇迈出的第一步，一路走到创世之神面前。谢谢你陪着走完这么远的路。",
+  "Chapter 101 complete!": "第 101 章完成！",
+  "{player} battled beside Steven at the Space Center, beside Professor Rowan's assistant in Jubilife City, beside Cheryl in Eterna Forest and beside Riley on Iron Island.": "{player}在宇宙中心和大吾并肩作战，在祝庆市和七灶博士的助手并肩作战，在百代森林和芽米并肩作战，又在钢铁岛和亚玄并肩作战。",
+  "Every partner met on the way has fought at your side. Who will you team up with next?": "旅途中遇见的每一位伙伴都曾和你并肩作战。下一次，你会和谁组队呢？"
 }, "zh-Hans");

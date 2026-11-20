@@ -2,8 +2,10 @@
  * Chapter 46, the end of the chapter. At the edge of Eterna Forest, north of Route 205, Cheryl asks to
  * come along (flag cheryl-met; yes: cheryl-with): while she does, her Chansey heals the team after every
  * battle in the forest (the map's afterBattle), and at the east exit she gives two Sitrus Berries and
- * goes (flag cheryl-done). The forest: a long way round with a loop and a dead end, Trainers (one pair
- * battles two at a time). Route 205 east of the forest leads to Eterna City: a Pokémon Center, a Mart, a
+ * goes (flag cheryl-done). Chapter 101 (Platinum's, from the pret/pokeplatinum decompilation: eterna_forest,
+ * res/trainers/data): she walks behind you (`companion`) and fights beside you (`ally`, Chansey Lv. 20) against the
+ * forest's Trainers, Platinum's eight in four pairs (without her, plain double battles; their places and words are my
+ * own). The forest: a long way round with a loop and a dead end. Route 205 east of the forest leads to Eterna City: a Pokémon Center, a Mart, a
  * house, the statue of a Pokémon from Sinnoh's oldest stories, Team Galactic's building (guarded) and
  * the cycle shop (closed); Route 211 is closed until the Forest Badge (route211.js; Route 206 and the building open in chapter 47, tgeterna.js). Gardenia uses Grass types
  * (Cherubi, Turtwig, Roserade); beating her gives the Forest Badge (badge 26: Pokémon up to Lv. 30 obey
@@ -12,6 +14,10 @@
 (() => {
   const T = s => G.T(s);
   const CHERYL = { name: 'Cheryl' }, GARDENIA = { name: 'Gardenia' }, BARRY = { name: 'Barry' };
+  // Chapter 101: Cheryl behind you, and beside you against the pairs (Platinum's cheryl_eterna_forest).
+  const CHERYL_TEAM = [['chansey', 20, ['egg-bomb', 'soft-boiled', 'refresh']]];
+  const WITH_CHERYL = ['cheryl-with', '!cheryl-done'];
+  const PAIR = { cls: 'double-team', double: true };
   const SINNOH = { region: 'sinnoh' };
   const HOUSE = ['WWWWWWWWWWW', 'WWWWWWWWWWW', 'bb__p______', '___________', '____ttt____', '____ttt____', '___________', '____X______'];
 
@@ -51,6 +57,8 @@
     spots: { chateau: [35, 5, 'down'] },
     // Cheryl's Chansey heals the team after each battle while she walks with you.
     afterBattle: { if: ['cheryl-with', '!cheryl-done'], script: 'eterna.cheryl-heal' },
+    companion: { if: WITH_CHERYL, who: 'cheryl', name: 'Cheryl', say: 'Stay close! If Trainers come at us two at a time, Chansey and I will battle beside you.' },
+    ally: { if: WITH_CHERYL, name: 'Cheryl', team: CHERYL_TEAM }, cherylTeam: CHERYL_TEAM,
     triggers: [
       { x: 5, y: 24, w: 2, h: 1, if: '!cheryl-met', script: 'eterna.cheryl' },
       { x: 37, y: 12, w: 1, h: 2, if: ['cheryl-with', '!cheryl-done'], script: 'eterna.cheryl-bye' }
@@ -59,24 +67,30 @@
       { id: 'cheryl', who: 'cheryl', x: 6, y: 22, dir: 'down', if: ['!cheryl-with', '!cheryl-done'], script: 'eterna.cheryl' },
       { id: 'cheryl2', who: 'cheryl', x: 36, y: 13, dir: 'left', if: 'scripted' }
     ],
+    // Chapter 101: Platinum's eight Trainers of the forest in four pairs (their teams alternate: rules.tag beside Cheryl).
     trainers: [
-      { id: 'jack', who: 'bugcatcher', cls: 'bug-catcher', name: 'Jack', x: 18, y: 9, dir: 'left', sight: 3, team: [['wurmple', 13], ['silcoon', 14], ['beautifly', 15]],
-        before: 'The forest is my bug paradise! Want to see my collection?',
-        defeat: 'My collection got squashed...',
-        after: 'Wurmple evolve into Silcoon or Cascoon. Nobody can tell which until it happens.' },
-      { id: 'kody-sue', who: 'cooltrainerm', cls: 'young-couple', name: 'Kody & Sue', x: 25, y: 3, dir: 'down', sight: 1, double: true,
-        partner: { who: 'beauty', x: 26, y: 3 }, team: [['buneary', 14], ['starly', 15]],
-        before: 'A walk in the forest together, and now a double battle together!',
-        defeat: 'At least we lost together.',
-        after: 'The old house deep in the forest? We heard it is haunted. We are not going in!' },
-      { id: 'lindsey', who: 'psychic', cls: 'psychic', name: 'Lindsey', x: 32, y: 8, dir: 'right', sight: 1, team: [['abra', 15], ['kadabra', 16]],
-        before: 'I sensed you coming from far away. I also sense that you will lose!',
-        defeat: 'My senses failed me...',
-        after: 'This forest is full of strange feelings. Some come from the Pokémon, some from somewhere older.' },
-      { id: 'caitlin', who: 'lass', cls: 'picnicker', name: 'Caitlin', x: 8, y: 4, dir: 'left', sight: 3, team: [['budew', 14], ['cherubi', 15]],
-        before: 'I come to this quiet corner to pick berries. A battle is fine too!',
-        defeat: 'Back to my berries, then.',
-        after: 'Cherubi\'s little ball is full of nutrients. That is what it feeds on.' }
+      Object.assign({ id: 'phillip-donald', who: 'bugcatcher', name: 'Phillip & Donald', x: 9, y: 19, dir: 'up', sight: 2, partner: { who: 'bugcatcher', x: 10, y: 19, dir: 'up' },
+        team: [['wurmple', 11, ['tackle', 'string-shot', 'poison-sting']], ['burmy', 14], ['cascoon', 13, ['tackle', 'string-shot', 'poison-sting', 'harden']], ['burmy', 14],
+               ['dustox', 15, ['tackle', 'poison-sting', 'confusion', 'gust']]],
+        before: 'We are bug hunting in pairs today. Want to see what we caught?',
+        defeat: 'Our bugs got squashed...',
+        after: 'Wurmple evolve into Silcoon or Cascoon. Nobody can tell which until it happens.' }, PAIR),
+      Object.assign({ id: 'jack-briana', who: 'bugcatcher', name: 'Jack & Briana', x: 19, y: 8, dir: 'down', sight: 2, partner: { who: 'lass', x: 20, y: 8, dir: 'down' },
+        team: [['wurmple', 11, ['tackle', 'string-shot', 'poison-sting']], ['pachirisu', 16], ['silcoon', 13, ['tackle', 'string-shot', 'poison-sting', 'harden']],
+               ['beautifly', 15, ['tackle', 'poison-sting', 'absorb', 'gust']]],
+        before: 'The forest is our bug paradise! Two of you? Then two of us!',
+        defeat: 'My collection got squashed, and her Pachirisu too...',
+        after: 'Pachirisu are not bugs, but Briana says it can come along anyway.' }, PAIR),
+      Object.assign({ id: 'kody-rachael', who: 'psychic', name: 'Kody & Rachael', x: 25, y: 3, dir: 'down', sight: 1, partner: { who: 'psychic', x: 26, y: 3, dir: 'down' },
+        team: [['meditite', 17, ['confusion', 'bide', 'meditate']], ['psyduck', 17, ['confusion', 'water-gun', 'scratch']]],
+        before: 'We saw the two of you coming in a dream. In the dream, we won!',
+        defeat: 'The dream was wrong...',
+        after: 'The old house deep in the forest? Even we cannot see what waits inside.' }, PAIR),
+      Object.assign({ id: 'lindsey-elijah', who: 'psychic', name: 'Lindsey & Elijah', x: 31, y: 8, dir: 'right', sight: 2, partner: { who: 'psychic', x: 31, y: 9, dir: 'right' },
+        team: [['abra', 17, ['hidden-power']], ['abra', 17, ['hidden-power']]],
+        before: 'We sensed you coming from far away. We also sense that you will lose!',
+        defeat: 'Our senses failed us...',
+        after: 'This forest is full of strange feelings. Some come from the Pokémon, some from somewhere older.' }, PAIR)
     ],
     items: [{ x: 37, y: 7, item: 'insect-plate', flag: 'eterna-forest-insect-plate', then: 'sitems.found' },   // chapter 94
             { x: 21, y: 20, item: 'super-potion', flag: 'eterna-forest-potion' }, { x: 2, y: 4, item: 'great-ball', flag: 'eterna-forest-ball' }],
@@ -253,8 +267,10 @@
     F.setFlag('cheryl-met');
     if (yes === 0) {
       await h.say(T('Thank you! I will stay right behind you.'), CHERYL);
+      await h.say(T('The Trainers here like to battle two at a time. If they do, Chansey and I will battle beside you!'), CHERYL);
       F.setFlag('cheryl-with');
       h.hide('cheryl');
+      if (G.World.makeFollower) G.World.makeFollower();
     } else {
       await h.say(T('Oh... Then I will wait here a little longer. Tell me if you change your mind!'), CHERYL);
     }
@@ -263,6 +279,8 @@
   async function cherylBye(h) {
     const F = G.Field, me = G.World.player;
     if (!F.flag('cheryl-with') || F.flag('cheryl-done')) return;
+    F.setFlag('cheryl-done');
+    if (G.World.makeFollower) G.World.makeFollower();
     if (me) h.place('cheryl2', me.x - 1, me.y, 'right');
     h.show('cheryl2');
     await h.say(T('We made it out of the forest! Thank you so much for letting me come along.'), CHERYL);

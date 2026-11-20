@@ -40,5 +40,21 @@ G.I18n.add({
   "Hey, that is not fair!": "Hé, ce n'est pas juste !",
   "You again? The steel in this mine is ours!": "Encore toi ? L'acier de cette mine est à nous !",
   "Time to run!": "Il est temps de filer !",
-  "Iron Island. The mine has been closed for years. Enter at your own risk.": "Île de Fer. La mine est fermée depuis des années. Entrez à vos risques et périls."
+  "Iron Island. The mine has been closed for years. Enter at your own risk.": "Île de Fer. La mine est fermée depuis des années. Entrez à vos risques et périls.",
+  "The Trainers below battle in pairs, so we will face them as a pair too.": "En bas, les Dresseurs se battent à deux. Nous les affronterons donc à deux, nous aussi.",
+  "Lucario can feel the Pokémon of this mine. They are frightened. Let us hurry.": "Lucario perçoit les Pokémon de cette mine. Ils ont peur. Dépêchons-nous.",
+  "Damon & Maurice": "Damon et Maurice",
+  "Two Hikers, two of you. This mine made our Pokémon as hard as its steel!": "Deux Montagnards contre vous deux. Cette mine a rendu nos Pokémon aussi durs que son acier !",
+  "Solid... but not solid enough.": "Solides... mais pas assez.",
+  "Jonah & Brenda": "Jonah et Brenda",
+  "We came down here to train in peace, and here you are with Riley. Fine: two against two!": "On est descendus ici pour s'entraîner en paix, et te voilà avec Armand. Très bien : deux contre deux !",
+  "All right, all right. You two work well together.": "D'accord, d'accord. Vous faites une bonne équipe.",
+  "Tyler & Kendal": "Tyler et Kendal",
+  "We train in the dark so we can fight anywhere. Hiyah!": "On s'entraîne dans le noir pour pouvoir se battre n'importe où. Hiyah !",
+  "We need more light... and more training.": "Il nous faut plus de lumière... et plus d'entraînement.",
+  "Brendon & Quentin": "Brendon et Quentin",
+  "We dig this mine, and those strange people scared off every Pokémon in it. You look like trouble too!": "On creuse cette mine, et ces gens bizarres ont fait fuir tous ses Pokémon. Toi aussi, tu as l'air de chercher des ennuis !",
+  "Sorry! You are the good kind of trouble.": "Pardon ! Toi, tu es du genre à régler les ennuis.",
+  "The people in space suits went down that narrow way.": "Les gens en combinaison spatiale sont descendus par ce passage étroit.",
+  "Two of you? Then two of us! The steel in this mine belongs to Team Galactic!": "Vous êtes deux ? Alors nous aussi ! L'acier de cette mine appartient à la Team Galaxie !"
 }, "fr");

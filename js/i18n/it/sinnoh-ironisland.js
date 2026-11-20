@@ -40,5 +40,21 @@ G.I18n.add({
   "Hey, that is not fair!": "Ehi, non è giusto!",
   "You again? The steel in this mine is ours!": "Ancora tu? L'acciaio di questa miniera è nostro!",
   "Time to run!": "È ora di scappare!",
-  "Iron Island. The mine has been closed for years. Enter at your own risk.": "Isola Ferrosa. La miniera è chiusa da anni. Entra a tuo rischio."
+  "Iron Island. The mine has been closed for years. Enter at your own risk.": "Isola Ferrosa. La miniera è chiusa da anni. Entra a tuo rischio.",
+  "The Trainers below battle in pairs, so we will face them as a pair too.": "Gli Allenatori di sotto lottano in coppia, quindi anche noi li affronteremo in coppia.",
+  "Lucario can feel the Pokémon of this mine. They are frightened. Let us hurry.": "Lucario percepisce i Pokémon di questa miniera. Sono spaventati. Sbrighiamoci.",
+  "Damon & Maurice": "Damon e Maurice",
+  "Two Hikers, two of you. This mine made our Pokémon as hard as its steel!": "Due Montanari contro voi due. Questa miniera ha reso i nostri Pokémon duri come il suo acciaio!",
+  "Solid... but not solid enough.": "Duri... ma non abbastanza.",
+  "Jonah & Brenda": "Jonah e Brenda",
+  "We came down here to train in peace, and here you are with Riley. Fine: two against two!": "Siamo scesi quaggiù per allenarci in pace, ed ecco che arrivi tu con Marisio. Va bene: due contro due!",
+  "All right, all right. You two work well together.": "Va bene, va bene. Siete proprio una bella squadra.",
+  "Tyler & Kendal": "Tyler e Kendal",
+  "We train in the dark so we can fight anywhere. Hiyah!": "Ci alleniamo al buio per poter combattere ovunque. Hiyah!",
+  "We need more light... and more training.": "Ci serve più luce... e più allenamento.",
+  "Brendon & Quentin": "Brendon e Quentin",
+  "We dig this mine, and those strange people scared off every Pokémon in it. You look like trouble too!": "Noi scaviamo in questa miniera, e quella gente strana ha spaventato tutti i Pokémon. Anche tu hai l'aria di creare guai!",
+  "Sorry! You are the good kind of trouble.": "Scusa! Tu i guai li risolvi.",
+  "The people in space suits went down that narrow way.": "La gente con le tute spaziali è scesa da quel passaggio stretto.",
+  "Two of you? Then two of us! The steel in this mine belongs to Team Galactic!": "Siete in due? Allora anche noi! L'acciaio di questa miniera appartiene al Team Galassia!"
 }, "it");

@@ -40,5 +40,21 @@ G.I18n.add({
   "Hey, that is not fair!": "Ei, isso não é justo!",
   "You again? The steel in this mine is ours!": "Você de novo? O aço desta mina é nosso!",
   "Time to run!": "Hora de correr!",
-  "Iron Island. The mine has been closed for years. Enter at your own risk.": "Iron Island. A mina está fechada há anos. Entre por sua conta e risco."
+  "Iron Island. The mine has been closed for years. Enter at your own risk.": "Iron Island. A mina está fechada há anos. Entre por sua conta e risco.",
+  "The Trainers below battle in pairs, so we will face them as a pair too.": "Os Treinadores lá embaixo batalham em dupla, então vamos enfrentá-los em dupla também.",
+  "Lucario can feel the Pokémon of this mine. They are frightened. Let us hurry.": "Lucario consegue sentir os Pokémon desta mina. Eles estão assustados. Vamos depressa.",
+  "Damon & Maurice": "Damon e Maurice",
+  "Two Hikers, two of you. This mine made our Pokémon as hard as its steel!": "Dois Alpinistas contra vocês dois. Esta mina deixou nossos Pokémon duros como o aço dela!",
+  "Solid... but not solid enough.": "Duros... mas não o bastante.",
+  "Jonah & Brenda": "Jonah e Brenda",
+  "We came down here to train in peace, and here you are with Riley. Fine: two against two!": "Descemos aqui para treinar em paz, e lá vem você com o Riley. Tudo bem: dois contra dois!",
+  "All right, all right. You two work well together.": "Tá bom, tá bom. Vocês dois formam uma boa dupla.",
+  "Tyler & Kendal": "Tyler e Kendal",
+  "We train in the dark so we can fight anywhere. Hiyah!": "Treinamos no escuro para poder lutar em qualquer lugar. Hiyah!",
+  "We need more light... and more training.": "Precisamos de mais luz... e de mais treino.",
+  "Brendon & Quentin": "Brendon e Quentin",
+  "We dig this mine, and those strange people scared off every Pokémon in it. You look like trouble too!": "Nós escavamos esta mina, e aquelas pessoas estranhas espantaram todos os Pokémon. Você também tem cara de encrenca!",
+  "Sorry! You are the good kind of trouble.": "Desculpe! Você é do tipo que resolve encrenca.",
+  "The people in space suits went down that narrow way.": "As pessoas de traje espacial desceram por aquela passagem estreita.",
+  "Two of you? Then two of us! The steel in this mine belongs to Team Galactic!": "São dois? Então nós também! O aço desta mina pertence à Equipe Galáctica!"
 }, "pt-BR");

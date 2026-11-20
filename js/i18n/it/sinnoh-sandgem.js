@@ -33,5 +33,7 @@ G.I18n.add({
   "As I thought. Pokémon from Kanto to Sinnoh, all in one little machine. It has outgrown any one region.": "Come pensavo. Pokémon da Kanto a Sinnoh, tutti in una macchinetta. Una sola regione non gli basta più.",
   "{player}'s Pokédex was upgraded to the National Pokédex! It now lists every Pokémon known.": "Il Pokédex di {player} è diventato il Pokédex Nazionale! Ora elenca tutti i Pokémon conosciuti.",
   "Now listen. {uxie}, {mesprit} and {azelf} have gone home to their lakes, and each has a cave there. Lake Valor's you can walk to. For the other two you will have to Surf.": "Ascolta. {uxie}, {mesprit} e {azelf} sono tornati ai loro laghi, e ognuno ha lì una grotta. A quella del Lago Valore si arriva a piedi. Per le altre due ti servirà Surf.",
-  "And the elder of Celestic Town has been asking for you. Something to do with the Spear Pillar. Do not keep her waiting.": "E l'anziana di Memoride ha chiesto di te. Qualcosa sulla Vetta Lancia. Non farla aspettare."
+  "And the elder of Celestic Town has been asking for you. Something to do with the Spear Pillar. Do not keep her waiting.": "E l'anziana di Memoride ha chiesto di te. Qualcosa sulla Vetta Lancia. Non farla aspettare.",
+  "{player}! Do you remember Jubilife City, when those two grunts would not leave me alone? We battled them side by side.": "{player}! Ti ricordi di Giubilopoli, quando quelle due reclute non mi lasciavano in pace? Abbiamo lottato fianco a fianco.",
+  "Since then you have battled beside so many people, and you became the Champion. I am proud I was your first partner!": "Da allora hai lottato al fianco di tantissime persone e hai raggiunto la vetta della Lega. Che orgoglio essere stata la prima persona a lottare al tuo fianco!"
 }, "it");

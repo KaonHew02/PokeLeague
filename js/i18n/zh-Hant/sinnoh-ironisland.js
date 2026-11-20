@@ -40,5 +40,21 @@ G.I18n.add({
   "Hey, that is not fair!": "喂，這不公平！",
   "You again? The steel in this mine is ours!": "又是你？這座礦山的鋼鐵是我們的！",
   "Time to run!": "快跑！",
-  "Iron Island. The mine has been closed for years. Enter at your own risk.": "鋼鐵島。礦山已關閉多年。入內風險自負。"
+  "Iron Island. The mine has been closed for years. Enter at your own risk.": "鋼鐵島。礦山已關閉多年。入內風險自負。",
+  "The Trainers below battle in pairs, so we will face them as a pair too.": "下面的訓練家都是兩人一組對戰，所以我們也兩個人一起應戰吧。",
+  "Lucario can feel the Pokémon of this mine. They are frightened. Let us hurry.": "路卡利歐能感覺到這座礦坑裡的寶可夢。牠們很害怕。我們快走吧。",
+  "Damon & Maurice": "戴蒙和莫里斯",
+  "Two Hikers, two of you. This mine made our Pokémon as hard as its steel!": "兩個登山男對你們兩個。這座礦坑讓我們的寶可夢變得跟這裡的鋼鐵一樣硬！",
+  "Solid... but not solid enough.": "夠硬……但還不夠硬。",
+  "Jonah & Brenda": "約拿和布倫達",
+  "We came down here to train in peace, and here you are with Riley. Fine: two against two!": "我們下來這裡是想安靜地修行，結果你和亞玄來了。好吧，二對二！",
+  "All right, all right. You two work well together.": "好啦好啦。你們兩個配合得真好。",
+  "Tyler & Kendal": "泰勒和肯德爾",
+  "We train in the dark so we can fight anywhere. Hiyah!": "我們在黑暗中修行，在哪裡都能戰鬥。嘿呀！",
+  "We need more light... and more training.": "我們需要更多光……還有更多修行。",
+  "Brendon & Quentin": "布倫登和昆汀",
+  "We dig this mine, and those strange people scared off every Pokémon in it. You look like trouble too!": "我們在這座礦坑幹活，那些怪人把這裡的寶可夢全嚇跑了。你看起來也像來搗亂的！",
+  "Sorry! You are the good kind of trouble.": "對不起！你是來解決麻煩的那種人。",
+  "The people in space suits went down that narrow way.": "穿太空服的那些人從那條窄路下去了。",
+  "Two of you? Then two of us! The steel in this mine belongs to Team Galactic!": "你們有兩個人？那我們也兩個！這座礦坑的鋼鐵歸銀河隊所有！"
 }, "zh-Hant");

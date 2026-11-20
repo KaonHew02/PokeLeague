@@ -84,5 +84,9 @@ G.I18n.add({
   "Big sister and me, against you! Ready?": "姐姐和我一起对付你！准备好了吗？",
   "Sis, we lost!": "姐姐，我们输了！",
   "Some moves hit both foes at once. Surf is one of them!": "有些招式能同时打中两个对手。冲浪就是其中之一！",
-  "A letter lies on the table beside a Poké Ball: \"Congratulations, Champion. I met this Pokémon on my travels. Please look after it for me. - Steven\"": "桌上的精灵球旁边放着一封信：“恭喜你成为冠军。这是我在旅途中遇到的宝可梦。请替我好好照顾它。——大吾”"
+  "A letter lies on the table beside a Poké Ball: \"Congratulations, Champion. I met this Pokémon on my travels. Please look after it for me. - Steven\"": "桌上的精灵球旁边放着一封信：“恭喜你成为冠军。这是我在旅途中遇到的宝可梦。请替我好好照顾它。——大吾”",
+  "Two of them now? Then the boss and I will crush them both together!": "现在变成两个人了？那我和老大就一起把他们都打垮！",
+  "{player}, we fight them side by side. Choose three of your Pokémon, and I will bring three of mine.": "{player}，我们并肩作战吧。选出你的三只宝可梦，我也派出我的三只。",
+  "Get ready quickly, {player}. Talk to me when you are set.": "{player}，快点准备好。准备好了就来跟我说。",
+  "Maxie and Tabitha": "赤焰松和火村"
 }, "zh-Hans");

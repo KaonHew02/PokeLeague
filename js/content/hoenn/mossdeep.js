@@ -7,7 +7,8 @@
  * (a letter), a house, the Space Center, and Tate and Liza's Gym. The twins battle as one Trainer (a
  * double battle since chapter 40): the Mind Badge (badge 23: Pokémon up to Lv. 70 obey in Hoenn) and TM04 Calm
  * Mind. Then Team Magma raids the Space Center for its rocket fuel: two grunts on 1F; on 2F Steven heals
- * your team, Tabitha battles you, then Maxie (flag space-center-saved), then `ending(36)`.
+ * your team, then (chapter 101, Emerald's multi battle) three of yours fight beside him against Maxie and Tabitha
+ * (flag space-center-saved), then `ending(36)`.
  */
 (() => {
   const T = s => G.T(s);
@@ -16,6 +17,17 @@
   const TATE = { name: 'Tate' }, LIZA = { name: 'Liza' };
   const HOUSE = ['WWWWWWWWWWW', 'WWWWWWWWWWW', 'bb__p______', '___________', '____ttt____', '____ttt____', '___________', '____X______'];
   const ATTACK = ['badge:23', '!space-center-saved'];
+  // Chapter 101: Emerald's multi battle at the Space Center (pret/pokeemerald: MossdeepCity_SpaceCenter_2F/scripts.inc;
+  // Steven's three from sStevenMons in src/battle_tower.c, IVs of 31 and the natures the code means to give, without their
+  // EVs; Maxie's and Tabitha's from sParty_MaxieMossdeep and sParty_TabithaMossdeep). Their teams alternate, each refilling
+  // their own slot (rules.tag). Exported on the map for the balance test.
+  const IV31 = [31, 31, 31, 31, 31, 31];
+  const STEVEN_TEAM = [
+    ['metang', 42, ['light-screen', 'psychic', 'reflect', 'metal-claw'], null, { nature: 'brave', ivs: IV31 }],
+    ['skarmory', 43, ['toxic', 'aerial-ace', 'protect', 'steel-wing'], null, { nature: 'impish', ivs: IV31 }],
+    ['aggron', 44, ['thunder', 'protect', 'solar-beam', 'dragon-claw'], null, { nature: 'adamant', ivs: IV31 }]];
+  const MAGMA = { id: 'magma-space', who: 'maxie', cls: 'magma-leader', name: 'Maxie and Tabitha', ai: 'leader', double: true,
+    team: [['mightyena', 42], ['camerupt', 36], ['crobat', 43], ['mightyena', 38], ['camerupt', 44], ['golbat', 40]] };
 
   // ---------------- Team Aqua's hideout ----------------
   G.Maps.def(Object.assign({
@@ -262,16 +274,12 @@
     rows: ['WWWWWWWWWWWWW', 'WWWWWWWWWWWWW', 'bbb+++++++^bb', '+++++++++++++', '++ttt++++ttt+', '+++++++++++++', '+++++++++++++', '+++++++++++++'],
     warps: [{ x: 10, y: 2, to: 'space-center-1f', spot: 'stairs' }],
     spots: { stairs: [10, 3, 'down'] },
-    trainers: [
-      { id: 'tabitha', who: 'tabitha', cls: 'magma-admin', name: 'Tabitha', x: 6, y: 5, dir: 'right', sight: 0, if: ATTACK, team: [['camerupt', 40], ['mightyena', 40], ['golbat', 41]],
-        before: 'You again! This time I will not lose!',
-        defeat: 'Hmph... The boss will handle you.',
-        after: 'Go on, then.' }
-    ],
+    magma: MAGMA, stevenTeam: STEVEN_TEAM,
     npcs: [
       { id: 'director', who: 'scientist', x: 1, y: 3, dir: 'down', script: 'space.director' },
+      { id: 'tabitha', who: 'tabitha', x: 6, y: 5, dir: 'right', if: ATTACK, script: 'space.maxie' },
       { id: 'maxie', who: 'maxie', x: 4, y: 6, dir: 'right', if: ATTACK, script: 'space.maxie' },
-      { id: 'steven', who: 'steven', x: 9, y: 6, dir: 'left', if: ATTACK, script: 'space.steven' }
+      { id: 'steven', who: 'steven', x: 9, y: 6, dir: 'left', if: ATTACK, script: 'space.maxie' }
     ]
   }, HOENN));
 
@@ -301,14 +309,38 @@
     if (h.healAnim) await h.healAnim();
     await h.say(T('{player}\'s Pokémon were healed!'));
   }
+  /** Three of yours for the multi battle (Emerald's ChooseHalfPartyForBattle): chosen when more than three can battle,
+   *  else all of them. -> the Pokémon, or null when the choice is called off */
+  async function pickThree(h) {
+    const able = G.Field.party().filter(m => m.hp > 0 && !m.egg);
+    if (able.length <= 3) return able;
+    const party = G.Field.party(), picks = [];
+    const pick = h.pickMon || (o => (G.PartyUI ? G.PartyUI.pick(o) : Promise.resolve(null)));
+    while (picks.length < 3) {
+      const i = await pick({ title: G.I18n.fmt('Choose Pokémon {k} of {n}.', { k: picks.length + 1, n: 3 }),
+        note: (m, j) => (picks.includes(j) ? G.I18n.fmt('No. {k}', { k: picks.indexOf(j) + 1 }) : null),
+        disabled: (m, j) => picks.includes(j) || !(m.hp > 0) || !!m.egg });
+      if (i == null || i < 0 || picks.includes(i) || !party[i] || !(party[i].hp > 0) || party[i].egg) return null;
+      picks.push(i);
+    }
+    return picks.map(i => party[i]);
+  }
+
   async function maxie(h) {
     const F = G.Field;
     if (!F.test(ATTACK)) return;
     h.face('maxie', 'player');
     await h.say(T('So, you again. Rocket fuel poured into Mt. Chimney would wake the volcano for good... and the Red Orb would do the rest.'), MAXIE);
-    await h.say(T('I will not let a child stand in my way twice!'), MAXIE);
-    const out = await h.battle({ id: 'maxie-space', who: 'maxie', cls: 'magma-leader', name: 'Maxie', ai: 'leader', items: { 'hyper-potion': 1 },
-      team: [['mightyena', 42], ['crobat', 42], ['camerupt', 43]] }, {});
+    h.face('tabitha', 'player');
+    await h.say(T('Two of them now? Then the boss and I will crush them both together!'), TABITHA);
+    h.face('steven', 'player');
+    await h.say(T('{player}, we fight them side by side. Choose three of your Pokémon, and I will bring three of mine.'), STEVEN);
+    const team = await pickThree(h);
+    if (!team) {
+      await h.say(T('Get ready quickly, {player}. Talk to me when you are set.'), STEVEN);
+      return;
+    }
+    const out = await h.battle(MAGMA, { party: team, keepBag: true, partner: { name: T('Steven'), team: STEVEN_TEAM }, rules: { tag: true } });
     if (out === 'lose') return;
     await h.say(T('...Even so, the Red Orb is mine. Team Magma, withdraw! We go where the master of the land sleeps.'), MAXIE);
     for (const id of ['maxie', 'tabitha']) h.hide(id);
@@ -323,18 +355,8 @@
   G.Script.def({
     'hideout.matt': [['js', matt]],
     'space.enter': [['if', ATTACK, [['js', raid], ['call', 'space.maxie']]]],
-    // Tabitha first (unless already beaten, e.g. by talking to her), then Maxie.
-    'space.maxie': [
-      ['if', '!done:space-center-2f:tabitha', [
-        ['face', 'tabitha', 'player'],
-        ['say', 'You again! This time I will not lose!', TABITHA],
-        ['battle', 'tabitha'],
-        ['if', 'battle=lose', [['end']]],
-        ['say', 'Hmph... The boss will handle you.', TABITHA]
-      ]],
-      ['js', maxie]
-    ],
-    'space.steven': [['say', 'Team Magma\'s leader is right there. Let us finish this, {player}!', STEVEN]],
+    // Chapter 101: Maxie and Tabitha together, beside Steven (talking to any of the three starts it again).
+    'space.maxie': [['js', maxie]],
     // Chapter 40: once you are the Champion, a Poké Ball and a new letter (a Beldum).
     'mossdeep.steven-letter': [
       ['if', ['hoenn-champion', '!got-beldum'], [

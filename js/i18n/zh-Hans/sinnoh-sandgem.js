@@ -33,5 +33,7 @@ G.I18n.add({
   "As I thought. Pokémon from Kanto to Sinnoh, all in one little machine. It has outgrown any one region.": "果然。从关都到神奥的宝可梦，全在这台小机器里。一个地区已经装不下它了。",
   "{player}'s Pokédex was upgraded to the National Pokédex! It now lists every Pokémon known.": "{player}的图鉴升级成了全国图鉴！现在所有已知的宝可梦都会列出来。",
   "Now listen. {uxie}, {mesprit} and {azelf} have gone home to their lakes, and each has a cave there. Lake Valor's you can walk to. For the other two you will have to Surf.": "听好。{uxie}、{mesprit}和{azelf}都回到了各自的湖，每个湖都有一个洞穴。立志湖的走路就能到，另外两个要用冲浪。",
-  "And the elder of Celestic Town has been asking for you. Something to do with the Spear Pillar. Do not keep her waiting.": "还有，神和镇的长老一直在找你，好像和枪之柱有关。别让她等太久。"
+  "And the elder of Celestic Town has been asking for you. Something to do with the Spear Pillar. Do not keep her waiting.": "还有，神和镇的长老一直在找你，好像和枪之柱有关。别让她等太久。",
+  "{player}! Do you remember Jubilife City, when those two grunts would not leave me alone? We battled them side by side.": "{player}！你还记得在祝庆市，那两个手下一直缠着我不放的时候吗？我们并肩打败了他们。",
+  "Since then you have battled beside so many people, and you became the Champion. I am proud I was your first partner!": "从那以后，你和好多人并肩作战过，还成为了冠军。我很骄傲自己是你第一个并肩作战的伙伴！"
 }, "zh-Hans");

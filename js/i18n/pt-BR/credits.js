@@ -281,5 +281,8 @@ G.I18n.add({
   "Twenty-one Honey trees stand across Sinnoh. Floaroma's Honey seller has plenty, and four of the trees are dear to Munchlax.": "Há vinte e uma árvores de Honey por toda Sinnoh. O vendedor de Honey de Floaroma Town tem de sobra, e quatro das árvores são as preferidas de Munchlax.",
   "Chapter 100 complete!": "Capítulo 100 concluído!",
   "{player} gathered all sixteen plates, played the Azure Flute at the Spear Pillar and stood before Arceus in the Hall of Origin.": "{player} reuniu as dezesseis placas, tocou a Azure Flute no Spear Pillar e ficou diante de Arceus no Hall of Origin.",
-  "A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.": "Cem capítulos, de um primeiro passo em Pallet Town até o Ser Original. Obrigado por percorrer todo este caminho."
+  "A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.": "Cem capítulos, de um primeiro passo em Pallet Town até o Ser Original. Obrigado por percorrer todo este caminho.",
+  "Chapter 101 complete!": "Capítulo 101 concluído!",
+  "{player} battled beside Steven at the Space Center, beside Professor Rowan's assistant in Jubilife City, beside Cheryl in Eterna Forest and beside Riley on Iron Island.": "{player} batalhou ao lado de Steven no Centro Espacial, do assistente do Professor Rowan em Jubilife, de Cheryl na Eterna Forest e de Riley na Iron Island.",
+  "Every partner met on the way has fought at your side. Who will you team up with next?": "Cada parceiro que você conheceu no caminho lutou ao seu lado. Com quem você vai formar dupla da próxima vez?"
 }, "pt-BR");

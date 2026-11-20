@@ -115,12 +115,16 @@ async function fight(st, ref, o, h) {
     key = mid + ':' + tid;
   } else key = W.map + ':' + d.id;
   const cls = G.TRAINER_CLASSES[d.cls] || {};
+  // The map's ally (chapter 62; chapter 101 in the harness too): beside you against its double-battle trainers, as field.js does.
+  const ally = here(st).ally;
+  if (!(o && o.partner) && d.double && ally && G.Field.test(ally.if)) o = Object.assign({}, o, { partner: { name: ally.name, team: ally.team }, rules: Object.assign({ tag: true }, o && o.rules) });
   const rng = G.RNG(W.seed * 977 + st.battles.length);
   const team = list => list.map(([sp, lvl, moves, item, x]) => Object.assign(G.Mon.create(G.Maps.species(sp), lvl, Object.assign({ rng, moves }, x)), item ? { item } : {}));
   const party = d.mons || team(d.team), partner = o && o.partner ? { name: o.partner.name, party: team(o.partner.team) } : undefined;
-  // o.party / o.rules / o.record (the Battle Tower, chapter 43): copies fight, with more rules, and are not recorded.
+  // o.party / o.rules / o.record (the Battle Tower, chapter 43): copies fight, with more rules, and are not recorded;
+  // o.keepBag (chapter 101): your own chosen Pokémon, with the Bag.
   const b = G.Battle.create({ kind: 'trainer', seed: W.seed * 31 + st.battles.length,
-    player: { name: S.player.name, id: S.player.id, party: (o && o.party) || S.party, bag: o && o.party ? {} : S.bag }, partner,
+    player: { name: S.player.name, id: S.player.id, party: (o && o.party) || S.party, bag: o && o.party && !o.keepBag ? {} : S.bag }, partner,
     foe: { party, trainer: { id: key, name: d.name || '', ai: d.ai || (d.leader ? 'leader' : 'basic'), items: d.items || {}, prize: d.prize != null ? d.prize : cls.prize } },
     rules: Object.assign({ canLose: !!(o && o.canLose), obeyCap: obeyCap(st), double: !!d.double }, here(st).noExp ? { noExp: true } : {}, o && o.rules) });
   b.start();
@@ -593,6 +597,59 @@ test('balance: Archie in the Seafloor Cavern (chapter 37), win rates of typical 
   // of three with Electric and Ghost moves wins with any starter.
   for (const k of ['swampert', 'sceptile', 'blaziken']) assert.ok(table[k + ' 44 + manectric 40 + banette 40'] >= 0.6, k + ' with a team of three');
   assert.ok(table['swampert 44'] < 0.2 && table['sceptile 44'] < 0.2 && table['blaziken 44'] < 0.2, 'a lone starter is outlasted');
+});
+
+test('balance: the battles beside a partner in the story (chapter 101), win rates of typical teams are printed', () => {
+  const { G } = world(1);
+  const mk = (list, rng) => list.map(([x, l, moves, item, o]) => Object.assign(G.Mon.create(G.Maps.species(x), l, Object.assign({ rng, moves }, o)), item ? { item } : {}));
+  // A multi battle: you and a partner against a pair whose teams alternate (rules.tag), as field.js runs it.
+  const rate = (foe, partner, name, me) => {
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: mk(me, rng), bag: {} }, partner: { name, party: mk(partner, rng) },
+        foe: { party: mk(foe.team, rng), trainer: { id: foe.id, name: foe.name, ai: foe.ai || 'basic', items: {}, prize: 10 } }, rules: { double: true, tag: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return Math.round(wins / 40 * 100) / 100;
+  };
+  // Jubilife City: your starter alone beside the assistant (the starter neither you nor Barry took) against both grunts.
+  const COUNTER = { 387: 390, 390: 393, 393: 387 };
+  const jubilife = {};
+  for (const [k, sp] of [['turtwig', 387], ['chimchar', 390], ['piplup', 393]]) {
+    for (const lvl of [8, 10]) jubilife[k + ' ' + lvl] = rate(G.Sinnoh.jubilifeGrunts, G.Sinnoh.assistantTeam(COUNTER[sp]), 'Dawn', [[sp, lvl]]);
+    // With a Starly caught on Route 201 or 202, as most players have by then.
+    jubilife[k + ' 10 + starly 8'] = rate(G.Sinnoh.jubilifeGrunts, G.Sinnoh.assistantTeam(COUNTER[sp]), 'Dawn', [[sp, 10], [396, 8]]);
+  }
+  // Eterna Forest: beside Cheryl's Chansey against each of the four pairs.
+  const forest = G.Maps.get('eterna-forest'), cheryl = forest.def.cherylTeam;
+  const eterna = {};
+  for (const [k, me] of [['monferno 16', [[391, 16]]], ['grotle 18 + staravia 16', [[388, 18], [397, 16]]], ['monferno 18 + staravia 16', [[391, 18], [397, 16]]],
+                         ['prinplup 18 + staravia 16', [[394, 18], [397, 16]]]]) eterna[k] = forest.trainers.map(t => rate(t, cheryl, 'Cheryl', me));
+  // Iron Island: beside Riley's Lucario against both grunts.
+  const iron = G.Maps.get('iron-b2f'), grunts = iron.trainers.find(t => t.id === 'grunts-iron');
+  const vsGrunts = {};
+  for (const [k, sp] of [['torterra', 389], ['infernape', 392], ['empoleon', 395]]) {
+    vsGrunts[k + ' 40'] = rate(grunts, iron.def.rileyTeam, 'Riley', [[sp, 40]]);
+    vsGrunts[k + ' 40 + luxray 38'] = rate(grunts, iron.def.rileyTeam, 'Riley', [[sp, 40], [405, 38]]);
+  }
+  // The Space Center: three of a typical team (the Tate and Liza test's) beside Steven against Maxie and Tabitha.
+  const space = G.Maps.get('space-center-2f').def;
+  const SWAMPERT = ['surf', 'muddy-water', 'take-down', 'protect'], SCEPTILE = ['leaf-blade', 'quick-attack', 'agility', 'slam'];
+  const BLAZIKEN = ['blaze-kick', 'double-kick', 'slash', 'bulk-up'], MIGHTYENA = ['bite', 'take-down', 'sand-attack', 'howl'];
+  const BANETTE = ['shadow-ball', 'feint-attack', 'knock-off', 'will-o-wisp'];
+  const magma = {};
+  for (const [k, st] of [['swampert', [260, 42, SWAMPERT]], ['sceptile', [254, 42, SCEPTILE]], ['blaziken', [257, 42, BLAZIKEN]]]) {
+    magma[k + ' 42'] = rate(space.magma, space.stevenTeam, 'Steven', [st]);
+    magma[k + ' 42 + mightyena, banette 40'] = rate(space.magma, space.stevenTeam, 'Steven', [st, [262, 40, MIGHTYENA], [354, 40, BANETTE]]);
+  }
+  console.log('[balance] beside a partner:', JSON.stringify({ jubilife, eterna, ironGrunts: vsGrunts, maxieTabitha: magma }));
+  // The grunts in Jubilife: Platinum's levels (11) are hard on a lone Chimchar (its partner is the assistant's Turtwig, whose
+  // Grass moves Stunky resists); with a second Pokémon every starter wins.
+  for (const k of ['turtwig', 'chimchar', 'piplup']) assert.ok(jubilife[k + ' 10 + starly 8'] >= 0.6, k + ' and a Starly beside the assistant');
+  // Maxie and Tabitha are bosses: three of yours beside Steven win at a normal difficulty.
+  for (const k of ['swampert', 'sceptile', 'blaziken']) assert.ok(magma[k + ' 42 + mightyena, banette 40'] >= 0.6, k + ' with two friends beside Steven');
 });
 
 test('balance: Tate and Liza in Mossdeep (chapter 36), win rates of typical teams are printed', () => {
@@ -3948,14 +4005,17 @@ async function chapter36(st) {
   assert.equal(F.obeyCap('hoenn'), 70, 'seven Hoenn badges: up to Lv. 70');
   assert.equal(F.count('tm04'), tm04 + 1);
   assert.equal(S.player.money - money, 4200);
-  // Team Magma raids the Space Center: Steven heals the team, then Tabitha and Maxie.
+  // Team Magma raids the Space Center: Steven heals the team, then (chapter 101, Emerald's multi battle) three of yours beside
+  // him against Maxie and Tabitha: the first three are chosen.
   await all('space-center-1f');
   F.party().forEach(m => { m.hp = 1; });
+  const n = st.battles.length;
+  st.picks.push(0, 1, 2);
   await run(st, 'space-center-2f', G.Maps.get('space-center-2f').def.enter);
-  assert.equal(st.battles[st.battles.length - 2].key, 'space-center-2f:tabitha');
-  assert.equal(last().key, 'space-center-2f:maxie-space');
+  assert.equal(st.battles.length, n + 1, 'one battle');
+  assert.equal(last().key, 'space-center-2f:magma-space');
   won();
-  console.log('[story] Maxie at the Space Center: won at levels', last().levels.join());
+  console.log('[story] Maxie and Tabitha beside Steven at the Space Center: won with', F.party().slice(0, 3).map(m => G.Names.mon(m.sp)).join(), 'at levels', last().levels.join());
   assert.ok(F.flag('space-center-saved') && F.flag('chapter-36-done'));
   assert.deepEqual(st.errors, [], 'no script errors');
 }
@@ -4299,9 +4359,11 @@ async function chapter45(st) {
   grind(st, 'route202', 8, 300);
   await all('route202');
   // Jubilife City: Team Galactic presses the assistant for Rowan's research; the Trainers' School.
+  // Chapter 101: a multi battle beside the assistant (the starter neither you nor Barry took).
   await run(st, 'jubilife', 'jubilife.galactic');
-  assert.equal(last().key, 'jubilife:grunt-jubilife');
+  assert.equal(last().key, 'jubilife:grunts-jubilife');
   won();
+  console.log('[story] the grunts in Jubilife beside the assistant:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
   assert.ok(F.flag('galactic-jubilife'));
   await all('jubilife-school');
   // Route 203: Barry (losing is allowed), the Trainers.
@@ -4374,9 +4436,11 @@ async function chapter46(st) {
   assert.equal(last().key, 'wild:drifloon');
   assert.ok(F.flag('drifloon-met'));
   // Eterna Forest with Cheryl: her Sitrus Berries at the far side.
+  // Chapter 101: the forest's four pairs, each a multi battle beside Cheryl.
   await run(st, 'eterna-forest', 'eterna.cheryl', [0]);
   assert.ok(F.flag('cheryl-with'));
   await all('eterna-forest');
+  console.log('[story] Eterna Forest beside Cheryl:', G.Maps.get('eterna-forest').trainers.length, 'pairs won with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
   const sitrus = F.count('sitrus-berry');
   await run(st, 'eterna-forest', 'eterna.cheryl-bye');
   assert.ok(F.flag('cheryl-done') && F.count('sitrus-berry') === sitrus + 2);
@@ -4651,13 +4715,12 @@ async function chapter51(st) {
   await all('iron-b1f');
   await run(st, 'iron-b1f', 'iron.riley');
   assert.ok(F.flag('riley-with'));
-  await all('iron-b2f', ['grunt-iron1', 'grunt-iron2']);
-  await fight('iron-b2f', 'grunt-iron1');
-  won();
-  assert.ok(F.flag('iron-grunt1'));
+  // Chapter 101: B2F's four pairs and then both grunts, each a multi battle beside Riley.
+  await all('iron-b2f', ['grunts-iron']);
   const eggs = D.eggs().length;
-  await fight('iron-b2f', 'grunt-iron2');
+  await fight('iron-b2f', 'grunts-iron');
   won();
+  console.log('[story] the grunts on Iron Island beside Riley:', last().outcome, 'with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
   assert.ok(F.flag('riley-done') && F.flag('riolu-egg') && F.test(door.if), 'the egg, and the Gym is open');
   assert.equal(D.eggs().length, eggs + 1);
   assert.equal(D.eggs()[eggs].mon.sp, 447, 'Riolu');
@@ -4797,6 +4860,20 @@ function tend(G) {
   useOn(['max-revive', 'revive'], m => m.hp <= 0);
   useOn(['full-restore', 'hyper-potion'], m => m.hp > 0 && m.hp * 2 < G.Mon.maxHp(m));
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
+}
+
+/** Chapter 101 after chapter 100: the battles beside a partner; the assistant in Professor Rowan's lab remembers Jubilife
+ *  City (the ending). */
+async function chapter101(st) {
+  const { G } = st;
+  const F = G.Field;
+  const n = st.log.length;
+  await run(st, 'rowan-lab', npc(st, 'rowan-lab', G.Sinnoh.asst()));
+  console.log('[story] battles beside a partner: the assistant remembers Jubilife City (' + (st.log.length - n) + ' lines)');
+  assert.ok(F.flag('chapter-101-done'));
+  await run(st, 'rowan-lab', npc(st, 'rowan-lab', G.Sinnoh.asst()));
+  assert.ok(st.log.slice(-1)[0].includes('Pokédex'), 'the usual words after');
+  assert.deepEqual(st.errors, [], 'no script errors');
 }
 
 /** Chapter 100 after chapter 99: Arceus: the plates still missing picked up where Platinum has them, the sixteen shown to
@@ -6207,4 +6284,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter98(st);
   await chapter99(st);
   await chapter100(st);
+  await chapter101(st);
 });

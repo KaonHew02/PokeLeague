@@ -84,5 +84,9 @@ G.I18n.add({
   "Big sister and me, against you! Ready?": "Minha irmã mais velha e eu contra você! Pronto?",
   "Sis, we lost!": "Mana, a gente perdeu!",
   "Some moves hit both foes at once. Surf is one of them!": "Alguns golpes atingem os dois oponentes de uma vez. Surf é um deles!",
-  "A letter lies on the table beside a Poké Ball: \"Congratulations, Champion. I met this Pokémon on my travels. Please look after it for me. - Steven\"": "Há uma carta sobre a mesa, ao lado de uma Poké Ball: \"Parabéns, Campeão. Conheci este Pokémon em minhas viagens. Por favor, cuide dele por mim. Steven\""
+  "A letter lies on the table beside a Poké Ball: \"Congratulations, Champion. I met this Pokémon on my travels. Please look after it for me. - Steven\"": "Há uma carta sobre a mesa, ao lado de uma Poké Ball: \"Parabéns, Campeão. Conheci este Pokémon em minhas viagens. Por favor, cuide dele por mim. Steven\"",
+  "Two of them now? Then the boss and I will crush them both together!": "Agora são dois? Então o chefe e eu vamos esmagar os dois juntos!",
+  "{player}, we fight them side by side. Choose three of your Pokémon, and I will bring three of mine.": "{player}, vamos enfrentá-los lado a lado. Escolha três dos seus Pokémon, e eu levo três dos meus.",
+  "Get ready quickly, {player}. Talk to me when you are set.": "Prepare-se depressa, {player}. Fale comigo quando estiver tudo pronto.",
+  "Maxie and Tabitha": "Maxie e Tabitha"
 }, "pt-BR");

@@ -196,9 +196,21 @@
       ]]
     ],
     'sinnoh.rowan': [['js', rowan]],
+    // Chapter 101 (my own): once chapter 100 is done, the assistant remembers the battle beside you in Jubilife City.
     'sinnoh.assistant': [
-      ['say', 'The professor says a Pokédex is filled one meeting at a time. Let\'s both fill ours!', ASSIST]
+      ['if', ['chapter-100-done', '!chapter-101-done'], [['js', partners]], [
+        ['say', 'The professor says a Pokédex is filled one meeting at a time. Let\'s both fill ours!', ASSIST]
+      ]]
     ]
   });
+  /** Chapter 101: the battle side by side in Jubilife City, remembered; the end of the chapter. */
+  async function partners(h) {
+    const F = G.Field;
+    h.face(asst(), 'player');
+    await h.say(T('{player}! Do you remember Jubilife City, when those two grunts would not leave me alone? We battled them side by side.'), ASSIST);
+    await h.say(T('Since then you have battled beside so many people, and you became the Champion. I am proud I was your first partner!'), ASSIST);
+    if (G.CreditsUI) await G.CreditsUI.ending(101); else F.setFlag('chapter-101-done');
+  }
+
   G.Sinnoh = Object.assign(G.Sinnoh || {}, { dex, asst });
 })();

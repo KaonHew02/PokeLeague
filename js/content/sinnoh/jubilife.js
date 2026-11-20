@@ -5,7 +5,8 @@
  * Trainers' School (the blackboard on Sinnoh's new ways to evolve; two School Kids), a condominium;
  * Jubilife TV and the Pokétch Company are closed; Route 204 to the north opens with the Coal Badge (chapter 46).
  * Coming in from Route 202, two Team Galactic grunts are pressing the assistant for Rowan's research
- * on evolution: you battle one, the assistant beats the other, they run (flag galactic-jubilife).
+ * on evolution: you and the assistant battle them together (chapter 101, Platinum's multi battle), they run
+ * (flag galactic-jubilife).
  * Route 203 to the east leads on to Oreburgh City (oreburgh.js). Platinum's wild Pokémon.
  */
 (() => {
@@ -14,6 +15,14 @@
   const SINNOH = { region: 'sinnoh' };
   const HOUSE = ['WWWWWWWWWWW', 'WWWWWWWWWWW', 'bb__p______', '___________', '____ttt____', '____ttt____', '___________', '____X______'];
   const asst = () => G.Sinnoh.asst();
+  // Chapter 101: Platinum's multi battle (pret/pokeplatinum: jubilife_city/scripts.s; the grunts' teams from
+  // galactic_grunt_jubilife_city_1 and _2, the assistant's from dawn_ and lucas_jubilife_city_*.json): the assistant has
+  // the starter neither you nor Barry took (Barry's beats yours: twinleaf.js), at level 13. Exported for the balance test.
+  const COUNTER = { 387: 390, 390: 393, 393: 387 };
+  const ASSIST_MOVES = { 387: ['absorb', 'tackle'], 390: ['ember', 'scratch'], 393: ['bubble', 'pound'] };
+  const GRUNTS = { id: 'grunts-jubilife', who: 'galactic', cls: 'team-galactic', name: '', double: true, team: [['stunky', 11], ['glameow', 11]] };
+  const assistantTeam = barry => { const sp = COUNTER[barry] || 393; return [[sp, 13, ASSIST_MOVES[sp].slice()]]; };
+  G.Sinnoh = Object.assign(G.Sinnoh || {}, { jubilifeGrunts: GRUNTS, assistantTeam });
 
   // ---------------- Route 202 ----------------
   G.Maps.def(Object.assign({
@@ -221,10 +230,12 @@
     await h.say(T("Come on, hand it over! Professor Rowan's notes on evolution. Team Galactic has a use for them."), GRUNT);
     await h.say(T('{player}! Over here! These two will not leave me alone!'), ASSIST);
     h.face('grunt1', 'down'); h.face('grunt2', 'down');
-    await h.say(T('Who are you, another Trainer? Then we will deal with you both. You are mine!'), GRUNT);
-    const out = await h.battle({ id: 'grunt-jubilife', who: 'galactic', cls: 'team-galactic', name: '', team: [['glameow', 8]] }, {});
+    await h.say(T('Who are you, another Trainer? Fine: two of us, two of you. Team Galactic does not lose!'), GRUNT);
+    h.face(a, 'player');
+    await h.say(T('{player}, let us battle them together! Two against two!'), ASSIST);
+    const partner = { name: F.save.player.gender === 'f' ? T('Lucas') : T('Dawn'), team: assistantTeam(F.getVar('barry-starter')) };
+    const out = await h.battle(GRUNTS, { partner, rules: { tag: true } });
     if (out !== 'win') return;
-    await h.say(T('At the same time, {assistant} beat the other grunt!'));
     await h.say(T('Beaten by two kids? This is not over. Team Galactic will remember you!'), GRUNT);
     await h.fade('out', 0.4);
     h.hide('grunt1'); h.hide('grunt2');

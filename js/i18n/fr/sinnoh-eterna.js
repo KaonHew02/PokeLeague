@@ -75,5 +75,21 @@ G.I18n.add({
   "I cannot fight them on my own. Please, help my Clefairy!": "Je ne peux pas les affronter seul. S'il te plaît, sauve mon Mélofée !",
   "Oh, {player}! Team Galactic took the cycle shop owner's Clefairy into their building.": "Oh, {player} ! La Team Galaxie a emmené le Mélofée du patron du magasin de vélos dans son bâtiment.",
   "You beat me, so I know you are strong. Go on in! I will stay out here and make sure none of them sneak away.": "Tu m'as battue, alors je sais que tu es fort. Vas-y, entre ! Je reste ici pour qu'aucun d'eux ne s'échappe.",
-  "Cycle Shop Owner": "Patron du magasin de vélos"
+  "Cycle Shop Owner": "Patron du magasin de vélos",
+  "The Trainers here like to battle two at a time. If they do, Chansey and I will battle beside you!": "Ici, les Dresseurs aiment se battre à deux. S'ils le font, Leveinard et moi combattrons à tes côtés !",
+  "Stay close! If Trainers come at us two at a time, Chansey and I will battle beside you.": "Reste près de moi ! Si des Dresseurs arrivent à deux, Leveinard et moi combattrons à tes côtés.",
+  "Phillip & Donald": "Phillip et Donald",
+  "We are bug hunting in pairs today. Want to see what we caught?": "Aujourd'hui, on chasse les insectes à deux. Tu veux voir ce qu'on a attrapé ?",
+  "Our bugs got squashed...": "Nos insectes se sont fait écraser...",
+  "Jack & Briana": "Jack et Briana",
+  "The forest is our bug paradise! Two of you? Then two of us!": "La forêt est notre paradis des insectes ! Vous êtes deux ? Alors nous aussi !",
+  "My collection got squashed, and her Pachirisu too...": "Ma collection s'est fait écraser, et son Pachirisu aussi...",
+  "Pachirisu are not bugs, but Briana says it can come along anyway.": "Pachirisu n'est pas un insecte, mais Briana dit qu'il peut venir quand même.",
+  "Kody & Rachael": "Kody et Rachael",
+  "We saw the two of you coming in a dream. In the dream, we won!": "On vous a vus arriver tous les deux dans un rêve. Dans le rêve, on gagnait !",
+  "The dream was wrong...": "Le rêve s'est trompé...",
+  "The old house deep in the forest? Even we cannot see what waits inside.": "La vieille maison au fond de la forêt ? Même nous, on ne voit pas ce qui attend à l'intérieur.",
+  "Lindsey & Elijah": "Lindsey et Elijah",
+  "We sensed you coming from far away. We also sense that you will lose!": "On vous a sentis venir de loin. On sent aussi que vous allez perdre !",
+  "Our senses failed us...": "Nos sens nous ont trahis..."
 }, "fr");

@@ -281,5 +281,8 @@ G.I18n.add({
   "Twenty-one Honey trees stand across Sinnoh. Floaroma's Honey seller has plenty, and four of the trees are dear to Munchlax.": "Vingt et un arbres à Miel se dressent dans tout Sinnoh. Le vendeur de Miel de Floraville en a plein, et Goinfrex adore quatre de ces arbres.",
   "Chapter 100 complete!": "Chapitre 100 terminé !",
   "{player} gathered all sixteen plates, played the Azure Flute at the Spear Pillar and stood before Arceus in the Hall of Origin.": "{player} a réuni les seize plaques, a joué de la Flûte Azur aux Colonnes Lances et s'est tenu devant Arceus dans la Salle Originelle.",
-  "A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.": "Cent chapitres, d'un premier pas à Bourg Palette jusqu'à l'Être Originel. Merci d'avoir fait tout ce chemin."
+  "A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.": "Cent chapitres, d'un premier pas à Bourg Palette jusqu'à l'Être Originel. Merci d'avoir fait tout ce chemin.",
+  "Chapter 101 complete!": "Chapitre 101 terminé !",
+  "{player} battled beside Steven at the Space Center, beside Professor Rowan's assistant in Jubilife City, beside Cheryl in Eterna Forest and beside Riley on Iron Island.": "{player} a combattu aux côtés de Pierre au Centre Spatial, de l'assistant du Professeur Sorbier à Féli-Cité, de Cheryl dans la Forêt Vestigion et d'Armand sur l'Île de Fer.",
+  "Every partner met on the way has fought at your side. Who will you team up with next?": "Chaque partenaire rencontré en chemin s'est battu à tes côtés. Avec qui feras-tu équipe la prochaine fois ?"
 }, "fr");

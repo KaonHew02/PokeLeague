@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 101) return { title: T('Chapter 101 complete!'),
+      done: fmt('{player} battled beside Steven at the Space Center, beside Professor Rowan\'s assistant in Jubilife City, beside Cheryl in Eterna Forest and beside Riley on Iron Island.', { player }),
+      next: T('Every partner met on the way has fought at your side. Who will you team up with next?') };
     if (n === 100) return { title: T('Chapter 100 complete!'),
       done: fmt('{player} gathered all sixteen plates, played the Azure Flute at the Spear Pillar and stood before Arceus in the Hall of Origin.', { player }),
       next: T('A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.') };

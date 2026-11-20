@@ -75,5 +75,21 @@ G.I18n.add({
   "I cannot fight them on my own. Please, help my Clefairy!": "我一个人对付不了他们。求求你，救救我的皮皮！",
   "Oh, {player}! Team Galactic took the cycle shop owner's Clefairy into their building.": "啊，{player}！银河队把自行车店老板的皮皮带进他们的大楼了。",
   "You beat me, so I know you are strong. Go on in! I will stay out here and make sure none of them sneak away.": "你打败过我，我知道你很强。进去吧！我会守在外面，不让他们任何人溜走。",
-  "Cycle Shop Owner": "自行车店老板"
+  "Cycle Shop Owner": "自行车店老板",
+  "The Trainers here like to battle two at a time. If they do, Chansey and I will battle beside you!": "这里的训练家喜欢两个人一起对战。真遇上了，我和吉利蛋会在你身边一起战斗！",
+  "Stay close! If Trainers come at us two at a time, Chansey and I will battle beside you.": "别走散了！要是训练家两个人一起过来，我和吉利蛋会在你身边一起战斗。",
+  "Phillip & Donald": "菲利普和唐纳德",
+  "We are bug hunting in pairs today. Want to see what we caught?": "今天我们两个人一起抓虫子。想看看我们抓到了什么吗？",
+  "Our bugs got squashed...": "我们的虫子被打扁了……",
+  "Jack & Briana": "杰克和布丽安娜",
+  "The forest is our bug paradise! Two of you? Then two of us!": "森林是我们的虫子天堂！你们有两个人？那我们也两个！",
+  "My collection got squashed, and her Pachirisu too...": "我的收藏被打扁了，她的帕奇利兹也是……",
+  "Pachirisu are not bugs, but Briana says it can come along anyway.": "帕奇利兹不是虫子，不过布丽安娜说它也可以一起来。",
+  "Kody & Rachael": "柯迪和瑞秋",
+  "We saw the two of you coming in a dream. In the dream, we won!": "我们在梦里看到你们两个来了。在梦里，是我们赢了！",
+  "The dream was wrong...": "梦是假的……",
+  "The old house deep in the forest? Even we cannot see what waits inside.": "森林深处的那栋旧房子？连我们也看不见里面有什么。",
+  "Lindsey & Elijah": "琳赛和以利亚",
+  "We sensed you coming from far away. We also sense that you will lose!": "我们老远就感应到你们来了。我们还感应到你们会输！",
+  "Our senses failed us...": "我们的感应失灵了……"
 }, "zh-Hans");

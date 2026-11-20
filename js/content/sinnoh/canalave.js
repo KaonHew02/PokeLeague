@@ -20,7 +20,7 @@
     id: 'route218', loc: 'sinnoh-route-218', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'T.......~~~~~~~~~~~~~~~~~~~~~~.........T',
+      'T.......~~~~~~~~~~~~~~~~~~~~~~.u.......T',
       'T.""""".~~~~~~~~~~~~~~~~~~~~~~.."""""".T',
       'T.""""".~~~~~~~~~~~~~~~~~~~~~~.."""""".T',
       'T.""""".~~~~~~~~~~~~~~~~~~~~~~.."""""".T',

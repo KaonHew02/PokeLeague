@@ -1101,6 +1101,8 @@ G.World = (() => {
     if (k === 'cuttree' && !cut.has(M().key(tx, ty))) return runScript([['js', h => cutTree(h, tx, ty)]], {});
     if (k === 'headtree') return runScript([['js', h => headbutt(h)]], {});
     if (k === 'berrytree') return runScript([['js', h => berryTree(h, tx, ty)]], {});
+    // Chapter 99: a Honey tree, only from below (as in Platinum).
+    if (k === 'honeytree' && me.dir === 'up' && G.Script.get('honey.tree')) return runScript('honey.tree', { x: tx, y: ty });
     if (k === 'rapids' && !isWater(tx, ty)) return runScript([['say', "The current is much too strong to Surf against!"]], {});
     if (k === 'waterfall') return runScript([['js', h => waterfallAt(h)]], {});
     if (k === 'whirlpool' && !cut.has(M().key(tx, ty))) return runScript([['js', h => whirlpoolAt(h, tx, ty)]], {});
@@ -1656,7 +1658,8 @@ G.World = (() => {
       wait,
       battle: (ref, o) => battle(ref, o),
       wild: (sp, lvl, o = {}) => wildBattle({ sp: M().species(sp), lvl, method: 'scripted', map: map.id, area: null, noCatch: !!o.noCatch, moves: o.moves, shiny: !!o.shiny,
-                                              party: o.party || null, canLose: !!o.canLose, rules: o.rules || null }),
+                                              party: o.party || null, canLose: !!o.canLose, rules: o.rules || null,
+                                              nature: o.nature, gender: o.gender }),        // chapter 99: Synchronize, Cute Charm
       heal: () => G.Field.healAll(),
       /** Offers a nickname for a Pokémon just received (starter, gifts). */
       async nickname(mon) {
@@ -1730,7 +1733,7 @@ G.World = (() => {
     if (itemAt(tx, ty)) return { item: true };
     if (map.signs[M().key(tx, ty)] || M().kindAt(map, tx, ty) === 'pc') return { sign: true };
     if (['cuttree', 'whirlpool', 'smashrock'].includes(M().kindAt(map, tx, ty)) && !cut.has(M().key(tx, ty))) return { sign: true };
-    if (M().kindAt(map, tx, ty) === 'headtree' || M().kindAt(map, tx, ty) === 'berrytree') return { sign: true };
+    if (M().kindAt(map, tx, ty) === 'headtree' || M().kindAt(map, tx, ty) === 'berrytree' || M().kindAt(map, tx, ty) === 'honeytree') return { sign: true };
     if (rockAt(tx, ty)) return { sign: true };
     return null;
   }

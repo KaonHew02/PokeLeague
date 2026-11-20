@@ -275,5 +275,8 @@ G.I18n.add({
   "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "神奥各地有九种薰香。让卡比兽带着饱腹薰香、或让吉利蛋带着幸运薰香寄放在培育屋，看看会孵出什么吧。",
   "Chapter 98 complete!": "第 98 章完成！",
   "{player} read a student's notebook in Jubilife's Trainers' School and learned that a Pokémon's ability works even outside battle.": "{player}在祝庆市的训练家学校读了一本学生的笔记，知道了宝可梦的特性在对战以外也有作用。",
-  "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "队伍里的第一只宝可梦会影响遇到的野生宝可梦；捡拾和采蜜在获胜后会捡到东西；火焰之躯会让蛋保持温暖。"
+  "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "队伍里的第一只宝可梦会影响遇到的野生宝可梦；捡拾和采蜜在获胜后会捡到东西；火焰之躯会让蛋保持温暖。",
+  "Chapter 99 complete!": "第 99 章完成！",
+  "{player} spread Honey on a tree and, hours later, found a Pokémon clinging to it.": "{player}在树上涂了甜甜蜜，几个小时后发现有宝可梦攀在树上。",
+  "Twenty-one Honey trees stand across Sinnoh. Floaroma's Honey seller has plenty, and four of the trees are dear to Munchlax.": "神奥各地有二十一棵甜甜蜜树。苑之镇卖甜甜蜜的人有很多存货，其中四棵树特别受小卡比兽喜爱。"
 }, "zh-Hans");

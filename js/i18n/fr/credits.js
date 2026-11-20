@@ -275,5 +275,8 @@ G.I18n.add({
   "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "Neuf encens sont cachés dans tout Sinnoh. Confie un Ronflex avec un Encens Plein, ou un Leveinard avec un Encens Veine, et vois ce qui éclot.",
   "Chapter 98 complete!": "Chapitre 98 terminé !",
   "{player} read a student's notebook in Jubilife's Trainers' School and learned that a Pokémon's ability works even outside battle.": "{player} a lu le cahier d'un élève à l'École des Dresseurs de Littorella et a appris que le talent d'un Pokémon agit même hors des combats.",
-  "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "Le premier Pokémon de ton équipe change les Pokémon sauvages que tu croises ; Ramassage et Cherche Miel trouvent des objets après une victoire ; Corps Ardent réchauffe tes Œufs."
+  "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "Le premier Pokémon de ton équipe change les Pokémon sauvages que tu croises ; Ramassage et Cherche Miel trouvent des objets après une victoire ; Corps Ardent réchauffe tes Œufs.",
+  "Chapter 99 complete!": "Chapitre 99 terminé !",
+  "{player} spread Honey on a tree and, hours later, found a Pokémon clinging to it.": "{player} a étalé du Miel sur un arbre et, quelques heures plus tard, y a trouvé un Pokémon accroché.",
+  "Twenty-one Honey trees stand across Sinnoh. Floaroma's Honey seller has plenty, and four of the trees are dear to Munchlax.": "Vingt et un arbres à Miel se dressent dans tout Sinnoh. Le vendeur de Miel de Floraville en a plein, et Goinfrex adore quatre de ces arbres."
 }, "fr");

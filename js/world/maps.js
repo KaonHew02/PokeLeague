@@ -93,6 +93,8 @@ G.Maps = (() => {
     abyss: { fall: 1 }, rubble: { solid: 1 },
     // Chapter 15: a berry tree (a berry or more once a day; map `berries: [[x, y, item]]`, else Oran).
     berrytree: { solid: 1 },
+    // Chapter 99: a Honey tree (Sinnoh): Honey spread on it brings a Pokémon (js/content/sinnoh/honeytree.js).
+    honeytree: { solid: 1 },
     // Chapter 16: ice (Pryce's Gym; in caves too, chapter 18): you slide on it (field.js).
     ice: { ice: 1 },
     // Chapter 19: a waterfall (Route 27): a surfer rides down it, and climbs it with Waterfall (field.js).
@@ -123,6 +125,7 @@ G.Maps = (() => {
       Z: 'stamp',                                    // the Battle Pyramid (chapter 83)
       h: 'headtree',                                 // a tree to Headbutt (Johto)
       y: 'berrytree',                                // a berry tree (Johto)
+      u: 'honeytree',                                // a Honey tree (Sinnoh, chapter 99)
       i: 'ice',                                      // ice on a cave floor (the Ice Path)
       '|': 'waterfall',                              // a waterfall: ride down it, climb it with Waterfall
       w: 'whirlpool',                                // a whirlpool: Whirlpool calms it (until you leave the map)

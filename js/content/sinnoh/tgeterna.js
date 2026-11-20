@@ -104,7 +104,7 @@
       'TTTTTTTF,,,,FTTTTTTT',
       'TTTTTTTF,,,,FTTTTTTT',
       'TTTTTTTF,,,,FTTTTTTT',
-      'TTTTOTTF,,,,FTTTOTTT',
+      'TTTTOuTF,,,,FTTTOTTT',
       'T.......,,,,.S.....T',
       'T.""""".,,,,.......T',
       'T.""""".,,,,.""""".T',
@@ -148,7 +148,7 @@
     id: 'route207', loc: 'sinnoh-route-207', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       'TTTTTTTT,,,,TTTTTTTTTTTTTTTTTT',
-      'T.......,,,,...............###',
+      'T.......,,,,u..............###',
       'T"""""..,,,,.""""""."""""".###',
       'T"""""..,,,,.""""""."""""".###',
       'T"""""..,,,,.""""""."""""".###',

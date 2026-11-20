@@ -19,7 +19,7 @@
     id: 'fuego-ironworks', loc: 'fuego-ironworks', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'T............................T',
+      'T........u...................T',
       'T.""""""....BBBBBB..T........T',
       'T.""""""....BBBBBB......T....T',
       'T.""""""....BBBBBB...........T',

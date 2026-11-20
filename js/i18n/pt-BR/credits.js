@@ -275,5 +275,8 @@ G.I18n.add({
   "Nine incenses lie across Sinnoh. Leave a Snorlax with a Full Incense, or a Chansey with a Luck Incense, and see what hatches.": "Nove incensos estão espalhados por Sinnoh. Deixe um Snorlax com um Full Incense, ou uma Chansey com um Luck Incense, e veja o que choca.",
   "Chapter 98 complete!": "Capítulo 98 concluído!",
   "{player} read a student's notebook in Jubilife's Trainers' School and learned that a Pokémon's ability works even outside battle.": "{player} leu o caderno de um aluno na Escola de Treinadores de Jubilife City e aprendeu que a habilidade de um Pokémon funciona mesmo fora das batalhas.",
-  "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "O primeiro Pokémon da sua equipe muda os Pokémon selvagens que você encontra; Pickup e Honey Gather acham coisas depois de uma vitória; Flame Body aquece seus Ovos."
+  "The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.": "O primeiro Pokémon da sua equipe muda os Pokémon selvagens que você encontra; Pickup e Honey Gather acham coisas depois de uma vitória; Flame Body aquece seus Ovos.",
+  "Chapter 99 complete!": "Capítulo 99 concluído!",
+  "{player} spread Honey on a tree and, hours later, found a Pokémon clinging to it.": "{player} passou Honey numa árvore e, horas depois, encontrou um Pokémon agarrado nela.",
+  "Twenty-one Honey trees stand across Sinnoh. Floaroma's Honey seller has plenty, and four of the trees are dear to Munchlax.": "Há vinte e uma árvores de Honey por toda Sinnoh. O vendedor de Honey de Floaroma Town tem de sobra, e quatro das árvores são as preferidas de Munchlax."
 }, "pt-BR");

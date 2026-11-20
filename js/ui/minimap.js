@@ -15,7 +15,7 @@ G.Minimap = (() => {
   const COLORS = {
     water: '#3f86d8', deep: '#2c62b0', rapids: '#5aa0e8', whirlpool: '#2c62b0', waterfall: '#7ab8f0',
     'current-left': '#3f86d8', 'current-right': '#3f86d8', 'current-up': '#3f86d8', 'current-down': '#3f86d8',
-    tree: '#2a5c2a', cuttree: '#3c7a34', headtree: '#2a5c2a', berrytree: '#3c7a34', hedge: '#2a5c2a',
+    tree: '#2a5c2a', cuttree: '#3c7a34', headtree: '#2a5c2a', berrytree: '#3c7a34', honeytree: '#3c7a34', hedge: '#2a5c2a',
     cliff: '#7a6248', smashrock: '#8a7458', wall: '#5a5a66',
     tall: '#4f9a3c', grass: '#86c45c', flowers: '#9ccc68',
     path: '#d8c48a', sand: '#e2d29a', bridge: '#b08a58', ice: '#bfe6f2',

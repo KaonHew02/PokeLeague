@@ -7942,3 +7942,71 @@ test('Sinnoh (chapter 98): abilities outside battle on Route 202 (Stench, Illumi
   await talk();
   assert.ok(F.flag('chapter-98-done'));
 });
+
+test('Sinnoh (chapter 99): Honey trees on their maps (Honey from Floaroma\'s seller, spread on the tree, a Pokémon from 6 to 24 hours later, only from below), the ending after chapter 98', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'tgeterna', 'hearthome', 'solaceon', 'veilstone', 'lakefront', 'pastoria', 'celestic', 'canalave', 'ironisland', 'lakes', 'snowpoint', 'galactichq', 'coronet', 'distortion', 'sunyshore', 'victory', 'league', 'legends', 'battlezone', 'stark', 'battleground', 'resort', 'villa', 'route212', 'wayward', 'route211', 'route224', 'temple', 'chateau', 'losttower', 'fullmoon', 'route219', 'amity', 'fuego', 'b1f', 'sitems', 'tutors', 'incense', 'honeytree']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/world/field-abilities.js', 'js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js', 'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, H = G.HoneyTrees;
+  const said = [], answers = [], met = [], stock = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  G.ShopUI = { open: s => { stock.push(...s); return Promise.resolve(); } };
+  W.onEncounter = async (sp, lvl) => { met.push({ sp, lvl }); return 'win'; };
+  W.onTrainer = async () => 'win';
+  const until = async ok => { for (let i = 0; i < 3000 && !ok(); i++) { W.update(0.05); await tick(); } assert.ok(ok(), 'waited too long'); };
+  const talk = async () => { await pump(W, W.interact()); await until(() => !W.locked); };
+  let now = 600000;
+  G.Clock.minutes = () => now;
+  F.giveMon('pikachu', 20);
+
+  // Floaroma's Honey seller sells Honey once you have helped him.
+  F.setFlag('windworks-key');
+  const seller = G.Maps.get('floaroma-meadow').npcs.find(n => n.script === 'floaroma.honey');
+  W.load('floaroma-meadow', { x: seller.x, y: seller.y + 1, dir: 'up' });
+  await talk();
+  assert.deepEqual(plain(stock), ['honey']);
+  assert.equal(G.ITEM_FX.honey.price, 100);
+
+  // Route 205's tree: without Honey only a word; from the side nothing at all.
+  const [map, x, y] = H.TREES[0];
+  const below = () => W.load(map, { x, y: y + 1, dir: 'up' });
+  below();
+  said.length = 0;
+  await talk();
+  assert.ok(/faint, sweet smell/.test(said.join(' ')) && said.length === 1, said.join(' | '));
+  W.load(map, { x: x - 1, y, dir: 'right' });
+  said.length = 0;
+  await talk();
+  assert.equal(said.length, 0, 'only from below');
+
+  // Honey spread (until something is drawn to come), then nothing for six hours, then a Pokémon of the tables at 5 to 15.
+  F.giveItem('honey', 6);
+  const i = H.treeOf(map);
+  for (let k = 0; k < 6 && H.status(i, now) === 'bare'; k++) { below(); await talk(); now += 1; }
+  assert.equal(H.status(i, now), 'waiting');
+  assert.ok(F.count('honey') < 6 && said.some(s => /spread Honey on the tree/.test(s)));
+  said.length = 0;
+  below();
+  await talk();
+  assert.ok(/nothing has come yet/.test(said.join(' ')));
+  now += 360;
+  below();
+  await talk();
+  assert.equal(met.length, 1);
+  const g = H.state(i).group;
+  assert.ok(H.GROUPS[g].map(s => G.Maps.species(s)).includes(met[0].sp) && met[0].lvl >= 5 && met[0].lvl <= 15, JSON.stringify(met[0]));
+  assert.equal(H.status(i, now), 'bare', 'the battle took the Honey off');
+  assert.ok(!F.flag('chapter-99-done'), 'not before chapter 98');
+
+  // A day later the Honey is gone, Pokémon or not; the ending once chapter 98 is done (once).
+  F.setFlag('chapter-98-done');
+  for (let k = 0; k < 6 && H.status(i, now) === 'bare' && F.count('honey'); k++) { below(); await talk(); now += 1; }
+  assert.equal(H.status(i, now), 'waiting');
+  assert.equal(H.status(i, now + H.LAST), 'bare', 'dried up after a day');
+  now += 400;
+  below();
+  await talk();
+  assert.ok(met.length === 2 && F.flag('chapter-99-done'));
+});

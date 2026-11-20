@@ -19,7 +19,7 @@
     id: 'route209', loc: 'sinnoh-route-209', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       'TTTTTTTTTTTTTTTTTTT,,TTTTTTTTTTT',
-      'T.........~~~......,,..........T',
+      'T.........~~~u.....,,..........T',
       'T.""""""".~~~."""".,,."""""""..T',
       'T.""""""".~~~."""".,,."""""""..T',
       'T.""""""".~~~."""".,,."""""""..T',
@@ -181,7 +181,7 @@
     id: 'route210s', loc: 'sinnoh-route-210', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       'TTTTTTTTT,,TTTTTTTTT',
-      'T........,,........T',
+      'T.......u,,........T',
       'T."""""".,,."""""".T',
       'T."""""".,,."""""".T',
       'T."""""".,,."""""".T',

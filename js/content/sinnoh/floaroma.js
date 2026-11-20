@@ -229,7 +229,7 @@
       'Tfffffff........fffffffT',
       'Tfffffff........fffffffT',
       'Tffffffffff,,ffffffffffT',
-      'Tff....ffff,,ffffffffffT',
+      'Tff..u.ffff,,ffffffffffT',
       'Tff....ffff,,ffff....ffT',
       'Tff....ffff,,ffff....ffT',
       'Tff....ffff,,ffff....ffT',
@@ -261,7 +261,7 @@
       'T.............~~~.........,,.....T',
       'T.""""""".....~~~.."""""..,,.....T',
       'T.""""""".TT..~~~.."""""..,,.""".T',
-      'T.""""""".TT..~~~.."""""..,,.""".T',
+      'T.""""""".uT..~~~.."""""..,,.""".T',
       'T.""""""".....~~~.."""""..,,.""".T',
       'T.""""""".....~~~.."""""..,,.""".T',
       'T.............~~~.."""""..,,.""".T',
@@ -301,7 +301,7 @@
     id: 'valley-windworks', loc: 'valley-windworks', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       'TTTTTTTTTTTT,,TTTTTTTTTTTT',
-      'T...........,,.....~~~~~~T',
+      'T...u.......,,.....~~~~~~T',
       'T...........,,.....~~~~~~T',
       'T."""""...BBBBBB...~~~~~~T',
       'T."""""...BBBBBB..~~~~~~~T',
@@ -385,7 +385,9 @@
     'floaroma.meadow': [['js', meadow]],
     'floaroma.honey': [
       ['if', 'windworks-key', [
-        ['say', 'Pokémon love sweet Honey. Spread some on a tree and they come from all around!', HONEY]
+        ['say', 'Pokémon love sweet Honey. Spread some on a tree and they come from all around!', HONEY],
+        // Chapter 99: he sells it (Platinum's price, 100), for the Honey trees (honeytree.js).
+        ['shop', ['honey']]
       ], [
         ['say', 'Please, help me! Those two will not leave me alone!', HONEY]
       ]]

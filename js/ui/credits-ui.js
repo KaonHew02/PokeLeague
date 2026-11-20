@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 99) return { title: T('Chapter 99 complete!'),
+      done: fmt('{player} spread Honey on a tree and, hours later, found a Pokémon clinging to it.', { player }),
+      next: T('Twenty-one Honey trees stand across Sinnoh. Floaroma\'s Honey seller has plenty, and four of the trees are dear to Munchlax.') };
     if (n === 98) return { title: T('Chapter 98 complete!'),
       done: fmt('{player} read a student\'s notebook in Jubilife\'s Trainers\' School and learned that a Pokémon\'s ability works even outside battle.', { player }),
       next: T('The first Pokémon in your party changes the wild Pokémon you meet; Pickup and Honey Gather find things after a win; Flame Body warms your Eggs.') };

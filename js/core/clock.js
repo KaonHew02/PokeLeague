@@ -6,6 +6,7 @@
  *   G.Clock.day()    -> 'YYYY-MM-DD', the device's date (things that happen once a day)
  *   G.Clock.weekday() -> 0 (Sunday) to 6 (Saturday), the device's day of the week (chapter 73: the Drifloon
  *                       of the Valley Windworks comes on Fridays)
+ *   G.Clock.minutes() -> the device's time in whole minutes (chapter 99: Honey trees, 6 to 24 hours after the Honey)
  * Johto's wild Pokémon change with it (encounter tables with `morning` / `night` slots), and so
  * does the light on its outdoor maps.
  */
@@ -26,6 +27,7 @@ G.Clock = (() => {
   }
 
   const weekday = () => new Date().getDay();
+  const minutes = () => Math.floor(Date.now() / 60000);
 
-  return { PERIODS, period, isDay, hour, day, weekday, set, get forced() { return forced; } };
+  return { PERIODS, period, isDay, hour, day, weekday, minutes, set, get forced() { return forced; } };
 })();

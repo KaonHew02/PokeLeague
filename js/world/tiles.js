@@ -1478,6 +1478,16 @@ G.Tiles = (() => {
     tree(C) { return roundTree(C, 0); },
     /** A tree Headbutt can shake (Johto): the same tree, lighter leaves. */
     htree(C) { return roundTree(C, 1); },
+    /** A Honey tree (chapter 99): the round tree with golden Honey running down its trunk and dripping from its leaves. */
+    hntree(C) {
+      const gold = pack('#e8a828'), light = pack('#ffd860'), dark = pack('#b07818');
+      return roundTree(C, 0, P => {
+        for (let y = 18; y < 25; y++) P.set(7, y, y % 3 ? gold : light);
+        for (let y = 19; y < 23; y++) P.set(8, y, dark);
+        for (const [x, y] of [[4, 17], [11, 16], [9, 18]]) { P.set(x, y, gold); P.set(x, y + 1, light); }
+        P.set(7, 25, dark);
+      });
+    },
     /** A berry tree: a low round bush hung with berries, 16×20. */
     btree(C) {
       const P = Pix(T, 20);
@@ -1656,6 +1666,7 @@ G.Tiles = (() => {
       case 'cuttree': grass(P, C, ox, oy, tx, ty); break;   // the tree itself is a prop (render.js)
       case 'headtree': grass(P, C, ox, oy, tx, ty); break;  // a tree to Headbutt: baked like the others
       case 'berrytree': grass(P, C, ox, oy, tx, ty); break; // a berry tree: baked as a prop
+      case 'honeytree': grass(P, C, ox, oy, tx, ty); break; // a Honey tree (chapter 99): baked as a prop
       case 'smashrock': grass(P, C, ox, oy, tx, ty); break; // a cracked rock: a prop (render.js), gone once smashed
       case 'can': can(P, C, ox, oy, tx, ty); break;
       case 'rubble': rubble(P, C, ox, oy, tx, ty); break;
@@ -1710,11 +1721,12 @@ G.Tiles = (() => {
       return (strips[row] = { up, items: (s && s.items) || [] });
     };
     const pal = m.palette in PALETTES && !PALETTES[m.palette].floor ? m.palette : OUT;
-    const tree = sprite('tree', pal), htree = sprite('htree', pal), btree = sprite('btree', pal);
+    const tree = sprite('tree', pal), htree = sprite('htree', pal), btree = sprite('btree', pal), hntree = sprite('hntree', pal);
     for (let ty = 0; ty < m.h; ty++) for (let tx = 0; tx < m.w; tx++) {
       const k = m.kind[ty * m.w + tx];
       if (k === 'tree') add(ty, tree.height - T).items.push({ img: tree, x: tx * T, bottom: 0 });
       else if (k === 'headtree') add(ty, htree.height - T).items.push({ img: htree, x: tx * T, bottom: 0 });
+      else if (k === 'honeytree') add(ty, hntree.height - T).items.push({ img: hntree, x: tx * T, bottom: 0 });
       else if (k === 'berrytree') {
         // An Apricorn tree is a berry tree whose item is an Apricorn (the map's `berries`).
         const b = ((m.def && m.def.berries) || []).find(([bx, by]) => bx === tx && by === ty);

@@ -26,7 +26,7 @@
     id: 'route214', loc: 'sinnoh-route-214', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       'TTTTTTTTTTTTTT,TTTTTTTTTTTTTTT',
-      'T.............,,.............T',
+      'T............u,,.............T',
       'T.""""""""""..,,S............T',
       'T.""""""""""..,,.."""""""""".T',
       'T.""""""""""..,,.."""""""""".T',
@@ -316,7 +316,7 @@
     id: 'route213', loc: 'sinnoh-route-213', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT,,TTTTTTTTTT',
-      'T:::::::::::::::::::::::::::::::::::::::::::,,:::::::::T',
+      'Tu::::::::::::::::::::::::::::::::::::::::::,,:::::::::T',
       'T:""""":::""""""""""::::::::::HHHH::HHHH::::,,::"""""":T',
       'T:""""":::""""""""""::::::::::HHHH::HHHH::::,,S:"""""":T',
       'T:""""":::""""""""""::::::::::HDHH::HDHH::::,,::"""""":T',

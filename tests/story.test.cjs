@@ -4775,6 +4775,33 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 99 after chapter 98: Honey trees: Honey bought from Floaroma's seller (the harness's shop is a stand-in: the
+ *  Honey and its price are given and taken here), spread on Route 205's tree; six hours later (the clock moved on) a Pokémon
+ *  in the tree, battled (the ending). */
+async function chapter99(st) {
+  const { G } = st;
+  const F = G.Field, H = G.HoneyTrees;
+  const minutes = G.Clock.minutes;
+  let now = 10000000;
+  G.Clock.minutes = () => now;
+  await run(st, 'floaroma-meadow', npc(st, 'floaroma-meadow', 'honey'));
+  F.money(-300);
+  F.giveItem('honey', 3);
+  const [map] = H.TREES[0], i = H.treeOf(map);
+  let tries = 0;
+  while (H.status(i, now) === 'bare' && F.count('honey')) { tries++; await run(st, map, 'honey.tree', [0]); now += 1; }
+  assert.equal(H.status(i, now), 'waiting');
+  now += H.WAIT;
+  const s = H.state(i), n = st.battles.length;
+  await run(st, map, 'honey.tree');
+  G.Clock.minutes = minutes;
+  console.log('[story] Honey trees: Honey spread on', G.Names.loc(G.Maps.get(map).loc) + '\'s tree', tries, 'time(s); six hours later',
+    G.Names.mon(G.Maps.species(H.GROUPS[s.group][s.slot])), '(group ' + s.group.toUpperCase() + ')', 'met;', H.TREES.length, 'trees in all');
+  assert.ok(F.flag('chapter-99-done'));
+  assert.equal(H.status(i, now), 'bare');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 98 after chapter 97: abilities outside battle: the notebook in Jubilife's Trainers' School (the ending); what the
  *  team's first Pokémon does outside battle. */
 async function chapter98(st) {
@@ -6118,4 +6145,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter96(st);
   await chapter97(st);
   await chapter98(st);
+  await chapter99(st);
 });

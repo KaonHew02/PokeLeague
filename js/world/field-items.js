@@ -10,6 +10,8 @@
  *   G.FieldItems.tm(item)            -> the move a TM / HM teaches, or null
  *   G.FieldItems.tmFor(mon, item)    -> 'able' | 'unable' | 'learned'
  *   G.FieldItems.repel(save, item)   -> 'ok' | 'active'   (sets save.repel)
+ *   G.FieldItems.purchaseBonus(item, n) -> the item given free with that purchase, or null (chapter 105, Platinum's
+ *                                    shop_menu.c and Emerald's shop.c: ten Poké Balls or more at once, a Premier Ball)
  *   G.FieldItems.canHold(item)       a Pokémon may hold it (chapter 26, once Mr. Pokémon has told you
  *                                    about it, flag held-items): any item but key items, TMs and HMs
  *   G.FieldItems.give(mon, item)     from the bag to the Pokémon -> the item it held before (back in the bag), or null
@@ -161,5 +163,7 @@ G.FieldItems = (() => {
     return it;
   }
 
-  return { kind, needsMove, canUse, use, tm, tmFor, repel, canHold, give, take };
+  const purchaseBonus = (item, n) => (item === 'poke-ball' && n >= 10 ? 'premier-ball' : null);
+
+  return { kind, needsMove, canUse, use, tm, tmFor, repel, canHold, give, take, purchaseBonus };
 })();

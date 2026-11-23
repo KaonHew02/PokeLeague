@@ -195,6 +195,7 @@
 
   G.Maps.mart('floaroma-mart', {
     loc: 'floaroma-town', exit: { map: 'floaroma', spot: 'mart-door' },
+    special: ['heal-ball', 'net-ball'],                    // chapter 105: Platinum's specialties counter (mart_items.h)
     stock: ['poke-ball', 'great-ball', 'potion', 'super-potion', 'antidote', 'paralyze-heal', 'awakening', 'burn-heal', 'ice-heal', 'escape-rope', 'repel'],
     npcs: [{ id: 'shopper', who: 'granny', x: 6, y: 5, move: 'look',
              say: 'Eterna Forest is long and dark. Take plenty of Potions, dear.' }]

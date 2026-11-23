@@ -193,6 +193,7 @@
 
   G.Maps.mart('sunyshore-mart', {
     loc: 'sunyshore-city', exit: { map: 'sunyshore', spot: 'mart-door' },
+    special: ['luxury-ball'],                    // chapter 105: Platinum's specialties counter (mart_items.h)
     stock: ['poke-ball', 'great-ball', 'ultra-ball', 'potion', 'super-potion', 'hyper-potion', 'max-potion', 'revive', 'antidote', 'paralyze-heal', 'awakening',
             'burn-heal', 'ice-heal', 'full-heal', 'escape-rope', 'repel', 'super-repel', 'max-repel'],
     npcs: [{ id: 'shopper', who: 'beauty', x: 6, y: 5, move: 'look', say: 'Paralyze Heal sells very well here. I wonder why.' }]

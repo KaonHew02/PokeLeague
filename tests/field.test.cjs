@@ -8343,3 +8343,64 @@ test('Sinnoh (chapter 104): Platinum\'s held-item gifts: Route 221\'s house (a l
   for (let i = 0; i < 100 && W.map.id !== 'iron-house'; i++) { W.update(0.05); await tick(); }
   assert.equal(W.map.id, 'iron-house', 'its door on the island');
 });
+
+test('the special balls (chapter 105): Sinnoh\'s specialties counters (Platinum\'s), Emerald\'s Marts, the place, night and Pokédex in a wild battle\'s rules, the ending after chapter 104', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'hearthome', 'solaceon', 'veilstone', 'pastoria', 'celestic', 'canalave',
+    'snowpoint', 'sunyshore', 'league', 'balls'].map(f => 'js/content/sinnoh/' + f + '.js');
+  const hoenn = ['littleroot', 'route101', 'petalburg', 'woods', 'rustboro', 'rusturf', 'dewford', 'slateport', 'mauville', 'verdanturf', 'lilycove', 'mossdeep', 'legends']
+    .map(f => 'js/content/hoenn/' + f + '.js');
+  const { G, W } = world(['js/world/field-abilities.js', 'js/content/kanto/safari.js', ...hoenn, ...sinnoh]);
+  const F = G.Field, S = F.save;
+  /** What a counter's clerk sells (the 'shop' step of its script, through 'if' steps whose test holds). */
+  const sells = (mapId, id) => {
+    const p = G.Maps.get(mapId).npcs.find(n => n.id === id), out = [];
+    const walk = steps => { for (const s of steps || []) { if (s[0] === 'shop') out.push(...s[1]); if (s[0] === 'if') walk(F.test(s[1]) ? s[2] : s[3]); } };
+    walk(p.script);
+    return out;
+  };
+  const SPECIAL = { jubilife: ['heal-ball'], oreburgh: ['heal-ball', 'net-ball'], floaroma: ['heal-ball', 'net-ball'], eterna: ['heal-ball', 'net-ball', 'nest-ball'],
+    hearthome: ['heal-ball', 'net-ball', 'nest-ball'], solaceon: ['net-ball', 'nest-ball', 'dusk-ball'], pastoria: ['nest-ball', 'dusk-ball', 'quick-ball'],
+    snowpoint: ['dusk-ball', 'quick-ball', 'timer-ball'], canalave: ['quick-ball', 'timer-ball', 'repeat-ball'], sunyshore: ['luxury-ball'] };
+  for (const [town, list] of Object.entries(SPECIAL)) {
+    assert.deepEqual(sells(town + '-mart', 'clerk2'), list, town);
+    assert.ok(!sells(town + '-mart', 'clerk').some(b => G.SpecialBalls.isNew(b)), town + ': the first clerk as before');
+  }
+  assert.deepEqual(plain(G.Maps.get('jubilife-mart').spots.shop2), [2, 2, 'left']);
+  const league = G.Maps.all().map(id => G.Maps.get(id)).find(m => (m.npcs || []).some(n => n.id === 'clerk' && JSON.stringify(n.script || '').includes('luxury-ball')));
+  assert.ok(league, "the League's shop sells every special ball");
+  // Emerald's Marts: Rustboro's Timer and Repeat Balls once Devon's goods are back; Mossdeep's Net and Dive; Verdanturf's Nest.
+  assert.ok(!sells('rustboro-mart', 'clerk').includes('timer-ball'));
+  F.setFlag('goods-recovered');
+  assert.ok(sells('rustboro-mart', 'clerk').includes('timer-ball') && sells('rustboro-mart', 'clerk').includes('repeat-ball'));
+  assert.ok(sells('mossdeep-mart', 'clerk').includes('net-ball') && sells('mossdeep-mart', 'clerk').includes('dive-ball'));
+  assert.ok(sells('verdanturf-mart', 'clerk').includes('nest-ball'));
+  // A wild battle's rules: a cave, the water, the night, the Pokédex.
+  F.giveMon('staraptor', 50);
+  const opts = [];
+  W.onEncounter = null;
+  G.BattleUI = { wild: (me, sp, lvl, o) => { opts.push(o); return Promise.resolve({ outcome: 'caught', mon: Object.assign(G.Mon.create(sp, lvl, { rng: G.RNG(1) }), { ball: o.ball || 'poke-ball' }), seen: [sp] }); } };
+  S.dex.caught[41] = 1;
+  const meet = async (map, x, y, surf) => {
+    S.player.surf = surf ? 1 : 0;
+    W.load(map, { x, y, dir: 'down' });
+    await W.sweetScent(null, 'honey');
+    S.player.surf = 0;
+    return opts[opts.length - 1];
+  };
+  G.Clock.period = () => 'day';
+  let o = await meet('oreburgh-gate', 3, 3);
+  assert.equal(o.rules.terrain, 'cave');
+  assert.ok(!o.rules.night && o.rules.caught[41], 'the Pokédex');
+  G.Clock.period = () => 'night';
+  o = await meet('route205s', 14, 1, true);
+  assert.ok(o.rules.terrain === 'water' && o.rules.night);
+  // The ending: a Pokémon caught in a new ball once chapter 104 is done; not in a Poké Ball, nor before.
+  assert.ok(!F.flag('chapter-105-done'));
+  F.setFlag('chapter-104-done');
+  await meet('route202', 2, 3);
+  assert.ok(!F.flag('chapter-105-done'), 'a Poké Ball');
+  const wild0 = G.BattleUI.wild;
+  G.BattleUI.wild = (me, sp, lvl, o2) => wild0(me, sp, lvl, Object.assign(o2, { ball: 'quick-ball' }));
+  await meet('route202', 2, 3);
+  assert.ok(F.flag('chapter-105-done'));
+});

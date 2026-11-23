@@ -928,9 +928,12 @@ G.World = (() => {
       else r = await fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) }));
       if (contest) caught = G.Contest.after(r);
       out = settle(r);
+      if (out === 'caught' && r && r.mon) wild.caughtMon = r.mon;     // chapter 105 (below)
       if (out === 'win' && !contest && !wild.party) foundAfterBattle();
     } finally { locks--; }
     G.Field.lastBattle = out;
+    // Chapter 105: a wild Pokémon caught, then the script after it (balls.js: one of the new balls, the chapter's end).
+    if (wild.caughtMon && !contest && G.Script.get('balls.caught')) await runScript('balls.caught', { mon: wild.caughtMon });
     if (wild.roamer && G.Roam) {
       const region = G.Roam.after(out, rng, wild.roamer);
       if (out === 'caught' && region === 'hoenn' && G.Script.get('legends.done')) await runScript('legends.done', {});
@@ -963,9 +966,15 @@ G.World = (() => {
     if (map.def.hail) rules.weather = 'hail';                  // the snow of northern Sinnoh (chapter 53)
     if (d && d.double) rules.double = true;
     if (map.def.noExp) rules.noExp = true;                     // no Exp. Points on this map (chapter 83: the Battle Pyramid)
+    // Chapter 105, for the balls: the night, and the Pokédex's caught species (the place: below, from the background).
+    if (G.Clock && G.Clock.period() === 'night') rules.night = true;
+    rules.caught = G.Field.save.dex.caught;
     // The rest of the team gets Exp. Points too (the setting expAll, on unless turned off).
     if (G.Settings && G.Settings.get('expAll') !== false) rules.expAll = true;
-    return { bg: under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor'), returnMode: 'overworld', rules };
+    const bg = under() ? 'underwater' : sea ? 'sea' : map.def.battleBg || (map.tileset === 'outdoor' ? 'grass' : 'indoor');
+    if (bg === 'sea' || bg === 'underwater') rules.terrain = 'water';
+    else if (bg === 'cave') rules.terrain = 'cave';
+    return { bg, returnMode: 'overworld', rules };
   }
   /** Chapter 98: after a battle won with your own team, Pickup and Honey Gather may find an item (no message, as in Platinum). */
   function foundAfterBattle() {

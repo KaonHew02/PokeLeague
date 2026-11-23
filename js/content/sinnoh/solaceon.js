@@ -135,6 +135,7 @@
 
   G.Maps.mart('solaceon-mart', {
     loc: 'solaceon-town', exit: { map: 'solaceon', spot: 'mart-door' },
+    special: ['net-ball', 'nest-ball', 'dusk-ball'],                    // chapter 105: Platinum's specialties counter (mart_items.h)
     stock: ['poke-ball', 'great-ball', 'ultra-ball', 'potion', 'super-potion', 'hyper-potion', 'antidote', 'paralyze-heal', 'awakening', 'burn-heal', 'ice-heal', 'full-heal', 'escape-rope', 'repel', 'super-repel'],
     npcs: [{ id: 'shopper', who: 'granny', x: 6, y: 5, move: 'look',
              say: 'It rains all the time on Route 215. Fire moves are weaker in the rain, you know.' }]

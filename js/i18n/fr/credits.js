@@ -293,5 +293,8 @@ G.I18n.add({
   "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "Dans les hautes herbes, les grottes ou sur l'eau, un doux parfum attire aussitôt un Pokémon sauvage, sauf si la météo le dissipe.",
   "Chapter 104 complete!": "Chapitre 104 terminé !",
   "{player} showed a Pokémon of the day's level in Route 221's house and collected the held items that Sinnoh's people keep for Trainers.": "{player} a montré un Pokémon du niveau du jour dans la maison de la Route 221 et a réuni les objets que les gens de Sinnoh gardent pour les Dresseurs.",
-  "Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.": "Désormais, Embargo bloque les objets tenus et le Sac pendant cinq tours, et Recyclage retrouve un objet déjà utilisé."
+  "Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.": "Désormais, Embargo bloque les objets tenus et le Sac pendant cinq tours, et Recyclage retrouve un objet déjà utilisé.",
+  "Chapter 105 complete!": "Chapitre 105 terminé !",
+  "{player} caught a Pokémon in one of the special balls sold at the specialties counters of Sinnoh and in the Marts of Hoenn.": "{player} a capturé un Pokémon avec l'une des Balls spéciales vendues aux comptoirs de Sinnoh et dans les boutiques de Hoenn.",
+  "Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!": "Chaque Ball spéciale a son moment : sur l'eau, la nuit, dans une grotte, au premier tour ou après un long combat. Choisis bien !"
 }, "fr");

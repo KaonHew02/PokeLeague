@@ -95,5 +95,6 @@ G.I18n.add({
   "A sweet scent drifted out from {mon}...": "Un doux parfum s'échappe de {mon}...",
   "{player} spread the {item} around. A sweet scent drifted out...": "{player} répand le {item} autour de soi. Un doux parfum se diffuse...",
   "The sweet scent faded away somehow...": "Le doux parfum s'est dissipé on ne sait comment...",
-  "Looks like there's nothing here...": "On dirait qu'il n'y a rien ici..."
+  "Looks like there's nothing here...": "On dirait qu'il n'y a rien ici...",
+  "Welcome! At this counter we sell goods you can only find in this town.": "Bienvenue ! À ce comptoir, nous vendons des articles qu'on ne trouve que dans cette ville."
 }, "fr");

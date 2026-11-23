@@ -188,7 +188,8 @@
 
   G.Maps.mart('mossdeep-mart', {
     loc: 'mossdeep-city', exit: { map: 'mossdeep', spot: 'mart-door' },
-    stock: ['ultra-ball', 'great-ball', 'hyper-potion', 'max-potion', 'revive', 'full-heal', 'escape-rope', 'max-repel', 'x-attack', 'x-defense'],
+    stock: ['ultra-ball', 'great-ball', 'net-ball', 'dive-ball', 'hyper-potion', 'max-potion', 'revive', 'full-heal', 'escape-rope', 'max-repel',
+            'x-attack', 'x-defense'],                                       // the Net and Dive Balls: chapter 105 (Emerald's)
     npcs: [{ id: 'shopper', who: 'gentleman', x: 6, y: 5, move: 'look',
              say: 'Everything here comes over by boat. That is why I always buy a little extra.' }]
   }).region = 'hoenn';

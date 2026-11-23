@@ -280,8 +280,13 @@ G.Held = (() => {
     b.inflict(bm, G.ITEM_FX[bm.mon.item].status, { silent: true, item: bm.mon.item });
   }
 
-  /** Friendship gained (chapter 104, Platinum's Pokemon_UpdateFriendship): x1.5 (rounded down) with a Soothe Bell. */
-  const friendship = (mon, n) => (n > 0 && mon && mon.item === 'soothe-bell' ? Math.floor(n * 150 / 100) : n);
+  /** Friendship gained (chapter 104, Platinum's Pokemon_UpdateFriendship): one more in a Luxury Ball (chapter 105), then
+   *  x1.5 (rounded down) with a Soothe Bell. */
+  function friendship(mon, n) {
+    if (!(n > 0) || !mon) return n;
+    if (mon.ball === 'luxury-ball') n++;
+    return mon.item === 'soothe-bell' ? Math.floor(n * 150 / 100) : n;
+  }
 
   return { friendship, kind, is, power, statMult, critBonus, accMult, userAcc, finalMult, resist, drainMult, locked, beforeMove, afterMove, powerHerb,
            quick, survives, expMult, afterHit, berry, herb, endOfTurn, orbs,

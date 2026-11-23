@@ -39,6 +39,18 @@ G.ITEM_FX = {
   'fast-ball':     { ball: 1, battle: 1 },
   'heavy-ball':    { ball: 1, battle: 1 },
   'love-ball':     { ball: 1, battle: 1 },
+  // Chapter 105: Generations 3 and 4's special balls, x1 here; what they are good at is in G.Capture.ballMod (Platinum's
+  // prices; the Premier Ball is not sold: one comes free with ten Poké Balls bought at once).
+  'net-ball':      { ball: 1, battle: 1, price: 1000 },
+  'dive-ball':     { ball: 1, battle: 1, price: 1000 },
+  'nest-ball':     { ball: 1, battle: 1, price: 1000 },
+  'repeat-ball':   { ball: 1, battle: 1, price: 1000 },
+  'timer-ball':    { ball: 1, battle: 1, price: 1000 },
+  'luxury-ball':   { ball: 1, battle: 1, price: 1000 },
+  'premier-ball':  { ball: 1, battle: 1 },
+  'dusk-ball':     { ball: 1, battle: 1, price: 1000 },
+  'heal-ball':     { ball: 1, battle: 1, price: 300 },
+  'quick-ball':    { ball: 1, battle: 1, price: 1000 },
 
   // ---- medicine ----
   'potion':        { heal: 20,     field: 1, battle: 1, price: 300 },

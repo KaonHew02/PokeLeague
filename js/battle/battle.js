@@ -986,7 +986,10 @@ G.Battle = (() => {
       // A wild double battle (chapter 102): the one still out.
       const fo = this.double ? this.foe.bms.find(bm => this.alive(bm)) || this.foe.bm : this.foe.bm, mon = fo.mon;
       // rules.forceCatch: debug only (F7), the next ball catches. rules.fishing: a Pokémon hooked with a rod (Lure Ball).
-      const m = G.Capture.ballMod(item, { foe: mon, mine: this.player.bm && this.player.bm.mon, fishing: !!this.rules.fishing });
+      // Chapter 105: the turns already over (Platinum's totalTurns), the place, the night and the Pokédex (rules from field.js).
+      const m = G.Capture.ballMod(item, { foe: mon, mine: this.player.bm && this.player.bm.mon, fishing: !!this.rules.fishing,
+        turns: Math.max(0, this.turn - 1), terrain: this.rules.terrain || null, night: !!this.rules.night,
+        caught: !!(this.rules.caught && this.rules.caught[mon.sp]) });
       if (this.rules.forceCatch) m.ball = 255;
       this.rules.forceCatch = false;
       const r = G.Capture.roll({ max: G.Mon.maxHp(mon), hp: mon.hp, rate: m.rate, ball: m.ball,
@@ -995,6 +998,8 @@ G.Battle = (() => {
       if (!r.caught) return;
       mon.ball = item;
       if (item === 'friend-ball') mon.friendship = Math.max(mon.friendship || 0, 200);
+      // The Heal Ball (chapter 105, Platinum's): full HP and no status.
+      if (item === 'heal-ball') { mon.hp = G.Mon.maxHp(mon); mon.status = null; mon.slp = 0; mon.tox = 0; }
       mon.ot = { name: this.player.name, id: this.player.id };
       mon.met = { map: this.rules.where, lvl: mon.lvl };
       const toBox = this.ownParty.length >= 6;

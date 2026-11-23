@@ -293,5 +293,8 @@ G.I18n.add({
   "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "在草丛、洞窟或水上，甜甜的香味会马上引来野生宝可梦，除非被天气吹散。",
   "Chapter 104 complete!": "第 104 章完成！",
   "{player} showed a Pokémon of the day's level in Route 221's house and collected the held items that Sinnoh's people keep for Trainers.": "{player}在 221 号道路的房子里让人看了当天等级的宝可梦，也收集到了神奥的人们为训练家准备的持有物。",
-  "Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.": "现在，查封会让持有物和背包道具五回合无法使用，回收利用则能找回用掉的道具。"
+  "Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.": "现在，查封会让持有物和背包道具五回合无法使用，回收利用则能找回用掉的道具。",
+  "Chapter 105 complete!": "第 105 章完成！",
+  "{player} caught a Pokémon in one of the special balls sold at the specialties counters of Sinnoh and in the Marts of Hoenn.": "{player}用神奥特产柜台和丰缘商店卖的特殊精灵球抓到了宝可梦。",
+  "Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!": "每种特殊精灵球都有最适合的时候：水上、夜晚、洞窟、第一回合，或是长时间的对战之后。选对球吧！"
 }, "zh-Hans");

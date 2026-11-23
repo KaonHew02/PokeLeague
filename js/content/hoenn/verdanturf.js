@@ -120,7 +120,8 @@
 
   G.Maps.mart('verdanturf-mart', {
     loc: 'verdanturf-town', exit: { map: 'verdanturf', spot: 'mart-door' },
-    stock: ['great-ball', 'super-potion', 'hyper-potion', 'antidote', 'paralyze-heal', 'awakening', 'burn-heal', 'ice-heal', 'escape-rope', 'super-repel', 'x-sp-atk'],
+    stock: ['great-ball', 'nest-ball', 'super-potion', 'hyper-potion', 'antidote', 'paralyze-heal', 'awakening', 'burn-heal', 'ice-heal', 'escape-rope',
+            'super-repel', 'x-sp-atk'],                                     // the Nest Ball: chapter 105 (Emerald's)
     npcs: [{ id: 'shopper', who: 'lass', x: 6, y: 5, move: 'look',
              say: 'Escape Rope takes you straight out of a cave. Handy in the Rusturf Tunnel!' }]
   }).region = 'hoenn';

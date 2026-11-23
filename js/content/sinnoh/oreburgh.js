@@ -157,6 +157,7 @@
 
   G.Maps.mart('oreburgh-mart', {
     loc: 'oreburgh-city', exit: { map: 'oreburgh', spot: 'mart-door' },
+    special: ['heal-ball', 'net-ball'],                    // chapter 105: Platinum's specialties counter (mart_items.h)
     stock: ['poke-ball', 'great-ball', 'potion', 'super-potion', 'antidote', 'paralyze-heal', 'awakening', 'burn-heal', 'ice-heal', 'escape-rope', 'repel'],
     npcs: [{ id: 'shopper', who: 'engineer', x: 6, y: 5, move: 'look',
              say: 'Escape Ropes sell well in a mining town. Nobody wants to get lost underground!' }]

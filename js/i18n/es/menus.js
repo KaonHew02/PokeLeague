@@ -215,5 +215,6 @@ G.I18n.add({
   "Sheen": "Lustre",
   "Ribbons": "Cintas",
   "Contest": "Concurso",
-  "{mon} is too tired to use that.": "{mon} está demasiado cansado para usar eso."
+  "{mon} is too tired to use that.": "{mon} está demasiado cansado para usar eso.",
+  "You bought so many, so here is a {item} as a little extra!": "Como has comprado tantas, ¡aquí tienes una {item} de regalo!"
 }, "es");

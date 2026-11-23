@@ -382,6 +382,7 @@
 
   G.Maps.mart('snowpoint-mart', {
     loc: 'snowpoint-city', exit: { map: 'snowpoint', spot: 'mart-door' },
+    special: ['dusk-ball', 'quick-ball', 'timer-ball'],                    // chapter 105: Platinum's specialties counter (mart_items.h)
     stock: ['poke-ball', 'great-ball', 'ultra-ball', 'potion', 'super-potion', 'hyper-potion', 'revive', 'antidote', 'paralyze-heal', 'awakening',
             'burn-heal', 'ice-heal', 'full-heal', 'escape-rope', 'repel', 'super-repel', 'max-repel'],
     npcs: [{ id: 'shopper', who: 'hiker', x: 6, y: 5, move: 'look',

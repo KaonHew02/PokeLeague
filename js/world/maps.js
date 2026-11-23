@@ -687,7 +687,8 @@ G.Maps = (() => {
     });
   }
 
-  /** Poké Mart: the clerk behind the counter on the left sells `stock`. Spots: door, shop. */
+  /** Poké Mart: the clerk behind the counter on the left sells `stock`. Spots: door, shop. Chapter 105: `special`, a second
+   *  clerk at the counter (Platinum's specialties counter) selling the town's own goods (shop2). */
   function mart(id, o = {}) {
     const exit = o.exit || {};
     return def({
@@ -703,11 +704,14 @@ G.Maps = (() => {
         '++++X+++++'
       ],
       warps: [{ x: 4, y: 7, to: exit.map, spot: exit.spot }],
-      spots: { door: [4, 7, 'up'], shop: [2, 4, 'left'] },
+      spots: Object.assign({ door: [4, 7, 'up'], shop: [2, 4, 'left'] }, o.special ? { shop2: [2, 2, 'left'] } : {}),
       npcs: [{ id: 'clerk', who: 'clerk', x: 0, y: 4, dir: 'right', script: o.clerk || [
         ['say', 'Hi there! What can I get for you today?'],
         ['shop', o.stock || ['poke-ball', 'potion', 'antidote', 'paralyze-heal']]
-      ] }].concat(o.npcs || []),
+      ] }].concat(o.special ? [{ id: 'clerk2', who: 'clerk', x: 0, y: 2, dir: 'right', script: [
+        ['say', 'Welcome! At this counter we sell goods you can only find in this town.'],
+        ['shop', o.special]
+      ] }] : [], o.npcs || []),
       enter: o.enter
     });
   }

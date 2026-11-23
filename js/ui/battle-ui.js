@@ -854,6 +854,9 @@ G.BattleUI = (() => {
   const BALL_TOP = {
     'great-ball': '#3a78d8', 'ultra-ball': '#f0c838', 'master-ball': '#8a40c0', 'safari-ball': '#6a9a48', 'sport-ball': '#e8902a',
     'level-ball': '#e8a828', 'lure-ball': '#3a98d0', 'moon-ball': '#4a5a90', 'friend-ball': '#48a848', 'fast-ball': '#f0d040',
+    // Chapter 105.
+    'net-ball': '#3ab0c8', 'dive-ball': '#3a68d8', 'nest-ball': '#88b838', 'repeat-ball': '#e05030', 'timer-ball': '#d8d8d8',
+    'luxury-ball': '#383838', 'premier-ball': '#f4f4f4', 'dusk-ball': '#2a7a3a', 'heal-ball': '#f088c0', 'quick-ball': '#3a90e8',
     'heavy-ball': '#7a8a98', 'love-ball': '#f08ab8'
   };
   function drawBall(ctx, f, unit) {

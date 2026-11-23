@@ -4889,6 +4889,33 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 105 after chapter 104: the special balls. A Quick Ball (bought at Pastoria's specialties counter: the shop is a
+ *  stand-in) thrown on the first turn at a wild Pokémon of Route 205, then the script after a catch (the ending). */
+async function chapter105(st) {
+  const { G, S, W } = st;
+  const F = G.Field;
+  assert.ok(G.Maps.get('pastoria-mart').npcs.some(n => n.id === 'clerk2' && JSON.stringify(n.script).includes('quick-ball')));
+  F.giveItem('quick-ball', 5);
+  const row = G.Maps.encounters(G.Maps.get('route205s'), 'walk').mons[0];
+  let b = null, throws = 0;
+  for (let s = 1; s <= 20 && !(b && b.result && b.result.outcome === 'caught'); s++) {
+    const foe = G.Mon.create(G.Maps.species(row[0]), row[1], { rng: G.RNG(W.seed * 7 + s), wild: true });
+    b = G.Battle.create({ kind: 'wild', seed: W.seed * 13 + s, player: { name: S.player.name, id: S.player.id, party: S.party, bag: S.bag }, foe: { party: [foe] },
+      rules: { caught: S.dex.caught } });
+    b.start();
+    b.act({ type: 'ball', item: 'quick-ball' });
+    throws++;
+  }
+  const mon = b.result.mon;
+  assert.equal(mon.ball, 'quick-ball');
+  if (b.result.toBox) F.toBox(mon);
+  S.dex.caught[mon.sp] = 1;
+  await run(st, 'route205s', 'balls.caught', [], { mon });
+  console.log('[story] the special balls:', G.Names.mon(mon.sp), 'Lv.', mon.lvl, 'caught on the first turn with a', G.Names.item('quick-ball'), '(' + throws + ' throw(s))');
+  assert.ok(F.flag('chapter-105-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 104 after chapter 103: Platinum's held-item gifts; Route 221's house: a Pokémon of the day's level earns a Black
  *  Belt (the ending). The harness picks the first day whose level one of the team has. */
 async function chapter104(st) {
@@ -6363,4 +6390,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter102(st);
   await chapter103(st);
   await chapter104(st);
+  await chapter105(st);
 });

@@ -215,5 +215,6 @@ G.I18n.add({
   "Sheen": "光泽",
   "Ribbons": "奖章",
   "Contest": "华丽大赛",
-  "{mon} is too tired to use that.": "{mon}太累了，没办法使用。"
+  "{mon} is too tired to use that.": "{mon}太累了，没办法使用。",
+  "You bought so many, so here is a {item} as a little extra!": "你买了这么多，送你一个{item}当作小赠品！"
 }, "zh-Hans");

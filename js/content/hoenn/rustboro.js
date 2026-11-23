@@ -91,6 +91,13 @@
   G.Maps.mart('rustboro-mart', {
     loc: 'rustboro-city', exit: { map: 'rustboro', spot: 'mart-door' },
     stock: ['poke-ball', 'great-ball', 'potion', 'super-potion', 'antidote', 'paralyze-heal', 'escape-rope', 'repel', 'x-speed', 'x-defense'],
+    // Chapter 105, Emerald's: the Timer and Repeat Balls once Devon's goods are back (RustboroCity_Mart's expanded list).
+    clerk: [
+      ['say', 'Hi there! What can I get for you today?'],
+      ['if', 'goods-recovered', [['shop', ['poke-ball', 'great-ball', 'timer-ball', 'repeat-ball', 'potion', 'super-potion', 'antidote', 'paralyze-heal',
+                                           'escape-rope', 'repel', 'x-speed', 'x-defense']]],
+       [['shop', ['poke-ball', 'great-ball', 'potion', 'super-potion', 'antidote', 'paralyze-heal', 'escape-rope', 'repel', 'x-speed', 'x-defense']]]]
+    ],
     npcs: [{ id: 'shopper', who: 'gentleman', x: 6, y: 5, move: 'look',
              say: 'Great Balls catch Pokémon more easily than Poké Balls. They make them right here in Rustboro!' }]
   }).region = 'hoenn';

@@ -207,6 +207,7 @@
 
   G.Maps.mart('eterna-mart', {
     loc: 'eterna-city', exit: { map: 'eterna', spot: 'mart-door' },
+    special: ['heal-ball', 'net-ball', 'nest-ball'],                    // chapter 105: Platinum's specialties counter (mart_items.h)
     stock: ['poke-ball', 'great-ball', 'potion', 'super-potion', 'antidote', 'paralyze-heal', 'awakening', 'burn-heal', 'ice-heal', 'full-heal', 'escape-rope', 'repel', 'super-repel'],
     npcs: [{ id: 'shopper', who: 'lass', x: 6, y: 5, move: 'look',
              say: 'Grass types can put you to sleep or paralyze you with their powders. Bring Awakenings and Paralyze Heals!' }]

@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 105) return { title: T('Chapter 105 complete!'),
+      done: fmt('{player} caught a Pokémon in one of the special balls sold at the specialties counters of Sinnoh and in the Marts of Hoenn.', { player }),
+      next: T('Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!') };
     if (n === 104) return { title: T('Chapter 104 complete!'),
       done: fmt("{player} showed a Pokémon of the day's level in Route 221's house and collected the held items that Sinnoh's people keep for Trainers.", { player }),
       next: T('Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.') };

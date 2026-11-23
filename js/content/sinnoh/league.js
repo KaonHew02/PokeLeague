@@ -47,7 +47,9 @@
       ] },
       { id: 'clerk', who: 'clerk', x: 11, y: 2, dir: 'down', script: [
         ['say', 'The last shop before the Elite Four. Stock up well!'],
-        ['shop', ['ultra-ball', 'great-ball', 'full-restore', 'max-potion', 'hyper-potion', 'revive', 'full-heal', 'max-repel']]
+        // Chapter 105: and Platinum's League specialties (mart_items.h), every special ball.
+        ['shop', ['ultra-ball', 'great-ball', 'full-restore', 'max-potion', 'hyper-potion', 'revive', 'full-heal', 'max-repel',
+                  'heal-ball', 'net-ball', 'nest-ball', 'dusk-ball', 'quick-ball', 'timer-ball', 'repeat-ball', 'luxury-ball']]
       ] },
       { id: 'guard', who: 'officer', x: 7, y: 3, dir: 'down', script: 'sleague.guard' },
       { id: 'trainer', who: 'cooltrainer', x: 12, y: 6, move: 'look',

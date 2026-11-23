@@ -95,5 +95,6 @@ G.I18n.add({
   "A sweet scent drifted out from {mon}...": "{mon}散发出一股甜甜的香气……",
   "{player} spread the {item} around. A sweet scent drifted out...": "{player}在四周涂了{item}。一股甜甜的香气飘散开来……",
   "The sweet scent faded away somehow...": "甜甜的香气不知为何飘散了……",
-  "Looks like there's nothing here...": "这里好像什么都没有……"
+  "Looks like there's nothing here...": "这里好像什么都没有……",
+  "Welcome! At this counter we sell goods you can only find in this town.": "欢迎光临！这个柜台卖的是只有本地才有的商品。"
 }, "zh-Hans");

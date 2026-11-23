@@ -163,6 +163,7 @@
 
   G.Maps.mart('jubilife-mart', {
     loc: 'jubilife-city', exit: { map: 'jubilife', spot: 'mart-door' },
+    special: ['heal-ball'],                    // chapter 105: Platinum's specialties counter (mart_items.h)
     stock: ['poke-ball', 'potion', 'antidote', 'paralyze-heal', 'awakening', 'escape-rope', 'repel'],
     npcs: [{ id: 'shopper', who: 'gentleman', x: 6, y: 5, move: 'look',
              say: 'A Repel keeps weak wild Pokémon away for a while. Very handy in a long cave!' }]

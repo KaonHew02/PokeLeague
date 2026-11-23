@@ -94,6 +94,7 @@
 
   G.Maps.mart('pastoria-mart', {
     loc: 'pastoria-city', exit: { map: 'pastoria', spot: 'mart-door' },
+    special: ['nest-ball', 'dusk-ball', 'quick-ball'],                    // chapter 105: Platinum's specialties counter (mart_items.h)
     stock: ['poke-ball', 'great-ball', 'ultra-ball', 'potion', 'super-potion', 'hyper-potion', 'revive', 'antidote', 'paralyze-heal', 'awakening',
             'burn-heal', 'ice-heal', 'full-heal', 'escape-rope', 'repel', 'super-repel', 'max-repel'],
     npcs: [{ id: 'shopper', who: 'sailor', x: 6, y: 5, move: 'look',

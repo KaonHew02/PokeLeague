@@ -170,6 +170,7 @@
 
   G.Maps.mart('hearthome-mart', {
     loc: 'hearthome-city', exit: { map: 'hearthome', spot: 'mart-door' },
+    special: ['heal-ball', 'net-ball', 'nest-ball'],                    // chapter 105: Platinum's specialties counter (mart_items.h)
     stock: ['poke-ball', 'great-ball', 'potion', 'super-potion', 'hyper-potion', 'antidote', 'paralyze-heal', 'awakening', 'burn-heal', 'ice-heal', 'full-heal', 'escape-rope', 'repel', 'super-repel'],
     npcs: [{ id: 'shopper', who: 'gentleman', x: 6, y: 5, move: 'look',
              say: 'Ghost types like to put you to sleep or confuse you. Awakenings are a must!' }]

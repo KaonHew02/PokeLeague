@@ -80,6 +80,12 @@ G.ShopUI = (() => {
     G.Field.giveItem(id, n);
     G.Audio.sfx('buy');
     await G.Popup.say(T('Here you are! Thank you!'));
+    // Chapter 105: ten Poké Balls or more at once, a Premier Ball free.
+    const bonus = G.FieldItems && G.FieldItems.purchaseBonus(id, n);
+    if (bonus) {
+      G.Field.giveItem(bonus, 1);
+      await G.Popup.say(fmt('You bought so many, so here is a {item} as a little extra!', { item: G.Names.item(bonus) }));
+    }
   }
 
   async function sell() {

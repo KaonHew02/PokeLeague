@@ -16,6 +16,11 @@
  *     Pokémon's species of the other gender; Heavy Ball: the catch rate −20 under 102.4 kg, +20 /
  *     +30 / +40 from 102.4 / 204.8 / 307.2 kg; Friend Ball ×1 (what it catches starts at 200
  *     friendship, battle.js). Every other ball: its `ball` in item-effects.js.
+ *   Chapter 105, Platinum's (battle_script.c, BattleScript_CalcCatchShakes; ctx { turns, terrain, night, caught }):
+ *     Net Ball x3 on a Water or Bug type; Dive Ball x3.5 on the water (terrain 'water'; Emerald's only underwater); Nest Ball
+ *     x(40 - level)/10 under level 40, x1 at least; Repeat Ball x3 on a species already caught; Timer Ball x(10 + turns)/10,
+ *     x4 at most (turns: those already over); Dusk Ball x3.5 at night or in a cave (terrain 'cave'); Quick Ball x4 in the
+ *     first turn; the Heal, Luxury and Premier Balls x1 (what they do after: battle.js, held.js).
  */
 G.Capture = (() => {
   const STATUS = { slp: 2, frz: 2, psn: 1.5, tox: 1.5, par: 1.5, brn: 1.5 };
@@ -47,6 +52,13 @@ G.Capture = (() => {
     else if (item === 'moon-ball') ball = (S.evo || []).some(e => e.item === 'moon-stone') ? 4 : 1;
     else if (item === 'fast-ball') ball = S.base[5] >= 100 ? 4 : 1;
     else if (item === 'love-ball') ball = mine && mine.sp === foe.sp && mine.gender && foe.gender && mine.gender !== foe.gender ? 8 : 1;
+    else if (item === 'net-ball') ball = S.types.includes('water') || S.types.includes('bug') ? 3 : 1;
+    else if (item === 'dive-ball') ball = ctx.terrain === 'water' ? 3.5 : 1;
+    else if (item === 'nest-ball') ball = foe.lvl < 40 ? Math.max(10, 40 - foe.lvl) / 10 : 1;
+    else if (item === 'repeat-ball') ball = ctx.caught ? 3 : 1;
+    else if (item === 'timer-ball') ball = Math.min(40, 10 + (ctx.turns || 0)) / 10;
+    else if (item === 'dusk-ball') ball = ctx.night || ctx.terrain === 'cave' ? 3.5 : 1;
+    else if (item === 'quick-ball') ball = (ctx.turns || 0) < 1 ? 4 : 1;
     else if (item === 'heavy-ball') {
       const w = S.w || 0;   // hectograms
       rate = Math.max(1, Math.min(255, rate + (w >= 3072 ? 40 : w >= 2048 ? 30 : w >= 1024 ? 20 : -20)));

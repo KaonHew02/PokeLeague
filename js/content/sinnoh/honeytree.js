@@ -13,6 +13,8 @@
  * to the next tree); this game's IDs have 16 bits, so the ID is mixed into 32 bits first (my own).
  * A tree's state is a var, `honey:<tree>` = "minutes|group|slot" (minutes empty once the battle has taken the Honey); `honey-last`
  * the tree spread last. The first Pokémon met in a Honey tree once chapter 98 is done ends the chapter: `ending(99)`.
+ * Chapter 103: Honey used from the Bag works as Sweet Scent (G.World.sweetScent, field.js); after the first battle it brings,
+ * once chapter 102 is done, the script 'sweetscent.done' ends the chapter: `ending(103)`.
  * The words are my own.
  *   G.HoneyTrees.TREES [map, x, y] · GROUPS · SLOT_RATES · WAIT (360) · LAST (1440) · treeOf(map) · munchlaxTrees(id)
  *   group(isMunchlax, rng) · slot(rng) · state(i) · status(i, now) -> 'bare' | 'waiting' | 'ready' · spread(i, rng, now) · level(rng)
@@ -117,6 +119,13 @@ G.HoneyTrees = (() => {
     await h.say(T('{player} spread Honey on the tree. Something might come to lick it in a few hours.'));
   }
 
-  G.Script.def({ 'honey.tree': [['js', tree]] });
+  /** Chapter 103: after a battle that Sweet Scent or Honey brought on (field.js), the end of the chapter, once. */
+  async function scentDone() {
+    if (F().flag('chapter-102-done') && !F().flag('chapter-103-done')) {
+      if (G.CreditsUI) await G.CreditsUI.ending(103); else F().setFlag('chapter-103-done');
+    }
+  }
+
+  G.Script.def({ 'honey.tree': [['js', tree]], 'sweetscent.done': [['js', scentDone]] });
   return { TREES, GROUPS, SLOT_RATES, WAIT, LAST, treeOf, munchlaxTrees, isMunchlax, group, slot, state, status, spread, level };
 })();

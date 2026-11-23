@@ -4890,6 +4890,23 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 103 after chapter 102: Sweet Scent and Honey outside battle. The harness has no overworld: Honey bought (the shop is a
+ *  stand-in) and used from the Bag, the wild Pokémon it brings in Route 205's grass at once (the table's first row, as
+ *  G.World.sweetScent would draw one), battled, then the script that follows such a battle (the ending). */
+async function chapter103(st) {
+  const { G } = st;
+  const F = G.Field;
+  F.giveItem('honey', 1);
+  F.takeItem('honey', 1);
+  const row = G.Maps.encounters(G.Maps.get('route205s'), 'walk').mons[0];
+  await run(st, 'route205s', [['wild', row[0], row[1]]]);
+  const b = st.battles[st.battles.length - 1];
+  await run(st, 'route205s', 'sweetscent.done');
+  console.log("[story] Sweet Scent and Honey: Honey used in Route 205's grass,", G.Names.mon(G.Maps.species(row[0])), 'Lv.', row[1], 'came at once:', b.outcome);
+  assert.ok(F.flag('chapter-103-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 102 after chapter 101: wild double battles beside a partner; the textbook in Jubilife's Trainers' School (the ending). */
 async function chapter102(st) {
   const { G } = st;
@@ -6327,4 +6344,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter100(st);
   await chapter101(st);
   await chapter102(st);
+  await chapter103(st);
 });

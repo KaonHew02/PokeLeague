@@ -1,5 +1,5 @@
 /* ============ field-items.js — using items from the Bag outside battle ============
- *   G.FieldItems.kind(item)          'mon' (used on a Pokémon) | 'tm' | 'field' (Repel, Escape Rope…) | 'key' | null
+ *   G.FieldItems.kind(item)          'mon' (used on a Pokémon) | 'tm' | 'field' (Repel, Escape Rope, Honey: chapter 103…) | 'key' | null
  *   G.FieldItems.needsMove(item)     Ether, Max Ether, PP Up and PP Max ask for a move
  *   G.FieldItems.canUse(item, mon, { move })   -> true if it would do something
  *   G.FieldItems.use(item, mon, { move })      -> { ok, lines: [texts], level, learn: [moves], evolve: sp }
@@ -31,7 +31,7 @@ G.FieldItems = (() => {
     if (it.pocket === 'tms') return 'tm';
     if (fx.key || it.pocket === 'key') return 'key';
     if (!fx.field) return null;
-    if (fx.repel || fx.escape) return 'field';
+    if (fx.repel || fx.escape || fx.scent) return 'field';
     return 'mon';
   }
 

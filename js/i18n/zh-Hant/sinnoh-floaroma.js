@@ -68,5 +68,6 @@ G.I18n.add({
   "Floaroma Town. A town of flowers, where the air always smells sweet.": "苑之鎮。花之小鎮，空氣中總是飄著甜美的香氣。",
   "Floaroma Meadow. Please do not pick the flowers.": "苑之鎮花田。請勿摘花。",
   "Route 205. North: Eterna Forest. South: the Valley Windworks. West: Floaroma Town.": "205號道路。北：百代森林　南：山谷發電廠　西：苑之鎮",
-  "Valley Windworks. The wind of the valley turns into power for all of Sinnoh.": "山谷發電廠。將山谷的風化為電力，送往整個神奧。"
+  "Valley Windworks. The wind of the valley turns into power for all of Sinnoh.": "山谷發電廠。將山谷的風化為電力，送往整個神奧。",
+  "Or use it right where you stand, in tall grass or a cave. Wild Pokémon will come out at once!": "或者就在你站的地方用，在草叢或洞窟裡，野生寶可夢馬上就會出來！"
 }, "zh-Hant");

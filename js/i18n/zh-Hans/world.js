@@ -91,5 +91,9 @@ G.I18n.add({
   "Light is filtering down from above. Would you like to use Dive?": "上方有光照下来。要使用潜水吗？",
   "We battle two against two! Come back when you have two Pokémon that can fight.": "我们是二对二对战的！等你有两只能战斗的宝可梦再来吧。",
   "Dawn": "小光",
-  "{one} & {two}": "{one}和{two}"
+  "{one} & {two}": "{one}和{two}",
+  "A sweet scent drifted out from {mon}...": "{mon}散发出一股甜甜的香气……",
+  "{player} spread the {item} around. A sweet scent drifted out...": "{player}在四周涂了{item}。一股甜甜的香气飘散开来……",
+  "The sweet scent faded away somehow...": "甜甜的香气不知为何飘散了……",
+  "Looks like there's nothing here...": "这里好像什么都没有……"
 }, "zh-Hans");

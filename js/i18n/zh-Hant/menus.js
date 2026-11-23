@@ -214,5 +214,6 @@ G.I18n.add({
   "You can't save here.": "這裡不能存檔。",
   "Sheen": "光澤",
   "Ribbons": "獎章",
-  "Contest": "華麗大賽"
+  "Contest": "華麗大賽",
+  "{mon} is too tired to use that.": "{mon}太累了，沒辦法使用。"
 }, "zh-Hant");

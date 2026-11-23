@@ -811,32 +811,87 @@ G.World = (() => {
     if (debug.noEnc || !G.Field.party().length) return false;
     const wild = rollWild(method);
     if (!wild) return false;
+    return !!startWild(wild, method, false);
+  }
+
+  /** A wild Pokémon drawn (by a step, or by Sweet Scent: chapter 103): the checks, the roamer, a second one beside a partner,
+   *  then the battle. scent: Sweet Scent or Honey (Platinum's TrySweetScentEncounter): no Repel, Keen Eye, Intimidate or
+   *  Cleanse Tag keeps it away. -> the battle's promise, or null when kept away */
+  function startWild(wild, method, scent) {
     const ally = partnerHere();
     const FA = G.FieldAbilities, ab = fieldAbility(), first = FA ? FA.lead(G.Field.party()) : null;
     // Chapter 98: Keen Eye and Intimidate keep the much weaker ones away half the time.
-    if (FA && FA.blocks(ab, first, wild.lvl, rng)) return false;
+    if (!scent && FA && FA.blocks(ab, first, wild.lvl, rng)) return null;
     const lead = G.Field.lead();
     // A Cleanse Tag on the lead (chapter 69): a third fewer wild Pokémon, as in Generations 3 and 4.
-    if (lead && G.Held && G.Held.is(lead, 'cleanse-tag') && rng.int(0, 2) === 0) return false;
+    if (!scent && lead && G.Held && G.Held.is(lead, 'cleanse-tag') && rng.int(0, 2) === 0) return null;
     // The roaming Pokémon on this route (chapter 42): one wild encounter in four is it; never beside a partner (chapter 102).
     const rm = !ally && (method === 'walk' || method === 'surf') && G.Roam && G.Roam.meets(rng, map.id);
     if (rm) Object.assign(wild, { sp: rm.sp, lvl: rm.lvl, roamer: rm });
     // Chapter 98: Synchronize (its nature) and Cute Charm (the other gender).
     else if (FA) Object.assign(wild, FA.traits(ab, first, wild.sp, rng));
-    if (G.Field.save.repel > 0 && lead && wild.lvl < lead.lvl) return false;
+    if (!scent && G.Field.save.repel > 0 && lead && wild.lvl < lead.lvl) return null;
     // Chapter 102, Platinum's (wild_encounters.c): beside a partner, the partner fights too; walking in grass or a cave, a
     // second wild Pokémon comes, drawn and checked as the first (an ability or a Repel keeping it away stops the encounter).
     if (ally && method === 'walk') {
       const two = drawWild(M().encounters(map, method), method);
-      if (FA && FA.blocks(ab, first, two.lvl, rng)) return false;
+      if (!scent && FA && FA.blocks(ab, first, two.lvl, rng)) return null;
       if (FA) Object.assign(two, FA.traits(ab, first, two.sp, rng));
-      if (G.Field.save.repel > 0 && lead && two.lvl < lead.lvl) return false;
+      if (!scent && G.Field.save.repel > 0 && lead && two.lvl < lead.lvl) return null;
       wild.second = { sp: two.sp, lvl: two.lvl, nature: two.nature, gender: two.gender };
     }
     if (ally) wild.partner = { name: G.T(ally.name), team: ally.team };
     G.Player.walk(null);
-    wildBattle(wild);
-    return true;
+    return wildBattle(wild);
+  }
+
+  /** The kind of wild encounter the tile underfoot has, as a step would find it ('surf', 'seaweed', 'walk'), or null. */
+  function wildMethodHere() {
+    if (!map || !me) return null;
+    const k = M().kindAt(map, me.x, me.y);
+    if (surfing) return 'surf';
+    if (k === 'tall') return under() ? 'seaweed' : 'walk';
+    if ((map.def.cave || map.def.desert) && !M().info(k).warp) return 'walk';
+    return null;
+  }
+
+  /** Chapter 103: weather that blows a sweet scent away, in Sinnoh (Platinum's list in ov5_021F0438: rain, snow, a blizzard,
+   *  a sandstorm, fog, the dark of a cave; Emerald has none): the map's storm, fog, snow or hail, sandstorm, or darkness (lit
+   *  or not: both of Platinum's states are in the list, as this game reads it). */
+  const scentBlown = () => !!(map && map.def.region === 'sinnoh'
+    && (stormy() || foggy() || map.def.snow || map.def.hail || map.def.sandstorm || map.def.dark));
+  let scentGlow = 0;                       // the pink of the scent on the screen (seconds)
+
+  /**
+   * Chapter 103: Sweet Scent used outside battle (mon), or Honey from the Bag (item, already taken from it): Platinum's
+   * ov5_021F0488 for both. Blown away by the weather (Sinnoh), nothing on this tile, or a wild Pokémon at once
+   * (WildEncounters_TrySweetScentEncounter: always, whatever the rate). After such a battle the script 'sweetscent.done'
+   * (honeytree.js: the chapter's ending). -> 'faded' | 'nothing' | the battle's outcome
+   */
+  async function sweetScent(mon, item) {
+    if (!map || !me || !G.Field.party().length) return 'nothing';
+    let method = null, table = null, res = 'nothing';
+    locks++;
+    try {
+      G.Player.walk(null);
+      await say(mon ? G.I18n.fmt('A sweet scent drifted out from {mon}...', { mon: G.Mon.name(mon) })
+        : G.I18n.fmt('{player} spread the {item} around. A sweet scent drifted out...', { player: G.Field.save.player.name, item: G.Names.item(item || 'honey') }));
+      sfx('heal', 'confirm');
+      scentGlow = 1.2;
+      if (scentBlown()) res = 'faded';
+      else {
+        method = wildMethodHere();
+        table = method ? M().encounters(map, method) : null;
+        if (table && table.mons && table.mons.length) res = 'wild';
+      }
+      if (res === 'faded') await say(G.T('The sweet scent faded away somehow...'));
+      else if (res === 'nothing') await say(G.T("Looks like there's nothing here..."));
+    } finally { locks--; }
+    if (res !== 'wild') return res;
+    const battle = startWild(drawWild(table, method), method, true);
+    const out = battle ? await battle : 'nothing';
+    if (out !== 'lose' && G.Script.get('sweetscent.done')) await runScript('sweetscent.done', {});
+    return out;
   }
 
   async function wildBattle(wild) {
@@ -1840,6 +1895,7 @@ G.World = (() => {
   function update(dt, o = {}) {
     if (!map || !me) return;
     G.Dialog.tick(dt);
+    if (scentGlow > 0) scentGlow = Math.max(0, scentGlow - dt);
     const ui = !!o.ui || G.UI.anyOpen();
     const control = !ui && !locks && !G.Dialog.open;
     // A click during a step waits for the step to end (the newest click wins).
@@ -1876,7 +1932,8 @@ G.World = (() => {
   const stormy = (m = map) => !!(m && m.def.storm) && G.Field.test(m.def.storm);
   /** Fog on this map (its `fog`, chapter 50). */
   const foggy = (m = map) => !!(m && m.def.fog);
-  const tint = () => under() ? 'rgba(10,40,120,0.30)' : stormy() ? 'rgba(20,28,60,0.38)'
+  const tint = () => scentGlow > 0 ? 'rgba(255,150,195,' + (0.4 * Math.min(1, scentGlow)).toFixed(2) + ')'      // Sweet Scent (chapter 103)
+    : under() ? 'rgba(10,40,120,0.30)' : stormy() ? 'rgba(20,28,60,0.38)'
     : (['johto', 'hoenn', 'sinnoh'].includes(map.def.region) && map.tileset === 'outdoor' && !map.def.cave && G.Clock
     ? TINT[G.Clock.period()] : null);
 
@@ -1894,7 +1951,7 @@ G.World = (() => {
     onEncounter: null, onTrainer: null, wildForm: null,
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, makeFollower, get surfing() { return surfing; }, keyOpen,
     barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, feebasTiles, stormy, foggy, teleportBlock,
-    get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot,
+    get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot, sweetScent, wildMethodHere,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get decor() { return decor; }, get cut() { return cut; }, get lit() { return lit; },
     brighten, get glow() { return glow; },

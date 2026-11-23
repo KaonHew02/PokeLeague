@@ -68,5 +68,6 @@ G.I18n.add({
   "Floaroma Town. A town of flowers, where the air always smells sweet.": "Giardinfiorito. Una città di fiori, dove l'aria profuma sempre di dolce.",
   "Floaroma Meadow. Please do not pick the flowers.": "Prato di Giardinfiorito. Si prega di non cogliere i fiori.",
   "Route 205. North: Eterna Forest. South: the Valley Windworks. West: Floaroma Town.": "Percorso 205. Nord: Bosco Evopoli. Sud: la centrale eolica. Ovest: Giardinfiorito.",
-  "Valley Windworks. The wind of the valley turns into power for all of Sinnoh.": "Centrale eolica. Il vento della valle diventa energia per tutta Sinnoh."
+  "Valley Windworks. The wind of the valley turns into power for all of Sinnoh.": "Centrale eolica. Il vento della valle diventa energia per tutta Sinnoh.",
+  "Or use it right where you stand, in tall grass or a cave. Wild Pokémon will come out at once!": "Oppure usalo proprio dove ti trovi, nell'erba alta o in una grotta. I Pokémon selvatici usciranno subito!"
 }, "it");

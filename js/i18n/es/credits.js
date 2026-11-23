@@ -287,5 +287,8 @@ G.I18n.add({
   "Every partner met on the way has fought at your side. Who will you team up with next?": "Cada compañero que encontraste por el camino ha luchado a tu lado. ¿Con quién harás equipo la próxima vez?",
   "Chapter 102 complete!": "¡Capítulo 102 completado!",
   "{player} read how wild Pokémon come two at a time when someone walks beside you, and how your partner battles them with you.": "{player} leyó que los Pokémon salvajes salen de dos en dos cuando alguien te acompaña, y que tu compañía los combate contigo.",
-  "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "Cheryl, Quinoa, Maiza, Bulgur y Sémola ahora combaten a tu lado tanto contra Pokémon salvajes como contra Entrenadores."
+  "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "Cheryl, Quinoa, Maiza, Bulgur y Sémola ahora combaten a tu lado tanto contra Pokémon salvajes como contra Entrenadores.",
+  "Chapter 103 complete!": "¡Capítulo 103 completado!",
+  "{player} drew out wild Pokémon with a sweet scent, from Sweet Scent or a little Honey.": "{player} atrajo a Pokémon salvajes con un aroma dulce, gracias a Dulce Aroma o a un poco de Miel.",
+  "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "En la hierba alta, en las cuevas o en el agua, un aroma dulce atrae enseguida a un Pokémon salvaje, salvo que el tiempo lo disipe."
 }, "es");

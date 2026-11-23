@@ -93,9 +93,12 @@ G.PartyUI = (() => {
     // A move that does something where you stand (map moveSpots, chapter 41): Strength, Flash, Dig, Fly...
     const spots = st.mode === 'menu' && G.World && G.World.moveSpots ? G.World.moveSpots(m) : [];
     const flies = G.Mon.knows(m, 'fly') && G.World && G.World.flyTo && !spots.some(t => t.move === 'fly');
+    // Sweet Scent outside battle (chapter 103): a wild Pokémon at once where you stand.
+    const scents = G.Mon.knows(m, 'sweet-scent') && G.World && G.World.sweetScent && !spots.some(t => t.move === 'sweet-scent');
     const v = await G.Popup.choose(G.Mon.name(m), [
       ...spots.map((t, k) => ({ label: G.Names.move(t.move), value: 'spot:' + k })),
       ...(flies ? [{ label: G.Names.move('fly'), value: 'fly' }] : []),
+      ...(scents ? [{ label: G.Names.move('sweet-scent'), value: 'scent' }] : []),
       { label: T('Summary'), value: 'summary' },
       { label: T('Switch'), value: 'switch', disabled: party().length < 2 },
       ...(G.Field.flag('held-items') ? [{ label: T('Item'), value: 'item' }] : []),
@@ -103,6 +106,7 @@ G.PartyUI = (() => {
     if (v === 'summary') G.SummaryUI.open(party(), i, () => render());
     else if (v === 'switch') { st.moving = i; render(i); }
     else if (v === 'fly') await fly(m);
+    else if (v === 'scent') await scent(m);
     else if (v === 'item') { await item(m); render(i); }
     else if (typeof v === 'string' && v.startsWith('spot:')) {
       finish(null);
@@ -142,6 +146,14 @@ G.PartyUI = (() => {
     finish(null);
     G.UI.closeAll();
     G.World.flyTo(town);
+  }
+
+  /** Sweet Scent (chapter 103): not by a fainted Pokémon (as Fly); else the menus close and the scent spreads. */
+  async function scent(m) {
+    if (m.hp <= 0) { await G.Popup.say(fmt('{mon} is too tired to use that.', { mon: G.Mon.name(m) })); return; }
+    finish(null);
+    G.UI.closeAll();
+    G.World.sweetScent(m);
   }
 
   function back() {

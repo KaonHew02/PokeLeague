@@ -91,5 +91,9 @@ G.I18n.add({
   "Light is filtering down from above. Would you like to use Dive?": "La luz se filtra desde arriba. ¿Quieres usar Buceo?",
   "We battle two against two! Come back when you have two Pokémon that can fight.": "¡Luchamos dos contra dos! Vuelve cuando tengas dos Pokémon que puedan combatir.",
   "Dawn": "Maya",
-  "{one} & {two}": "{one} y {two}"
+  "{one} & {two}": "{one} y {two}",
+  "A sweet scent drifted out from {mon}...": "Un aroma dulce se extendió desde {mon}...",
+  "{player} spread the {item} around. A sweet scent drifted out...": "{player} esparció la {item} a su alrededor. Se extendió un aroma dulce...",
+  "The sweet scent faded away somehow...": "Por alguna razón, el aroma dulce se desvaneció...",
+  "Looks like there's nothing here...": "Parece que aquí no hay nada..."
 }, "es");

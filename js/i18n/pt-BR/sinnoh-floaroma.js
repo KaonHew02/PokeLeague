@@ -68,5 +68,6 @@ G.I18n.add({
   "Floaroma Town. A town of flowers, where the air always smells sweet.": "Floaroma. Uma cidade de flores, onde o ar sempre tem um cheiro doce.",
   "Floaroma Meadow. Please do not pick the flowers.": "Campo de flores de Floaroma. Por favor, não colha as flores.",
   "Route 205. North: Eterna Forest. South: the Valley Windworks. West: Floaroma Town.": "Rota 205. Norte: Floresta de Eterna. Sul: usina eólica. Oeste: Floaroma.",
-  "Valley Windworks. The wind of the valley turns into power for all of Sinnoh.": "Usina eólica do vale. O vento do vale vira energia para toda Sinnoh."
+  "Valley Windworks. The wind of the valley turns into power for all of Sinnoh.": "Usina eólica do vale. O vento do vale vira energia para toda Sinnoh.",
+  "Or use it right where you stand, in tall grass or a cave. Wild Pokémon will come out at once!": "Ou use bem onde você estiver, no mato alto ou numa caverna. Os Pokémon selvagens vão aparecer na hora!"
 }, "pt-BR");

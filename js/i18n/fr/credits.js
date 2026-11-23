@@ -287,5 +287,8 @@ G.I18n.add({
   "Every partner met on the way has fought at your side. Who will you team up with next?": "Chaque partenaire rencontré en chemin s'est battu à tes côtés. Avec qui feras-tu équipe la prochaine fois ?",
   "Chapter 102 complete!": "Chapitre 102 terminé !",
   "{player} read how wild Pokémon come two at a time when someone walks beside you, and how your partner battles them with you.": "{player} a lu que les Pokémon sauvages surgissent à deux quand quelqu'un t'accompagne, et que ton partenaire les affronte avec toi.",
-  "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "Cheryl, Armand, Maïté, Cornil et Viviane combattent désormais à tes côtés contre les Pokémon sauvages comme contre les Dresseurs."
+  "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "Cheryl, Armand, Maïté, Cornil et Viviane combattent désormais à tes côtés contre les Pokémon sauvages comme contre les Dresseurs.",
+  "Chapter 103 complete!": "Chapitre 103 terminé !",
+  "{player} drew out wild Pokémon with a sweet scent, from Sweet Scent or a little Honey.": "{player} a attiré des Pokémon sauvages avec un doux parfum, grâce à Doux Parfum ou à un peu de Miel.",
+  "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "Dans les hautes herbes, les grottes ou sur l'eau, un doux parfum attire aussitôt un Pokémon sauvage, sauf si la météo le dissipe."
 }, "fr");

@@ -76,3 +76,15 @@ test('the Pokémon is level 5 to 15; Hustle, Vital Spirit or Pressure first: 15 
   const top = share(2000, () => H.level(rng, 'hustle') === 15);
   assert.ok(top > 0.5 && top < 0.6, String(top));
 });
+
+test('Honey from the Bag (chapter 103): a field item, used as Sweet Scent; the ending script waits for chapter 102 and comes once', async () => {
+  assert.equal(G.FieldItems.kind('honey'), 'field');
+  assert.ok(G.ITEM_FX.honey.scent);
+  assert.ok(G.Script.get('sweetscent.done'));
+  const F = G.Field;
+  await G.Script.run(G.Script.get('sweetscent.done'), {});
+  assert.ok(!F.flag('chapter-103-done'), 'not before chapter 102');
+  F.setFlag('chapter-102-done');
+  await G.Script.run(G.Script.get('sweetscent.done'), {});
+  assert.ok(F.flag('chapter-103-done'));
+});

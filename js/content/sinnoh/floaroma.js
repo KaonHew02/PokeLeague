@@ -386,6 +386,8 @@
     'floaroma.honey': [
       ['if', 'windworks-key', [
         ['say', 'Pokémon love sweet Honey. Spread some on a tree and they come from all around!', HONEY],
+        // Chapter 103: Honey from the Bag works as Sweet Scent (field.js).
+        ['say', 'Or use it right where you stand, in tall grass or a cave. Wild Pokémon will come out at once!', HONEY],
         // Chapter 99: he sells it (Platinum's price, 100), for the Honey trees (honeytree.js).
         ['shop', ['honey']]
       ], [

@@ -172,6 +172,14 @@ G.BagUI = (() => {
       return;
     }
     if (k === 'key') { await G.Popup.say(T("This can't be used now.")); return; }
+    // Honey (chapter 103): used up at once, then a sweet scent where you stand (Platinum's UseHoneyFromMenu).
+    if (fx.scent && G.World && G.World.sweetScent) {
+      G.Field.takeItem(id, 1);
+      finish(null);
+      G.UI.closeAll();
+      G.World.sweetScent(null, id);
+      return;
+    }
     if (fx.repel) {
       if (FI().repel(S, id) === 'active') { await G.Popup.say(T('A Repel is still working.')); return; }
       G.Field.takeItem(id, 1);

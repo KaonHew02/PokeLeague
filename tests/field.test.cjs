@@ -8203,3 +8203,61 @@ test('Sinnoh (chapter 102): wild double battles beside a partner (Platinum\'s): 
   await read();
   assert.ok(F.flag('chapter-102-done'));
 });
+
+test('Sweet Scent and Honey outside battle (chapter 103, Platinum\'s): a wild Pokémon at once in grass, caves and on the water, whatever a Repel or Intimidate; nothing on a road; blown away by Sinnoh\'s weather; Honey used up either way; two beside a partner; the ending after chapter 102', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'veilstone', 'route212', 'snowpoint', 'honeytree']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/world/field-abilities.js', 'js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js',
+    'js/content/kanto/safari.js', 'js/content/kanto/rocktunnel.js', 'js/world/roam.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, said = [], met = [];
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  W.onEncounter = async (sp, lvl, area, wild) => { met.push({ sp, lvl, area, second: wild.second || null, partner: wild.partner && wild.partner.name }); return 'win'; };
+  // The lead: a strong Pokémon with Intimidate, a Repel on: walking, nothing much weaker would come.
+  const lead = F.giveMon('arbok', 60);
+  lead.ability = 'intimidate';
+  const scent = F.giveMon('oddish', 12, { moves: ['sweet-scent'] });
+  S.repel = 100;
+  /** A species in a map's table, at any time of day. */
+  const inTable = (map, method, sp) => { const t = G.Maps.encounters(G.Maps.get(map), method); return [].concat(t.mons, t.morning || [], t.day || [], t.night || []).some(r => G.Maps.species(r[0]) === sp); };
+  const use = async (map, x, y, mon, item) => { said.length = 0; met.length = 0; W.load(map, { x, y, dir: 'down' }); return W.sweetScent(mon, item); };
+  // Route 202's grass: at once, from the route's table, whatever the Repel and Intimidate.
+  assert.equal(await use('route202', 2, 3, scent), 'win');
+  assert.equal(met.length, 1);
+  assert.ok(inTable('route202', 'walk', met[0].sp));
+  assert.ok(met[0].lvl < lead.lvl - 5, 'a much weaker one all the same');
+  assert.ok(said.some(s => /sweet scent drifted/.test(s)));
+  // On the road: nothing.
+  assert.equal(await use('route202', 9, 10, scent), 'nothing');
+  assert.ok(!met.length && said.some(s => /nothing here/.test(s)));
+  // Sinnoh's weather blows it away: the rain of Route 215, the snow of Route 216.
+  for (const [map, x, y] of [['route215', 2, 2], ['route216', 15, 2]]) {
+    assert.equal(await use(map, x, y, scent), 'faded', map);
+    assert.ok(!met.length && said.some(s => /faded away/.test(s)));
+  }
+  // Kanto's Rock Tunnel: a dark cave, but no weather rule outside Sinnoh (Emerald has none).
+  assert.equal(await use('rocktunnel-1f', 2, 2, scent), 'win');
+  assert.equal(met.length, 1);
+  // On the water (surfing on Route 205): one from the water table.
+  S.player.surf = 1;
+  assert.equal(await use('route205s', 14, 1, scent), 'win');
+  assert.ok(W.surfing && met.length === 1);
+  assert.ok(inTable('route205s', 'surf', met[0].sp));
+  S.player.surf = 0;
+  // Honey from the Bag: the same, and used up even when nothing comes.
+  F.giveItem('honey', 3);
+  assert.ok(G.ITEM_FX.honey.field && G.ITEM_FX.honey.scent, 'it can be used from the Bag (field-items.js: a field item)');
+  F.takeItem('honey', 1);
+  assert.equal(await use('route202', 9, 10, null, 'honey'), 'nothing');
+  assert.equal(F.count('honey'), 2);
+  // Beside Cheryl in Eterna Forest: two at once, her Chansey beside you.
+  F.setFlag('cheryl-met'); F.setFlag('cheryl-with');
+  assert.equal(await use('eterna-forest', 27, 7, null, 'honey'), 'win');
+  assert.ok(met[0].second && met[0].partner === 'Cheryl');
+  F.setFlag('cheryl-done');
+  // The ending: not before chapter 102; once after it.
+  assert.ok(!F.flag('chapter-103-done'));
+  F.setFlag('chapter-102-done');
+  await use('route202', 2, 3, scent);
+  assert.ok(F.flag('chapter-103-done'));
+});

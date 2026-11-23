@@ -283,7 +283,7 @@ G.ITEM_FX = {
   'pure-incense':  { held: 'cleanse-tag' },                  // on the lead, a third fewer wild Pokémon
   // Chapter 98: Honey, from Honey Gather after a battle won; sold for Platinum's price by Floaroma's Honey seller (100).
   // Spreading it on trees is left out.
-  'honey':         { price: 100 },
+  'honey':         { price: 100, field: 1, scent: 1 },    // chapter 103: used from the Bag, as Sweet Scent (field.js)
   // Chapter 100: the Azure Flute (the Celestic elder's, for all sixteen plates; origin.js).
   'azure-flute':   { key: 1 },
 

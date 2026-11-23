@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 103) return { title: T('Chapter 103 complete!'),
+      done: fmt('{player} drew out wild Pokémon with a sweet scent, from Sweet Scent or a little Honey.', { player }),
+      next: T('In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.') };
     if (n === 102) return { title: T('Chapter 102 complete!'),
       done: fmt('{player} read how wild Pokémon come two at a time when someone walks beside you, and how your partner battles them with you.', { player }),
       next: T('Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.') };

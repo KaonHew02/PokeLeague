@@ -214,5 +214,6 @@ G.I18n.add({
   "You can't save here.": "Não é possível salvar aqui.",
   "Sheen": "Brilho",
   "Ribbons": "Fitas",
-  "Contest": "Concurso"
+  "Contest": "Concurso",
+  "{mon} is too tired to use that.": "{mon} está cansado demais para usar isso."
 }, "pt-BR");

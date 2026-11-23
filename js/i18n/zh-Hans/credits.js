@@ -287,5 +287,8 @@ G.I18n.add({
   "Every partner met on the way has fought at your side. Who will you team up with next?": "旅途中遇见的每一位伙伴都曾和你并肩作战。下一次，你会和谁组队呢？",
   "Chapter 102 complete!": "第 102 章完成！",
   "{player} read how wild Pokémon come two at a time when someone walks beside you, and how your partner battles them with you.": "{player}读到了：有人同行时，野生宝可梦会两只一起出现，伙伴也会和你一起对付它们。",
-  "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "芽米、亚玄、麦儿、麦可和米依，现在不只对付训练家，也会在你身边一起对付野生宝可梦。"
+  "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "芽米、亚玄、麦儿、麦可和米依，现在不只对付训练家，也会在你身边一起对付野生宝可梦。",
+  "Chapter 103 complete!": "第 103 章完成！",
+  "{player} drew out wild Pokémon with a sweet scent, from Sweet Scent or a little Honey.": "{player}用甜甜香气或一点甜甜蜜的香味，引出了野生宝可梦。",
+  "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "在草丛、洞窟或水上，甜甜的香味会马上引来野生宝可梦，除非被天气吹散。"
 }, "zh-Hans");

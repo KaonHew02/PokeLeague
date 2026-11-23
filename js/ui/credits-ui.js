@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 102) return { title: T('Chapter 102 complete!'),
+      done: fmt('{player} read how wild Pokémon come two at a time when someone walks beside you, and how your partner battles them with you.', { player }),
+      next: T('Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.') };
     if (n === 101) return { title: T('Chapter 101 complete!'),
       done: fmt('{player} battled beside Steven at the Space Center, beside Professor Rowan\'s assistant in Jubilife City, beside Cheryl in Eterna Forest and beside Riley on Iron Island.', { player }),
       next: T('Every partner met on the way has fought at your side. Who will you team up with next?') };

@@ -783,6 +783,12 @@ G.World = (() => {
     // Chapter 98: Illuminate, Stench, Sand Veil... change the rate.
     const rate = (table.rate || 0) * (FA ? FA.rate(ab, method, fieldWeather()) : 1);
     if (!(rng.next() < Math.min(180, rate) / 180)) return null;
+    return drawWild(table, method);
+  }
+
+  /** One wild Pokémon from a table: its slot and its level (chapter 102: drawn twice beside a partner). */
+  function drawWild(table, method) {
+    const FA = G.FieldAbilities, ab = fieldAbility();
     // Johto's tables may have their own morning and night slots.
     const mons = (G.Clock && table[G.Clock.period()]) || table.mons;
     // Chapter 98: Magnet Pull and Static draw a Steel or Electric row half the time.
@@ -798,22 +804,36 @@ G.World = (() => {
     return { sp, lvl, method, map: map.id, area: typeof map.encounters[method] === 'string' ? map.encounters[method].slice(1) : null };
   }
 
+  /** Chapter 102: someone walking beside you (the map's `ally`; Platinum's partner): wild battles are fought beside them. */
+  const partnerHere = () => { const a = map && map.def.ally; return a && G.Field.test(a.if) ? a : null; };
+
   function maybeEncounter(method) {
     if (debug.noEnc || !G.Field.party().length) return false;
     const wild = rollWild(method);
     if (!wild) return false;
+    const ally = partnerHere();
     const FA = G.FieldAbilities, ab = fieldAbility(), first = FA ? FA.lead(G.Field.party()) : null;
     // Chapter 98: Keen Eye and Intimidate keep the much weaker ones away half the time.
     if (FA && FA.blocks(ab, first, wild.lvl, rng)) return false;
     const lead = G.Field.lead();
     // A Cleanse Tag on the lead (chapter 69): a third fewer wild Pokémon, as in Generations 3 and 4.
     if (lead && G.Held && G.Held.is(lead, 'cleanse-tag') && rng.int(0, 2) === 0) return false;
-    // The roaming Pokémon on this route (chapter 42): one wild encounter in four is it.
-    const rm = (method === 'walk' || method === 'surf') && G.Roam && G.Roam.meets(rng, map.id);
+    // The roaming Pokémon on this route (chapter 42): one wild encounter in four is it; never beside a partner (chapter 102).
+    const rm = !ally && (method === 'walk' || method === 'surf') && G.Roam && G.Roam.meets(rng, map.id);
     if (rm) Object.assign(wild, { sp: rm.sp, lvl: rm.lvl, roamer: rm });
     // Chapter 98: Synchronize (its nature) and Cute Charm (the other gender).
     else if (FA) Object.assign(wild, FA.traits(ab, first, wild.sp, rng));
     if (G.Field.save.repel > 0 && lead && wild.lvl < lead.lvl) return false;
+    // Chapter 102, Platinum's (wild_encounters.c): beside a partner, the partner fights too; walking in grass or a cave, a
+    // second wild Pokémon comes, drawn and checked as the first (an ability or a Repel keeping it away stops the encounter).
+    if (ally && method === 'walk') {
+      const two = drawWild(M().encounters(map, method), method);
+      if (FA && FA.blocks(ab, first, two.lvl, rng)) return false;
+      if (FA) Object.assign(two, FA.traits(ab, first, two.sp, rng));
+      if (G.Field.save.repel > 0 && lead && two.lvl < lead.lvl) return false;
+      wild.second = { sp: two.sp, lvl: two.lvl, nature: two.nature, gender: two.gender };
+    }
+    if (ally) wild.partner = { name: G.T(ally.name), team: ally.team };
     G.Player.walk(null);
     wildBattle(wild);
     return true;
@@ -825,6 +845,7 @@ G.World = (() => {
     const contest = contestOn();
     try {
       G.Field.save.dex.seen[wild.sp] = 1;
+      if (wild.second) G.Field.save.dex.seen[wild.second.sp] = 1;       // chapter 102
       if (api.wildForm && !wild.form) wild.form = api.wildForm(wild.sp, map, rng) || undefined;
       let r;
       // o.party: a scripted battle with only those Pokémon (Professor Birch's bag, chapter 28); with rules.noBag, no Bag either
@@ -844,6 +865,8 @@ G.World = (() => {
         if (wild.nature) o.nature = wild.nature;                 // Synchronize (chapter 98)
         if (wild.gender) o.gender = wild.gender;                 // Cute Charm
         if (wild.roamer) { o.mon = wild.roamer; o.rules.roamer = true; }
+        if (wild.partner) { o.partner = wild.partner; o.rules.double = true; }    // chapter 102: beside a partner
+        if (wild.second) o.second = wild.second;
         r = await G.BattleUI.wild(me, wild.sp, wild.lvl, o);
       }
       else r = await fallbackBattle(G.I18n.fmt('Wild {mon} appeared!', { mon: G.Names.mon(wild.sp) }));

@@ -284,5 +284,8 @@ G.I18n.add({
   "A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.": "一百章，从真新镇迈出的第一步，一路走到创世之神面前。谢谢你陪着走完这么远的路。",
   "Chapter 101 complete!": "第 101 章完成！",
   "{player} battled beside Steven at the Space Center, beside Professor Rowan's assistant in Jubilife City, beside Cheryl in Eterna Forest and beside Riley on Iron Island.": "{player}在宇宙中心和大吾并肩作战，在祝庆市和七灶博士的助手并肩作战，在百代森林和芽米并肩作战，又在钢铁岛和亚玄并肩作战。",
-  "Every partner met on the way has fought at your side. Who will you team up with next?": "旅途中遇见的每一位伙伴都曾和你并肩作战。下一次，你会和谁组队呢？"
+  "Every partner met on the way has fought at your side. Who will you team up with next?": "旅途中遇见的每一位伙伴都曾和你并肩作战。下一次，你会和谁组队呢？",
+  "Chapter 102 complete!": "第 102 章完成！",
+  "{player} read how wild Pokémon come two at a time when someone walks beside you, and how your partner battles them with you.": "{player}读到了：有人同行时，野生宝可梦会两只一起出现，伙伴也会和你一起对付它们。",
+  "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "芽米、亚玄、麦儿、麦可和米依，现在不只对付训练家，也会在你身边一起对付野生宝可梦。"
 }, "zh-Hans");

@@ -116,7 +116,12 @@ G.BattleText = (() => {
     const mon = e.uid ? who(b, e.uid, e.side) : null;
     switch (e.type) {
       case 'start':
-        if (b.kind === 'wild' || b.kind === 'safari') { const f = b.foe.party[0]; return fmt('Wild {mon} appeared!', { mon: G.Mon.name(f) }); }
+        if (b.kind === 'wild' || b.kind === 'safari') {
+          const f = b.foe.party[0], f2 = b.double && b.foe.party[1];
+          // Chapter 102: two wild Pokémon beside a partner.
+          if (f2) return fmt('Wild {mon} and {mon2} appeared!', { mon: G.Mon.name(f), mon2: G.Mon.name(f2) });
+          return fmt('Wild {mon} appeared!', { mon: G.Mon.name(f) });
+        }
         return fmt('{trainer} would like to battle!', { trainer: trainerName(b) });
       case 'send':
         if (e.side === 0 && b.partner && e.slot === 1) return fmt('{trainer} sent out {mon}!', { trainer: b.partner.name, mon: plain(b, e.uid) });

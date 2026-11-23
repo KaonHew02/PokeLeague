@@ -177,7 +177,7 @@
     signs: { '0,2': 'The blackboard says: "Some Pokémon evolve when they level up holding an item, some only by day or only by night, and some once they know a certain move."',
              '1,2': 'The blackboard says: "The Shiny Stone, the Dusk Stone and the Dawn Stone each make certain Pokémon evolve."',
              // Chapter 98: a notebook about abilities outside battle (fieldnotes.js).
-             '9,6': { script: 'fieldnotes.read' } },
+             '9,6': { script: 'fieldnotes.read' }, '1,6': { script: 'fieldnotes.partners' } },
     npcs: [{ id: 'teacher', who: 'lass', x: 5, y: 2, dir: 'down', script: 'jubilife.teacher' },
            { id: 'student', who: 'youngster', x: 11, y: 7, dir: 'left',
              say: 'That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!' }],

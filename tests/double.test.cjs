@@ -35,8 +35,9 @@ test('a double battle sends out two a side and asks for each of the player\'s Po
   const ev = b.act({ type: 'move', slot: 0, target: at(1, 1) });
   assert.equal(moves(ev).length, 4, 'all four acted');
   assert.equal(b.prompt.kind, 'action');
-  // A wild battle is never a double battle.
-  assert.ok(!duel(G, { me: ['pikachu', 10, ['tackle']], foe: ['rattata', 3, ['tackle']], rules: { double: true } }).b.double);
+  // A wild battle is a double battle only with rules.double (chapter 102: Platinum's, beside a partner).
+  assert.ok(!duel(G, { me: ['pikachu', 10, ['tackle']], foe: ['rattata', 3, ['tackle']] }).b.double);
+  assert.ok(duel(G, { me: ['pikachu', 10, ['tackle']], foe: ['rattata', 3, ['tackle']], rules: { double: true } }).b.double);
 });
 
 test('all four act in one order: priority, then Speed', () => {
@@ -234,4 +235,54 @@ test('two foes (rules.tag) each refill their own slot, and a slot stays empty wh
   assert.ok(!b.alive(b.foe.bms[1]));
   ev = b.act({ type: 'move', slot: 0, target: at(1, 0) });
   assert.deepEqual(plain(ev.filter(e => e.type === 'send' && e.side === 1).map(e => [e.sp, e.slot])), [[20, 0]]);
+});
+
+// ---------------- Wild double battles beside a partner (chapter 102, Platinum's) ----------------
+
+/** A wild double battle: the player's team, a partner's, and one or two wild Pokémon. */
+const wild2 = (me, mate, foes, o = {}) => duel(G, Object.assign({ me: me[0], mine: me.slice(1), foe: foes[0], foes: foes.slice(1), partner: mate,
+                                                                  rules: { double: true }, seed: 3 }, o));
+
+test('a wild double battle beside a partner: two wild Pokémon, both named at the start; both down is a win, each with its experience', () => {
+  const { b, events, party } = wild2([['pikachu', 30, ['thunderbolt']]], [['chansey', 30, ['splash']]], [['budew', 5, ['splash']], ['buneary', 5, ['splash']]]);
+  assert.equal(b.kind, 'wild');
+  assert.ok(b.double && b.partner);
+  assert.equal(G.BattleText.line(events.find(e => e.type === 'start'), b), 'Wild Budew and Buneary appeared!');
+  assert.deepEqual(plain(b.foe.bms.map(x => x.mon.sp)), [406, 427]);
+  let ev = b.act({ type: 'move', slot: 0, target: at(1, 0) });
+  assert.ok(!b.result, 'one is left');
+  assert.ok(ev.some(e => e.type === 'exp' && e.uid === party[0].uid));
+  ev = b.act({ type: 'move', slot: 0, target: at(1, 1) });
+  assert.equal(b.result.outcome, 'win');
+  assert.ok(ev.some(e => e.type === 'exp' && e.uid === party[0].uid), 'the second one too');
+});
+
+test("no ball can be aimed while two wild Pokémon are out; with one left it goes at that one, into the player's own party", () => {
+  const bag = { 'master-ball': 2 };
+  const { b, party } = wild2([['pikachu', 30, ['thunderbolt']]], [['chansey', 30, ['splash']]], [['budew', 5, ['splash']], ['buneary', 30, ['splash']]], { bag });
+  assert.equal(b.act({ type: 'ball', item: 'master-ball' })[0].reason, 'two-foes');
+  assert.equal(bag['master-ball'], 2, 'no ball used');
+  assert.deepEqual(plain(b.prompt), { kind: 'action', slot: 0 }, 'still the same choice');
+  b.act({ type: 'move', slot: 0, target: at(1, 0) });
+  assert.ok(!b.alive(b.foe.bms[0]) && b.alive(b.foe.bms[1]));
+  const ev = b.act({ type: 'ball', item: 'master-ball' });
+  assert.ok(ev.some(e => e.type === 'ball' && e.caught && e.uid === b.foe.bms[1].mon.uid), 'Buneary');
+  assert.equal(b.result.outcome, 'caught');
+  assert.deepEqual(plain(party.map(m => m.sp)), [25, 427], 'into the player\'s own party');
+  assert.equal(b.result.toBox, false);
+});
+
+test('a full party: the caught one goes to the PC, not counted with the partner\'s; running away works as in singles', () => {
+  const six = [['pikachu', 30, ['thunderbolt']], ['eevee', 5, ['splash']], ['eevee', 5, ['splash']], ['eevee', 5, ['splash']], ['eevee', 5, ['splash']], ['eevee', 5, ['splash']]];
+  let d = wild2(six, [['chansey', 30, ['splash']]], [['buneary', 30, ['splash']]], { bag: { 'master-ball': 1 } });
+  assert.equal(d.b.foe.bms.filter(x => d.b.alive(x)).length, 1, 'one wild Pokémon (on water)');
+  d.b.act({ type: 'ball', item: 'master-ball' });
+  assert.equal(d.b.result.outcome, 'caught');
+  assert.equal(d.b.result.toBox, true);
+  assert.equal(d.party.length, 6);
+  // Running: the player's first against the foe facing it.
+  d = wild2([['jolteon', 60, ['splash']]], [['chansey', 30, ['splash']]], [['budew', 5, ['splash']], ['buneary', 5, ['splash']]]);
+  const ev = d.b.act({ type: 'run' });
+  assert.ok(ev.some(e => e.type === 'run' && e.ok));
+  assert.equal(d.b.result.outcome, 'run');
 });

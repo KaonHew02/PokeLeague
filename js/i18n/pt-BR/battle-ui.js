@@ -37,5 +37,6 @@ G.I18n.add({
   "Rock": "Pedra",
   "What will {player} do?": "O que {player} vai fazer?",
   "Use {move} on which Pokémon?": "Usar {move} em qual Pokémon?",
-  "{mon} chooses its own moves here. Let it fight, or switch?": "Aqui {mon} escolhe os próprios golpes. Deixar lutar ou trocar?"
+  "{mon} chooses its own moves here. Let it fight, or switch?": "Aqui {mon} escolhe os próprios golpes. Deixar lutar ou trocar?",
+  "It's no good! It's impossible to aim when there are two Pokémon!": "Não adianta! É impossível mirar quando há dois Pokémon!"
 }, "pt-BR");

@@ -92,6 +92,8 @@
     spots: { ladder: [2, 3, 'down'] },
     triggers: [{ x: 4, y: 4, w: 3, h: 1, if: '!chapter-74-done', script: 'b1f.victory' }],
     companion: { if: 'marley-along', who: 'marley', name: 'Marley', say: 'Arcanine knows the way by smell. I just follow Arcanine. And you.' },
+    // Chapter 102: Marley beside you against the wild Pokémon here too (no pairs of Trainers on this floor).
+    ally: { if: 'marley-along', name: 'Marley', team: (G.Route224 && G.Route224.MARLEY_TEAM) || [['arcanine', 59, ['extreme-speed', 'fire-fang', 'helping-hand', 'agility']]] },
     afterBattle: { if: 'marley-along', script: 'r224.heal' },
     items: [
       { x: 14, y: 9, item: 'ultra-ball', flag: 'vinsideb1f-ultra', hidden: true },

@@ -10,7 +10,7 @@
  *     rules:  { canLose: false, shift: true, where: 'kanto-route-1', noCatch: false, forceCatch: false (debug),
  *               fishing: false (hooked with a rod: the Lure Ball), weather: 'rain' | 'sun' | 'sand' | 'hail' | 'fog' (the overworld's or the
  *               Battle Arcade's, for the whole battle; fog: accuracy x0.6), trickRoom: false (the Battle Arcade: Trick Room for five turns),
- *               double: false (two Pokémon a side, trainers only), tag: false (doubles: two foes, one slot each),
+ *               double: false (two Pokémon a side: trainers, and since chapter 102 wild ones beside a partner), tag: false (doubles: two foes, one slot each),
                roamer: false (a roaming wild Pokémon that flees),
  *               noExp: false (no Exp. Points), noBag: false (no items or balls from the Bag: the Battle Tower),
  *               expAll: false (the rest of the team gets half of one fighter's Exp. Points: the setting expAll),
@@ -39,6 +39,10 @@
  * spread moves (effects.js) hit every target; each fainted slot is refilled on its own ({ kind: 'switch',
  * forced: true, slot }), or stays empty. A player with only one Pokémon able to fight has one slot.
  * Singles keep their own code paths: the same seed and choices give the same battle as before.
+ *
+ * Wild double battles (chapter 102, Platinum's beside a partner): kind 'wild' with rules.double, foe.party one or two wild
+ * Pokémon (two in grass and caves, one on water). A ball cannot be aimed while two are out (validate: 'two-foes'); with one
+ * left it goes at that one. A Pokémon caught goes into the player's own party (o.player.party), never the partner's.
  *
  * Multi battles (chapter 55, o.partner): the player's side is the player in slot 0 and a partner in slot 1. Inside the
  * battle player.party is the player's Pokémon then the partner's, so the player's indexes do not change (the party array
@@ -100,7 +104,7 @@ G.Battle = (() => {
       this.rng = G.RNG(o.seed == null ? 1 : o.seed);
       this.kind = o.kind || 'wild';
       this.rules = Object.assign({ canLose: false, shift: true, where: null }, o.rules);
-      this.double = !!this.rules.double && this.kind === 'trainer';
+      this.double = !!this.rules.double && (this.kind === 'trainer' || this.kind === 'wild');     // wild: chapter 102
       if (this.double) this.rules.shift = false;
       this.arena = !!this.rules.arena && this.kind === 'trainer' && !this.double;     // the Battle Arena (chapter 79)
       this.palace = !!this.rules.palace && this.kind === 'trainer' && !this.double;   // the Battle Palace (chapter 80)
@@ -110,6 +114,7 @@ G.Battle = (() => {
       this.partner = this.double && o.partner ? { name: o.partner.name, first: pl.party.length } : null;
       const party = this.partner ? pl.party.concat(o.partner.party) : pl.party;
       this.player = { side: 0, name: pl.name || 'Player', id: pl.id || 0, party, bag: pl.bag || {}, bms: [], actives: [], field: {} };
+      this.ownParty = pl.party;          // the player's own party (a caught Pokémon goes here, not into the partner's)
       this.foe = { side: 1, party: fo.party, trainer: fo.trainer || null, items: Object.assign({}, fo.trainer && fo.trainer.items), bms: [], actives: [], field: {} };
       this.sides = [this.player, this.foe];
       // The first slot under its singles names.
@@ -478,6 +483,7 @@ G.Battle = (() => {
       if ((a.type === 'ball' || a.type === 'item') && this.rules.noBag) return 'no-bag';
       if (a.type === 'ball') {
         if (!o.canBall) return 'no-ball-in-trainer-battle';
+        if (this.twoFoes()) return 'two-foes';            // chapter 102: it cannot be aimed while two are out
         const fx = G.ITEM_FX[a.item];
         return fx && fx.ball && (bag[a.item] || 0) > 0 ? null : 'bad-item';
       }
@@ -553,6 +559,9 @@ G.Battle = (() => {
       else this.doMove(bm, a);
       this.afterAction();
     }
+
+    /** A wild double battle with both wild Pokémon still out (chapter 102): no ball can be aimed. */
+    twoFoes() { return this.kind === 'wild' && this.double && this.foe.bms.filter(bm => this.alive(bm)).length > 1; }
 
     /** Held in battle: it can neither switch out nor run (nor, roaming, flee). */
     held(bm) { return this.trapped(bm) || G.Abilities.traps(this, bm); }
@@ -968,7 +977,8 @@ G.Battle = (() => {
       const bag = this.player.bag;
       bag[item]--;
       if (!bag[item]) delete bag[item];
-      const fo = this.foe.bm, mon = fo.mon;
+      // A wild double battle (chapter 102): the one still out.
+      const fo = this.double ? this.foe.bms.find(bm => this.alive(bm)) || this.foe.bm : this.foe.bm, mon = fo.mon;
       // rules.forceCatch: debug only (F7), the next ball catches. rules.fishing: a Pokémon hooked with a rod (Lure Ball).
       const m = G.Capture.ballMod(item, { foe: mon, mine: this.player.bm && this.player.bm.mon, fishing: !!this.rules.fishing });
       if (this.rules.forceCatch) m.ball = 255;
@@ -981,8 +991,8 @@ G.Battle = (() => {
       if (item === 'friend-ball') mon.friendship = Math.max(mon.friendship || 0, 200);
       mon.ot = { name: this.player.name, id: this.player.id };
       mon.met = { map: this.rules.where, lvl: mon.lvl };
-      const toBox = this.player.party.length >= 6;
-      if (!toBox) this.player.party.push(mon);
+      const toBox = this.ownParty.length >= 6;
+      if (!toBox) this.ownParty.push(mon);
       this.finish('caught', { caught: mon.uid, toBox, mon });
     }
 

@@ -37,5 +37,6 @@ G.I18n.add({
   "Rock": "Caillou",
   "What will {player} do?": "Que doit faire {player} ?",
   "Use {move} on which Pokémon?": "Utiliser {move} sur quel Pokémon ?",
-  "{mon} chooses its own moves here. Let it fight, or switch?": "Ici, {mon} choisit ses propres capacités. Le laisser combattre, ou le remplacer ?"
+  "{mon} chooses its own moves here. Let it fight, or switch?": "Ici, {mon} choisit ses propres capacités. Le laisser combattre, ou le remplacer ?",
+  "It's no good! It's impossible to aim when there are two Pokémon!": "Ça ne marchera pas ! Impossible de viser quand il y a deux Pokémon !"
 }, "fr");

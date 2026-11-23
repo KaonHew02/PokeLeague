@@ -599,6 +599,34 @@ test('balance: Archie in the Seafloor Cavern (chapter 37), win rates of typical 
   assert.ok(table['swampert 44'] < 0.2 && table['sceptile 44'] < 0.2 && table['blaziken 44'] < 0.2, 'a lone starter is outlasted');
 });
 
+test('balance: wild double battles beside a partner (chapter 102), win rates of a lone starter against two wild Pokémon are printed', () => {
+  const { G } = world(1);
+  const mk = (list, rng) => list.map(([x, l, moves, item, o]) => Object.assign(G.Mon.create(G.Maps.species(x), l, Object.assign({ rng, moves }, o)), item ? { item } : {}));
+  /** Two wild Pokémon from the map's walk table (by its odds), against you and the map's partner. */
+  const rate = (mapId, me) => {
+    const m = G.Maps.get(mapId), table = G.Maps.encounters(m, 'walk').mons, ally = m.def.ally;
+    let wins = 0;
+    for (let s = 1; s <= 40; s++) {
+      const rng = G.RNG(s * 19);
+      const draw = () => { let r = rng.next() * 100; for (const row of table) if ((r -= row[3]) < 0) return row; return table[table.length - 1]; };
+      const foes = [draw(), draw()].map(row => G.Mon.create(G.Maps.species(row[0]), rng.int(row[1], row[2]), { rng, wild: true }));
+      const b = G.Battle.create({ kind: 'wild', seed: s, player: { name: 'Red', party: mk(me, rng), bag: {} }, partner: { name: ally.name, party: mk(ally.team, rng) },
+        foe: { party: foes }, rules: { double: true } });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return Math.round(wins / 40 * 100) / 100;
+  };
+  const table = {
+    'eterna-forest (Cheryl)': { 'grotle 18': rate('eterna-forest', [[388, 18]]), 'monferno 18': rate('eterna-forest', [[391, 18]]), 'prinplup 18': rate('eterna-forest', [[394, 18]]) },
+    'iron-b2f (Riley)': { 'torterra 40': rate('iron-b2f', [[389, 40]]), 'infernape 40': rate('iron-b2f', [[392, 40]]), 'empoleon 40': rate('iron-b2f', [[395, 40]]) },
+    'wayward-cave (Mira)': { 'infernape 64': rate('wayward-cave', [[392, 64]]) },
+    'stark-inside (Buck)': { 'torterra 64': rate('stark-inside', [[389, 64]]), 'infernape 64': rate('stark-inside', [[392, 64]]), 'empoleon 64': rate('stark-inside', [[395, 64]]) },
+    'victory-inside (Marley)': { 'torterra 68': rate('victory-inside', [[389, 68]]), 'infernape 68': rate('victory-inside', [[392, 68]]), 'empoleon 68': rate('victory-inside', [[395, 68]]) }
+  };
+  console.log('[balance] wild double battles beside a partner:', JSON.stringify(table));
+});
+
 test('balance: the battles beside a partner in the story (chapter 101), win rates of typical teams are printed', () => {
   const { G } = world(1);
   const mk = (list, rng) => list.map(([x, l, moves, item, o]) => Object.assign(G.Mon.create(G.Maps.species(x), l, Object.assign({ rng, moves }, o)), item ? { item } : {}));
@@ -4862,6 +4890,19 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 102 after chapter 101: wild double battles beside a partner; the textbook in Jubilife's Trainers' School (the ending). */
+async function chapter102(st) {
+  const { G } = st;
+  const F = G.Field;
+  const sign = G.Maps.get('jubilife-school').signs['1,6'];
+  assert.ok(sign && sign.script === 'fieldnotes.partners');
+  const n = st.log.length;
+  await run(st, 'jubilife-school', sign.script);
+  console.log('[story] wild double battles beside a partner: the textbook read (' + (st.log.length - n) + ' lines)');
+  assert.ok(F.flag('chapter-102-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 101 after chapter 100: the battles beside a partner; the assistant in Professor Rowan's lab remembers Jubilife
  *  City (the ending). */
 async function chapter101(st) {
@@ -6285,4 +6326,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter99(st);
   await chapter100(st);
   await chapter101(st);
+  await chapter102(st);
 });

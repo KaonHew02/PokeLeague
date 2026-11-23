@@ -229,5 +229,6 @@ G.I18n.add({
   "{mon} knocked off {target}'s {item}!": "{mon}拍落了{target}的{item}！",
   "{mon} stole and ate its target's {item}!": "{mon}抢走并吃掉了对手的{item}！",
   "{mon} used its {item} to come back to its senses!": "{mon}用{item}恢复了理智！",
-  "{mon} fell in love because of the {item}!": "{mon}因为{item}而着迷了！"
+  "{mon} fell in love because of the {item}!": "{mon}因为{item}而着迷了！",
+  "Wild {mon} and {mon2} appeared!": "野生的{mon}和{mon2}出现了！"
 }, "zh-Hans");

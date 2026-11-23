@@ -99,6 +99,7 @@
     warps: [{ x: 3, y: 3, to: 'iron-1f', spot: 'ladder' }, { x: 26, y: 14, to: 'iron-b2f', spot: 'up' }],
     spots: { up: [3, 4, 'down'], down: [26, 13, 'up'] },
     afterBattle: WITH_RILEY, companion: RILEY_ALONG,
+    ally: { if: ['riley-with', '!riley-done'], name: 'Riley', team: RILEY_TEAM },      // chapter 102: beside you against wild Pokémon
     npcs: [{ id: 'riley', who: 'riley', x: 14, y: 8, dir: 'left', if: '!riley-with', script: 'iron.riley' }],
     trainers: [
       { id: 'lawrence', who: 'camper', cls: 'camper', name: 'Lawrence', x: 8, y: 6, dir: 'down', sight: 3, team: [['aipom', 34], ['floatzel', 36]],

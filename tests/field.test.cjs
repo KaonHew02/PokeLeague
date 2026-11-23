@@ -8142,3 +8142,64 @@ test('Sinnoh (chapter 101): battles beside a partner; once chapter 100 is done, 
   // The assistant's Pokémon in Jubilife: the starter neither you nor Barry took.
   assert.deepEqual(plain([387, 390, 393].map(b => G.Sinnoh.assistantTeam(b)[0][0])), [390, 393, 387]);
 });
+
+test('Sinnoh (chapter 102): wild double battles beside a partner (Platinum\'s): two in grass and caves, the partner beside you, one on water, no roamer; without a partner as before; the textbook and the ending after chapter 101', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'canalave', 'ironisland', 'route224', 'b1f', 'fieldnotes']
+    .map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/world/field-abilities.js', 'js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js',
+    'js/content/kanto/safari.js', 'js/world/roam.js', ...sinnoh]);
+  const F = G.Field, S = F.save;
+  const settle = async () => { for (let i = 0; i < 200 && W.locked; i++) { W.update(0.05); await tick(); } };
+  F.giveMon('monferno', 18);
+  /** 300 steps back and forth on one seed. -> what each encounter brought */
+  const walk = async (map, x, y, dir = 'right', setup = null) => {
+    const met = [];
+    W.onEncounter = async (sp, lvl, area, wild) => { met.push({ sp, lvl, second: wild.second || null, partner: wild.partner || null, roamer: !!wild.roamer }); return 'run'; };
+    W.debug.noEnc = false;
+    W.load(map, { x, y, dir });
+    W.seed(102);
+    if (setup) setup();
+    const back = { right: 'left', left: 'right', up: 'down', down: 'up' }[dir];
+    for (let i = 0; i < 300; i++) { step(W, i % 2 ? back : dir); await settle(); }
+    W.debug.noEnc = true;
+    return met;
+  };
+  // Eterna Forest beside Cheryl: two wild Pokémon each time, from the forest's table, and Cheryl's Chansey beside you.
+  F.setFlag('cheryl-met'); F.setFlag('cheryl-with');
+  const ft = G.Maps.encounters(G.Maps.get('eterna-forest'), 'walk');
+  const forest = [].concat(ft.mons, ft.morning || [], ft.day || [], ft.night || []).map(r => G.Maps.species(r[0]));   // with the times of day
+  const two = await walk('eterna-forest', 27, 7);
+  assert.ok(two.length > 5, 'met: ' + two.length);
+  assert.ok(two.every(m => m.second && forest.includes(m.second.sp) && m.second.lvl >= 10 && m.second.lvl <= 14), 'a second one from the table');
+  assert.ok(two.every(m => m.partner && m.partner.name === 'Cheryl'));
+  assert.deepEqual(plain(two[0].partner.team), [['chansey', 20, ['egg-bomb', 'soft-boiled', 'refresh']]]);
+  assert.ok(two.every(m => S.dex.seen[m.sp] && S.dex.seen[m.second.sp]), 'both are seen');
+  // A roaming Pokémon here (put there after the map is entered: it moves whenever you change maps): never beside a partner;
+  // without her, one time in four.
+  const roam = () => { S.sinnohRoamer = { mon: G.Mon.create(481, 50, { rng: G.RNG(5), wild: true }), map: 'eterna-forest', seen: true }; };
+  assert.ok(!(await walk('eterna-forest', 27, 7, 'right', roam)).some(m => m.roamer), 'no roamer beside Cheryl');
+  F.setFlag('cheryl-done');
+  const alone = await walk('eterna-forest', 27, 7, 'right', roam);
+  assert.ok(alone.length > 5 && alone.every(m => !m.second && !m.partner), 'one at a time without her');
+  assert.ok(alone.some(m => m.roamer), 'the roamer can come again');
+  S.sinnohRoamer = null;
+  // Iron Island B1F beside Riley (the cave): two at a time, Riley's Lucario beside you.
+  F.setFlag('riley-with');
+  const cave = await walk('iron-b1f', 18, 13);
+  assert.ok(cave.length > 5 && cave.every(m => m.second && m.partner && m.partner.name === 'Riley'), 'met: ' + cave.length);
+  // Route 224 beside Marley: on the water, she battles beside you against one.
+  F.setFlag('marley-along');
+  S.player.surf = 1;
+  const sea = await walk('route224', 33, 10);
+  assert.ok(W.surfing);
+  assert.ok(sea.length > 3 && sea.every(m => !m.second && m.partner && m.partner.name === 'Marley'), 'met: ' + sea.length);
+  S.player.surf = 0;
+  // The textbook in Jubilife's Trainers' School: words before chapter 101 is done, the ending after it, once.
+  const said = [];
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  const read = async () => { said.length = 0; W.load('jubilife-school', { x: 1, y: 7, dir: 'up' }); await pump(W, W.interact()); await settle(); return said.join(' | '); };
+  assert.ok(/two at a time/.test(await read()) && !F.flag('chapter-102-done'));
+  F.setFlag('chapter-101-done');
+  await read();
+  assert.ok(F.flag('chapter-102-done'));
+});

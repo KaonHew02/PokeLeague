@@ -12,7 +12,8 @@
  * them into animations, sounds and text one after the other. While text plays the
  * screen has data-noinput (A / click / tap advance it); menus are driven by G.Nav.
  *
- *   G.BattleUI.wild(player, sp, lvl, opts)       a wild battle against one new Pokémon (sp: dex number or slug)
+ *   G.BattleUI.wild(player, sp, lvl, opts)       a wild battle against one new Pokémon (sp: dex number or slug); chapter 102:
+ *       opts.partner = { name, team } beside you (a double battle), opts.second = { sp, lvl, nature, gender } a second wild one
  *   G.BattleUI.trainer(player, trainer, opts)    trainer = { id, name, title, ai, prize, items, leader,
  *                                                            team: [[sp, lvl, moves?, item?], ...] }
  *       (item: a held item, chapter 27); opts.partner = { name, team } (a multi battle, chapter 55)
@@ -20,6 +21,7 @@
  *   (the overworld calls these from its encounter / trainer hooks; opts as for start())
  *
  * Debug: dev.html?debug&wild=pidgey:3[,rattata:4]&party=charmander:8&items=poke-ball:5,potion:3&seed=7
+ *        (&double for two at a time, &partner=chansey:20 beside you: chapter 102)
  *        or &vs=geodude:12,onix:14 for a trainer battle (G.BattleUI.debugFromUrl()).
  */
 G.BattleUI = (() => {
@@ -281,14 +283,12 @@ G.BattleUI = (() => {
     introT = 1;
     await wait(0.5);
     if (b.kind === 'wild' || b.kind === 'safari') {
-      // The wild Pokémon is already there when the screen opens.
-      const fo = b.foe.party[b.foe.active || 0];
-      const s = disp[1][0] = makeSide(1, fo);
-      s.alpha = 0;
-      await tween(0.5, 0, 1, v => { s.alpha = v; s.dx = (1 - v) * -0.4; });
-      if (G.Audio.cry) G.Audio.cry(fo.sp);
-      drawBox(1);
-      $('bt-foe').classList.remove('out');
+      // The wild Pokémon is already there when the screen opens (chapter 102: both of two, beside a partner).
+      const fos = b.double ? b.foe.bms.filter(Boolean).map(bm => bm.mon) : [b.foe.party[b.foe.active || 0]];
+      const ss = fos.map((fo, slot) => { const s = disp[1][slot] = makeSide(1, fo); s.alpha = 0; return s; });
+      await tween(0.5, 0, 1, v => { for (const s of ss) { s.alpha = v; s.dx = (1 - v) * -0.4; } });
+      if (G.Audio.cry) G.Audio.cry(fos[0].sp);
+      fos.forEach((fo, slot) => { drawBox(1, slot); $(boxId(1, slot)).classList.remove('out'); });
     }
     await say(line);
   }
@@ -306,7 +306,7 @@ G.BattleUI = (() => {
 
   async function sendIn(e, line) {
     const mon = findMon(e.uid);
-    if (e.side === 1 && b.kind === 'wild' && disp[1][0] && disp[1][0].uid === e.uid) return;    // shown by the intro
+    if (e.side === 1 && b.kind === 'wild' && disp[1][e.slot || 0] && disp[1][e.slot || 0].uid === e.uid) return;    // shown by the intro
     if (line) await say(line);
     const slot = e.slot || 0;
     const s = makeSide(e.side, mon);
@@ -596,6 +596,8 @@ G.BattleUI = (() => {
       const fx = G.ITEM_FX[id];
       if (fx.ball) {
         if (b.kind !== 'wild') { await say(T("You can't use that on a trainer's Pokémon!")); continue; }
+        // Chapter 102: two wild Pokémon out, beside a partner (Platinum's rule).
+        if (b.twoFoes && b.twoFoes()) { await say(T("It's no good! It's impossible to aim when there are two Pokémon!")); continue; }
         // rules.noCatch: a Pokémon that cannot be caught (the ghost in the Pokémon Tower).
         if (b.rules.noCatch) { await say(T("The Pokémon dodged the Ball! It can't be caught!")); continue; }
         return { type: 'ball', item: id };
@@ -883,9 +885,11 @@ G.BattleUI = (() => {
     const trainer = q.get('vs') ? { id: 'debug', name: 'Debug', title: 'Youngster', ai: q.has('leader') ? 'leader' : 'basic',
                                     prize: 20, leader: q.has('leader'), items: { 'super-potion': 1 } } : null;
     const foes = parseTeam(q.get('wild') || q.get('vs'), rng);
+    // &partner=chansey:20 (chapter 102): someone beside you, in a double battle.
+    const partner = q.get('partner') ? { name: 'Partner', party: parseTeam(q.get('partner'), rng) } : undefined;
     const again = () => start({ kind: trainer ? 'trainer' : 'wild', seed: seed + 1, bg: q.get('bg') || 'grass',
                                 player: { name: q.get('name') || 'Red', id: 1, party, bag }, foe: { party: foes.map(m => Object.assign({}, m)), trainer },
-                                rules: { double: q.has('double') } })
+                                partner, rules: { double: q.has('double') || !!partner } })
       .then(r => { console.log('[battle] result', r); G.UI.toast(r.outcome, 2500); G.TitleUI.open(); });
     again();
     return true;
@@ -899,7 +903,13 @@ G.BattleUI = (() => {
     // Chapter 98: a nature (Synchronize) or a gender (Cute Charm) the first Pokémon's ability chose.
     const mon = opts.mon || G.Mon.create(spId(sp), lvl, { rng, wild: true, moves: opts.moves, shinyOdds: opts.shinyOdds, nature: opts.nature, gender: opts.gender });
     if (opts.form) mon.form = opts.form;     // Unown's letter (chapter 24)
-    return start(Object.assign({ kind: 'wild', player, foe: { party: [mon] } }, opts));
+    // Chapter 102: beside a partner (a double battle), and a second wild Pokémon in grass and caves.
+    const party = [mon];
+    if (opts.second) party.push(G.Mon.create(spId(opts.second.sp), opts.second.lvl, { rng, wild: true, nature: opts.second.nature, gender: opts.second.gender }));
+    const team = list => list.map(([s, l, moves, item, x]) => Object.assign(G.Mon.create(spId(s), l, Object.assign({ rng, moves }, x)), item ? { item } : {}));
+    const partner = opts.partner ? { name: opts.partner.name, party: team(opts.partner.team) } : undefined;
+    const rules = partner ? Object.assign({}, opts.rules, { double: true }) : opts.rules;
+    return start(Object.assign({ kind: 'wild', player, foe: { party } }, opts, { partner, rules }));
   }
 
   function safari(player, sp, lvl, opts = {}) {

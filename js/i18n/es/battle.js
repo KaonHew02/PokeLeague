@@ -229,5 +229,6 @@ G.I18n.add({
   "{mon} knocked off {target}'s {item}!": "¡{mon} ha hecho caer {item} de {target}!",
   "{mon} stole and ate its target's {item}!": "¡{mon} ha robado y se ha comido {item} de su objetivo!",
   "{mon} used its {item} to come back to its senses!": "¡{mon} ha usado su {item} y ha vuelto en sí!",
-  "{mon} fell in love because of the {item}!": "¡{mon} se ha enamorado por culpa del {item}!"
+  "{mon} fell in love because of the {item}!": "¡{mon} se ha enamorado por culpa del {item}!",
+  "Wild {mon} and {mon2} appeared!": "¡Un {mon} y un {mon2} salvajes aparecieron!"
 }, "es");

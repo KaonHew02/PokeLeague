@@ -37,5 +37,6 @@ G.I18n.add({
   "Rock": "石頭",
   "What will {player} do?": "{player}要怎麼做？",
   "Use {move} on which Pokémon?": "要對哪隻寶可夢使用{move}？",
-  "{mon} chooses its own moves here. Let it fight, or switch?": "在這裡，{mon}會自己決定用什麼招式。讓牠戰鬥，還是換下場？"
+  "{mon} chooses its own moves here. Let it fight, or switch?": "在這裡，{mon}會自己決定用什麼招式。讓牠戰鬥，還是換下場？",
+  "It's no good! It's impossible to aim when there are two Pokémon!": "不行！有兩隻寶可夢的時候無法瞄準！"
 }, "zh-Hant");

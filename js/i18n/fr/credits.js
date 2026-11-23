@@ -284,5 +284,8 @@ G.I18n.add({
   "A hundred chapters, from a first step in Pallet Town to the Original One. Thank you for travelling all this way.": "Cent chapitres, d'un premier pas à Bourg Palette jusqu'à l'Être Originel. Merci d'avoir fait tout ce chemin.",
   "Chapter 101 complete!": "Chapitre 101 terminé !",
   "{player} battled beside Steven at the Space Center, beside Professor Rowan's assistant in Jubilife City, beside Cheryl in Eterna Forest and beside Riley on Iron Island.": "{player} a combattu aux côtés de Pierre au Centre Spatial, de l'assistant du Professeur Sorbier à Féli-Cité, de Cheryl dans la Forêt Vestigion et d'Armand sur l'Île de Fer.",
-  "Every partner met on the way has fought at your side. Who will you team up with next?": "Chaque partenaire rencontré en chemin s'est battu à tes côtés. Avec qui feras-tu équipe la prochaine fois ?"
+  "Every partner met on the way has fought at your side. Who will you team up with next?": "Chaque partenaire rencontré en chemin s'est battu à tes côtés. Avec qui feras-tu équipe la prochaine fois ?",
+  "Chapter 102 complete!": "Chapitre 102 terminé !",
+  "{player} read how wild Pokémon come two at a time when someone walks beside you, and how your partner battles them with you.": "{player} a lu que les Pokémon sauvages surgissent à deux quand quelqu'un t'accompagne, et que ton partenaire les affronte avec toi.",
+  "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "Cheryl, Armand, Maïté, Cornil et Viviane combattent désormais à tes côtés contre les Pokémon sauvages comme contre les Dresseurs."
 }, "fr");

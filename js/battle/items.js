@@ -22,6 +22,7 @@ G.BattleItems = (() => {
     const fx = fxOf(a.item);
     const { mon, bm: active } = aim(b, side, a, user);
     if (!mon) return false;
+    if (embargoed(b, side, mon)) return false;                  // Embargo (chapter 104)
     if (fx.revive) return mon.hp <= 0;
     if (mon.hp <= 0) return false;
     if (fx.stage || fx.crit || fx.mist) return true;
@@ -75,5 +76,8 @@ G.BattleItems = (() => {
     if (fx.mist) { side.field.mist = 5; b.emit('field', { side: side.side, effect: 'mist' }); }
   }
 
-  return { canUse, use };
+  /** Embargo (chapter 104) on that Pokémon, out on the field: no item from the Bag can be used on it. */
+  function embargoed(b, side, mon) { return !!(mon && mon.embargo); }
+
+  return { canUse, use, embargoed };
 })();

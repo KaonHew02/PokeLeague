@@ -210,6 +210,9 @@ G.BattleText = (() => {
       case 'perishSong': return fmt('All Pokémon that hear the song will faint in three turns!', {});
       case 'perish': return fmt("{mon}'s perish count fell to {n}.", { mon, n: e.n });
       case 'ingrain': return fmt('{mon} planted its roots!', { mon });
+      case 'embargo': return fmt("{mon} can't use items anymore!", { mon });          // chapter 104
+      case 'embargoEnd': return fmt('{mon} can use items again!', { mon });
+      case 'recycle': return fmt('{mon} found one {item}!', { mon, item: G.Names.item(e.item) });
       case 'identified': return fmt('{mon} was identified!', { mon });
       case 'blownAway': return fmt('{mon} was blown away!', { mon });
       case 'draggedOut': return fmt('{mon} was dragged out!', { mon });

@@ -182,7 +182,8 @@
     warps: [{ x: 4, y: 7, to: 'celestic', spot: 'house-door' }],
     spots: { door: [4, 7, 'up'] },
     npcs: [{ id: 'man', who: 'oldman', x: 7, y: 4, dir: 'left',
-             say: 'My grandfather told me that long ago, people and Pokémon were the same. I still wonder about that.' }]
+             say: 'My grandfather told me that long ago, people and Pokémon were the same. I still wonder about that.' },
+           { id: 'glasses', who: 'guide', x: 2, y: 4, dir: 'down', script: 'gifts.glasses' }]          // chapter 104 (gifts.js)
   }, SINNOH));
 
   // ---------------- The ruins ----------------

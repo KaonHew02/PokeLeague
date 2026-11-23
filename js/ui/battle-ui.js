@@ -602,9 +602,21 @@ G.BattleUI = (() => {
         if (b.rules.noCatch) { await say(T("The Pokémon dodged the Ball! It can't be caught!")); continue; }
         return { type: 'ball', item: id };
       }
-      if (fx.stage || fx.crit || fx.mist) return { type: 'item', item: id, target: b.player.actives[(b.prompt && b.prompt.slot) || 0] };
+      // Embargo (chapter 104): no item from the Bag on that Pokémon while it lasts.
+      const blocked = async i => {
+        const m = b.player.party[i];
+        if (!(G.BattleItems.embargoed && G.BattleItems.embargoed(b, b.player, m))) return false;
+        await say(fmt("{move}'s effect prevents the item's use on {mon}!", { move: G.Names.move('embargo'), mon: G.Mon.name(m) }));
+        return true;
+      };
+      if (fx.stage || fx.crit || fx.mist) {
+        const at = b.player.actives[(b.prompt && b.prompt.slot) || 0];
+        if (await blocked(at)) continue;
+        return { type: 'item', item: id, target: at };
+      }
       const t = await list(fmt('Use {item} on which Pokémon?', { item: G.Names.item(id) }), partyRows());
       if (t == null) continue;
+      if (await blocked(t)) continue;
       let move;
       if (fx.pp && !fx.ppAll) {
         const mon = b.player.party[t];

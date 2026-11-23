@@ -230,5 +230,8 @@ G.I18n.add({
   "{mon} stole and ate its target's {item}!": "{mon}搶走並吃掉了對手的{item}！",
   "{mon} used its {item} to come back to its senses!": "{mon}用{item}恢復了理智！",
   "{mon} fell in love because of the {item}!": "{mon}因為{item}而著迷了！",
-  "Wild {mon} and {mon2} appeared!": "野生的{mon}和{mon2}出現了！"
+  "Wild {mon} and {mon2} appeared!": "野生的{mon}和{mon2}出現了！",
+  "{mon} can't use items anymore!": "{mon}不能再使用道具了！",
+  "{mon} can use items again!": "{mon}又能使用道具了！",
+  "{mon} found one {item}!": "{mon}找到了一個{item}！"
 }, "zh-Hant");

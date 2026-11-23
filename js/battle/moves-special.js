@@ -113,7 +113,7 @@ G.SpecialMoves = (() => {
     // thrown: it fails (Klutz does not stop it in Generation 4).
     'fling':        { check: (b, u) => {
                         const it = u.mon.item, d = it && G.ITEMS[it];
-                        if (!d || !d.fling) return false;
+                        if (!d || !d.fling || u.mon.embargo) return false;          // Embargo (chapter 104)
                         u.vol.flung = { item: it, pow: d.fling, fx: d.flingFx || null };
                         G.Held.throwAway(b, u);
                         b.emit('flung', Object.assign({ item: it }, me(u)));
@@ -126,12 +126,26 @@ G.SpecialMoves = (() => {
     // Natural Gift: its own berry's type and power (Generation 4's), the berry used up; Klutz stops it.
     'natural-gift': { check: (b, u) => {
                         const it = u.mon.item, g = it && G.NATURAL_GIFT && G.NATURAL_GIFT[it];
-                        if (!g || G.Abilities.klutz(u.mon)) return false;
+                        if (!g || G.Abilities.klutz(u.mon) || u.mon.embargo) return false;      // Embargo (chapter 104)
                         u.vol.gift = g;
                         G.Held.throwAway(b, u);
                         return true; },
                       moveType: (b, u) => (u.vol.gift ? u.vol.gift[0] : 'normal'),
                       power: (b, u) => (u.vol.gift ? u.vol.gift[1] : 0) },
+    // ---------- chapter 104, Platinum's (subscript_embargo_start.s, effect_script_0184.s) ----------
+    // Embargo: five turns without held items or the Bag's items for the target; it fails behind a substitute, against
+    // Multitype or the Griseous Orb, and on one already under it. It ends on switching out (battle.js).
+    'embargo':      { use: (b, u, t) => {
+                        if (!t || !b.alive(t) || t.vol.substitute > 0 || t.ability === 'multitype' || t.vol.embargo || t.mon.item === 'griseous-orb') return fail(b);
+                        t.vol.embargo = 5; t.mon.embargo = true;
+                        b.emit('embargo', me(t)); return {}; } },
+    // Recycle: the last item used up from its place on the field (b.recycle), back, if it holds nothing.
+    'recycle':      { use: (b, u) => {
+                        const key = u.side + ':' + (u.slot || 0), item = b.recycle && b.recycle[key];
+                        if (u.mon.item || !item) return fail(b);
+                        delete b.recycle[key];
+                        u.mon.item = item;
+                        b.emit('recycle', Object.assign({ item }, me(u))); return {}; } },
     // Judgment (chapter 100): the type of the plate its user holds (Generation 4's), else Normal.
     'judgment':     { moveType: (b, u) => { const fx = u.mon.item && G.ITEM_FX[u.mon.item]; return fx && fx.plate ? fx.type : 'normal'; } },
     // Trick and Switcheroo: the two swap items (nothing to swap, Sticky Hold, Multitype or a substitute: it fails). A Choice
@@ -408,10 +422,10 @@ G.SpecialMoves = (() => {
   // status moves that fail, damaging moves that only deal their damage.
   const FALLBACK = new Set([
     // status: no effect in a single battle without abilities / held items yet
-    'baton-pass', 'camouflage', 'conversion-2', 'grudge', 'imprison', 'mimic', 'recycle', 'role-play',
+    'baton-pass', 'camouflage', 'conversion-2', 'grudge', 'imprison', 'mimic', 'role-play',
     'skill-swap', 'snatch', 'spikes', 'taunt', 'torment', 'transform', 'mud-sport', 'water-sport',
     'sketch', 'wish', 'assist', 'nature-power',
-    'aqua-ring', 'copycat', 'embargo', 'gastro-acid', 'guard-swap', 'heal-block', 'healing-wish', 'lunar-dance', 'lucky-chant',
+    'aqua-ring', 'copycat', 'gastro-acid', 'guard-swap', 'heal-block', 'healing-wish', 'lunar-dance', 'lucky-chant',
     'magic-coat', 'magnet-rise', 'power-swap', 'power-trick', 'psycho-shift', 'tailwind', 'toxic-spikes', 'worry-seed',
     // damaging: just their damage (no delayed hit, uproar lock, switch hit; the item moves are real since chapter 94)
     'future-sight', 'uproar', 'pursuit', 'focus-punch', 'bide', 'present', 'triple-kick',

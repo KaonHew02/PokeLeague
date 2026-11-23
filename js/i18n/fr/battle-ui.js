@@ -38,5 +38,6 @@ G.I18n.add({
   "What will {player} do?": "Que doit faire {player} ?",
   "Use {move} on which Pokémon?": "Utiliser {move} sur quel Pokémon ?",
   "{mon} chooses its own moves here. Let it fight, or switch?": "Ici, {mon} choisit ses propres capacités. Le laisser combattre, ou le remplacer ?",
-  "It's no good! It's impossible to aim when there are two Pokémon!": "Ça ne marchera pas ! Impossible de viser quand il y a deux Pokémon !"
+  "It's no good! It's impossible to aim when there are two Pokémon!": "Ça ne marchera pas ! Impossible de viser quand il y a deux Pokémon !",
+  "{move}'s effect prevents the item's use on {mon}!": "L'effet de {move} empêche d'utiliser l'objet sur {mon} !"
 }, "fr");

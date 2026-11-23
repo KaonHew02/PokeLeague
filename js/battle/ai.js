@@ -150,7 +150,7 @@ G.BattleAI = (() => {
 
   function healItem(b, side, slot = 0) {
     const bm = side.bms[slot], max = G.Mon.maxHp(bm.mon);
-    if (bm.mon.hp / max > 0.25) return null;
+    if (bm.mon.hp / max > 0.25 || bm.vol.embargo) return null;      // Embargo (chapter 104): no items on it
     for (const item of ['full-restore', 'max-potion', 'hyper-potion', 'super-potion', 'potion']) {
       if ((side.items[item] || 0) > 0) return { type: 'item', item, target: side.actives[slot] };
     }

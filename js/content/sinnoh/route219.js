@@ -141,9 +141,9 @@
     id: 'route221', loc: 'sinnoh-route-221', tileset: 'outdoor', palette: 'kanto', music: 'route', battleBg: 'grass', border: 'T',
     rows: [
       '~~~~~~~~TTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      '~~~~~~~~::.........TT..............T',
-      '~~~~~~~~::.........uT........TTTTTTT',
-      '~~~~~~~~::...................TTTTTTT',
+      '~~~~~~~~::.........TTHHHH..........T',
+      '~~~~~~~~::.........uTHHHH....TTTTTTT',
+      '~~~~~~~~::...........HDHH....TTTTTTT',
       '~~~~~~~~::...........""""""".TTTTTTT',
       '~~~~~~~~::...........""""""".TTTTTTT',
       '~~~~~~~~::...........""""""".TTTTTTT',
@@ -165,8 +165,9 @@
     ],
     connect: { west: { map: 'route220', offset: 0 } },
     encounters: { walk: '@sinnoh-route-221-area', water: '@sinnoh-route-221-area' },
-    warps: [{ x: 30, y: 11, to: 'pal-park-gate', spot: 'door' }],
-    spots: { gate: [30, 12, 'down'] },
+    warps: [{ x: 30, y: 11, to: 'pal-park-gate', spot: 'door' },
+            { x: 22, y: 3, to: 'r221-house', spot: 'door' }],                   // chapter 104 (gifts.js)
+    spots: { gate: [30, 12, 'down'], 'house-door': [22, 4, 'down'] },
     signs: { '27,13': 'Route 221. East: Pal Park.' },
     items: [{ x: 26, y: 10, item: 'pure-incense', flag: 'route221-pure-incense', then: 'incense.found' },   // chapter 97
             { x: 12, y: 20, item: 'protein', flag: 'route221-protein' }, { x: 33, y: 20, item: 'ultra-ball', flag: 'route221-ball' },

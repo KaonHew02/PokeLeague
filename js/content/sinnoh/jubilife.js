@@ -199,7 +199,8 @@
     warps: [{ x: 4, y: 7, to: 'jubilife', spot: 'condo-door' }],
     spots: { door: [4, 7, 'up'] },
     npcs: [{ id: 'man', who: 'gentleman', x: 7, y: 4, dir: 'left',
-             say: 'My neighbor works at the Pokétch Company. They are making a watch for Trainers, full of handy little apps.' }]
+             say: 'My neighbor works at the Pokétch Company. They are making a watch for Trainers, full of handy little apps.' },
+           { id: 'beauty', who: 'beauty', x: 2, y: 4, dir: 'down', script: 'gifts.quick-claw' }]         // chapter 104 (gifts.js)
   }, SINNOH));
 
   // ---------------- the catching demonstration on Route 202 ----------------

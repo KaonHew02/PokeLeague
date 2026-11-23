@@ -196,7 +196,7 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           # Chapter 98: Honey (Honey Gather picks it up after a battle won).
                                           'honey',
                                           # Chapter 100: the Azure Flute (the Spear Pillar's stairs to the Hall of Origin).
-                                          'azure-flute'],
+                                          'azure-flute', 'soothe-bell', 'macho-brace'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.

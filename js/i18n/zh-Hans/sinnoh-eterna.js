@@ -91,5 +91,6 @@ G.I18n.add({
   "The old house deep in the forest? Even we cannot see what waits inside.": "森林深处的那栋旧房子？连我们也看不见里面有什么。",
   "Lindsey & Elijah": "琳赛和以利亚",
   "We sensed you coming from far away. We also sense that you will lose!": "我们老远就感应到你们来了。我们还感应到你们会输！",
-  "Our senses failed us...": "我们的感应失灵了……"
+  "Our senses failed us...": "我们的感应失灵了……",
+  "Please take this as a token of my thanks. A Pokémon wearing it grows fond of you faster.": "请收下这个，当作我的谢礼。带着它的宝可梦会更快和你亲近。"
 }, "zh-Hans");

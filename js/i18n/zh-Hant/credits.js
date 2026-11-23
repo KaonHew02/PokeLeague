@@ -290,5 +290,8 @@ G.I18n.add({
   "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "芽米、亞玄、麥兒、麥可和米依，現在不只對付訓練家，也會在你身邊一起對付野生寶可夢。",
   "Chapter 103 complete!": "第 103 章完成！",
   "{player} drew out wild Pokémon with a sweet scent, from Sweet Scent or a little Honey.": "{player}用甜甜香氣或一點甜甜蜜的香味，引出了野生寶可夢。",
-  "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "在草叢、洞窟或水上，甜甜的香味會馬上引來野生寶可夢，除非被天氣吹散。"
+  "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "在草叢、洞窟或水上，甜甜的香味會馬上引來野生寶可夢，除非被天氣吹散。",
+  "Chapter 104 complete!": "第 104 章完成！",
+  "{player} showed a Pokémon of the day's level in Route 221's house and collected the held items that Sinnoh's people keep for Trainers.": "{player}在 221 號道路的房子裡讓人看了當天等級的寶可夢，也收集到了神奧的人們為訓練家準備的持有物。",
+  "Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.": "現在，查封會讓持有物和背包道具五回合無法使用，回收利用則能找回用掉的道具。"
 }, "zh-Hant");

@@ -732,7 +732,8 @@ G.World = (() => {
     V.steps = (+V.steps || 0) + 1;                             // steps walked (chapter 84: the villa's chandelier)
     if (G.DayCare) G.DayCare.step(1);
     V.walk = ((+V.walk || 0) + 1) % 128;
-    if (!V.walk) for (const m of G.Field.party()) if (m.hp > 0) m.friendship = Math.min(255, (m.friendship || 0) + 1);
+    // The Soothe Bell (chapter 104): x1.5, rounded down (one point stays one).
+    if (!V.walk) for (const m of G.Field.party()) if (m.hp > 0) m.friendship = Math.min(255, (m.friendship || 0) + (G.Held ? G.Held.friendship(m, 1) : 1));
     // Chapter 98: Flame Body or Magma Armor in the party: Eggs hatch twice as fast.
     const eggStep = G.FieldAbilities ? G.FieldAbilities.eggFactor(G.Field.party()) : 1;
     if (V['egg-steps'] > 0 && (V['egg-steps'] = Math.max(0, V['egg-steps'] - eggStep)) === 0 && G.Script.get('egg.hatch')) {

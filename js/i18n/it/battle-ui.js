@@ -38,5 +38,6 @@ G.I18n.add({
   "What will {player} do?": "Cosa farà {player}?",
   "Use {move} on which Pokémon?": "Usare {move} su quale Pokémon?",
   "{mon} chooses its own moves here. Let it fight, or switch?": "Qui {mon} sceglie da solo le sue mosse. Lo lasci lottare o lo sostituisci?",
-  "It's no good! It's impossible to aim when there are two Pokémon!": "Non funziona! È impossibile prendere la mira con due Pokémon in campo!"
+  "It's no good! It's impossible to aim when there are two Pokémon!": "Non funziona! È impossibile prendere la mira con due Pokémon in campo!",
+  "{move}'s effect prevents the item's use on {mon}!": "L'effetto di {move} impedisce di usare lo strumento su {mon}!"
 }, "it");

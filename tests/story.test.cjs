@@ -4463,15 +4463,14 @@ async function chapter46(st) {
   await run(st, 'valley-windworks', 'windworks.drifloon');
   assert.equal(last().key, 'wild:drifloon');
   assert.ok(F.flag('drifloon-met'));
-  // Eterna Forest with Cheryl: her Sitrus Berries at the far side.
+  // Eterna Forest with Cheryl: her Soothe Bell at the far side (chapter 104; Sitrus Berries before).
   // Chapter 101: the forest's four pairs, each a multi battle beside Cheryl.
   await run(st, 'eterna-forest', 'eterna.cheryl', [0]);
   assert.ok(F.flag('cheryl-with'));
   await all('eterna-forest');
   console.log('[story] Eterna Forest beside Cheryl:', G.Maps.get('eterna-forest').trainers.length, 'pairs won with', G.Names.mon(S.party[0].sp), 'at Lv.', S.party[0].lvl);
-  const sitrus = F.count('sitrus-berry');
   await run(st, 'eterna-forest', 'eterna.cheryl-bye');
-  assert.ok(F.flag('cheryl-done') && F.count('sitrus-berry') === sitrus + 2);
+  assert.ok(F.flag('cheryl-done') && F.count('soothe-bell') === 1, 'her Soothe Bell (chapter 104)');
   await all('route205e');
   // Eterna City: Gardenia's Gym.
   grind(st, 'route205e', 24, 400);
@@ -4888,6 +4887,24 @@ function tend(G) {
   useOn(['max-revive', 'revive'], m => m.hp <= 0);
   useOn(['full-restore', 'hyper-potion'], m => m.hp > 0 && m.hp * 2 < G.Mon.maxHp(m));
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
+}
+
+/** Chapter 104 after chapter 103: Platinum's held-item gifts; Route 221's house: a Pokémon of the day's level earns a Black
+ *  Belt (the ending). The harness picks the first day whose level one of the team has. */
+async function chapter104(st) {
+  const { G, S } = st;
+  const F = G.Field, GI = G.SinnohGifts;
+  const day = G.Clock.day, levels = new Set(S.party.map(m => m.lvl));
+  let d = 0, date = null;
+  for (; d < 4000; d++) { date = new Date(Date.UTC(2026, 10, 23 + d)).toISOString().slice(0, 10); if (levels.has(GI.dailyLevel(date))) break; }
+  G.Clock.day = () => date;
+  await run(st, 'r221-house', npc(st, 'r221-house', 'expert'));
+  G.Clock.day = day;
+  const mon = S.party.find(m => m.lvl === GI.dailyLevel(date));
+  console.log("[story] Platinum's gifts: Route 221's house on", date, '(level ' + GI.dailyLevel(date) + ',', G.Names.mon(mon.sp) + '):', G.Names.item('black-belt'), F.count('black-belt'));
+  assert.equal(F.count('black-belt'), 1);
+  assert.ok(F.flag('chapter-104-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
 }
 
 /** Chapter 103 after chapter 102: Sweet Scent and Honey outside battle. The harness has no overworld: Honey bought (the shop is a
@@ -6345,4 +6362,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter101(st);
   await chapter102(st);
   await chapter103(st);
+  await chapter104(st);
 });

@@ -2384,11 +2384,10 @@ test('Sinnoh (chapter 46): Route 204, the twins, the meadow and the key, the win
   assert.deepEqual(plain(fights.shift()), ['phillip-donald', true, 'Cheryl', true]);
   assert.deepEqual(plain(forest.def.ally.team), [['chansey', 20, ['egg-bomb', 'soft-boiled', 'refresh']]]);
   assert.equal(lead.hp, G.Mon.maxHp(lead), 'Cheryl healed the team');
-  const sitrus = F.count('sitrus-berry');
   W.load('eterna-forest', { x: 36, y: 12, dir: 'right' });
   assert.equal(step(W, 'right'), 'moved');
   await until(() => F.flag('cheryl-done') && !W.locked);
-  assert.equal(F.count('sitrus-berry'), sitrus + 2);
+  assert.equal(F.count('soothe-bell'), 1, "her Soothe Bell (chapter 104: Platinum's gift)");
   assert.notEqual((W.follower || {}).who, 'cheryl', 'she has gone');
   // Without Cheryl, a pair is a plain double battle, and no more healing.
   lead.hp = 1;
@@ -8260,4 +8259,87 @@ test('Sweet Scent and Honey outside battle (chapter 103, Platinum\'s): a wild Po
   F.setFlag('chapter-102-done');
   await use('route202', 2, 3, scent);
   assert.ok(F.flag('chapter-103-done'));
+});
+
+test('Sinnoh (chapter 104): Platinum\'s held-item gifts: Route 221\'s house (a level a day: Black Belt, Expert Belt, Focus Sash), Celestic\'s glasses by the hour, the Quick Claw, Shell Bell, Soothe Bell, Macho Brace (Combee of both genders), Exp. Share (35 seen), Byron\'s Metal Coat; the ending after chapter 103', async () => {
+  const sinnoh = ['sandgem', 'twinleaf', 'jubilife', 'oreburgh', 'floaroma', 'eterna', 'hearthome', 'solaceon', 'veilstone', 'pastoria', 'route212', 'celestic',
+    'canalave', 'ironisland', 'route219', 'gifts'].map(f => 'js/content/sinnoh/' + f + '.js');
+  const { G, W } = world(['js/world/field-abilities.js', 'js/content/hoenn/littleroot.js', 'js/content/hoenn/legends.js', 'js/content/hoenn/lilycove.js',
+    'js/content/kanto/safari.js', ...sinnoh]);
+  W.debug.noEnc = true;
+  const F = G.Field, S = F.save, GI = G.SinnohGifts, said = [];
+  G.Dialog.say = t => { said.push([].concat(t).join(' ')); return Promise.resolve(); };
+  const settle = async () => { for (let i = 0; i < 300 && W.locked; i++) { W.update(0.05); await tick(); } };
+  const talk = async (map, x, y, dir) => { said.length = 0; W.load(map, { x, y, dir }); await pump(W, W.interact()); await settle(); return said.join(' | '); };
+  const lead = F.giveMon('staraptor', 50);
+  // Route 221's house: through its new door.
+  W.load('route221', { x: 22, y: 4, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  for (let i = 0; i < 100 && W.map.id !== 'r221-house'; i++) { W.update(0.05); await tick(); }
+  assert.equal(W.map.id, 'r221-house');
+  // Today's level (2-99, from the date and the Trainer ID): none at it, he says which; one at it, a Black Belt; once a day.
+  let day = '2026-11-23';
+  G.Clock.day = () => day;
+  const lvl = GI.dailyLevel(day);
+  assert.ok(lvl >= 2 && lvl <= 99);
+  const levels = new Set(['2026-11-20', '2026-11-21', '2026-11-22', '2026-11-23', '2026-11-24', '2026-11-25'].map(d => GI.dailyLevel(d)));
+  assert.ok(levels.size > 2, 'a new level most days');
+  lead.lvl = lvl === 50 ? 51 : 50;
+  assert.ok(new RegExp('level ' + lvl).test(await talk('r221-house', 6, 4, 'right')));
+  assert.equal(F.count('black-belt'), 0);
+  const at = F.giveMon('bidoof', lvl);
+  await talk('r221-house', 6, 4, 'right');
+  assert.equal(F.count('black-belt'), 1);
+  assert.ok(!F.flag('chapter-104-done'), 'not before chapter 103');
+  assert.ok(/tomorrow/.test(await talk('r221-house', 6, 4, 'right')) && F.count('expert-belt') === 0, 'once a day');
+  // The next day: its own level, the Expert Belt; and the ending, once chapter 103 is done.
+  day = '2026-11-24';
+  at.lvl = GI.dailyLevel(day);
+  F.setFlag('chapter-103-done');
+  await talk('r221-house', 6, 4, 'right');
+  assert.ok(F.count('expert-belt') === 1 && F.flag('chapter-104-done'));
+  day = '2026-11-25'; at.lvl = GI.dailyLevel(day);
+  await talk('r221-house', 6, 4, 'right');
+  assert.equal(F.count('focus-sash'), 1, 'then the Focus Sash');
+  // Celestic Town's glasses, by the hour, each once.
+  for (const [hour, item] of [[8, 'choice-specs'], [15, 'black-glasses'], [22, 'wise-glasses'], [2, 'wise-glasses']]) {
+    G.Clock.hour = () => hour;
+    await talk('celestic-house', 2, 5, 'up');
+    assert.equal(F.count(item), 1, hour + ':00 ' + item);
+  }
+  // The Quick Claw, the Shell Bell, the Soothe Bell: once each.
+  for (const [map, item] of [['jubilife-condo', 'quick-claw'], ['hearthome-house', 'shell-bell'], ['jubilife-condo', 'quick-claw']]) await talk(map, 2, 5, 'up');
+  assert.ok(F.count('quick-claw') === 1 && F.count('shell-bell') === 1);
+  await talk('pokemon-mansion', 12, 4, 'up');
+  await talk('pokemon-mansion', 12, 4, 'up');
+  assert.equal(F.count('soothe-bell'), 1);
+  // Pastoria: Combee of both genders.
+  assert.ok(/boy or a girl/.test(await talk('pastoria-house', 2, 5, 'up')));
+  const m1 = F.giveMon('combee', 10);
+  m1.gender = 'm';
+  assert.ok(/other kind/.test(await talk('pastoria-house', 2, 5, 'up')) && !F.count('macho-brace'));
+  const m2 = F.giveMon('combee', 10);
+  m2.gender = 'f';
+  await talk('pastoria-house', 2, 5, 'up');
+  assert.equal(F.count('macho-brace'), 1);
+  // Eterna's aide: 35 kinds seen.
+  S.dex.seen = {};
+  for (let i = 1; i <= 20; i++) S.dex.seen[i] = 1;
+  assert.ok(/at least 35/.test(await talk('eterna', 15, 26, 'right')) && !F.count('exp-share'));
+  for (let i = 21; i <= 40; i++) S.dex.seen[i] = 1;
+  await talk('eterna', 15, 26, 'right');
+  assert.equal(F.count('exp-share'), 1);
+  // Iron Island's house: Byron, with the National Pokédex.
+  const byronHere = () => W.actors.some(a => a.def && a.def.id === 'byron' && a.visible !== false);
+  W.load('iron-house', { x: 6, y: 4, dir: 'right' });
+  assert.ok(!byronHere(), 'not before the National Pokédex');
+  F.setFlag('national-dex');
+  await talk('iron-house', 6, 4, 'right');
+  assert.equal(F.count('metal-coat'), 1);
+  W.load('iron-house', { x: 6, y: 4, dir: 'right' });
+  assert.ok(!byronHere(), 'gone after');
+  W.load('iron-island', { x: 8, y: 12, dir: 'up' });
+  assert.equal(step(W, 'up'), 'moved');
+  for (let i = 0; i < 100 && W.map.id !== 'iron-house'; i++) { W.update(0.05); await tick(); }
+  assert.equal(W.map.id, 'iron-house', 'its door on the island');
 });

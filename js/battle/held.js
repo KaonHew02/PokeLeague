@@ -51,6 +51,9 @@
  *   `eatBerry(b, bm, item)` (a berry's effect at once: Pluck, Bug Bite, a flung berry), `flingEffect(b, user, target, f)`.
  *   An item used up by its own holder is noted on the battle (`b.markUsed`): at the end the player's Pokémon get back what
  *   they held at the start, unless they used it up themselves (battle.js `finish`).
+ * Chapter 104: Embargo (moves-special.js, `mon.embargo` while it lasts): no held item does anything (`fxOf`); an item used up
+ *   by its holder is remembered for Recycle by its place on the field (`b.recycle`, Platinum's recycleItem[battler]);
+ *   'macho-brace' Speed halved, its EVs doubled (exp.js); 'soothe-bell' friendship gains x1.5 (`friendship(mon, n)`).
  * The numbers are those of Generation 4. The battle asks:
  *   kind(mon) · is(mon, k) · power(mon, type, M, bm) · statMult(mon, key) · critBonus(mon) · accMult(mon) · userAcc(user, target)
  *   · finalMult(user, eff) · resist(b, target, type, eff) · drainMult(bm) · locked(bm) · beforeMove(bm, id) · afterMove(b, bm)
@@ -60,7 +63,8 @@
  * play exactly as before.
  */
 G.Held = (() => {
-  const fxOf = mon => (mon && mon.item && G.ITEM_FX[mon.item]) || null;
+  // Embargo (chapter 104, Platinum's Battler_HeldItem): while it lasts, the item does nothing.
+  const fxOf = mon => (mon && mon.item && !mon.embargo && G.ITEM_FX[mon.item]) || null;
   // Klutz (chapter 44): its item does nothing in battle (an Exp. Share or a Lucky Egg still works).
   const kind = mon => {
     const fx = fxOf(mon), k = (fx && fx.held) || null;
@@ -70,6 +74,8 @@ G.Held = (() => {
   /** An item used up by its holder: gone (noted on the battle, chapter 94), and Unburden (chapter 44) at work. */
   function useUp(b, bm) {
     if (b && b.markUsed) b.markUsed(bm.mon);
+    // Recycle (chapter 104): the last item used up from this place on the field (Platinum's BtlCmd_RemoveItem).
+    if (b && b.recycle && bm.mon.item) b.recycle[bm.side + ':' + (bm.slot || 0)] = bm.mon.item;
     bm.mon.item = null;
     if (bm.ability === 'unburden') bm.vol.unburden = true;
   }
@@ -101,7 +107,7 @@ G.Held = (() => {
   function statMult(mon, key) {
     const k = kind(mon), sp = mon.sp;
     if (k === 'choice') return G.ITEM_FX[mon.item].stat === key ? 1.5 : 1;                 // Choice Band, Specs, Scarf
-    if ((k === 'iron-ball' || k === 'power') && key === 'spe') return 0.5;                // Iron Ball, the Power items
+    if ((k === 'iron-ball' || k === 'power' || k === 'macho-brace') && key === 'spe') return 0.5;   // Iron Ball, the Power items, the Macho Brace
     if (k === 'light-ball' && sp === 25 && (key === 'atk' || key === 'spa')) return 2;
     if (k === 'thick-club' && (sp === 104 || sp === 105) && key === 'atk') return 2;
     if (k === 'metal-powder' && sp === 132 && key === 'def') return 2;
@@ -274,7 +280,10 @@ G.Held = (() => {
     b.inflict(bm, G.ITEM_FX[bm.mon.item].status, { silent: true, item: bm.mon.item });
   }
 
-  return { kind, is, power, statMult, critBonus, accMult, userAcc, finalMult, resist, drainMult, locked, beforeMove, afterMove, powerHerb,
+  /** Friendship gained (chapter 104, Platinum's Pokemon_UpdateFriendship): x1.5 (rounded down) with a Soothe Bell. */
+  const friendship = (mon, n) => (n > 0 && mon && mon.item === 'soothe-bell' ? Math.floor(n * 150 / 100) : n);
+
+  return { friendship, kind, is, power, statMult, critBonus, accMult, userAcc, finalMult, resist, drainMult, locked, beforeMove, afterMove, powerHerb,
            quick, survives, expMult, afterHit, berry, herb, endOfTurn, orbs,
            takeAway, sticky, multitype, eatBerry, throwAway, flingEffect, destinyKnot };
 })();

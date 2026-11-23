@@ -259,6 +259,8 @@ G.ITEMS = {
   "pure-incense": {"id":297,"pocket":"items","cat":"training","fling":10},
   honey: {"id":94,"pocket":"items","cat":"dex-completion","fling":30},
   "azure-flute": {"id":432,"pocket":"key","cat":"event-items"},
+  "soothe-bell": {"id":195,"pocket":"items","cat":"training","fling":10},
+  "macho-brace": {"id":192,"pocket":"items","cat":"effort-training","fling":60},
   hm01: {"id":397,"pocket":"tms","cat":"all-machines","move":"cut"},
   hm02: {"id":398,"pocket":"tms","cat":"all-machines","move":"fly"},
   hm03: {"id":399,"pocket":"tms","cat":"all-machines","move":"surf"},

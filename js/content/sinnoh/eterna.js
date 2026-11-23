@@ -184,6 +184,7 @@
       // Team Galactic's building is guarded.
       { id: 'hiker', who: 'hiker', x: 34, y: 13, dir: 'left', if: '!badge:26',
         say: 'Rocks fell on the path to Mt. Coronet. Nobody gets through until they are cleared!' },
+      { id: 'aide', who: 'aide', x: 16, y: 26, dir: 'right', script: 'gifts.exp-share' },              // chapter 104 (gifts.js)
       { id: 'worker', who: 'engineer', x: 17, y: 26, dir: 'up', if: '!tg-eterna-done',
         say: 'Cycling Road is closed for repairs. Come back when it is finished!' },
       { id: 'grunt', who: 'galactic', x: 6, y: 22, dir: 'down', if: '!badge:26',
@@ -284,11 +285,9 @@
     if (me) h.place('cheryl2', me.x - 1, me.y, 'right');
     h.show('cheryl2');
     await h.say(T('We made it out of the forest! Thank you so much for letting me come along.'), CHERYL);
-    await h.say(T('Please take these. A Sitrus Berry heals a Pokémon when its HP runs low.'), CHERYL);
-    F.giveItem('sitrus-berry', 2);
-    const j = h.jingle('item');
-    await h.say(T('{player} received {item} ×{n}!'), { vars: { item: G.Names.item('sitrus-berry'), n: 2 } });
-    await j;
+    // Chapter 104: a Soothe Bell, as in Platinum (eterna_forest/scripts.s).
+    await h.say(T('Please take this as a token of my thanks. A Pokémon wearing it grows fond of you faster.'), CHERYL);
+    await G.Script.exec([['giveItem', 'soothe-bell', 1]], h);
     await h.say(T('Eterna City is just ahead. Good luck at the Gym!'), CHERYL);
     F.setFlag('cheryl-done');
     h.hide('cheryl2');

@@ -91,5 +91,6 @@ G.I18n.add({
   "The old house deep in the forest? Even we cannot see what waits inside.": "La vecchia casa nel cuore del bosco? Nemmeno noi riusciamo a vedere cosa c'è dentro.",
   "Lindsey & Elijah": "Lindsey e Elijah",
   "We sensed you coming from far away. We also sense that you will lose!": "Vi abbiamo percepiti da lontano. E percepiamo anche che perderete!",
-  "Our senses failed us...": "I nostri sensi ci hanno tradito..."
+  "Our senses failed us...": "I nostri sensi ci hanno tradito...",
+  "Please take this as a token of my thanks. A Pokémon wearing it grows fond of you faster.": "Accetta questo come segno di gratitudine. Un Pokémon che lo porta si affeziona a te più in fretta."
 }, "it");

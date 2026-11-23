@@ -290,5 +290,8 @@ G.I18n.add({
   "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "Cheryl, Armand, Maïté, Cornil et Viviane combattent désormais à tes côtés contre les Pokémon sauvages comme contre les Dresseurs.",
   "Chapter 103 complete!": "Chapitre 103 terminé !",
   "{player} drew out wild Pokémon with a sweet scent, from Sweet Scent or a little Honey.": "{player} a attiré des Pokémon sauvages avec un doux parfum, grâce à Doux Parfum ou à un peu de Miel.",
-  "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "Dans les hautes herbes, les grottes ou sur l'eau, un doux parfum attire aussitôt un Pokémon sauvage, sauf si la météo le dissipe."
+  "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "Dans les hautes herbes, les grottes ou sur l'eau, un doux parfum attire aussitôt un Pokémon sauvage, sauf si la météo le dissipe.",
+  "Chapter 104 complete!": "Chapitre 104 terminé !",
+  "{player} showed a Pokémon of the day's level in Route 221's house and collected the held items that Sinnoh's people keep for Trainers.": "{player} a montré un Pokémon du niveau du jour dans la maison de la Route 221 et a réuni les objets que les gens de Sinnoh gardent pour les Dresseurs.",
+  "Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.": "Désormais, Embargo bloque les objets tenus et le Sac pendant cinq tours, et Recyclage retrouve un objet déjà utilisé."
 }, "fr");

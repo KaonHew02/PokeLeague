@@ -181,7 +181,8 @@
     warps: [{ x: 4, y: 7, to: 'hearthome', spot: 'house-door' }],
     spots: { door: [4, 7, 'up'] },
     npcs: [{ id: 'granny', who: 'granny', x: 7, y: 4, dir: 'left',
-             say: 'Long ago, people from all over came to Hearthome to share what they had. That is how it got its name.' }]
+             say: 'Long ago, people from all over came to Hearthome to share what they had. That is how it got its name.' },
+           { id: 'ace', who: 'cooltrainer', x: 2, y: 4, dir: 'down', script: 'gifts.shell-bell' }]         // chapter 104 (gifts.js)
   }, SINNOH));
 
   // ---------------- Fantina's Gym ----------------

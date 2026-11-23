@@ -106,7 +106,8 @@
     warps: [{ x: 4, y: 7, to: 'pastoria', spot: 'house-door' }],
     spots: { door: [4, 7, 'up'] },
     npcs: [{ id: 'granny', who: 'granny', x: 7, y: 4, dir: 'left',
-             say: 'Different Pokémon show up in the marsh every day. Nobody has ever seen all of them in one visit.' }]
+             say: 'Different Pokémon show up in the marsh every day. Nobody has ever seen all of them in one visit.' },
+           { id: 'bug', who: 'bugcatcher', x: 2, y: 4, dir: 'down', script: 'gifts.combee' }]          // chapter 104 (gifts.js)
   }, SINNOH));
 
   // ---------------- Crasher Wake's Gym ----------------

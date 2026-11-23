@@ -130,6 +130,7 @@ G.Battle = (() => {
       // others back: taken, knocked off, swapped).
       this.startItems = new Map(pl.party.map(m => [m, m.item || null]));
       this.usedUp = new Set();
+      this.recycle = {};                 // chapter 104: Recycle's item by place on the field ('side:slot')
     }
 
     // ================= public =================
@@ -285,6 +286,7 @@ G.Battle = (() => {
     }
 
     finish(outcome, extra = {}) {
+      for (const sd of this.sides) for (const m of sd.party) delete m.embargo;     // Embargo ends with the battle (chapter 104)
       this.restoreItems();
       const money = (extra.money || 0) + (outcome === 'win' ? this.payDay : 0);
       if (outcome === 'win' && this.payDay) this.emit('payDay', { amt: this.payDay });
@@ -768,6 +770,8 @@ G.Battle = (() => {
             if (--t.turns <= 0 && this.alive(bm)) { bm.vol.trap = null; this.emit('freed', { side: bm.side, uid, move: t.move }); }
           }
         }
+        // Embargo (chapter 104): five turns.
+        if (bm.vol.embargo && --bm.vol.embargo === 0) { delete bm.mon.embargo; this.emit('embargoEnd', { side: bm.side, uid }); }
         if (this.alive(bm) && bm.vol.yawn && --bm.vol.yawn === 0) {
           bm.vol.yawn = 0;
           this.inflict(bm, 'slp', { silent: false });
@@ -929,6 +933,8 @@ G.Battle = (() => {
     /** o.noEntry: its entry ability waits (the caller runs it after its own line). o.slot: doubles. */
     sendOut(side, i, o = {}) {
       const slot = o.slot || 0;
+      // The one leaving this place: its Embargo ends (chapter 104).
+      if (side.bms[slot] && side.bms[slot].mon) delete side.bms[slot].mon.embargo;
       side.actives[slot] = i;
       const mon = side.party[i];
       const bm = side.bms[slot] = this.makeBM(side, mon, slot);
@@ -1041,7 +1047,8 @@ G.Battle = (() => {
       const before = G.Mon.stats(mon), oldMax = before[0];
       mon.lvl++;
       G.Mon.recalc(mon, oldMax);
-      mon.friendship = Math.min(255, (mon.friendship || 0) + (mon.friendship < 100 ? 5 : mon.friendship < 200 ? 3 : 2));
+      // The Soothe Bell (chapter 104): x1.5.
+      mon.friendship = Math.min(255, (mon.friendship || 0) + G.Held.friendship(mon, mon.friendship < 100 ? 5 : mon.friendship < 200 ? 3 : 2));
       this.leveled.add(mon.uid);
       this.emit('levelup', { uid: mon.uid, lvl: mon.lvl, before, after: G.Mon.stats(mon), hp: mon.hp,
                              from: G.Stats.expAt(gr, mon.lvl), to: G.Stats.expAt(gr, Math.min(100, mon.lvl + 1)) });

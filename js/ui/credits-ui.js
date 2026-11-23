@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 104) return { title: T('Chapter 104 complete!'),
+      done: fmt("{player} showed a Pokémon of the day's level in Route 221's house and collected the held items that Sinnoh's people keep for Trainers.", { player }),
+      next: T('Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.') };
     if (n === 103) return { title: T('Chapter 103 complete!'),
       done: fmt('{player} drew out wild Pokémon with a sweet scent, from Sweet Scent or a little Honey.', { player }),
       next: T('In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.') };

@@ -230,5 +230,8 @@ G.I18n.add({
   "{mon} stole and ate its target's {item}!": "¡{mon} ha robado y se ha comido {item} de su objetivo!",
   "{mon} used its {item} to come back to its senses!": "¡{mon} ha usado su {item} y ha vuelto en sí!",
   "{mon} fell in love because of the {item}!": "¡{mon} se ha enamorado por culpa del {item}!",
-  "Wild {mon} and {mon2} appeared!": "¡Un {mon} y un {mon2} salvajes aparecieron!"
+  "Wild {mon} and {mon2} appeared!": "¡Un {mon} y un {mon2} salvajes aparecieron!",
+  "{mon} can't use items anymore!": "¡{mon} ya no puede usar objetos!",
+  "{mon} can use items again!": "¡{mon} vuelve a poder usar objetos!",
+  "{mon} found one {item}!": "¡{mon} ha encontrado un {item}!"
 }, "es");

@@ -17,6 +17,8 @@ G.Exp = (() => {
     // A Power item (chapter 93): four more in its stat.
     const fx = mon.item && G.ITEM_FX && G.ITEM_FX[mon.item];
     if (fx && fx.held === 'power') { yld = Array.from({ length: 6 }, (_, i) => yld[i] || 0); yld[fx.ev] += 4; }
+    // The Macho Brace (chapter 104): twice the EVs.
+    if (fx && fx.held === 'macho-brace') yld = Array.from({ length: 6 }, (_, i) => (yld[i] || 0) * 2);
     for (let i = 0; i < 6; i++) {
       const total = mon.evs.reduce((s, v) => s + v, 0);
       const add = Math.min(yld[i] || 0, MAX_EV - mon.evs[i], MAX_TOTAL - total);

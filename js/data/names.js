@@ -1221,6 +1221,8 @@ G.NAMES = {
     "pure-incense": ["Pure Incense","Incienso Puro","Encens Pur","Puroaroma","洁净薰香","潔淨薰香"],
     honey: ["Honey","Miel","Miel","Miele","甜甜蜜","甜甜蜜"],
     "azure-flute": ["Azure Flute","Flauta Azur","Flûte Azur","Flauto Cielo","天界之笛","天界之笛"],
+    "soothe-bell": ["Soothe Bell","Cascabel Alivio","Grelot Zen","Calmanella","安抚之铃","安撫之鈴"],
+    "macho-brace": ["Macho Brace","Brazal Firme","Bracelet Macho","Crescicappa","强制锻炼器","強制鍛鍊器"],
     hm01: ["HM01","MO01","CS01","MN01","秘传学习器０１","秘傳學習器０１"],
     hm02: ["HM02","MO02","CS02","MN02","秘传学习器０２","秘傳學習器０２"],
     hm03: ["HM03","MO03","CS03","MN03","秘传学习器０３","秘傳學習器０３"],

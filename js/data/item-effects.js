@@ -168,6 +168,9 @@ G.ITEM_FX = {
   'scope-lens':    { held: 'scope-lens', price: 8000 },
   'bright-powder': { held: 'bright-powder', price: 8000 },
   'shell-bell':    { held: 'shell-bell', price: 8000 },
+  // Chapter 104 (Platinum's gifts): friendship gains x1.5; Speed halved and EVs doubled (held.js, exp.js).
+  'soothe-bell':   { held: 'soothe-bell' },
+  'macho-brace':   { held: 'macho-brace' },
   'lucky-egg':     { held: 'lucky-egg', price: 10000 },
   'amulet-coin':   { held: 'amulet-coin', price: 10000 },
   'everstone':     { held: 'everstone', price: 3000 },

@@ -290,5 +290,8 @@ G.I18n.add({
   "Cheryl, Riley, Mira, Buck and Marley now battle beside you against wild Pokémon as well as Trainers.": "Cheryl, Marisio, Matilde, Chicco e Risetta ora lottano al tuo fianco sia contro i Pokémon selvatici sia contro gli Allenatori.",
   "Chapter 103 complete!": "Capitolo 103 completato!",
   "{player} drew out wild Pokémon with a sweet scent, from Sweet Scent or a little Honey.": "{player} ha attirato Pokémon selvatici con un profumo dolce, grazie a Profumino o a un po' di Miele.",
-  "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "Nell'erba alta, nelle grotte o sull'acqua, un profumo dolce attira subito un Pokémon selvatico, a meno che il tempo non lo disperda."
+  "In tall grass, in caves or on the water, a sweet scent brings a wild Pokémon at once, unless the weather blows it away.": "Nell'erba alta, nelle grotte o sull'acqua, un profumo dolce attira subito un Pokémon selvatico, a meno che il tempo non lo disperda.",
+  "Chapter 104 complete!": "Capitolo 104 completato!",
+  "{player} showed a Pokémon of the day's level in Route 221's house and collected the held items that Sinnoh's people keep for Trainers.": "{player} ha mostrato un Pokémon del livello del giorno nella casa del Percorso 221 e ha raccolto gli strumenti che la gente di Sinnoh tiene per gli Allenatori.",
+  "Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.": "Ora Divieto blocca gli strumenti tenuti e la Borsa per cinque turni, e Riciclo ritrova uno strumento già usato."
 }, "it");

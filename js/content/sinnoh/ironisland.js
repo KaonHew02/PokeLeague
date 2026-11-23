@@ -34,9 +34,9 @@
       '~~~~..############..~~~~',
       '~~~~..############..~~~~',
       '~~~~..######O#####..~~~~',
-      '~~~~.......,,.......~~~~',
-      '~~~~.......,,.......~~~~',
-      '~~~~.......,,.......~~~~',
+      '~~~~..HHHH.,,.......~~~~',
+      '~~~~..HHHH.,,.......~~~~',
+      '~~~~..HHDH.,,.......~~~~',
       '~~~~TTTT...,,.S.TTTT~~~~',
       '~~~~TTTT...,,...TTTT~~~~',
       '~~~~TTTT...,,...TTTT~~~~',
@@ -46,8 +46,8 @@
       '~~~~~~~~~~~==~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~'
     ],
-    warps: [{ x: 12, y: 8, to: 'iron-1f', spot: 'door' }],
-    spots: { pier: [11, 17, 'up'], mouth: [12, 9, 'down'] },
+    warps: [{ x: 12, y: 8, to: 'iron-1f', spot: 'door' }, { x: 8, y: 11, to: 'iron-house', spot: 'door' }],   // the house: chapter 104 (gifts.js)
+    spots: { pier: [11, 17, 'up'], mouth: [12, 9, 'down'], 'house-door': [8, 12, 'down'] },
     signs: { '14,12': 'Iron Island. The mine has been closed for years. Enter at your own risk.' },
     npcs: [{ id: 'sailor', who: 'sailor', x: 12, y: 17, dir: 'left', script: 'iron.sailor' }],
     encounters: { water: '@iron-island-area' }

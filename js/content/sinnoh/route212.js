@@ -273,6 +273,7 @@
     items: [{ x: 4, y: 2, item: 'tm87', flag: 'mansion-tm87' }],
     npcs: [
       { id: 'backlot', who: 'gentleman', x: 2, y: 3, dir: 'down', script: 'r212.backlot' },
+      { id: 'maid-bell', who: 'maid', x: 12, y: 3, dir: 'down', script: 'gifts.soothe-bell' },          // chapter 104 (gifts.js)
       { id: 'officer', who: 'officer', x: 9, y: 8, dir: 'down', say: 'I guard this statue day and night. Mostly day. Nobody has tried to steal it yet.' },
       { id: 'butler', who: 'gentleman', x: 12, y: 12, dir: 'up', say: 'Welcome to the Pokémon Mansion. The maids enjoy a battle, if you have the time. The young master and the young lady prefer to watch.' }
     ],

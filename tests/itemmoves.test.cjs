@@ -135,3 +135,81 @@ test('the plates, Multitype, Shed Shell, Mental Herb, Destiny Knot', () => {
   assert.equal(Object.keys(G.ITEM_FX).filter(id => G.ITEM_FX[id].plate).length, 16, 'sixteen plates');
   for (const id of Object.keys(G.ITEMS).filter(k => G.ITEMS[k].pocket === 'berries')) assert.ok(G.NATURAL_GIFT[id], id);
 });
+
+// ---------------- Chapter 104: Embargo, Recycle, the Soothe Bell, the Macho Brace (Platinum's) ----------------
+
+test('Embargo: five turns without held items (no Leftovers, no Fling) nor the Bag\'s items on it; it fails behind a substitute, against Multitype and twice; switching out ends it', () => {
+  // The foe's Leftovers do nothing while it lasts, and work again after five turns.
+  const d = duel(G, { seed: 4, me: ['honchkrow', 50, ['embargo', 'splash']], foe: ['snorlax', 50, ['splash'], hold('leftovers', { hp: 100 })], bag: { potion: 2 } });
+  let ev = d.b.act({ type: 'move', slot: 0 });
+  const foe = d.b.foe.bm;
+  assert.equal(G.BattleText.line(ev.find(e => e.type === 'embargo'), d.b), G.I18n.fmt("{mon} can't use items anymore!", { mon: G.BattleText.who(d.b, d.foes[0].uid, 1) }));
+  assert.ok(foe.vol.embargo && d.foes[0].embargo);
+  assert.ok(!ev.some(e => e.type === 'heal' && e.side === 1), 'no Leftovers');
+  const again = d.b.act({ type: 'move', slot: 0 });
+  assert.ok(again.some(e => e.type === 'fail'), 'twice: it fails');
+  // Five turns, the one it was used in counted (Platinum's embargoTurns, five, less one at each turn's end).
+  for (let i = 0; i < 3; i++) ev = d.b.act({ type: 'move', slot: 1 });
+  assert.ok(ev.some(e => e.type === 'embargoEnd'), 'after five turns');
+  assert.ok(!d.foes[0].embargo);
+  ev = d.b.act({ type: 'move', slot: 1 });
+  assert.ok(ev.some(e => e.type === 'heal' && e.side === 1), 'Leftovers again');
+  // On the player's side: no Potion on it, no Fling; switching out ends it.
+  const e2 = duel(G, { seed: 4, me: ['snorlax', 50, ['fling', 'splash'], hold('iron-ball', { hp: 100 })], mine: [['pikachu', 30, ['splash']]], foe: ['honchkrow', 50, ['embargo']], bag: { potion: 2 } });
+  e2.b.act({ type: 'move', slot: 1 });
+  assert.ok(e2.party[0].embargo);
+  assert.equal(e2.b.act({ type: 'item', item: 'potion', target: 0 })[0].reason, 'no-effect', 'no Potion on it');
+  assert.ok(G.BattleItems.embargoed(e2.b, e2.b.player, e2.party[0]));
+  ev = e2.b.act({ type: 'move', slot: 0 });
+  assert.ok(ev.some(e => e.type === 'fail') && e2.party[0].item === 'iron-ball', 'no Fling: the item stays');
+  e2.b.act({ type: 'switch', to: 1 });
+  assert.ok(!e2.party[0].embargo, 'switched out: it ends');
+  // A substitute and Multitype stop it.
+  let t = turn({ me: ['honchkrow', 50, ['embargo']], foe: ['arceus', 50, ['splash'], { ability: 'multitype' }] });
+  assert.ok(t.ev.some(e => e.type === 'fail'));
+  const s = duel(G, { seed: 4, me: ['honchkrow', 50, ['embargo']], foe: ['snorlax', 50, ['substitute']] });
+  s.b.act({ type: 'move', slot: 0 });
+  ev = s.b.act({ type: 'move', slot: 0 });
+  assert.ok(s.b.foe.bm.vol.substitute > 0 && ev.some(e => e.type === 'fail'), 'behind a substitute');
+  // The battle over, nothing of it stays on the Pokémon.
+  const f = duel(G, { seed: 4, me: ['honchkrow', 70, ['embargo', 'night-slash']], foe: ['rattata', 5, ['splash']] });
+  f.b.act({ type: 'move', slot: 0 });
+  f.b.act({ type: 'move', slot: 1 });
+  assert.ok(f.b.result && !f.foes[0].embargo);
+});
+
+test('Recycle: the last item used up from its place comes back (a berry eaten, a flung item); one knocked off does not; holding something, it fails; the next Pokémon in that place can recycle it (Platinum)', () => {
+  // A Sitrus Berry eaten (at low HP, after its first action), then recycled.
+  const d = duel(G, { seed: 4, me: ['snorlax', 50, ['recycle', 'splash'], hold('sitrus-berry', { hp: 100 })], foe: ['magikarp', 5, ['splash']] });
+  d.b.act({ type: 'move', slot: 1 });
+  assert.equal(d.party[0].item, null, 'eaten');
+  let ev = d.b.act({ type: 'move', slot: 0 });
+  assert.equal(d.party[0].item, 'sitrus-berry');
+  assert.equal(G.BattleText.line(ev.find(e => e.type === 'recycle'), d.b), G.I18n.fmt('{mon} found one {item}!', { mon: G.BattleText.who(d.b, d.party[0].uid, 0), item: G.Names.item('sitrus-berry') }));
+  ev = d.b.act({ type: 'move', slot: 0 });
+  assert.ok(ev.some(e => e.type === 'fail'), 'holding it: it fails');
+  // Knocked off: nothing to recycle.
+  const k = duel(G, { seed: 4, me: ['snorlax', 50, ['recycle'], hold('leftovers')], foe: ['weavile', 50, ['knock-off']] });
+  k.b.act({ type: 'move', slot: 0 });
+  assert.equal(k.party[0].item, null);
+  ev = k.b.act({ type: 'move', slot: 0 });
+  assert.ok(ev.some(e => e.type === 'fail') && k.party[0].item === null, 'a knocked-off item is not recycled');
+  // Flung, then the next Pokémon in that place recycles it.
+  const n = duel(G, { seed: 4, me: ['garchomp', 50, ['fling'], hold('iron-ball')], mine: [['snorlax', 50, ['recycle']]], foe: ['snorlax', 90, ['splash']] });
+  n.b.act({ type: 'move', slot: 0 });
+  n.b.act({ type: 'switch', to: 1 });
+  n.b.act({ type: 'move', slot: 0 });
+  assert.equal(n.party[1].item, 'iron-ball', 'the place remembers it');
+});
+
+test('the Soothe Bell: friendship gains x1.5; the Macho Brace: Speed halved, EVs doubled', () => {
+  const m = G.Mon.create(25, 10, { rng: G.RNG(1) });
+  assert.equal(G.Held.friendship(m, 5), 5);
+  m.item = 'soothe-bell';
+  assert.deepEqual([5, 3, 2, 1, -5].map(n => G.Held.friendship(m, n)), [7, 4, 3, 1, -5]);
+  const a = G.Mon.create(25, 10, { rng: G.RNG(1) }), b = G.Mon.create(25, 10, { rng: G.RNG(1) });
+  b.item = 'macho-brace';
+  assert.equal(G.Held.statMult(b, 'spe'), 0.5);
+  G.Exp.addEvs(a, [0, 1, 0, 0, 0, 2]); G.Exp.addEvs(b, [0, 1, 0, 0, 0, 2]);
+  assert.deepEqual([a.evs[1], a.evs[5], b.evs[1], b.evs[5]], [1, 2, 2, 4]);
+});

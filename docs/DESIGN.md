@@ -2873,18 +2873,25 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** every `[balance]` and `[story]` line as before; two new `[balance]` lines (the Palace's double halls 0.70 in round 1, 0.48-0.60 later; the Dome's double tournament 0.83 to 0.68) and two new `[story]` lines.
 - **Tests:** `tests/palace.test.cjs` (doubles: the rule on, all four choose when the turn begins; the target table for every nature; more HP, less HP, either, equal HP; no target for moves on oneself or on all; singles as before); `tests/field.test.cjs` the chapter on the real maps (the two counters; no Spenser at the 21st, no Tucker in the 5th tournament; seven battles of three under the palace rule in doubles, the ending after chapter 107, back at the counter; four Dome matches of two against two; streaks of their own); `tests/story.test.cjs` the chapter after chapter 107 (`[story]`: a set of seven in the Palace's double halls, a double tournament won).
 
-### After chapter 108
+- **Chapter 109** ✅, the Battle Pyramid's twenty wild themes (js/content/hoenn/pyramid.js: `THEMES`, `wildTable`, the fortune-teller `pyramid.fortune`, `FORTUNES`; js/world/field.js `drawWild` and `wildBattle`; js/ui/battle-ui.js `wild`; Grudge in js/battle/moves-special.js, battle.js and text.js; translations `hoenn-pyramid`, `battle`, `credits`). Post-game; `ending(109)` waits for chapter 108 (the first round climbed). Sources: Emerald's decompilation, [pret/pokeemerald](https://github.com/pret/pokeemerald): `src/data/battle_frontier/battle_pyramid_level_50_wild_mons.h` (twenty rounds of eight, with their moves and set ability slots), `src/battle_pyramid.c` (`GenerateBattlePyramidWildMon`: the round of twenty, level value -5 to +5, even IVs of 15 to 31 from 140 floors), `data/maps/BattleFrontier_BattlePyramidLobby/scripts.inc` and `src/field_specials.c` (`GetBattlePyramidHint`: the hint giver), `src/battle_script_commands.c` (`Cmd_trysetgrudge`, the faint check) and `src/battle_util.c` (Grudge ends with its user's next action).
+  - **The themes**, in turn from round 1 (round 21 starts again): paralysis, poison, burn, PP drained (Spite, Grudge), Levitate, abilities that trap (Arena Trap, Shadow Tag), ice, Self-Destruct and Explosion, Psychic, Rock, Fighting, weather, Bug, Dark, Water, Ghost, Steel, Flying and Dragon, evolved by a stone, Normal. Each row `[sp, level value, moves, ability slot]`; the encounter table's rows are `[sp, min, max, chance, moves, slot]`, with `evenIvs: [15, 31]` from round 21. Two moves have this game's names (High Jump Kick, Feint Attack). The first three rounds keep their Pokémon and levels and now have Emerald's moves too.
+  - **field.js**: `drawWild` gives a wild Pokémon its row's moves and the ability of its slot, and a table's even IVs (one random value for all six; drawn only when the table has them); `wildBattle` passes `ability` and `ivs`; `G.BattleUI.wild` creates it with them.
+  - **Grudge** (off the FALLBACK list): its user's state (`vol.grudge`) until its next action (`doAction`); knocked out by a foe's move (not Struggle, the foe still standing), that move loses all its PP (`grudge` event). Taunt stays a fallback (one Sneasel in round 14 knows it).
+  - **The fortune-teller** in the lobby (my own words): the theme of the round about to be climbed, by the streak (of twenty).
+- **Balance:** the Pyramid's `[balance]` line changed (rounds 1-3, 20 runs each: 0.95, 0.60, 0.55 before, 0.85, 1.00, 0.50 now; Brandon as before), as its wild Pokémon now have Emerald's moves; a new `[balance]` line for later themes (round 5 0.40, round 6 0.55, round 11 0.55, round 20 0.10: Emerald's round 20 brings Slaking and Snorlax up to level 55); every other `[balance]` and `[story]` line as before; a new `[story]` line.
+- **Tests:** `tests/pyramid.test.cjs` (twenty rounds of eight, Emerald's first Pokémon of each, the set abilities, Machamp's row, this game's move names, round 21 with even IVs, the twenty fortunes); `tests/grudge.test.cjs` (the PP lost, its line; without Grudge; Struggle; ended by its user's next action; an ally's move does not count); `tests/field.test.cjs` the chapter on the real floors (Honey on rounds 1, 6, 11 and 20: one of the round's rows with its moves, ability and level; round 21's even IVs; the fortune-teller by the streak); `tests/story.test.cjs` the chapter after chapter 108 (`[story]`: a round climbed again).
 
-A hundred and eight chapters: the journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of
+### After chapter 109
+
+A hundred and nine chapters: the journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of
 Hoenn and of Sinnoh up to Arceus in the Hall of Origin, the whole Battle Frontier of Hoenn (with the Palace's and the Dome's double
-battles) and of Sinnoh (Tower with its multi battles, Factory, Hall, Castle and Arcade), the whole Battle Zone, the villa, contests
-in Sinnoh and Hoenn with Poffins and Pokéblocks, ribbons, Generation 4's held items, Platinum's gifts of them, the moves that move
-them, Embargo and Recycle, every special ball, the Poké Radar, Emerald's glass flutes, Platinum's free move tutors, the incenses,
-the abilities outside battle, the Honey trees and Sweet Scent, and the battles beside a partner, Trainers and wild Pokémon alike.
-Ideas:
+battles and the Pyramid's twenty themes) and of Sinnoh (Tower with its multi battles, Factory, Hall, Castle and Arcade), the whole
+Battle Zone, the villa, contests in Sinnoh and Hoenn with Poffins and Pokéblocks, ribbons, Generation 4's held items, Platinum's
+gifts of them, the moves that move them, Embargo, Recycle and Grudge, every special ball, the Poké Radar, Emerald's glass flutes,
+Platinum's free move tutors, the incenses, the abilities outside battle, the Honey trees and Sweet Scent, and the battles beside a
+partner, Trainers and wild Pokémon alike. Ideas:
 1. Items: Platinum's other gifts (the Upgrade and trade evolutions); the Underground (weather rocks, fossils, spheres, shards for
    the tutors of Route 212, Snowpoint City and the Survival Area).
-2. Contests: accessories; Hoenn's own contest rules.
-3. Hoenn after the League: more of the Pyramid's wild themes (every Emerald facility that has double battles now has them here:
-   the Tower, the Factory, the Palace and the Dome).
+2. Contests: accessories; Hoenn's own contest rules (Generation 3's appeals, jamming, combos and the crowd).
+3. Moves still left as fallbacks: Taunt and the others on G.SpecialMoves.FALLBACK.
 4. The Poké Radar's chain records and its music.

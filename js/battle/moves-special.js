@@ -267,6 +267,9 @@ G.SpecialMoves = (() => {
                         const n = Math.min(4, slot.pp); slot.pp -= n;
                         b.emit('spite', Object.assign({ move: slot.id, n }, me(t))); return {}; } },
     'destiny-bond': { use: (b, u) => { u.vol.destinyBond = true; b.emit('destinyBondSet', me(u)); return {}; } },
+    // Grudge (chapter 109, Emerald's Cmd_trysetgrudge): until its next action (battle.js doAction), a foe's move that knocks it
+    // out loses all its PP (battle.js hurt).
+    'grudge':       { use: (b, u) => { u.vol.grudge = true; b.emit('grudgeSet', me(u)); return {}; } },
     'refresh':      { use: (b, u) => {
                         if (!['psn', 'tox', 'par', 'brn'].includes(u.mon.status)) return fail(b);
                         u.mon.status = null; b.emit('cure', me(u)); return {}; } },
@@ -422,7 +425,7 @@ G.SpecialMoves = (() => {
   // status moves that fail, damaging moves that only deal their damage.
   const FALLBACK = new Set([
     // status: no effect in a single battle without abilities / held items yet
-    'baton-pass', 'camouflage', 'conversion-2', 'grudge', 'imprison', 'mimic', 'role-play',
+    'baton-pass', 'camouflage', 'conversion-2', 'imprison', 'mimic', 'role-play',
     'skill-swap', 'snatch', 'spikes', 'taunt', 'torment', 'transform', 'mud-sport', 'water-sport',
     'sketch', 'wish', 'assist', 'nature-power',
     'aqua-ring', 'copycat', 'gastro-acid', 'guard-swap', 'heal-block', 'healing-wish', 'lunar-dance', 'lucky-chant',

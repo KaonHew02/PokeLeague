@@ -305,5 +305,8 @@ G.I18n.add({
   "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "Il {blue}, il {yellow} e il {red} curano sonno, confusione e infatuazione in lotta e non si consumano mai. Il {white} attira più Pokémon selvatici, il {black} meno.",
   "Chapter 108 complete!": "Capitolo 108 completato!",
   "{player} took on the double battles of the Battle Palace and the Battle Dome, two Pokémon side by side.": "{player} ha affrontato le lotte in doppio del Palazzo Lotta e della Cupola Lotta, con due Pokémon fianco a fianco.",
-  "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "Nelle sale delle lotte in doppio del Palazzo, ogni Pokémon sceglie anche chi colpire: alcuni puntano all'avversario più forte, altri al più debole. I capi di questi luoghi lottano solo in singolo."
+  "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "Nelle sale delle lotte in doppio del Palazzo, ogni Pokémon sceglie anche chi colpire: alcuni puntano all'avversario più forte, altri al più debole. I capi di questi luoghi lottano solo in singolo.",
+  "Chapter 109 complete!": "Capitolo 109 completato!",
+  "{player} climbed the Battle Pyramid again, where every round now hides wild Pokémon of its own theme.": "{player} ha scalato di nuovo la Piramide Lotta, dove ora ogni turno nasconde Pokémon selvatici di un tema tutto suo.",
+  "Twenty themes wait in the dark, from paralysis to the {type} type. Ask the fortune-teller in the lobby which one comes next.": "Venti temi aspettano nel buio, dalla paralisi al tipo {type}. Chiedi all'indovina nell'atrio quale viene dopo."
 }, "it");

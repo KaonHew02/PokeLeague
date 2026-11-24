@@ -73,15 +73,33 @@ test('the floor as a map validates; the wild Pokémon of each challenge, three t
     const d = G.Maps.get('battle-pyramid-floor').def;
     assert.ok(d.dark && d.cave && d.noSave && d.noExp && d.onLose === 'pyramid.lost');
   }
-  for (const round of [1, 2, 3]) {
+  for (let round = 1; round <= 20; round++) {
     const t = P.wildTable(round);
+    assert.equal(t.mons.length, 8);
     assert.equal(t.mons.reduce((a, m) => a + m[3], 0), 100);
-    assert.ok(t.rate > 0);
+    assert.ok(t.rate > 0 && !t.evenIvs, 'round ' + round);
   }
-  assert.deepEqual(plain(P.wildTable(1).mons[0]), ['plusle', 30, 40, 20]);
+  // Chapter 109: Emerald's twenty themes, with their moves and their set abilities.
+  assert.equal(P.THEMES.length, 20);
+  assert.deepEqual(plain(P.wildTable(1).mons[0]), ['plusle', 30, 40, 20, ['thunder-wave', 'spark', 'encore'], null]);
   assert.equal(P.wildTable(2).mons[0][0], 'gulpin');
   assert.equal(P.wildTable(3).mons[0][0], 'growlithe');
-  assert.deepEqual(plain(P.wildTable(4)), plain(P.wildTable(1)), 'then paralysis again');
-  for (const th of P.THEMES) for (const [sp] of th) assert.ok(G.Maps.species(sp), sp);
+  assert.deepEqual(plain(P.THEMES.map(th => th[0][0])), ['plusle', 'gulpin', 'growlithe', 'dunsparce', 'haunter', 'diglett', 'glalie', 'weezing', 'wobbuffet',
+    'golem', 'poliwrath', 'quagsire', 'pineco', 'sableye', 'octillery', 'duskull', 'mawile', 'dragonair', 'arcanine', 'kangaskhan']);
+  const row = (round, sp) => P.wildTable(round).mons.find(m => m[0] === sp);
+  const abOf = (round, sp) => { const r = row(round, sp); return r[5] == null ? null : G.SPECIES[G.Maps.species(sp)].ab[r[5]]; };
+  assert.deepEqual(plain([abOf(2, 'ludicolo'), abOf(3, 'magcargo'), abOf(6, 'wobbuffet'), abOf(6, 'dugtrio'), abOf(1, 'plusle')]),
+    ['rain-dish', 'flame-body', 'shadow-tag', 'arena-trap', null]);
+  assert.deepEqual(plain(row(11, 'machamp')), ['machamp', 45, 55, 5, ['rock-slide', 'earthquake', 'focus-punch', 'seismic-toss'], null]);
+  assert.ok(row(3, 'medicham')[4].includes('high-jump-kick') && row(14, 'sneasel')[4].includes('feint-attack'), "this game's move names");
+  // Round 21 on: the same Pokémon again, with even IVs of 15 to 31.
+  const t21 = plain(P.wildTable(21)), t1 = plain(P.wildTable(1));
+  assert.deepEqual(t21.mons, t1.mons, 'then paralysis again');
+  assert.deepEqual(t21.evenIvs, [15, 31]);
+  for (const th of P.THEMES) for (const [sp, , moves] of th) {
+    assert.ok(G.Maps.species(sp), sp);
+    for (const m of moves) assert.ok(G.MOVES[m], m);
+  }
+  assert.equal(P.FORTUNES().length, 20);
   for (const [id] of P.FINDS) assert.ok(G.ITEMS[id] && G.ITEM_FX[id], id);
 });

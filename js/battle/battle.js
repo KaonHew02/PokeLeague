@@ -406,6 +406,11 @@ G.Battle = (() => {
           o.user.mon.hp = 0;
           this.emit('damage', { side: o.user.side, uid: o.user.mon.uid, amt: 0, hp: 0, max: this.maxHp(o.user), why: 'destiny' });
         }
+        // Grudge (chapter 109, Emerald's): knocked out by a foe's move (not Struggle), that move of the foe loses all its PP.
+        if (target.mon.hp <= 0 && target.vol.grudge && o.user.side !== target.side && this.alive(o.user) && o.move !== G.MOVES.struggle) {
+          const slot = o.user.mon.moves.find(m => G.MOVES[m.id] === o.move);
+          if (slot) { slot.pp = 0; this.emit('grudge', { side: o.user.side, uid: o.user.mon.uid, move: slot.id }); }
+        }
       }
       return amt;
     }
@@ -564,6 +569,7 @@ G.Battle = (() => {
     doAction(side, a, bm = side.bm) {
       if (!this.alive(bm) || this.result) return;
       bm.moved = true;
+      bm.vol.grudge = false;                     // Grudge (chapter 109) lasts until its user's next action (Emerald's AtkCanceler)
       if (bm.arena) bm.arena.hit = false;
       if (a.type === 'switch') this.switchIn(side, a.to, bm.slot || 0);
       else if (a.type === 'run') this.tryRun();

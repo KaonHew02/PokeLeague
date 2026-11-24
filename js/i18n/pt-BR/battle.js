@@ -234,5 +234,7 @@ G.I18n.add({
   "{mon} can't use items anymore!": "{mon} não pode mais usar itens!",
   "{mon} can use items again!": "{mon} pode usar itens de novo!",
   "{mon} found one {item}!": "{mon} encontrou um {item}!",
-  "{mon} is no longer infatuated!": "{mon} não está mais apaixonado!"
+  "{mon} is no longer infatuated!": "{mon} não está mais apaixonado!",
+  "{mon} is bearing a grudge against its attacker!": "{mon} guarda rancor de quem o atacar!",
+  "{mon}'s {move} lost all its PP because of the grudge!": "{move} de {mon} perdeu todos os PP por causa do rancor!"
 }, "pt-BR");

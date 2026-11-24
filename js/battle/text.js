@@ -200,6 +200,8 @@ G.BattleText = (() => {
       case 'protecting': return fmt('{mon} protected itself!', { mon });
       case 'destinyBondSet': return fmt('{mon} is hoping to take its attacker down with it!', { mon });
       case 'destinyBond': return fmt('{mon} took its attacker down with it!', { mon });
+      case 'grudgeSet': return fmt('{mon} is bearing a grudge against its attacker!', { mon });                          // chapter 109
+      case 'grudge': return fmt("{mon}'s {move} lost all its PP because of the grudge!", { mon, move: G.Names.move(e.move) });
       case 'faint': return fmt('{mon} fainted!', { mon });
       case 'trap': return fmt('{mon} was trapped by {move}!', { mon, move: G.Names.move(e.move) });
       case 'freed': return fmt('{mon} was freed from {move}!', { mon, move: G.Names.move(e.move) });

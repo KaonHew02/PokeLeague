@@ -159,7 +159,10 @@ const obeyCap = st => st.G.Field.obeyCap((st.G.Maps.get(st.W.map) || { def: {} }
 function wildFight(st, sp, lvl, o = {}) {
   const { G, S, W } = st;
   const rng = G.RNG(W.seed * 389 + st.battles.length);
-  const foe = G.Mon.create(G.Maps.species(sp), lvl, { rng, wild: true });
+  // o.set (chapter 109): the Battle Pyramid's table gives the wild Pokémon its moves, ability and IVs, as field.js does.
+  const set = o.set || {};
+  const foe = G.Mon.create(G.Maps.species(sp), lvl, Object.assign({ rng, wild: true }, set.moves ? { moves: set.moves } : {}, set.ivs ? { ivs: set.ivs } : {}));
+  if (set.ability) foe.ability = set.ability;
   S.dex.seen[foe.sp] = 1;
   // o.party: only those Pokémon battle (Professor Birch's bag on Route 101, chapter 28); o.canLose, o.rules (the Battle Pike, chapter 82).
   const b = G.Battle.create({ kind: 'wild', seed: W.seed * 53 + st.battles.length,
@@ -1645,6 +1648,17 @@ test('balance: the Battle Pyramid (chapter 83), how often a typical team climbs 
   table['Brandon (silver)'] = rate(G.PyramidHall.KING[3].team);
   table['Brandon (gold)'] = rate(G.PyramidHall.KING[10].team);
   console.log('[balance] Battle Pyramid, Swampert, Gardevoir and Manectric at 50 (rounds climbed: two Trainers and two wild a floor, items between battles, a rest on each landing; round 3 with Brandon at the top; Brandon alone at full HP):', JSON.stringify(table));
+  // Chapter 109: some of Emerald's later themes (Trainers from the round 4 pool, the wild Pokémon of that round's theme).
+  const later = {};
+  for (const [round, theme] of [[5, 'Levitate'], [6, 'trapping abilities'], [11, 'Fighting'], [20, 'Normal']]) {
+    let up = 0;
+    for (let i = 0; i < N; i++) {
+      G.Tower.setStreak('single', round - 1, 'pyramid');
+      if (await pyramidRun(st, [0, 1, 2], rng)) up++;
+    }
+    later['round ' + round + ' (' + theme + ')'] = up / N;
+  }
+  console.log('[balance] Battle Pyramid, the later themes (Swampert, Gardevoir and Manectric at 50, rounds climbed as above):', JSON.stringify(later));
   assert.deepEqual(st.errors, []);
   assert.ok(table['round 1'] >= 0.6 && table['Brandon (silver)'] >= 0.6, 'normal difficulty');
   assert.ok(!G.PyramidHall.on, 'every challenge ended with the party back');
@@ -4897,7 +4911,10 @@ async function pyramidRun(st, picks, rng) {
     for (let w = 0; w < 2; w++) {
       let r = rng.int(1, 100), row = table.mons[0];
       for (const m of table.mons) if ((r -= m[3]) <= 0) { row = m; break; }
-      await run(st, FLOOR, [['wild', row[0], rng.int(row[1], row[2])]]);
+      // Chapter 109: Emerald's moves and set abilities (and, from round 21, even IVs), as on the real floors.
+      const sp = G.Maps.species(row[0]), lvl = rng.int(row[1], row[2]);
+      const iv = table.evenIvs ? rng.int(table.evenIvs[0], table.evenIvs[1]) : null;
+      await wildFight(st, row[0], lvl, { set: { moves: row[4], ability: row[5] == null ? null : G.SPECIES[sp].ab[row[5]], ivs: iv == null ? null : [iv, iv, iv, iv, iv, iv] } });
       if (st.W.map !== FLOOR) return false;
       tend(G);
     }
@@ -4919,6 +4936,24 @@ function tend(G) {
   useOn(['max-revive', 'revive'], m => m.hp <= 0);
   useOn(['full-restore', 'hyper-potion'], m => m.hp > 0 && m.hp * 2 < G.Mon.maxHp(m));
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
+}
+
+/** Chapter 109 after chapter 108: the Battle Pyramid again with the party's three strongest that may enter, until a round is
+ *  climbed (the ending); its wild Pokémon have Emerald's moves now. */
+async function chapter109(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower, P = G.PyramidHall;
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 3 && !Tw.why(party[i], picks.map(j => party[j]))) picks.push(i);
+  }
+  const n = st.battles.length, rng = G.RNG(109);
+  let tries = 0, up = false, round = 0;
+  while (!up && tries < 15) { tries++; round = Tw.streak('single', 'pyramid') + 1; up = await pyramidRun(st, picks, rng); }
+  console.log('[story] the Battle Pyramid again: round', round, '(the theme of ' + G.Names.mon(G.Maps.species(P.THEMES[(round - 1) % 20][0][0])) + ') climbed,', st.battles.length - n, 'battles in', tries, 'challenge(s)');
+  assert.ok(up, 'a round climbed');
+  assert.ok(F.flag('chapter-109-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
 }
 
 /** Chapter 108 after chapter 107: the Battle Palace's double battle halls with the party's three strongest that may enter,
@@ -6520,4 +6555,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter106(st);
   await chapter107(st);
   await chapter108(st);
+  await chapter109(st);
 });

@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 109) return { title: T('Chapter 109 complete!'),
+      done: fmt('{player} climbed the Battle Pyramid again, where every round now hides wild Pokémon of its own theme.', { player }),
+      next: fmt('Twenty themes wait in the dark, from paralysis to the {type} type. Ask the fortune-teller in the lobby which one comes next.', { type: G.Names.type('normal') }) };
     if (n === 108) return { title: T('Chapter 108 complete!'),
       done: fmt('{player} took on the double battles of the Battle Palace and the Battle Dome, two Pokémon side by side.', { player }),
       next: T('In the Palace\'s double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.') };

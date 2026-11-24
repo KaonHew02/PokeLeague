@@ -234,5 +234,7 @@ G.I18n.add({
   "{mon} can't use items anymore!": "{mon}不能再使用道具了！",
   "{mon} can use items again!": "{mon}又能使用道具了！",
   "{mon} found one {item}!": "{mon}找到了一個{item}！",
-  "{mon} is no longer infatuated!": "{mon}不再著迷了！"
+  "{mon} is no longer infatuated!": "{mon}不再著迷了！",
+  "{mon} is bearing a grudge against its attacker!": "{mon}對攻擊牠的對手懷恨在心！",
+  "{mon}'s {move} lost all its PP because of the grudge!": "{mon}的{move}因為怨念失去了全部 PP！"
 }, "zh-Hant");

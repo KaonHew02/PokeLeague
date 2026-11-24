@@ -11,13 +11,16 @@
  * Each floor (floorPlan) is a 34 x 34 cave, dark, of 4 x 4 sections of 8 x 8 drawn from SECTIONS (every section open in
  * the middle of each side, so the floor is all one piece): the start and the ladder up in two different sections, four
  * Trainers of one Pokémon each (the Battle Tower's, by round, at TRAINER_LEVEL), three items from the round's list, and wild Pokémon of
- * the challenge's theme (THEMES: paralysis, poison, burn, in turn). Every battle won lights a tile more around the
+ * the challenge's theme (THEMES: Emerald's twenty, in turn, with their moves: chapter 109; a fortune-teller in the lobby tells the next one). Every battle won lights a tile more around the
  * player (G.World.brighten, back to dark on the next floor); a beaten Trainer tells how many Trainers and items are
  * left. The ladder leads to a landing: on up, or retire. Seven floors make a round: Battle Points (G.Tower.bpFor),
  * shared with the Tower's Exchange Service Corner, and the streak (rounds in a row, G.Tower.streak('single', 'pyramid')).
  * All three down ends the challenge. Brandon, the Pyramid King, waits at the top of the 3rd round (the Silver Brave
  * Symbol) and the 10th (the Gold) with his teams from Emerald, a little below level 50, and restores your team first.
  * The first round climbed once chapter 82 is done ends the chapter: `ending(83)`.
+ * Chapter 109: Emerald's twenty themes with their moves and abilities (THEMES; field.js drawWild), even IVs from round 21; a
+ * fortune-teller in the lobby (pyramid.fortune, Emerald's hint giver: GetBattlePyramidHint) tells the coming round's theme;
+ * the first round climbed once chapter 108 is done ends the chapter: `ending(109)`.
  * Normal difficulty (after chapter 83): Emerald's Pyramid, with Trainers at 50 and no rest, let the typical team climb
  * round 1 two times in five and round 2 never; hence TRAINER_LEVEL, the rest and Brandon's levels.
  */
@@ -48,7 +51,8 @@
     signs: { '13,1': { script: 'pyramid.door' } },
     npcs: [
       { id: 'single', who: 'clerk', x: 7, y: 2, dir: 'down', script: 'pyramid.single' },
-      { id: 'guide', who: 'ranger', x: 2, y: 6, dir: 'right', script: 'pyramid.guide' }
+      { id: 'guide', who: 'ranger', x: 2, y: 6, dir: 'right', script: 'pyramid.guide' },
+      { id: 'fortune', who: 'granny', x: 12, y: 6, dir: 'left', script: 'pyramid.fortune' }                // chapter 109
     ]
   }, HOENN));
 
@@ -96,15 +100,197 @@
   ];
   const SIZE = 34;                             // 4 x 4 sections and a wall all round
 
-  // The wild Pokémon of a challenge, by theme (Emerald's first three; level value - 5 to + 5), the first two most often.
+  // The wild Pokémon of a challenge, by theme: Emerald's twenty (src/data/battle_frontier/battle_pyramid_level_50_wild_mons.h,
+  // chapter 109; the first three since chapter 83): [species, level value (-5 to +5), moves, ability slot when set], the first two
+  // most often. Round 21 on (twenty rounds in a row) starts again with even IVs of 15 to 31 (GenerateBattlePyramidWildMon).
   const THEMES = [
-    [['plusle', 35], ['minun', 35], ['pikachu', 37], ['electabuzz', 37], ['vileplume', 39], ['manectric', 39], ['breloom', 40], ['jolteon', 40]],
-    [['gulpin', 36], ['roselia', 36], ['butterfree', 38], ['seviper', 38], ['skarmory', 40], ['ludicolo', 40], ['crobat', 41], ['gengar', 41]],
-    [['growlithe', 37], ['vulpix', 37], ['magcargo', 39], ['ninetales', 39], ['medicham', 41], ['weezing', 41], ['dusclops', 42], ['houndoom', 42]]
+    // 1: paralysis
+    [['plusle', 35, ['thunder-wave', 'spark', 'encore']],
+     ['minun', 35, ['thunder-wave', 'thunderbolt', 'quick-attack']],
+     ['pikachu', 37, ['thunder-wave', 'thunderbolt', 'slam']],
+     ['electabuzz', 37, ['thunder-punch', 'swift', 'screech']],
+     ['vileplume', 39, ['stun-spore', 'giga-drain', 'protect']],
+     ['manectric', 39, ['thunder-wave', 'thunder', 'quick-attack']],
+     ['breloom', 40, ['stun-spore', 'focus-punch', 'giga-drain', 'mach-punch']],
+     ['jolteon', 40, ['thunder-wave', 'thunder', 'pin-missile', 'quick-attack']]],
+    // 2: poison
+    [['gulpin', 36, ['toxic', 'sludge', 'protect']],
+     ['roselia', 36, ['toxic', 'giga-drain', 'magical-leaf', 'petal-dance']],
+     ['butterfree', 38, ['poison-powder', 'gust', 'psybeam']],
+     ['seviper', 38, ['poison-fang', 'swagger', 'crunch', 'poison-tail']],
+     ['skarmory', 40, ['toxic', 'fly', 'steel-wing']],
+     ['ludicolo', 40, ['toxic', 'protect', 'dive', 'rain-dance'], 1],
+     ['crobat', 41, ['toxic', 'confuse-ray', 'mean-look', 'bite']],
+     ['gengar', 41, ['toxic', 'shadow-punch', 'night-shade']]],
+    // 3: burn
+    [['growlithe', 37, ['flame-wheel', 'take-down']],
+     ['vulpix', 37, ['will-o-wisp', 'flamethrower']],
+     ['magcargo', 39, ['flamethrower', 'rock-slide', 'protect'], 1],
+     ['ninetales', 39, ['will-o-wisp', 'quick-attack', 'flamethrower']],
+     ['medicham', 41, ['fire-punch', 'high-jump-kick']],
+     ['weezing', 41, ['will-o-wisp', 'flamethrower', 'protect']],
+     ['dusclops', 42, ['will-o-wisp', 'confuse-ray', 'mean-look', 'shadow-punch']],
+     ['houndoom', 42, ['flamethrower', 'bite', 'solar-beam', 'overheat']]],
+    // 4: PP drained (Spite, Grudge)
+    [['dunsparce', 42, ['spite', 'toxic', 'protect']],
+     ['banette', 41, ['grudge', 'will-o-wisp', 'night-shade']],
+     ['misdreavus', 42, ['grudge', 'spite', 'shadow-ball']],
+     ['ninetales', 42, ['grudge', 'will-o-wisp', 'overheat']],
+     ['absol', 44, ['bite', 'aerial-ace', 'shadow-ball', 'protect']],
+     ['dusclops', 44, ['will-o-wisp', 'protect', 'toxic', 'shadow-ball']],
+     ['shedinja', 45, ['grudge', 'toxic', 'spite']],
+     ['gengar', 45, ['grudge', 'spite', 'night-shade']]],
+    // 5: Levitate
+    [['haunter', 41, ['night-shade', 'thunderbolt', 'sludge-bomb']],
+     ['chimecho', 41, ['double-edge', 'toxic', 'psychic', 'protect']],
+     ['solrock', 42, ['earthquake', 'rock-slide', 'fire-blast', 'toxic']],
+     ['misdreavus', 42, ['psychic', 'spite', 'shadow-ball', 'pain-split']],
+     ['claydol', 44, ['earthquake', 'ancient-power', 'self-destruct', 'psychic']],
+     ['weezing', 44, ['sludge-bomb', 'self-destruct', 'protect']],
+     ['flygon', 45, ['earthquake', 'crunch', 'dragon-claw', 'dragon-breath']],
+     ['gengar', 45, ['thunderbolt', 'psychic', 'giga-drain', 'night-shade']]],
+    // 6: abilities that trap (Arena Trap, Shadow Tag)
+    [['diglett', 41, ['rock-slide', 'slash', 'dig']],
+     ['trapinch', 41, ['rock-slide', 'earthquake', 'giga-drain']],
+     ['wynaut', 42, ['destiny-bond', 'splash', 'counter', 'mirror-coat'], 0],
+     ['diglett', 42, ['earthquake', 'rock-slide', 'magnitude', 'toxic']],
+     ['trapinch', 44, ['rock-slide', 'earthquake', 'giga-drain', 'protect']],
+     ['wynaut', 44, ['counter', 'mirror-coat', 'destiny-bond'], 0],
+     ['wobbuffet', 45, ['counter', 'mirror-coat', 'destiny-bond'], 0],
+     ['dugtrio', 45, ['rock-slide', 'sludge-bomb', 'earthquake', 'protect'], 1]],
+    // 7: ice
+    [['glalie', 41, ['ice-beam', 'crunch', 'protect']],
+     ['sneasel', 41, ['ice-beam', 'crush-claw', 'spite']],
+     ['dewgong', 42, ['blizzard', 'double-edge', 'surf']],
+     ['piloswine', 42, ['ice-beam', 'earthquake', 'toxic']],
+     ['jynx', 44, ['blizzard', 'lovely-kiss', 'psychic']],
+     ['cloyster', 44, ['ice-beam', 'surf', 'protect']],
+     ['walrein', 45, ['blizzard', 'body-slam', 'surf']],
+     ['lapras', 45, ['sing', 'body-slam', 'ice-beam', 'psychic']]],
+    // 8: Self-Destruct and Explosion
+    [['weezing', 41, ['self-destruct', 'sludge-bomb', 'fire-blast']],
+     ['electrode', 41, ['self-destruct', 'thunderbolt', 'rollout']],
+     ['gengar', 42, ['destiny-bond', 'lick', 'shadow-ball']],
+     ['golem', 42, ['self-destruct', 'protect', 'earthquake']],
+     ['pineco', 44, ['explosion', 'double-edge', 'giga-drain']],
+     ['solrock', 44, ['explosion', 'fire-spin', 'psywave']],
+     ['forretress', 45, ['explosion', 'toxic', 'rock-slide']],
+     ['shiftry', 45, ['explosion', 'giga-drain', 'solar-beam', 'protect']]],
+    // 9: Psychic
+    [['wobbuffet', 41, ['counter', 'mirror-coat', 'safeguard', 'destiny-bond']],
+     ['metang', 41, ['earthquake', 'toxic', 'sludge-bomb', 'psychic']],
+     ['exeggutor', 42, ['egg-bomb', 'psychic', 'hypnosis']],
+     ['slowking', 42, ['shadow-ball', 'surf', 'ice-beam', 'flamethrower']],
+     ['xatu', 44, ['confuse-ray', 'shadow-ball', 'psychic', 'steel-wing']],
+     ['alakazam', 44, ['psychic', 'fire-punch', 'ice-punch', 'toxic']],
+     ['starmie', 45, ['psychic', 'thunderbolt', 'surf', 'ice-beam']],
+     ['espeon', 45, ['psychic', 'dig', 'shadow-ball']]],
+    // 10: Rock
+    [['golem', 41, ['self-destruct', 'earthquake', 'protect']],
+     ['steelix', 41, ['iron-tail', 'crunch', 'earthquake']],
+     ['omastar', 42, ['surf', 'mud-shot', 'ancient-power']],
+     ['lunatone', 42, ['hypnosis', 'psywave', 'explosion']],
+     ['shuckle', 44, ['toxic', 'protect', 'wrap']],
+     ['armaldo', 44, ['ancient-power', 'protect', 'aerial-ace']],
+     ['cradily', 45, ['sludge-bomb', 'giga-drain', 'confuse-ray']],
+     ['aerodactyl', 45, ['hyper-beam', 'rock-slide', 'bite']]],
+    // 11: Fighting
+    [['poliwrath', 41, ['submission', 'focus-punch', 'surf']],
+     ['hariyama', 41, ['fake-out', 'surf', 'focus-punch']],
+     ['breloom', 42, ['spore', 'focus-punch', 'protect']],
+     ['medicham', 42, ['thunder-punch', 'fire-punch', 'ice-punch', 'focus-punch']],
+     ['hitmonchan', 44, ['thunder-punch', 'fire-punch', 'ice-punch', 'focus-punch']],
+     ['hitmonlee', 44, ['mega-kick', 'focus-punch']],
+     ['heracross', 45, ['megahorn', 'earthquake', 'focus-punch', 'rock-slide']],
+     ['machamp', 50, ['rock-slide', 'earthquake', 'focus-punch', 'seismic-toss']]],
+    // 12: weather
+    [['quagsire', 41, ['rain-dance', 'surf', 'protect']],
+     ['tropius', 41, ['sunny-day', 'solar-beam']],
+     ['pupitar', 42, ['sandstorm', 'earthquake', 'rock-slide']],
+     ['lapras', 42, ['hail', 'ice-beam']],
+     ['cacturne', 44, ['sandstorm', 'giga-drain', 'solar-beam']],
+     ['flareon', 44, ['sunny-day', 'flamethrower', 'protect']],
+     ['walrein', 45, ['hail', 'ice-beam']],
+     ['gyarados', 50, ['rain-dance', 'thunder', 'hydro-pump']]],
+    // 13: Bug
+    [['pineco', 42, ['explosion', 'take-down']],
+     ['shuckle', 42, ['toxic', 'earthquake', 'protect']],
+     ['venomoth', 46, ['silver-wind', 'poison-powder', 'sleep-powder', 'psychic']],
+     ['scizor', 46, ['quick-attack', 'metal-claw', 'fury-cutter', 'pursuit']],
+     ['heracross', 48, ['megahorn', 'brick-break', 'earthquake', 'rock-slide']],
+     ['forretress', 48, ['explosion', 'earthquake', 'protect']],
+     ['armaldo', 50, ['water-pulse', 'protect', 'rock-slide']],
+     ['shedinja', 50, ['shadow-ball', 'toxic', 'spite', 'grudge']]],
+    // 14: Dark
+    [['sableye', 42, ['night-shade', 'psychic', 'aerial-ace']],
+     ['sneasel', 42, ['ice-beam', 'taunt', 'feint-attack', 'quick-attack']],
+     ['crawdaunt', 46, ['crabhammer', 'ice-beam', 'surf']],
+     ['shiftry', 46, ['explosion', 'shadow-ball', 'aerial-ace', 'giga-drain']],
+     ['cacturne', 48, ['toxic', 'giga-drain', 'needle-arm']],
+     ['absol', 48, ['bite', 'protect', 'slash']],
+     ['houndoom', 50, ['overheat', 'crunch', 'shadow-ball', 'protect']],
+     ['umbreon', 50, ['psychic', 'shadow-ball', 'iron-tail', 'quick-attack']]],
+    // 15: Water
+    [['octillery', 42, ['octazooka', 'ice-beam', 'fire-blast']],
+     ['dewgong', 42, ['water-pulse', 'ice-beam', 'headbutt']],
+     ['pelipper', 46, ['protect', 'supersonic', 'surf']],
+     ['quagsire', 46, ['earthquake', 'rock-tomb', 'surf']],
+     ['ludicolo', 48, ['protect', 'solar-beam', 'toxic', 'ice-beam']],
+     ['slowking', 48, ['psychic', 'headbutt', 'swagger']],
+     ['starmie', 50, ['water-pulse', 'thunderbolt', 'confuse-ray', 'blizzard']],
+     ['blastoise', 50, ['hydro-pump', 'bite', 'ice-beam']]],
+    // 16: Ghost
+    [['duskull', 42, ['night-shade', 'will-o-wisp', 'shadow-ball', 'protect']],
+     ['haunter', 42, ['toxic', 'spite', 'hypnosis', 'shadow-ball']],
+     ['banette', 46, ['shadow-ball', 'spite', 'will-o-wisp']],
+     ['misdreavus', 46, ['perish-song', 'spite', 'mean-look']],
+     ['sableye', 48, ['shadow-ball', 'mean-look', 'dig', 'night-shade']],
+     ['dusclops', 48, ['will-o-wisp', 'toxic', 'shadow-ball']],
+     ['shedinja', 50, ['shadow-ball', 'spite', 'grudge', 'protect']],
+     ['gengar', 50, ['psychic', 'destiny-bond', 'spite', 'night-shade']]],
+    // 17: Steel
+    [['mawile', 42, ['crunch', 'toxic', 'ice-beam']],
+     ['magneton', 42, ['thunderbolt', 'thunder-wave']],
+     ['steelix', 46, ['rock-throw', 'double-edge', 'earthquake']],
+     ['scizor', 46, ['metal-claw', 'slash']],
+     ['forretress', 48, ['explosion', 'toxic']],
+     ['skarmory', 48, ['steel-wing', 'toxic', 'fly', 'protect']],
+     ['aggron', 50, ['earthquake', 'take-down', 'surf', 'ice-beam']],
+     ['metagross', 50, ['earthquake', 'psychic', 'shadow-ball', 'brick-break']]],
+    // 18: Flying and Dragon
+    [['dragonair', 42, ['thunder-wave', 'toxic', 'ice-beam']],
+     ['vibrava', 42, ['earthquake', 'dragon-breath', 'crunch', 'steel-wing']],
+     ['altaria', 46, ['earthquake', 'dragon-claw', 'sing', 'protect']],
+     ['flygon', 46, ['earthquake', 'dragon-claw', 'fire-blast']],
+     ['aerodactyl', 48, ['earthquake', 'rock-slide', 'dragon-claw']],
+     ['gyarados', 48, ['earthquake', 'surf', 'thrash', 'bite']],
+     ['kingdra', 50, ['hydro-pump', 'ice-beam', 'protect']],
+     ['charizard', 50, ['flamethrower', 'focus-punch', 'fire-blast', 'iron-tail']]],
+    // 19: evolved by a stone
+    [['arcanine', 42, ['fire-blast', 'take-down']],
+     ['poliwrath', 42, ['hydro-pump', 'ice-beam']],
+     ['raichu', 46, ['thunder', 'thunder-wave', 'slam']],
+     ['vaporeon', 46, ['surf', 'ice-beam']],
+     ['jolteon', 48, ['thunderbolt', 'pin-missile']],
+     ['flareon', 48, ['flamethrower', 'bite']],
+     ['ninetales', 50, ['flamethrower', 'will-o-wisp', 'protect']],
+     ['starmie', 50, ['ice-beam', 'surf', 'thunderbolt', 'psychic']]],
+    // 20: Normal
+    [['kangaskhan', 42, ['hyper-beam', 'flamethrower', 'surf', 'dizzy-punch']],
+     ['swellow', 42, ['aerial-ace', 'hyper-beam', 'toxic']],
+     ['ursaring', 46, ['hyper-beam', 'earthquake', 'focus-punch', 'protect']],
+     ['porygon2', 46, ['psybeam', 'hyper-beam', 'shadow-ball', 'ice-beam']],
+     ['tauros', 48, ['earthquake', 'hyper-beam', 'surf', 'thunderbolt']],
+     ['fearow', 48, ['hyper-beam', 'fly', 'mirror-move', 'protect']],
+     ['snorlax', 50, ['hyper-beam', 'body-slam', 'shadow-ball', 'earthquake']],
+     ['slaking', 50, ['hyper-beam', 'earthquake', 'shadow-ball', 'ice-beam']]]
   ];
   const CHANCE = [20, 20, 15, 15, 10, 10, 5, 5];
   const themeOf = round => THEMES[(round - 1) % THEMES.length];
-  const wildTable = round => ({ rate: 7, mons: themeOf(round).map(([sp, v], i) => [sp, v - 5, v + 5, CHANCE[i]]) });
+  /** The encounter table of a round's floors: [sp, min, max, chance %, moves, ability slot] (field.js drawWild gives the wild
+   *  Pokémon those moves and that ability); round 21 on, `evenIvs` (all six IVs one value of 15 to 31). */
+  const wildTable = round => Object.assign({ rate: 7, mons: themeOf(round).map(([sp, v, moves, slot], i) => [sp, v - 5, v + 5, CHANCE[i], moves, slot == null ? null : slot]) },
+    round > THEMES.length ? { evenIvs: [15, 31] } : {});
 
   // What lies on the floors (Emerald's kinds, only those the game has), by weight.
   const FINDS = [['hyper-potion', 24], ['x-attack', 4], ['x-defense', 4], ['x-speed', 4], ['x-sp-atk', 4], ['x-accuracy', 3], ['dire-hit', 3],
@@ -313,10 +499,43 @@
     await h.say(T('{player} earned {n} BP!'), { vars: { n: bp } });
     const dropped = swapOut();
     await leave(h, dropped);
-    // The end of the eighty-third chapter (credits-ui.js), once the eighty-second is done.
+    // The end of the eighty-third chapter (credits-ui.js), once the eighty-second is done; of the 109th, once the 108th is.
     if (F.flag('chapter-82-done') && !F.flag('chapter-83-done')) {
       if (G.CreditsUI) G.CreditsUI.ending(83); else F.setFlag('chapter-83-done');
+    } else if (F.flag('chapter-108-done') && !F.flag('chapter-109-done')) {
+      if (G.CreditsUI) G.CreditsUI.ending(109); else F.setFlag('chapter-109-done');
     }
+  }
+
+  /** Chapter 109, Emerald's hint giver: the theme of the round about to be climbed (rounds in a row, of twenty). */
+  const ty = id => G.Names.type(id);
+  const FORTUNES = () => [
+    T('A tingling, a crackle... The wild Pokémon ahead will try to leave yours unable to move. Paralysis!'),
+    T('A sickly purple haze... The wild Pokémon ahead carry poison. Beware!'),
+    T('Flames, so many flames... The wild Pokémon ahead will try to burn yours.'),
+    T('I see moves running dry... The wild Pokémon ahead love to drain your moves of their PP.'),
+    fmt('Something floating, never touching the ground... The wild Pokémon ahead do not fear {type}-type moves.', { type: ty('ground') }),
+    T('A trap that will not let go... Some wild Pokémon ahead will not let yours run away.'),
+    T('A bitter chill... The wild Pokémon ahead bring the cold, and may freeze yours solid.'),
+    T('A flash, a roar... Some wild Pokémon ahead would rather blow themselves up than lose.'),
+    T('A mind reaching into yours... The wild Pokémon ahead wield psychic power.'),
+    fmt('Hard, heavy stone... {type}-type Pokémon wait in the dark ahead.', { type: ty('rock') }),
+    fmt('Fists and fury... {type}-type Pokémon wait in the dark ahead.', { type: ty('fighting') }),
+    T('Rain, sun, sand, hail... The wild Pokémon ahead will change the weather to suit themselves.'),
+    fmt('A buzzing, a skittering... {type}-type Pokémon wait in the dark ahead.', { type: ty('bug') }),
+    fmt('A shadow within the shadows... {type}-type Pokémon wait ahead.', { type: ty('dark') }),
+    fmt('The sound of waves, deep in the desert... {type}-type Pokémon wait ahead.', { type: ty('water') }),
+    fmt('Cold breath on your neck... {type}-type Pokémon haunt the dark ahead.', { type: ty('ghost') }),
+    fmt('The gleam of metal... {type}-type Pokémon wait ahead.', { type: ty('steel') }),
+    fmt('Wings, and scales... {a}- and {b}-type Pokémon wait ahead.', { a: ty('flying'), b: ty('dragon') }),
+    T('I see stones that changed the ones who touched them... The wild Pokémon ahead evolved by a stone.'),
+    fmt('Nothing strange at all... Plain {type}-type Pokémon wait ahead. Do not let your guard down!', { type: ty('normal') })
+  ];
+  async function fortune(h) {
+    const k = G.Tower.streak('single', HALL) % THEMES.length, who = { name: 'Fortune-teller' };
+    await h.say(T('Let me read what waits for you in the Pyramid...'), who);
+    await h.say(FORTUNES()[k], who);
+    await h.say(T('Believe it or not, as you like. The dark keeps its own secrets.'), who);
   }
 
   /** All three down (the floors' onLose, or at the top). */
@@ -340,6 +559,7 @@
     'pyramid.lost': [['js', lose]],
     'pyramid.won': [['js', () => { if (G.World && G.World.brighten) G.World.brighten(1); }]],
     'pyramid.hint': [['js', hint]],
+    'pyramid.fortune': [['js', fortune]],
     'pyramid.door': [['say', 'The door to the battle room. Challengers must register at the counter first.']],
     'pyramid.ladder': [['say', 'The ladder leads up into the dark.']],
     'pyramid.guide': [
@@ -348,6 +568,6 @@
       ['say', 'They say the Pyramid King waits at the very top for Trainers who climb three times in a row.']
     ]
   });
-  G.PyramidHall = { SECTIONS, THEMES, FINDS, KING, SIZE, FLOORS, TRAINER_LEVEL, rest, floorPlan, defineFloor, wildTable, themeOf, loadBag, keepBag,
+  G.PyramidHall = { SECTIONS, THEMES, FINDS, KING, SIZE, FLOORS, TRAINER_LEVEL, rest, floorPlan, defineFloor, wildTable, themeOf, loadBag, keepBag, FORTUNES,
                     get state() { return state; }, get on() { return !!stash; }, plan: null };
 })();

@@ -8609,3 +8609,47 @@ test('the Battle Palace\'s and the Battle Dome\'s double battles (chapter 108): 
   assert.ok(fights.every(f => f.mine === 2 && f.foes === 2 && f.rules.double && !f.rules.palace));
   assert.deepEqual([Tw.streak('double', 'dome'), Tw.streak('single', 'dome')], [1, 0]);
 });
+
+test('the Battle Pyramid\'s twenty themes (chapter 109): its wild Pokémon with Emerald\'s moves and abilities, even IVs from round 21, the fortune-teller', async () => {
+  const { G, W } = world(['js/world/tower.js', 'js/content/hoenn/tower.js', 'js/content/hoenn/pyramid.js']);
+  const F = G.Field, P = G.PyramidHall, Tw = G.Tower;
+  F.giveMon('swampert', 50);
+  const met = [];
+  W.onEncounter = null;
+  G.BattleUI = { wild: (me, sp, lvl, o) => { met.push({ sp, lvl, o }); return Promise.resolve({ outcome: 'run' }); } };
+  /** A wild Pokémon on the first floor of a round (Honey: at once, whatever the rate). */
+  const meet = async round => {
+    const plan = P.floorPlan(round, 1, 5);
+    P.defineFloor(plan);
+    W.load('battle-pyramid-floor', { x: plan.start[0], y: plan.start[1], dir: 'down' });
+    await W.sweetScent(null, 'honey');
+    return met[met.length - 1];
+  };
+  for (const round of [1, 6, 11, 20]) {
+    for (let i = 0; i < 6; i++) {
+      // A species may come twice in a round with other moves (round 6: two Wynaut, two Diglett, two Trapinch): one row fits.
+      const w = await meet(round), rows = P.wildTable(round).mons.filter(m => G.Maps.species(m[0]) === w.sp);
+      assert.ok(rows.length, 'round ' + round + ': one of its eight');
+      const fits = r => JSON.stringify(plain(w.o.moves)) === JSON.stringify(plain(r[4])) && w.lvl >= r[1] && w.lvl <= r[2]
+        && w.o.ability === (r[5] == null ? undefined : G.SPECIES[w.sp].ab[r[5]]);
+      assert.ok(rows.some(fits), "Emerald's moves, ability and level: " + JSON.stringify(plain([w.sp, w.lvl, w.o.moves, w.o.ability])));
+      assert.ok(!w.o.ivs);
+    }
+  }
+  // Round 21: the paralysis Pokémon again, with even IVs of 15 to 31.
+  for (let i = 0; i < 6; i++) {
+    const w = await meet(21);
+    assert.ok(P.THEMES[0].some(r => G.Maps.species(r[0]) === w.sp));
+    assert.ok(w.o.ivs.every(v => v === w.o.ivs[0]) && w.o.ivs[0] >= 15 && w.o.ivs[0] <= 31, JSON.stringify(w.o.ivs));
+  }
+  // The fortune-teller: the theme of the round about to be climbed.
+  const said = [];
+  G.Dialog.say = text => { said.push(text); return Promise.resolve(); };
+  W.load('battle-pyramid-lobby', { x: 11, y: 6, dir: 'right' });
+  for (const [streak, k] of [[0, 0], [4, 4], [19, 19], [20, 0], [27, 7]]) {
+    Tw.setStreak('single', streak, 'pyramid');
+    said.length = 0;
+    await W.runScript('pyramid.fortune', {});
+    assert.ok(said.some(t => t === P.FORTUNES()[k]), 'streak ' + streak);
+  }
+});

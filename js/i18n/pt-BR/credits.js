@@ -305,5 +305,8 @@ G.I18n.add({
   "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "A {blue}, a {yellow} e a {red} curam sono, confusão e paixão em batalha e nunca se gastam. A {white} atrai mais Pokémon selvagens, a {black} menos.",
   "Chapter 108 complete!": "Capítulo 108 concluído!",
   "{player} took on the double battles of the Battle Palace and the Battle Dome, two Pokémon side by side.": "{player} encarou as batalhas duplas do Battle Palace e do Battle Dome, com dois Pokémon lado a lado.",
-  "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "Nos salões de batalhas duplas do Palace, cada Pokémon também escolhe quem atacar: uns vão no adversário mais forte, outros no mais fraco. Os líderes desses lugares só batalham em individuais."
+  "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "Nos salões de batalhas duplas do Palace, cada Pokémon também escolhe quem atacar: uns vão no adversário mais forte, outros no mais fraco. Os líderes desses lugares só batalham em individuais.",
+  "Chapter 109 complete!": "Capítulo 109 concluído!",
+  "{player} climbed the Battle Pyramid again, where every round now hides wild Pokémon of its own theme.": "{player} escalou de novo a Battle Pyramid, onde cada rodada agora esconde Pokémon selvagens de um tema próprio.",
+  "Twenty themes wait in the dark, from paralysis to the {type} type. Ask the fortune-teller in the lobby which one comes next.": "Vinte temas esperam no escuro, da paralisia ao tipo {type}. Pergunte à vidente do saguão qual vem a seguir."
 }, "pt-BR");

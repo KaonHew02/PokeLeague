@@ -305,5 +305,8 @@ G.I18n.add({
   "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "{blue}、{yellow}和{red}在對戰中能治好睡眠、混亂和著迷，而且永遠不會用完。{white}讓野生寶可夢變多，{black}讓它們變少。",
   "Chapter 108 complete!": "第 108 章完成！",
   "{player} took on the double battles of the Battle Palace and the Battle Dome, two Pokémon side by side.": "{player}挑戰了對戰宮殿和對戰巨蛋的雙打，兩隻寶可夢並肩作戰。",
-  "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "在宮殿的雙打大廳，每隻寶可夢還會自己決定攻擊誰：有的專挑較強的對手，有的專挑較弱的。這兩處的頭目只接受單打挑戰。"
+  "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "在宮殿的雙打大廳，每隻寶可夢還會自己決定攻擊誰：有的專挑較強的對手，有的專挑較弱的。這兩處的頭目只接受單打挑戰。",
+  "Chapter 109 complete!": "第 109 章完成！",
+  "{player} climbed the Battle Pyramid again, where every round now hides wild Pokémon of its own theme.": "{player}再次登上了對戰金字塔，現在每一輪都藏著各自主題的野生寶可夢。",
+  "Twenty themes wait in the dark, from paralysis to the {type} type. Ask the fortune-teller in the lobby which one comes next.": "黑暗中有二十種主題在等著，從麻痺到{type}屬性。問問大廳的占卜師下一輪是哪一種吧。"
 }, "zh-Hant");

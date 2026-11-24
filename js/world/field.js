@@ -838,7 +838,12 @@ G.World = (() => {
     const sp = M().species(pick[0]);
     // Chapter 98: Hustle, Vital Spirit and Pressure: the highest level half the time.
     const lvl = FA ? FA.level(ab, pick, rng) : rng.int(pick[1], pick[2]);
-    return { sp, lvl, method, map: map.id, area: typeof map.encounters[method] === 'string' ? map.encounters[method].slice(1) : null };
+    const w = { sp, lvl, method, map: map.id, area: typeof map.encounters[method] === 'string' ? map.encounters[method].slice(1) : null };
+    // Chapter 109 (the Battle Pyramid's tables): a row's own moves and ability slot; a table's even IVs (one value for all six).
+    if (pick[4]) w.moves = pick[4];
+    if (pick[5] != null && G.SPECIES[sp] && G.SPECIES[sp].ab && G.SPECIES[sp].ab[pick[5]]) w.ability = G.SPECIES[sp].ab[pick[5]];
+    if (table.evenIvs) { const v = rng.int(table.evenIvs[0], table.evenIvs[1]); w.ivs = [v, v, v, v, v, v]; }
+    return w;
   }
 
   /** Chapter 102: someone walking beside you (the map's `ally`; Platinum's partner): wild battles are fought beside them. */
@@ -990,6 +995,8 @@ G.World = (() => {
         if (/-rod$/.test(wild.method)) o.rules.fishing = true;
         if (wild.form) o.form = wild.form;
         if (wild.moves) o.moves = wild.moves;
+        if (wild.ability) o.ability = wild.ability;              // chapter 109: the Battle Pyramid's set abilities
+        if (wild.ivs) o.ivs = wild.ivs;
         if (wild.shiny) o.shinyOdds = 1;
         if (wild.nature) o.nature = wild.nature;                 // Synchronize (chapter 98)
         if (wild.gender) o.gender = wild.gender;                 // Cute Charm

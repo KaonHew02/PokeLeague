@@ -199,7 +199,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           'azure-flute', 'soothe-bell', 'macho-brace',
                                           # Chapter 105: the special balls of Generations 3 and 4.
                                           'net-ball', 'dive-ball', 'nest-ball', 'repeat-ball', 'timer-ball', 'luxury-ball', 'premier-ball',
-                                          'dusk-ball', 'heal-ball', 'quick-ball'],
+                                          'dusk-ball', 'heal-ball', 'quick-ball',
+                                          # Chapter 106: the Poke Radar (Professor Rowan, after the National Pokedex).
+                                          'poke-radar'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.
@@ -415,9 +417,11 @@ def loc_extra(slug):
 
 
 # Encounter slots that need a swarm or the radio (HeartGold): left out. Times of day kept apart.
+# Platinum's Poke Radar (chapter 106): its slots ('radar-on') make the area's `radar` table, the walking table with the
+# slots they replace ('radar-off') taken out (wild_encounters.c: a patch that shakes hard); `walk` stays without them.
 SKIP_CONDITIONS = {'swarm-yes', 'radio-hoenn', 'radio-sinnoh',
-                   # Platinum: the Poké Radar and a Game Boy Advance game in the second slot
-                   'radar-on', 'slot2-ruby', 'slot2-sapphire', 'slot2-emerald', 'slot2-firered', 'slot2-leafgreen'}
+                   # Platinum: a Game Boy Advance game in the second slot
+                   'slot2-ruby', 'slot2-sapphire', 'slot2-emerald', 'slot2-firered', 'slot2-leafgreen'}
 TIMES = ['morning', 'day', 'night']
 
 # Trade evolutions become level evolutions (there is no trading).
@@ -844,8 +848,19 @@ def build(region):
                     if conds & SKIP_CONDITIONS:
                         continue                   # swarms, the radio: not in this game
                     time = next((t for t in TIMES if 'time-' + t in conds), None)
-                    by_v.setdefault(vd['version']['name'], {}).setdefault(ed['method']['name'], []).append(
-                        (dex, ed['min_level'], ed['max_level'], ed['chance'], time))
+                    meth, row = ed['method']['name'], (dex, ed['min_level'], ed['max_level'], ed['chance'], time)
+                    vm = by_v.setdefault(vd['version']['name'], {})
+                    if 'radar-on' in conds:        # chapter 106: the Poke Radar's own slots
+                        if meth == 'walk':
+                            vm.setdefault(' radar-on', []).append(row)
+                        continue
+                    vm.setdefault(meth, []).append(row)
+                    if meth == 'walk' and 'radar-off' not in conds:
+                        vm.setdefault(' radar-base', []).append(row)
+        for vm in by_v.values():
+            base, on = vm.pop(' radar-base', []), vm.pop(' radar-on', [])
+            if on:
+                vm['radar'] = base + on
         # A place with no table in its region's versions (Routes 26 and 27 count as Kanto, but only
         # HeartGold has them) takes one from the other regions' versions.
         others = [v for _, vs in cfg['regions'] for v in vs if v not in loc_vers[loc]]
@@ -858,6 +873,8 @@ def build(region):
             for vd in r['version_details']:
                 if vd['version']['name'] == ver:
                     rates[r['encounter_method']['name']] = vd['rate']
+        if 'walk' in rates:
+            rates['radar'] = rates['walk']
         methods = {}
         for meth, slots in by_v[ver].items():
             # One table per time of day (HeartGold's grass has morning, day and night slots).
@@ -911,6 +928,7 @@ def build(region):
           + nested('G.NAMES', names))
     write('encounters.js', head('Wild Pokémon per location area: { loc, ver, <method>: { rate, mons: [[dex, min, max, chance %]] } }.\n'
                                 ' * Methods: walk (tall grass / caves), surf, old-rod, good-rod, super-rod, rock-smash...\n'
+                                ' * radar (Platinum): the walking table while a Poke Radar patch shakes hard (chapter 106).\n'
                                 ' * Johto tables may add `morning` and `night` slot lists (`mons` is the daytime one).')
           + obj('G.ENCOUNTERS', dict(sorted(ENC.items()))))
     write('dex-text.js', head('Pokédex entries and move / item descriptions, one column per language (G.NAMES.langs order).')

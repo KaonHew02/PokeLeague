@@ -271,6 +271,7 @@ G.ITEMS = {
   "dusk-ball": {"id":13,"pocket":"balls","cat":"special-balls"},
   "heal-ball": {"id":14,"pocket":"balls","cat":"special-balls"},
   "quick-ball": {"id":15,"pocket":"balls","cat":"special-balls"},
+  "poke-radar": {"id":408,"pocket":"key","cat":"gameplay"},
   hm01: {"id":397,"pocket":"tms","cat":"all-machines","move":"cut"},
   hm02: {"id":398,"pocket":"tms","cat":"all-machines","move":"fly"},
   hm03: {"id":399,"pocket":"tms","cat":"all-machines","move":"surf"},

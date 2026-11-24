@@ -216,5 +216,6 @@ G.I18n.add({
   "Ribbons": "Cintas",
   "Contest": "Concurso",
   "{mon} is too tired to use that.": "{mon} está demasiado cansado para usar eso.",
-  "You bought so many, so here is a {item} as a little extra!": "Como has comprado tantas, ¡aquí tienes una {item} de regalo!"
+  "You bought so many, so here is a {item} as a little extra!": "Como has comprado tantas, ¡aquí tienes una {item} de regalo!",
+  "You can't use that while someone is walking with you.": "No puedes usar eso mientras alguien te acompaña."
 }, "es");

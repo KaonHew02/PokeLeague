@@ -85,6 +85,39 @@ G.WorldRender = (() => {
     list.push({ y: after + 0.02, draw: c => c.drawImage(tuft, x * TS, (y + 1) * TS - tuft.height * G.Sprites.PX, TS, tuft.height * G.Sprites.PX) });
   }
 
+  /** Chapter 106: a Poké Radar patch while it shakes: its tuft of grass swaying (gently, or hard with leaves thrown up), or
+   *  sparkling (a shiny Pokémon). t: seconds since the page opened; p.t: seconds of shaking left. */
+  function radarPatch(ctx, p, tuft, t) {
+    const PX = G.Sprites.PX, hard = p.kind === 'hard', shiny = p.kind === 'shiny';
+    const fade = Math.min(1, p.t / 0.4), amp = (hard ? 3 : 1.5) * PX * fade;
+    const h = tuft.height * PX, x0 = p.x * TS, y0 = (p.y + 1) * TS - h;
+    for (let i = 0; i < 2; i++) {
+      const dx = Math.round(Math.sin(t * (hard ? 40 : 24) + i * Math.PI) * amp);
+      ctx.drawImage(tuft, x0 + dx, y0 - i * 3 * PX, TS, h);
+    }
+    // Light blades bending with the shake, so a patch shows on a small screen.
+    ctx.fillStyle = 'rgba(196,244,150,' + (0.9 * fade).toFixed(2) + ')';
+    for (let j = 0; j < 3; j++) {
+      const bx = x0 + TS * (0.2 + j * 0.3), sway = Math.sin(t * (hard ? 40 : 24) + j * 2.1) * amp * 1.5;
+      for (let k = 0; k < 4; k++) ctx.fillRect(Math.round(bx + sway * k / 4), Math.round((p.y + 1) * TS - 4 * PX - k * 2 * PX), PX, 2 * PX);
+    }
+    if (hard) {
+      ctx.fillStyle = 'rgba(96,176,72,.9)';
+      for (let j = 0; j < 4; j++) {
+        const ph = (t * 2.2 + j / 4) % 1;
+        ctx.fillRect(Math.round(x0 + TS / 2 + Math.sin(j * 2.1 + t * 6) * TS * 0.4), Math.round(y0 - ph * TS * 0.6), PX, PX);
+      }
+    }
+    if (shiny) {
+      ctx.fillStyle = 'rgba(255,250,200,.95)';
+      for (let j = 0; j < 3; j++) {
+        if (Math.floor(t * 8 + j * 3) % 3) continue;
+        const sx = x0 + 4 + ((j * 11 + p.x * 7) % 6) * 4, sy = y0 - 2 + ((j * 5 + p.y * 3) % 5) * 4;
+        ctx.fillRect(sx - PX, sy, PX * 3, PX); ctx.fillRect(sx, sy - PX, PX, PX * 3);
+      }
+    }
+  }
+
   /** A whirlpool: a dark eye and two white arms turning around it, in art pixels. */
   function whirl(ctx, cx, cy, t) {
     const PX = G.Sprites.PX;
@@ -230,6 +263,12 @@ G.WorldRender = (() => {
       if (it.got || it.def.hidden) continue;
       const x = it.def.x, y = it.def.y;
       list.push({ y: (y + 0.5) * TS, draw: c => c.drawImage(ball, x * TS + (TS - ball.width * PX) / 2, (y + 1) * TS - (ball.height + 2) * PX, ball.width * PX, ball.height * PX) });
+    }
+    // Chapter 106: Poké Radar patches while they shake (in front of their tall grass, behind anyone standing lower).
+    if (S.radar && S.radar.length) {
+      const tuft = G.Tiles.sprite('tuft', m.palette in G.Tiles.PALETTES && !G.Tiles.PALETTES[m.palette].floor ? m.palette : 'kanto');
+      const t = performance.now() / 1000;
+      for (const p of S.radar) list.push({ y: (p.y + 0.5) * TS + 0.03, draw: c => radarPatch(c, p, tuft, t) });
     }
     const people = S.actors.filter(a => a.visible);
     if (S.follower && S.follower.visible) people.push(S.follower);

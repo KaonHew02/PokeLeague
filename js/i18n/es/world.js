@@ -96,5 +96,7 @@ G.I18n.add({
   "{player} spread the {item} around. A sweet scent drifted out...": "{player} esparció la {item} a su alrededor. Se extendió un aroma dulce...",
   "The sweet scent faded away somehow...": "Por alguna razón, el aroma dulce se desvaneció...",
   "Looks like there's nothing here...": "Parece que aquí no hay nada...",
-  "Welcome! At this counter we sell goods you can only find in this town.": "¡Bienvenido! En este mostrador vendemos artículos que solo encontrarás en esta ciudad."
+  "Welcome! At this counter we sell goods you can only find in this town.": "¡Bienvenido! En este mostrador vendemos artículos que solo encontrarás en esta ciudad.",
+  "The {item}'s battery is empty. Steps left until it is charged: {n}.": "La batería del {item} está agotada. Pasos que faltan para cargarla: {n}.",
+  "Nothing stirred in the grass...": "Nada se movió entre la hierba..."
 }, "es");

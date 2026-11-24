@@ -150,7 +150,8 @@ G.ENCOUNTERS = { 'kanto-route-1-area': { loc:'kanto-route-1', ver:'firered',
 G.DEX_TEXT = { mon:{1:[6 texts]}, move:{tackle:[…]}, item:{potion:[…]} }
 ```
 - **Encounter methods** use PokeAPI names: `walk` (tall grass and caves), `surf`,
-  `old-rod`, `good-rod`, `super-rod`, `rock-smash`.
+  `old-rod`, `good-rod`, `super-rod`, `rock-smash`; `radar` (chapter 106) is Platinum's walking table while a Poké Radar
+  patch shakes hard (`radar-on` slots in, `radar-off` slots out).
 - **Area keys** for the slice:
   - `kanto-route-1-area`
   - `kanto-route-22-area`
@@ -2847,17 +2848,27 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** every `[balance]` and `[story]` line as before; a new `[story]` line.
 - **Tests:** `tests/balls.test.cjs` (the ten in the data with their names and prices; each rate and its condition; the turns, place, night and Pokédex reaching the ball in battle; the Heal Ball; the Luxury Ball with and without the Soothe Bell; the Premier Ball with ten Poké Balls, not nine); `tests/field.test.cjs` the chapter on the real maps (each specialties counter's list, the first clerks as before, the League; Rustboro before and after Devon's goods, Mossdeep, Verdanturf; a cave's and the water's terrain, the night, the Pokédex in a wild battle's rules; the ending after chapter 104, not for a Poké Ball); `tests/story.test.cjs` the chapter after chapter 104 (`[story]`: a Quick Ball on the first turn in Route 205).
 
-### After chapter 105
+- **Chapter 106** ✅, Platinum's Poké Radar (`js/world/radar.js`, `G.Radar`; tools/fetch_data.py: the item and the `radar` tables; js/world/maps.js `FROM_AREA`; js/world/field.js: `pokeRadar`, `radarBlock`, `radarStep`, the chain's ends; js/world/render.js: the shaking patches; js/ui/bag-ui.js; js/content/sinnoh/sandgem.js: Rowan's gift and the script `radar.chain`; translations `sinnoh-sandgem`, `menus`, `credits`, `world`). Post-game; `ending(106)` waits for chapter 105 (a chain of five). Sources: Platinum's decompilation, [pret/pokeplatinum](https://github.com/pret/pokeplatinum): `src/pokeradar.c` (the rings, the chain, `CheckPatchContinueChain`, `CheckPatchShiny`, the battery), `src/overlay006/wild_encounters.c` (`TryGenerateGrassEncounter_WithRadar`, `CreateWildMon_FromRadarKeepChain` / `...NoChain`), `src/encounter.c` (after a battle), `src/item_use_functions.c` (`CanUsePokeRadar`), `res/field/maps/sandgem_town_pokemon_research_lab/scripts.s` (Rowan gives it with the National Pokédex), `res/field/scripts/poke_radar.s` (its two messages, paraphrased).
+  - **The data**: PokeAPI marks Platinum's radar slots `radar-on` and the slots they replace `radar-off`. `walk` keeps the `radar-off` slots as before (no table changed); the new `radar` table (43 areas, with the walking rate) is `walk` without them plus the `radar-on` ones: the table of a patch that shakes hard (Bagon on Route 210, Aron at the Fuego Ironworks...). A map finds it in its walking area (`FROM_AREA`).
+  - **Using it** (from the Bag: not beside a partner, not on the Bicycle, standing in tall grass, as `CanUsePokeRadar`): the battery (var `radar-charge`, one per step while the radar is in the Bag, 50 at most) must be full, else it says how many steps are left; full, it empties and one patch is picked on each ring around you (4, 3, 2 and 1 tiles away: 32, 24, 16 and 8 tiles, Platinum's index to tile), kept only on tall grass; none: the grass stays quiet. They shake for two seconds (Platinum's field effect plays once): softly, hard (leaves thrown up) or sparkling (a shiny Pokémon).
+  - **A step into a patch** is its wild Pokémon at once (no Repel, Keen Eye, Intimidate or Cleanse Tag; Synchronize and Cute Charm as always; never a roamer). The first begins the chain: drawn from the walking table, or from `radar` when the patch shakes hard. Then the next patches are placed around you. After a radar battle won or a Pokémon caught, each patch keeps the chain with Platinum's chance by ring (88, 68, 48, 28 % after a win; 98, 78, 58, 38 % after a catch) and then shakes as the chain does, and is shiny with 1 in (8200 - 200 x chain), 1 in 200 at best; a patch that does not keep it shakes softly or hard at random. Stepping into one that keeps it: the same species at the same level, the chain one longer (999 at most); into one that does not: drawn again, the same species goes on (at the chain's level), another ends the chain (nothing shakes after that battle).
+  - **The chain ends**: running away, a black-out, the foe fleeing, any battle that is not the radar's (a step's, a scripted one, a Trainer's, Sweet Scent's), another map, getting on the Bicycle, every patch out of sight (8 tiles across, 6 up or down: Platinum's screen), or a use with no tall grass around. It is not saved (Platinum keeps it in memory). Using the radar again keeps a chain going (Platinum's `RefreshRadarChain` does not clear it).
+  - **Rowan** gives it right after the National Pokédex, or the next time you talk to him if you had it before this chapter (flag `got-poke-radar`), and says how it works (my own words).
+  - **Left out**: Platinum's three chain records (shown on TV) and the radar's music while a chain goes on (this game's music is its own).
+- **Balance:** every `[balance]` and `[story]` line as before; a new `[story]` line.
+- **Tests:** `tests/radar.test.cjs` (the data; the battery; every tile of each ring; the rates by ring after a win and a catch, the shakes, a shiny patch; the shiny chance; a step into a patch: the radar's table for a hard shake, the same species, another species; what each battle outcome does; patches out of sight); `tests/field.test.cjs` the chapter on the real maps (Rowan's gift both ways; the battery charged by walking; not off the grass, not on the Bicycle; a chain on Route 210 through a Repel, a shiny patch; the ending only after chapter 105; running away, a scripted battle, the map, the Bicycle end it); `tests/story.test.cjs` the chapter after chapter 105 (`[story]`: a chain of five on Route 210).
 
-A hundred and five chapters: the journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of
+### After chapter 106
+
+A hundred and six chapters: the journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of
 Hoenn and of Sinnoh up to Arceus in the Hall of Origin, the whole Battle Frontier of Hoenn and of Sinnoh (Tower with its multi
 battles, Factory, Hall, Castle and Arcade), the whole Battle Zone, the villa, contests in Sinnoh and Hoenn with Poffins and
 Pokéblocks, ribbons, Generation 4's held items, Platinum's gifts of them, the moves that move them, Embargo and Recycle, every
-special ball, Platinum's free move tutors, the incenses, the abilities outside battle, the Honey trees and Sweet Scent, and the
-battles beside a partner, Trainers and wild Pokémon alike. Ideas:
-1. Items: Platinum's other gifts (the Upgrade and trade evolutions, the White and Black Flutes); the Underground (weather rocks,
-   fossils, spheres, shards for the tutors of Route 212, Snowpoint City and the Survival Area).
+special ball, the Poké Radar, Platinum's free move tutors, the incenses, the abilities outside battle, the Honey trees and Sweet
+Scent, and the battles beside a partner, Trainers and wild Pokémon alike. Ideas:
+1. Items: Platinum's other gifts (the Upgrade and trade evolutions, the White and Black Flutes); Emerald's glass workshop and its
+   flutes; the Underground (weather rocks, fossils, spheres, shards for the tutors of Route 212, Snowpoint City and the Survival Area).
 2. Contests: accessories; Hoenn's own contest rules.
 3. Hoenn after the League: double battles at the Battle Palace and the Battle Dome (Emerald has them, with four);
    more of the Pyramid's wild themes.
-4. Engine features: the Poké Radar.
+4. The Poké Radar's chain records and its music.

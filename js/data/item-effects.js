@@ -331,6 +331,7 @@ G.ITEM_FX = {
   'super-rod':     { key: 1, field: 1, rod: 1 },
   'ss-ticket':     { key: 1 },
   'poke-flute':    { key: 1, field: 1 },
+  'poke-radar':    { key: 1, field: 1 },    // chapter 106: used in tall grass (G.World.pokeRadar, radar.js)
   'silph-scope':   { key: 1 },
   'card-key':      { key: 1 },
   'lift-key':      { key: 1 },

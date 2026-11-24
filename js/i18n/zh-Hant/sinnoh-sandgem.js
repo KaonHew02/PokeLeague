@@ -35,5 +35,9 @@ G.I18n.add({
   "Now listen. {uxie}, {mesprit} and {azelf} have gone home to their lakes, and each has a cave there. Lake Valor's you can walk to. For the other two you will have to Surf.": "聽好。{uxie}、{mesprit}和{azelf}都回到了各自的湖，每個湖都有一個洞穴。立志湖的走路就能到，另外兩個要用衝浪。",
   "And the elder of Celestic Town has been asking for you. Something to do with the Spear Pillar. Do not keep her waiting.": "還有，神和鎮的長老一直在找你，好像和槍之柱有關。別讓她等太久。",
   "{player}! Do you remember Jubilife City, when those two grunts would not leave me alone? We battled them side by side.": "{player}！你還記得在祝慶市，那兩個手下一直纏著我不放的時候嗎？我們並肩打敗了他們。",
-  "Since then you have battled beside so many people, and you became the Champion. I am proud I was your first partner!": "從那以後，你和好多人並肩作戰過，還成為了冠軍。我很驕傲自己是你第一個並肩作戰的夥伴！"
+  "Since then you have battled beside so many people, and you became the Champion. I am proud I was your first partner!": "從那以後，你和好多人並肩作戰過，還成為了冠軍。我很驕傲自己是你第一個並肩作戰的夥伴！",
+  "One thing more. A Pokédex that has outgrown Sinnoh deserves a better way to fill it. Take this.": "還有一件事。一本已經超出神奧範圍的圖鑑，值得用更好的方法來填滿。收下這個吧。",
+  "Stand in tall grass and switch it on, and the grass around you will shake. Walk into a shaking patch and a Pokémon will be there.": "站在高草叢裡打開它，周圍的草叢就會搖晃。走進搖晃的草叢，就會有寶可夢在那裡等著。",
+  "Beat it or catch it, and new patches shake. Keep meeting the same kind and the chain grows. Some say a long chain turns up Pokémon of unusual colors.": "打倒或抓住它之後，又會有別的草叢搖晃。一直遇到同一種寶可夢，連鎖就會越來越長。聽說連鎖夠長，就會遇到顏色與眾不同的寶可夢。",
+  "Its battery charges as you walk: fifty steps between uses. Run away, or wander off, and the chain is broken.": "電池會在你走路時充電：每用一次要走五十步。逃跑或走遠了，連鎖就會中斷。"
 }, "zh-Hant");

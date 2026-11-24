@@ -7,6 +7,9 @@
  * houses; the road north to Route 202 opens once the Pokédex records Sinnoh (chapter 45: jubilife.js). The lake, the
  * briefcase and Barry are in twinleaf.js; after the battle with Barry, Rowan upgrades the Pokédex for
  * Sinnoh and his assistant gives five Poké Balls (flag sinnoh-dex, G.Sinnoh.dex), then `ending(44)`.
+ * Chapter 106: right after the National Pokédex (or the next time you talk to him, if you have it already), Rowan gives the
+ * Poké Radar (flag got-poke-radar), as in Platinum (sandgem_town_pokemon_research_lab scripts.s). The script 'radar.chain'
+ * (run by field.js after each radar battle won or caught) ends the chapter at a chain of five, once chapter 105 is done.
  */
 (() => {
   const T = s => G.T(s);
@@ -168,13 +171,36 @@
       await j;
       await h.say(T('Now listen. {uxie}, {mesprit} and {azelf} have gone home to their lakes, and each has a cave there. Lake Valor\'s you can walk to. For the other two you will have to Surf.'), Object.assign({}, ROWAN, { vars }));
       await h.say(T('And the elder of Celestic Town has been asking for you. Something to do with the Spear Pillar. Do not keep her waiting.'), ROWAN);
+      await radar(h);
       return;
     }
+    // Chapter 106: the Poké Radar, for a Champion who had the National Pokédex before this chapter.
+    if (F.flag('national-dex') && !F.flag('got-poke-radar')) { await radar(h); return; }
     await h.say(T('Sinnoh has Pokémon found nowhere else, and many that evolve in ways seen nowhere else. Study them well.'), ROWAN);
     await h.say(T('And remember: Pokémon from other regions listen to you only up to the level your Sinnoh badges allow.'), ROWAN);
   }
 
+  /** Chapter 106: Rowan gives the Poké Radar and says how it works (Platinum: a gift with the National Pokédex). */
+  async function radar(h) {
+    const F = G.Field;
+    await h.say(T('One thing more. A Pokédex that has outgrown Sinnoh deserves a better way to fill it. Take this.'), ROWAN);
+    F.setFlag('got-poke-radar');
+    await G.Script.exec([['giveItem', 'poke-radar', 1]], h);
+    await h.say(T('Stand in tall grass and switch it on, and the grass around you will shake. Walk into a shaking patch and a Pokémon will be there.'), ROWAN);
+    await h.say(T('Beat it or catch it, and new patches shake. Keep meeting the same kind and the chain grows. Some say a long chain turns up Pokémon of unusual colors.'), ROWAN);
+    await h.say(T('Its battery charges as you walk: fifty steps between uses. Run away, or wander off, and the chain is broken.'), ROWAN);
+  }
+
+  /** Chapter 106: after a radar battle won or caught (ctx.count: the chain); five in a row once chapter 105 is done ends it. */
+  async function chain(h) {
+    const F = G.Field, n = (h.ctx && h.ctx.count) || 0;
+    if (n >= 5 && F.flag('chapter-105-done') && !F.flag('chapter-106-done')) {
+      if (G.CreditsUI) await G.CreditsUI.ending(106); else F.setFlag('chapter-106-done');
+    }
+  }
+
   G.Script.def({
+    'radar.chain': [['js', chain]],
     // The ferry between Sandgem Town's pier and Lilycove City (the way there: legends.ferry).
     'sinnoh.ferry-sandgem': [
       ['choice', 'The ship sails back south to Lilycove City in Hoenn. Would you like to go?', [

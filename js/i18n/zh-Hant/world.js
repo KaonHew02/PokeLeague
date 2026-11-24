@@ -96,5 +96,7 @@ G.I18n.add({
   "{player} spread the {item} around. A sweet scent drifted out...": "{player}在四周塗了{item}。一股甜甜的香氣飄散開來……",
   "The sweet scent faded away somehow...": "甜甜的香氣不知為何飄散了……",
   "Looks like there's nothing here...": "這裡好像什麼都沒有……",
-  "Welcome! At this counter we sell goods you can only find in this town.": "歡迎光臨！這個櫃檯賣的是只有本地才有的商品。"
+  "Welcome! At this counter we sell goods you can only find in this town.": "歡迎光臨！這個櫃檯賣的是只有本地才有的商品。",
+  "The {item}'s battery is empty. Steps left until it is charged: {n}.": "{item}的電池沒電了。再走{n}步就能充好電。",
+  "Nothing stirred in the grass...": "草叢裡什麼動靜也沒有……"
 }, "zh-Hant");

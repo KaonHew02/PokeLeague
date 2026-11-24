@@ -102,6 +102,9 @@
  * Balls only and never black out, and scripts contest.caught / contest.timeup /
  * contest.out-of-balls / contest.fainted take over. A floor of `abyss` tiles (Morty's Gym) drops
  * you back to the map's `fall: { to, spot }`.
+ * Chapter 106: the Poké Radar (G.Radar, radar.js; G.World.pokeRadar() from the Bag, radarBlock() why not): a step into a
+ * shaking patch is its wild Pokémon at once (no Repel, no roamer); radar battles keep or end the chain, any other battle,
+ * another map or the Bicycle end it; render draws the patches while they shake.
  */
 G.Field = (() => {
   function fresh() {
@@ -395,6 +398,7 @@ G.World = (() => {
     const m = M().get(id);
     if (!m) { console.error('[World] unknown map ' + id); G.UI.toast('Unknown map: ' + id); return false; }
     map = m;
+    if (G.Radar) G.Radar.clear();                              // chapter 106: the Poké Radar's patches stay on their map
     cut = new Set();
     around = new Set();
     sliding = null;
@@ -690,6 +694,7 @@ G.World = (() => {
         return;
       }
     }
+    if (G.Radar) G.Radar.view(me.x, me.y);                    // chapter 106: Poké Radar patches out of sight are gone
     if (spotted()) return;
     if (surfing) {
       if (maybeEncounter('surf')) return;
@@ -698,6 +703,7 @@ G.World = (() => {
       if (maybeEncounter('seaweed')) return;
     } else if (k === 'tall') {
       sfx('grass');
+      if (radarStep()) return;
       if (maybeEncounter('walk')) return;
     } else if ((map.def.cave || map.def.desert) && !M().info(k).warp) {
       // Caves (map `cave: true`) and the desert: wild Pokémon on any step, as in Mt. Moon.
@@ -730,6 +736,7 @@ G.World = (() => {
   function walked() {
     const V = G.Field.save.vars;
     V.steps = (+V.steps || 0) + 1;                             // steps walked (chapter 84: the villa's chandelier)
+    if (G.Radar) G.Radar.step();                               // chapter 106: the Poké Radar's battery
     if (G.DayCare) G.DayCare.step(1);
     V.walk = ((+V.walk || 0) + 1) % 128;
     // The Soothe Bell (chapter 104): x1.5, rounded down (one point stays one).
@@ -816,10 +823,11 @@ G.World = (() => {
   }
 
   /** A wild Pokémon drawn (by a step, or by Sweet Scent: chapter 103): the checks, the roamer, a second one beside a partner,
-   *  then the battle. scent: Sweet Scent or Honey (Platinum's TrySweetScentEncounter): no Repel, Keen Eye, Intimidate or
-   *  Cleanse Tag keeps it away. -> the battle's promise, or null when kept away */
+   *  then the battle. scent: Sweet Scent or Honey (Platinum's TrySweetScentEncounter), or 'radar' (chapter 106: a Poké
+   *  Radar patch, wild.radar): no Repel, Keen Eye, Intimidate or Cleanse Tag keeps it away. A radar patch never holds a
+   *  roamer, and the radar is never used beside a partner. -> the battle's promise, or null when kept away */
   function startWild(wild, method, scent) {
-    const ally = partnerHere();
+    const ally = wild.radar ? null : partnerHere();
     const FA = G.FieldAbilities, ab = fieldAbility(), first = FA ? FA.lead(G.Field.party()) : null;
     // Chapter 98: Keen Eye and Intimidate keep the much weaker ones away half the time.
     if (!scent && FA && FA.blocks(ab, first, wild.lvl, rng)) return null;
@@ -827,7 +835,7 @@ G.World = (() => {
     // A Cleanse Tag on the lead (chapter 69): a third fewer wild Pokémon, as in Generations 3 and 4.
     if (!scent && lead && G.Held && G.Held.is(lead, 'cleanse-tag') && rng.int(0, 2) === 0) return null;
     // The roaming Pokémon on this route (chapter 42): one wild encounter in four is it; never beside a partner (chapter 102).
-    const rm = !ally && (method === 'walk' || method === 'surf') && G.Roam && G.Roam.meets(rng, map.id);
+    const rm = !ally && !wild.radar && (method === 'walk' || method === 'surf') && G.Roam && G.Roam.meets(rng, map.id);
     if (rm) Object.assign(wild, { sp: rm.sp, lvl: rm.lvl, roamer: rm });
     // Chapter 98: Synchronize (its nature) and Cute Charm (the other gender).
     else if (FA) Object.assign(wild, FA.traits(ab, first, wild.sp, rng));
@@ -854,6 +862,42 @@ G.World = (() => {
     if (k === 'tall') return under() ? 'seaweed' : 'walk';
     if ((map.def.cave || map.def.desert) && !M().info(k).warp) return 'walk';
     return null;
+  }
+
+  /** Chapter 106: a step into a shaking Poké Radar patch (G.Radar.enter): its Pokémon at once. -> a battle began */
+  function radarStep() {
+    if (!G.Radar || !G.Radar.active(map.id) || debug.noEnc || !G.Field.party().length) return false;
+    const w = G.Radar.enter(map, me.x, me.y, rng, t => drawWild(t, 'walk'));
+    if (!w) return false;
+    return !!startWild(Object.assign({ method: 'walk', map: map.id, area: null }, w), 'walk', 'radar');
+  }
+
+  /** Chapter 106, Platinum's CanUsePokeRadar: not beside a partner, not on the Bicycle, only standing in tall grass.
+   *  -> null, or why not: 'partner' | 'bike' | 'grass' */
+  function radarBlock() {
+    if (!map || !me) return 'grass';
+    if (partnerHere()) return 'partner';
+    if (biking) return 'bike';
+    if (surfing || under() || M().kindAt(map, me.x, me.y) !== 'tall') return 'grass';
+    return null;
+  }
+
+  /** Chapter 106: the Poké Radar used from the Bag (Platinum's RefreshRadarChain): the battery empty, the grass quiet, or the
+   *  patches shake (drawn by render while G.Radar.patches() lasts). -> 'dry' | 'quiet' | 'shake', or radarBlock()'s reason */
+  async function pokeRadar() {
+    if (!G.Radar) return 'grass';
+    const why = radarBlock();
+    if (why) return why;
+    let r;
+    locks++;
+    try {
+      G.Player.walk(null);
+      r = G.Radar.use(map, me.x, me.y, rng);
+      if (r.res === 'dry') await say(G.I18n.fmt("The {item}'s battery is empty. Steps left until it is charged: {n}.", { item: G.Names.item('poke-radar'), n: r.left }));
+      else if (r.res === 'quiet') await say(G.T('Nothing stirred in the grass...'));
+      else sfx('grass');
+    } finally { locks--; }
+    return r.res;
   }
 
   /** Chapter 103: weather that blows a sweet scent away, in Sinnoh (Platinum's list in ov5_021F0438: rain, snow, a blizzard,
@@ -929,11 +973,15 @@ G.World = (() => {
       if (contest) caught = G.Contest.after(r);
       out = settle(r);
       if (out === 'caught' && r && r.mon) wild.caughtMon = r.mon;     // chapter 105 (below)
+      // Chapter 106: a radar battle won or caught keeps the chain (the next patches shake); anything else ends it.
+      if (G.Radar) G.Radar.after(out, rng, !!wild.radar);
       if (out === 'win' && !contest && !wild.party) foundAfterBattle();
     } finally { locks--; }
     G.Field.lastBattle = out;
     // Chapter 105: a wild Pokémon caught, then the script after it (balls.js: one of the new balls, the chapter's end).
     if (wild.caughtMon && !contest && G.Script.get('balls.caught')) await runScript('balls.caught', { mon: wild.caughtMon });
+    // Chapter 106: after a radar battle won or caught, the script 'radar.chain' with the chain so far (sandgem.js: the ending).
+    if (wild.radar && G.Radar && G.Radar.active() && G.Script.get('radar.chain')) await runScript('radar.chain', { count: G.Radar.count(), sp: G.Radar.species() });
     if (wild.roamer && G.Roam) {
       const region = G.Roam.after(out, rng, wild.roamer);
       if (out === 'caught' && region === 'hoenn' && G.Script.get('legends.done')) await runScript('legends.done', {});
@@ -1129,6 +1177,7 @@ G.World = (() => {
     key = key || map.id + ':' + d.id;
     const ally = o.partner ? null : allyFor(d);
     if (ally) o = Object.assign({}, o, { partner: { name: G.T(ally.name), team: ally.team }, rules: Object.assign({ tag: true }, o.rules) });
+    if (G.Radar) G.Radar.clear();                              // chapter 106: a trainer battle ends a Poké Radar chain
     locks++;
     let out;
     try {
@@ -1564,6 +1613,7 @@ G.World = (() => {
     if (biking && mustRide(map)) return runScript([['say', "You can't get off your Bicycle here!"]], {});
     if (!biking && (surfing || !canRide(map))) return runScript([['say', "You can't ride your Bicycle here."]], {});
     setBike(!biking);
+    if (biking && G.Radar) G.Radar.clear();                    // chapter 106: on the Bicycle, the Poké Radar's chain ends
     sfx(biking ? 'bike' : 'click', 'select');
     savePos();
     const t = tune();
@@ -1906,6 +1956,7 @@ G.World = (() => {
     if (!map || !me) return;
     G.Dialog.tick(dt);
     if (scentGlow > 0) scentGlow = Math.max(0, scentGlow - dt);
+    if (G.Radar) G.Radar.tick(dt);
     const ui = !!o.ui || G.UI.anyOpen();
     const control = !ui && !locks && !G.Dialog.open;
     // A click during a step waits for the step to end (the newest click wins).
@@ -1951,6 +2002,7 @@ G.World = (() => {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
       map, me, follower, actors, items, decor, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, light: glow, tint: tint(), snow: !!map.def.snow, sand: !!map.def.sandstorm, bubbles: under(), rain: stormy(), fog: foggy(),
+      radar: G.Radar ? G.Radar.patches() : null,
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }
@@ -1962,6 +2014,7 @@ G.World = (() => {
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, makeFollower, get surfing() { return surfing; }, keyOpen,
     barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, feebasTiles, stormy, foggy, teleportBlock,
     get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot, sweetScent, wildMethodHere,
+    pokeRadar, radarBlock,
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get decor() { return decor; }, get cut() { return cut; }, get lit() { return lit; },
     brighten, get glow() { return glow; },

@@ -296,5 +296,8 @@ G.I18n.add({
   "Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.": "Ahora Embargo bloquea los objetos equipados y la Mochila durante cinco turnos, y Reciclaje recupera un objeto ya usado.",
   "Chapter 105 complete!": "¡Capítulo 105 completado!",
   "{player} caught a Pokémon in one of the special balls sold at the specialties counters of Sinnoh and in the Marts of Hoenn.": "{player} atrapó un Pokémon con una de las Balls especiales que se venden en los mostradores de Sinnoh y en las tiendas de Hoenn.",
-  "Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!": "Cada Ball especial tiene su momento: en el agua, de noche, en una cueva, en el primer turno o tras un combate largo. ¡Elige bien!"
+  "Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!": "Cada Ball especial tiene su momento: en el agua, de noche, en una cueva, en el primer turno o tras un combate largo. ¡Elige bien!",
+  "Chapter 106 complete!": "¡Capítulo 106 completado!",
+  "{player} met the same Pokémon five times in a row in the patches the {item} set shaking.": "{player} encontró al mismo Pokémon cinco veces seguidas en las zonas que el {item} hizo agitarse.",
+  "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "Cuanto más larga sea la cadena, más probable es que una zona brille con un Pokémon de colores poco comunes. Algunos Pokémon solo aparecen en las zonas que se agitan con fuerza."
 }, "es");

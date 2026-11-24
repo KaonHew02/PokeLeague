@@ -1233,6 +1233,7 @@ G.NAMES = {
     "dusk-ball": ["Dusk Ball","Ocaso Ball","Sombre Ball","Scuro Ball","黑暗球","黑暗球"],
     "heal-ball": ["Heal Ball","Sana Ball","Soin Ball","Cura Ball","治愈球","治癒球"],
     "quick-ball": ["Quick Ball","Veloz Ball","Rapide Ball","Velox Ball","先机球","先機球"],
+    "poke-radar": ["Poké Radar","Pokéradar","Poké Radar","Poké Radar","宝可追踪","寶可追蹤"],
     hm01: ["HM01","MO01","CS01","MN01","秘传学习器０１","秘傳學習器０１"],
     hm02: ["HM02","MO02","CS02","MN02","秘传学习器０２","秘傳學習器０２"],
     hm03: ["HM03","MO03","CS03","MN03","秘传学习器０３","秘傳學習器０３"],

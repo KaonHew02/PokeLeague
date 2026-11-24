@@ -10,7 +10,7 @@ const { boot, plain, CORE, DATA, BATTLE, source } = require('./helpers.cjs');
 const dev = source('dev.html');
 const CONTENT = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
 const FILES = CORE.concat(DATA, ['js/data/encounters.js', 'js/data/trainer-classes.js'], BATTLE,
-  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-abilities.js', 'js/world/field-items.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/world/poffin.js', 'js/world/pokeblock.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/script/script.js'], CONTENT);
+  ['js/core/store.js', 'js/world/maps.js', 'js/world/path4.js', 'js/world/field.js', 'js/world/field-abilities.js', 'js/world/field-items.js', 'js/world/radar.js', 'js/world/daycare.js', 'js/world/contest.js', 'js/world/roam.js', 'js/world/tower.js', 'js/world/poffin.js', 'js/world/pokeblock.js', 'js/world/supercontest.js', 'js/world/ribbons.js', 'js/script/script.js'], CONTENT);
 
 function world(seed = 1) {
   const ctx = boot(FILES);
@@ -4889,6 +4889,40 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 106 after chapter 105: the Poké Radar Rowan gave with the National Pokédex (chapter 60). On Route 210's grass the
+ *  auto-player steps into the farthest patch each time (the outer ring keeps the chain most often), fights, and when the chain
+ *  breaks walks fifty steps and uses the radar again at the same spot, until a chain of five (the ending). */
+async function chapter106(st) {
+  const { G, S, W } = st;
+  const F = G.Field, R = G.Radar;
+  assert.ok(F.flag('got-poke-radar') && F.count('poke-radar') === 1, 'Rowan gave it with the National Pokédex (chapter 60)');
+  const map = G.Maps.get('route210n'), rng = G.RNG(W.seed * 106);
+  /** The field's draw from a table (a row by its chance, a level in its range). */
+  const draw = table => {
+    let r = rng.next() * 100, pick = table.mons[table.mons.length - 1];
+    for (const row of table.mons) { if ((r -= row[3]) < 0) { pick = row; break; } }
+    return { sp: G.Maps.species(pick[0]), lvl: rng.int(pick[1], pick[2]) };
+  };
+  let uses = 0, fights = 0;
+  while (!F.flag('chapter-106-done') && uses < 40) {
+    if (!R.active('route210n')) {
+      for (let i = 0; i < R.STEPS; i++) R.step();              // fifty steps, back to the same spot
+      uses++;
+      if (R.use(map, 24, 18, rng).res !== 'shake') continue;
+    }
+    const p = R.state.patches.slice().sort((a, b) => a.ring - b.ring)[0];
+    const w = R.enter(map, p.x, p.y, rng, draw);
+    const out = await wildFight(st, w.sp, w.lvl);
+    fights++;
+    F.healAll();
+    R.after(out, rng, true);
+    if (R.active()) await run(st, 'route210n', 'radar.chain', [], { count: R.count(), sp: R.species() });
+  }
+  console.log('[story] the Poké Radar: a chain of', R.count(), G.Names.mon(R.species()), 'on', G.Names.loc(map.loc), '(' + uses + ' use(s), ' + fights + ' battle(s))');
+  assert.ok(F.flag('chapter-106-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 105 after chapter 104: the special balls. A Quick Ball (bought at Pastoria's specialties counter: the shop is a
  *  stand-in) thrown on the first turn at a wild Pokémon of Route 205, then the script after a catch (the ending). */
 async function chapter105(st) {
@@ -6391,4 +6425,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter103(st);
   await chapter104(st);
   await chapter105(st);
+  await chapter106(st);
 });

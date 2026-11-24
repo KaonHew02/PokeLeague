@@ -171,6 +171,16 @@ G.BagUI = (() => {
       W.toggleBike();
       return;
     }
+    // The Poké Radar (chapter 106): standing in tall grass, not beside a partner, not on the Bicycle (Platinum's CanUsePokeRadar).
+    if (id === 'poke-radar' && G.World && G.World.pokeRadar) {
+      const why = G.World.radarBlock();
+      if (why === 'partner') { await G.Popup.say(T("You can't use that while someone is walking with you.")); return; }
+      if (why) { await G.Popup.say(T("This can't be used now.")); return; }
+      finish(null);
+      G.UI.closeAll();
+      G.World.pokeRadar();
+      return;
+    }
     if (k === 'key') { await G.Popup.say(T("This can't be used now.")); return; }
     // Honey (chapter 103): used up at once, then a sweet scent where you stand (Platinum's UseHoneyFromMenu).
     if (fx.scent && G.World && G.World.sweetScent) {

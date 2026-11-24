@@ -216,5 +216,6 @@ G.I18n.add({
   "Ribbons": "獎章",
   "Contest": "華麗大賽",
   "{mon} is too tired to use that.": "{mon}太累了，沒辦法使用。",
-  "You bought so many, so here is a {item} as a little extra!": "你買了這麼多，送你一個{item}當作小贈品！"
+  "You bought so many, so here is a {item} as a little extra!": "你買了這麼多，送你一個{item}當作小贈品！",
+  "You can't use that while someone is walking with you.": "有同伴跟著你的時候不能使用。"
 }, "zh-Hant");

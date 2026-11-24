@@ -296,5 +296,8 @@ G.I18n.add({
   "Embargo now keeps held items and the Bag away for five turns, and Recycle finds a used-up item again.": "现在，查封会让持有物和背包道具五回合无法使用，回收利用则能找回用掉的道具。",
   "Chapter 105 complete!": "第 105 章完成！",
   "{player} caught a Pokémon in one of the special balls sold at the specialties counters of Sinnoh and in the Marts of Hoenn.": "{player}用神奥特产柜台和丰缘商店卖的特殊精灵球抓到了宝可梦。",
-  "Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!": "每种特殊精灵球都有最适合的时候：水上、夜晚、洞窟、第一回合，或是长时间的对战之后。选对球吧！"
+  "Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!": "每种特殊精灵球都有最适合的时候：水上、夜晚、洞窟、第一回合，或是长时间的对战之后。选对球吧！",
+  "Chapter 106 complete!": "第 106 章完成！",
+  "{player} met the same Pokémon five times in a row in the patches the {item} set shaking.": "{player}在{item}弄得摇晃的草丛里，连续五次遇到了同一种宝可梦。",
+  "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "连锁越长，草丛闪闪发光、藏着颜色与众不同的宝可梦的机会就越大。有些宝可梦只会出现在剧烈摇晃的草丛里。"
 }, "zh-Hans");

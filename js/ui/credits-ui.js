@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 106) return { title: T('Chapter 106 complete!'),
+      done: fmt('{player} met the same Pokémon five times in a row in the patches the {item} set shaking.', { player, item: G.Names.item('poke-radar') }),
+      next: T('The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.') };
     if (n === 105) return { title: T('Chapter 105 complete!'),
       done: fmt('{player} caught a Pokémon in one of the special balls sold at the specialties counters of Sinnoh and in the Marts of Hoenn.', { player }),
       next: T('Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!') };

@@ -8404,3 +8404,98 @@ test('the special balls (chapter 105): Sinnoh\'s specialties counters (Platinum\
   await meet('route202', 2, 3);
   assert.ok(F.flag('chapter-105-done'));
 });
+
+test('the Poké Radar (chapter 106): Rowan gives it with the National Pokédex or later; used in tall grass (not on the Bicycle), the battery charged by walking, a chain on Route 210, what ends it, the ending after chapter 105', async () => {
+  const { G, W } = world(['js/world/radar.js', 'js/content/sinnoh/sandgem.js', 'js/content/sinnoh/celestic.js']);
+  const F = G.Field, S = F.save, R = G.Radar;
+  // Rowan: the National Pokédex, then the radar (once).
+  F.setFlag('sinnoh-start'); F.setFlag('sinnoh-champion');
+  W.load('rowan-lab', { x: 6, y: 4, dir: 'up' });
+  await W.runScript('sinnoh.rowan', {});
+  assert.ok(F.flag('national-dex') && F.flag('got-poke-radar') && F.count('poke-radar') === 1);
+  await W.runScript('sinnoh.rowan', {});
+  assert.equal(F.count('poke-radar'), 1, 'only once');
+  // A Champion who had the National Pokédex before this chapter gets it the next time.
+  F.clearFlag('got-poke-radar'); F.takeItem('poke-radar', 1);
+  await W.runScript('sinnoh.rowan', {});
+  assert.ok(F.flag('got-poke-radar') && F.count('poke-radar') === 1);
+
+  F.giveMon('garchomp', 100);
+  const map = G.Maps.get('route210n');
+  for (const t of map.trainers) F.markDone('route210n:' + t.id);
+  const fights = [];
+  let outcome = 'win';
+  W.onEncounter = null;
+  G.BattleUI = { wild: (me, sp, lvl, o) => { fights.push({ sp, lvl, o }); return Promise.resolve({ outcome, seen: [sp] }); } };
+  // The battery: 50 steps walked (on the path above the grass: no wild Pokémon there).
+  W.load('route210n', { x: 18, y: 8, dir: 'right' });
+  assert.equal(W.radarBlock(), 'grass', 'not in tall grass');
+  assert.equal(await W.pokeRadar(), 'grass');
+  for (let i = 0; i < 25; i++) { step(W, 'right'); }
+  for (let i = 0; i < 25; i++) { step(W, 'left'); }
+  assert.equal(R.charge(), 50);
+  assert.equal(fights.length, 0);
+  W.load('route210n', { x: 24, y: 18, dir: 'down' });
+  assert.equal(W.radarBlock(), null);
+  F.setVar('radar-charge', 12);
+  assert.equal(await W.pokeRadar(), 'dry');
+  F.setVar('radar-charge', 50);
+  assert.equal(await W.pokeRadar(), 'shake');
+  assert.equal(R.patches().length, 4, 'all four rings in tall grass');
+  // A step into the nearest patch (one tile away): its wild Pokémon at once, a Repel or not.
+  S.repel = 500;
+  const walkTo = (x, y) => {
+    const me = W.player;
+    while (me.x !== x) step(W, me.x < x ? 'right' : 'left');
+    while (me.y !== y) step(W, me.y < y ? 'down' : 'up');
+  };
+  const near = () => R.state.patches.find(p => p.ring === 3);
+  let p = near();
+  walkTo(p.x, p.y);
+  await tick();
+  assert.equal(fights.length, 1, 'the patch\'s Pokémon');
+  assert.ok([333, 400, 371, 307, 66, 67, 123].includes(fights[0].sp));
+  assert.equal(R.count(), 1);
+  assert.ok(R.active('route210n') && R.patches().length > 0, 'won: new patches shake');
+  // A patch that keeps the chain: the same species and level; a shiny one is shiny.
+  R.state.patches.forEach(q => { q.cont = true; q.shiny = false; });
+  p = near(); p.shiny = true;
+  walkTo(p.x, p.y);
+  await tick();
+  assert.deepEqual([fights[1].sp, fights[1].lvl, fights[1].o.shinyOdds, R.count()], [fights[0].sp, fights[0].lvl, 1, 2]);
+  // Five in a row: no ending before chapter 105 is done; then the ending.
+  R.state.count = 4;
+  R.state.patches.forEach(q => { q.cont = true; });
+  p = near(); walkTo(p.x, p.y); await tick();
+  assert.equal(R.count(), 5);
+  assert.ok(!F.flag('chapter-106-done'), 'chapter 105 not done');
+  F.setFlag('chapter-105-done');
+  R.state.patches.forEach(q => { q.cont = true; });
+  p = near(); walkTo(p.x, p.y); await tick();
+  assert.ok(F.flag('chapter-106-done'));
+  // Running from a radar battle ends the chain.
+  outcome = 'run';
+  R.state.patches.forEach(q => { q.cont = true; });
+  p = near(); walkTo(p.x, p.y); await tick();
+  assert.ok(!R.active());
+  outcome = 'win';
+  // Another battle (a scripted one), another map, the Bicycle: each ends it.
+  const again = async () => { F.setVar('radar-charge', 50); W.load('route210n', { x: 24, y: 18, dir: 'down' }); assert.equal(await W.pokeRadar(), 'shake'); };
+  await again();
+  await W.runScript([['wild', 'bidoof', 30]], {});
+  assert.ok(!R.active(), 'a battle that was not the radar\'s');
+  await again();
+  W.load('route210n', { x: 24, y: 18, dir: 'down' });
+  assert.ok(!R.active(), 'the map loaded again');
+  await again();
+  F.giveItem('bicycle', 1);
+  W.toggleBike();
+  assert.ok(W.biking && !R.active(), 'on the Bicycle');
+  assert.equal(W.radarBlock(), 'bike');
+  W.toggleBike();
+  // The radar's steps are counted only while you have it (walked() calls G.Radar.step: chapter 106).
+  F.takeItem('poke-radar', 1); F.setVar('radar-charge', 0);
+  W.load('route210n', { x: 18, y: 8, dir: 'right' });
+  step(W, 'right');
+  assert.equal(R.charge(), 0);
+});

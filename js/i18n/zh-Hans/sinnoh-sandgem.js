@@ -35,5 +35,9 @@ G.I18n.add({
   "Now listen. {uxie}, {mesprit} and {azelf} have gone home to their lakes, and each has a cave there. Lake Valor's you can walk to. For the other two you will have to Surf.": "听好。{uxie}、{mesprit}和{azelf}都回到了各自的湖，每个湖都有一个洞穴。立志湖的走路就能到，另外两个要用冲浪。",
   "And the elder of Celestic Town has been asking for you. Something to do with the Spear Pillar. Do not keep her waiting.": "还有，神和镇的长老一直在找你，好像和枪之柱有关。别让她等太久。",
   "{player}! Do you remember Jubilife City, when those two grunts would not leave me alone? We battled them side by side.": "{player}！你还记得在祝庆市，那两个手下一直缠着我不放的时候吗？我们并肩打败了他们。",
-  "Since then you have battled beside so many people, and you became the Champion. I am proud I was your first partner!": "从那以后，你和好多人并肩作战过，还成为了冠军。我很骄傲自己是你第一个并肩作战的伙伴！"
+  "Since then you have battled beside so many people, and you became the Champion. I am proud I was your first partner!": "从那以后，你和好多人并肩作战过，还成为了冠军。我很骄傲自己是你第一个并肩作战的伙伴！",
+  "One thing more. A Pokédex that has outgrown Sinnoh deserves a better way to fill it. Take this.": "还有一件事。一本已经超出神奥范围的图鉴，值得用更好的方法来填满。收下这个吧。",
+  "Stand in tall grass and switch it on, and the grass around you will shake. Walk into a shaking patch and a Pokémon will be there.": "站在高草丛里打开它，周围的草丛就会摇晃。走进摇晃的草丛，就会有宝可梦在那里等着。",
+  "Beat it or catch it, and new patches shake. Keep meeting the same kind and the chain grows. Some say a long chain turns up Pokémon of unusual colors.": "打倒或抓住它之后，又会有别的草丛摇晃。一直遇到同一种宝可梦，连锁就会越来越长。听说连锁够长，就会遇到颜色与众不同的宝可梦。",
+  "Its battery charges as you walk: fifty steps between uses. Run away, or wander off, and the chain is broken.": "电池会在你走路时充电：每用一次要走五十步。逃跑或走远了，连锁就会中断。"
 }, "zh-Hans");

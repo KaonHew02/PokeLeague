@@ -34,7 +34,8 @@ G.Evolution = (() => {
       if (e.how === 'level' && mon.lvl >= e.level && statsOk(mon, e) && timeOk(e) && (!e.item || mon.item === e.item) && more(e)) out.push(e.to);
       else if (e.how === 'friendship' && mon.friendship >= (e.min || 220) && timeOk(e) && more(e)) out.push(e.to);
     }
-    return out;
+    // A generation page (gen.js): no evolution into a later generation's species (Golbat into Crobat in Generation 1).
+    return G.Gen && G.Gen.n ? out.filter(sp => G.Gen.allows(sp)) : out;
   }
 
   /** Tyrogue: which of Attack and Defense is higher decides its evolution. */

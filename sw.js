@@ -13,24 +13,26 @@
  *   That cache is named after js/data/sprites-meta.js, so new sprites refill it.
  * - The page itself comes from the network when there is one (an update shows
  *   at once); without a connection, or a very slow one, the cached copy opens.
+ *   The generation pages (gen1/...: js/core/gen.js) are in the shell too, and each opens its own copy;
+ *   they take every other file from the folder above (<base href="../">), so all pages share this cache.
  *
  * Its caches start with "pokeleague-": PokéGo shares the GitHub Pages origin.
  * tools/build.js rewrites the lines between build:begin and build:end.
  */
 /* build:begin */
-const VERSION = '59a05e5170';
+const VERSION = '956d2e52a9';
 const SPRITES = '8c074d4a9e';
 const SHELL = [
   "./",
   "css/app.css?v=73cce2a8d3",
-  "js/app.min.js?v=d6854344e2",
-  "js/core/locales.js?v=9878c37794",
-  "js/lang/es.js?v=9878c37794",
-  "js/lang/fr.js?v=9878c37794",
-  "js/lang/it.js?v=9878c37794",
-  "js/lang/pt-BR.js?v=9878c37794",
-  "js/lang/zh-Hans.js?v=9878c37794",
-  "js/lang/zh-Hant.js?v=9878c37794",
+  "js/app.min.js?v=c919a8e21b",
+  "js/core/locales.js?v=fff7dee35c",
+  "js/lang/es.js?v=fff7dee35c",
+  "js/lang/fr.js?v=fff7dee35c",
+  "js/lang/it.js?v=fff7dee35c",
+  "js/lang/pt-BR.js?v=fff7dee35c",
+  "js/lang/zh-Hans.js?v=fff7dee35c",
+  "js/lang/zh-Hant.js?v=fff7dee35c",
   "assets/icons/icon-32.png",
   "assets/icons/icon-180.png",
   "assets/fonts/PixelifyPS-400.ttf",
@@ -38,7 +40,9 @@ const SHELL = [
   "manifest.json",
   "assets/icons/icon-192.png",
   "assets/icons/icon-512.png",
-  "assets/icons/icon-maskable-512.png"
+  "assets/icons/icon-maskable-512.png",
+  "gen1/",
+  "gen1/manifest.json"
 ];
 /* build:end */
 const SHELL_CACHE = 'pokeleague-shell-' + VERSION, ASSET_CACHE = 'pokeleague-sprites-' + SPRITES;
@@ -89,7 +93,8 @@ async function page(req) {
     return await Promise.race([net, new Promise((ok, no) => setTimeout(no, SLOW_PAGE_MS))]);
   } catch (err) {
     const shell = await caches.open(SHELL_CACHE);
-    return (await shell.match(HOME)) || net;
+    // The page asked for (gen1/ for gen1/ or gen1/index.html), else the whole journey's.
+    return (await shell.match(new URL('./', req.url).href, { ignoreSearch: true })) || (await shell.match(HOME)) || net;
   }
 }
 

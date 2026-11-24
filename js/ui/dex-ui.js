@@ -60,7 +60,8 @@ G.DexUI = (() => {
     el.querySelector('h3').textContent = T('Pokédex');
     el.querySelector('.dex-count').textContent = fmt('Seen {s} · Owned {c}', { s: c.seen, c: c.caught });
     el.querySelector('[data-back]').textContent = T('Back');
-    const all = Object.keys(G.SPECIES).map(Number).sort((a, b) => a - b);
+    // A generation page (gen.js) lists its own generation's Pokémon only.
+    const all = Object.keys(G.SPECIES).map(Number).filter(sp => !G.Gen || G.Gen.allows(sp)).sort((a, b) => a - b);
     const top = G.Field.flag('national-dex') ? all[all.length - 1] : Math.max(1, ...all.filter(sp => G.Dex.seen(sp)));
     const list = el.querySelector('.dex-list');
     list.innerHTML = all.filter(sp => sp <= top).map(sp => {

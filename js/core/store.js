@@ -2,6 +2,8 @@
  * Three slots, pl.save.1 to pl.save.3, each a JSON save. Before a slot is
  * written its old save is copied to pl.save.N.bak, and a slot that no longer
  * parses loads its .bak instead. pl.slot is the slot used last.
+ * A generation page (gen.js) has slots of its own: pl.g1.save.1, pl.g1.slot... (G.Gen.key), and its saves say
+ * which game they belong to (`gen`: 0 the whole journey, 1-4): a slot or a file of another game is not loaded.
  *
  *   G.Store.newSave({ name, gender, rival, id })   a fresh game
  *   G.Store.slots()         -> [summary | null] × 3   { slot, name, gender, badges, dex, playTime, savedAt, map, party: [sp] }
@@ -10,7 +12,7 @@
  *   G.Store.remove(n)       the slot and its .bak
  *   G.Store.lastSlot()      -> 1..3 | null
  *   G.Store.exportText(save)   JSON text of { app: 'PokeLeague', kind: 'save', v, at, save }
- *   G.Store.importText(text)   -> { save } | { error: 'not-json' | 'other-app' | 'newer' | 'bad' }
+ *   G.Store.importText(text)   -> { save } | { error: 'not-json' | 'other-app' | 'newer' | 'bad' } | { error: 'other-gen', gen }
  *   G.Store.migrate(s) · sanitize(s)    (also used by tests)
  *   G.Store.use(storage)    another storage (tests)
  *
@@ -18,7 +20,11 @@
  */
 G.Store = (() => {
   const V = 1, APP = 'PokeLeague', SLOTS = 3, BOXES = 8, BOX_SIZE = 30;
-  const KEY = n => 'pl.save.' + n;
+  /** This page's game (gen.js): 0, the whole journey, or a generation. */
+  const here = () => (G.Gen ? G.Gen.n : 0);
+  const genOf = s => (Number.isInteger(s.gen) && s.gen >= 0 && s.gen <= 4 ? s.gen : 0);
+  const KEY = n => (G.Gen ? G.Gen.key('save.' + n) : 'pl.save.' + n);
+  const SLOT_KEY = () => (G.Gen ? G.Gen.key('slot') : 'pl.slot');
   const MAX_NAME = 10;
   let storage = null;
   const st = () => storage || window.localStorage;
@@ -45,7 +51,7 @@ G.Store = (() => {
   function newSave(o = {}) {
     const now = Date.now();
     return {
-      v: V, app: APP, created: now, savedAt: 0, playTime: 0,
+      v: V, app: APP, gen: here(), created: now, savedAt: 0, playTime: 0,
       player: { name: cleanName(o.name) || 'Red', gender: o.gender === 'f' ? 'f' : 'm',
                 id: o.id != null ? (o.id >>> 0) % 65536 : now % 65536,
                 money: 3000, badges: [], map: null, x: 0, y: 0, dir: 'down', lastHeal: null },
@@ -255,7 +261,7 @@ G.Store = (() => {
     if (!text) return null;
     try {
       const s = JSON.parse(text);
-      return obj(s) && s.app === APP && obj(s.player) ? s : null;
+      return obj(s) && s.app === APP && obj(s.player) && genOf(s) === here() ? s : null;
     } catch (e) { return null; }
   }
 
@@ -284,7 +290,7 @@ G.Store = (() => {
       if (old && parse(old)) st().setItem(key + '.bak', old);
       save.v = V; save.app = APP; save.savedAt = Date.now();
       st().setItem(key, JSON.stringify(save));
-      st().setItem('pl.slot', String(n));
+      st().setItem(SLOT_KEY(), String(n));
       return true;
     } catch (e) {
       console.warn('[Store] could not save', e);
@@ -296,12 +302,12 @@ G.Store = (() => {
     if (!okSlot(n)) return;
     try {
       st().removeItem(KEY(n)); st().removeItem(KEY(n) + '.bak');
-      if (lastSlot() === n) st().removeItem('pl.slot');
+      if (lastSlot() === n) st().removeItem(SLOT_KEY());
     } catch (e) { /* blocked */ }
   }
 
   function lastSlot() {
-    const n = +read('pl.slot');
+    const n = +read(SLOT_KEY());
     return okSlot(n) ? n : null;
   }
 
@@ -334,6 +340,7 @@ G.Store = (() => {
     const s = f.kind === 'save' && obj(f.save) ? f.save : f;
     if (f.app !== APP && s.app !== APP) return { error: 'other-app' };
     if (!obj(s) || !obj(s.player) || !Array.isArray(s.party)) return { error: 'bad' };
+    if (genOf(s) !== here()) return { error: 'other-gen', gen: genOf(s) };
     try { return { save: sanitize(migrate(Object.assign({}, s, { app: APP }))) }; }
     catch (e) { return { error: e.message === 'newer' ? 'newer' : 'bad' }; }
   }

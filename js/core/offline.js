@@ -56,7 +56,9 @@ G.Offline = (() => {
       if (!k.startsWith(SPRITE_CACHE)) continue;
       for (const r of await (await caches.open(k)).keys()) got.add(new URL(r.url).pathname);
     }
-    const todo = urls.filter(u => !got.has(new URL(u, location.href).pathname));
+    // (document.baseURI: a generation page, gen1/, takes its files from the folder above: <base href="../">.)
+    const base = (typeof document !== 'undefined' && document.baseURI) || location.href;
+    const todo = urls.filter(u => !got.has(new URL(u, base).pathname));
     st.total = urls.length;
     st.done = urls.length - todo.length;
     if (!busy && (st.state !== 'failed' || !todo.length)) st.state = todo.length ? 'missing' : 'ready';

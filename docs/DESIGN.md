@@ -49,7 +49,8 @@ in the same change.
 | `G.Drive` | a copy of the saves in the player's own Google Drive (js/core/drive.js, setup in docs/DRIVE.md, the client ID in js/core/drive-config.js `G.DRIVE_CONFIG`): Google's sign-in library (accounts.google.com/gsi/client, in the CSP's script-src, loaded only once a client ID is set and a screen with the buttons opens: `preload()`), the shared GameHub OAuth client (the same client ID as CardVerse, origin `https://kaonhew02.github.io` only), scope `drive.file`, the shared folder GameHub with `pokeleague-data.json` = `{ app, kind: 'saves', v, at, slots: [save \| null] × 3 }` (app and kind checked before loading). `push()`, `pull(confirm)` (both copies shown; a slot empty in Drive keeps the local one), Auto (`pl.drive.auto`, off; `touch()` after `G.Session.save()`, never a sign-in window of its own), `status()` / `statusText()` (`pl.drive.last`), `message(result)`. UI: Settings > Game, and From Google Drive on the slots screen |
 | `G.Minimap` | the map you are on, top-left (js/ui/minimap.js): one pixel a tile by its kind (`colorOf`), a blinking dot where you stand, the place's name under it; tapped, the Town Map opens in teleport mode. Shown while walking (overworld, no screen open) with the setting `minimap` (default on), not in a dark cave before Flash; while it covers the map (`covers(map, lit)`) field.js shows no place banner. `init()`, `tick()` (game.js) |
 | `G.Stick` | the on-screen joystick (js/ui/stick.js): a base and a knob, bottom-left (upright: under the 3:2 frame); four directions to `G.Btn` (source `touch`, the larger axis, a dead zone of 0.3 of the radius), `'run'` when dragged past 1.3 times the radius (the ring lights up; there is no B on screen). Shown on a touch screen with the setting `stick` (default on, Settings > Controls) while walking: the overworld, no screen open, `G.World.locked` false; hidden, it lets go. `init()`, `tick()` (game.js), `dirOf(dx, dy, r)`. Its pointer events never reach `G.Input` |
-| `G.Offline` | offline play: `init()` registers `sw.js` (published `index.html` only, never `dev.html` or file://); `status()` → null or `{ state: checking/missing/loading/ready/failed, done, total }`; `check()` counts the cached sprites again (Settings calls it); `download()` fetches every sprite sheet the cache lacks; `on(fn)`; `spriteUrls()`. Opened from the Home Screen it downloads by itself. `sw.js` keeps the shell (the list `tools/build.js` writes into it) in `pokeleague-shell-<build>` and sprites in `pokeleague-sprites-<sprites-meta hash>`; the page comes from the network first, the cache when offline. Once registered it controls every page of the origin, so it leaves `dev.html` and every request whose referrer is `dev.html` to the browser at once (no `respondWith`; `tests/offline.test.cjs`). `manifest.json` and `assets/icons/` (from `tools/make_icons.js`) make it a Home Screen app |
+| `G.Offline` | offline play: `init()` registers `sw.js` (published `index.html` only, never `dev.html` or file://); `status()` → null or `{ state: checking/missing/loading/ready/failed, done, total }`; `check()` counts the cached sprites again (Settings calls it); `download()` fetches every sprite sheet the cache lacks; `on(fn)`; `spriteUrls()`. Opened from the Home Screen it downloads by itself. `sw.js` keeps the shell (the list `tools/build.js` writes into it) in `pokeleague-shell-<build>` and sprites in `pokeleague-sprites-<sprites-meta hash>`; the page comes from the network first, the cache when offline. Once registered it controls every page of the origin, so it leaves `dev.html` and every request whose referrer is `dev.html` to the browser at once (no `respondWith`; `tests/offline.test.cjs`). `manifest.json` and `assets/icons/` (from `tools/make_icons.js`) make it a Home Screen app; the generation pages (`gen1/`, section 11) are kept too, each opening its own copy offline |
+| `G.Gen` | js/core/gen.js (section 11): which game the page is (the whole journey, or one generation: `n`, `maxDex`, `regions`, `chapters`), `allows`, `table`, `mapOpen`, `key`, the titles, `url`, `PUBLISHED` |
 | `G.Sprites` | `PX=2, Animator(dex, scale, shiny)` with `.dir .loop(anim) .play(anim, {hold}) .update(dt) .draw(ctx, x, y, {flash, softFlash, alpha})`; also `preload(dexes)`, `drawShadow`, `bodyHeight`, `DIR4`, `hasShiny`. Rows: 0 Down … 3 UpRight … 7 DownLeft |
 | `G.Camera` | `VIEW_W=480, VIEW_H=320` (at least 15×10 tiles of 32; a wider screen sees more to the sides; the setting `zoom` 'large' makes it 384×256, 12×8 tiles, so the map is about a quarter bigger on a phone: `zoom(z)`), `resize, fitRoom(w, h), snap(x,y), follow, kick, apply(ctx), left(), top(), sees()`. `scale` is what is drawn, `base` the scale without a room's zoom |
 | `G.Types` | `LIST, CHART, eff(atkType, defTypes), label(m)` |
@@ -715,9 +716,10 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
 ## 6. Save: `js/core/store.js` (M5 ✅)
 
 - **Keys:** `pl.save.1` to `pl.save.3`. Before each write the old save moves to
-  `pl.save.N.bak`. `pl.slot` holds the last slot used.
+  `pl.save.N.bak`. `pl.slot` holds the last slot used. A generation page (section 11) has its own:
+  `pl.g1.save.1`, `pl.g1.slot` (`G.Gen.key`).
 ```js
-{ v:1, app:'PokeLeague', created, savedAt, playTime,
+{ v:1, app:'PokeLeague', gen:0, created, savedAt, playTime,        // gen: the game (section 11), 0 the whole journey
   player:{ name, gender, id, money, badges:[], map, x, y, dir, lastHeal:{ map, spot }, surf?:1, bike?:1 },
   rival:{ name, starter }, party:[mon], boxes:[[mon|null ×30] ×8], box:0, bag:{ potion:2 }, repel:0,
   dex:{ seen:{16:1}, caught:{4:1} }, flags:{}, vars:{}, done:{ 'route2:rick':1 },
@@ -735,7 +737,7 @@ G.Maps.def({ id:'pallet', loc:'pallet-town', tileset:'outdoor', palette:'kanto',
 - **API:** `G.Store.newSave({ name, gender, rival, id })`, `slots()` → summaries (or
   `{ broken: true }`), `load(n)` (falls back to the `.bak`; `usedBackup`), `write(n, save)`,
   `remove(n)`, `lastSlot()`, `exportText(save)`, `importText(text)` → `{ save }` or
-  `{ error: 'not-json' | 'other-app' | 'newer' | 'bad' }`, `migrate(s, to, steps)`, `sanitize(s)`
+  `{ error: 'not-json' | 'other-app' | 'newer' | 'bad' }` or `{ error: 'other-gen', gen }` (a save of another game), `migrate(s, to, steps)`, `sanitize(s)`
   (every field checked against `newSave()`: unknown species or moves dropped, HP and PP within
   their maximum, a party over six spills into the PC, unknown items dropped, badges 1-24; a Hoenn
   badge whose leader is in `done` but missing from the badges, lost to the old 1-16 limit, comes
@@ -2913,3 +2915,45 @@ Ideas:
    City and the Survival Area).
 4. Contests: accessories; Hoenn's own contest rules (Generation 3's appeals, jamming, combos and the crowd).
 5. The Poké Radar's chain records and its music.
+6. The generation pages (section 11): steps 2 to 4, Johto, Hoenn and Sinnoh each on a page of its own.
+
+## 11. Generation pages (`js/core/gen.js`, `G.Gen`)
+
+PokeLeague is published as several pages that run the same scripts and the same files:
+`/PokeLeague/` is the whole journey (Kanto to Sinnoh, as built chapter by chapter: generation 0), and `/PokeLeague/gen<k>/`
+is Generation k alone, a game of its own with its own title, saves and Home Screen app. They come one step at a time:
+
+| Step | Page | Game | Status |
+|---|---|---|---|
+| 1 | `gen1/` | Kanto, chapters 1-10, Pokémon 1-151 | ✅ |
+| 2 | `gen2/` | Johto and Mt. Silver, chapters 11-27, Pokémon 1-251: a home in New Bark Town, Elm's welcome, Johto's HMs and badges, a Bicycle and rods; Mt. Silver with an opponent of its own | next |
+| 3 | `gen3/` | Hoenn, chapters 28-43, 77-83, 86, 107-109, Pokémon 1-386: a home in Littleroot Town, Birch's welcome, HMs, a Bicycle, held items from the start; its post-game chapters in Hoenn's own order; the Battle Frontier's teams within 386 | later |
+| 4 | `gen4/` | Sinnoh, chapters 44-76, 84, 85, 87-106, 110, Pokémon 1-493: a home in Twinleaf Town, Rowan's welcome, Surf and Fly, a Bicycle, rods, the Day Care; its post-game chapters in Sinnoh's own order | later |
+
+- **Which page:** a built page says so with `<html data-gen="k">` (the CSP allows no inline script); dev.html takes `?gen=k`;
+  a test calls `G.Gen.set(k)`. Nothing said: 0. `G.Gen.PUBLISHED` lists the generations that have a page.
+- **API:** `n`, `maxDex` (151 / 251 / 386 / 493), `regions`, `chapters`, `last`; `allows(sp)`; `table(t)` (an encounter
+  table without the later species, the chances of the rest kept in proportion; the very same table in the whole journey,
+  null when nothing is left; `G.Maps.encounters` returns it, so every wild draw, Headbutt, rods and the Poké Radar see it);
+  `mapOpen(id)` (`G.Maps.region(id)`: a map's `region`, Kanto's maps naming none); `CLOSED` (the script of a closed road);
+  `key(name)`; `name(k)`, `region(k)`, `label(k)`, `title()`, `subtitle()`, `url(k)`.
+- **Saves:** a page has its own slots, `pl.g<k>.save.1` to `.3` and `pl.g<k>.slot` (`G.Gen.key`; the whole journey keeps
+  `pl.save.N`), its own Google Drive file (`pokeleague-gen<k>-data.json`, `pl.g<k>.drive.*`) and exported file names
+  (`PokeLeague-gen<k>-...`). A save says which game it belongs to (`gen`, 0 when missing); a slot or a file of another game is
+  not loaded (`importText`: `{ error: 'other-gen', gen }`). Language, sound and the other settings are shared.
+- **Build** (`tools/build.js`): for each published generation, `gen<k>/index.html` is index.html with `data-gen`,
+  `<base href="../">` first in `<head>` (every file comes from the folder above: one copy of the scripts, sprites and caches
+  for all pages), its own `<title>`, Home Screen title and description, and `gen<k>/manifest.json` (its name; `start_url` and
+  `scope` `./`; no `id`, so the app's id is `/PokeLeague/gen<k>/`, apart from the whole journey's). `sw.js` keeps the pages
+  too, and offline each opens its own copy (the whole journey's when it has none). `G.Offline` reckons the sprites against
+  `document.baseURI`.
+- **Title screen:** a generation page names its game under the logo (`G.Gen.subtitle()`: "Generation 1 · Kanto") and in the
+  browser tab (`G.Gen.title()`); every page has Generations (`G.TitleUI`), the whole journey and the published pages, this
+  one ticked: another opens its page (on dev.html, `?gen=k`).
+- **Generation 1's rules:** wild tables without species above 151 (only Cerulean Cave's Wobbuffet goes); no evolution into a
+  later species (`G.Evolution.candidates`: Crobat, Blissey, Espeon, Umbreon, Leafeon, Magnezone...); the Pokédex lists 1-151;
+  a warp from one of its maps to a region it leaves out is a locked door with `G.Gen.CLOSED` (`G.Maps.get`: the Indigo
+  Plateau's way down to Johto); chapter 10's ending says the game is complete (`G.CreditsUI.text`). Kanto has no Day Care
+  and no held items before Johto, as in the first games. Battles keep this game's Generation 4 rules on every page.
+- **Tests:** `tests/gen.test.cjs` (the settings, the saves apart, Cerulean Cave, evolutions, the closed road, the ending);
+  `tests/offline.test.cjs` (the built pages and manifests, the service worker's pages offline).

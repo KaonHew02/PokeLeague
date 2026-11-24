@@ -1,0 +1,96 @@
+<!doctype html>
+<!-- GENERATED from dev.html by tools/build.js: do not edit by hand (edit dev.html). -->
+<html lang="en" data-gen="1">
+<head>
+<meta charset="utf-8">
+<!-- Every file comes from the folder above, shared with the whole journey's page. -->
+<base href="../">
+<!-- Only the game's own scripts may run: nothing injected into the page
+     (onerror=, a script tag inside a text...) can execute. -->
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' file: https://accounts.google.com; object-src 'none'; base-uri 'self'">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PokeLeague (Generation 1)</title>
+<meta name="description" content="PokeLeague (Generation 1): Kanto only, Pokémon 1 to 151. A free fan-made Pokémon adventure for the browser and phones: pick a starter, catch and train Pokémon, beat the gyms and the League, region by region.">
+<meta name="theme-color" content="#0a1430">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PokeLeague 1">
+<!-- Home Screen app (iPhone: Share, then "Add to Home Screen"); sw.js lets it play offline. -->
+<link rel="manifest" href="gen1/manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-180.png">
+<link rel="preload" href="assets/fonts/PixelifyPS-400.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/fonts/PixelifyPS-700.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="css/app.css?v=73cce2a8d3">
+<script src="js/core/locales.js?v=fff7dee35c"></script>
+</head>
+<body>
+
+<!-- The game: a frame that fills the window (canvas + every screen). Modules add
+     their own overlays (dialog box, battle HUD) inside #frame. -->
+<div id="frame">
+  <canvas id="game"></canvas>
+
+  <!-- ====== Title ====== -->
+  <section id="scr-title" class="scr title hidden">
+    <div class="title-logo">
+      <div class="t1" translate="no">PokeLeague</div>
+      <div class="t2" id="t-sub">Region by region, all the way to the League</div>
+    </div>
+    <div class="box title-menu">
+      <div class="menu-list">
+        <button class="menu-item" id="t-continue">Continue</button>
+        <button class="menu-item" id="t-new" data-first>New game</button>
+        <button class="menu-item" id="t-gens">Generations</button>
+        <button class="menu-item" id="t-options">Settings</button>
+        <button class="menu-item" id="t-credits">Credits</button>
+      </div>
+    </div>
+    <button class="icon-btn title-mute" id="t-mute" title="Sound" data-nonav></button>
+    <p class="title-foot">Free fan game, not for sale · Based on PokéSurvivor by JPTER78</p>
+  </section>
+
+  <!-- ====== Settings (options-ui.js); opens over the title or the start menu ====== -->
+  <section id="scr-options" class="scr dim hidden">
+    <div class="box options">
+      <div class="opt-head"><h3>Settings</h3><button class="btn small ghost" id="opt-back" data-back>Back</button></div>
+      <div class="opt-tabs" id="opt-tabs">
+        <button class="opt-tab" data-t="game">Game</button>
+        <button class="opt-tab" data-t="sound">Sound</button>
+        <button class="opt-tab" data-t="controls">Controls</button>
+        <button class="opt-tab" data-t="display">Display</button>
+      </div>
+      <div class="opt-body" id="opt-body" translate="no"></div>
+    </div>
+  </section>
+
+  <!-- Credits: js/ui/credits-ui.js builds its own screen. -->
+</div>
+
+<!-- Phones held upright: a hint below the game (base.css shows it only in portrait on touch screens). -->
+<div class="rotate-hint" aria-hidden="true">
+  <svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="18.5" r="1" fill="currentColor"/></svg>
+  <span>Turn your phone sideways for a bigger screen.</span>
+</div>
+
+<div id="boot" class="boot">
+  <div class="boot-in">
+    <h1 translate="no">PokeLeague</h1>
+    <p class="boot-ld">Loading…</p>
+  </div>
+</div>
+<div id="tap-start" class="tapstart hidden">
+  <div class="boot-in">
+    <h1 translate="no">PokeLeague</h1>
+    <p class="tap-blink">Tap or press any key</p>
+  </div>
+</div>
+<noscript>
+  <div class="boot noscript"><div class="boot-in"><h1>PokeLeague</h1><p>JavaScript is needed to play.</p></div></div>
+</noscript>
+
+<script defer src="js/app.min.js?v=c919a8e21b"></script>
+</body>
+</html>

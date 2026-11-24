@@ -9,6 +9,9 @@
  *   fingerprint in its URL so browsers do not keep a stale copy.
  * - <script data-dev> files (debug.js) are left out of the published build.
  * - sw.js (offline play) gets the list of files it keeps, with the same fingerprints.
+ * - The generation pages (js/core/gen.js PUBLISHED): gen<k>/index.html, the same page with <html data-gen="k">
+ *   and <base href="../"> (every file comes from the folder above, shared with index.html), its own title and
+ *   gen<k>/manifest.json (its own Home Screen app).
  */
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const { execFileSync } = require('child_process');
@@ -68,24 +71,53 @@ html = html.replace(/<meta name="robots" content="noindex">\s*/, '');
 html = html.replace(/<!-- dev\.html: the source page[^>]*-->/, '<!-- GENERATED from dev.html by tools/build.js: do not edit by hand (edit dev.html). -->');
 fs.writeFileSync(OUT, html);
 
+// ---- the generation pages (js/core/gen.js): gen<k>/index.html and gen<k>/manifest.json ----
+const Gen = (() => {
+  const box = { G: {} };
+  require('vm').runInNewContext(fs.readFileSync(path.join(ROOT, 'js', 'core', 'gen.js'), 'utf8'), box);
+  return box.G.Gen;
+})();
+const manifest = fs.readFileSync(path.join(ROOT, 'manifest.json'));
+const genPages = Gen.PUBLISHED.map(k => {
+  const name = `PokeLeague (${Gen.name(k)})`, short = 'PokeLeague ' + k;
+  const swap = (s, a, b) => { if (!s.includes(a)) throw new Error('index.html lacks ' + a + ': check build.js'); return s.replace(a, b); };
+  let page = swap(html, '<html lang="en">', `<html lang="en" data-gen="${k}">`);
+  page = swap(page, '<meta charset="utf-8">',
+    '<meta charset="utf-8">\n<!-- Every file comes from the folder above, shared with the whole journey\'s page. -->\n<base href="../">');
+  page = swap(page, '<title>PokeLeague</title>', `<title>${name}</title>`);
+  page = swap(page, '<meta name="apple-mobile-web-app-title" content="PokeLeague">', `<meta name="apple-mobile-web-app-title" content="${short}">`);
+  page = swap(page, '<link rel="manifest" href="manifest.json">', `<link rel="manifest" href="gen${k}/manifest.json">`);
+  page = page.replace(/<meta name="description" content="/, `$&${name}: ${Gen.region(k)} only, Pokémon 1 to ${Gen.INFO[k].maxDex}. `);
+  const m = JSON.parse(manifest);
+  delete m.id;                                       // its id is then its start_url: /PokeLeague/gen<k>/
+  Object.assign(m, { name, short_name: short, start_url: './', scope: './' });
+  m.icons = m.icons.map(i => Object.assign({}, i, { src: '../' + i.src }));
+  const json = JSON.stringify(m, null, 2) + '\n';
+  fs.mkdirSync(path.join(ROOT, 'gen' + k), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, 'gen' + k, 'index.html'), page);
+  fs.writeFileSync(path.join(ROOT, 'gen' + k, 'manifest.json'), json);
+  return { k, page, json };
+});
+
 // ---- service worker: the files sw.js keeps for offline play (between its build: markers) ----
 const SW = path.join(ROOT, 'sw.js');
 const locV = sha(...locBufs);
-const manifest = fs.readFileSync(path.join(ROOT, 'manifest.json'));
 const shell = [...new Set(['./', `css/app.css?v=${sha(css)}`, `js/app.min.js?v=${hash}`, `js/core/locales.js?v=${locV}`,
   ...fs.readdirSync(path.join(ROOT, 'js', 'lang')).sort().map(f => `js/lang/${f}?v=${locV}`),
   ...[...html.matchAll(/<link[^>]*href="(assets\/[^"?]+)"/g)].map(m => m[1]),     // fonts, icons
-  'manifest.json', ...JSON.parse(manifest).icons.map(i => i.src)])];
+  'manifest.json', ...JSON.parse(manifest).icons.map(i => i.src),
+  ...genPages.flatMap(g => [`gen${g.k}/`, `gen${g.k}/manifest.json`])])];
 const icons = shell.filter(f => f.startsWith('assets/icons/')).map(f => fs.readFileSync(path.join(ROOT, f)));
 const swSrc = fs.readFileSync(SW, 'utf8'), B = '/* build:begin */', E = '/* build:end */';
 const bi = swSrc.indexOf(B), bj = swSrc.indexOf(E);
 if (bi < 0 || bj < 0) throw new Error('sw.js lacks the markers ' + B + ' / ' + E);
 fs.writeFileSync(SW, swSrc.slice(0, bi + B.length)
-  + `\nconst VERSION = '${sha(Buffer.from(html), manifest, ...icons)}';`
+  + `\nconst VERSION = '${sha(Buffer.from(html), manifest, ...icons, ...genPages.flatMap(g => [Buffer.from(g.page), Buffer.from(g.json)]))}';`
   + `\nconst SPRITES = '${sha(fs.readFileSync(path.join(ROOT, 'js', 'data', 'sprites-meta.js')))}';`
   + `\nconst SHELL = [\n${shell.map(f => '  ' + JSON.stringify(f)).join(',\n')}\n];\n` + swSrc.slice(bj));
 
 // Published version (for a future "update available" notice).
 fs.writeFileSync(path.join(ROOT, 'version.json'), JSON.stringify({ v: hash, at: new Date().toISOString() }) + '\n');
 console.log('ok: dictionaries ' + langSizes.join(' · '));
+console.log('ok: generation pages ' + (genPages.map(g => 'gen' + g.k + '/').join(' ') || 'none'));
 console.log(`${EXPOSE ? '[EXPOSED, tests only] ' : ''}ok: ${files.length} scripts · ${(joined.length / 1024).toFixed(0)} KB -> ${(min.length / 1024).toFixed(0)} KB · ${sheets.length} stylesheets (app.min.js?v=${hash})`);

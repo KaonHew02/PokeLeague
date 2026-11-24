@@ -342,8 +342,18 @@ G.CreditsUI = (() => {
              next: T('The road east is open: Route 3, Mt. Moon and Cerulean City are waiting!') };
   }
 
+  /** A chapter's lines; on a generation page (gen.js) its last chapter ends that game. */
+  function text(n, player) {
+    const txt = chapterText(n, player);
+    if (G.Gen && G.Gen.n && n === G.Gen.last) {
+      txt.next = fmt('The journey of {game} is complete! The other games have pages of their own: choose Generations on the title screen.',
+                     { game: G.Gen.label(G.Gen.n) });
+    }
+    return txt;
+  }
+
   function endingHtml(n) {
-    const S = G.Field.save, p = S.player, txt = chapterText(n, p.name);
+    const S = G.Field.save, p = S.player, txt = text(n, p.name);
     const party = S.party.map(m => `<div class="cr-mon"><canvas width="64" height="64" data-sp="${m.sp}" data-shiny="${m.shiny ? 1 : 0}"></canvas>`
       + `<span>${esc(G.Mon.name(m))}</span><small>${esc(fmt('Lv. {n}', { n: m.lvl }))}</small></div>`).join('');
     return `<h2 class="cr-big">${esc(txt.title)}</h2>`
@@ -439,5 +449,5 @@ G.CreditsUI = (() => {
     });
   }
 
-  return { open, ending, close };
+  return { open, ending, close, text };
 })();

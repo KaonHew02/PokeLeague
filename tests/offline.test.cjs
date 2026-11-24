@@ -90,3 +90,58 @@ test('G.Offline lists sprite files that exist, and says about how big they are',
   // Not in tests or on file://: no service worker there.
   assert.equal(G.Offline.status(), null);
 });
+
+test('the generation pages (js/core/gen.js): gen<k>/index.html is index.html from the folder above, with its own title and manifest', () => {
+  const sw = source('sw.js');
+  const shell = JSON.parse(/const SHELL = (\[[\s\S]*?\]);/.exec(sw)[1]);
+  const index = source('index.html');
+  const published = boot(['js/core/util.js', 'js/core/gen.js']).G.Gen.PUBLISHED;
+  assert.ok(published.length >= 1);
+  for (const k of published) {
+    const page = source(`gen${k}/index.html`);
+    assert.match(page, new RegExp(`<html lang="en" data-gen="${k}">`));
+    // <base> comes before any relative address of the page (the CSP's base-uri 'self' allows it).
+    const base = page.indexOf('<base href="../">');
+    assert.ok(base > 0 && base < page.indexOf('<link') && base < page.indexOf('<script'), '<base> first');
+    assert.ok(page.includes(`<link rel="manifest" href="gen${k}/manifest.json">`), 'its own manifest');
+    assert.ok(page.includes(`<title>PokeLeague (Generation ${k})</title>`), 'its own title');
+    for (const f of [/js\/app\.min\.js\?v=\w+/, /css\/app\.css\?v=\w+/, /js\/core\/locales\.js\?v=\w+/]) {
+      assert.equal(f.exec(page)[0], f.exec(index)[0], 'the same build as index.html');
+    }
+    // The page's body is index.html's.
+    assert.equal(page.slice(page.indexOf('<body>')), index.slice(index.indexOf('<body>')));
+    const m = JSON.parse(source(`gen${k}/manifest.json`));
+    assert.equal(m.start_url, './');
+    assert.equal(m.scope, './');
+    assert.equal(m.id, undefined, 'its id is its start_url, apart from the whole journey\'s app');
+    assert.equal(m.name, `PokeLeague (Generation ${k})`);
+    for (const i of m.icons) {
+      assert.ok(i.src.startsWith('../'));
+      assert.deepEqual(pngSize(i.src.slice(3)), i.sizes.split('x').map(Number), i.src);
+    }
+    assert.ok(shell.includes(`gen${k}/`) && shell.includes(`gen${k}/manifest.json`), 'kept for offline play');
+  }
+});
+
+test('sw.js offline: each page opens its own cached copy, the whole journey\'s when it has none', async () => {
+  const vm = require('node:vm');
+  const handlers = {};
+  const BASE = 'http://localhost:8130/';
+  const cached = { [BASE]: 'journey', [BASE + 'gen1/']: 'gen1' };
+  const shellCache = { match: async (u, o) => (o && o.ignoreSearch ? cached[String(u).replace(/\?.*$/, '')] : cached[u]) || null };
+  const ctx = {
+    URL, Promise, setTimeout: f => f(), console,
+    location: new URL(BASE + 'sw.js'),
+    caches: { open: async () => shellCache, match: async () => null, keys: async () => [] },
+    fetch: () => Promise.reject(new Error('offline'))
+  };
+  ctx.self = { registration: { scope: BASE }, clients: { get: async () => null, claim: async () => {} }, skipWaiting: async () => {},
+    addEventListener: (type, fn) => { handlers[type] = fn; } };
+  vm.runInNewContext(source('sw.js'), ctx);
+  const open = url => new Promise(res => handlers.fetch({ request: { method: 'GET', url: BASE + url, mode: 'navigate', referrer: '' }, respondWith: res }));
+  assert.equal(await open(''), 'journey');
+  assert.equal(await open('gen1/'), 'gen1');
+  assert.equal(await open('gen1/index.html'), 'gen1');
+  assert.equal(await open('gen1/?x=1'), 'gen1');
+  assert.equal(await open('gen3/'), 'journey', 'a page it does not keep: the whole journey');
+});

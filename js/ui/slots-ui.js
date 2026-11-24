@@ -98,7 +98,8 @@ G.SlotsUI = (() => {
   function exportSlot(n) {
     const s = G.Store.load(n);
     if (!s) { G.Popup.say(T('This save could not be read.')); return; }
-    const name = `PokeLeague-${s.player.name.replace(/[^\w-]+/g, '') || 'save'}-slot${n}-${new Date().toISOString().slice(0, 10)}.json`;
+    const gen = G.Gen && G.Gen.n ? 'gen' + G.Gen.n + '-' : '';          // a generation page's file says so
+    const name = `PokeLeague-${gen}${s.player.name.replace(/[^\w-]+/g, '') || 'save'}-slot${n}-${new Date().toISOString().slice(0, 10)}.json`;
     const url = URL.createObjectURL(new Blob([G.Store.exportText(s)], { type: 'application/json' }));
     const a = document.createElement('a');
     a.href = url; a.download = name;
@@ -111,7 +112,9 @@ G.SlotsUI = (() => {
     const r = f.size > 4e6 ? { error: 'bad' } : G.Store.importText(await f.text());
     if (r.error) {
       const msg = { 'not-json': T('That file is not a save file.'), 'other-app': T('That file is not a PokeLeague save.'),
-                    newer: T('That save comes from a newer version of the game.'), bad: T('That save file is damaged.') }[r.error];
+                    newer: T('That save comes from a newer version of the game.'), bad: T('That save file is damaged.'),
+                    'other-gen': G.I18n.fmt('That save belongs to another game: {game}. Open its page to load it.',
+                                            { game: G.Gen ? G.Gen.label(r.gen) : '' }) }[r.error];
       await G.Popup.say(msg);
       return;
     }

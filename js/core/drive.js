@@ -30,10 +30,15 @@ G.Drive = (() => {
   const API = 'https://www.googleapis.com/drive/v3', UPLOAD = 'https://www.googleapis.com/upload/drive/v3';
   const GSI = 'https://accounts.google.com/gsi/client';
   const FOLDER = 'application/vnd.google-apps.folder';
-  const AUTO_KEY = 'pl.drive.auto', LAST_KEY = 'pl.drive.last';
+  // A generation page (gen.js) keeps its own: pl.g1.drive.auto, and its own file (pokeleague-gen1-data.json).
+  const AUTO_KEY = G.Gen ? G.Gen.key('drive.auto') : 'pl.drive.auto', LAST_KEY = G.Gen ? G.Gen.key('drive.last') : 'pl.drive.last';
   const AUTO_WAIT = 5000, STALE_DAYS = 7;
 
   const cfg = () => G.DRIVE_CONFIG || {};
+  const fileName = () => {
+    const f = cfg().filename || '';
+    return G.Gen && G.Gen.n ? f.replace(/(-data)?\.json$/, '-gen' + G.Gen.n + '$&') : f;
+  };
   const configured = () => /\.apps\.googleusercontent\.com$/.test(cfg().clientId || '');
   const get = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
   const put = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* storage can be blocked */ } };
@@ -99,7 +104,7 @@ G.Drive = (() => {
   async function findFile() {
     if (fileId) return fileId;
     const dir = await folder();
-    const r = await call(`${API}/files?q=${q(`'${dir}' in parents and name = '${esc(cfg().filename)}' and trashed = false`)}&fields=files(id,modifiedTime)&pageSize=1`);
+    const r = await call(`${API}/files?q=${q(`'${dir}' in parents and name = '${esc(fileName())}' and trashed = false`)}&fields=files(id,modifiedTime)&pageSize=1`);
     const b = await r.json();
     return (fileId = (b.files && b.files[0] && b.files[0].id) || null);
   }
@@ -111,7 +116,7 @@ G.Drive = (() => {
       await call(`${UPLOAD}/files/${id}?uploadType=media`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body });
       return id;
     }
-    const meta = { name: cfg().filename, parents: [await folder()], mimeType: 'application/json' };
+    const meta = { name: fileName(), parents: [await folder()], mimeType: 'application/json' };
     const bd = 'pokeleague-' + Date.now().toString(36);
     const multi = `--${bd}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(meta)}\r\n`
       + `--${bd}\r\nContent-Type: application/json\r\n\r\n${body}\r\n--${bd}--`;

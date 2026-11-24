@@ -275,11 +275,20 @@ G.Maps = (() => {
       moveSpots: d.moveSpots || [],
       encounters: d.encounters || {},
       warps: d.warps || [],
-      warpAt: new Map((d.warps || []).map(w => [key(w.x, w.y), w])),
+      warpAt: new Map((d.warps || []).map(w => [key(w.x, w.y), closedRoad(id, w)])),
       changed
     });
     cache[ck] = m;
     return m;
+  }
+
+  /** The region a map belongs to (Kanto's maps name none), or null when there is no such map. */
+  const region = id => (defs[id] ? defs[id].region || 'kanto' : null);
+  /** A generation page (gen.js): a warp from one of its maps to a region it leaves out is a locked door that says so. */
+  function closedRoad(id, w) {
+    const Gen = G.Gen;
+    if (!Gen || !Gen.n || !w.to || Gen.mapOpen(w.to) || !Gen.mapOpen(id)) return w;
+    return Object.assign({}, w, { if: () => false, locked: Gen.CLOSED });
   }
 
   // ---------------- tile queries ----------------
@@ -374,9 +383,11 @@ G.Maps = (() => {
     if (!e) return null;
     if (typeof e === 'string' && e[0] === '@') {
       const area = G.ENCOUNTERS && G.ENCOUNTERS[e.slice(1)];
-      return area && area[method] || null;
+      e = area && area[method] || null;
     }
-    return e && Array.isArray(e.mons) ? e : null;
+    e = e && Array.isArray(e.mons) ? e : null;
+    // A generation page: only its own generation's species (gen.js; the very same table in the whole journey).
+    return G.Gen ? G.Gen.table(e) : e;
   }
 
   // ---------------- validation ----------------
@@ -717,7 +728,7 @@ G.Maps = (() => {
     });
   }
 
-  return { TS, KINDS, LEGEND, STAMPS, DIRS, OPP, SIDES, MOVES, WATERY, def, get, all, has, parse, validate, edgeTiles,
+  return { TS, KINDS, LEGEND, STAMPS, DIRS, OPP, SIDES, MOVES, WATERY, def, get, all, has, region, parse, validate, edgeTiles,
            inside, kindAt, kindNear, chAt, open, ledge, info, spot, neighbour, neighbours, across, species, encounters, key,
            center, mart, get defs() { return defs; } };
 })();

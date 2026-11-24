@@ -89,7 +89,7 @@ G.I18n = (() => {
   }
 
   function startDom() {
-    document.title = t('PokeLeague');
+    document.title = G.Gen ? G.Gen.title() : t('PokeLeague');      // a generation page: "PokeLeague (Generation 1)"
     if (lang === SRC) return;
     walk(document.body);
     new MutationObserver(ms => {

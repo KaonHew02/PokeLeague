@@ -70,7 +70,9 @@
  * random usable move of that group (palaceGroup: a damaging move is attack, a status move on its own side defense,
  * any other support, Counter and Mirror Coat too). With none in that group, half the time it hesitates ({ hesitate }:
  * 'cantMove' why 'palace', no move, no PP) and otherwise uses a random usable move; with none usable, Struggle.
- * Switching stays (the player's only choice); no Shift question.
+ * Switching stays (the player's only choice); no Shift question. Chapter 108: in doubles too (Emerald's double battle halls):
+ * the player's Fight becomes { palace: true } and both sides' Pokémon choose when the turn begins; a move for one target
+ * goes at the foe with more HP, less HP or either, by nature (palaceAim, PALACE_TARGET).
  *
  * Events are plain objects { type, ... } that the battle screen plays in order
  * (text: G.BattleText.line(event, battle)). side 0 = the player, 1 = the foe.
@@ -87,6 +89,12 @@ G.Battle = (() => {
     impish: [69, 6, 28, 55], jolly: [35, 5, 35, 60], lax: [35, 10, 29, 6], lonely: [20, 25, 84, 8], mild: [44, 50, 34, 6],
     modest: [35, 45, 34, 60], naive: [56, 22, 56, 22], naughty: [20, 70, 70, 22], quiet: [56, 22, 56, 22], quirky: [56, 22, 56, 22],
     rash: [30, 13, 27, 6], relaxed: [25, 15, 75, 15], sassy: [88, 6, 22, 20], serious: [34, 11, 29, 11], timid: [62, 10, 30, 20]
+  };
+  // Chapter 108: in the Palace's double battles, the foe a move for one target goes at, by nature: the one with more HP (+1),
+  // less HP (-1) or either (0). Emerald's gBattlePalaceNatureToMoveTarget (src/battle_anim_smokescreen.c).
+  const PALACE_TARGET = {
+    hardy: 1, lonely: 1, brave: -1, adamant: 1, naughty: -1, bold: -1, docile: 0, relaxed: 1, impish: 1, lax: 1, timid: -1, hasty: -1,
+    serious: -1, jolly: 1, naive: 0, modest: -1, mild: 1, quiet: -1, bashful: -1, rash: 1, calm: 1, gentle: 1, sassy: -1, careful: -1, quirky: 1
   };
   const OWN_SIDE = new Set(['user', 'users-field', 'user-and-allies', 'user-or-ally']);
   /** A move's group in the Battle Palace: 'attack' | 'defense' | 'support'. */
@@ -107,7 +115,7 @@ G.Battle = (() => {
       this.double = !!this.rules.double && (this.kind === 'trainer' || this.kind === 'wild');     // wild: chapter 102
       if (this.double) this.rules.shift = false;
       this.arena = !!this.rules.arena && this.kind === 'trainer' && !this.double;     // the Battle Arena (chapter 79)
-      this.palace = !!this.rules.palace && this.kind === 'trainer' && !this.double;   // the Battle Palace (chapter 80)
+      this.palace = !!this.rules.palace && this.kind === 'trainer';    // the Battle Palace (chapter 80; doubles: chapter 108)
       if (this.arena || this.palace) this.rules.shift = false;
       this.arenaTurns = 0;
       const pl = o.player, fo = o.foe;
@@ -197,7 +205,9 @@ G.Battle = (() => {
     /** Doubles: one battler's action; the next one is asked, or the turn begins. */
     actDouble(a) {
       const slot = this.prompt.slot;
-      this.choices[slot] = a.type === 'move' && this.options(slot).struggle ? { type: 'move', id: 'struggle' } : a;
+      // The Battle Palace (chapter 108): Fight lets the Pokémon choose, when the turn begins.
+      this.choices[slot] = this.palace && a.type === 'move' ? { type: 'move', palace: true }
+        : a.type === 'move' && this.options(slot).struggle ? { type: 'move', id: 'struggle' } : a;
       this.prompt = null;
       const next = this.chooser(slot + 1);
       if (next != null) { this.prompt = { kind: 'action', slot: next }; return this.events; }
@@ -529,9 +539,11 @@ G.Battle = (() => {
         bm.vol.helped = false; bm.vol.followMe = false;
       }
       const acts = [];
-      this.player.bms.forEach((bm, k) => { if (this.alive(bm) && choices[k]) acts.push({ side: this.player, bm, a: choices[k], n: 0 }); });
+      this.player.bms.forEach((bm, k) => {
+        if (this.alive(bm) && choices[k]) acts.push({ side: this.player, bm, a: choices[k].palace ? this.palaceAction(bm) : choices[k], n: 0 });
+      });
       this.foe.bms.forEach((bm, k) => {
-        if (this.alive(bm)) acts.push({ side: this.foe, bm, a: this.lockedAction(bm) || G.BattleAI.choose(this, this.foe, k), n: 1 });
+        if (this.alive(bm)) acts.push({ side: this.foe, bm, a: this.lockedAction(bm) || (this.palace ? this.palaceAction(bm) : G.BattleAI.choose(this, this.foe, k)), n: 1 });
       });
       for (const x of acts) {
         const id = x.a.type === 'move' ? (x.a.id || (x.bm.mon.moves[x.a.slot] || {}).id) : null;
@@ -822,9 +834,24 @@ G.Battle = (() => {
       const r = this.rng.int(1, 100);
       const group = r <= atk ? 'attack' : r <= atk + def ? 'defense' : 'support';
       const mine = usable.filter(x => palaceGroup(x.id) === group);
-      if (mine.length) return { type: 'move', slot: this.rng.pick(mine).slot };
+      if (mine.length) return this.palaceAim(bm, { type: 'move', slot: this.rng.pick(mine).slot });
       if (this.rng.next() < 0.5) return { type: 'move', slot: usable[0].slot, hesitate: true };
-      return { type: 'move', slot: this.rng.pick(usable).slot };
+      return this.palaceAim(bm, { type: 'move', slot: this.rng.pick(usable).slot });
+    }
+    /** Chapter 108, Emerald's GetBattlePalaceTarget: in doubles, a move for one target (and a Ghost's Curse) goes at the foe
+     *  with more HP, less HP or either, by the user's nature (PALACE_TARGET); equal HP, either. A fainted foe counts as 0 HP
+     *  (targetFor then turns the move to the other). Singles: unchanged. */
+    palaceAim(bm, a) {
+      if (!this.double) return a;
+      const id = (bm.mon.moves[a.slot] || {}).id, M = G.MOVES[id];
+      const one = M && (M.tgt === 'selected-pokemon' || (id === 'curse' && G.Mon.types(bm.mon).includes('ghost')));
+      if (!one) return a;
+      const side = this.sides[1 - bm.side], hp = k => { const t = side.bms[k]; return t && this.alive(t) ? t.mon.hp : 0; };
+      const pref = PALACE_TARGET[bm.mon.nature] != null ? PALACE_TARGET[bm.mon.nature] : 1;
+      let slot;
+      if (hp(0) === hp(1) || pref === 0) slot = this.rng.int(0, 1);
+      else slot = (pref > 0) === (hp(0) > hp(1)) ? 0 : 1;
+      return Object.assign(a, { target: { side: side.side, slot } });
     }
 
     // ================= the Battle Arena (rules.arena, chapter 79) =================
@@ -1082,5 +1109,5 @@ G.Battle = (() => {
     }
   }
 
-  return { create: o => new Battle(o), Battle, STAGES, PALACE, palaceGroup };
+  return { create: o => new Battle(o), Battle, STAGES, PALACE, PALACE_TARGET, palaceGroup };
 })();

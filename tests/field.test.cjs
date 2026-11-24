@@ -8569,3 +8569,43 @@ test('the glass workshop (chapter 107): Route 113\'s ash and the Soot Sack, the 
   assert.equal(W.wildRate('walk'), base, 'the next map');
 });
 const FLUTES = () => ['blue-flute', 'yellow-flute', 'red-flute', 'white-flute', 'black-flute'];
+
+test('the Battle Palace\'s and the Battle Dome\'s double battles (chapter 108): the counters, three Pokémon two at a time, no Frontier Brain, streaks of their own, the ending after chapter 107', async () => {
+  const { G, W } = world(['js/world/tower.js', 'js/content/hoenn/tower.js', 'js/content/hoenn/palace.js', 'js/content/hoenn/dome.js']);
+  const F = G.Field, Tw = G.Tower;
+  for (const id of ['battle-palace-lobby', 'battle-dome-lobby']) {
+    const m = G.Maps.get(id), clerk = m.npcs.find(n => n.id === 'double');
+    assert.ok(clerk && m.spots.double && clerk.x === m.spots.double[0], id);
+  }
+  // No Frontier Brain in doubles; three Pokémon each.
+  const d21 = G.PalaceHall.trainerFor(21, 1, 'double');
+  assert.ok(d21.id !== 'spenser' && d21.double && d21.team.length === 3);
+  assert.equal(G.PalaceHall.trainerFor(21, 1).id, 'spenser', 'singles as before');
+  for (const s of ['garchomp', 'metagross', 'gyarados']) F.giveMon(s, 50);
+  const mine = F.party();
+  const t5 = G.DomeHall.tournament(5, 1, mine, 'double');
+  assert.ok(t5.slots.slice(1).every(d => !d.ace && d.double && d.team.length === 3), 'no Tucker, three each');
+  assert.ok(G.DomeHall.tournament(5, 1, mine).slots[G.DomeHall.ACE_SLOT].ace, 'singles as before');
+  // The Palace's double battle halls: seven battles, three of yours, two out at once under the palace rule.
+  const fights = [];
+  G.BattleUI = { trainer: (me, t, o) => { fights.push({ mine: me.party.length, foes: t.team.length, rules: Object.assign({}, o.rules), name: t.name }); return Promise.resolve({ outcome: 'win' }); } };
+  const picks = [];
+  G.PartyUI = { pick: o => Promise.resolve(o.mons ? o.mons.findIndex((m, j) => !(o.disabled && o.disabled(m, j))) : picks.shift()) };
+  F.setFlag('chapter-107-done');
+  W.load('battle-palace-lobby', { x: 10, y: 4, dir: 'up' });
+  picks.push(0, 1, 2);
+  await W.runScript('palace.double', {});
+  assert.equal(fights.length, 7);
+  assert.ok(fights.every(f => f.mine === 3 && f.foes === 3 && f.rules.double && f.rules.palace && f.rules.noBag));
+  assert.deepEqual([Tw.streak('double', 'palace'), Tw.streak('single', 'palace')], [7, 0], 'streaks of their own');
+  assert.ok(F.flag('chapter-108-done'));
+  assert.equal(W.player.x, 10, 'back at the double counter');
+  // The Dome's double tournament: four matches, two of your three against two of theirs, a double battle without the palace rule.
+  fights.length = 0;
+  W.load('battle-dome-lobby', { x: 10, y: 4, dir: 'up' });
+  picks.push(0, 1, 2);
+  await W.runScript('dome.double', {});
+  assert.equal(fights.length, 4);
+  assert.ok(fights.every(f => f.mine === 2 && f.foes === 2 && f.rules.double && !f.rules.palace));
+  assert.deepEqual([Tw.streak('double', 'dome'), Tw.streak('single', 'dome')], [1, 0]);
+});

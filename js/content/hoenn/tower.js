@@ -121,7 +121,8 @@
   };
 
   /** The opponent of battle No. n (the same one for the same run): a trainer def for G.World.battle.
-   *  o (chapter 78, the Battle Factory): { salt, before, defeat } another seed and other lines, and no Anabel. */
+   *  o (chapter 78, the Battle Factory): { salt, before, defeat } another seed and other lines, and no Anabel; size (chapter 108,
+   *  the Palace's and the Dome's double battles): Pokémon in the team, when not the mode's own (3, or 4 for doubles). */
   function trainerFor(n, mode, run, o = {}) {
     const brain = !o.salt && mode === 'single' && BRAIN[n];
     if (brain) {
@@ -135,7 +136,7 @@
     const rng = G.RNG(id >>> 0);
     const [cls, woman] = rng.pick(CLASSES);
     return { id: 'tower', who: G.TRAINER_CLASSES[cls].who, cls, name: rng.pick(woman ? WOMEN() : MEN()), ai: 'leader', prize: 0, items: {},
-             double: mode === 'double', team: G.Tower.team(rng, Math.floor((n - 1) / 7), mode === 'double' ? 4 : 3),
+             double: mode === 'double', team: G.Tower.team(rng, Math.floor((n - 1) / 7), o.size || (mode === 'double' ? 4 : 3)),
              before: rng.pick(o.before || BEFORE()), defeat: rng.pick(o.defeat || DEFEAT()) };
   }
 

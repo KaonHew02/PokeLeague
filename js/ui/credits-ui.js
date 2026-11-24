@@ -33,6 +33,9 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 108) return { title: T('Chapter 108 complete!'),
+      done: fmt('{player} took on the double battles of the Battle Palace and the Battle Dome, two Pokémon side by side.', { player }),
+      next: T('In the Palace\'s double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.') };
     if (n === 107) return { title: T('Chapter 107 complete!'),
       done: fmt('{player} gathered the ash of {route} in the {item} and had it blown into a glass flute at the glass workshop.', { player, route: G.Names.loc('hoenn-route-113'), item: G.Names.item('soot-sack') }),
       next: fmt('The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.',

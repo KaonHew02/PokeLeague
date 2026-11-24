@@ -12,6 +12,11 @@
  * between them the better ranked one wins seven times in ten. Tucker, the Dome Ace, waits in the final of the 5th
  * tournament (the Silver Tactics Symbol) and the 10th (the Gold) with his teams from Emerald, two of three. The first
  * tournament won once chapter 80 is done ends the chapter: `ending(81)`.
+ * Chapter 108: the double battle tournament (Emerald's, BattleFrontier_BattleDomeLobby scripts.inc): a second counter; the
+ * same three Pokémon, two chosen for each match, both out at once against the opponent's two (trainerFor 'double', three
+ * each); no Tucker (frontier_util.c GetFrontierBrainStatus: the Frontier Brains battle only in singles); streaks
+ * G.Tower.streak('double', 'dome'). The first double tournament won, or a set of seven in the Palace's double battle halls,
+ * once chapter 107 is done ends the chapter (G.PalaceHall.doubles, palace.js).
  */
 (() => {
   const T = s => G.T(s), fmt = (k, v) => G.I18n.fmt(k, v);
@@ -36,10 +41,11 @@
     // The stage's door opens only for a challenger (the counter's script takes you through it).
     warps: [{ x: 7, y: 8, to: 'battle-tower', spot: 'dome-door' },
             { x: 13, y: 1, to: 'battle-dome-room', spot: 'player', if: 'scripted', locked: 'dome.door' }],
-    spots: { door: [7, 8, 'up'], single: [7, 4, 'up'] },
+    spots: { door: [7, 8, 'up'], single: [7, 4, 'up'], double: [10, 4, 'up'] },
     signs: { '13,1': { script: 'dome.door' } },
     npcs: [
       { id: 'single', who: 'clerk', x: 7, y: 2, dir: 'down', script: 'dome.single' },
+      { id: 'double', who: 'clerk', x: 10, y: 2, dir: 'down', script: 'dome.double' },            // chapter 108
       { id: 'guide', who: 'gentleman', x: 2, y: 6, dir: 'right', script: 'dome.guide' }
     ]
   }, HOENN));
@@ -109,13 +115,14 @@
              defeat: silver ? T('Bravo! The crowd loves you. This is yours, champion.') : T('What a finale! Today the Dome has a new star.') };
   }
 
-  /** The k-th tournament of a streak (k = 1, 2...) for one challenge: sixteen entrants, the player in slot 0. */
-  function tournament(k, run, mine) {
-    const base = Math.min(3, k - 1), ace = ACE[k] || null, slots = [null];
+  /** The k-th tournament of a streak (k = 1, 2...) for one challenge: sixteen entrants, the player in slot 0. mode 'double'
+   *  (chapter 108): their three for double battles, and no Tucker. */
+  function tournament(k, run, mine, mode = 'single') {
+    const base = Math.min(3, k - 1), ace = (mode === 'single' && ACE[k]) || null, slots = [null];
     for (let s = 1; s < 16; s++) {
       if (ace && s === ACE_SLOT) { slots.push(settle(tucker(ace), seed(run, k, s))); continue; }
       const round = Math.min(3, base + (s >= 8 ? 1 : 0));
-      const d = G.TowerHall.trainerFor(round * 7 + 1, 'single', run * 37 + k, { salt: SALT + s * 1009, before: BEFORE(), defeat: DEFEAT() });
+      const d = G.TowerHall.trainerFor(round * 7 + 1, mode, run * 37 + k, { salt: SALT + s * 1009, before: BEFORE(), defeat: DEFEAT(), size: 3 });
       slots.push(settle(d, seed(run, k, s)));
     }
     // A name already taken goes to one of the others.
@@ -128,7 +135,7 @@
     const score = s => (s === 0 ? mine.reduce((a, m) => a + total(m.sp), 0) : slots[s].ace ? Infinity : slots[s].team.reduce((a, t) => a + total(t[0]), 0));
     const ranks = [];
     [...Array(16).keys()].sort((a, b) => score(b) - score(a) || a - b).forEach((s, i) => { ranks[s] = i + 1; });
-    return { k, run, slots, ranks, results: [[], [], [], []] };
+    return { k, run, mode, slots, ranks, results: [[], [], [], []] };
   }
 
   /** The two slots of match j of round r (round 0: slots 2j and 2j + 1; later, the winners of the two matches before). */
@@ -202,22 +209,23 @@
       title: fmt('Rank {rank}. {style} Trained for {stat}.', { rank: t.ranks[s], style: style(d), stat: trained(d) }) });
   }
 
-  async function counter(h) {
-    const F = G.Field, Tw = G.Tower;
-    await h.say(T('Welcome to the Battle Dome! Here, sixteen Trainers battle in a tournament.'));
-    if (!F.flag('dome-rules')) {
-      F.setFlag('dome-rules');
-      await h.say(T('Enter three Pokémon. Before each match, you choose two of them to battle.'));
+  async function counter(h, mode = 'single') {
+    const F = G.Field, Tw = G.Tower, dbl = mode === 'double';
+    await h.say(dbl ? T('Welcome to the Battle Dome! This counter is for the double battle tournament.') : T('Welcome to the Battle Dome! Here, sixteen Trainers battle in a tournament.'));
+    if (!F.flag(dbl ? 'dome-double-rules' : 'dome-rules')) {
+      F.setFlag(dbl ? 'dome-double-rules' : 'dome-rules');
+      await h.say(dbl ? T('Enter three Pokémon. Before each match, you choose two of them, and both battle at once in a double battle.')
+        : T('Enter three Pokémon. Before each match, you choose two of them to battle.'));
       await h.say(T('Win four matches in a row to become the champion and earn Battle Points. Before each match, you may look at the tournament tree and at your opponent\'s data.'));
       await h.say(T('Here, Pokémon above level 50 battle at level 50, and items from the Bag cannot be used. Win or lose, your Pokémon will be just as they were.'));
     }
-    await h.say(T('Tournaments won in a row: {n}. Your best: {best}.'), { vars: { n: Tw.streak('single', HALL), best: Tw.best('single', HALL) } });
+    await h.say(T('Tournaments won in a row: {n}. Your best: {best}.'), { vars: { n: Tw.streak(mode, HALL), best: Tw.best(mode, HALL) } });
     if (await h.choice(T('Would you like to take the challenge?'), {}) !== 0) { await h.say(T('Please come again!')); return; }
     const team = await G.TowerHall.pickEntrants(h, 3);
     if (!team) return;
     const run = (+F.getVar('dome-runs') || 0) + 1;
     F.setVar('dome-runs', run);
-    const k = Tw.streak('single', HALL) + 1, t = tournament(k, run, team);
+    const k = Tw.streak(mode, HALL) + 1, t = tournament(k, run, team, mode);
     G.DomeHall.last = t;
     await h.say(T('Thank you. Please follow me to the battle room.'));
     await G.Script.exec([['warp', 'battle-dome-room', 'player']], h);
@@ -236,7 +244,7 @@
         if (mine) break;
       }
       if (!mine) {
-        Tw.setStreak('single', 0, HALL);
+        Tw.setStreak(mode, 0, HALL);
         await h.say(T('You retired from the tournament.'));
         break;
       }
@@ -245,13 +253,13 @@
       h.show('foe');
       if (d.ace) await h.say(T('In the final, the Dome Ace takes the stage himself!'));
       await h.say(d.before, speaker(d));
-      const two = Object.assign({}, d, { team: pickTwo(d.team, team.map(m => m.sp)) });
+      const two = Object.assign({}, d, { team: pickTwo(d.team, team.map(m => m.sp)), double: dbl });
       const out = await h.battle(two, { canLose: true, record: false, party: mine.map(m => Tw.copy(m)),
                                          rules: { noExp: true, noBag: true, shift: false } });
       if (out === 'lose') {
         h.hide('foe');
         t.results[r][0] = s;
-        Tw.setStreak('single', 0, HALL);
+        Tw.setStreak(mode, 0, HALL);
         await h.say(T('You are out of the tournament. Please try again!'));
         break;
       }
@@ -260,7 +268,7 @@
       t.results[r][0] = 0;
       if (r < 3) { await h.say(T('You won! On to the next round.')); continue; }
       won = true;
-      Tw.setStreak('single', k, HALL);
+      Tw.setStreak(mode, k, HALL);
       await h.say(T('Congratulations! You won the tournament!'));
       if (d.ace) {
         if (d.ace.print === 'silver') F.setFlag('dome-silver'); else F.setFlag('dome-gold');
@@ -273,23 +281,27 @@
       Tw.addBp(bp);
       await h.say(T('{player} earned {n} BP!'), { vars: { n: bp } });
     }
-    await G.Script.exec([['warp', 'battle-dome-lobby', 'single']], h);
+    await G.Script.exec([['warp', 'battle-dome-lobby', mode]], h);
     if (won) {
-      await h.say(T('Tournaments won in a row: {n}. Your best: {best}.'), { vars: { n: Tw.streak('single', HALL), best: Tw.best('single', HALL) } });
-      // The end of the eighty-first chapter (credits-ui.js), once the eightieth is done.
-      if (F.flag('chapter-80-done') && !F.flag('chapter-81-done')) {
+      await h.say(T('Tournaments won in a row: {n}. Your best: {best}.'), { vars: { n: Tw.streak(mode, HALL), best: Tw.best(mode, HALL) } });
+      // The end of the eighty-first chapter (credits-ui.js), once the eightieth is done; of the 108th (chapter 108: the
+      // double tournament, or the Palace's double battle halls), once the 107th is done.
+      if (!dbl && F.flag('chapter-80-done') && !F.flag('chapter-81-done')) {
         if (G.CreditsUI) G.CreditsUI.ending(81); else F.setFlag('chapter-81-done');
       }
+      if (dbl && G.PalaceHall) await G.PalaceHall.doubles();
     }
   }
 
   G.Script.def({
-    'dome.single': [['js', counter]],
+    'dome.single': [['js', h => counter(h, 'single')]],
+    'dome.double': [['js', h => counter(h, 'double')]],
     'dome.door': [['say', 'The door to the battle room. Challengers must register at the counter first.']],
     'dome.guide': [
       ['say', 'Look at the tournament tree before each match. The better ranked Trainers usually win their way through, but not always.'],
       ['say', 'Your opponent\'s data shows their three Pokémon. They will send out the two that do best against yours, so choose your two well.'],
-      ['say', 'They say the Dome Ace himself waits in the final of every fifth tournament for a Trainer who keeps winning.']
+      ['say', 'They say the Dome Ace himself waits in the final of every fifth tournament for a Trainer who keeps winning.'],
+      ['say', 'Only in the single battle tournament, mind you. In the double battle tournament, your two Pokémon fight side by side against two.']
     ]
   });
   G.DomeHall = { ACE, ACE_SLOT, tournament, simulate, match, pickTwo, threat, last: null };

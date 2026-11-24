@@ -302,5 +302,8 @@ G.I18n.add({
   "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "連鎖越長，草叢閃閃發光、藏著顏色與眾不同的寶可夢的機會就越大。有些寶可夢只會出現在劇烈搖晃的草叢裡。",
   "Chapter 107 complete!": "第 107 章完成！",
   "{player} gathered the ash of {route} in the {item} and had it blown into a glass flute at the glass workshop.": "{player}用{item}收集了{route}的火山灰，在玻璃工房把它吹成了玻璃哨。",
-  "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "{blue}、{yellow}和{red}在對戰中能治好睡眠、混亂和著迷，而且永遠不會用完。{white}讓野生寶可夢變多，{black}讓它們變少。"
+  "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "{blue}、{yellow}和{red}在對戰中能治好睡眠、混亂和著迷，而且永遠不會用完。{white}讓野生寶可夢變多，{black}讓它們變少。",
+  "Chapter 108 complete!": "第 108 章完成！",
+  "{player} took on the double battles of the Battle Palace and the Battle Dome, two Pokémon side by side.": "{player}挑戰了對戰宮殿和對戰巨蛋的雙打，兩隻寶可夢並肩作戰。",
+  "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "在宮殿的雙打大廳，每隻寶可夢還會自己決定攻擊誰：有的專挑較強的對手，有的專挑較弱的。這兩處的頭目只接受單打挑戰。"
 }, "zh-Hant");

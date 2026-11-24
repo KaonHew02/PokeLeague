@@ -22,5 +22,8 @@ G.I18n.add({
   "When its HP falls below half, many a Pokémon changes its habits completely.": "Cuando sus PS bajan de la mitad, muchos Pokémon cambian por completo sus costumbres.",
   "A Pokémon that wants a kind of move it does not know may simply hesitate. Give each one moves its nature likes!": "Un Pokémon que quiere un tipo de movimiento que no conoce puede quedarse dudando. ¡Dale a cada uno movimientos que le gusten a su naturaleza!",
   "They say the Palace Maven himself appears before Trainers who win twenty-one battles in a row.": "Dicen que el Guardián del Palacio en persona se presenta ante los Entrenadores que ganan veintiún combates seguidos.",
-  "Spenser": "Spenser"
+  "Spenser": "Spenser",
+  "Welcome to the Battle Palace! This counter is for the double battle halls.": "¡Bienvenido al Palacio Batalla! Este mostrador es para las salas de combates dobles.",
+  "Enter three Pokémon. Two of them battle at once, and each one chooses its moves, and whom to hit, as its nature tells it. You may only switch them.": "Inscribe tres Pokémon. Dos lucharán a la vez, y cada uno elige sus movimientos, y a quién atacar, según su naturaleza. Tú solo puedes cambiarlos.",
+  "In the double battle halls, though, he never shows himself. There, two Pokémon fight side by side, each choosing whom to strike.": "Aunque en las salas de combates dobles nunca aparece. Allí dos Pokémon luchan codo con codo, y cada uno elige a quién golpear."
 }, "es");

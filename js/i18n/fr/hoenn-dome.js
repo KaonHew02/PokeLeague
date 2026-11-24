@@ -45,5 +45,8 @@ G.I18n.add({
   "Jamal": "Jamal",
   "Mia": "Mia",
   "Tess": "Tess",
-  "Lena": "Lena"
+  "Lena": "Lena",
+  "Welcome to the Battle Dome! This counter is for the double battle tournament.": "Bienvenue au Dôme de Combat ! Ce comptoir est réservé au tournoi de combats en duo.",
+  "Enter three Pokémon. Before each match, you choose two of them, and both battle at once in a double battle.": "Inscris trois Pokémon. Avant chaque match, tu en choisis deux, qui combattront ensemble en combat duo.",
+  "Only in the single battle tournament, mind you. In the double battle tournament, your two Pokémon fight side by side against two.": "Seulement dans le tournoi de combats en solo, attention. Dans le tournoi en duo, tes deux Pokémon combattent côte à côte contre deux autres."
 }, "fr");

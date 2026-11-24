@@ -75,3 +75,48 @@ test('switching is the player\'s one choice: it works, no Shift question; withou
   assert.ok(!n.palace);
   for (let i = 0; i < 4; i++) assert.equal(n.act({ type: 'move', slot: 1 }).find(e => e.type === 'move' && e.side === 0).move, 'growl');
 });
+
+// ---------------- chapter 108: the double battle halls (Emerald's GetBattlePalaceTarget) ----------------
+
+test('doubles: the rule is on; Fight lets each Pokémon choose when the turn begins, on both sides; the target table covers every nature', () => {
+  const T = G.Battle.PALACE_TARGET;
+  assert.deepEqual(Object.keys(T).sort(), Object.keys(G.NATURES).sort());
+  assert.deepEqual([T.hardy, T.brave, T.docile, T.naive, T.quirky, T.careful], [1, -1, 0, 0, 1, -1]);
+  const d = palace({ me: ['snorlax', 50, ['tackle'], { nature: 'hardy' }], mine: [['snorlax', 50, ['tackle'], { nature: 'hardy' }]],
+    foe: ['snorlax', 50, ['tackle'], { nature: 'hardy' }], foes: [['snorlax', 50, ['tackle'], { nature: 'hardy' }]], rules: { palace: true, double: true } });
+  assert.ok(d.b.double && d.b.palace);
+  const seen = [];
+  const real = d.b.palaceAction.bind(d.b);
+  d.b.palaceAction = bm => { seen.push(bm.side); return real(bm); };
+  d.b.act({ type: 'move', slot: 0, target: { side: 1, slot: 0 } });
+  assert.deepEqual(seen, [], 'not yet: the second Pokémon still has to be asked');
+  d.b.act({ type: 'move', slot: 0, target: { side: 1, slot: 0 } });
+  assert.deepEqual(plain(seen), [0, 0, 1, 1], 'all four chose for themselves');
+});
+
+test('doubles: a move for one target goes at the foe with more HP, less HP or either, by nature; equal HP, either; other moves get no target; singles unchanged', () => {
+  const mk = nature => palace({ me: ['snorlax', 50, ['tackle', 'swords-dance', 'earthquake'], { nature }], mine: [['snorlax', 50, ['tackle']]],
+    foe: ['blissey', 50, ['splash']], foes: [['chansey', 50, ['splash']]], rules: { palace: true, double: true } }).b;
+  const aim = (b, slot) => b.palaceAim(b.player.bms[0], { type: 'move', slot });
+  // Blissey (slot 0) has more HP than Chansey (slot 1).
+  let b = mk('adamant');
+  assert.ok(b.foe.bms[0].mon.hp > b.foe.bms[1].mon.hp);
+  assert.deepEqual(plain(aim(b, 0).target), { side: 1, slot: 0 }, 'adamant: the one with more HP');
+  b = mk('modest');
+  assert.deepEqual(plain(aim(b, 0).target), { side: 1, slot: 1 }, 'modest: the one with less HP');
+  b.foe.bms[0].mon.hp = 10;
+  assert.deepEqual(plain(aim(b, 0).target), { side: 1, slot: 0 }, 'and it follows the HP');
+  b = mk('naive');
+  const got = new Set();
+  for (let i = 0; i < 40; i++) got.add(aim(b, 0).target.slot);
+  assert.deepEqual([...got].sort(), [0, 1], 'naive: either');
+  b = mk('adamant');
+  b.foe.bms[1].mon.hp = b.foe.bms[0].mon.hp;
+  got.clear();
+  for (let i = 0; i < 40; i++) got.add(aim(b, 0).target.slot);
+  assert.deepEqual([...got].sort(), [0, 1], 'equal HP: either');
+  assert.equal(aim(b, 1).target, undefined, 'Swords Dance: no target');
+  assert.equal(aim(b, 2).target, undefined, 'Earthquake: no target');
+  const s = palace({ me: ['snorlax', 50, ['tackle'], { nature: 'modest' }], foe: ['blissey', 50, ['splash']] }).b;
+  assert.equal(s.palaceAim(s.player.bm, { type: 'move', slot: 0 }).target, undefined, 'singles: as before');
+});

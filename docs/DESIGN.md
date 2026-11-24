@@ -2865,17 +2865,26 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** every `[balance]` and `[story]` line as before; a new `[story]` line.
 - **Tests:** `tests/flutes.test.cjs` (the data and prices; the Blue, Yellow and Red Flutes in battle, never used up, not without the status, not on the bench; an Awakening still used up; the Blue Flute from the Bag; the kinds of the others); `tests/field.test.cjs` the chapter on the real maps (the workshop's door; the ash without and with the Soot Sack, once per visit, back with the map, 9999; the glassblower's Soot Sack, not enough ash, too little for one flute, a cancel, a flute declined, a Blue Flute, the ending only after chapter 106; the White and Black Flutes' rate until the next map); `tests/story.test.cjs` the chapter after chapter 106 (`[story]`: a Blue Flute for the visits to Route 113 that 250 steps of ash take).
 
-### After chapter 107
+- **Chapter 108** ✅, the double battles of the Battle Palace and the Battle Dome (js/battle/battle.js: `rules.palace` in doubles, `palaceAim`, `PALACE_TARGET`; js/content/hoenn/palace.js and dome.js: the double counters, `counter(h, mode)`, `G.PalaceHall.doubles`; js/content/hoenn/tower.js: `trainerFor`'s `size`; translations `hoenn-palace`, `hoenn-dome`, `credits`). Post-game; `ending(108)` waits for chapter 107 (a set of seven in the Palace's double battle halls or a double tournament won at the Dome, whichever comes first). Sources: Emerald's decompilation, [pret/pokeemerald](https://github.com/pret/pokeemerald): `data/maps/BattleFrontier_BattlePalaceLobby/scripts.inc` and `BattleFrontier_BattleDomeLobby/scripts.inc` (the double counters; three Pokémon: `setvar VAR_0x8005, FRONTIER_PARTY_SIZE`), `src/frontier_util.c` (`GetFrontierBrainStatus`: no Frontier Brain outside singles; only the Tower's doubles take four), `src/battle_gfx_sfx_util.c` (`ChooseMoveAndTargetInBattlePalace`, `GetBattlePalaceTarget`), `src/battle_anim_smokescreen.c` (`gBattlePalaceNatureToMoveTarget`, oddly kept there).
+  - **The Palace's rule in doubles**: on in any trainer battle with `rules.palace`. The player's Fight is stored as `{ palace: true }` and each Pokémon of both sides chooses when the turn begins (`palaceAction`, chapter 80's odds). A move for one target (and a Ghost's Curse) goes at the foe with more HP (12 natures), less HP (11) or either (Docile, Naive), as `PALACE_TARGET` says; equal HP, either; a fainted foe counts as 0 HP and `targetFor` turns the move to the other. Other moves keep their own targets. Singles draw no more random numbers than before.
+  - **The Palace's double battle halls**: a second clerk (`palace.double`, spot `double`); three Pokémon, two out at once; opponents from `G.TowerHall.trainerFor(n, 'double', run, { size: 3 })`; no Spenser; streaks `G.Tower.streak('double', 'palace')`; seven wins a set (Battle Points); back to the double counter.
+  - **The Dome's double tournament**: a second clerk (`dome.double`); `tournament(k, run, mine, 'double')` with three each and no Tucker; two of your three against the two of theirs that hit yours hardest, both out at once; streaks `G.Tower.streak('double', 'dome')`.
+  - The guides say the leaders appear only in singles.
+- **Balance:** every `[balance]` and `[story]` line as before; two new `[balance]` lines (the Palace's double halls 0.70 in round 1, 0.48-0.60 later; the Dome's double tournament 0.83 to 0.68) and two new `[story]` lines.
+- **Tests:** `tests/palace.test.cjs` (doubles: the rule on, all four choose when the turn begins; the target table for every nature; more HP, less HP, either, equal HP; no target for moves on oneself or on all; singles as before); `tests/field.test.cjs` the chapter on the real maps (the two counters; no Spenser at the 21st, no Tucker in the 5th tournament; seven battles of three under the palace rule in doubles, the ending after chapter 107, back at the counter; four Dome matches of two against two; streaks of their own); `tests/story.test.cjs` the chapter after chapter 107 (`[story]`: a set of seven in the Palace's double halls, a double tournament won).
 
-A hundred and seven chapters: the journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of
-Hoenn and of Sinnoh up to Arceus in the Hall of Origin, the whole Battle Frontier of Hoenn and of Sinnoh (Tower with its multi
-battles, Factory, Hall, Castle and Arcade), the whole Battle Zone, the villa, contests in Sinnoh and Hoenn with Poffins and
-Pokéblocks, ribbons, Generation 4's held items, Platinum's gifts of them, the moves that move them, Embargo and Recycle, every
-special ball, the Poké Radar, Emerald's glass flutes, Platinum's free move tutors, the incenses, the abilities outside battle, the
-Honey trees and Sweet Scent, and the battles beside a partner, Trainers and wild Pokémon alike. Ideas:
+### After chapter 108
+
+A hundred and eight chapters: the journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of
+Hoenn and of Sinnoh up to Arceus in the Hall of Origin, the whole Battle Frontier of Hoenn (with the Palace's and the Dome's double
+battles) and of Sinnoh (Tower with its multi battles, Factory, Hall, Castle and Arcade), the whole Battle Zone, the villa, contests
+in Sinnoh and Hoenn with Poffins and Pokéblocks, ribbons, Generation 4's held items, Platinum's gifts of them, the moves that move
+them, Embargo and Recycle, every special ball, the Poké Radar, Emerald's glass flutes, Platinum's free move tutors, the incenses,
+the abilities outside battle, the Honey trees and Sweet Scent, and the battles beside a partner, Trainers and wild Pokémon alike.
+Ideas:
 1. Items: Platinum's other gifts (the Upgrade and trade evolutions); the Underground (weather rocks, fossils, spheres, shards for
    the tutors of Route 212, Snowpoint City and the Survival Area).
 2. Contests: accessories; Hoenn's own contest rules.
-3. Hoenn after the League: double battles at the Battle Palace and the Battle Dome (Emerald has them, with four);
-   more of the Pyramid's wild themes.
+3. Hoenn after the League: more of the Pyramid's wild themes (every Emerald facility that has double battles now has them here:
+   the Tower, the Factory, the Palace and the Dome).
 4. The Poké Radar's chain records and its music.

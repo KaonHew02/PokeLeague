@@ -302,5 +302,8 @@ G.I18n.add({
   "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "Più lunga è la catena, più è probabile che un ciuffo scintilli con un Pokémon dai colori insoliti. Alcuni Pokémon compaiono solo nei ciuffi che si muovono con forza.",
   "Chapter 107 complete!": "Capitolo 107 completato!",
   "{player} gathered the ash of {route} in the {item} and had it blown into a glass flute at the glass workshop.": "{player} ha raccolto la cenere del {route} nel {item} e alla vetreria ne ha fatto soffiare un flauto di vetro.",
-  "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "Il {blue}, il {yellow} e il {red} curano sonno, confusione e infatuazione in lotta e non si consumano mai. Il {white} attira più Pokémon selvatici, il {black} meno."
+  "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "Il {blue}, il {yellow} e il {red} curano sonno, confusione e infatuazione in lotta e non si consumano mai. Il {white} attira più Pokémon selvatici, il {black} meno.",
+  "Chapter 108 complete!": "Capitolo 108 completato!",
+  "{player} took on the double battles of the Battle Palace and the Battle Dome, two Pokémon side by side.": "{player} ha affrontato le lotte in doppio del Palazzo Lotta e della Cupola Lotta, con due Pokémon fianco a fianco.",
+  "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "Nelle sale delle lotte in doppio del Palazzo, ogni Pokémon sceglie anche chi colpire: alcuni puntano all'avversario più forte, altri al più debole. I capi di questi luoghi lottano solo in singolo."
 }, "it");

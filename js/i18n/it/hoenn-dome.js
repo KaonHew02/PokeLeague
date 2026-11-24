@@ -45,5 +45,8 @@ G.I18n.add({
   "Jamal": "Jamal",
   "Mia": "Mia",
   "Tess": "Tess",
-  "Lena": "Lena"
+  "Lena": "Lena",
+  "Welcome to the Battle Dome! This counter is for the double battle tournament.": "Benvenuto alla Cupola Lotta! Questo banco è per il torneo di lotte in doppio.",
+  "Enter three Pokémon. Before each match, you choose two of them, and both battle at once in a double battle.": "Iscrivi tre Pokémon. Prima di ogni incontro ne scegli due, che lotteranno insieme in una lotta in doppio.",
+  "Only in the single battle tournament, mind you. In the double battle tournament, your two Pokémon fight side by side against two.": "Solo nel torneo di lotte singole, sia chiaro. In quello in doppio, i tuoi due Pokémon lottano fianco a fianco contro altri due."
 }, "it");

@@ -45,5 +45,8 @@ G.I18n.add({
   "Jamal": "贾马尔",
   "Mia": "米娅",
   "Tess": "苔丝",
-  "Lena": "莉娜"
+  "Lena": "莉娜",
+  "Welcome to the Battle Dome! This counter is for the double battle tournament.": "欢迎来到对战巨蛋！这个柜台负责双打淘汰赛。",
+  "Enter three Pokémon. Before each match, you choose two of them, and both battle at once in a double battle.": "请报名 3 只宝可梦。每场比赛前从中选两只，两只会一起上场进行双打。",
+  "Only in the single battle tournament, mind you. In the double battle tournament, your two Pokémon fight side by side against two.": "不过只限单打淘汰赛哦。在双打淘汰赛里，你的两只宝可梦会并肩对抗对手的两只。"
 }, "zh-Hans");

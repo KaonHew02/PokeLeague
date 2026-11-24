@@ -9,6 +9,11 @@
  * with the Tower's Exchange Service Corner. Spenser, the Palace Maven, is the 21st (the Silver Spirit Symbol) and the 42nd
  * (the Gold) opponent with his teams and natures from Emerald. Streaks: G.Tower.streak('single', 'palace'). The first set
  * of seven once chapter 79 is done ends the chapter: `ending(80)`.
+ * Chapter 108: the double battle halls (Emerald's, BattleFrontier_BattlePalaceLobby scripts.inc): a second counter; the same
+ * three Pokémon, two out at once, each choosing its move and its target by its nature (rules.palace in doubles); opponents
+ * with three Pokémon (G.TowerHall.trainerFor 'double', size 3); no Spenser (frontier_util.c GetFrontierBrainStatus: the
+ * Frontier Brains battle only in singles); streaks G.Tower.streak('double', 'palace'). The first set of seven there, or the
+ * first double tournament won at the Dome (dome.js), once chapter 107 is done ends the chapter: `ending(108)`.
  */
 (() => {
   const T = s => G.T(s);
@@ -33,10 +38,11 @@
     // The battle room's door opens only for a challenger (the counter's script takes you through it).
     warps: [{ x: 7, y: 8, to: 'battle-tower', spot: 'palace-door' },
             { x: 13, y: 1, to: 'battle-palace-room', spot: 'player', if: 'scripted', locked: 'palace.door' }],
-    spots: { door: [7, 8, 'up'], single: [7, 4, 'up'] },
+    spots: { door: [7, 8, 'up'], single: [7, 4, 'up'], double: [10, 4, 'up'] },
     signs: { '13,1': { script: 'palace.door' } },
     npcs: [
       { id: 'single', who: 'clerk', x: 7, y: 2, dir: 'down', script: 'palace.single' },
+      { id: 'double', who: 'clerk', x: 10, y: 2, dir: 'down', script: 'palace.double' },          // chapter 108
       { id: 'guide', who: 'kimono', x: 2, y: 6, dir: 'right', script: 'palace.guide' }
     ]
   }, HOENN));
@@ -79,8 +85,10 @@
       ['suicune', 46, ['blizzard', 'surf', 'bite', 'calm-mind'], 'kings-rock', { nature: 'hasty' }]] }
   };
 
-  /** The opponent of battle No. n (the same one for the same run): a trainer def for G.World.battle. */
-  function trainerFor(n, run) {
+  /** The opponent of battle No. n (the same one for the same run): a trainer def for G.World.battle. Doubles (chapter 108):
+   *  three Pokémon, two out at once, and never Spenser. */
+  function trainerFor(n, run, mode = 'single') {
+    if (mode === 'double') return G.TowerHall.trainerFor(n, 'double', run, { salt: SALT, before: BEFORE(), defeat: DEFEAT(), size: 3 });
     const m = MAVEN[n];
     if (m) {
       const silver = m.print === 'silver';
@@ -94,15 +102,16 @@
   }
 
   // ---------------- The counter ----------------
-  async function counter(h) {
-    const F = G.Field, Tw = G.Tower;
-    await h.say(T('Welcome to the Battle Palace! Here, Pokémon choose their own moves.'));
-    if (!F.flag('palace-rules')) {
-      F.setFlag('palace-rules');
-      await h.say(T('Enter three Pokémon. In battle you cannot give them orders: each one picks its moves as its nature tells it. You may only switch them.'));
+  async function counter(h, mode = 'single') {
+    const F = G.Field, Tw = G.Tower, dbl = mode === 'double';
+    await h.say(dbl ? T('Welcome to the Battle Palace! This counter is for the double battle halls.') : T('Welcome to the Battle Palace! Here, Pokémon choose their own moves.'));
+    if (!F.flag(dbl ? 'palace-double-rules' : 'palace-rules')) {
+      F.setFlag(dbl ? 'palace-double-rules' : 'palace-rules');
+      await h.say(dbl ? T('Enter three Pokémon. Two of them battle at once, and each one chooses its moves, and whom to hit, as its nature tells it. You may only switch them.')
+        : T('Enter three Pokémon. In battle you cannot give them orders: each one picks its moves as its nature tells it. You may only switch them.'));
       await h.say(T('Win seven in a row to finish a set and earn Battle Points. Pokémon above level 50 battle at level 50, items from the Bag cannot be used, and your Pokémon will be just as they were.'));
     }
-    await h.say(T('Wins in a row: {n}. Your best: {best}.'), { vars: { n: Tw.streak('single', HALL), best: Tw.best('single', HALL) } });
+    await h.say(T('Wins in a row: {n}. Your best: {best}.'), { vars: { n: Tw.streak(mode, HALL), best: Tw.best(mode, HALL) } });
     if (await h.choice(T('Would you like to take the challenge?'), {}) !== 0) { await h.say(T('Please come again!')); return; }
     const team = await G.TowerHall.pickEntrants(h, 3);
     if (!team) return;
@@ -112,7 +121,7 @@
     await G.Script.exec([['warp', 'battle-palace-room', 'player']], h);
     let set = false;
     for (;;) {
-      const no = Tw.streak('single', HALL) + 1, d = trainerFor(no, run);
+      const no = Tw.streak(mode, HALL) + 1, d = trainerFor(no, run, mode);
       const foe = G.World && G.World.actor && G.World.actor('foe');
       if (foe) foe.who = d.who;
       h.show('foe');
@@ -122,13 +131,13 @@
                                        rules: { palace: true, noExp: true, noBag: true, shift: false } });
       if (out === 'lose') {
         h.hide('foe');
-        Tw.setStreak('single', 0, HALL);
+        Tw.setStreak(mode, 0, HALL);
         await h.say(T('Your streak is over. Wins in a row: {n}. Please try again!'), { vars: { n: no - 1 } });
         break;
       }
       await h.say(d.defeat, G.TowerHall.speaker(d));
       h.hide('foe');
-      Tw.setStreak('single', no, HALL);
+      Tw.setStreak(mode, no, HALL);
       if (d.maven) {
         if (d.maven.print === 'silver') F.setFlag('palace-silver'); else F.setFlag('palace-gold');
         Tw.addBp(d.maven.bp);
@@ -146,30 +155,42 @@
       }
       const go = await h.choice(T('Battle No. {n} is next. Will you keep going?'), { options: [T('Keep going'), T('Retire')], vars: { n: no + 1 } });
       if (go !== 0) {
-        Tw.setStreak('single', 0, HALL);
+        Tw.setStreak(mode, 0, HALL);
         await h.say(T('You retired. Wins in a row: {n}.'), { vars: { n: no } });
         break;
       }
     }
-    await G.Script.exec([['warp', 'battle-palace-lobby', 'single']], h);
+    await G.Script.exec([['warp', 'battle-palace-lobby', mode]], h);
     if (set) {
-      await h.say(T('Your streak goes on: next time, you will start from battle No. {n}.'), { vars: { n: Tw.streak('single', HALL) + 1 } });
-      // The end of the eightieth chapter (credits-ui.js), once the seventy-ninth is done.
-      if (F.flag('chapter-79-done') && !F.flag('chapter-80-done')) {
+      await h.say(T('Your streak goes on: next time, you will start from battle No. {n}.'), { vars: { n: Tw.streak(mode, HALL) + 1 } });
+      // The end of the eightieth chapter (credits-ui.js), once the seventy-ninth is done; of the 108th (the double battle
+      // halls, or the Dome's double tournament), once the 107th is done.
+      if (!dbl && F.flag('chapter-79-done') && !F.flag('chapter-80-done')) {
         if (G.CreditsUI) G.CreditsUI.ending(80); else F.setFlag('chapter-80-done');
       }
+      if (dbl) await doubles();
+    }
+  }
+
+  /** Chapter 108: a set of seven in the double battle halls or a double tournament won at the Dome, once chapter 107 is done. */
+  async function doubles() {
+    const F = G.Field;
+    if (F.flag('chapter-107-done') && !F.flag('chapter-108-done')) {
+      if (G.CreditsUI) await G.CreditsUI.ending(108); else F.setFlag('chapter-108-done');
     }
   }
 
   G.Script.def({
-    'palace.single': [['js', counter]],
+    'palace.single': [['js', h => counter(h, 'single')]],
+    'palace.double': [['js', h => counter(h, 'double')]],
     'palace.door': [['say', 'The door to the battle room. Challengers must register at the counter first.']],
     'palace.guide': [
       ['say', 'In the Palace, Pokémon choose their own moves. Each one goes for attacking, defending or supporting moves, as its nature makes it want to.'],
       ['say', 'When its HP falls below half, many a Pokémon changes its habits completely.'],
       ['say', 'A Pokémon that wants a kind of move it does not know may simply hesitate. Give each one moves its nature likes!'],
-      ['say', 'They say the Palace Maven himself appears before Trainers who win twenty-one battles in a row.']
+      ['say', 'They say the Palace Maven himself appears before Trainers who win twenty-one battles in a row.'],
+      ['say', 'In the double battle halls, though, he never shows himself. There, two Pokémon fight side by side, each choosing whom to strike.']
     ]
   });
-  G.PalaceHall = { MAVEN, trainerFor };
+  G.PalaceHall = { MAVEN, trainerFor, doubles };
 })();

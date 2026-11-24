@@ -1725,6 +1725,38 @@ test('balance: the Battle Dome (chapter 81), win rates of a typical team choosin
   assert.ok(table['Tucker (silver)'] >= 0.55 && table['Tucker (gold)'] >= 0.55, 'normal difficulty');
 });
 
+test('balance: the Battle Palace\'s double battle halls and the Battle Dome\'s double tournament (chapter 108), win rates of a typical team are printed', () => {
+  const { G } = world(1);
+  const D = G.DomeHall;
+  const MINE = [[260, 50, ['surf', 'earthquake', 'ice-beam', 'protect'], 'leftovers'], [282, 50, ['psychic', 'thunderbolt', 'calm-mind', 'shadow-ball'], 'sitrus-berry'],
+                [310, 50, ['thunderbolt', 'crunch', 'flamethrower', 'thunder-wave'], 'quick-claw']];
+  const make = (list, rng) => list.map(([sp, l, moves, item, x]) => Object.assign(G.Mon.create(G.Maps.species(sp), l, Object.assign({ rng, moves }, x)), { item }));
+  const rate = (foe, palace, n = 60) => {
+    let wins = 0;
+    for (let s = 1; s <= n; s++) {
+      const rng = G.RNG(s * 29);
+      const team = typeof foe === 'function' ? foe(G.RNG(s * 31)) : foe;
+      // The Palace: all three, two out at once; the Dome: each side's two that hit the other's three hardest.
+      const me = make(palace ? MINE : D.pickTwo(MINE, team.map(x => G.Maps.species(x[0]))), rng);
+      const foes = make(palace ? team : D.pickTwo(team, MINE.map(x => x[0])), rng);
+      const b = G.Battle.create({ kind: 'trainer', seed: s, player: { name: 'Red', party: me, bag: {} },
+        foe: { party: foes, trainer: { id: 't', name: 'T', ai: 'leader', items: {}, prize: 0 } },
+        rules: Object.assign({ double: true, noExp: true, noBag: true, shift: false, canLose: true }, palace ? { palace: true } : {}) });
+      b.start();
+      if ((autoplay(G, b) || {}).outcome === 'win') wins++;
+    }
+    return wins / n;
+  };
+  const palace = {}, dome = {};
+  for (let round = 0; round < 4; round++) {
+    palace['round ' + (round + 1)] = rate(rng => G.Tower.team(rng, round, 3), true);
+    dome['round ' + (round + 1) + ' pool'] = rate(rng => G.Tower.team(rng, round, 3), false);
+  }
+  console.log('[balance] Battle Palace double battle halls, Swampert, Gardevoir and Manectric at 50 (two out at once, moves and targets by nature):', JSON.stringify(palace));
+  console.log('[balance] Battle Dome double tournament, two of Swampert, Gardevoir and Manectric at 50 against two of three:', JSON.stringify(dome));
+  assert.ok(palace['round 1'] >= 0.6 && dome['round 1 pool'] >= 0.6, 'normal difficulty');
+});
+
 test('balance: the Battle Palace (chapter 80), win rates of a typical team under the palace rule are printed', () => {
   const { G } = world(1);
   const rate = (foe, n = 60) => {
@@ -4889,6 +4921,46 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 108 after chapter 107: the Battle Palace's double battle halls with the party's three strongest that may enter,
+ *  until a set of seven (the ending), then the Battle Dome's double tournament until one is won (the first two in each match). */
+async function chapter108(st) {
+  const { G, S } = st;
+  const F = G.Field, Tw = G.Tower;
+  const party = S.party, picks = [];
+  for (const i of party.map((m, i) => i).sort((a, b) => party[b].lvl - party[a].lvl || a - b)) {
+    if (picks.length < 3 && !Tw.why(party[i], picks.map(j => party[j]))) picks.push(i);
+  }
+  const before = JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp]));
+  let n = st.battles.length, tries = 0;
+  while (Tw.streak('double', 'palace') < 7 && tries < 15) {
+    tries++;
+    st.picks.length = 0;
+    st.picks.push(...picks);
+    await run(st, 'battle-palace-lobby', 'palace.double', [0]);
+  }
+  let fights = st.battles.slice(n);
+  console.log('[story] the Battle Palace\'s double battle halls:', fights.map(b => b.outcome).join(), 'in', tries, 'challenge(s), with', picks.map(i => G.Names.mon(party[i].sp)).join(', '));
+  assert.equal(Tw.streak('double', 'palace'), 7, 'a set of seven');
+  assert.equal(Tw.streak('single', 'palace') >= 0, true);
+  assert.ok(F.flag('chapter-108-done'));
+  // The Dome's double tournament.
+  let k = 0;
+  const pick = o => (o.mons ? o.mons.findIndex((m, j) => !(o.disabled && o.disabled(m, j))) : picks[k++ % 3]);
+  n = st.battles.length; tries = 0;
+  while (Tw.streak('double', 'dome') < 1 && tries < 15) {
+    tries++;
+    k = 0;
+    st.picks.length = 0;
+    for (let i = 0; i < 11; i++) st.picks.push(pick);
+    await run(st, 'battle-dome-lobby', 'dome.double', [0]);
+  }
+  fights = st.battles.slice(n);
+  console.log('[story] the Battle Dome\'s double tournament:', fights.map(b => b.outcome).join(), 'in', tries, 'tournament(s)');
+  assert.equal(Tw.streak('double', 'dome'), 1, 'a tournament won');
+  assert.equal(JSON.stringify(S.party.map(m => [m.lvl, m.exp, m.item, m.hp])), before, 'the party is as it was');
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 107 after chapter 106: Emerald's glass workshop. The glassblower gives the Soot Sack; the ash of Route 113 (one per
  *  tile of ash grass, each visit: field.test walks it) is counted as the visits needed for 250, then a Blue Flute (the ending). */
 async function chapter107(st) {
@@ -6447,4 +6519,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter105(st);
   await chapter106(st);
   await chapter107(st);
+  await chapter108(st);
 });

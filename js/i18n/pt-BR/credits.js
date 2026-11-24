@@ -302,5 +302,8 @@ G.I18n.add({
   "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "Quanto mais longa a sequência, maior a chance de um trecho brilhar com um Pokémon de cores incomuns. Alguns Pokémon só aparecem nos trechos que balançam forte.",
   "Chapter 107 complete!": "Capítulo 107 concluído!",
   "{player} gathered the ash of {route} in the {item} and had it blown into a glass flute at the glass workshop.": "{player} recolheu as cinzas da {route} no {item} e, na oficina de vidro, transformou-as numa flauta.",
-  "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "A {blue}, a {yellow} e a {red} curam sono, confusão e paixão em batalha e nunca se gastam. A {white} atrai mais Pokémon selvagens, a {black} menos."
+  "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "A {blue}, a {yellow} e a {red} curam sono, confusão e paixão em batalha e nunca se gastam. A {white} atrai mais Pokémon selvagens, a {black} menos.",
+  "Chapter 108 complete!": "Capítulo 108 concluído!",
+  "{player} took on the double battles of the Battle Palace and the Battle Dome, two Pokémon side by side.": "{player} encarou as batalhas duplas do Battle Palace e do Battle Dome, com dois Pokémon lado a lado.",
+  "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "Nos salões de batalhas duplas do Palace, cada Pokémon também escolhe quem atacar: uns vão no adversário mais forte, outros no mais fraco. Os líderes desses lugares só batalham em individuais."
 }, "pt-BR");

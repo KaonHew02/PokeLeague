@@ -22,5 +22,8 @@ G.I18n.add({
   "When its HP falls below half, many a Pokémon changes its habits completely.": "HP 降到一半以下时，很多宝可梦的习惯会完全改变。",
   "A Pokémon that wants a kind of move it does not know may simply hesitate. Give each one moves its nature likes!": "如果宝可梦想用的那类招式它不会，它就可能只是犹豫不动。给每只宝可梦配上合它性格的招式吧！",
   "They say the Palace Maven himself appears before Trainers who win twenty-one battles in a row.": "听说连胜 21 场的训练家，宫殿守护者会亲自出现在他们面前。",
-  "Spenser": "郁金"
+  "Spenser": "郁金",
+  "Welcome to the Battle Palace! This counter is for the double battle halls.": "欢迎来到对战宫殿！这个柜台负责双打大厅。",
+  "Enter three Pokémon. Two of them battle at once, and each one chooses its moves, and whom to hit, as its nature tells it. You may only switch them.": "请报名 3 只宝可梦。两只会同时上场，每只都会依照自己的性格决定用什么招式、攻击谁。你只能替换它们。",
+  "In the double battle halls, though, he never shows himself. There, two Pokémon fight side by side, each choosing whom to strike.": "不过在双打大厅，他从不现身。在那里，两只宝可梦并肩作战，各自决定要攻击谁。"
 }, "zh-Hans");

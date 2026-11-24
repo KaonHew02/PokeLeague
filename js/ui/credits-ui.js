@@ -33,6 +33,10 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 107) return { title: T('Chapter 107 complete!'),
+      done: fmt('{player} gathered the ash of {route} in the {item} and had it blown into a glass flute at the glass workshop.', { player, route: G.Names.loc('hoenn-route-113'), item: G.Names.item('soot-sack') }),
+      next: fmt('The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.',
+        { blue: G.Names.item('blue-flute'), yellow: G.Names.item('yellow-flute'), red: G.Names.item('red-flute'), white: G.Names.item('white-flute'), black: G.Names.item('black-flute') }) };
     if (n === 106) return { title: T('Chapter 106 complete!'),
       done: fmt('{player} met the same Pokémon five times in a row in the patches the {item} set shaking.', { player, item: G.Names.item('poke-radar') }),
       next: T('The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.') };

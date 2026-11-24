@@ -299,5 +299,8 @@ G.I18n.add({
   "Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!": "每種特殊精靈球都有最適合的時候：水上、夜晚、洞窟、第一回合，或是長時間的對戰之後。選對球吧！",
   "Chapter 106 complete!": "第 106 章完成！",
   "{player} met the same Pokémon five times in a row in the patches the {item} set shaking.": "{player}在{item}弄得搖晃的草叢裡，連續五次遇到了同一種寶可夢。",
-  "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "連鎖越長，草叢閃閃發光、藏著顏色與眾不同的寶可夢的機會就越大。有些寶可夢只會出現在劇烈搖晃的草叢裡。"
+  "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "連鎖越長，草叢閃閃發光、藏著顏色與眾不同的寶可夢的機會就越大。有些寶可夢只會出現在劇烈搖晃的草叢裡。",
+  "Chapter 107 complete!": "第 107 章完成！",
+  "{player} gathered the ash of {route} in the {item} and had it blown into a glass flute at the glass workshop.": "{player}用{item}收集了{route}的火山灰，在玻璃工房把它吹成了玻璃哨。",
+  "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "{blue}、{yellow}和{red}在對戰中能治好睡眠、混亂和著迷，而且永遠不會用完。{white}讓野生寶可夢變多，{black}讓它們變少。"
 }, "zh-Hant");

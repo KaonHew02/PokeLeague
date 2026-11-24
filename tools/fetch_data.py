@@ -201,7 +201,9 @@ REGIONS['sinnoh'] = dict(REGIONS['hoenn'], **{
                                           'net-ball', 'dive-ball', 'nest-ball', 'repeat-ball', 'timer-ball', 'luxury-ball', 'premier-ball',
                                           'dusk-ball', 'heal-ball', 'quick-ball',
                                           # Chapter 106: the Poke Radar (Professor Rowan, after the National Pokedex).
-                                          'poke-radar'],
+                                          'poke-radar',
+                                          # Chapter 107: Emerald's glass workshop on Route 113 (the Soot Sack and the five flutes).
+                                          'soot-sack', 'blue-flute', 'yellow-flute', 'red-flute', 'white-flute', 'black-flute'],
     'regions': REGIONS['hoenn']['regions'] + [('sinnoh', ['platinum', 'diamond', 'pearl'])],
 })
 # The first Pokémon whose abilities are those of Generation 4.

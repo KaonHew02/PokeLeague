@@ -217,5 +217,8 @@ G.I18n.add({
   "Contest": "華麗大賽",
   "{mon} is too tired to use that.": "{mon}太累了，沒辦法使用。",
   "You bought so many, so here is a {item} as a little extra!": "你買了這麼多，送你一個{item}當作小贈品！",
-  "You can't use that while someone is walking with you.": "有同伴跟著你的時候不能使用。"
+  "You can't use that while someone is walking with you.": "有同伴跟著你的時候不能使用。",
+  "The {item} holds the ash of {n} steps.": "{item}裡裝著{n}步的火山灰。",
+  "{player} played the {item}. More wild Pokémon will come out now.": "{player}吹響了{item}。野生寶可夢會變多。",
+  "{player} played the {item}. Fewer wild Pokémon will come out now.": "{player}吹響了{item}。野生寶可夢會變少。"
 }, "zh-Hant");

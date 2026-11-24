@@ -85,5 +85,6 @@ G.I18n.add({
   "Fallarbor Town. A quiet farming town where the ash falls like soft snow.": "Autéquia. Un paisible village agricole où la cendre tombe comme une neige douce.",
   "Pokémon Contest Hall. The stage where Pokémon show off their charm.": "Salle de Concours Pokémon. La scène où les Pokémon montrent leur charme.",
   "Route 114. East: Fallarbor Town. North-west: Meteor Falls.": "Route 114. Est : Autéquia. Nord-ouest : Site Météore.",
-  "The sandstorm died down when the weather went back to normal. With goggles on, you can cross the desert now.": "La tempête de sable s'est calmée quand le temps est redevenu normal. Avec des lunettes, tu peux traverser le désert maintenant."
+  "The sandstorm died down when the weather went back to normal. With goggles on, you can cross the desert now.": "La tempête de sable s'est calmée quand le temps est redevenu normal. Avec des lunettes, tu peux traverser le désert maintenant.",
+  "Glass Workshop. We turn the ash of Route 113 into glass.": "Atelier du Verre. Nous transformons la cendre de la Route 113 en verre."
 }, "fr");

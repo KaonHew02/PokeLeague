@@ -233,5 +233,6 @@ G.I18n.add({
   "Wild {mon} and {mon2} appeared!": "野生的{mon}和{mon2}出现了！",
   "{mon} can't use items anymore!": "{mon}不能再使用道具了！",
   "{mon} can use items again!": "{mon}又能使用道具了！",
-  "{mon} found one {item}!": "{mon}找到了一个{item}！"
+  "{mon} found one {item}!": "{mon}找到了一个{item}！",
+  "{mon} is no longer infatuated!": "{mon}不再着迷了！"
 }, "zh-Hans");

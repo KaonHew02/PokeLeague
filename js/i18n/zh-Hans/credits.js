@@ -299,5 +299,8 @@ G.I18n.add({
   "Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!": "每种特殊精灵球都有最适合的时候：水上、夜晚、洞窟、第一回合，或是长时间的对战之后。选对球吧！",
   "Chapter 106 complete!": "第 106 章完成！",
   "{player} met the same Pokémon five times in a row in the patches the {item} set shaking.": "{player}在{item}弄得摇晃的草丛里，连续五次遇到了同一种宝可梦。",
-  "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "连锁越长，草丛闪闪发光、藏着颜色与众不同的宝可梦的机会就越大。有些宝可梦只会出现在剧烈摇晃的草丛里。"
+  "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "连锁越长，草丛闪闪发光、藏着颜色与众不同的宝可梦的机会就越大。有些宝可梦只会出现在剧烈摇晃的草丛里。",
+  "Chapter 107 complete!": "第 107 章完成！",
+  "{player} gathered the ash of {route} in the {item} and had it blown into a glass flute at the glass workshop.": "{player}用{item}收集了{route}的火山灰，在玻璃工房把它吹成了玻璃哨。",
+  "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "{blue}、{yellow}和{red}在对战中能治好睡眠、混乱和着迷，而且永远不会用完。{white}让野生宝可梦变多，{black}让它们变少。"
 }, "zh-Hans");

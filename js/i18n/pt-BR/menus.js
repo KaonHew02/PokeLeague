@@ -217,5 +217,8 @@ G.I18n.add({
   "Contest": "Concurso",
   "{mon} is too tired to use that.": "{mon} está cansado demais para usar isso.",
   "You bought so many, so here is a {item} as a little extra!": "Você comprou bastante, então aqui está uma {item} de brinde!",
-  "You can't use that while someone is walking with you.": "Você não pode usar isso enquanto alguém está te acompanhando."
+  "You can't use that while someone is walking with you.": "Você não pode usar isso enquanto alguém está te acompanhando.",
+  "The {item} holds the ash of {n} steps.": "O {item} guarda as cinzas de {n} passos.",
+  "{player} played the {item}. More wild Pokémon will come out now.": "{player} tocou a {item}. Agora vão aparecer mais Pokémon selvagens.",
+  "{player} played the {item}. Fewer wild Pokémon will come out now.": "{player} tocou a {item}. Agora vão aparecer menos Pokémon selvagens."
 }, "pt-BR");

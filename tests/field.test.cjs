@@ -8499,3 +8499,73 @@ test('the Poké Radar (chapter 106): Rowan gives it with the National Pokédex o
   step(W, 'right');
   assert.equal(R.charge(), 0);
 });
+
+test('the glass workshop (chapter 107): Route 113\'s ash and the Soot Sack, the glassblower\'s flutes, the White and Black Flutes until the next map, the ending after chapter 106', async () => {
+  const { G, W } = world(['js/content/hoenn/fallarbor.js', 'js/content/hoenn/lavaridge.js', 'js/content/hoenn/glass.js']);
+  const F = G.Field, S = F.save;
+  const r113 = G.Maps.get('route113');
+  assert.ok(r113.def.ash && r113.warps.some(w => w.x === 17 && w.y === 3 && w.to === 'glass-workshop'));
+  for (const t of r113.trainers) F.markDone('route113:' + t.id);
+  F.giveMon('garchomp', 100);
+  S.repel = 9999;                                            // no wild Pokémon while walking (Route 113's are weaker)
+  const answers = [];
+  G.Dialog.ask = () => Promise.resolve(answers.length ? answers.shift() : 0);
+  const ash = () => +F.getVar('ash') || 0;
+  // Without the Soot Sack the ash falls off, but nothing is collected.
+  W.load('route113', { x: 4, y: 5, dir: 'up' });
+  step(W, 'up');
+  assert.ok(W.ashless.has('4,4'));
+  assert.equal(ash(), 0);
+  // The glassblower: the Soot Sack; not enough ash yet.
+  W.load('glass-workshop', { x: 7, y: 4, dir: 'up' });
+  await W.runScript('glass.worker', {});
+  assert.ok(F.flag('got-soot-sack') && F.count('soot-sack') === 1);
+  await W.runScript('glass.worker', {});
+  assert.ok(!FLUTES().some(id => F.count(id)), 'nothing made');
+  // One per tile of ash grass, once per visit; back after the map loads again; 9999 at most.
+  W.load('route113', { x: 4, y: 5, dir: 'up' });
+  for (const d of ['up', 'up', 'up', 'right', 'down', 'down', 'up']) step(W, d);
+  assert.equal(ash(), 6, '(4,4) (4,3) (4,2) (5,2) (5,3) (5,4), then (5,3) again');
+  assert.equal(W.ashless.size, 6);
+  step(W, 'left');                                           // (4,3): stepped into this visit already
+  assert.equal(ash(), 6);
+  W.load('route113', { x: 4, y: 5, dir: 'up' });
+  assert.equal(W.ashless.size, 0);
+  step(W, 'up');
+  assert.equal(ash(), 7, 'the ash is back');
+  step(W, 'down');                                           // (4,5): no grass, no ash
+  assert.equal(ash(), 7);
+  F.setVar('ash', 9999);
+  step(W, 'up'); step(W, 'up');
+  assert.equal(ash(), 9999);
+  // The flutes: too little ash for a White Flute, then a Blue Flute (250 steps of ash); before chapter 106, no ending.
+  F.setVar('ash', 600);
+  W.load('glass-workshop', { x: 7, y: 4, dir: 'up' });
+  answers.push(3, 0, 0);
+  await W.runScript('glass.worker', {});
+  assert.deepEqual([F.count('white-flute'), F.count('blue-flute'), ash()], [0, 1, 350]);
+  assert.ok(!F.flag('chapter-107-done'));
+  answers.push(5);                                           // Cancel
+  await W.runScript('glass.worker', {});
+  assert.equal(ash(), 350);
+  answers.push(1, 2, 0, 1, 5);                               // Yellow, Red: too little ash; Blue: declined; Cancel
+  await W.runScript('glass.worker', {});
+  assert.deepEqual([F.count('yellow-flute'), F.count('blue-flute'), ash()], [0, 1, 350], 'not enough for a Yellow Flute, a Blue Flute declined');
+  F.setFlag('chapter-106-done');
+  F.setVar('ash', 1000);
+  answers.push(4, 0);
+  await W.runScript('glass.worker', {});
+  assert.deepEqual([F.count('black-flute'), ash()], [1, 0]);
+  assert.ok(F.flag('chapter-107-done'));
+  // The White and Black Flutes: x1.5 and x0.5 on this map, then as before.
+  W.load('route113', { x: 4, y: 5, dir: 'up' });
+  const base = W.wildRate('walk');
+  assert.ok(base > 0);
+  W.flute('white-flute');
+  assert.equal(W.wildRate('walk'), base * 1.5);
+  W.flute('black-flute');
+  assert.equal(W.wildRate('walk'), base * 0.5);
+  W.load('route113', { x: 4, y: 5, dir: 'up' });
+  assert.equal(W.wildRate('walk'), base, 'the next map');
+});
+const FLUTES = () => ['blue-flute', 'yellow-flute', 'red-flute', 'white-flute', 'black-flute'];

@@ -181,6 +181,11 @@ G.BagUI = (() => {
       G.World.pokeRadar();
       return;
     }
+    // The Soot Sack (chapter 107; my own convenience, Emerald's only tells you at the glass workshop): how much ash it holds.
+    if (id === 'soot-sack') {
+      await G.Popup.say(fmt('The {item} holds the ash of {n} steps.', { item: G.Names.item(id), n: +G.Field.getVar('ash') || 0 }));
+      return;
+    }
     if (k === 'key') { await G.Popup.say(T("This can't be used now.")); return; }
     // Honey (chapter 103): used up at once, then a sweet scent where you stand (Platinum's UseHoneyFromMenu).
     if (fx.scent && G.World && G.World.sweetScent) {
@@ -188,6 +193,16 @@ G.BagUI = (() => {
       finish(null);
       G.UI.closeAll();
       G.World.sweetScent(null, id);
+      return;
+    }
+    // The White and Black Flutes (chapter 107, Emerald's ItemUseOutOfBattle_BlackWhiteFlute): more or fewer wild Pokémon
+    // until the next map; never used up.
+    if (fx.encounter && G.World && G.World.flute) {
+      G.World.flute(id);
+      G.Audio.sfx('glassFlute');
+      const vars = { player: S.player.name, item: G.Names.item(id) };
+      await G.Popup.say(fx.encounter > 1 ? fmt('{player} played the {item}. More wild Pokémon will come out now.', vars)
+        : fmt('{player} played the {item}. Fewer wild Pokémon will come out now.', vars));
       return;
     }
     if (fx.repel) {
@@ -216,10 +231,10 @@ G.BagUI = (() => {
       if (!FI().canUse(id, mon, { move })) { await G.Popup.say(T("It won't have any effect.")); continue; }
       const r = FI().use(id, mon, { move });
       if (!r.ok) continue;
-      G.Field.takeItem(id, 1);
+      if (!fx.flute) G.Field.takeItem(id, 1);                  // the Blue Flute (chapter 107) is never used up
       // A stone is only used up when the Pokémon really evolves (B cancels the scene).
       if (fx.evo) { if (!(await evolveNow(mon, r.evolve))) G.Field.giveItem(id, 1); return; }
-      G.Audio.sfx(fx.level ? 'levelup' : 'heal');
+      G.Audio.sfx(fx.flute ? 'glassFlute' : fx.level ? 'levelup' : 'heal');
       for (const line of r.lines) await G.Popup.say(line);
       for (const mv of r.learn) await G.LearnUI.teach(mon, mv, sayLine);
       if (r.evolve) await evolveNow(mon, r.evolve);

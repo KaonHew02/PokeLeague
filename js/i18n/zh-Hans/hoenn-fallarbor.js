@@ -85,5 +85,6 @@ G.I18n.add({
   "Fallarbor Town. A quiet farming town where the ash falls like soft snow.": "秋叶镇。火山灰如细雪般飘落的宁静农村。",
   "Pokémon Contest Hall. The stage where Pokémon show off their charm.": "宝可梦华丽大赛会场。宝可梦展现魅力的舞台。",
   "Route 114. East: Fallarbor Town. North-west: Meteor Falls.": "114号道路。东：秋叶镇。西北：流星瀑布。",
-  "The sandstorm died down when the weather went back to normal. With goggles on, you can cross the desert now.": "天气恢复正常以后，沙暴也减弱了。现在戴上护目镜，就能穿过沙漠了。"
+  "The sandstorm died down when the weather went back to normal. With goggles on, you can cross the desert now.": "天气恢复正常以后，沙暴也减弱了。现在戴上护目镜，就能穿过沙漠了。",
+  "Glass Workshop. We turn the ash of Route 113 into glass.": "玻璃工房。我们把113号道路的火山灰做成玻璃。"
 }, "zh-Hans");

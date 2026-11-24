@@ -79,9 +79,10 @@ G.WorldRender = (() => {
     return (healBalls[lit] = P.canvas());
   }
 
-  function tuftAt(list, m, x, y, after) {
+  function tuftAt(list, m, x, y, after, green) {
     if (G.Maps.kindAt(m, x, y) !== 'tall') return;
-    const tuft = G.Tiles.sprite('tuft', m.palette in G.Tiles.PALETTES && !G.Tiles.PALETTES[m.palette].floor ? m.palette : 'kanto');
+    // Chapter 107: where the ash has fallen off, the grass is green again.
+    const tuft = G.Tiles.sprite('tuft', !green && m.palette in G.Tiles.PALETTES && !G.Tiles.PALETTES[m.palette].floor ? m.palette : 'kanto');
     list.push({ y: after + 0.02, draw: c => c.drawImage(tuft, x * TS, (y + 1) * TS - tuft.height * G.Sprites.PX, TS, tuft.height * G.Sprites.PX) });
   }
 
@@ -211,6 +212,12 @@ G.WorldRender = (() => {
       });
     }
 
+    // Chapter 107: tall grass whose ash has fallen off (Route 113), green until the map loads again.
+    if (S.ashless && S.ashless.size) {
+      const g2 = G.Tiles.sprite('tallTile', 'kanto');
+      for (const k of S.ashless) { const [x, y] = k.split(',').map(Number); ctx.drawImage(g2, x * TS, y * TS, TS, TS); }
+    }
+
     // Y-sorted things.
     const list = [];
     const r0 = Math.floor(Tp / TS) - 1, r1 = Math.ceil((Tp + H) / TS) + 4;
@@ -277,8 +284,9 @@ G.WorldRender = (() => {
       const key = a.wy + (a === S.me ? 0.01 : 0);
       list.push({ y: key, draw: c => a.draw(c) });
       if (a.lift()) continue;
-      tuftAt(list, m, a.x, a.y, key);
-      if (a.moving && (a.fx !== a.x || a.fy !== a.y)) tuftAt(list, m, a.fx, a.fy, key);
+      const green = (x, y) => !!(S.ashless && S.ashless.has(x + ',' + y));
+      tuftAt(list, m, a.x, a.y, key, green(a.x, a.y));
+      if (a.moving && (a.fx !== a.x || a.fy !== a.y)) tuftAt(list, m, a.fx, a.fy, key, green(a.fx, a.fy));
     }
     list.sort((a, b) => a.y - b.y);
     for (const it of list) it.draw(ctx);
@@ -291,6 +299,18 @@ G.WorldRender = (() => {
       for (let i = 0; i < h.n; i++) {
         const [sx, sy] = SOCK[i];
         ctx.drawImage(img, h.x * TS + sx * PX, h.y * TS + sy * PX, img.width * PX, img.height * PX);
+      }
+    }
+
+    // Chapter 107: a puff of ash where it falls off the grass.
+    if (S.ashPuffs && S.ashPuffs.length) {
+      for (const p of S.ashPuffs) {
+        const k = 1 - p.t / 0.6;
+        ctx.fillStyle = 'rgba(150,154,144,' + (0.8 * (1 - k)).toFixed(2) + ')';
+        for (let j = 0; j < 5; j++) {
+          const ang = j * 1.26 + p.x;
+          ctx.fillRect(Math.round(p.x * TS + TS / 2 + Math.cos(ang) * k * 12 * PX / 2), Math.round((p.y + 0.6) * TS - k * 10 * PX + Math.sin(ang) * 3), PX * 2, PX * 2);
+        }
       }
     }
 

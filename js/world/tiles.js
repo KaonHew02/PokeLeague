@@ -9,7 +9,7 @@
  *       things whose base is on that row (trees, buildings): render.js draws
  *       them Y-sorted with the people, so you can walk behind a tree top or a roof.
  *   G.Tiles.border(map)   a small canvas that tiles the outside of the map (border kind)
- *   G.Tiles.sprite(name)  props: 'tree', 'tuft' (front of the tall grass), 'ball' (item)
+ *   G.Tiles.sprite(name)  props: 'tree', 'tuft' (front of the tall grass), 'tallTile' (a whole tile of it), 'ball' (item)
  *
  * Palettes (PALETTES) replace PokéGo's noise-driven biomes. Autotiling: each
  * tile looks at its 8 neighbours (cliff faces, water shores, path edges,
@@ -1534,6 +1534,12 @@ G.Tiles = (() => {
       }
       for (const [x, y] of [[7, 4], [7, 5], [8, 6], [8, 7], [7, 8], [6, 9], [6, 10], [7, 11], [9, 8], [10, 9], [4, 10], [5, 10]]) P.set(x, y, dark);
       outline(P, dark);
+      return P.canvas();
+    },
+    /** A whole tile of tall grass (chapter 107: drawn green where Route 113's ash has fallen off). */
+    tallTile(C) {
+      const P = Pix(T, T);
+      tall(P, C, 0, 0);
       return P.canvas();
     },
     /** The front of the tall grass: the bottom row of tufts, drawn over feet. */

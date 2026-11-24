@@ -184,11 +184,12 @@
   // ---------------- Route 113 ----------------
   G.Maps.def(Object.assign({
     id: 'route113', loc: 'hoenn-route-113', tileset: 'outdoor', palette: 'ash', music: 'route', battleBg: 'grass', border: 'T',
+    ash: true,                       // chapter 107: its tall grass is ash grass (glass.js: the Soot Sack, the glass workshop)
     rows: [
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'T................................######T',
-      'T..."""""""""..........."""""""..######T',
-      'T..."""""""""..........."""""""..###O##T',
+      'T...............HHHH.............######T',
+      'T..."""""""""...HHHH...."""""""..######T',
+      'T..."""""""""..SHDHH...."""""""..###O##T',
       'T..."""""""""...........""""""".....,..T',
       'T...................................,..T',
       ',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,..T',
@@ -201,9 +202,11 @@
       'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT'
     ],
     connect: { west: { map: 'fallarbor', offset: -4 } },
-    warps: [{ x: 36, y: 3, to: 'fiery-path', spot: 'north' }],
-    spots: { 'fiery-path': [36, 4, 'down'] },
-    signs: { '34,8': 'Route 113. West: Fallarbor Town. Ash from Mt. Chimney falls on this road all year round.' },
+    warps: [{ x: 36, y: 3, to: 'fiery-path', spot: 'north' },
+            { x: 17, y: 3, to: 'glass-workshop', spot: 'door' }],                // chapter 107 (glass.js)
+    spots: { 'fiery-path': [36, 4, 'down'], 'workshop-door': [17, 4, 'down'] },
+    signs: { '34,8': 'Route 113. West: Fallarbor Town. Ash from Mt. Chimney falls on this road all year round.',
+             '15,3': 'Glass Workshop. We turn the ash of Route 113 into glass.' },
     trainers: [
       { id: 'lawrence', who: 'camper', cls: 'camper', name: 'Lawrence', x: 20, y: 4, dir: 'down', sight: 2, team: [['spinda', 21], ['sandshrew', 21]],
         before: 'The ash on this road is warm and soft. Perfect for a battle!',

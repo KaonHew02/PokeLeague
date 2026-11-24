@@ -22,6 +22,8 @@
  *              'berry' (its heal / cure, eaten when needed), 'leftovers', 'quick-claw', 'everstone'…
  *   key        key item (cannot be sold, tossed or used on a Pokémon); stack: 1, the Bag shows how many
  *   fossil     the species a lab brings back from it
+ *   flute      never used up (chapter 107, Emerald's glass flutes); vol: the volatile status it ends in battle (confusion,
+ *              attract); encounter: wild Pokémon rate multiplier until the next map (White and Black Flutes)
  */
 G.ITEM_FX = {
   // ---- balls ----
@@ -332,6 +334,15 @@ G.ITEM_FX = {
   'ss-ticket':     { key: 1 },
   'poke-flute':    { key: 1, field: 1 },
   'poke-radar':    { key: 1, field: 1 },    // chapter 106: used in tall grass (G.World.pokeRadar, radar.js)
+  // Chapter 107: Emerald's glass workshop (Route 113). The flutes are never used up (party_menu.c IsItemFlute); Emerald's
+  // prices (sold for half, never in a shop). Blue: sleep, in battle and out; Yellow, Red: confusion, infatuation, in battle
+  // only; White, Black: wild Pokemon x1.5 / x0.5 until the next map (wild_encounter.c ApplyFluteEncounterRateMod).
+  'soot-sack':     { key: 1, field: 1 },
+  'blue-flute':    { flute: 1, cure: ['slp'], field: 1, battle: 1, price: 100 },
+  'yellow-flute':  { flute: 1, vol: 'confusion', battle: 1, price: 200 },
+  'red-flute':     { flute: 1, vol: 'attract', battle: 1, price: 300 },
+  'white-flute':   { flute: 1, encounter: 1.5, field: 1, price: 500 },
+  'black-flute':   { flute: 1, encounter: 0.5, field: 1, price: 400 },
   'silph-scope':   { key: 1 },
   'card-key':      { key: 1 },
   'lift-key':      { key: 1 },

@@ -105,6 +105,8 @@
  * Chapter 106: the Poké Radar (G.Radar, radar.js; G.World.pokeRadar() from the Bag, radarBlock() why not): a step into a
  * shaking patch is its wild Pokémon at once (no Repel, no roamer); radar battles keep or end the chain, any other battle,
  * another map or the Bicycle end it; render draws the patches while they shake.
+ * Chapter 107: a map with `ash` (Route 113): its tall grass loses its ash when stepped into, until the map loads again, and the
+ * Soot Sack counts it (var ash); G.World.flute(item): the White or Black Flute's rate until the next map (wildRate(method)).
  */
 G.Field = (() => {
   function fresh() {
@@ -399,6 +401,7 @@ G.World = (() => {
     if (!m) { console.error('[World] unknown map ' + id); G.UI.toast('Unknown map: ' + id); return false; }
     map = m;
     if (G.Radar) G.Radar.clear();                              // chapter 106: the Poké Radar's patches stay on their map
+    fluteRate = 1; ashless = new Set(); ashPuffs = [];         // chapter 107: a flute's effect and the ash end with the map
     cut = new Set();
     around = new Set();
     sliding = null;
@@ -703,6 +706,7 @@ G.World = (() => {
       if (maybeEncounter('seaweed')) return;
     } else if (k === 'tall') {
       sfx('grass');
+      if (map.def.ash) ashStep(me.x, me.y);                    // chapter 107: Route 113's ash
       if (radarStep()) return;
       if (maybeEncounter('walk')) return;
     } else if ((map.def.cave || map.def.desert) && !M().info(k).warp) {
@@ -784,14 +788,39 @@ G.World = (() => {
   /** The first Pokémon's ability for the rules outside battle (chapter 98, G.FieldAbilities), or null. */
   const fieldAbility = () => (G.FieldAbilities ? G.FieldAbilities.ab(G.FieldAbilities.lead(G.Field.party())) : null);
 
+  /** The wild encounter rate of a method on this map: the table's, changed by the lead's ability (chapter 98: Illuminate,
+   *  Stench, Sand Veil...) and by a White or Black Flute played on this map (chapter 107: x1.5 / x0.5). */
+  function wildRate(method) {
+    const table = M().encounters(map, method);
+    if (!table) return 0;
+    const FA = G.FieldAbilities;
+    return (table.rate || 0) * (FA ? FA.rate(fieldAbility(), method, fieldWeather()) : 1) * fluteRate;
+  }
+
   function rollWild(method) {
     const table = M().encounters(map, method);
     if (!table || !table.mons || !table.mons.length) return null;
-    const FA = G.FieldAbilities, ab = fieldAbility();
-    // Chapter 98: Illuminate, Stench, Sand Veil... change the rate.
-    const rate = (table.rate || 0) * (FA ? FA.rate(ab, method, fieldWeather()) : 1);
+    const rate = wildRate(method);
     if (!(rng.next() < Math.min(180, rate) / 180)) return null;
     return drawWild(table, method);
+  }
+
+  /** Chapter 107, Emerald's: a White or Black Flute played (G.ITEM_FX encounter), until the next map (ClearTempFieldEventData). */
+  let fluteRate = 1;
+  function flute(item) { fluteRate = (G.ITEM_FX[item] || {}).encounter || 1; return fluteRate; }
+
+  /** Chapter 107, Emerald's AshGrassPerStepCallback: on a map with `ash`, the ash falls off the tall grass stepped into (green
+   *  again until the map loads again); with the Soot Sack, one more in var ash (9999 at most). -> collected */
+  let ashless = new Set(), ashPuffs = [];
+  function ashStep(x, y) {
+    const k = M().key(x, y);
+    if (ashless.has(k)) return false;
+    ashless.add(k);
+    ashPuffs.push({ x, y, t: 0.6 });
+    if (G.Field.count('soot-sack') <= 0) return false;
+    const V = G.Field.save.vars;
+    V.ash = Math.min(9999, (+V.ash || 0) + 1);
+    return true;
   }
 
   /** One wild Pokémon from a table: its slot and its level (chapter 102: drawn twice beside a partner). */
@@ -1957,6 +1986,7 @@ G.World = (() => {
     G.Dialog.tick(dt);
     if (scentGlow > 0) scentGlow = Math.max(0, scentGlow - dt);
     if (G.Radar) G.Radar.tick(dt);
+    if (ashPuffs.length) { for (const p of ashPuffs) p.t -= dt; ashPuffs = ashPuffs.filter(p => p.t > 0); }
     const ui = !!o.ui || G.UI.anyOpen();
     const control = !ui && !locks && !G.Dialog.open;
     // A click during a step waits for the step to end (the newest click wins).
@@ -2002,7 +2032,7 @@ G.World = (() => {
     if (!map) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, view.w, view.h); return; }
     G.WorldRender.draw(ctx, view, {
       map, me, follower, actors, items, decor, rocks, fade: fadeA, healFx, cut, dark: !!map.def.dark && !lit, light: glow, tint: tint(), snow: !!map.def.snow, sand: !!map.def.sandstorm, bubbles: under(), rain: stormy(), fog: foggy(),
-      radar: G.Radar ? G.Radar.patches() : null,
+      radar: G.Radar ? G.Radar.patches() : null, ashless, ashPuffs,
       emotes: [me, follower, ...actors].filter(a => a && a.emote && a.visible)
     });
   }
@@ -2014,7 +2044,7 @@ G.World = (() => {
     get map() { return map; }, get player() { return me; }, get follower() { return follower; }, makeFollower, get surfing() { return surfing; }, keyOpen,
     barsOpen, pitFilled, calm, isWater, fish, canFish, bestRod, feebasTiles, stormy, foggy, teleportBlock,
     get biking() { return biking; }, toggleBike, canRide, mustRide, slope, flyTargets, visited, flier, flyBlock, flyTo, moveSpots, useMoveSpot, sweetScent, wildMethodHere,
-    pokeRadar, radarBlock,
+    pokeRadar, radarBlock, flute, wildRate, ashStep, get ashless() { return ashless; }, get fluteRate() { return fluteRate; },
     get strength() { return strength; }, set strength(v) { strength = !!v; }, get rocks() { return rocks; },
     get actors() { return actors; }, get items() { return items; }, get decor() { return decor; }, get cut() { return cut; }, get lit() { return lit; },
     brighten, get glow() { return glow; },

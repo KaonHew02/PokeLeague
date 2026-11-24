@@ -299,5 +299,8 @@ G.I18n.add({
   "Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!": "Ogni Ball speciale ha il suo momento: sull'acqua, di notte, in una grotta, al primo turno o dopo una lunga lotta. Scegli bene!",
   "Chapter 106 complete!": "Capitolo 106 completato!",
   "{player} met the same Pokémon five times in a row in the patches the {item} set shaking.": "{player} ha incontrato lo stesso Pokémon cinque volte di fila nei ciuffi che il {item} ha fatto muovere.",
-  "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "Più lunga è la catena, più è probabile che un ciuffo scintilli con un Pokémon dai colori insoliti. Alcuni Pokémon compaiono solo nei ciuffi che si muovono con forza."
+  "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "Più lunga è la catena, più è probabile che un ciuffo scintilli con un Pokémon dai colori insoliti. Alcuni Pokémon compaiono solo nei ciuffi che si muovono con forza.",
+  "Chapter 107 complete!": "Capitolo 107 completato!",
+  "{player} gathered the ash of {route} in the {item} and had it blown into a glass flute at the glass workshop.": "{player} ha raccolto la cenere del {route} nel {item} e alla vetreria ne ha fatto soffiare un flauto di vetro.",
+  "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "Il {blue}, il {yellow} e il {red} curano sonno, confusione e infatuazione in lotta e non si consumano mai. Il {white} attira più Pokémon selvatici, il {black} meno."
 }, "it");

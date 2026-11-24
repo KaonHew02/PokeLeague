@@ -695,6 +695,8 @@ G.Audio = (() => {
     pcOff:   () => arp('square', [1320, 880, 660], 0.06, 0.07, 0.035),
     coin:    () => { tone('square', 1320, 1320, 0.05, 0.035); tone('square', 1760, 1760, 0.14, 0.035, 0.05); },
     buy:     () => { SFX.coin(); arp('triangle', [659, 784, 1047], 0.05, 0.12, 0.06); },
+    // A glass flute (chapter 107): a few soft high notes, my own.
+    glassFlute: () => arp('sine', [1568, 1976, 2349, 1976, 2637], 0.1, 0.22, 0.05),
     // Overworld
     bump:    () => { tone('triangle', 120, 55, 0.1, 0.08); hiss(0.06, 0.03, 'lowpass', 420); },
     // The ship's horn (chapter 28: the S.S. Aqua).

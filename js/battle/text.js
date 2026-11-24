@@ -147,6 +147,7 @@ G.BattleText = (() => {
       case 'confused': return fmt('{mon} is confused!', { mon });
       case 'hurtSelf': return null;              // the damage event says it
       case 'confusionEnd': return fmt('{mon} snapped out of its confusion!', { mon });
+      case 'attractEnd': return fmt('{mon} is no longer infatuated!', { mon });          // the Red Flute (chapter 107)
       case 'confuse': return e.why === 'fatigue' ? fmt('{mon} became confused due to fatigue!', { mon }) : fmt('{mon} became confused!', { mon });
       case 'damage': return damageLine(b, e, mon);
       case 'heal':

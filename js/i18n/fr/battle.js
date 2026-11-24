@@ -233,5 +233,6 @@ G.I18n.add({
   "Wild {mon} and {mon2} appeared!": "Un {mon} et un {mon2} sauvages apparaissent !",
   "{mon} can't use items anymore!": "{mon} ne peut plus utiliser d'objets !",
   "{mon} can use items again!": "{mon} peut de nouveau utiliser des objets !",
-  "{mon} found one {item}!": "{mon} a trouvé un {item} !"
+  "{mon} found one {item}!": "{mon} a trouvé un {item} !",
+  "{mon} is no longer infatuated!": "{mon} n'est plus amoureux !"
 }, "fr");

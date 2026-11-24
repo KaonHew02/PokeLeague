@@ -4889,6 +4889,26 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 107 after chapter 106: Emerald's glass workshop. The glassblower gives the Soot Sack; the ash of Route 113 (one per
+ *  tile of ash grass, each visit: field.test walks it) is counted as the visits needed for 250, then a Blue Flute (the ending). */
+async function chapter107(st) {
+  const { G } = st;
+  const F = G.Field, GW = G.GlassWorkshop;
+  await run(st, 'glass-workshop', 'glass.worker');
+  assert.equal(F.count('soot-sack'), 1);
+  const m = G.Maps.get('route113');
+  let tiles = 0;
+  for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w; x++) if (G.Maps.kindAt(m, x, y) === 'tall') tiles++;
+  const visits = Math.ceil(GW.LOWEST / tiles);
+  F.setVar('ash', visits * tiles);
+  await run(st, 'glass-workshop', 'glass.worker', [0, 0]);
+  console.log('[story] the glass workshop:', G.Names.item('blue-flute'), 'for', GW.LOWEST, 'steps of ash (' + visits, 'visits to the', tiles,
+    'tiles of ash grass on', G.Names.loc('hoenn-route-113') + ',', F.getVar('ash'), 'left)');
+  assert.equal(F.count('blue-flute'), 1);
+  assert.ok(F.flag('chapter-107-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 106 after chapter 105: the Poké Radar Rowan gave with the National Pokédex (chapter 60). On Route 210's grass the
  *  auto-player steps into the farthest patch each time (the outer ring keeps the chain most often), fights, and when the chain
  *  breaks walks fifty steps and uses the radar again at the same spot, until a chain of five (the ending). */
@@ -6426,4 +6446,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter104(st);
   await chapter105(st);
   await chapter106(st);
+  await chapter107(st);
 });

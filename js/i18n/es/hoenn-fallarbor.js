@@ -85,5 +85,6 @@ G.I18n.add({
   "Fallarbor Town. A quiet farming town where the ash falls like soft snow.": "Pueblo Pardal. Un tranquilo pueblo agrícola donde la ceniza cae como nieve suave.",
   "Pokémon Contest Hall. The stage where Pokémon show off their charm.": "Sala de Concursos Pokémon. El escenario donde los Pokémon lucen su encanto.",
   "Route 114. East: Fallarbor Town. North-west: Meteor Falls.": "Ruta 114. Este: Pueblo Pardal. Noroeste: Cascada Meteoro.",
-  "The sandstorm died down when the weather went back to normal. With goggles on, you can cross the desert now.": "La tormenta de arena amainó cuando el tiempo volvió a la normalidad. Con unas gafas puestas, ya puedes cruzar el desierto."
+  "The sandstorm died down when the weather went back to normal. With goggles on, you can cross the desert now.": "La tormenta de arena amainó cuando el tiempo volvió a la normalidad. Con unas gafas puestas, ya puedes cruzar el desierto.",
+  "Glass Workshop. We turn the ash of Route 113 into glass.": "Taller de Vidrio. Convertimos la ceniza de la Ruta 113 en vidrio."
 }, "es");

@@ -299,5 +299,8 @@ G.I18n.add({
   "Each special ball has its moment: on the water, at night, in a cave, on the first turn, or after a long battle. Choose the right one!": "Cada Poké Ball especial tem o seu momento: na água, à noite, numa caverna, no primeiro turno ou depois de uma longa batalha. Escolha bem!",
   "Chapter 106 complete!": "Capítulo 106 concluído!",
   "{player} met the same Pokémon five times in a row in the patches the {item} set shaking.": "{player} encontrou o mesmo Pokémon cinco vezes seguidas nos trechos que o {item} fez balançar.",
-  "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "Quanto mais longa a sequência, maior a chance de um trecho brilhar com um Pokémon de cores incomuns. Alguns Pokémon só aparecem nos trechos que balançam forte."
+  "The longer the chain, the better the chance that a patch sparkles with a Pokémon of unusual colors. Some Pokémon only appear in patches that shake hard.": "Quanto mais longa a sequência, maior a chance de um trecho brilhar com um Pokémon de cores incomuns. Alguns Pokémon só aparecem nos trechos que balançam forte.",
+  "Chapter 107 complete!": "Capítulo 107 concluído!",
+  "{player} gathered the ash of {route} in the {item} and had it blown into a glass flute at the glass workshop.": "{player} recolheu as cinzas da {route} no {item} e, na oficina de vidro, transformou-as numa flauta.",
+  "The {blue}, {yellow} and {red} cure sleep, confusion and infatuation in battle and are never used up. The {white} calls more wild Pokémon, the {black} fewer.": "A {blue}, a {yellow} e a {red} curam sono, confusão e paixão em batalha e nunca se gastam. A {white} atrai mais Pokémon selvagens, a {black} menos."
 }, "pt-BR");

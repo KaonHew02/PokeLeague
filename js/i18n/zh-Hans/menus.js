@@ -217,5 +217,8 @@ G.I18n.add({
   "Contest": "华丽大赛",
   "{mon} is too tired to use that.": "{mon}太累了，没办法使用。",
   "You bought so many, so here is a {item} as a little extra!": "你买了这么多，送你一个{item}当作小赠品！",
-  "You can't use that while someone is walking with you.": "有同伴跟着你的时候不能使用。"
+  "You can't use that while someone is walking with you.": "有同伴跟着你的时候不能使用。",
+  "The {item} holds the ash of {n} steps.": "{item}里装着{n}步的火山灰。",
+  "{player} played the {item}. More wild Pokémon will come out now.": "{player}吹响了{item}。野生宝可梦会变多。",
+  "{player} played the {item}. Fewer wild Pokémon will come out now.": "{player}吹响了{item}。野生宝可梦会变少。"
 }, "zh-Hans");

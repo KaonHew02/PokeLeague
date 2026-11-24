@@ -79,6 +79,7 @@ G.BattleText = (() => {
       case 'nightmare': return fmt('{mon} is locked in a nightmare!', { mon });
       case 'sand': return fmt('{mon} is buffeted by the sandstorm!', { mon });
       case 'rocks': return fmt('Pointed stones dug into {mon}!', { mon });
+      case 'spikes': return fmt('{mon} is hurt by the spikes!', { mon });                                   // chapter 110
       case 'hail': return fmt('{mon} is pelted by hail!', { mon });
       case 'ooze': return fmt('{mon} sucked up the liquid ooze!', { mon });
       case 'life-orb': return fmt('{mon} lost some of its HP!', { mon });                                  // chapter 93
@@ -262,6 +263,21 @@ G.BattleText = (() => {
       case 'heartSwap': return fmt('{mon} switched stat changes with {target}!', { mon, target: who(b, e.target, e.tside) });
       case 'rocks': return e.side === 0 ? fmt('Pointed stones float in the air around your team!', {}) : fmt('Pointed stones float in the air around the foe team!', {});
       case 'rocksGone': return fmt('The pointed stones disappeared!', {});
+      // Chapter 110: Spikes, Toxic Spikes, Taunt, Focus Punch, Baton Pass, Wish, Future Sight and Doom Desire.
+      case 'spikes': return e.side === 0 ? fmt('Spikes were scattered around your team!', {}) : fmt('Spikes were scattered around the foe team!', {});
+      case 'toxicSpikes': return e.side === 0 ? fmt('Poison spikes were scattered around your team!', {}) : fmt('Poison spikes were scattered around the foe team!', {});
+      case 'toxicSpikesGone': return e.side === 0 ? fmt('The poison spikes around your team disappeared!', {}) : fmt('The poison spikes around the foe team disappeared!', {});
+      case 'hazardGone': return fmt('{mon} blew away {move}!', { mon, move: G.Names.move(e.move) });
+      case 'taunt': return fmt('{mon} fell for the taunt!', { mon });
+      case 'tauntBlocked': return fmt("{mon} can't use {move} after the taunt!", { mon, move: G.Names.move(e.move) });
+      case 'tauntEnd': return fmt("{mon}'s taunt wore off!", { mon });
+      case 'focusPunch': return fmt('{mon} is tightening its focus!', { mon });
+      case 'lostFocus': return fmt("{mon} lost its focus and couldn't move!", { mon });
+      case 'batonPass': return null;
+      case 'wish': return fmt("{name}'s wish came true!", { name: G.Mon.name(e.from) });
+      case 'hpFull': return fmt("{mon}'s HP is full!", { mon });
+      case 'foresee': return e.move === 'doom-desire' ? fmt('{mon} chose {move} as its destiny!', { mon, move: G.Names.move(e.move) }) : fmt('{mon} foresaw an attack!', { mon });
+      case 'futureHit': return fmt('{mon} took the {move} attack!', { mon, move: G.Names.move(e.move) });
       case 'trickRoom': return e.field ? fmt('The dimensions are twisted!', {}) : fmt('{mon} twisted the dimensions!', { mon });
       case 'trickRoomEnd': return fmt('The twisted dimensions returned to normal!', {});
       case 'gravity': return fmt('Gravity intensified!', {});
@@ -323,6 +339,7 @@ G.BattleText = (() => {
         case 'lightScreen': return mine ? fmt("Light Screen raised your team's Sp. Def!", {}) : fmt("Light Screen raised the foe team's Sp. Def!", {});
         case 'mist': return mine ? fmt('Your team became shrouded in mist!', {}) : fmt('The foe team became shrouded in mist!', {});
         case 'safeguard': return mine ? fmt('Your team became cloaked in a mystical veil!', {}) : fmt('The foe team became cloaked in a mystical veil!', {});
+        case 'tailwind': return mine ? fmt('A tailwind blew from behind your team!', {}) : fmt('A tailwind blew from behind the foe team!', {});    // chapter 110
       }
       return null;
     }

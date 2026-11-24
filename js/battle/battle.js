@@ -133,6 +133,7 @@ G.Battle = (() => {
       this.choices = [];                 // doubles: the player's actions chosen so far this turn
       this.events = []; this.queue = []; this.prompt = null; this.pending = null; this.result = null;
       this.turn = 0; this.runs = 0; this.weather = null; this.payDay = 0;
+      this.wishes = {}; this.futures = {};                  // Wish, Future Sight and Doom Desire (chapter 110), by "side:slot"
       this.seen = new Set(); this.leveled = new Set();
       // Chapter 94: the items the player's Pokémon hold at the start, and those they used up themselves (finish gives the
       // others back: taken, knocked off, swapped).
@@ -173,7 +174,8 @@ G.Battle = (() => {
       const bm = this.player.bms[slot];
       const moves = bm.mon.moves.map((m, slot) => ({ slot, id: m.id, pp: m.pp, max: G.Mon.ppMax(m.id, m.ppUp),
         usable: m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id)
-          && !(G.Held.locked(bm) && G.Held.locked(bm) !== m.id) }));            // a Choice item (chapter 93)
+          && !(G.Held.locked(bm) && G.Held.locked(bm) !== m.id)                 // a Choice item (chapter 93)
+          && !(bm.vol.taunt && G.MOVES[m.id] && G.MOVES[m.id].cat === 'status') }));    // Taunt (chapter 110)
       const caught = this.trapped(bm) || G.Abilities.traps(this, bm);     // Shadow Tag, Arena Trap, Magnet Pull
       const trapped = caught && !G.Held.is(bm.mon, 'shed-shell');          // Shed Shell (chapter 94): it switches out, it does not flee
       return {
@@ -350,6 +352,7 @@ G.Battle = (() => {
       if (opts.crit && opts.defending) st = Math.min(0, st);
       let v = Math.floor(Math.floor(raw * G.Held.statMult(bm.mon, key) * G.Abilities.statMult(this, bm, key)) * G.Stats.stage(st));
       if (key === 'spe' && bm.mon.status === 'par' && bm.ability !== 'quick-feet') v = Math.floor(v / 2);
+      if (key === 'spe' && this.sides[bm.side] && this.sides[bm.side].field.tailwind) v *= 2;     // Tailwind (chapter 110)
       return Math.max(1, v);
     }
 
@@ -533,7 +536,46 @@ G.Battle = (() => {
       if (this.arena) for (const x of acts) this.arenaMind(x.side.bm, x.a);
       acts.sort((p, q) => (q.bracket - p.bracket) || (q.bracket ? p.n - q.n : 0) || (q.pri - p.pri) || (p.stall - q.stall) || (q.quick - p.quick)
                           || (this.trickRoom ? p.spe - q.spe : q.spe - p.spe) || (p.tie - q.tie));      // Trick Room (chapter 44)
-      this.insert(...acts.map(x => () => this.doAction(x.side, x.a)), () => this.endOfTurn());
+      for (const x of acts) x.bm = x.side.bm;
+      this.queueTurn(acts);
+    }
+
+    /** Chapter 110: the turn's steps in order. First Focus Punch's users tighten their focus (Platinum's turn-start check:
+     *  not asleep, not loafing, not Struggling); a switch first lets a foe that chose Pursuit and has not moved hit the one
+     *  leaving (pursuit()). */
+    queueTurn(acts) {
+      const moveOf = x => (x.a.type === 'move' ? x.a.id || (x.bm.mon.moves[x.a.slot] || {}).id : null);
+      for (const x of acts) {
+        const bm = x.bm;
+        if (moveOf(x) === 'focus-punch' && this.alive(bm) && bm.mon.status !== 'slp' && !(bm.ability === 'truant' && bm.vol.loafing))
+          this.emit('focusPunch', { side: bm.side, uid: bm.mon.uid });
+      }
+      this.insert(...acts.map(x => () => {
+        if (x.done) return;
+        x.done = true;
+        if (x.a.type === 'switch') this.pursuit(x, acts, moveOf);
+        this.doAction(x.side, x.a, x.bm);
+      }), () => this.endOfTurn());
+    }
+
+    /** Chapter 110, Platinum's BtlCmd_TryPursuit: a foe that chose Pursuit (not asleep, frozen or loafing, the move with PP)
+     *  and has not moved yet uses it on the one switching out, at double power, before it leaves; that is its action. */
+    pursuit(x, acts, moveOf) {
+      const leaving = x.bm;
+      for (const p of acts) {
+        if (p.done || p.side === x.side || !this.alive(p.bm) || !this.alive(leaving) || this.result) continue;
+        const bm = p.bm, mon = bm.mon;
+        if (mon.status === 'slp' || mon.status === 'frz' || (bm.ability === 'truant' && bm.vol.loafing)) continue;
+        const id = bm.vol.encore ? bm.vol.encore.move : moveOf(p);
+        const slot = mon.moves.find(m => m.id === id);
+        if (id !== 'pursuit' || !slot || slot.pp <= 0) continue;
+        p.done = true;
+        bm.moved = true;
+        bm.vol.pursuing = true;
+        this.doMove(bm, Object.assign({}, p.a, { target: { side: leaving.side, slot: leaving.slot || 0 } }));
+        bm.vol.pursuing = false;
+        this.afterAction();
+      }
     }
 
     /** Doubles: all four actions in one order (the same rules as runTurn). */
@@ -563,7 +605,7 @@ G.Battle = (() => {
       acts.sort((p, q) => (q.bracket - p.bracket) || (q.bracket ? p.n - q.n : 0) || (q.pri - p.pri) || (p.stall - q.stall) || (q.quick - p.quick)
                           || (this.trickRoom ? p.spe - q.spe : q.spe - p.spe) || (p.tie - q.tie));      // Trick Room (chapter 44)
       this.choices = [];
-      this.insert(...acts.map(x => () => this.doAction(x.side, x.a, x.bm)), () => this.endOfTurn());
+      this.queueTurn(acts);
     }
 
     doAction(side, a, bm = side.bm) {
@@ -637,6 +679,8 @@ G.Battle = (() => {
         else { stop(); return say('frz'); }
       }
       if (bm.vol.disable && bm.vol.disable.move === id && !a.locked) { stop(); return say('disabled'); }
+      // Taunt (chapter 110): no status move while it lasts.
+      if (bm.vol.taunt && G.MOVES[id] && G.MOVES[id].cat === 'status') { stop(); return this.emit('tauntBlocked', { side: bm.side, uid: mon.uid, move: id }); }
       if (bm.vol.flinch && !G.Abilities.blocksFlinch(bm)) { stop(); say('flinch'); return G.Abilities.steadfast(this, bm); }   // Inner Focus; Steadfast
       if (bm.vol.confusion) {
         bm.vol.confusion--;
@@ -692,6 +736,8 @@ G.Battle = (() => {
       if (a.hesitate) { stop(); return say('palace'); }                    // the Battle Palace (chapter 80)
       if (!['protect', 'detect', 'endure'].includes(id)) bm.vol.protectCount = 0;
       if (id !== bm.lastMoveHit) bm.lastMoveHit = null;
+      // Focus Punch (chapter 110, effect script 0170): hit by a move this turn, it loses its focus (the PP is spent).
+      if (id === 'focus-punch' && bm.lastHit && bm.lastHit.amt > 0) { stop(); return this.emit('lostFocus', { side: bm.side, uid: mon.uid }); }
       if (!a.locked) G.Held.beforeMove(bm, id);                            // Choice items, Metronome (chapter 93)
       G.BattleFx.useMove(this, bm, target, id, { locked: a.locked || null });
       G.Held.afterMove(this, bm);                                          // the Life Orb
@@ -753,6 +799,17 @@ G.Battle = (() => {
           }
         }
       }
+      // Wish (chapter 110, FIELD_COND_CHECK_STATE_WISH): the one in that place gets half of its own max HP.
+      for (const k of Object.keys(this.wishes)) {
+        const w = this.wishes[k];
+        if (--w.turns > 0) continue;
+        delete this.wishes[k];
+        const [sd, sl] = k.split(':').map(Number), bm = this.sides[sd].bms[sl];
+        if (!this.alive(bm)) continue;
+        this.emit('wish', { side: bm.side, uid: bm.mon.uid, from: w.from });
+        if (bm.mon.hp >= this.maxHp(bm)) this.emit('hpFull', { side: bm.side, uid: bm.mon.uid });
+        else this.heal(bm, this.maxHp(bm) / 2, 'wish');
+      }
       for (const bm of order) {
         if (!this.alive(bm)) continue;
         const max = this.maxHp(bm), uid = bm.mon.uid;
@@ -801,11 +858,24 @@ G.Battle = (() => {
         }
         G.Held.orbs(this, bm);                                               // Toxic Orb, Flame Orb (chapter 93)
         if (bm.vol.disable && --bm.vol.disable.turns <= 0) { bm.vol.disable = null; this.emit('disableEnd', { side: bm.side, uid }); }
+        if (bm.vol.taunt && --bm.vol.taunt <= 0) { bm.vol.taunt = 0; this.emit('tauntEnd', { side: bm.side, uid }); }      // chapter 110
         if (bm.vol.encore && (--bm.vol.encore.turns <= 0 || !bm.mon.moves.some(m => m.id === bm.vol.encore.move && m.pp > 0))) {
           bm.vol.encore = null;
           this.emit('encoreEnd', { side: bm.side, uid });
         }
         bm.turns++;
+      }
+      // Future Sight and Doom Desire (chapter 110): the damage reckoned when used, on whoever stands there now.
+      for (const k of Object.keys(this.futures)) {
+        const f = this.futures[k];
+        if (--f.turns > 0) continue;
+        delete this.futures[k];
+        const [sd, sl] = k.split(':').map(Number), bm = this.sides[sd].bms[sl];
+        if (!this.alive(bm) || this.result) continue;
+        this.emit('futureHit', { side: bm.side, uid: bm.mon.uid, move: f.move });
+        const acc = f.acc;
+        if (acc != null && !this.rng.pct(acc)) { this.emit('miss', { side: bm.side, uid: bm.mon.uid, target: bm.mon.uid, tside: bm.side }); continue; }
+        this.hurt(bm, f.dmg, { why: 'future', user: { side: f.side, mon: {} }, move: G.MOVES[f.move] });
       }
       // Trick Room and Gravity (chapter 44) wear off after five turns.
       if (this.trickRoom && --this.trickRoom === 0) this.emit('trickRoomEnd', {});
@@ -978,15 +1048,55 @@ G.Battle = (() => {
                           shiny: !!mon.shiny, gender: mon.gender, status: mon.status }, this.double ? { slot } : {}));
       // Those who faced a foe share its experience.
       for (const fo of this.foe.bms) for (const pl of this.player.bms) if (pl && fo && this.alive(pl) && this.alive(fo)) fo.participants.add(pl.mon.uid);
-      // Stealth Rock (chapter 44): an eighth of its HP, more or less by how Rock moves hit it.
-      if (this.started && side.rocks && this.alive(bm)) {
-        this.hurt(bm, Math.max(1, Math.floor(this.maxHp(bm) * G.Types.eff('rock', bm.types) / 8)), { why: 'rocks' });
-        if (bm.mon.hp <= 0) { this.afterAction(); return; }
+      // Chapter 110, Baton Pass: what the one before it passes on.
+      if (o.baton) {
+        Object.assign(bm.stages, o.baton.stages);
+        Object.assign(bm.vol, o.baton.vol);
+        if (o.baton.embargo) mon.embargo = o.baton.embargo;
       }
+      // Hazards (Stealth Rock: chapter 44; Spikes and Toxic Spikes: chapter 110).
+      if (this.started && this.alive(bm) && this.hazards(side, bm)) { this.afterAction(); return; }
       if (this.started && !o.noEntry) G.Abilities.switchIn(this, bm);
     }
 
-    switchIn(side, i, slot = 0) {
+    /** Chapter 110, Platinum's subscript_hazards_check: Toxic Spikes, Spikes, then Stealth Rock on the one coming in. Magic
+     *  Guard: none; a Flying type or Levitate: no Spikes of either kind (unless Gravity or an Iron Ball holds it down); a
+     *  grounded Poison type takes Toxic Spikes away. -> it fainted */
+    hazards(side, bm) {
+      if (bm.ability === 'magic-guard') return false;
+      const grounded = !!this.gravity || G.Held.is(bm.mon, 'iron-ball') || !(bm.types.includes('flying') || bm.ability === 'levitate');
+      if (grounded && side.toxicSpikes) {
+        if (bm.types.includes('poison')) { side.toxicSpikes = 0; this.emit('toxicSpikesGone', { side: side.side, uid: bm.mon.uid }); }
+        else if (!side.field.safeguard) this.inflict(bm, side.toxicSpikes >= 2 ? 'tox' : 'psn', { silent: true });
+      }
+      if (grounded && side.spikes && this.alive(bm)) this.hurt(bm, Math.max(1, Math.floor(this.maxHp(bm) / ((5 - side.spikes) * 2))), { why: 'spikes' });
+      if (side.rocks && this.alive(bm)) this.hurt(bm, Math.max(1, Math.floor(this.maxHp(bm) * G.Types.eff('rock', bm.types) / 8)), { why: 'rocks' });
+      return bm.mon.hp <= 0;
+    }
+
+    /** Chapter 110: who could come in for the one in this place (Baton Pass): the healthy ones not out, of its own Trainer. */
+    bench(side, slot = 0) {
+      return side.party.map((m, i) => i).filter(i => side.party[i].hp > 0 && !side.actives.includes(i)
+        && (side !== this.player || (this.partner && slot === 1 ? !this.mine(i) : this.mine(i)))
+        && !(side === this.foe && this.rules.tag && this.double && i % 2 !== slot));
+    }
+
+    /** Chapter 110, Baton Pass (subscript_baton_pass; battle_lib.c keeps these on the switch): its stat stages, Focus Energy,
+     *  confusion, being held by Mean Look, its Substitute, Leech Seed, Lock-On, Perish Song, Ingrain and Embargo go to the one
+     *  coming in. The player chooses (not for the partner); the foe sends its next one. */
+    batonPass(bm) {
+      if (this.result || !this.alive(bm)) return;
+      const side = this.sideOf(bm), slot = bm.slot || 0, list = this.bench(side, slot);
+      if (!list.length) return;
+      const vol = {};
+      for (const k of ['focusEnergy', 'confusion', 'cantEscape', 'substitute', 'seeded', 'seededBy', 'lockOn', 'perish', 'ingrain', 'embargo']) if (bm.vol[k]) vol[k] = bm.vol[k];
+      const baton = { stages: Object.assign({}, bm.stages), vol, embargo: bm.mon.embargo || null };
+      const go = i => this.switchIn(side, i, slot, { baton });
+      if (side === this.player && !(this.partner && slot === 1)) this.ask(Object.assign({ kind: 'switch', forced: true, baton: true }, this.double ? { slot } : {}), ans => go(ans.switchTo));
+      else go(list[0]);
+    }
+
+    switchIn(side, i, slot = 0, o = {}) {
       const old = side.bms[slot];
       if (old && !old.fainted) {
         old.mon.tox = 0;
@@ -995,7 +1105,7 @@ G.Battle = (() => {
         // The foe's trap and seeds on it stay with the battler that leaves.
         for (const foe of this.double ? this.foes(old) : [this.other(old)]) if (foe && foe.vol.attract) foe.vol.attract = false;
       }
-      this.sendOut(side, i, { slot });
+      this.sendOut(side, i, { slot, baton: o.baton });
     }
 
     // ================= running and catching =================

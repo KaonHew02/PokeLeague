@@ -6,6 +6,16 @@
  */
 G.SpecialMoves = (() => {
   const me = bm => ({ side: bm.side, uid: bm.mon.uid });
+  /** Chapter 110: Future Sight and Doom Desire (Platinum's BtlCmd_TryFutureSight), with Platinum's power and accuracy (the
+   *  data has PokeAPI's later values: Future Sight 120 and 100, Doom Desire 140 and 100). */
+  const FUTURE = { 'future-sight': [80, 90], 'doom-desire': [120, 85] };
+  const futureMove = id => ({ acc: () => null, hitsInvuln: ['fly', 'dig', 'dive'], power: () => FUTURE[id][0], use: (b, u, t) => {
+    const k = t.side + ':' + (t.slot || 0);
+    if (b.futures[k]) return fail(b);
+    const dmg = G.Damage.calc({ lvl: u.mon.lvl, pow: FUTURE[id][0], atk: b.stat(u, 'spa'), def: b.stat(t, 'spd'), eff: 1, roll: b.rng.int(85, 100),
+                                screen: !!b.sideOf(t).field.lightScreen });
+    b.futures[k] = { turns: 3, dmg: Math.floor(dmg * (u.vol.helped ? 1.5 : 1)), move: id, side: u.side, acc: FUTURE[id][1] };
+    b.emit('foresee', Object.assign({ move: id }, me(u))); return {}; } });
   const fail = b => { b.emit('fail', {}); return false; };
   const hpPct = bm => bm.mon.hp / G.Mon.maxHp(bm.mon);
   const W = b => G.Abilities.weather(b);              // none while Cloud Nine or Air Lock is out
@@ -99,8 +109,47 @@ G.SpecialMoves = (() => {
                         const s = b.sideOf(t), f = s.field;
                         for (const k of ['reflect', 'lightScreen', 'safeguard', 'mist']) if (f[k]) { delete f[k]; b.emit('fieldEnd', { side: t.side, effect: k }); }
                         if (s.rocks) { s.rocks = false; b.emit('rocksGone', { side: t.side }); }
+                        // Chapter 110: Spikes and Toxic Spikes too.
+                        if (s.spikes) { s.spikes = 0; b.emit('hazardGone', Object.assign({ move: 'spikes' }, me(u))); }
+                        if (s.toxicSpikes) { s.toxicSpikes = 0; b.emit('hazardGone', Object.assign({ move: 'toxic-spikes' }, me(u))); }
                         if (b.weather && b.weather.w === 'fog') { b.weather = null; b.emit('weatherEnd', { w: 'fog' }); }   // (chapter 92)
                         return {}; } },
+    // ---------- chapter 110: common moves, Platinum's (pret/pokeplatinum effect scripts and battle_script.c) ----------
+    // Spikes (BtlCmd_TrySpikes): three layers at most on the foes' side; Toxic Spikes (BtlCmd_TryToxicSpikes): two. The damage
+    // and the poison on the one coming in: battle.js hazards().
+    'spikes':       { use: (b, u) => {
+                        const s = b.sides[1 - u.side];
+                        if ((s.spikes || 0) >= 3) return fail(b);
+                        s.spikes = (s.spikes || 0) + 1; b.emit('spikes', { side: s.side }); return {}; } },
+    'toxic-spikes': { use: (b, u) => {
+                        const s = b.sides[1 - u.side];
+                        if ((s.toxicSpikes || 0) >= 2) return fail(b);
+                        s.toxicSpikes = (s.toxicSpikes || 0) + 1; b.emit('toxicSpikes', { side: s.side }); return {}; } },
+    // Taunt (subscript_taunt_start): three to five turns without status moves (battle.js doMove, options; ends in endOfTurn).
+    'taunt':        { use: (b, u, t) => {
+                        if (t.vol.taunt) return fail(b);
+                        t.vol.taunt = b.rng.int(3, 5); b.emit('taunt', me(t)); return {}; } },
+    // Pursuit (BtlCmd_TryPursuit): double power on a foe switching out (battle.js pursuit() sets vol.pursuing).
+    'pursuit':      { power: (b, u, t, M) => (u.vol.pursuing ? M.pow * 2 : M.pow) },
+    // Baton Pass (subscript_baton_pass): fails with no one to come in; else the switch after the move (battle.js batonPass).
+    'baton-pass':   { use: (b, u) => {
+                        if (!b.bench(b.sideOf(u), u.slot || 0).length) return fail(b);
+                        b.emit('batonPass', me(u));
+                        b.insert(() => b.batonPass(u)); return {}; } },
+    // Wish (BtlCmd_TryWish): the end of the next turn, for whoever stands in its place (battle.js endOfTurn).
+    'wish':         { use: (b, u) => {
+                        const k = u.side + ':' + (u.slot || 0);
+                        if (b.wishes[k]) return fail(b);
+                        b.wishes[k] = { turns: 2, from: { sp: u.mon.sp, nick: u.mon.nick || null } }; return {}; } },
+    // Future Sight and Doom Desire (BtlCmd_TryFutureSight): the damage reckoned now, with no type matchup and no critical hit
+    // (Light Screen and Helping Hand count), on the one in that place at the end of the turn after next; never misses now.
+    'future-sight': futureMove('future-sight'),
+    'doom-desire':  futureMove('doom-desire'),
+    // Tailwind (subscript_tailwind_start): Speed x2 on its side for three turns, this one included (battle.js stat, endOfTurn).
+    'tailwind':     { use: (b, u) => {
+                        const f = b.sideOf(u).field;
+                        if (f.tailwind) return fail(b);
+                        f.tailwind = 3; b.emit('field', { side: u.side, effect: 'tailwind' }); return {}; } },
     'stealth-rock': { use: (b, u, t) => {
                         const s = b.sideOf(t);
                         if (s.rocks) return fail(b);
@@ -198,7 +247,13 @@ G.SpecialMoves = (() => {
     'jump-kick':    { onMiss: crash, onBlocked: crash },
     'pay-day':      { after: (b, u) => { b.payDay += u.mon.lvl * 5; b.emit('coins', {}); } },
     'rage':         { after: (b, u) => { u.vol.rage = true; } },
-    'rapid-spin':   { after: (b, u) => { if (u.vol.trap || u.vol.seeded) { u.vol.trap = null; u.vol.seeded = false; b.emit('spunFree', me(u)); } } },
+    'rapid-spin':   { after: (b, u) => {
+                        if (u.vol.trap || u.vol.seeded) { u.vol.trap = null; u.vol.seeded = false; b.emit('spunFree', me(u)); }
+                        // Chapter 110, Platinum's BtlCmd_RapidSpin: the hazards on its own side are blown away.
+                        const s = b.sideOf(u);
+                        if (s.spikes) { s.spikes = 0; b.emit('hazardGone', Object.assign({ move: 'spikes' }, me(u))); }
+                        if (s.toxicSpikes) { s.toxicSpikes = 0; b.emit('hazardGone', Object.assign({ move: 'toxic-spikes' }, me(u))); }
+                        if (s.rocks) { s.rocks = false; b.emit('hazardGone', Object.assign({ move: 'stealth-rock' }, me(u))); } } },
     'struggle':     { typeless: true, after: (b, u) => { if (b.alive(u)) b.hurt(u, Math.max(1, Math.floor(G.Mon.maxHp(u.mon) / 4)), { why: 'recoil' }); } },
     'flame-wheel':  { thawsUser: true },
     'sacred-fire':  { thawsUser: true },
@@ -425,13 +480,14 @@ G.SpecialMoves = (() => {
   // status moves that fail, damaging moves that only deal their damage.
   const FALLBACK = new Set([
     // status: no effect in a single battle without abilities / held items yet
-    'baton-pass', 'camouflage', 'conversion-2', 'imprison', 'mimic', 'role-play',
-    'skill-swap', 'snatch', 'spikes', 'taunt', 'torment', 'transform', 'mud-sport', 'water-sport',
-    'sketch', 'wish', 'assist', 'nature-power',
+    'camouflage', 'conversion-2', 'imprison', 'mimic', 'role-play',
+    'skill-swap', 'snatch', 'torment', 'transform', 'mud-sport', 'water-sport',
+    'sketch', 'assist', 'nature-power',
     'aqua-ring', 'copycat', 'gastro-acid', 'guard-swap', 'heal-block', 'healing-wish', 'lunar-dance', 'lucky-chant',
-    'magic-coat', 'magnet-rise', 'power-swap', 'power-trick', 'psycho-shift', 'tailwind', 'toxic-spikes', 'worry-seed',
-    // damaging: just their damage (no delayed hit, uproar lock, switch hit; the item moves are real since chapter 94)
-    'future-sight', 'uproar', 'pursuit', 'focus-punch', 'bide', 'present', 'triple-kick',
+    'magic-coat', 'magnet-rise', 'power-swap', 'power-trick', 'psycho-shift', 'worry-seed',
+    // damaging: just their damage (no uproar lock; the item moves are real since chapter 94; Future Sight, Pursuit and
+    // Focus Punch since chapter 110)
+    'uproar', 'bide', 'present', 'triple-kick',
     'me-first', 'trump-card'
   ]);
 

@@ -33,6 +33,11 @@ G.CreditsUI = (() => {
 
   /** What each chapter's ending says (literal keys for the translations). */
   function chapterText(n, player) {
+    if (n === 110) return { title: T('Chapter 110 complete!'),
+      done: fmt('{player} beat the visiting instructor at the Trainers\' School, who battles with spikes, taunts, wishes and more.', { player }),
+      next: fmt('{spikes} and {tspikes} wait for whoever comes in; {spin} and {defog} clear them. {pursuit} catches a Pokémon running away, and {baton} hands its strength to the next one.',
+        { spikes: G.Names.move('spikes'), tspikes: G.Names.move('toxic-spikes'), spin: G.Names.move('rapid-spin'), defog: G.Names.move('defog'),
+          pursuit: G.Names.move('pursuit'), baton: G.Names.move('baton-pass') }) };
     if (n === 109) return { title: T('Chapter 109 complete!'),
       done: fmt('{player} climbed the Battle Pyramid again, where every round now hides wild Pokémon of its own theme.', { player }),
       next: fmt('Twenty themes wait in the dark, from paralysis to the {type} type. Ask the fortune-teller in the lobby which one comes next.', { type: G.Names.type('normal') }) };

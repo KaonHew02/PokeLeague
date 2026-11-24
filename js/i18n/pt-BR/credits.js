@@ -308,5 +308,8 @@ G.I18n.add({
   "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "Nos salões de batalhas duplas do Palace, cada Pokémon também escolhe quem atacar: uns vão no adversário mais forte, outros no mais fraco. Os líderes desses lugares só batalham em individuais.",
   "Chapter 109 complete!": "Capítulo 109 concluído!",
   "{player} climbed the Battle Pyramid again, where every round now hides wild Pokémon of its own theme.": "{player} escalou de novo a Battle Pyramid, onde cada rodada agora esconde Pokémon selvagens de um tema próprio.",
-  "Twenty themes wait in the dark, from paralysis to the {type} type. Ask the fortune-teller in the lobby which one comes next.": "Vinte temas esperam no escuro, da paralisia ao tipo {type}. Pergunte à vidente do saguão qual vem a seguir."
+  "Twenty themes wait in the dark, from paralysis to the {type} type. Ask the fortune-teller in the lobby which one comes next.": "Vinte temas esperam no escuro, da paralisia ao tipo {type}. Pergunte à vidente do saguão qual vem a seguir.",
+  "Chapter 110 complete!": "Capítulo 110 concluído!",
+  "{player} beat the visiting instructor at the Trainers' School, who battles with spikes, taunts, wishes and more.": "{player} venceu o instrutor visitante da Escola de Treinadores, que batalha com espinhos, provocações, desejos e mais.",
+  "{spikes} and {tspikes} wait for whoever comes in; {spin} and {defog} clear them. {pursuit} catches a Pokémon running away, and {baton} hands its strength to the next one.": "{spikes} e {tspikes} esperam quem entra; {spin} e {defog} os removem. {pursuit} pega o Pokémon que foge, e {baton} passa sua força ao próximo."
 }, "pt-BR");

@@ -17,7 +17,8 @@ G.BattleAI = (() => {
   function usable(bm) {
     return bm.mon.moves.map((m, slot) => ({ m, slot }))
       .filter(({ m }) => m.pp > 0 && !(bm.vol.disable && bm.vol.disable.move === m.id) && !(bm.vol.encore && bm.vol.encore.move !== m.id)
-        && !(G.Held.locked(bm) && G.Held.locked(bm) !== m.id));               // a Choice item (chapter 93)
+        && !(G.Held.locked(bm) && G.Held.locked(bm) !== m.id)                 // a Choice item (chapter 93)
+        && !(bm.vol.taunt && G.MOVES[m.id] && G.MOVES[m.id].cat === 'status'));    // Taunt (chapter 110)
   }
 
   function choose(b, side, slot) {
@@ -73,6 +74,37 @@ G.BattleAI = (() => {
   }
 
   /** Rough value of a move right now (higher is better; 0 = pointless). */
+  /** Chapter 110: Spikes and Toxic Spikes while the foe has someone to send in; Taunt after the foe used a status move;
+   *  Wish below half HP; Tailwind once; Baton Pass with two stages or more to pass on. -> a score, or null (not one of them) */
+  function special110(b, user, target, id) {
+    const foeSide = b.sides[1 - user.side], mine = b.sideOf(user);
+    const benchFoe = foeSide.party.some((m, i) => m.hp > 0 && !foeSide.actives.includes(i));
+    switch (id) {
+      case 'spikes': return benchFoe && (foeSide.spikes || 0) < 3 ? 14 - 3 * (foeSide.spikes || 0) : 0;
+      case 'toxic-spikes': return benchFoe && (foeSide.toxicSpikes || 0) < 2 ? 12 - 4 * (foeSide.toxicSpikes || 0) : 0;
+      case 'taunt': {
+        const last = target.lastMove && G.MOVES[target.lastMove];
+        return target.vol.taunt ? 0 : last && last.cat === 'status' ? 20 : 2;
+      }
+      case 'wish': return !b.wishes[user.side + ':' + (user.slot || 0)] && user.mon.hp * 2 < G.Mon.maxHp(user.mon) ? 35 : 0;
+      case 'tailwind': return mine.field.tailwind ? 0 : 12;
+      case 'baton-pass': {
+        const up = Object.values(user.stages).reduce((a, v) => a + Math.max(0, v), 0);
+        return up >= 2 && b.bench(mine, user.slot || 0).length ? 25 : 0;
+      }
+    }
+    return null;
+  }
+
+  /** Chapter 110: what a delayed or risky attack is worth beside an ordinary one. Future Sight and Doom Desire: nothing while
+   *  one waits on that place, else 0.6 (it lands two turns later); Focus Punch: a quarter, unless the target cannot hit back
+   *  (asleep or frozen) or a Substitute takes the hit. */
+  function delayed(b, user, target, id) {
+    if (id === 'future-sight' || id === 'doom-desire') return b.futures && b.futures[target.side + ':' + (target.slot || 0)] ? 0 : 0.6;
+    if (id === 'focus-punch') return target.mon.status === 'slp' || target.mon.status === 'frz' || user.vol.substitute > 0 ? 1 : 0.25;
+    return 1;
+  }
+
   function score(b, user, target, id) {
     const M = G.MOVES[id], S = G.SpecialMoves[id] || {};
     if (!M || !target) return 0;
@@ -95,12 +127,17 @@ G.BattleAI = (() => {
       }
       if (S.charge || S.recharge) est *= 0.6;
       const acc = M.acc == null ? 1 : M.acc / 100;
-      let s = Math.min(est, tHp) / G.Mon.maxHp(target.mon) * 100 * acc;
-      if (est >= tHp) s += 40 * acc;
+      const late = delayed(b, user, target, id);
+      if (!late) return 0;
+      let s = Math.min(est, tHp) / G.Mon.maxHp(target.mon) * 100 * acc * late;
+      if (est >= tHp && late === 1) s += 40 * acc;
       if (S.after && (id === 'self-destruct' || id === 'explosion')) s = user.mon.hp / G.Mon.maxHp(user.mon) < 0.25 ? s : s * 0.2;
       return s;
     }
     // status moves
+    // Chapter 110: the moves this chapter made real, when they are worth it.
+    const ch110 = special110(b, user, target, id);
+    if (ch110 != null) return ch110;
     const k = M.meta.k, ail = M.meta.ail;
     if (!G.BattleFx.isSelf(M) && G.Abilities.immune(user, target, M, M.type, null)) return 0;
     if (k === 'ailment') {
@@ -157,5 +194,5 @@ G.BattleAI = (() => {
     return null;
   }
 
-  return { choose, score };
+  return { choose, score, delayed };
 })();

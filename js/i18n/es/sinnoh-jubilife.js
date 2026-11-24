@@ -53,5 +53,14 @@ G.I18n.add({
   "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "No salen barcos a Ciudad Canal, y hoy el mar de la Ruta 218 está demasiado agitado. Mejor vuelve otro día.",
   "That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!": "Ese cuaderno del pupitre es mío. ¿Sabías que las habilidades también funcionan fuera de los combates? ¡Mi Slugma mantiene calientes los Huevos que llevo y eclosionan enseguida!",
   "Who are you, another Trainer? Fine: two of us, two of you. Team Galactic does not lose!": "¿Y tú quién eres, otro Entrenador? Muy bien: dos contra dos. ¡El Equipo Galaxia no pierde!",
-  "{player}, let us battle them together! Two against two!": "{player}, ¡combatamos juntos contra ellos! ¡Dos contra dos!"
+  "{player}, let us battle them together! Two against two!": "{player}, ¡combatamos juntos contra ellos! ¡Dos contra dos!",
+  "Rupert": "Ruperto",
+  "Veteran Rupert": "Veterano Ruperto",
+  "Splendid. You saw through every trick I played.": "Espléndido. Has visto venir cada uno de mis trucos.",
+  "Power alone does not win battles. Spikes on the ground, a taunt at the right moment, a wish for a friend who comes after: that is what I teach.": "La fuerza sola no gana combates. Púas en el suelo, una provocación en el momento justo, un deseo para el compañero que viene después: eso es lo que enseño.",
+  "Would you like a lesson? Six against six, and no holding back.": "¿Quieres una lección? Seis contra seis, sin contenerse.",
+  "Come back whenever you are ready to learn.": "Vuelve cuando estés listo para aprender.",
+  "Then take your places, and watch the field as closely as the foe!": "¡Entonces a vuestros puestos, y vigila el campo tanto como al rival!",
+  "Every trick has its answer. Come and try again whenever you like.": "Cada truco tiene su respuesta. Vuelve a intentarlo cuando quieras.",
+  "There is little left I can teach you. Pass it on to the children here, will you?": "Ya me queda poco que enseñarte. Transmíteselo a los niños de aquí, ¿quieres?"
 }, "es");

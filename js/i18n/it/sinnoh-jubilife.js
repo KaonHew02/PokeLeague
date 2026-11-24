@@ -53,5 +53,14 @@ G.I18n.add({
   "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "Le barche per Canalipoli non partono, e oggi il mare del Percorso 218 è troppo mosso. Meglio tornare un'altra volta.",
   "That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!": "Quel quaderno sul banco è mio. Lo sapevi che le abilità funzionano anche fuori dalle lotte? Il mio Slugma tiene al caldo le Uova che porto, così si schiudono in un attimo!",
   "Who are you, another Trainer? Fine: two of us, two of you. Team Galactic does not lose!": "E tu chi sei, un altro Allenatore? Va bene: due contro due. Il Team Galassia non perde!",
-  "{player}, let us battle them together! Two against two!": "{player}, lottiamo insieme contro di loro! Due contro due!"
+  "{player}, let us battle them together! Two against two!": "{player}, lottiamo insieme contro di loro! Due contro due!",
+  "Rupert": "Ruperto",
+  "Veteran Rupert": "Veterano Ruperto",
+  "Splendid. You saw through every trick I played.": "Splendido. Hai capito ogni mio trucco.",
+  "Power alone does not win battles. Spikes on the ground, a taunt at the right moment, a wish for a friend who comes after: that is what I teach.": "La forza da sola non vince le lotte. Punte a terra, una provocazione al momento giusto, un desiderio per l'amico che arriva dopo: ecco cosa insegno.",
+  "Would you like a lesson? Six against six, and no holding back.": "Vuoi una lezione? Sei contro sei, senza risparmiarsi.",
+  "Come back whenever you are ready to learn.": "Torna quando sarai pronto a imparare.",
+  "Then take your places, and watch the field as closely as the foe!": "Allora ai vostri posti, e tieni d'occhio il campo quanto l'avversario!",
+  "Every trick has its answer. Come and try again whenever you like.": "Ogni trucco ha la sua risposta. Riprova quando vuoi.",
+  "There is little left I can teach you. Pass it on to the children here, will you?": "Ormai ho poco da insegnarti. Trasmettilo ai bambini di qui, d'accordo?"
 }, "it");

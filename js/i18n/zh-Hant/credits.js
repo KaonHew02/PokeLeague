@@ -308,5 +308,8 @@ G.I18n.add({
   "In the Palace's double battle halls, each Pokémon also chooses whom to hit: some go for the stronger foe, some for the weaker. The leaders of these halls only battle in singles.": "在宮殿的雙打大廳，每隻寶可夢還會自己決定攻擊誰：有的專挑較強的對手，有的專挑較弱的。這兩處的頭目只接受單打挑戰。",
   "Chapter 109 complete!": "第 109 章完成！",
   "{player} climbed the Battle Pyramid again, where every round now hides wild Pokémon of its own theme.": "{player}再次登上了對戰金字塔，現在每一輪都藏著各自主題的野生寶可夢。",
-  "Twenty themes wait in the dark, from paralysis to the {type} type. Ask the fortune-teller in the lobby which one comes next.": "黑暗中有二十種主題在等著，從麻痺到{type}屬性。問問大廳的占卜師下一輪是哪一種吧。"
+  "Twenty themes wait in the dark, from paralysis to the {type} type. Ask the fortune-teller in the lobby which one comes next.": "黑暗中有二十種主題在等著，從麻痺到{type}屬性。問問大廳的占卜師下一輪是哪一種吧。",
+  "Chapter 110 complete!": "第 110 章完成！",
+  "{player} beat the visiting instructor at the Trainers' School, who battles with spikes, taunts, wishes and more.": "{player}打敗了訓練家學校的客座講師，他擅長撒菱、挑釁、祈願等招式。",
+  "{spikes} and {tspikes} wait for whoever comes in; {spin} and {defog} clear them. {pursuit} catches a Pokémon running away, and {baton} hands its strength to the next one.": "{spikes}和{tspikes}等著換上場的寶可夢，{spin}和{defog}能把牠們清掉。{pursuit}能打中想逃走的寶可夢，{baton}能把力量交給下一位。"
 }, "zh-Hant");

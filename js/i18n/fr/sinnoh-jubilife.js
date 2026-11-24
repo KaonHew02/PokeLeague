@@ -53,5 +53,14 @@ G.I18n.add({
   "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "Les bateaux pour Joliberges ne partent pas, et la mer de la Route 218 est trop agitée aujourd'hui. Reviens une autre fois.",
   "That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!": "Ce cahier sur le bureau est à moi. Tu savais que les talents marchent aussi en dehors des combats ? Mon Limagma garde mes Œufs au chaud, alors ils éclosent en un rien de temps !",
   "Who are you, another Trainer? Fine: two of us, two of you. Team Galactic does not lose!": "Et toi, t'es qui ? Un autre Dresseur ? Très bien : deux contre deux. La Team Galaxie ne perd jamais !",
-  "{player}, let us battle them together! Two against two!": "{player}, affrontons-les ensemble ! Deux contre deux !"
+  "{player}, let us battle them together! Two against two!": "{player}, affrontons-les ensemble ! Deux contre deux !",
+  "Rupert": "Rupert",
+  "Veteran Rupert": "Vétéran Rupert",
+  "Splendid. You saw through every trick I played.": "Splendide. Tu as déjoué chacune de mes ruses.",
+  "Power alone does not win battles. Spikes on the ground, a taunt at the right moment, a wish for a friend who comes after: that is what I teach.": "La force seule ne gagne pas les combats. Des picots au sol, une provocation au bon moment, un vœu pour l'ami qui suit : voilà ce que j'enseigne.",
+  "Would you like a lesson? Six against six, and no holding back.": "Une petite leçon ? Six contre six, sans retenue.",
+  "Come back whenever you are ready to learn.": "Reviens quand tu seras prêt à apprendre.",
+  "Then take your places, and watch the field as closely as the foe!": "Alors en place, et surveille le terrain autant que l'adversaire !",
+  "Every trick has its answer. Come and try again whenever you like.": "Chaque ruse a sa parade. Reviens essayer quand tu veux.",
+  "There is little left I can teach you. Pass it on to the children here, will you?": "Je n'ai plus grand-chose à t'apprendre. Transmets tout ça aux enfants d'ici, d'accord ?"
 }, "fr");

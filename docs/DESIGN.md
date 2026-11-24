@@ -2881,17 +2881,35 @@ The game grows chapter by chapter; each ends at a Gym with `G.CreditsUI.ending(n
 - **Balance:** the Pyramid's `[balance]` line changed (rounds 1-3, 20 runs each: 0.95, 0.60, 0.55 before, 0.85, 1.00, 0.50 now; Brandon as before), as its wild Pokémon now have Emerald's moves; a new `[balance]` line for later themes (round 5 0.40, round 6 0.55, round 11 0.55, round 20 0.10: Emerald's round 20 brings Slaking and Snorlax up to level 55); every other `[balance]` and `[story]` line as before; a new `[story]` line.
 - **Tests:** `tests/pyramid.test.cjs` (twenty rounds of eight, Emerald's first Pokémon of each, the set abilities, Machamp's row, this game's move names, round 21 with even IVs, the twenty fortunes); `tests/grudge.test.cjs` (the PP lost, its line; without Grudge; Struggle; ended by its user's next action; an ally's move does not count); `tests/field.test.cjs` the chapter on the real floors (Honey on rounds 1, 6, 11 and 20: one of the round's rows with its moves, ability and level; round 21's even IVs; the fortune-teller by the streak); `tests/story.test.cjs` the chapter after chapter 108 (`[story]`: a round climbed again).
 
-### After chapter 109
+- **Chapter 110** ✅, common moves made real, Platinum's rules (js/battle/battle.js: `queueTurn`, `pursuit`, `hazards`, `bench`, `batonPass`, `wishes`, `futures`, Taunt in `doMove` and `options`, Focus Punch in `doMove`, Tailwind in `stat`; js/battle/moves-special.js: the moves, `futureMove`, Rapid Spin and Defog; js/battle/ai.js: `special110`, `delayed`, Taunt in `usable`; js/battle/text.js; js/content/sinnoh/jubilife.js: the visiting instructor; translations `battle`, `sinnoh-jubilife`, `credits`). Post-game; `ending(110)` waits for chapter 109 (the instructor beaten). Sources: Platinum's decompilation, [pret/pokeplatinum](https://github.com/pret/pokeplatinum): effect scripts 0112 (Spikes), 0249 (Toxic Spikes), 0175 (Taunt), 0170 (Focus Punch), 0128 (Pursuit), 0127 (Baton Pass), 0179 (Wish), 0148 (Future Sight, Doom Desire), 0225 (Tailwind); `src/battle/battle_script.c` (`BtlCmd_TrySpikes`, `CheckSpikes`, `TryToxicSpikes`, `CheckToxicSpikes`, `RapidSpin`, `TryWish`, `TryFutureSight`, `TryPursuit`); `subscript_hazards_check`, `subscript_taunt_start`, `subscript_tailwind_start`, `subscript_baton_pass`, `subscript_wish_heal`, `subscript_future_sight_damage`; `src/battle/battle_controller_player.c` (Focus Punch at the turn's start, the end of turn); `src/battle/battle_lib.c` (what Baton Pass keeps); `res/moves/*/data.json`.
+  - **Spikes** (three layers, 1/8, 1/6, 1/4 of the max HP) and **Toxic Spikes** (two layers: poison, bad poison; a grounded Poison type takes them away) on the foes' side; `hazards()` on every switch-in: Toxic Spikes, Spikes, then Stealth Rock; Magic Guard none; Flying types and Levitate no Spikes of either kind unless Gravity or an Iron Ball; Safeguard, Steel and a status already stop the poison. **Rapid Spin** blows away its own side's three hazards; **Defog** the foe side's Spikes and Toxic Spikes too.
+  - **Taunt**: 3 to 5 turns (`vol.taunt`, counting down at the end of turn); no status move (the menu, `options`; a status move chosen before it is stopped: `tauntBlocked`; the AI's `usable`); twice fails.
+  - **Focus Punch**: "tightening its focus" as the turn begins (not asleep, loafing or Struggling: `queueTurn`); hit by a move this turn (`lastHit`), it loses its focus with its PP spent.
+  - **Pursuit**: a Pokémon switching out is first hit by each foe that chose Pursuit and has not moved (not asleep, frozen or loafing, with PP), at double power (`vol.pursuing`); that is its action (`pursuit()`).
+  - **Baton Pass**: fails with no one to send (`bench`); else the player chooses (a `switch` prompt with `baton`; the partner and the foe send their next); stat stages, Focus Energy, confusion, Mean Look's hold, the Substitute and its HP, Leech Seed, Lock-On, Perish Song, Ingrain and Embargo go to the newcomer.
+  - **Wish**: the end of the next turn, half of the max HP of whoever stands in its place, the wisher's name in the line; a second one waiting fails.
+  - **Future Sight and Doom Desire**: the damage reckoned when used (no type matchup, no critical hit; Light Screen and Helping Hand count) with Platinum's power and accuracy (80 and 90, 120 and 85: the data has PokeAPI's later values, which this chapter leaves alone for the other moves), dealt at the end of the turn after next to whoever stands there (an accuracy roll, a Substitute takes it); never misses when used; a second one on that place fails.
+  - **Tailwind**: Speed x2 on its side for three turns, this one included (`field.tailwind`); a second fails.
+  - **The AI** (`special110`): Spikes and Toxic Spikes while the foe has someone left; Taunt after the foe used a status move; Wish below half HP; Tailwind once; Baton Pass with two stages or more to pass on. `delayed()` (the AI's score and the story's auto-player): Future Sight nothing while one waits on that place, else 0.6; Focus Punch a quarter unless the target is asleep or frozen or a Substitute stands in front.
+  - **The visiting instructor** (`jubilife-school`, after chapter 109; my own): Veteran Rupert with Skarmory (Spikes), Sableye (Taunt), Ninjask (Baton Pass), Blissey (Wish), Breloom (Focus Punch) and Tyranitar (Pursuit) at level 70; a battle you may lose and try again.
+- **Balance:** `[balance]` lines changed where Future Sight was the strongest move: before this chapter it hit at once at 120. Kanto's Champion (the Charizard team 0.57 to 0.93, the Venusaur team 0.03 to 0.5; the rematch 0.8 to 1) and Sabrina (each team 0.03 to 0.16 higher) are easier; Maylene with a Kadabra harder (0.85-1 before, 0.57-0.9 now; her test's bar for it lowered from 0.75 to 0.6); Koga's test gives its Kadabra the moves the auto-player keeps (its last four by level left Future Sight alone); a few others move by 0.03-0.1. `[story]`: from Wallace on, Infernape a level higher, so later lines moved (the Frontiers' teams pick Infernape over Kangaskhan); a new line.
+- **Tests:** `tests/commonmoves.test.cjs` (each move's rule: the layers and their damage, who is spared, Toxic Spikes' poison and the Poison type, Rapid Spin and Defog, Taunt and its end, Focus Punch, Pursuit's double power before the switch, Baton Pass's stages and Substitute, Wish, Future Sight and Doom Desire, Tailwind; the AI's scores); `tests/story.test.cjs` the chapter after chapter 109 (`[story]`: the instructor beaten).
 
-A hundred and nine chapters: the journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of
+### After chapter 110
+
+A hundred and ten chapters: the journey through Kanto, Johto, Hoenn and Sinnoh is complete, with double battles, every legend of
 Hoenn and of Sinnoh up to Arceus in the Hall of Origin, the whole Battle Frontier of Hoenn (with the Palace's and the Dome's double
 battles and the Pyramid's twenty themes) and of Sinnoh (Tower with its multi battles, Factory, Hall, Castle and Arcade), the whole
 Battle Zone, the villa, contests in Sinnoh and Hoenn with Poffins and Pokéblocks, ribbons, Generation 4's held items, Platinum's
-gifts of them, the moves that move them, Embargo, Recycle and Grudge, every special ball, the Poké Radar, Emerald's glass flutes,
-Platinum's free move tutors, the incenses, the abilities outside battle, the Honey trees and Sweet Scent, and the battles beside a
-partner, Trainers and wild Pokémon alike. Ideas:
-1. Items: Platinum's other gifts (the Upgrade and trade evolutions); the Underground (weather rocks, fossils, spheres, shards for
-   the tutors of Route 212, Snowpoint City and the Survival Area).
-2. Contests: accessories; Hoenn's own contest rules (Generation 3's appeals, jamming, combos and the crowd).
-3. Moves still left as fallbacks: Taunt and the others on G.SpecialMoves.FALLBACK.
-4. The Poké Radar's chain records and its music.
+gifts of them, the moves that move them, every special ball, the Poké Radar, Emerald's glass flutes, Platinum's free move tutors,
+the incenses, the abilities outside battle, the Honey trees and Sweet Scent, the battles beside a partner, and most of the moves.
+Ideas:
+1. The moves still on G.SpecialMoves.FALLBACK (34): Torment, Imprison, Mimic, Transform, Sketch, Role Play, Skill Swap, Snatch,
+   Magic Coat, Assist, Copycat, Me First, Nature Power, Camouflage, Conversion 2, Mud Sport, Water Sport, Aqua Ring, Magnet Rise,
+   Heal Block, Lucky Chant, Gastro Acid, Worry Seed, Power Trick, Power Swap, Guard Swap, Psycho Shift, Healing Wish, Lunar Dance,
+   Uproar, Bide, Present, Triple Kick, Trump Card.
+2. Moves' Generation 4 power and accuracy from PokeAPI's past values (the data has the later ones; a large balance shift).
+3. Items: Platinum's other gifts; the Underground (weather rocks, fossils, spheres, shards for the tutors of Route 212, Snowpoint
+   City and the Survival Area).
+4. Contests: accessories; Hoenn's own contest rules (Generation 3's appeals, jamming, combos and the crowd).
+5. The Poké Radar's chain records and its music.

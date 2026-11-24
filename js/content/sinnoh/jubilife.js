@@ -180,6 +180,8 @@
              // Chapter 98: a notebook about abilities outside battle (fieldnotes.js).
              '9,6': { script: 'fieldnotes.read' }, '1,6': { script: 'fieldnotes.partners' } },
     npcs: [{ id: 'teacher', who: 'lass', x: 5, y: 2, dir: 'down', script: 'jubilife.teacher' },
+           // Chapter 110: a visiting instructor (my own) who battles with the moves this chapter made real.
+           { id: 'instructor', who: 'gentleman', x: 12, y: 3, dir: 'left', if: 'chapter-109-done', script: 'jubilife.instructor' },
            { id: 'student', who: 'youngster', x: 11, y: 7, dir: 'left',
              say: 'That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!' }],
     trainers: [
@@ -248,7 +250,37 @@
     h.hide(a);
   }
 
+  // ---------------- chapter 110: the visiting instructor ----------------
+  const RUPERT = { name: 'Veteran Rupert' };
+  /** His team (my own), level 70: Spikes, Taunt, Wish, Focus Punch, Pursuit and Baton Pass, each on the Pokémon known for it. */
+  const INSTRUCTOR = () => ({
+    id: 'instructor', who: 'gentleman', cls: 'veteran', name: 'Rupert', ai: 'leader', prize: 0, items: {},
+    team: [['skarmory', 70, ['spikes', 'drill-peck', 'steel-wing', 'roost'], 'leftovers'],
+           ['sableye', 70, ['taunt', 'shadow-ball', 'will-o-wisp', 'recover'], 'lum-berry'],
+           ['ninjask', 70, ['swords-dance', 'baton-pass', 'x-scissor', 'protect'], 'white-herb'],
+           ['blissey', 70, ['wish', 'soft-boiled', 'seismic-toss', 'toxic'], 'leftovers'],
+           ['breloom', 70, ['spore', 'focus-punch', 'seed-bomb', 'substitute'], 'focus-sash'],
+           ['tyranitar', 70, ['pursuit', 'crunch', 'stone-edge', 'earthquake'], 'choice-band']],
+    defeat: T('Splendid. You saw through every trick I played.')
+  });
+  async function instructor(h) {
+    const F = G.Field;
+    await h.say(T('Power alone does not win battles. Spikes on the ground, a taunt at the right moment, a wish for a friend who comes after: that is what I teach.'), RUPERT);
+    if (await h.choice(T('Would you like a lesson? Six against six, and no holding back.'), { options: [T('Yes'), T('No')], name: RUPERT.name }) !== 0) {
+      await h.say(T('Come back whenever you are ready to learn.'), RUPERT);
+      return;
+    }
+    await h.say(T('Then take your places, and watch the field as closely as the foe!'), RUPERT);
+    const out = await h.battle(INSTRUCTOR(), { canLose: true, record: false });
+    if (out !== 'win') { await h.say(T('Every trick has its answer. Come and try again whenever you like.'), RUPERT); return; }
+    await h.say(T('There is little left I can teach you. Pass it on to the children here, will you?'), RUPERT);
+    if (F.flag('chapter-109-done') && !F.flag('chapter-110-done')) {
+      if (G.CreditsUI) await G.CreditsUI.ending(110); else F.setFlag('chapter-110-done');
+    }
+  }
+
   G.Script.def({
+    'jubilife.instructor': [['js', instructor]],
     'jubilife.demo': [['js', demo]],
     'jubilife.galactic': [['js', galactic]],
     'jubilife.tv': [['say', 'Jubilife TV. The doors are shut: a show is being filmed inside.']],

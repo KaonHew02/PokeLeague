@@ -53,5 +53,14 @@ G.I18n.add({
   "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "Os barcos para Canalave não estão saindo, e o mar da Rota 218 está agitado demais hoje. Volte outra hora.",
   "That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!": "Aquele caderno na carteira é meu. Sabia que as habilidades funcionam fora das batalhas também? Meu Slugma mantém quentinhos os Ovos que carrego, e eles chocam rapidinho!",
   "Who are you, another Trainer? Fine: two of us, two of you. Team Galactic does not lose!": "Quem é você, outro Treinador? Tudo bem: dois contra dois. A Equipe Galáctica não perde!",
-  "{player}, let us battle them together! Two against two!": "{player}, vamos batalhar contra eles juntos! Dois contra dois!"
+  "{player}, let us battle them together! Two against two!": "{player}, vamos batalhar contra eles juntos! Dois contra dois!",
+  "Rupert": "Rupert",
+  "Veteran Rupert": "Veteran Rupert",
+  "Splendid. You saw through every trick I played.": "Esplêndido. Você percebeu cada truque que eu usei.",
+  "Power alone does not win battles. Spikes on the ground, a taunt at the right moment, a wish for a friend who comes after: that is what I teach.": "Força sozinha não vence batalhas. Espinhos no chão, uma provocação na hora certa, um desejo para o amigo que vem depois: é isso que eu ensino.",
+  "Would you like a lesson? Six against six, and no holding back.": "Quer uma aula? Seis contra seis, sem pegar leve.",
+  "Come back whenever you are ready to learn.": "Volte quando estiver pronto para aprender.",
+  "Then take your places, and watch the field as closely as the foe!": "Então, a postos, e observe o campo tanto quanto o adversário!",
+  "Every trick has its answer. Come and try again whenever you like.": "Todo truque tem sua resposta. Venha tentar de novo quando quiser.",
+  "There is little left I can teach you. Pass it on to the children here, will you?": "Já não tenho muito a te ensinar. Passe isso adiante para as crianças daqui, está bem?"
 }, "pt-BR");

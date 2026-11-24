@@ -43,7 +43,9 @@ function bestMove(G, b) {
     const eff = b.eff(M.type, fb), blocked = pow > 0 && G.Abilities.immune(pb, fb, M, M.type, eff);
     // A move that hits several times counts its average number of hits (Double Kick: two).
     const hits = M.meta.hits ? (M.meta.hits[0] + M.meta.hits[1]) / 2 : 1;
-    const s = blocked ? 0 : pow * hits * eff * G.Abilities.powerMult(b, pb, fb, M.type) * (G.Mon.types(me).includes(M.type) ? 1.5 : 1) * ((M.acc || 100) / 100);
+    // Chapter 110: Future Sight lands later (and not twice at once), Focus Punch fails when hit first (G.BattleAI.delayed).
+    const s = blocked ? 0 : pow * hits * eff * G.Abilities.powerMult(b, pb, fb, M.type) * (G.Mon.types(me).includes(M.type) ? 1.5 : 1) * ((M.acc || 100) / 100)
+      * G.BattleAI.delayed(b, pb, fb, m.id);
     if (s > score) { score = s; best = m.slot; }
   }
   return { type: 'move', slot: best };
@@ -62,7 +64,8 @@ function bestDouble(G, b) {
     const pow = sm && typeof sm.power === 'function' && !sm.oncePower ? sm.power(b, pb, fb, M) || 0 : M.pow || 0;
     const eff = b.eff(M.type, fb), blocked = pow > 0 && G.Abilities.immune(pb, fb, M, M.type, eff);
     const hits = M.meta.hits ? (M.meta.hits[0] + M.meta.hits[1]) / 2 : 1;
-    return blocked ? 0 : pow * hits * eff * G.Abilities.powerMult(b, pb, fb, M.type) * (G.Mon.types(me).includes(M.type) ? 1.5 : 1) * ((M.acc || 100) / 100);
+    return blocked ? 0 : pow * hits * eff * G.Abilities.powerMult(b, pb, fb, M.type) * (G.Mon.types(me).includes(M.type) ? 1.5 : 1) * ((M.acc || 100) / 100)
+      * G.BattleAI.delayed(b, pb, fb, m.id);                       // chapter 110
   };
   let best = { s: -1, slot: usable[0].slot, f: foes[0] };
   for (const m of usable) {
@@ -974,10 +977,11 @@ test('balance: Maylene in Veilstone (chapter 48), win rates of typical teams are
   console.log('[balance] vs Maylene:', JSON.stringify(table));
   // Below Platinum's levels (28, 29, 32), for a normal difficulty. Lucario is fast and Flying moves do not help against
   // its Steel; Monferno can take it alone now and then, a team of three about half the time, and a Psychic type
-  // (Kadabra, wild on Route 215) nearly always wins.
+  // (Kadabra, wild on Route 215) wins most of the time (since chapter 110 its Future Sight lands two turns later, as in
+  // Platinum: about 0.6 to 0.9 rather than nearly always).
   assert.ok(table['monferno 34'] >= 0.3 && table['prinplup 34'] >= 0.1, 'Monferno and Prinplup alone');
   assert.ok(table['monferno 32 + staravia 30 + luxio 30'] >= 0.35 && table['prinplup 32 + staravia 30 + luxio 30'] >= 0.3, 'a team of three');
-  for (const sp of ['monferno', 'grotle', 'prinplup']) assert.ok(table[sp + ' 32 + staravia 30 + kadabra 30'] >= 0.75, sp + ' with a Kadabra');
+  for (const sp of ['monferno', 'grotle', 'prinplup']) assert.ok(table[sp + ' 32 + staravia 30 + kadabra 30'] >= 0.6, sp + ' with a Kadabra');
 });
 
 test('balance: Crasher Wake and Barry in Pastoria (chapter 49), win rates of typical teams are printed', () => {
@@ -2000,10 +2004,12 @@ test('balance: Koga (chapter 5), win rates of typical teams are printed', () => 
     'wartortle 36': rate([[8, 36]]),
     'parasect 36 + wartortle 36': rate([[47, 36], [8, 36]]),
     'dugtrio 34 + wartortle 36': rate([[51, 34], [8, 36]]),
-    'kadabra 34 + wartortle 36': rate([[64, 34], [8, 36]]),
+    // Chapter 110: Future Sight lands two turns later (Platinum's), so the Kadabra keeps Psybeam and Confusion, as the
+    // auto-player's own learning keeps its strongest moves (its last four by level would leave Future Sight alone).
+    'kadabra 34 + wartortle 36': rate([[64, 34, ['future-sight', 'psybeam', 'confusion', 'recover']], [8, 36]]),
     'blastoise 38 + dugtrio 34': rate([[9, 38], [51, 34]]),
     'charmeleon 35 + pidgeotto 34 + dugtrio 33': rate([[5, 35], [17, 34], [51, 33]]),
-    'charmeleon 35 + pidgeotto 34 + kadabra 33': rate([[5, 35], [17, 34], [64, 33]])
+    'charmeleon 35 + pidgeotto 34 + kadabra 33': rate([[5, 35], [17, 34], [64, 33, ['future-sight', 'psybeam', 'confusion', 'recover']]])
   };
   console.log('[balance] vs Koga:', JSON.stringify(table));
   // Four Pokémon with Poison Gas, Toxic and Smokescreen wear down a small team that never heals
@@ -4938,6 +4944,23 @@ function tend(G) {
   useOn(['lum-berry', 'cheri-berry', 'pecha-berry', 'rawst-berry', 'chesto-berry'], m => m.hp > 0 && m.status);
 }
 
+/** Chapter 110 after chapter 109: the visiting instructor in Jubilife's Trainers' School (Spikes, Taunt, Wish, Focus Punch,
+ *  Pursuit, Baton Pass), healed between tries, until a win (the ending). */
+async function chapter110(st) {
+  const { G } = st;
+  const F = G.Field, n = st.battles.length;
+  let tries = 0;
+  while (!F.flag('chapter-110-done') && tries < 10) {
+    tries++;
+    F.healAll();
+    await run(st, 'jubilife-school', 'jubilife.instructor', [0]);
+  }
+  F.healAll();
+  console.log('[story] the visiting instructor:', st.battles.slice(n).map(x => x.outcome).join(), 'in', tries, 'battle(s)');
+  assert.ok(F.flag('chapter-110-done'));
+  assert.deepEqual(st.errors, [], 'no script errors');
+}
+
 /** Chapter 109 after chapter 108: the Battle Pyramid again with the party's three strongest that may enter, until a round is
  *  climbed (the ending); its wild Pokémon have Emerald's moves now. */
 async function chapter109(st) {
@@ -6556,4 +6579,5 @@ test("chapters 11 to 53: Johto, from Professor Elm to Johto's League and its pos
   await chapter107(st);
   await chapter108(st);
   await chapter109(st);
+  await chapter110(st);
 });

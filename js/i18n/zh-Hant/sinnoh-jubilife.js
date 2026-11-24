@@ -53,5 +53,14 @@ G.I18n.add({
   "The boats to Canalave are not running, and the sea on Route 218 is too rough today. Better come back another time.": "去水脈市的船停開了，今天218號道路的海浪也太大。改天再來吧。",
   "That notebook on the desk is mine. Did you know abilities work outside battle too? My Slugma keeps the Eggs I carry warm, so they hatch in no time!": "桌上那本筆記本是我的。你知道特性在對戰以外也有用嗎？我的熔岩蟲會幫我把帶著的蛋保溫，很快就孵出來了！",
   "Who are you, another Trainer? Fine: two of us, two of you. Team Galactic does not lose!": "你是誰，又一個訓練家？好啊，二對二。銀河隊是不會輸的！",
-  "{player}, let us battle them together! Two against two!": "{player}，我們一起對付他們吧！二對二！"
+  "{player}, let us battle them together! Two against two!": "{player}，我們一起對付他們吧！二對二！",
+  "Rupert": "魯伯特",
+  "Veteran Rupert": "老練訓練家 魯伯特",
+  "Splendid. You saw through every trick I played.": "精彩。我的每一招你都看穿了。",
+  "Power alone does not win battles. Spikes on the ground, a taunt at the right moment, a wish for a friend who comes after: that is what I teach.": "光靠力量是贏不了對戰的。地上的撒菱、恰到好處的挑釁、留給下一位同伴的祈願——這些才是我要教的。",
+  "Would you like a lesson? Six against six, and no holding back.": "要上一課嗎？六對六，全力以赴。",
+  "Come back whenever you are ready to learn.": "等你準備好學習了再來吧。",
+  "Then take your places, and watch the field as closely as the foe!": "那就各就各位吧，場地和對手一樣要看仔細！",
+  "Every trick has its answer. Come and try again whenever you like.": "每一招都有破解的方法。隨時歡迎再來挑戰。",
+  "There is little left I can teach you. Pass it on to the children here, will you?": "我已經沒什麼可以教你的了。把這些教給這裡的孩子們吧，好嗎？"
 }, "zh-Hant");

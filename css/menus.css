@@ -391,3 +391,30 @@ kbd {
 .arc-key { display: flex; gap: .3em; flex-wrap: wrap; font-size: .7em; }
 .arc-key span { padding: .1em .4em; border-radius: .3em; }
 .arc-stop { min-width: 6em; }
+
+/* ---------- touch screens ---------- */
+/* Their scroll bar lies over the list: room for it beside the numbers. */
+@media (pointer: coarse) {
+  .bag-list, .shop-list, .dex-list, .tm-list { padding-right: 10px; }
+}
+
+/* ---------- phones held upright ---------- */
+/* A menu is taller than the 3:2 frame there (battle.css does the same for a battle), so that its buttons are big enough
+ * for a finger. The map behind it only shows more of itself: 1em and the camera follow the frame's width. Dialogs and
+ * the small boxes over the map (popup.js) leave the frame as it is. 260px: the hint to turn the phone stays clear. */
+@supports selector(:has(*)) {
+  @media (orientation: portrait) and (pointer: coarse) and (max-width: 600px) {
+    #frame:not(:has(> .battle-scr:not(.hidden))):has(> .scr:not(.hidden):not(.dlg):not(.pop-scr)) {
+      height: max(92vw, min(130vw, 100vh - 260px));
+      height: max(92vw, min(130vw, 100dvh - 260px));
+    }
+    .menu-item, .btn, .field { min-height: 36px; }
+    .opt-tab, .chip { min-height: 34px; }
+    .btn.small[data-back] { min-width: 56px; }
+    .cnt .btn { min-width: 40px; }
+    .dlg-choices { max-height: 13.8em; }      /* part of the fifth choice shows: there is more */
+    .icon-btn { width: 36px; height: 36px; }
+    .start-box .menu-item { min-height: min(40px, 6.6vh); }
+    .opt-ctl input[type=range] { min-height: 34px; }
+  }
+}

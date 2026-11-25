@@ -398,13 +398,16 @@ body.has-stick .safari-hud { left: calc(max(2%, var(--sl)) + clamp(96px, 30vmin,
 .bt-foe { left: max(3%, var(--sl)); top: 5%; }
 .bt-me { right: max(3%, var(--sr)); top: 49%; }
 .bt-me.out { transform: translateX(.8em); }
-/* Doubles (chapter 40): two smaller boxes a side. */
+/* Doubles (chapter 40): two smaller boxes a side, stacked by their own height (in em), yours up from the text box. */
 .battle-scr.double .bt-box { width: calc(var(--cw) * .36); font-size: .64em; padding: .25em .5em .3em; }
 .battle-scr.double .bt-foe { top: 3%; }
-.battle-scr.double .bt-foe2 { left: max(3%, var(--sl)); top: 12.5%; }
-.battle-scr.double .bt-me { top: 48%; }
-.battle-scr.double .bt-me2 { right: max(3%, var(--sr)); top: 60.5%; }
+.battle-scr.double .bt-foe2 { left: max(3%, var(--sl)); top: calc(3% + 3.6em); }
+.battle-scr.double .bt-me { top: auto; bottom: calc(28% + 4.1em); }
+.battle-scr.double .bt-me2 { right: max(3%, var(--sr)); bottom: 28%; }
 .battle-scr.double .bt-me2.out { transform: translateX(.8em); }
+/* The HP numbers beside the bar, not under it: two boxes of three lines do not fit over the text box. */
+.battle-scr.double .bt-me .bt-row { margin-right: 3.8em; }
+.battle-scr.double .bt-me .bt-hpnum { margin-top: -1.2em; height: 1.2em; line-height: 1.2; }
 .bt-name { display: flex; align-items: baseline; gap: .35em; font-weight: 700; }
 .bt-name .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bt-name .g-m { color: #3a6ee8; } .bt-name .g-f { color: #e0507a; }
@@ -492,6 +495,17 @@ body.has-stick .safari-hud { left: calc(max(2%, var(--sl)) + clamp(96px, 30vmin,
   .bt-moves .info .btn { min-height: 3.3em; }
   .bt-list .menu-item, .bt-yesno .menu-item { min-height: 36px; }
   .bt-list .btn { min-height: 32px; min-width: 64px; }
+  /* Doubles: as wide and nearly as large as the boxes of a single battle (the frame is taller here). */
+  .battle-scr.double .bt-box { width: calc(var(--cw) * .44); font-size: .8em; }
+  .battle-scr.double .bt-hpnum { font-size: .92em; }
+  .battle-scr.double .bt-me .bt-row { margin-right: 4.4em; }
+  .battle-scr.double .bt-me .bt-balls { top: auto; right: 0; bottom: calc(100% + .35em); }
+  .bt-status { font-size: .8em; }
+}
+
+/* A touch screen's scroll bar lies over the list: room for it beside the numbers. */
+@media (pointer: coarse) {
+  .bt-list .menu-list { padding-right: 10px; }
 }
 
 /* ---------- evolution text box ---------- */
@@ -894,3 +908,30 @@ kbd {
 .arc-key { display: flex; gap: .3em; flex-wrap: wrap; font-size: .7em; }
 .arc-key span { padding: .1em .4em; border-radius: .3em; }
 .arc-stop { min-width: 6em; }
+
+/* ---------- touch screens ---------- */
+/* Their scroll bar lies over the list: room for it beside the numbers. */
+@media (pointer: coarse) {
+  .bag-list, .shop-list, .dex-list, .tm-list { padding-right: 10px; }
+}
+
+/* ---------- phones held upright ---------- */
+/* A menu is taller than the 3:2 frame there (battle.css does the same for a battle), so that its buttons are big enough
+ * for a finger. The map behind it only shows more of itself: 1em and the camera follow the frame's width. Dialogs and
+ * the small boxes over the map (popup.js) leave the frame as it is. 260px: the hint to turn the phone stays clear. */
+@supports selector(:has(*)) {
+  @media (orientation: portrait) and (pointer: coarse) and (max-width: 600px) {
+    #frame:not(:has(> .battle-scr:not(.hidden))):has(> .scr:not(.hidden):not(.dlg):not(.pop-scr)) {
+      height: max(92vw, min(130vw, 100vh - 260px));
+      height: max(92vw, min(130vw, 100dvh - 260px));
+    }
+    .menu-item, .btn, .field { min-height: 36px; }
+    .opt-tab, .chip { min-height: 34px; }
+    .btn.small[data-back] { min-width: 56px; }
+    .cnt .btn { min-width: 40px; }
+    .dlg-choices { max-height: 13.8em; }      /* part of the fifth choice shows: there is more */
+    .icon-btn { width: 36px; height: 36px; }
+    .start-box .menu-item { min-height: min(40px, 6.6vh); }
+    .opt-ctl input[type=range] { min-height: 34px; }
+  }
+}

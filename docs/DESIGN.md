@@ -65,6 +65,10 @@ in the same change.
   the width of a 3:2 box of the frame's height: fonts and battle boxes keep their size on a wide phone.
   `--sl`, `--sr`, `--sb` are the notch and the home bar in landscape: the canvas runs under them, the
   interface keeps clear of them. A battle spreads over the width (`feet()`), its platforms do not.
+- **Phones held upright** (portrait, touch, at most 600 px wide): a battle (92vw, `css/battle.css`) and a menu (up to 130vw,
+  `css/menus.css`: every `.scr` but the dialog and the popups) are taller than the 3:2 frame, by `#frame:has(...)`, and their
+  buttons at least 34 px high; walking and dialogs stay 3:2. 1em and the camera's scale follow the width, so the map behind a
+  menu only shows more of itself. `G.Game` draws again as soon as the canvas changes size (it would show one black frame).
 - **Rooms:** an interior that fits whole in the normal 15×10 view is drawn bigger to fill the screen
   (`G.Camera.fitRoom`, at most `MAX_ZOOM` = ×1.5). A bigger interior keeps the normal view and scrolls.
 - **Input:** while a DOM screen is open, `game.js` sends the buttons to `G.Nav`, and the
@@ -352,7 +356,7 @@ fight has one slot (one against two). Helpers: `b.allActive()`, `b.foes(bm)`, `b
 - **AI** (`choose(b, side, slot)`): every move against every foe, the best target; a move on both
   foes counts both (half each), Earthquake counts its partner against it, Helping Hand when the
   partner can attack. The test auto-player (`bestDouble` in tests/story.test.cjs) does the same.
-- **Screen:** two Pokémon and two smaller boxes a side (`#bt-foe2`, `#bt-me2`, `.double`), a list
+- **Screen:** two Pokémon and two smaller boxes a side, stacked by their own height, the HP numbers beside the bar (`#bt-foe2`, `#bt-me2`, `.double`), a list
   "Use {move} on which Pokémon?" when two foes stand, B on the second Pokémon's menu goes back to
   the first, per-slot forced switches; the "used" event carries `tuid` (the chosen target) for
   the animation. `dev.html?debug&vs=...&party=...&double` and `tools/sim_battle.js --trainer

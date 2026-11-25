@@ -62,6 +62,9 @@ G.Game = (() => {
     cv.width = Math.round(w * dpr);
     cv.height = Math.round(h * dpr);
     G.Camera.resize(w, h, dpr);
+    // A canvas that changes size is empty: drawn again now, before it is shown, not at the next frame (a menu or a battle
+    // changes the frame's height on a phone held upright).
+    try { draw(0); } catch (e) { /* the loop reports it */ }
   }
   let resizeTs = [];
   function resizeSoon() {
@@ -98,6 +101,14 @@ G.Game = (() => {
     tick(Math.min(1 / 30, real));
   }
 
+  /** The mode, drawn (nothing yet: black). */
+  function draw(dt) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+    if (mode && mode.render) mode.render(ctx, view, dt);
+    else { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h); }
+  }
+
   /** One frame of the game with this time step. */
   function tick(dt) {
     G.Pad.poll();
@@ -105,10 +116,7 @@ G.Game = (() => {
     const ui = menuInput();
     if (mode && mode.update) mode.update(dt, { ui });
 
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.imageSmoothingEnabled = false;
-    if (mode && mode.render) mode.render(ctx, view, dt);
-    else { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h); }
+    draw(dt);
     G.UI.tick(dt);
     if (G.Stick) G.Stick.tick();
     if (G.Minimap) G.Minimap.tick();

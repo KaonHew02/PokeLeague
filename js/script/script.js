@@ -63,8 +63,10 @@ G.Script = (() => {
     if: (h, cond, then, els) => exec(G.Field.test(cond) ? then : els, h),
     call(h, name) {
       const s = get(name);
-      if (!s) throw new Error('unknown script ' + name);
-      return exec(s, h);
+      if (s) return exec(s, h);
+      if (!G.Packs || !G.Packs.more()) throw new Error('unknown script ' + name);
+      // A script of a region not downloaded yet (packs.js). Given up: this script ends here.
+      return G.Packs.findScript(name).then(ok => { if (!ok) throw END; return exec(get(name), h); });
     },
     end() { throw END; },
 

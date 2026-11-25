@@ -5,9 +5,12 @@
  * referrer) is left to the browser at once, without respondWith. (Fetching them here
  * instead turned any failure into net::ERR_FAILED and could leave dev.html half loaded.)
  *
- * - The shell (index.html, app.min.js, app.css, the dictionaries, the fonts,
- *   the icons) is downloaded when the worker installs, in a cache named after
- *   the build. A new build installs a new worker, which replaces the old cache.
+ * - The shell (index.html, app.min.js, app.css, the fonts, the icons) is
+ *   downloaded when the worker installs, in a cache named after the build.
+ *   A new build installs a new worker, which replaces the old cache.
+ * - The regions (js/pack/) and the dictionaries (js/lang/) are kept in the same
+ *   cache when the game first asks for one (js/core/packs.js), and brought up to
+ *   date when a new worker installs: PARTS has every one of them in this build.
  * - Files under assets/ (the Pokémon sprites) go into a second cache the first
  *   time they are seen; G.Offline.download() asks for all of them at once.
  *   That cache is named after js/data/sprites-meta.js, so new sprites refill it.
@@ -20,19 +23,13 @@
  * tools/build.js rewrites the lines between build:begin and build:end.
  */
 /* build:begin */
-const VERSION = '956d2e52a9';
+const VERSION = 'df6c04878c';
 const SPRITES = '8c074d4a9e';
 const SHELL = [
   "./",
   "css/app.css?v=73cce2a8d3",
-  "js/app.min.js?v=c919a8e21b",
-  "js/core/locales.js?v=fff7dee35c",
-  "js/lang/es.js?v=fff7dee35c",
-  "js/lang/fr.js?v=fff7dee35c",
-  "js/lang/it.js?v=fff7dee35c",
-  "js/lang/pt-BR.js?v=fff7dee35c",
-  "js/lang/zh-Hans.js?v=fff7dee35c",
-  "js/lang/zh-Hant.js?v=fff7dee35c",
+  "js/app.min.js?v=b197ba76f5",
+  "js/core/locales.js?v=7c26022dab",
   "assets/icons/icon-32.png",
   "assets/icons/icon-180.png",
   "assets/fonts/PixelifyPS-400.ttf",
@@ -43,6 +40,41 @@ const SHELL = [
   "assets/icons/icon-maskable-512.png",
   "gen1/",
   "gen1/manifest.json"
+];
+const PARTS = [
+  "js/pack/johto.js?v=49314b398d",
+  "js/pack/hoenn.js?v=feac240a13",
+  "js/pack/sinnoh.js?v=0ce2b58698",
+  "js/lang/en/text.js?v=7c26022dab",
+  "js/lang/es/hoenn.js?v=7c26022dab",
+  "js/lang/es/johto.js?v=7c26022dab",
+  "js/lang/es/main.js?v=7c26022dab",
+  "js/lang/es/sinnoh.js?v=7c26022dab",
+  "js/lang/es/text.js?v=7c26022dab",
+  "js/lang/fr/hoenn.js?v=7c26022dab",
+  "js/lang/fr/johto.js?v=7c26022dab",
+  "js/lang/fr/main.js?v=7c26022dab",
+  "js/lang/fr/sinnoh.js?v=7c26022dab",
+  "js/lang/fr/text.js?v=7c26022dab",
+  "js/lang/it/hoenn.js?v=7c26022dab",
+  "js/lang/it/johto.js?v=7c26022dab",
+  "js/lang/it/main.js?v=7c26022dab",
+  "js/lang/it/sinnoh.js?v=7c26022dab",
+  "js/lang/it/text.js?v=7c26022dab",
+  "js/lang/pt-BR/hoenn.js?v=7c26022dab",
+  "js/lang/pt-BR/johto.js?v=7c26022dab",
+  "js/lang/pt-BR/main.js?v=7c26022dab",
+  "js/lang/pt-BR/sinnoh.js?v=7c26022dab",
+  "js/lang/zh-Hans/hoenn.js?v=7c26022dab",
+  "js/lang/zh-Hans/johto.js?v=7c26022dab",
+  "js/lang/zh-Hans/main.js?v=7c26022dab",
+  "js/lang/zh-Hans/sinnoh.js?v=7c26022dab",
+  "js/lang/zh-Hans/text.js?v=7c26022dab",
+  "js/lang/zh-Hant/hoenn.js?v=7c26022dab",
+  "js/lang/zh-Hant/johto.js?v=7c26022dab",
+  "js/lang/zh-Hant/main.js?v=7c26022dab",
+  "js/lang/zh-Hant/sinnoh.js?v=7c26022dab",
+  "js/lang/zh-Hant/text.js?v=7c26022dab"
 ];
 /* build:end */
 const SHELL_CACHE = 'pokeleague-shell-' + VERSION, ASSET_CACHE = 'pokeleague-sprites-' + SPRITES;
@@ -55,6 +87,14 @@ self.addEventListener('install', e => {
     const c = await caches.open(SHELL_CACHE);
     // 'reload': past the browser's HTTP cache, so the copy matches this build.
     await c.addAll(SHELL.map(u => new Request(u, { cache: 'reload' })));
+    // The parts the build before had kept, in this build's version (one that fails is fetched when it is needed).
+    const had = new Set();
+    for (const k of await caches.keys()) {
+      if (!k.startsWith('pokeleague-shell-') || k === SHELL_CACHE) continue;
+      for (const r of await (await caches.open(k)).keys()) had.add(new URL(r.url).pathname);
+    }
+    await Promise.all(PARTS.filter(u => had.has(new URL(u, self.registration.scope).pathname))
+      .map(u => c.add(new Request(u, { cache: 'reload' })).catch(() => {})));
     await self.skipWaiting();
   })());
 });
@@ -103,7 +143,7 @@ async function file(e, url) {
   const client = e.clientId && await self.clients.get(e.clientId);
   if (client && DEV.test(new URL(client.url).pathname)) return fetch(e.request);
   // Sprites are kept without their query: sprites.js retries a failed one with ?r=N.
-  const asset = url.pathname.includes('/assets/');
+  const asset = url.pathname.includes('/assets/'), part = /\/js\/(pack|lang)\//.test(url.pathname) && !!url.search;
   const key = asset ? url.origin + url.pathname : e.request;
   const hit = await caches.match(key);
   if (hit) return hit;
@@ -111,6 +151,8 @@ async function file(e, url) {
   if (asset && res.ok) {
     // Kept before answering: once G.Offline.download() has its answer, the file is in the cache.
     try { await (await caches.open(ASSET_CACHE)).put(key, res.clone()); } catch (err) { /* full: still answer */ }
+  } else if (part && res.ok) {
+    try { await (await caches.open(SHELL_CACHE)).put(key, res.clone()); } catch (err) { /* full: still answer */ }
   }
   return res;
 }

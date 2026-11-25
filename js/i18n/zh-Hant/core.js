@@ -1,5 +1,6 @@
 /* Traditional Chinese — core: loading, title screen, language, credits. */
 G.I18n.add({
+  "This part of the game could not be downloaded. Check the connection.": "這部分內容沒有下載成功。請檢查網路連線。",
   "Region by region, all the way to the League": "一個地區接一個地區，一路挑戰聯盟",
   "Continue": "繼續",
   "New game": "新遊戲",

@@ -10,14 +10,26 @@
  */
 const { boot, source } = require('../tests/helpers.cjs');
 
+const BASE = ['js/core/locales.js', 'js/core/util.js', 'js/core/rng.js', 'js/core/i18n.js', 'js/core/names.js',
+  'js/data/species.js', 'js/data/moves.js', 'js/data/items.js', 'js/data/item-effects.js', 'js/data/names.js', 'js/data/encounters.js', 'js/data/trainer-classes.js',
+  'js/world/people.js', 'js/world/maps.js', 'js/world/path4.js', 'js/script/script.js'];
+const contentFiles = () => [...source('dev.html').matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
+
 /** Game files the maps need, then every content file in dev.html order. */
-function load() {
-  const dev = source('dev.html');
-  const content = [...dev.matchAll(/<script[^>]*src="(js\/content\/[^"]+\.js)"/g)].map(m => m[1]);
-  const files = ['js/core/locales.js', 'js/core/util.js', 'js/core/rng.js', 'js/core/i18n.js', 'js/core/names.js',
-    'js/data/species.js', 'js/data/moves.js', 'js/data/items.js', 'js/data/item-effects.js', 'js/data/names.js', 'js/data/encounters.js', 'js/data/trainer-classes.js',
-    'js/world/people.js', 'js/world/maps.js', 'js/world/path4.js', 'js/script/script.js', ...content];
-  return boot(files).G;
+function load() { return boot(BASE.concat(contentFiles())).G; }
+
+/** The maps each content file defines, with their place: { 'js/content/…': { '<map id>': '<loc>' | null } } (tools/build.js). */
+function mapsByFile() {
+  const ctx = boot(BASE), G = ctx.G, out = {};
+  let had = new Set();
+  for (const f of contentFiles()) {
+    require('node:vm').runInContext(source(f), ctx, { filename: f });
+    const now = G.Maps.all();
+    out[f] = {};
+    for (const id of now) if (!had.has(id)) out[f][id] = G.Maps.defs[id].loc || null;
+    had = new Set(now);
+  }
+  return out;
 }
 
 function show(G, id, changed) {
@@ -81,4 +93,4 @@ if (require.main === module) {
   process.exit(arg === '--all' ? all(G) : show(G, arg, process.argv.includes('--changed')));
 }
 
-module.exports = { load };
+module.exports = { load, mapsByFile };

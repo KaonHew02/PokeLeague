@@ -431,6 +431,7 @@ G.World = (() => {
     if (m.tileset === 'outdoor' && m.loc && m.loc !== lastLoc) showBanner(G.Names.loc(m.loc));
     if (m.loc) lastLoc = m.loc;
     snapCamera();
+    if (G.Packs) G.Packs.ahead(G.Field.save);                  // the next region, when it is close
     return true;
   }
 
@@ -502,6 +503,8 @@ G.World = (() => {
   async function warp(id, spot, o = {}) {
     locks++;
     try {
+      // A region not downloaded yet (packs.js): first its content; given up, you stay where you are.
+      if (!M().has(id) && G.Packs && !(await G.Packs.forMap(id))) return;
       if (o.sfx !== false) sfx(o.sfx || 'door', 'click');
       await fadeTo(1, 0.2);
       load(id, spot);
@@ -1241,7 +1244,7 @@ G.World = (() => {
     const to = p.lastHeal || (map && { map: map.id, spot: Object.keys(map.spots)[0] });
     if (G.Exp && G.Exp.blackoutLoss) G.Field.money(-G.Exp.blackoutLoss(p.money | 0));
     G.Field.healAll();
-    if (to && M().has(to.map)) await warp(to.map, to.spot, { sfx: false, noEnter: true });
+    if (to && (M().has(to.map) || (G.Packs && G.Packs.packOf(to.map)))) await warp(to.map, to.spot, { sfx: false, noEnter: true });
   }
 
   // ---------------- talking ----------------
@@ -1747,8 +1750,16 @@ G.World = (() => {
 
   function runScript(s, ctx) {
     const cmds = Array.isArray(s) ? s : G.Script.get(s);
+    if (!cmds && G.Packs && G.Packs.more()) return laterScript(s, ctx);
     if (!cmds) { console.error('[World] unknown script ' + s); return null; }
     return G.Script.run(cmds, host(ctx));
+  }
+  /** A script of a region not downloaded yet (packs.js), named by an earlier one. */
+  async function laterScript(s, ctx) {
+    locks++;
+    let ok = false;
+    try { ok = await G.Packs.findScript(s); } finally { locks--; }
+    return ok ? G.Script.run(G.Script.get(s), host(ctx)) : null;
   }
 
   function wait(ms) { return new Promise(r => setTimeout(r, ms)); }

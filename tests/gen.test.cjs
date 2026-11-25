@@ -143,7 +143,7 @@ test('Generation 1: no evolution into a later generation (Golbat, Chansey, Eevee
 });
 
 test('Generation 1: the Indigo Plateau\'s way down to Johto is closed (a locked door that says why); the whole journey goes', async () => {
-  const files = ['js/content/kanto/league.js', 'js/content/johto/victoryroad.js'];
+  const files = ['js/content/kanto/victory.js', 'js/content/kanto/league.js', 'js/content/johto/victoryroad.js'];
   {
     const { G, W, said } = world(1, files);
     W.debug.noEnc = true;

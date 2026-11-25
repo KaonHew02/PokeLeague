@@ -39,7 +39,8 @@ G.SlotsUI = (() => {
 
   function where(id) {
     const m = id && G.Maps && G.Maps.has && G.Maps.has(id) ? G.Maps.get(id) : null;
-    return m && m.loc ? G.Names.loc(m.loc) : '';
+    const loc = m ? m.loc : G.Packs && G.Packs.loc(id);            // (a region not downloaded yet: packs.js)
+    return loc ? G.Names.loc(loc) : '';
   }
   const date = ms => (ms ? new Date(ms).toLocaleDateString(G.I18n.lang, { year: 'numeric', month: 'short', day: 'numeric' }) : '');
 

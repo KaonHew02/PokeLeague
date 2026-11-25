@@ -55,8 +55,12 @@ G.Names = (() => {
   /** Pokédex entry, move or item description (G.DEX_TEXT) in the player's language, else English, else ''. */
   function desc(kind, id) {
     const row = G.DEX_TEXT && G.DEX_TEXT[kind] && G.DEX_TEXT[kind][id];
+    if (typeof row === 'string') return row;          // the published game: one language (js/lang/<lang>/text.js)
     return row ? row[column()] || row[0] || '' : '';
   }
+
+  // Published: locales.js has loaded js/lang/<lang>/text.js. dev.html and tests load js/data/dex-text.js, every language.
+  if (typeof window !== 'undefined' && window.PL_TEXT) G.DEX_TEXT = window.PL_TEXT;
 
   const api = { get, pretty, desc };
   for (const k of ['mon', 'move', 'item', 'type', 'loc', 'nature', 'genus', 'stat', 'ability']) api[k] = id => get(k, id);

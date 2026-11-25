@@ -11,7 +11,7 @@
  *   G.Gen.table(t)          an encounter table { rate, mons, morning?, night? } without the species of later
  *                           generations (their chances shared out among the rest); the same table when none goes,
  *                           null when none is left
- *   G.Gen.mapOpen(id)       may the player go to this map? (its region is one of this game's; unknown maps are)
+ *   G.Gen.mapOpen(id)       may the player go to this map? (its region is one of this game's; a map that is not loaded is not)
  *   G.Gen.CLOSED            the script of a road to a region this game leaves out (maps.js puts it on such warps)
  *   G.Gen.key(name)         a localStorage key of this game: 'pl.save.1' (0), 'pl.g1.save.1' (1)
  *   G.Gen.chapters, last    this game's chapters (null for the whole journey), its last one
@@ -87,7 +87,7 @@ G.Gen = (() => {
   function mapOpen(id) {
     if (!n) return true;
     const r = G.Maps && G.Maps.region ? G.Maps.region(id) : null;
-    return !r || info.regions.includes(r);
+    return !!r && info.regions.includes(r);          // (not loaded: a pack of another region, packs.js)
   }
   /** A road out of this game's regions: the player is told, and stays. */
   const CLOSED = [['js', h => h.say(T('This road leads to another region. In this game the journey stays in {region}.'),

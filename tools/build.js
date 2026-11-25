@@ -1,5 +1,5 @@
 /* Packs the game for publishing: one minified JS and one CSS instead of ~90 files.
- *   node tools/build.js            (also writes js/lang/*.js through build_langs.js)
+ *   node tools/build.js            (also writes js/lang/<lang>/*.js through build_langs.js)
  *   node tools/build.js --expose   without the closure wrap (G stays on window; for tests)
  *
  * - dev.html is the SOURCE page: it loads each script and stylesheet on its
@@ -8,6 +8,8 @@
  *   js/app.min.js and the stylesheet block css/app.css, each with a content
  *   fingerprint in its URL so browsers do not keep a stale copy.
  * - <script data-dev> files (debug.js) are left out of the published build.
+ * - The content of Johto, Hoenn and Sinnoh goes into js/pack/<region>.js, not into app.min.js:
+ *   the game downloads a region when it is reached (js/core/packs.js; G.PACKS, written here, says what there is).
  * - sw.js (offline play) gets the list of files it keeps, with the same fingerprints.
  * - The generation pages (js/core/gen.js PUBLISHED): gen<k>/index.html, the same page with <html data-gen="k">
  *   and <base href="../"> (every file comes from the folder above, shared with index.html), its own title and
@@ -31,23 +33,50 @@ const sha = (...bufs) => { const h = crypto.createHash('sha1'); bufs.forEach(b =
 // ---- scripts ----
 const S = block('<!-- scripts:begin -->', '<!-- scripts:end -->');
 const files = [...S.text.matchAll(/<script([^>]*)src="(js\/[^"]+\.js)"/g)].filter(m => !/\bdata-dev\b/.test(m[1])).map(m => m[2]);
-let joined = files.map(f => `/* ${f} */\n` + fs.readFileSync(path.join(ROOT, f), 'utf8')).join('\n;\n');
 const EXPOSE = process.argv.includes('--expose');
+const bundle = list => list.map(f => `/* ${f} */\n` + fs.readFileSync(path.join(ROOT, f), 'utf8')).join('\n;\n');
+const npx = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+const CACHE = path.join(ROOT, 'tools', 'cache', 'build');
+/** Minified with terser (--prefer-offline: from the npm cache when it is there; a slow network made npx hang). */
+function minify(source, out) {
+  const tmp = path.join(CACHE, path.basename(out));
+  fs.mkdirSync(CACHE, { recursive: true });
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  fs.writeFileSync(tmp, source);
+  execFileSync(npx, ['--yes', '--prefer-offline', 'terser@5', tmp, '--compress', 'passes=1', '--mangle', '--comments', 'false', '--ecma', '2020', '-o', out],
+    { stdio: 'inherit', shell: process.platform === 'win32' });
+  return fs.readFileSync(out);
+}
+
+// ---- dictionaries (js/lang/<lang>/), one file per language and part; locales.js passes on its own fingerprint ----
+const { build: buildLangs, REGIONS } = require('./build_langs');
+const langSizes = buildLangs();
+const LANG_DIR = path.join(ROOT, 'js', 'lang');
+const langFiles = fs.readdirSync(LANG_DIR).sort().flatMap(l => fs.readdirSync(path.join(LANG_DIR, l)).sort().map(f => `js/lang/${l}/${f}`));
+const locBufs = [fs.readFileSync(path.join(ROOT, 'js', 'core', 'locales.js')), ...langFiles.map(f => fs.readFileSync(path.join(ROOT, f)))];
+const locV = sha(...locBufs);
+
+// ---- region packs: js/pack/<region>.js, downloaded when the region is reached (js/core/packs.js) ----
+const regionOf = f => REGIONS.find(r => f.startsWith(`js/content/${r}/`)) || null;
+const PACKS = { main: `js/lang/{lang}/main.js?v=${locV}`, text: `js/lang/{lang}/text.js?v=${locV}` };
+const maps = require('./map_check').mapsByFile();
+const packSizes = [];
+for (const r of REGIONS) {
+  const own = files.filter(f => regionOf(f) === r);
+  const js = minify(`PL_PACK(${JSON.stringify(r)},function(G){\n${bundle(own)}\n});\n`, path.join(ROOT, 'js', 'pack', r + '.js'));
+  PACKS[r] = { js: `js/pack/${r}.js?v=${sha(js)}`, lang: `js/lang/{lang}/${r}.js?v=${locV}`, maps: {} };
+  for (const f of own) for (const [id, loc] of Object.entries(maps[f] || {})) PACKS[r].maps[id] = loc || 0;
+  packSizes.push(`${r} ${(js.length / 1024).toFixed(0)} KB`);
+}
+
+let joined = bundle(files.filter(f => !regionOf(f))) + '\n;\nG.PACKS = ' + JSON.stringify(PACKS) + ';\n';
 if (!EXPOSE) {
   // Published: the game runs inside a closure, so G is not reachable from the console.
   const WIN_G = 'window.G = window.G || {};';
   if (!joined.includes(WIN_G)) throw new Error('util.js no longer creates G as expected: check build.js');
   joined = '(() => {\n' + joined.replace(WIN_G, 'var G = {};') + '\n})();\n';
 }
-const tmp = path.join(ROOT, 'tools', 'cache', 'build', 'app.js');
-fs.mkdirSync(path.dirname(tmp), { recursive: true });
-fs.writeFileSync(tmp, joined);
-const outJs = path.join(ROOT, 'js', 'app.min.js');
-const npx = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-// --prefer-offline: use terser from the npm cache when it is there (a slow network made npx hang).
-execFileSync(npx, ['--yes', '--prefer-offline', 'terser@5', tmp, '--compress', 'passes=1', '--mangle', '--comments', 'false', '--ecma', '2020', '-o', outJs],
-  { stdio: 'inherit', shell: process.platform === 'win32' });
-const min = fs.readFileSync(outJs);
+const min = minify(joined, path.join(ROOT, 'js', 'app.min.js'));
 
 // ---- styles ----
 const C = block('<!-- css:begin -->', '<!-- css:end -->');
@@ -55,18 +84,14 @@ const sheets = [...C.text.matchAll(/<link[^>]*href="(css\/[^"]+\.css)"/g)].map(m
 const css = sheets.map(f => `/* ${f} */\n` + fs.readFileSync(path.join(ROOT, f), 'utf8')).join('\n');
 fs.writeFileSync(path.join(ROOT, 'css', 'app.css'), css);
 
-// ---- dictionaries: one per language (js/lang/), fetched by locales.js with its own fingerprint ----
-const { build: buildLangs } = require('./build_langs');
-const langSizes = buildLangs();
+// ---- the page ----
 const LOC = '<script src="js/core/locales.js"></script>';
 if (!dev.includes(LOC)) throw new Error('dev.html does not load ' + LOC + ' as expected: check build.js');
-const locBufs = [fs.readFileSync(path.join(ROOT, 'js', 'core', 'locales.js'))];
-for (const f of fs.readdirSync(path.join(ROOT, 'js', 'lang')).sort()) locBufs.push(fs.readFileSync(path.join(ROOT, 'js', 'lang', f)));
 
 const hash = sha(min, css);
 let html = dev.slice(0, C.i) + `<link rel="stylesheet" href="css/app.css?v=${sha(css)}">` + dev.slice(C.j, S.i)
   + `<script defer src="js/app.min.js?v=${hash}"></script>` + dev.slice(S.j);
-html = html.replace(LOC, `<script src="js/core/locales.js?v=${sha(...locBufs)}"></script>`);
+html = html.replace(LOC, `<script src="js/core/locales.js?v=${locV}"></script>`);
 html = html.replace(/<meta name="robots" content="noindex">\s*/, '');
 html = html.replace(/<!-- dev\.html: the source page[^>]*-->/, '<!-- GENERATED from dev.html by tools/build.js: do not edit by hand (edit dev.html). -->');
 fs.writeFileSync(OUT, html);
@@ -101,12 +126,12 @@ const genPages = Gen.PUBLISHED.map(k => {
 
 // ---- service worker: the files sw.js keeps for offline play (between its build: markers) ----
 const SW = path.join(ROOT, 'sw.js');
-const locV = sha(...locBufs);
 const shell = [...new Set(['./', `css/app.css?v=${sha(css)}`, `js/app.min.js?v=${hash}`, `js/core/locales.js?v=${locV}`,
-  ...fs.readdirSync(path.join(ROOT, 'js', 'lang')).sort().map(f => `js/lang/${f}?v=${locV}`),
   ...[...html.matchAll(/<link[^>]*href="(assets\/[^"?]+)"/g)].map(m => m[1]),     // fonts, icons
   'manifest.json', ...JSON.parse(manifest).icons.map(i => i.src),
   ...genPages.flatMap(g => [`gen${g.k}/`, `gen${g.k}/manifest.json`])])];
+// Kept only once the game has asked for them: the regions' packs, every dictionary and text.
+const parts = REGIONS.map(r => PACKS[r].js).concat(langFiles.map(f => `${f}?v=${locV}`));
 const icons = shell.filter(f => f.startsWith('assets/icons/')).map(f => fs.readFileSync(path.join(ROOT, f)));
 const swSrc = fs.readFileSync(SW, 'utf8'), B = '/* build:begin */', E = '/* build:end */';
 const bi = swSrc.indexOf(B), bj = swSrc.indexOf(E);
@@ -114,10 +139,12 @@ if (bi < 0 || bj < 0) throw new Error('sw.js lacks the markers ' + B + ' / ' + E
 fs.writeFileSync(SW, swSrc.slice(0, bi + B.length)
   + `\nconst VERSION = '${sha(Buffer.from(html), manifest, ...icons, ...genPages.flatMap(g => [Buffer.from(g.page), Buffer.from(g.json)]))}';`
   + `\nconst SPRITES = '${sha(fs.readFileSync(path.join(ROOT, 'js', 'data', 'sprites-meta.js')))}';`
-  + `\nconst SHELL = [\n${shell.map(f => '  ' + JSON.stringify(f)).join(',\n')}\n];\n` + swSrc.slice(bj));
+  + `\nconst SHELL = [\n${shell.map(f => '  ' + JSON.stringify(f)).join(',\n')}\n];`
+  + `\nconst PARTS = [\n${parts.map(f => '  ' + JSON.stringify(f)).join(',\n')}\n];\n` + swSrc.slice(bj));
 
 // Published version (for a future "update available" notice).
 fs.writeFileSync(path.join(ROOT, 'version.json'), JSON.stringify({ v: hash, at: new Date().toISOString() }) + '\n');
-console.log('ok: dictionaries ' + langSizes.join(' · '));
+console.log('ok: dictionaries (main+johto+hoenn+sinnoh) ' + langSizes.join(' · '));
+console.log('ok: packs ' + packSizes.join(' · '));
 console.log('ok: generation pages ' + (genPages.map(g => 'gen' + g.k + '/').join(' ') || 'none'));
 console.log(`${EXPOSE ? '[EXPOSED, tests only] ' : ''}ok: ${files.length} scripts · ${(joined.length / 1024).toFixed(0)} KB -> ${(min.length / 1024).toFixed(0)} KB · ${sheets.length} stylesheets (app.min.js?v=${hash})`);

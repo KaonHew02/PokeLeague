@@ -14,7 +14,7 @@ const ROOT = path.join(__dirname, '..');
 function walkJs(dir, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
-    if (e.isDirectory()) { if (!['lang', 'i18n', 'vendor'].includes(e.name)) walkJs(p, out); }
+    if (e.isDirectory()) { if (!['lang', 'pack', 'i18n', 'vendor'].includes(e.name)) walkJs(p, out); }
     else if (e.name.endsWith('.js') && e.name !== 'app.min.js') out.push(p);
   }
   return out;

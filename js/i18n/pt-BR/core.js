@@ -1,5 +1,6 @@
 /* Brazilian Portuguese — core: loading, title screen, language, credits. */
 G.I18n.add({
+  "This part of the game could not be downloaded. Check the connection.": "Não foi possível baixar esta parte do jogo. Verifique a conexão.",
   "Region by region, all the way to the League": "Região por região, até a Liga",
   "Continue": "Continuar",
   "New game": "Novo jogo",

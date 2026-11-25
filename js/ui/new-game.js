@@ -127,9 +127,11 @@ G.NewGame = (() => {
       if (!slot) return;
       const save = G.Store.load(slot);
       if (!save) { await G.Popup.say(T('This save could not be read.')); return; }
+      const backup = G.Store.usedBackup;
+      if (G.Packs && !(await G.Packs.forSave(save))) return;        // the regions it has reached (packs.js)
       G.Session.begin(slot, save);
       resume(save);
-      if (G.Store.usedBackup) G.UI.toast(T('The save was damaged: the backup copy was loaded.'), 4000);
+      if (backup) G.UI.toast(T('The save was damaged: the backup copy was loaded.'), 4000);
     } finally { busy = false; }
   }
 

@@ -48,7 +48,7 @@ G.SummaryUI = (() => {
 
   const genderMark = m => (m.gender === 'm' ? ' <i class="g-m">♂</i>' : m.gender === 'f' ? ' <i class="g-f">♀</i>' : '');
   const row = (k, v) => `<div class="sum-row"><span class="sub">${esc(k)}</span><span>${v}</span></div>`;
-  const place = id => { const m = id && G.Maps && G.Maps.has(id) ? G.Maps.get(id) : null; return m && m.loc ? G.Names.loc(m.loc) : ''; };
+  const place = id => { const m = id && G.Maps && G.Maps.has(id) ? G.Maps.get(id) : null, loc = m ? m.loc : G.Packs && G.Packs.loc(id); return loc ? G.Names.loc(loc) : ''; };
 
   function info(m) {
     const S = G.SPECIES[m.sp];

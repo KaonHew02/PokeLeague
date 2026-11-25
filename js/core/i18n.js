@@ -18,8 +18,9 @@
  * translate="no" so the observer leaves it alone.
  *
  * Dictionaries: js/i18n/<lang>/<module>.js call G.I18n.add(dict, lang).
- * tools/build_langs.js bundles them per language into js/lang/<lang>.js,
- * which locales.js loads into window.PL_LANG_Q before the game runs.
+ * tools/build_langs.js bundles them per language into js/lang/<lang>/main.js,
+ * which locales.js loads into window.PL_LANG_Q before the game runs, and one
+ * file per region (johto.js, hoenn.js, sinnoh.js), loaded with its pack (packs.js).
  */
 G.I18n = (() => {
   const SRC = 'en', KEY = 'pl.lang';
@@ -35,6 +36,8 @@ G.I18n = (() => {
     for (const [k, v] of Object.entries(dict)) if (v) into.set(k, v);
   }
   for (const [d, l, c] of window.PL_LANG_Q || []) add(d, l, c);
+  // A region's dictionary arrives with its pack (packs.js), after this.
+  window.PL_LANG_Q = { push(...list) { for (const [d, l, c] of list) add(d, l, c); } };
 
   /** Translates one text to the current language (unknown text comes back as it is). */
   function t(s, context) {

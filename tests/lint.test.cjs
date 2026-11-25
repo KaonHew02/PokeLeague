@@ -21,7 +21,7 @@ const scripts = [...dev.matchAll(/<script[^>]*src="(js\/[^"]+\.js)"/g)].map(m =>
 
 test('dev.html loads files that exist, and every game file is loaded by dev.html', () => {
   for (const s of scripts) assert.ok(fs.existsSync(path.join(ROOT, s)), 'missing ' + s);
-  const own = files('js', '.js', ['js/lang', 'js/i18n', 'js/app.min.js']);
+  const own = files('js', '.js', ['js/lang', 'js/pack', 'js/i18n', 'js/app.min.js']);
   for (const f of own) assert.ok(scripts.includes(f), f + ' is not in dev.html');
   const sheets = [...dev.matchAll(/<link[^>]*href="(css\/[^"]+\.css)"/g)].map(m => m[1]);
   for (const f of files('css', '.css', ['css/app.css'])) assert.ok(sheets.includes(f), f + ' is not in dev.html');
@@ -39,7 +39,7 @@ test('the battle engine never uses Math.random (seeded G.RNG only)', () => {
 });
 
 test('localStorage keys start with "pl." (PokéGo shares the origin with "ps.")', () => {
-  for (const f of files('js', '.js', ['js/lang', 'js/app.min.js'])) {
+  for (const f of files('js', '.js', ['js/lang', 'js/pack', 'js/app.min.js'])) {
     const code = source(f);
     for (const m of code.matchAll(/localStorage\.(?:getItem|setItem|removeItem)\(\s*(['"`])([^'"`]*)/g)) {
       assert.ok(m[2].startsWith('pl.'), `${f}: localStorage key ${JSON.stringify(m[2])}`);

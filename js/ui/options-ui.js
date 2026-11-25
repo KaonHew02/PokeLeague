@@ -65,12 +65,12 @@ G.OptionsUI = (() => {
     const o = G.Offline.status();
     if (!o) return '';                // dev.html, file:// or an old browser
     let desc, ctl = '';
-    if (o.state === 'ready') desc = T('Every file is on this device: the game works without internet.');
+    if (o.state === 'ready') desc = T('Everything for the regions you have reached is on this device: the game works without internet.');
     else if (o.state === 'loading') desc = G.I18n.fmt('Downloading the Pokémon: {n}%', { n: o.total ? Math.floor(o.done / o.total * 100) : 0 });
     else if (o.state === 'checking') desc = T('Checking the files on this device…');
     else {
       desc = o.state === 'failed' ? T('The download stopped (no connection?). Try again later.')
-        : G.I18n.fmt('Download every Pokémon picture now (about {mb} MB), so the game works without internet.', { mb: G.Offline.SIZE_MB });
+        : G.I18n.fmt('Download the Pokémon pictures of the regions you have reached (about {mb} MB), so the game works without internet.', { mb: G.Offline.sizeMB() });
       ctl = `<button class="btn small" data-offline>${esc(o.state === 'failed' ? T('Try again') : T('Download'))}</button>`;
     }
     if (IOS && !standalone()) desc += ' ' + T('On iPhone, the Home Screen app and Safari keep separate files and saves: play from the icon.');

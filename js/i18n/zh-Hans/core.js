@@ -1,5 +1,6 @@
 /* Simplified Chinese — core: loading, title screen, language, credits. */
 G.I18n.add({
+  "This part of the game could not be downloaded. Check the connection.": "这部分内容没有下载成功。请检查网络连接。",
   "Region by region, all the way to the League": "一个地区接一个地区，一路挑战联盟",
   "Continue": "继续",
   "New game": "新游戏",

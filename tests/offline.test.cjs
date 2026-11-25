@@ -40,7 +40,15 @@ test('sw.js keeps files that exist, from the same build as index.html', () => {
   for (const f of [/js\/app\.min\.js\?v=\w+/, /css\/app\.css\?v=\w+/, /js\/core\/locales\.js\?v=\w+/]) {
     assert.ok(shell.includes(f.exec(index)[0]), 'sw.js and index.html come from different builds: run node tools/build.js');
   }
-  for (const f of fs.readdirSync(path.join(ROOT, 'js', 'lang'))) assert.ok(shell.some(s => s.startsWith('js/lang/' + f + '?v=')), f);
+  // The regions and the dictionaries are not downloaded with the shell: sw.js knows them all and keeps those asked for.
+  assert.ok(!shell.some(s => /^js\/(pack|lang)\//.test(s)));
+  const parts = JSON.parse(/const PARTS = (\[[\s\S]*?\]);/.exec(sw)[1]);
+  for (const l of fs.readdirSync(path.join(ROOT, 'js', 'lang'))) {
+    for (const f of fs.readdirSync(path.join(ROOT, 'js', 'lang', l))) assert.ok(parts.some(s => s.startsWith(`js/lang/${l}/${f}?v=`)), l + '/' + f);
+  }
+  for (const r of ['johto', 'hoenn', 'sinnoh']) assert.ok(parts.some(s => s.startsWith(`js/pack/${r}.js?v=`)), r);
+  const app = source('js/app.min.js');
+  for (const p of parts.filter(s => s.startsWith('js/pack/'))) assert.ok(app.includes(p), p + ' is not the one app.min.js asks for: run node tools/build.js');
   // Its caches must not touch PokéGo's (same GitHub Pages origin).
   assert.match(sw, /if \(k\.startsWith\('pokeleague-'\) && [^\n]*\) await caches\.delete\(k\);/);
 });
@@ -79,14 +87,20 @@ test('G.Offline lists sprite files that exist, and says about how big they are',
   const urls = G.Offline.spriteUrls();
   assert.ok(urls.length > 2000);
   assert.equal(new Set(urls).size, urls.length);
-  let bytes = 0;
+  // Settings shows these numbers (the regions reached): keep them close when a region adds sprites.
+  const TOP = [151, 251, 386, 493], mb = [0, 0, 0, 0];
   for (const u of urls) {
     assert.ok(exists(u), 'G.Offline would download a missing file: ' + u);
-    bytes += fs.statSync(path.join(ROOT, u)).size;
+    mb[TOP.findIndex(t => +u.split('/')[2] <= t)] += fs.statSync(path.join(ROOT, u)).size / 1048576;
   }
-  const mb = bytes / 1048576;
-  // Settings shows this number: keep it close when a region adds sprites.
-  assert.ok(Math.abs(mb - G.Offline.SIZE_MB) < mb * 0.1, `G.Offline.SIZE_MB is ${G.Offline.SIZE_MB}, the sprites take ${mb.toFixed(1)} MB`);
+  mb.forEach((x, i) => assert.ok(Math.abs(x - G.Offline.SIZES[i]) < 1, `G.Offline.SIZES[${i}] is ${G.Offline.SIZES[i]}, the sprites take ${x.toFixed(1)} MB`));
+  // Kanto alone: 1-151 and what they evolve into (Golbat's Crobat), no other later Pokémon.
+  const K = boot(['js/core/util.js', 'js/data/species.js', 'js/data/sprites-meta.js', 'js/core/offline.js']).G;
+  const kanto = new Set(K.Offline.spriteUrls(151).map(u => +u.split('/')[2]));
+  for (let sp = 1; sp <= 151; sp++) assert.ok(kanto.has(sp), 'sprite ' + sp);
+  assert.ok(kanto.has(169) && !kanto.has(152) && !kanto.has(387));
+  assert.ok(K.Offline.spriteUrls(151).length < urls.length * 0.4);
+  assert.equal(K.Offline.spriteUrls(493).length, urls.length);
   // Not in tests or on file://: no service worker there.
   assert.equal(G.Offline.status(), null);
 });
@@ -144,4 +158,28 @@ test('sw.js offline: each page opens its own cached copy, the whole journey\'s w
   assert.equal(await open('gen1/index.html'), 'gen1');
   assert.equal(await open('gen1/?x=1'), 'gen1');
   assert.equal(await open('gen3/'), 'journey', 'a page it does not keep: the whole journey');
+});
+
+test('sw.js installing: the regions and dictionaries the build before had kept come in the new build\'s version, the others do not', async () => {
+  const vm = require('node:vm');
+  const handlers = {}, added = [], BASE = 'http://localhost:8130/';
+  const sw = source('sw.js');
+  const parts = JSON.parse(/const PARTS = (\[[\s\S]*?\]);/.exec(sw)[1]);
+  const old = [{ url: BASE + 'js/pack/johto.js?v=old' }, { url: BASE + 'js/lang/fr/main.js?v=old' }, { url: BASE + 'js/app.min.js?v=old' }];
+  const ctx = {
+    URL, Promise, Set, setTimeout, console, location: new URL(BASE + 'sw.js'),
+    Request: function (u) { this.u = u; },
+    caches: {
+      keys: async () => ['pokeleague-shell-before', 'ps-other'],
+      open: async k => ({ keys: async () => (k === 'pokeleague-shell-before' ? old : []), addAll: async () => {},
+        add: async r => { added.push(r.u); if (/fr/.test(r.u)) throw new Error('one that fails does not stop the others'); } }),
+      match: async () => null
+    }
+  };
+  ctx.self = { registration: { scope: BASE }, clients: {}, skipWaiting: async () => {}, addEventListener: (t, f) => { handlers[t] = f; } };
+  vm.runInNewContext(sw, ctx);
+  let done;
+  handlers.install({ waitUntil: p => { done = p; } });
+  await done;
+  assert.deepEqual(added.sort(), parts.filter(p => p.startsWith('js/pack/johto.js?') || p.startsWith('js/lang/fr/main.js?')).sort());
 });

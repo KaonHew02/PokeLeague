@@ -23,12 +23,12 @@
  * tools/build.js rewrites the lines between build:begin and build:end.
  */
 /* build:begin */
-const VERSION = 'df6c04878c';
+const VERSION = '7b9913ce01';
 const SPRITES = '8c074d4a9e';
 const SHELL = [
   "./",
-  "css/app.css?v=73cce2a8d3",
-  "js/app.min.js?v=b197ba76f5",
+  "css/app.css?v=3d5e241b18",
+  "js/app.min.js?v=f6d34b53bd",
   "js/core/locales.js?v=7c26022dab",
   "assets/icons/icon-32.png",
   "assets/icons/icon-180.png",

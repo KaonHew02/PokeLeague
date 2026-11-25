@@ -88,6 +88,8 @@
 .bt-moves .info { grid-column: 3; grid-row: 1 / span 2; display: flex; flex-direction: column; justify-content: center;
   border-left: .12em solid #c8c0a4; padding-left: .5em; font-size: .8em; font-weight: 700; gap: .2em; }
 .bt-moves .info .tp { color: #fff; padding: 0 .4em; border-radius: .25em; align-self: flex-start; }
+/* On the light panel: no dark shadow under dark letters, and a border that shows. */
+.bt-moves .info .btn { text-shadow: none; border-color: #8a8270; font-size: 1em; min-height: 2.3em; padding: .1em .7em; }
 .bt-back { position: absolute; right: .4em; top: .4em; }
 
 /* lists over the scene: bag, party, forget-a-move */
@@ -103,6 +105,16 @@
 .bt-list .menu-item .mini i.mid { background: #f0c020; } .bt-list .menu-item .mini i.low { background: #f04030; }
 .bt-list .menu-item.fainted { opacity: .55; }
 .bt-yesno { position: absolute; right: max(3%, var(--sr)); bottom: 30%; width: calc(var(--cw) * .22); padding: .4em .5em; }
+
+/* ---------- phones held upright ---------- */
+/* A battle is taller than the 3:2 frame there, so that its buttons are big enough for a finger: everything in it is a
+ * fraction of the frame, and the letters follow its width, so nothing else changes. */
+@media (orientation: portrait) and (pointer: coarse) and (max-width: 600px) {
+  #frame:has(> .battle-scr:not(.hidden)) { height: min(100vh, 92vw); height: min(100dvh, 92vw); }
+  .bt-moves .info .btn { min-height: 3.3em; }
+  .bt-list .menu-item, .bt-yesno .menu-item { min-height: 36px; }
+  .bt-list .btn { min-height: 32px; min-width: 64px; }
+}
 
 /* ---------- evolution text box ---------- */
 .evo-text { position: absolute; left: 0; right: 0; bottom: 0; height: 22%;
